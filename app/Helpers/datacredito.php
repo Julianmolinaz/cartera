@@ -27,7 +27,7 @@ use Excel;
 
 function reporte_datacredito($fecha_corte){
 
-    
+    //prueba
     
     $now                = Carbon::now();
     $fecha              = fecha_plana($now->toDateString());
