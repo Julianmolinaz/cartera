@@ -1,0 +1,129 @@
+@section('title','reporte')
+
+@section('contenido')
+
+<div class="row">
+
+  <div class="col-md-12 col-sm-12 col-xs-12">
+
+    <div class="panel panel-primary">
+
+      <div class="panel-heading">Reporte Call Center [ {{$rango['ini'].' - '.$rango['fin']}} ]
+        <button id="btn_exc_venta_creditos" class="btn btn-warning"><b>Exportar</b></button>
+      </div>
+        <div class="panel-body">
+
+        <div style="display:none;">{{$fila = 1}}</div>  
+
+         <table id="datatable" class="table table-striped table-bordered" style="font-size:12px">
+          <thead>
+            <tr style="background-color:#FFC300;">
+              <th>  #</th>
+              <th>  <small>Llamada Id</small></th>
+              <th>  Funcionario   </th>
+              <th>  Credito Id   </th>
+              <th>  Cliente      </th>
+              <th>  Motivo        </th>
+              
+              <th>  Descripcion   </th>
+              <th>  Fecha         </th>
+            </tr>
+          </thead>
+          <tbody style="font-size:12px">
+            @foreach($llamadas as $llamada)
+              <tr>
+                <td>{{$fila++}}</td>
+                <td>{{$llamada->id}}</td>
+                <td>{{$llamada->user_create->name}} </td>
+                <td>{{$llamada->credito_id}}</td>
+                <td>{{$llamada->credito->precredito->cliente->nombre}}</td>
+                <td>{{$llamada->criterio->criterio}}</td>
+                <td>{{$llamada->observaciones}}</td>
+                <td>{{$llamada->created_at}}</td>
+                
+              </tr>
+            @endforeach  
+
+          </tbody>
+         </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-md-3 col-sm-3 col-xs-12"></div>
+  <div class="col-md-6 col-sm-6 col-xs-12">
+
+    <div class="panel panel-primary">
+
+      <div class="panel-heading"><h2>Totales
+        <button id="btn_exc_total_venta_creditos" class="btn btn-warning"><b>Exportar</b></button>
+      </h2></div>
+        <div class="panel-body">
+
+        <table id="tbl_total" class="table table-striped table-bordered" style="font-size:12px">
+          <thead>
+            <tr style="background-color:#FFC300;">
+             <th>Funcionario</th>
+             <th>Número de llamadas</th>             
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($sumatoria as $sum)
+              <tr>
+               <td>{{$sum->nombre}}</td>
+               <td>{{$sum->num_llamadas}}</td>
+              </tr>
+            @endforeach 
+              <tr>
+                <td><b>Total</b></td>
+                <td>{{$total}}</td>
+              </tr>      
+          </tbody>
+        </table>
+      </div>
+      </div>
+     </div> 
+     <div class="col-md-3 col-sm-3 col-xs-12"></div>
+    </div>
+
+
+<script>
+$( document ).ready(function() {
+
+  $('#datatable').dataTable( {
+    'paging':false,
+    'ordering':true,
+    'scrollY': 400,
+    "scrollCollapse": true,
+    //"scrollX": true,
+    //"searching": false
+
+  });
+
+
+// $('#btn_exc_venta_creditos').click(function(){
+//   $('#datatable').table2excel({
+//     name: 'Reporte',
+//     filename: "{{'repor_venta_creditos_'.$rango['ini'].'==='.$rango['fin'].'.xls'}}"
+//   });
+// });
+
+// $('#btn_exc_total_venta_creditos').click(function(){
+//   $('#tbl_total').table2excel({
+//     name: 'Reporte',
+//     filename: "{{'repor_total_venta_creditos_'.$rango['ini'].'==='.$rango['fin'].'.xls'}}"
+//   });
+// });
+
+
+
+
+});
+</script>
+
+@endsection
+@include('templates.main2')
+
+
