@@ -33,10 +33,11 @@ function reporte_datacredito($fecha_corte){
     $fecha              = fecha_plana($now->toDateString());
     $punto              = Punto::find(1);
     $ids                = DB::table('creditos')
-                            ->whereIn('estado', 
+                            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+                            ->whereIn('creditos.estado', 
                                 ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado','Cancelado por refinanciacion'])
-                            ->where([['end_datacredito','<>',1],['created_at', '<' ,$fecha_corte->toDateTimeString()]])
-                            ->select('id')
+                            ->where([['creditos.end_datacredito','<>',1]])
+                            ->select('creditos.id')
                             ->get();
 
     //dd(count(Credito::find(549)->pagos) );
@@ -45,6 +46,14 @@ function reporte_datacredito($fecha_corte){
 
         $credito = Credito::find($id->id);
         $bandera = 0;
+
+        $x = $credito->precredito->fecha;
+        $fecha_apertura = Carbon::create(ano($x),mes($x),dia($x));
+
+        if( $fecha_apertura->gt($fecha_corte) ){
+            $bandera = 1;
+        }
+
         if( $credito->estado == 'Al dia' && count($credito->pagos) == 0 ){
             $bandera = 1;
         }
@@ -55,116 +64,114 @@ function reporte_datacredito($fecha_corte){
     
     $creditos = Credito::find($ids_array);
 
-    dd($creditos);
 
+    $registro_de_control = array(
+        '1.1-indicador_inicial'     => 'HHHHHHHHHHHHHHHHHHH',
+        '1.2-codigo_suscriptor'     => '',      // POR DEFINIR
+        '1.3-tipo_cuenta'           => '21',    //CREDITOS DE BAJO MONTO
+        '1.4-fecha_corte'           => fecha_plana_Ymd($now), // FECHA FORMATO YYYYMMDD
+        '1.5-ampliacion_milenio'    => 'M',     //CUANDO EL AÑO ES DE 4 DIGITOS
+        '1.6-indicador_miles'       => '0',      //????????????????????????????
+        '1.7-tipo_entrega'          => 'T',      
+        '1.8-fecha_inicio_reporte'  => '00000000',      //NO REQUERIDO <> T, DEPENDE DE 1.7
+        '1.9-fecha_fin_reporte'     => '00000000',      //NO REQUERIDO <> T, DEPENDE DE 1.7
+        '1.10-indicador_partir'     => '0',
+        '1.11-filler'               => '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    );
 
-    // $registro_de_control = array(
-    //     '1.1-indicador_inicial'     => 'HHHHHHHHHHHHHHHHHHH',
-    //     '1.2-codigo_suscriptor'     => '',      // POR DEFINIR
-    //     '1.3-tipo_cuenta'           => '21',    //CREDITOS DE BAJO MONTO
-    //     '1.4-fecha_corte'           => fecha_plana_Ymd($now), // FECHA FORMATO YYYYMMDD
-    //     '1.5-ampliacion_milenio'    => 'M',     //CUANDO EL AÑO ES DE 4 DIGITOS
-    //     '1.6-indicador_miles'       => '0',      //????????????????????????????
-    //     '1.7-tipo_entrega'          => 'T',      
-    //     '1.8-fecha_inicio_reporte'  => '00000000',      //NO REQUERIDO <> T, DEPENDE DE 1.7
-    //     '1.9-fecha_fin_reporte'     => '00000000',      //NO REQUERIDO <> T, DEPENDE DE 1.7
-    //     '1.10-indicador_partir'     => '0',
-    //     '1.11-filler'               => '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    // );
+    $info_clientes_array = array();
 
-    // $info_clientes_array = array();
+    foreach( $creditos as $credito ){
 
-    // foreach( $creditos as $credito ){
+        $registro_info_clientes = array(
+            '2.1-tipo_identificacion'   => tipo_identificacion_datacredito($credito->precredito->cliente),
+            '2.2-numero_identificacion' => cast_number($credito->precredito->cliente->num_doc,11),
+            '2.3-numero_obligacion'     => cast_string($credito->id,18),
+            '2.4-nombre_completo'       => cast_string($credito->precredito->cliente->nombre,45),
+            '2.5-situacion_titular'     => '0',
+            '2.6-fecha_apertura'        => fecha_Ymd($credito->precredito->fecha),
+            '2.7-fecha_vencimiento'     => vence_credito($credito),
+            '2.8-responsable'           => '00',
+            '2.9-tipo_obligacion'       => '1',
+            '2.10-subcidio_hipotecario' => '0',
+            '2.11-fecha_subcidio'       => '00000000',
+            '2.12-termino_contrato'     => '2',
+            '2.13-forma_pago'           => forma_pago($credito),
+            '2.14-periodicidad_pago'    => periodicidad_datacredito($credito),
+            '2.15-novedad'              => novedad($credito), // cual es la novedad para refinanciacion?
+            '2.16-estado_origen'        => estado_origen($credito),
+            '2.17-fecha_estado_origen'  => fecha_plana_Ymd($credito->created_at),
+            '2.18-estado_cuenta'        => estado_cuenta($credito,$fecha_corte)['estado_cuenta'],
+            '2.19-fecha_estado_cuenta'  => estado_cuenta($credito,$fecha_corte)['fecha'],
+            '2.20-estado_plastico'      => '0',  
+            '2.21-fecha_estado_plastico'=> '00000000',
+            '2.22-adjetivo'             => adjetivo($credito)['adjetivo'],
+            '2.23-fecha_adjetivo'       => adjetivo($credito)['fecha'],
+            '2.24-clase_tarjeta'        => '',
+            '2.25-franquicia'           => '',
+            '2.26-nombre_marca_privada' => '',
+            '2.27-tipo_moneda'          => 1,
+            '2.28-tipo_garantia'        => '',//???????????????????
+            '2.29-calificacion'         => '',//???????????????????
+            '2.30-prob_incumplimiento'  => '',//???????????????????
+            '2.31-edad_mora'            => dias_mora($credito),
+            '2.32-valor_inicial'        => (int)$credito->precredito->vlr_fin,
+            '2.33-saldo_deuda'          => saldo_deuda_capital($credito),
+            '2.34-valor_disponible'     => 0,
+            '2.35-vlr_cuota_mensual'    => (int)$credito->precredito->vlr_cuota,
+            '2.36-vlr_saldo_mora'       => (int)$credito->saldo,
+            '2.37-total_cuotas'         => $credito->precredito->cuotas,
+            '2.38-cuotas_canceladas'    => $credito->precredito->cuotas - $credito->cuotas_faltantes,
+            '2.39-cuotas_mora'          => cuotas_mora( $credito )['cts_mora_todas'],
+            '2.40-clausula_permanencia' => '',
+            '2.41-fecha_clausula_perman'=> '',
+            '2.42-fecha_limite_pago'    => $credito->fecha_pago->pago_hasta,
+            '2.43-fecha_pago'           => fecha_Ymd(inv_fech(fecha_pago($credito))),
+            '2.44-oficina_radicacion'   => $punto->nombre,
+            '2.45-ciudad_radicacion'    => $punto->municipio->nombre,
+            '2.46-codigo_date_radica'   => $punto->municipio->codigo_municipio,
+            '2.47-ciudad_res_com'       => $credito->precredito->cliente->municipio->nombre,
+            '2.48-codigo_dane_res_com'  => $credito->precredito->cliente->municipio->codigo_municipio,
+            '2.49-depto_res_com'        => $credito->precredito->cliente->municipio->departamento,
+            '2.50-dir_res_com'          => $credito->precredito->cliente->direccion,
+            '2.51-tel_res_com'          => $credito->precredito->cliente->telefono,
+            '2.52-ciudad_laboral'       => '',
+            '2.53-cod_dane_ciudad_lab'  => '',
+            '2.54-departamento_laboral' => '',
+            '2.55-direccion_laboral'    => '',
+            '2.56-tel_laboral'          => '',
+            '2.57-ciud_correspondencia' => '',
+            '2.58-cod_dane_ciud_corresp'=> '',
+            '2.59-depto_correspondencia'=> '',
+            '2.60-dir_correspondencia'  => '',
+            '2.61-correo_electronico'   => '',
+            '2.62-celular'              => '',
+            '2.63-suscriptor_destino'   => $credito->precredito->cliente->id,
+            '2.64-numero_tarjeta'       => '',
+            '2.65-detalle_garantia'     => '',
+            '2.66-espacio_blanco'       => '');
 
-    //     $registro_info_clientes = array(
-    //         '2.1-tipo_identificacion'   => tipo_identificacion_datacredito($credito->precredito->cliente),
-    //         '2.2-numero_identificacion' => cast_number($credito->precredito->cliente->num_doc,11),
-    //         '2.3-numero_obligacion'     => cast_string($credito->id,18),
-    //         '2.4-nombre_completo'       => cast_string($credito->precredito->cliente->nombre,45),
-    //         '2.5-situacion_titular'     => '0',
-    //         '2.6-fecha_apertura'        => fecha_Ymd($credito->precredito->fecha),
-    //         '2.7-fecha_vencimiento'     => vence_credito($credito),
-    //         '2.8-responsable'           => '00',
-    //         '2.9-tipo_obligacion'       => '1',
-    //         '2.10-subcidio_hipotecario' => '0',
-    //         '2.11-fecha_subcidio'       => '00000000',
-    //         '2.12-termino_contrato'     => '2',
-    //         '2.13-forma_pago'           => forma_pago($credito),
-    //         '2.14-periodicidad_pago'    => periodicidad_datacredito($credito),
-    //         '2.15-novedad'              => novedad($credito), // cual es la novedad para refinanciacion?
-    //         '2.16-estado_origen'        => estado_origen($credito),
-    //         '2.17-fecha_estado_origen'  => fecha_plana_Ymd($credito->created_at),
-    //         '2.18-estado_cuenta'        => estado_cuenta($credito,$fecha_corte)['estado_cuenta'],
-    //         '2.19-fecha_estado_cuenta'  => estado_cuenta($credito,$fecha_corte)['fecha'],
-    //         '2.20-estado_plastico'      => '0',  
-    //         '2.21-fecha_estado_plastico'=> '00000000',
-    //         '2.22-adjetivo'             => adjetivo($credito)['adjetivo'],
-    //         '2.23-fecha_adjetivo'       => adjetivo($credito)['fecha'],
-    //         '2.24-clase_tarjeta'        => '',
-    //         '2.25-franquicia'           => '',
-    //         '2.26-nombre_marca_privada' => '',
-    //         '2.27-tipo_moneda'          => 1,
-    //         '2.28-tipo_garantia'        => '',//???????????????????
-    //         '2.29-calificacion'         => '',//???????????????????
-    //         '2.30-prob_incumplimiento'  => '',//???????????????????
-    //         '2.31-edad_mora'            => dias_mora($credito),
-    //         '2.32-valor_inicial'        => (int)$credito->precredito->vlr_fin,
-    //         '2.33-saldo_deuda'          => saldo_deuda_capital($credito),
-    //         '2.34-valor_disponible'     => 0,
-    //         '2.35-vlr_cuota_mensual'    => (int)$credito->precredito->vlr_cuota,
-    //         '2.36-vlr_saldo_mora'       => (int)$credito->saldo,
-    //         '2.37-total_cuotas'         => $credito->precredito->cuotas,
-    //         '2.38-cuotas_canceladas'    => $credito->precredito->cuotas - $credito->cuotas_faltantes,
-    //         '2.39-cuotas_mora'          => cuotas_mora( $credito )['cts_mora_todas'],
-    //         '2.40-clausula_permanencia' => '',
-    //         '2.41-fecha_clausula_perman'=> '',
-    //         '2.42-fecha_limite_pago'    => $credito->fecha_pago->pago_hasta,
-    //         '2.43-fecha_pago'           => fecha_Ymd(inv_fech(fecha_pago($credito))),
-    //         '2.44-oficina_radicacion'   => $punto->nombre,
-    //         '2.45-ciudad_radicacion'    => $punto->municipio->nombre,
-    //         '2.46-codigo_date_radica'   => $punto->municipio->codigo_municipio,
-    //         '2.47-ciudad_res_com'       => $credito->precredito->cliente->municipio->nombre,
-    //         '2.48-codigo_dane_res_com'  => $credito->precredito->cliente->municipio->codigo_municipio,
-    //         '2.49-depto_res_com'        => $credito->precredito->cliente->municipio->departamento,
-    //         '2.50-dir_res_com'          => $credito->precredito->cliente->direccion,
-    //         '2.51-tel_res_com'          => $credito->precredito->cliente->telefono,
-    //         '2.52-ciudad_laboral'       => '',
-    //         '2.53-cod_dane_ciudad_lab'  => '',
-    //         '2.54-departamento_laboral' => '',
-    //         '2.55-direccion_laboral'    => '',
-    //         '2.56-tel_laboral'          => '',
-    //         '2.57-ciud_correspondencia' => '',
-    //         '2.58-cod_dane_ciud_corresp'=> '',
-    //         '2.59-depto_correspondencia'=> '',
-    //         '2.60-dir_correspondencia'  => '',
-    //         '2.61-correo_electronico'   => '',
-    //         '2.62-celular'              => '',
-    //         '2.63-suscriptor_destino'   => $credito->precredito->cliente->id,
-    //         '2.64-numero_tarjeta'       => '',
-    //         '2.65-detalle_garantia'     => '',
-    //         '2.66-espacio_blanco'       => '');
+            array_push($info_clientes_array,$registro_info_clientes);
+    }
 
-    //         array_push($info_clientes_array,$registro_info_clientes);
-    // }
+    $registro_fin = array(
+        '3.1-identificador'         => 'ZZZZZZZZZZZZZZZZZZ',
+        '3.2-fecha_proceso'         => fecha_plana_Ymd($now),
+        '3.3-numero_registros'      => count($info_clientes_array)+2,
+        '3.4-sumatoria_novedades'   => '',
+        '3.5-filler'                => ''
+    );
 
-    // $registro_fin = array(
-    //     '3.1-identificador'         => 'ZZZZZZZZZZZZZZZZZZ',
-    //     '3.2-fecha_proceso'         => fecha_plana_Ymd($now),
-    //     '3.3-numero_registros'      => count($info_clientes_array)+2,
-    //     '3.4-sumatoria_novedades'   => '',
-    //     '3.5-filler'                => ''
-    // );
-
-    // foreach($ids as $id){ 
-    //     array_push($ids_array, $id->id); 
-    // }                
+    foreach($ids as $id){ 
+        array_push($ids_array, $id->id); 
+    }                
     
-    // $creditos       = Credito::find($ids_array);             
-    // $reporte_array  = array();
+    $creditos       = Credito::find($ids_array);             
+    $reporte_array  = array();
 
         //ciclo para recorrer creditos
 
-    //return $registro_info_clientes;
+    return $info_clientes_array;
     
 }
 

@@ -26,7 +26,7 @@ class SancionController extends Controller
      */
     public function create()
     {
-        //
+        dd('hola');
     }
 
     /**
@@ -37,21 +37,42 @@ class SancionController extends Controller
      */
     public function store(Request $request)
     {
-       $array = array_keys($request->all());
+        $credito = Credito::find( $request->input('credito_id') );
+        $array = array_keys($request->all());
 
-        for($i = 0; $i < count($array)-2; $i++){
-            $sancion = Sancion::find($array[$i]); 
-            if($sancion->estado == 'Debe'){
-                $sancion->estado = 'Exonerada'; 
-                $sancion->save();
-                $credito = Credito::find($request->input('credito_id'));
-                $credito->saldo = $credito->saldo - $sancion->valor;
-                $credito->save();
-            }  
-            
+        $sanciones = $credito->sanciones;
+        $count_debe = 0;
+        $count_exoneradas = 0;
 
-            
+        foreach( $sanciones as $sancion ){
+            $bandera = 0;
+            for($i = 0; $i < count($array)-2; $i++){
+                if( $sancion->id == $array[$i] ){
+                    if( $sancion->estado == 'Debe' ){
+                        $sancion->estado = 'Exonerada';
+                        $sancion->save();
+                        $credito->saldo = $credito->saldo - $sancion->valor;
+                        $credito->save();
+                        $bandera = 1;
+                        $count_exoneradas++;
+                    }
+                    else{
+                        $bandera = 2;
+                    }
+                }
+            }
+            if( $bandera == 0 ){
+                if($sancion->estado == 'Exonerada'){
+                    $sancion->estado = 'Debe';
+                    $sancion->save();
+                    $credito->saldo = $credito->saldo + $sancion->valor;
+                    $credito->save();
+                    $count_debe++;                    
+                }
+            }
         }
+
+        flash()->success('Exonerados: '.$count_exoneradas.', Se colocaron en debe: '.$count_debe);
         return redirect()->route('admin.sanciones.show',$request->input('credito_id'));
     }
 

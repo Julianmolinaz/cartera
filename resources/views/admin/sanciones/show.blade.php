@@ -10,10 +10,14 @@
 
     <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Panel heading</div>
+    <div class="panel-heading" style="background:#0d4888; color:#ffffff;">
+    Sanciones diarias, 
+    {{'crédito: '.$credito->id.'  '.$credito->precredito->cliente->nombre.' doc:  '.$credito->precredito->cliente->num_doc}}</div>
     <div class="panel-body">
-      <b>{{'Credito: '.$credito->id.'  '.$credito->precredito->cliente->nombre.' 
-                (doc:  '.$credito->precredito->cliente->num_doc.')'}}</b>
+      Seleccionar todos: 
+      <input type="checkbox" id="checkTodos" value="">
+      <a type="button" href="{{route('admin.sanciones.create')}}" class="btn btn-default btn-xs" style="position:absolute; right:43px; background:#ffc203;">Crear sanciones diarias</a>
+      @include('flash::message')
     </div>
 
 <form class="form-horizontal form-label-left" action="{{route('admin.sanciones.store')}}" method="POST">
@@ -24,8 +28,16 @@
           <div class="checkbox">
             <label>
             @if($sancion->estado != 'Debe')
-              <input type="checkbox" name="{{$sancion->id}}" value="{{$sancion->id}}" checked>
-              {{' Fecha: '.$sancion->created_at}}
+
+              @if($sancion->estado == 'Ok')
+                <input type="checkbox" name="{{$sancion->id}}" value="{{$sancion->id}}" disabled checked>
+                {{' Fecha: '.$sancion->created_at}}
+              @else
+                <input type="checkbox" name="{{$sancion->id}}" value="{{$sancion->id}}" checked>
+                {{' Fecha: '.$sancion->created_at}}
+
+              @endif
+              
             @else
               <input type="checkbox" name="{{$sancion->id}}" value="{{$sancion->id}}">
               {{' Fecha: '.$sancion->created_at}}
@@ -54,6 +66,14 @@
 </div>  
 </div>
 
+<script>
+  $("#checkTodos").change(function () {
+    $("input:checkbox").prop('checked', $(this).prop("checked"));
+  });
+</script>
+
+
 @endsection
 
 @include('templates.main2')
+

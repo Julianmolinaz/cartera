@@ -178,13 +178,26 @@
             <td colspan="2">{{number_format($pago_prejuridico['prejuridico'].$pago_prejuridico['valor'],0,",",".")}}</td>
           </tr>
           <tr>
-            <td colspan="2">Sanciones:          </td>
-            <td colspan="2">{{number_format($sum_sanciones,0,",",".") }} </td>
-          </tr>
-
-          <tr>
-            <td colspan="2">Debe en pagos parciales: </td>
-            <td colspan="2">{{number_format($total_parciales,0,",",".")}}</td>
+            <td colspan="2">Sanciones:</td>
+            <td colspan="2" style="position:relative;">{{number_format($sum_sanciones,0,",",".") }} 
+                <select class="form-control input-sm" style="width:40%; position:absolute; top:0px; left:50%;">
+                    <?php
+                    
+                      $debe = 0;
+                      $exoneradas = 0;
+                      $pagadas = 0;
+                      
+                      foreach($credito->sanciones as $sancion){
+                        if($sancion->estado == 'Debe'){  $debe++;}
+                        else if($sancion->estado == 'Exonerada'){  $exoneradas++; }
+                        else if($sancion->estado == 'Ok'){  $pagadas++; }
+                      }
+                      echo  "<option> Debe: ".$debe."</option>".
+                            "<option> Pagadas: ".$pagadas."</option>".
+                            "<option>Exoneradas: ".$exoneradas."</option>";
+                  ?>
+                </select>
+          </td>
           </tr>
 
           <tr>
