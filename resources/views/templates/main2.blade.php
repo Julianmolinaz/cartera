@@ -71,8 +71,8 @@
 <script src="{{asset('vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
 
     <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="{{asset('vendors/moment/min/moment.min.js')}}"></script>
+    <script src="{{asset('vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
     <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 

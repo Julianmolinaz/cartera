@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Sancion;
 use App\Credito;
+use Carbon\Carbon;
+
 class SancionController extends Controller
 {
     /**
@@ -26,7 +28,31 @@ class SancionController extends Controller
      */
     public function create()
     {
-        dd('hola');
+        return view('admin.sanciones.create');
+    }
+
+    public function crearSanciones(Request $request){
+    
+       $credito = Credito::find($request->input('credito_id'));
+       $rango   = $request->input('rango');
+       $sanciones = Sancion::where('credito_id',$credito->id);
+       $fecha_ini = substr($rango,0,10);
+       $fecha_fin = substr($rango,-10);
+
+    //    if( $fecha_ini == $fecha_fin){
+    //        $fecha = Carbon::createFromFormat('d/m/Y',substr($rango,0,10))->toDateString();
+    //        return response()->json($fecha);
+    //         // foreach($sanciones as $sancion){  substr($fecha_ini,-4), substr($fecha_ini,3,2), substr($fecha_ini,0,2)
+               
+    //         // }
+    //    }
+    //    else{
+
+    //    }
+
+       return response()->json('hola');
+       
+        
     }
 
     /**
@@ -84,6 +110,7 @@ class SancionController extends Controller
      */
     public function show($id)
     {
+        
         return view('admin.sanciones.show')
             ->with('sanciones', Sancion::where('credito_id',$id)->orderBy('created_at','des')->get())
             ->with('credito',Credito::find($id));

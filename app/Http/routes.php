@@ -373,4 +373,8 @@ Route::post('start/pagos','PagoController@store');
 //consultar listado de municipios
 Route::get('admin/municipios/cargar','PuntoController@cargar');
 
+//CREAR SANCIONES
+
+Route::post('admin/sanciones/crear_sanciones','SancionController@crearSanciones');
+
 
