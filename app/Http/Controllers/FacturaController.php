@@ -125,7 +125,8 @@ class FacturaController extends Controller
       /******************** END PREJURIDICO **************************/  
 
       /******************** PAGOS PARCIALES **************************/  
-      $total_parciales = DB::table('pagos')->where([['credito_id','=',$id],['concepto','=','Cuota Parcial'],['estado','=','Debe']])->sum('Debe');
+      $total_parciales = DB::table('pagos')->where([['credito_id','=',$id],[
+        'concepto','=','Cuota Parcial'],['estado','=','Debe']])->sum('Debe');
       /******************** PAGOS PARCIALES **************************/  
 
       $pagos = Pago::where('credito_id',$id)->orderBy('id','desc')->get();
@@ -349,8 +350,8 @@ class FacturaController extends Controller
           $cuota_parcial = Pago::where('credito_id',$credito->id)
                                ->where('concepto','Cuota Parcial')
                                ->where('estado','Debe')
-                               ->where('pago_desde',inv_fech($vector[$k+1]))
-                               ->where('pago_hasta',inv_fech($vector[$k+2]))
+                               ->where('pago_desde',$vector[$k+1])
+                               ->where('pago_hasta',$vector[$k+2])
                                ->get();
                      
           $pago = new Pago();
@@ -369,8 +370,8 @@ class FacturaController extends Controller
             else{
               $pago->estado = 'Debe';
             }
-            $pago->pago_desde     = inv_fech($vector[$k+1]);
-            $pago->pago_hasta     = inv_fech($vector[$k+2]);
+            $pago->pago_desde     = $vector[$k+1];
+            $pago->pago_hasta     = $vector[$k+2];
             $pago->abono_pago_id  = $cuota_parcial[0]->id;
             $pago->save();
 
@@ -496,6 +497,11 @@ class FacturaController extends Controller
           $factura->save();
         }  
 
+        if($credito->cuotas_faltantes == 0 && $credito->saldo == 0){
+          $credito->estado = 'Cancelado';
+          $credito->save();
+        }
+
         DB::commit();
 
       return response()->json(["mensaje" => "Se generaron los pagos Éxitosamente !!!"]); 
@@ -524,13 +530,15 @@ class FacturaController extends Controller
     public function edit($id)
     {
 
-      // $creditos = DB::table('creditos')
-      // ->where('estado','<>','Cancelado')
-      // ->orWhere('estado','<>','Juridico') 
-      // ->get();
+      $cuota_parcial = Pago::where('credito_id',$id)
+      ->where('concepto','Cuota Parcial')
+      ->where('estado','Debe')
+      ->where('pago_desde','2017-10-30')
+      ->where('pago_hasta','2017-11-15')
+      ->get();
 
-      // for ($i=0; $i < count($creditos); $i++) {  generar_sanciones($creditos[$i]->id);  }
 
+      dd($cuota_parcial);
 
     }
 
@@ -570,12 +578,15 @@ class FacturaController extends Controller
       if ($request->ajax()){  return response()->json($periodo);  } 
     }
 
+    //Consulta si el numero de factura existe
+
     public function consultar_factura($id){
 
       $n = 
       DB::table('facturas')
-      ->where([['num_fact','=',$id]])
-      ->count();
+        ->where([['num_fact','=',$id]])
+        ->count();
+
       if ($n > 0) { $hay_factura = true;  }
       else        { $hay_factura = false; }
 

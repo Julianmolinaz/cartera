@@ -38,6 +38,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
   $cuotas = 
   DB::table('pagos')
       ->join('facturas','pagos.factura_id',           '=','facturas.id')
+      ->join('users','facturas.user_create_id',       '=', 'users.id')
       ->join('creditos','facturas.credito_id',        '=','creditos.id')
       ->join('precreditos','creditos.precredito_id',  '=','precreditos.id')
       ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
@@ -52,7 +53,8 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                       clientes.nombre  as cliente,
                       clientes.num_doc as documento,
                       pagos.credito_id as credito_id, 
-                      facturas.num_fact as num_fact, 
+                      facturas.num_fact as num_fact,
+                      users.name       as user_create,
                       sum(pagos.abono) as cuotas,
                       facturas.fecha   as fecha,
                       carteras.nombre  as cartera,
@@ -65,12 +67,13 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
 
         $sanciones = 
          DB::table('pagos')
-            ->join('facturas','pagos.factura_id','=','facturas.id')
-            ->join('creditos','facturas.credito_id','=','creditos.id')
-            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-            ->join('carteras','precreditos.cartera_id','=','carteras.id')
-            ->join('clientes','precreditos.cliente_id','=','clientes.id')
-            ->where('carteras.id','=',$cartera_id)
+            ->join('facturas','pagos.factura_id',           '=','facturas.id')
+            ->join('users','facturas.user_create_id',       '=', 'users.id')
+            ->join('creditos','facturas.credito_id',        '=','creditos.id')
+            ->join('precreditos','creditos.precredito_id',  '=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
+            ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
+            ->where('carteras.id',   '=',$cartera_id)
             ->where('pagos.concepto','=','Mora')
             ->whereBetween('facturas.created_at',[$ini,$fin])
             ->select(DB::raw('
@@ -78,6 +81,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                             clientes.num_doc as documento,
                             pagos.credito_id as credito_id, 
                             facturas.num_fact as num_fact, 
+                            users.name       as user_create,
                             sum(pagos.abono) as sanciones,
                             facturas.fecha   as fecha,
                             carteras.nombre  as cartera,
@@ -90,11 +94,12 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
 
           $juridicos =        
           DB::table('pagos')
-              ->join('facturas','pagos.factura_id','=','facturas.id')
-              ->join('creditos','facturas.credito_id','=','creditos.id')
-              ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-              ->join('carteras','precreditos.cartera_id','=','carteras.id')
-              ->join('clientes','precreditos.cliente_id','=','clientes.id')
+              ->join('facturas','pagos.factura_id',             '=','facturas.id')
+              ->join('users','facturas.user_create_id',         '=', 'users.id')
+              ->join('creditos','facturas.credito_id',          '=','creditos.id')
+              ->join('precreditos','creditos.precredito_id',    '=','precreditos.id')
+              ->join('carteras','precreditos.cartera_id',       '=','carteras.id')
+              ->join('clientes','precreditos.cliente_id',       '=','clientes.id')
               ->where('carteras.id','=',$cartera_id)
               ->where('pagos.concepto','=','Juridico')
               ->whereBetween('facturas.created_at',[$ini,$fin])
@@ -103,6 +108,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                               clientes.num_doc as documento,
                               pagos.credito_id as credito_id, 
                               facturas.num_fact as num_fact, 
+                              users.name       as user_create,
                               sum(pagos.abono) as juridico,
                               facturas.fecha   as fecha,
                               carteras.nombre  as cartera,
@@ -114,11 +120,12 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
 
           $prejuridicos =        
           DB::table('pagos')
-              ->join('facturas','pagos.factura_id','=','facturas.id')
-              ->join('creditos','facturas.credito_id','=','creditos.id')
+              ->join('facturas','pagos.factura_id',         '=','facturas.id')
+              ->join('users','facturas.user_create_id',     '=', 'users.id')
+              ->join('creditos','facturas.credito_id',      '=','creditos.id')
               ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-              ->join('carteras','precreditos.cartera_id','=','carteras.id')
-              ->join('clientes','precreditos.cliente_id','=','clientes.id')
+              ->join('carteras','precreditos.cartera_id',   '=','carteras.id')
+              ->join('clientes','precreditos.cliente_id',   '=','clientes.id')
               ->where('carteras.id','=',$cartera_id)
               ->where('pagos.concepto','=','Prejuridico')
               ->whereBetween('facturas.created_at',[$ini,$fin])
@@ -127,6 +134,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                               clientes.num_doc as documento,
                               pagos.credito_id as credito_id, 
                               facturas.num_fact as num_fact, 
+                              users.name       as user_create,
                               sum(pagos.abono) as prejuridico,
                               facturas.fecha   as fecha,
                               carteras.nombre  as cartera,
@@ -138,11 +146,12 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
 
           $saldos_favor =        
           DB::table('pagos')
-              ->join('facturas','pagos.factura_id','=','facturas.id')
-              ->join('creditos','facturas.credito_id','=','creditos.id')
-              ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-              ->join('carteras','precreditos.cartera_id','=','carteras.id')
-              ->join('clientes','precreditos.cliente_id','=','clientes.id')
+              ->join('facturas','pagos.factura_id',             '=','facturas.id')
+              ->join('users','facturas.user_create_id',         '=', 'users.id')
+              ->join('creditos','facturas.credito_id',          '=','creditos.id')
+              ->join('precreditos','creditos.precredito_id',    '=','precreditos.id')
+              ->join('carteras','precreditos.cartera_id',       '=','carteras.id')
+              ->join('clientes','precreditos.cliente_id',       '=','clientes.id')
               ->where('carteras.id','=',$cartera_id)
               ->where('pagos.concepto','=','Saldo a Favor')
               ->whereBetween('facturas.created_at',[$ini,$fin])
@@ -151,6 +160,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                               clientes.num_doc as documento,
                               pagos.credito_id as credito_id, 
                               facturas.num_fact as num_fact, 
+                              users.name       as user_create,
                               sum(pagos.abono) as saldo_favor,
                               facturas.fecha   as fecha,
                               carteras.nombre  as cartera,
@@ -162,8 +172,9 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
 
           $estudios   = 
           DB::table('precreditos')
-              ->join('carteras','precreditos.cartera_id','=','carteras.id')
-              ->join('clientes','precreditos.cliente_id','=','clientes.id')
+              ->join('carteras','precreditos.cartera_id',   '=','carteras.id')
+              ->join('users','precreditos.user_create_id',  '=', 'users.id')
+              ->join('clientes','precreditos.cliente_id',   '=','clientes.id')
               ->where('carteras.id','=',$cartera_id)
               ->where('precreditos.estudio','<>','Sin estudio')
               ->whereBetween('precreditos.created_at',[$ini,$fin])
@@ -172,6 +183,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                               clientes.nombre         as cliente,
                               clientes.num_doc        as documento,
                               precreditos.num_fact    as factura,
+                              users.name              as user_create,
                               precreditos.fecha       as fecha,
                               carteras.nombre         as cartera,
                               precreditos.estudio     as estudio,
@@ -190,6 +202,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                           'cliente'       => $credito->cliente,
                           'documento'     => $credito->documento,
                           'factura'       => $credito->factura,
+                          'user_create'   => $credito->user_create,
                           'fecha'         => $credito->fecha,
                           'cartera'       => $credito->cartera,
                           'estudio'       => $credito->estudio,
@@ -204,18 +217,20 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
           $iniciales   = 
           DB::table('precreditos')
               ->join('creditos','precreditos.id','=','creditos.precredito_id')
+              ->join('users','precreditos.user_create_id','=', 'users.id')
               ->join('carteras','precreditos.cartera_id','=','carteras.id')
               ->join('clientes','precreditos.cliente_id','=','clientes.id')
               ->where('carteras.id','=',$cartera_id)
               ->where('precreditos.cuota_inicial','>',0)
               ->whereBetween('creditos.created_at',[$ini,$fin])
               ->select(DB::raw('
-                              creditos.id                    as credito_id,
+                              creditos.id             as credito_id,
                               clientes.nombre         as cliente,
                               clientes.num_doc        as documento,
                               precreditos.num_fact    as factura,
                               precreditos.fecha       as fecha,
                               carteras.nombre         as cartera,
+                              users.name              as user_create,
                               precreditos.cuota_inicial     as cta_inicial,
                               precreditos.created_at  as created_at
                               '))->get();  
@@ -224,12 +239,19 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
           $otros_pagos = 
           DB::table('otros_pagos')
               ->join('facturas','otros_pagos.factura_id','=','facturas.id')
+              ->join('users','facturas.user_create_id',  '=', 'users.id')
               ->join('carteras','otros_pagos.cartera_id','=','carteras.id')
               ->where('carteras.id','=',$cartera_id)
               ->whereBetween('facturas.created_at',[$ini,$fin])
-              ->select(DB::raw('facturas.num_fact as factura, facturas.tipo as tipo, 
-                  otros_pagos.subtotal as subtotal, otros_pagos.concepto as concepto, 
-                  facturas.fecha as fecha, carteras.nombre as cartera, otros_pagos.created_at as created_at'))
+              ->select(DB::raw('
+                            facturas.num_fact       as factura, 
+                            users.name              as user_create,
+                            facturas.tipo           as tipo, 
+                            otros_pagos.subtotal    as subtotal,   
+                            otros_pagos.concepto    as concepto, 
+                            facturas.fecha          as fecha, 
+                            carteras.nombre         as cartera, 
+                            otros_pagos.created_at  as created_at'))
               ->get();
 
 

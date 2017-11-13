@@ -9,9 +9,6 @@
         <h2>
         Facturas Créditos
         <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button>
-        <a href="#" class = 'btn btn-default btn-xs' OnClick="alert('Ayuda');" data-toggle="tooltip" data-placement="top" title="Ayuda">
-                <span class = "glyphicon glyphicon-question-sign" ></span>
-              </a>  
       </h2>
       </p>  
     </div>
@@ -60,15 +57,19 @@
               <td align="right"> {{ $factura->credito->precredito->cliente->num_doc}}</td>
               <td> <small>{{$factura->user_create->name.' ['.$factura->created_at.']'}}</small></td>
           		<td> 
-              <a href="{{route('start.facturas.show',$factura->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver detalle">
+              <a href="{{route('start.facturas.show',$factura->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver Factura">
                 <span class = "glyphicon glyphicon-eye-open"  ></span>
+              </a>
+              <a href="{{route('start.precreditos.ver',$factura->credito->precredito->id)}}" class = 'btn btn-default btn-xs'>
+                <span class = "glyphicon glyphicon-sunglasses"  data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
               </a>
               <a href="{{route('start.facturas.create',$factura->credito->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Hacer pago">
                 <span class = "glyphicon glyphicon-usd"  ></span>
               </a>  
               <a href="#" class = 'btn btn-default btn-xs' OnClick="Anular({{$factura->id}},{{$factura->num_fact}});" data-toggle="modal" data-target="#modal" title="Anular factura">
                 <span class = "glyphicon glyphicon-fire" ></span>
-              </a>    
+              </a>  
+
             </td>
           </tr>		
 

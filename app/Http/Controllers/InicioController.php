@@ -35,14 +35,15 @@ class InicioController extends Controller
             if(count($_creditos) > 0){
                 foreach($_creditos as $credito){
                     $credito     = Credito::find($credito->id);
-                    $respuesta .= "<p><strong>Crédito: </strong>".
+                    $respuesta .= "<strong>Crédito: </strong>".
                                     "<a href=".route('start.precreditos.ver',$credito->precredito->id).">".
                                     $credito->id.", estado: ".
                                     $credito->estado.", cliente: ".
                                     $credito->precredito->cliente->nombre." - ".
                                     $credito->precredito->cliente->tipo_doc.": ".
                                     $credito->precredito->cliente->num_doc.", ver factura: ".
-                                    $credito->precredito->num_fact."</p></a>";
+                                    $credito->precredito->num_fact." </a>".
+                                    "<a href=".route('call.index_unique',$credito->id).">Llamar</a><br>";
                 }
             }
             if(count($_precreditos) > 0){

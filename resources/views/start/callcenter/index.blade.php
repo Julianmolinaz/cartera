@@ -62,77 +62,159 @@
 
           <tbody>
 
-          @foreach($creditos as $credito)
-            <tr>
-              <td>{{  $fila++                               }}</td>
-              <td>{{  $credito->precredito->cartera->nombre }}</td>
-              <td>{{  $credito->id                          }}</td>
-              <td>*{{  $credito->precredito->cliente->municipio->nombre.'-'.
-                      $credito->precredito->cliente->municipio->departamento
-              }}</td>
+          <!-- cuando se traen listado de creditos -->
 
-              <td>
-                @if($credito->estado == 'Al dia')
+          @if(isset($creditos))
 
-                  <spam class="label label-primary">={{$credito->estado}}</spam>
+            @foreach($creditos as $credito)
+              <tr>
+                <td>{{  $fila++                               }}</td>
+                <td>{{  $credito->precredito->cartera->nombre }}</td>
+                <td>{{  $credito->id                          }}</td>
+                <td>*{{  $credito->precredito->cliente->municipio->nombre.'-'.
+                        $credito->precredito->cliente->municipio->departamento
+                }}</td>
 
-                @elseif($credito->estado == 'Mora')
-                
-                  <spam class="label label-danger">={{$credito->estado}}<spam>  
+                <td>
+                  @if($credito->estado == 'Al dia')
 
-                @elseif($credito->estado == 'Prejuridico')
+                    <spam class="label label-primary">={{$credito->estado}}</spam>
 
-                  <spam class="label label-success">={{$credito->estado}}</spam>
+                  @elseif($credito->estado == 'Mora')
+                  
+                    <spam class="label label-danger">={{$credito->estado}}<spam>  
 
-                @elseif($credito->estado == 'Juridico')
+                  @elseif($credito->estado == 'Prejuridico')
 
-                  <spam class="label label-info">={{$credito->estado}}</spam>
+                    <spam class="label label-success">={{$credito->estado}}</spam>
 
-                @else
-                  <spam class="label label-warning">={{$credito->estado}}</spam>
-                @endif
+                  @elseif($credito->estado == 'Juridico')
 
-              </td>
-              <?php
-                if(count($credito->sanciones) >= 1 ){
-                  $sanciones = 0;
-                  foreach($credito->sanciones as $sancion){
-                    if($sancion->estado == 'Debe'){
-                      $sanciones++;
+                    <spam class="label label-info">={{$credito->estado}}</spam>
+
+                  @else
+                    <spam class="label label-warning">={{$credito->estado}}</spam>
+                  @endif
+
+                </td>
+                <?php
+                  if(count($credito->sanciones) >= 1 ){
+                    $sanciones = 0;
+                    foreach($credito->sanciones as $sancion){
+                      if($sancion->estado == 'Debe'){
+                        $sanciones++;
+                      }
                     }
-                  }
-                  echo "<td>".$sanciones."</td>"; 
-                }   
-                else{
-                  echo "<td>0</td>";
-                }        
-              ?>
-              <td>{{  $credito->precredito->cliente->nombre }}</td>
-              <td>{{  $credito->precredito->cliente->num_doc}}</td>
-              <td>{{  $credito->fecha_pago->fecha_pago      }}</td>
+                    echo "<td>".$sanciones."</td>"; 
+                  }   
+                  else{
+                    echo "<td>0</td>";
+                  }        
+                ?>
+                <td>{{  $credito->precredito->cliente->nombre }}</td>
+                <td>{{  $credito->precredito->cliente->num_doc}}</td>
+                <td>{{  $credito->fecha_pago->fecha_pago      }}</td>
 
-            @if($credito->llamadas->last())
-              <td>{{  $credito->llamadas->last()->agenda}}</td>
-              <td>{{  '['.$credito->llamadas->last()->created_at.'] '.$credito->llamadas->last()->observaciones}}</td>
-              <td>{{  $credito->llamadas->last()->user_create->name}}</td>
+              @if($credito->llamadas->last())
+                <td>{{  $credito->llamadas->last()->agenda}}</td>
+                <td>{{  '['.$credito->llamadas->last()->created_at.'] '.$credito->llamadas->last()->observaciones}}</td>
+                <td>{{  $credito->llamadas->last()->user_create->name}}</td>
 
-            @else
-              <td></td>
-              <td></td>
-              <td></td>
-            @endif
-              <td>
-                <a href="#"  id="btn_registro" OnClick='Mostrar({{$credito->id}});' class = 'btn btn-default btn-xs' data-toggle="modal" data-target="#myModal">
-                  <span class = "glyphicon glyphicon-phone-alt" data-toggle="tooltip" data-placement="top" title="Registro de llamada"></span>
-                </a>
+              @else
+                <td></td>
+                <td></td>
+                <td></td>
+              @endif
+                <td>
+                  <a href="#"  id="btn_registro" OnClick='Mostrar({{$credito->id}});' class = 'btn btn-default btn-xs' data-toggle="modal" data-target="#myModal">
+                    <span class = "glyphicon glyphicon-phone-alt" data-toggle="tooltip" data-placement="top" title="Registro de llamada"></span>
+                  </a>
 
-                <a href="{{route('call.show',$credito->id)}}"  class = 'btn btn-default btn-xs'>
-                  <span class = "glyphicon glyphicon-tasks" data-toggle="tooltip" data-placement="top" title="Información del crédito"></span>
-                </a>
+                  <a href="{{route('call.show',$credito->id)}}"  class = 'btn btn-default btn-xs'>
+                    <span class = "glyphicon glyphicon-tasks" data-toggle="tooltip" data-placement="top" title="Información del crédito"></span>
+                  </a>
 
-              </td>
-            </tr>
-          @endforeach
+                </td>
+              </tr>
+            @endforeach
+
+          <!-- cuando se trae solo un credito, funcionalidad del buscador -->
+          @else
+
+              <tr>
+                <td>{{  $fila++                               }}</td>
+                <td>{{  $credito->precredito->cartera->nombre }}</td>
+                <td>{{  $credito->id                          }}</td>
+                <td>*{{  $credito->precredito->cliente->municipio->nombre.'-'.
+                        $credito->precredito->cliente->municipio->departamento
+                }}</td>
+
+                <td>
+                  @if($credito->estado == 'Al dia')
+
+                    <spam class="label label-primary">={{$credito->estado}}</spam>
+
+                  @elseif($credito->estado == 'Mora')
+                  
+                    <spam class="label label-danger">={{$credito->estado}}<spam>  
+
+                  @elseif($credito->estado == 'Prejuridico')
+
+                    <spam class="label label-success">={{$credito->estado}}</spam>
+
+                  @elseif($credito->estado == 'Juridico')
+
+                    <spam class="label label-info">={{$credito->estado}}</spam>
+
+                  @else
+                    <spam class="label label-warning">={{$credito->estado}}</spam>
+                  @endif
+
+                </td>
+                <?php
+                  if(count($credito->sanciones) >= 1 ){
+                    $sanciones = 0;
+                    foreach($credito->sanciones as $sancion){
+                      if($sancion->estado == 'Debe'){
+                        $sanciones++;
+                      }
+                    }
+                    echo "<td>".$sanciones."</td>"; 
+                  }   
+                  else{
+                    echo "<td>0</td>";
+                  }        
+                ?>
+                <td>{{  $credito->precredito->cliente->nombre }}</td>
+                <td>{{  $credito->precredito->cliente->num_doc}}</td>
+                <td>{{  $credito->fecha_pago->fecha_pago      }}</td>
+
+              @if($credito->llamadas->last())
+                <td>{{  $credito->llamadas->last()->agenda}}</td>
+                <td>{{  '['.$credito->llamadas->last()->created_at.'] '.$credito->llamadas->last()->observaciones}}</td>
+                <td>{{  $credito->llamadas->last()->user_create->name}}</td>
+
+              @else
+                <td></td>
+                <td></td>
+                <td></td>
+              @endif
+                <td>
+                  <a href="#"  id="btn_registro" OnClick='Mostrar({{$credito->id}});' class = 'btn btn-default btn-xs' data-toggle="modal" data-target="#myModal">
+                    <span class = "glyphicon glyphicon-phone-alt" data-toggle="tooltip" data-placement="top" title="Registro de llamada"></span>
+                  </a>
+
+                  <a href="{{route('call.show',$credito->id)}}"  class = 'btn btn-default btn-xs'>
+                    <span class = "glyphicon glyphicon-tasks" data-toggle="tooltip" data-placement="top" title="Información del crédito"></span>
+                  </a>
+
+                </td>
+              </tr>
+
+
+
+
+          @endif
           </tbody>
         </table>
 

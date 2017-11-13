@@ -44,7 +44,7 @@ class CreateCodeudoresTable extends Migration
             $table->string('segundo_apellidoc','60')->nullable();
 
             $table->enum('tipo_docc',[
-               'Cedula de ciudadanía',
+               'Cedula de Ciudadanía',
                'Nit',
                'Cedula de Extranjería',
                'Pasaporte',

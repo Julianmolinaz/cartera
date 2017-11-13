@@ -39,7 +39,7 @@ class CallcenterController extends Controller
         } else{ 
             $filtro = $filtro[0]->busqueda;
         }
-//dd($filtro);
+
         switch ($filtro) {
             /*********************************************************************************/
             case '0':
@@ -246,6 +246,19 @@ class CallcenterController extends Controller
         }   
 
     } 
+
+    public function index_unique($id){
+
+        $credito  = Credito::find($id);
+        $criterios = Criterio::all();
+
+
+        
+        return view('start.callcenter.index')
+            ->with('credito',$credito)
+            ->with('criterios',$criterios)
+            ->with('busqueda',CallBusqueda::where('user_id',Auth::user()->id)->get()[0]);
+    }
 
 
 }

@@ -57,10 +57,16 @@
               <td align="right"> {{ $pago->credito->precredito->cliente->num_doc }}</td>
 
               <td> 
-              <a href="{{route('start.facturas.show',$pago->factura->id)}}" class = 'btn btn-default btn-xs'><span class = "glyphicon glyphicon-eye-open"  data-toggle="tooltip" data-placement="top" title="Ver"></span></a>
-              <a href="{{route('start.clientes.show',$pago->credito->precredito->cliente->id)}}" class = 'btn btn-default btn-xs'><span class = "glyphicon glyphicon-user"  data-toggle="tooltip" data-placement="top" title="Ver cliente"></span></a> 
+              <a href="{{route('start.facturas.show',$pago->factura->id)}}" class = 'btn btn-default btn-xs'>
+                <span class = "glyphicon glyphicon-eye-open"  data-toggle="tooltip" data-placement="top" title="Ver Factura"></span>
+              </a>
+              <a href="{{route('start.clientes.show',$pago->credito->precredito->cliente->id)}}" class = 'btn btn-default btn-xs'>
+                <span class = "glyphicon glyphicon-user"  data-toggle="tooltip" data-placement="top" title="Ver cliente"></span>
+              </a> 
+              <a href="{{route('start.precreditos.ver',$pago->factura->credito->precredito->id)}}" class = 'btn btn-default btn-xs'>
+                <span class = "glyphicon glyphicon-sunglasses"  data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
+              </a>
 
-             
             </td>
           </tr>   
 

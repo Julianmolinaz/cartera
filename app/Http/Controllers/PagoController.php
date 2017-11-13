@@ -43,7 +43,7 @@ class PagoController extends Controller
     public function create()
     {
         
-        $tipos_pago = getEnumValues('facturas', 'tipo');  
+        $tipos_pago = getEnumValues('facturas', 'tipo');
         $carteras   = Cartera::where('estado','Activo')->get();
         $now        = Carbon::today();
         $now        = formatoFecha(ano($now),mes($now),dia($now));

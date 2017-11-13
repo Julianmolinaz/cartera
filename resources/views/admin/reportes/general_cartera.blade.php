@@ -31,6 +31,7 @@
               <th>  # Factura     </th>
               <th>  Fecha_Pago    </th> 
               <th>  Cartera       </th>
+              <th>  Encargado     </th>
               <th>  Create___ </th>
            </tr>
           </thead>
@@ -53,6 +54,7 @@
               <td> {{ $cuota->num_fact    }} </td>
               <td> {{ $cuota->fecha       }} </td>
               <td> {{ $cuota->cartera     }} </td>
+              <td> {{ $cuota->user_create }}</td>
               <td style="font-size:10px"> {{ $cuota->created_at}}</td>
             </tr>
           @endforeach  
@@ -74,6 +76,7 @@
               <td> {{ $sancion->num_fact    }} </td>
               <td> {{ $sancion->fecha       }} </td>
               <td> {{ $sancion->cartera     }} </td>
+              <td> {{ $sanciones->user_create }}</td>
               <td> {{ $sancion->created_at}}</td>
             </tr>
           @endforeach   
@@ -95,6 +98,7 @@
               <td> {{ $juridico->num_fact  }} </td>
               <td> {{ $juridico->fecha     }} </td>
               <td> {{ $juridico->cartera   }} </td>
+              <td> {{ $juridico->user_create}}</td>
               <td> {{ $juridico->created_at}} </td>
             </tr>
           @endforeach
@@ -116,6 +120,7 @@
               <td> {{ $prejuridico->num_fact  }} </td>
               <td> {{ $prejuridico->fecha     }} </td>            
               <td> {{ $prejuridico->cartera   }} </td>
+              <td> {{ $prejuridico->user_create}}</td>
               <td> {{ $prejuridico->created_at}} </td>
             </tr>
           @endforeach    
@@ -137,6 +142,7 @@
               <td> {{ $saldo->num_fact  }} </td>
               <td> {{ $saldo->fecha     }} </td>            
               <td> {{ $saldo->cartera   }} </td>
+              <td> {{ $saldo->user_create}}</td>
               <td> {{ $saldo->created_at}}</td>
             </tr>
           @endforeach 
@@ -153,7 +159,8 @@
               <td> {{ $estudio['factura']       }} </td>
               <td> {{ $estudio['fecha']         }}</td>            
               <td> {{ $estudio['cartera']       }}</td>
-              <td> {{ $estudio['created_at']}}</td>
+              <td> {{ $estudio['user_create']   }}</td>
+              <td> {{ $estudio['created_at']    }}</td>
             </tr>
           @endforeach   
 
@@ -175,6 +182,7 @@
               <td> {{ $inicial->factura}}</td>
               <td> {{ $inicial->fecha }}</td>            
               <td> {{ $inicial->cartera}}</td>
+              <td> {{ $inicial->user_create}}</td>
               <td> {{ $inicial->created_at}}</td>
             </tr>
           @endforeach            
@@ -192,12 +200,13 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>{{number_format($otro_pago->subtotal,0,",",".")}}</td>
-            <td>{{$otro_pago->concepto}}</td>
-            <td>{{$otro_pago->factura}}</td>
-            <td>{{$otro_pago->fecha}}</td>
-            <td>{{$otro_pago->cartera}}</td>
-            <td>{{$otro_pago->created_at}}</td>
+            <td> {{ number_format($otro_pago->subtotal,0,",",".") }} </td>
+            <td> {{ $otro_pago->concepto }} </td>
+            <td> {{ $otro_pago->factura }} </td>
+            <td> {{ $otro_pago->fecha }} </td>
+            <td> {{ $otro_pago->cartera }} </td>
+            <td> {{ $otro_pago->user_create }} </td>
+            <td> {{ $otro_pago->created_at }} </td>
           </tr>  
           @endforeach 
           <tr style="background-color:#CCCCCC;">
@@ -211,6 +220,7 @@
             <td><b>{{number_format($total_estudios,0,",",".")}}</b></td>
             <td><b>{{number_format($total_iniciales,0,",",".")}}</b></td>
             <td><b>{{number_format($total_otros_ingresos,0,",",".")}}</b></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -248,63 +258,68 @@
             <th align="left">  Observaciones        </th>
             <th>  Fecha                </th>
             <th>  Cartera              </th>
+            <th>  Encargado            </th>   
             <th>  Create</th>
           </tr>
         </thead>
         <tbody align="right">
           @foreach($gastos as $gasto)
           <tr>
-            <td>{{$gasto->comprobante_egreso}}</td>
-            <td>{{number_format($gasto->valor,0,",",".")}}</td>
+            <td>  {{  $gasto->comprobante_egreso  }}              </td>
+            <td>  {{  number_format($gasto->valor,0,",",".")  }}  </td>
             <td></td>
             <td></td>
             <td></td>
-            <td align="left">{{$gasto->observaciones}}</td>
-            <td>{{$gasto->fecha        }}</td>
-            <td>{{$gasto->cartera->nombre}}</td>
-            <td>{{$gasto->created_at}}</td>
+            <td align="left"> {{  $gasto->observaciones }}        </td>
+            <td>  {{  $gasto->fecha         }}                    </td>
+            <td>  {{  $gasto->cartera->nombre }}                  </td>
+            <td>  {{  $gasto->user_create->name}}                 </td>
+            <td>{{$gasto->created_at}}                            </td>
           </tr>  
           @endforeach  
 
           @foreach($compras as $compra)
           <tr>
-            <td>{{$compra->comprobante_egreso}}</td>
+            <td>{{$compra->comprobante_egreso}}                   </td>
             <td></td>
-            <td>{{number_format($compra->valor,0,",",".")}}</td>
+            <td>{{number_format($compra->valor,0,",",".")}}       </td>
             <td></td>
             <td></td>
-            <td align="left">{{$compra->observaciones}}</td>
-            <td>{{$compra->fecha        }}</td>
-            <td>{{$compra->cartera->nombre   }}</td>
-            <td>{{$compra->created_at}}</td>
+            <td align="left">{{$compra->observaciones}}           </td>
+            <td>{{$compra->fecha        }}                        </td>
+            <td>{{$compra->cartera->nombre   }}                   </td>
+            <td>  {{  $compra->user_create->name}}                </td>
+            <td>{{$compra->created_at}}                           </td>
           </tr>  
           @endforeach  
 
           @foreach($prestamos as $prestamo)
           <tr>
-            <td>{{$prestamo->comprobante_egreso}}</td>
+            <td>{{$prestamo->comprobante_egreso}}                 </td>
             <td></td>
             <td></td>
-            <td>{{number_format($prestamo->valor,0,",",".")}}</td>
+            <td>{{number_format($prestamo->valor,0,",",".")}}     </td>
             <td></td>
-            <td align="left">{{$prestamo->observaciones}}</td>
-            <td>{{$prestamo->fecha        }}</td>
-            <td>{{$prestamo->cartera->nombre}}</td>
-            <td>{{$prestamo->created_at}}</td>
+            <td align="left">{{$prestamo->observaciones}}         </td>
+            <td>{{$prestamo->fecha        }}                      </td>
+            <td>{{$prestamo->cartera->nombre}}                    </td>
+            <td>  {{  $prestamo->user_create->name}}              </td>
+            <td>{{$prestamo->created_at}}                         </td>
           </tr>  
           @endforeach 
 
           @foreach($pago_proveedores as $pago_proveedor)
           <tr>
-            <td>{{$pago_proveedor->comprobante_egreso}}</td>
+            <td>{{$pago_proveedor->comprobante_egreso}}           </td>
             <td></td>
             <td></td>
             <td></td>
-            <td>{{number_format($pago_proveedor->valor,0,",",".")        }}</td>
-            <td align="left">{{$pago_proveedor->observaciones}}</td>
-            <td>{{$pago_proveedor->fecha        }}</td>
-            <td>{{$pago_proveedor->cartera->nombre}}</td>
-            <td>{{$pago_proveedor->created_at}}</td>
+            <td>{{number_format($pago_proveedor->valor,0,",",".")}}</td>
+            <td align="left">{{$pago_proveedor->observaciones}}   </td>
+            <td>{{$pago_proveedor->fecha        }}                </td>
+            <td>{{$pago_proveedor->cartera->nombre}}              </td>
+            <td>  {{  $pago_proveedor->user_create->name}}        </td>
+            <td>{{$pago_proveedor->created_at}}                   </td>
           </tr>  
           @endforeach 
 
@@ -318,6 +333,7 @@
             <td> </td>
             <td> </td>
             <td> </td>
+            <td></td>
             <td></td>
           </tr>
 

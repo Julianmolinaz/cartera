@@ -82,8 +82,8 @@
 </div>
 
 <div class="row">
-  <div class="col-md-3 col-sm-3 col-xs-12"></div>
-  <div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="col-md-1 col-sm-1 col-xs-12"></div>
+  <div class="col-md-4 col-sm-4 col-xs-12">
 
     <div class="panel panel-primary">
 
@@ -124,8 +124,53 @@
       </div>
       </div>
      </div> 
+     <div class="col-md-1 col-sm-1 col-xs-12"></div>
+
+  <div class="col-md-1 col-sm-1 col-xs-12"></div>
+  <div class="col-md-4 col-sm-4 col-xs-12">
+
+    <div class="panel panel-primary">
+
+      <div class="panel-heading"><h2>Totales por ciudad
+        <button id="btn_exc_total_venta_creditos" class="btn btn-warning"><b>Exportar</b></button>
+      </h2></div>
+        <div class="panel-body">
+
+        <table id="tbl_total" class="table table-striped table-bordered" style="font-size:12px">
+          <thead>
+            <tr style="background-color:#FFC300;">
+             <th>Ciudad</th>
+             <th>Centro de Costos</th>
+             <th>Valor del Crédito</th>
+             <th>Rendimiento</th>
+             <th>Saldo Total</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach($puntos as $punto)
+            <tr>
+              <td><br>{{$punto['municipio']}}</td></td>
+              <td align="right">{{number_format($punto['vlr_fin'],0,",",".")}}</td>
+              <td align="right">{{number_format($punto['vlr_credito'],0,",",".")}}</td>
+              <td align="right">{{number_format($punto['rendimiento'],0,",",".")}}</td>
+              <td align="right">{{number_format($punto['saldo'],0,",",".")}}</td>
+            </tr>
+          @endforeach 
+            <tr style="background-color:#CCCCCC;">
+              <td><b>Total</b></td>
+              <td align="right"><b>{{ number_format($total_puntos['vlr_fin'],0,",",".")}}</b></td>
+              <td align="right"><b>{{ number_format($total_puntos['vlr_credito'],0,",",".") }}</b></td>
+              <td align="right"><b>{{ number_format($total_puntos['rendimiento'],0,",",".") }}</b></td>
+              <td align="right"><b>{{ number_format($total_puntos['saldo'],0,",",".") }}</b></td>
+            </tr> 
+          </tbody>
+        </table>
+      </div>
+      </div>
+     </div> 
      <div class="col-md-3 col-sm-3 col-xs-12"></div>
     </div>
+
 
 
 <script>

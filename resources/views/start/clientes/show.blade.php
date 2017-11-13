@@ -103,9 +103,9 @@
 
         <center>
 
-          <a href="{{route('start.clientes.index')}}">
-            <button type="button" class="btn btn-default">Ir a Clientes</button>
-          </a>
+        <a href="javascript:window.history.back();">
+        <button type="button" class="btn btn-primary  ">&nbsp;&nbsp;&nbsp;&nbsp;Volver&nbsp;&nbsp;&nbsp;&nbsp;</button>
+      </a>
 
           <a href="{{route('start.estudios.create',[$cliente->id,'0', 'cliente'])}}">
             <button type="button" class="btn btn-primary">Estudio</button>

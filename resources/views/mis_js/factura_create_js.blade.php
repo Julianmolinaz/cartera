@@ -59,11 +59,18 @@ $( document ).ready(function() {
  $('#aceptar').on('click',function(){
 
 
+  if (confirm("Le recordamos que el credito esta reportado como cartera castigada, desea continuar?") == true) {
+    txt = "Si!";
+  } else {
+      txt = "No!";
+      return true;
+  }
+
   if(bandera2 == 0){ return false;}
 
   var validacion = validar();
 
-  if (validacion == true){ //valida los campos # Factura y Fecha del Genrador de pagos con true si tienen la información
+  if (validacion == true){ //valida los campos # Factura y Fecha del Generador de pagos con true si tienen la información
 
     var num_factura = $('#num_factura').val();
     var route = "{{url('start/facturas')}}/"+num_factura+"/consultar_factura";

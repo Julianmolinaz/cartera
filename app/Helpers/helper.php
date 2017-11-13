@@ -19,11 +19,11 @@ function inv_fech($input){
     $ano = substr($input,6,4);
     return ($ano.'-'.$mes.'-'.$dia);
   }
-  else{
+  else{  
     $dia = substr($input,8,2);
     $mes = substr($input,5,2);
     $ano = substr($input,0,4);
-    return ($ano.'-'.$mes.'-'.$dia);
+    return ($dia.'-'.$mes.'-'.$ano);
   }
 }
 

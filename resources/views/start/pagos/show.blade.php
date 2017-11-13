@@ -36,11 +36,9 @@
               <td> {{ $factura->user_create->name.' '.$factura->created_at }} </td>
               <td style="display:none;"> {{$factura->updated_at}}</td>
               <td>
-              <a href="{{route('start.pagos.show',$factura->id)}}" 
-                class = 'btn btn-default btn-xs'>
-                <span class = "glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" title="Ver detalle"></a>
-              <a href="{{route('start.facturas.create',$factura->credito->id)}}" class = 'btn btn-default btn-xs'>
-              <span class = "glyphicon glyphicon-usd"  data-toggle="tooltip" data-placement="top" title="Hacer pago"></a>
+              <a href="{{route('start.pagos.show',$factura->id)}}" class = 'btn btn-default btn-xs'>
+              <span class = "glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" title="Ver detalle"></span>
+              </a>
              
             </td>
           </tr>

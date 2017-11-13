@@ -46,11 +46,17 @@ class Credito extends Model
         return $this->hasMany('App\Extra');
     }
 
+    //referencia al credito origen cuando se hace refinanciación
+
     public function refinanciado(){
         return $this->hasOne('App\Credito','id','credito_refinanciado_id');
     }
 
     public function sanciones(){
         return $this->hasMany('App\Sancion');
+    }
+
+    public function credito_nuevo_refinanciado(){
+        return $this->hasOne('App\Credito','credito_refinanciado_id','id');
     }
 }

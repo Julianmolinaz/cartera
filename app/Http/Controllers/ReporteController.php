@@ -150,7 +150,9 @@ class ReporteController extends Controller
                     ->with('total_saldo',$reporte['total_saldo'])
                     ->with('rango',$reporte['rango'])
                     ->with('funcionarios',$reporte['funcionarios'])
-                    ->with('total',$reporte['total']);
+                    ->with('total',$reporte['total'])
+                    ->with('puntos',$reporte['puntos'])
+                    ->with('total_puntos',$reporte['total_puntos']);
         }
 
         //CASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADA
@@ -261,10 +263,11 @@ class ReporteController extends Controller
                          'ano_corte' => 'required'],
                         ['mes_corte.required' => 'El mes de corte es requerido',
                          'ano_corte.required' => 'El año de corte es requerido']);
+
+               // creacion fecha de corte tomando con ultimo dia del mes de corte
                 
                $fecha  = Carbon::create($request->input('ano_corte'), $request->input('mes_corte'),1 );
                $dias_mes = $fecha->daysInMonth;
-
                $fecha = Carbon::create($fecha->year,$fecha->month,$dias_mes,23,59,59);
                
 
@@ -298,9 +301,7 @@ class ReporteController extends Controller
             'users.id as id,
              users.name as nombre,
              puntos.nombre as punto,
-             SUM(facturas.total) as total
-
-             '))
+             SUM(facturas.total) as total'))
         ->where([['users.id','<>',1]])
         ->whereBetween('facturas.created_at',[$ini,$fin])
         ->groupBy('users.id')

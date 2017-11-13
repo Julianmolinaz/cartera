@@ -61,7 +61,7 @@
 
                 <div class="col-md-4 col-sm-4 col-xs-12" >
                   <label for="">Concepto:</label>
-                  <input type="text" class="form-control input-sm" placeholder="concepto" name="concepto" id="concepto" required>
+                  <input class="form-control input-sm"  type="text" name="concepto" id="concepto" required>
                 </div>
 
                <!-- monto *****-->

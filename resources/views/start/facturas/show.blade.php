@@ -48,7 +48,10 @@
               <a href="#" class = 'btn btn-default btn-xs' title="anular factura" 
                 OnClick="Anular({{$factura->id}},{{$factura->num_fact}});" data-toggle="modal" data-target="#modal">
                 <span class = "glyphicon glyphicon-fire"  ></span>
-
+              </a>
+              <a href="{{route('start.precreditos.ver',$factura->credito->precredito->id)}}" class = 'btn btn-default btn-xs'>
+                <span class = "glyphicon glyphicon-sunglasses"  data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
+              </a>
             </td>
           </tr>
 

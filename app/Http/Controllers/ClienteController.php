@@ -67,12 +67,13 @@ class ClienteController extends Controller
             'tipo_doc'                  => 'required',
             'num_doc'                   => 'required|unique:clientes',
             'fecha_nacimiento'          => 'required',
-            'direccion'                 => 'required',
+            'direccion'                 => 'required|max:60',
             'barrio'                    => 'required',
             'municipio_id'              => 'required',
             'movil'                     => 'required|numeric',
             'ocupacion'                 => 'required',
-            'tipo_actividad'            => 'required'
+            'tipo_actividad'            => 'required',
+            'email'                     => 'max:60'
             );
 
         $message_cliente = array(
@@ -83,12 +84,14 @@ class ClienteController extends Controller
            'num_doc.required'           => 'El número de documento del cliente es requerido',
            'fecha_nacimiento.required'  => "La fecha de nacimiento del cliente es requerida",
            'direccion.required'         => 'La dirección del cliente es requerida',
+           'direccion.max'              => 'La dirección del cliente excede los 60 caracteres permitidos',
            'barrio.required'            => 'El barrio del cliente es requerido',
            'municipio_id.required'      => 'El municipio del cliente es requerido' ,
            'movil.required'             => "El celular del cliente es requrido",
            'movil.numeric'              => 'El celular  del cliente debe ser numérico',
            'ocupacion.required'         => 'La ocupación del cliente es requerida',
-           'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida'
+           'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
+           'email.max'                  => 'El correo electronico del cliente excede los 60 caracteres permitidos'
             );
 
         // DATOS DE VALIDACION DEL CODEUDOR
@@ -99,12 +102,13 @@ class ClienteController extends Controller
             'tipo_docc'                 => 'required',
             'num_docc'                  => 'required',
             'fecha_nacimientoc'         => 'required',
-            'direccionc'                => 'required',
+            'direccionc'                => 'required|max:60',
             'barrioc'                   => 'required',
             'municipioc_id'             => 'required',
             'movilc'                    => 'required|numeric',
             'ocupacionc'                => 'required',
-            'tipo_actividadc'           => 'required'
+            'tipo_actividadc'           => 'required',
+            'emailc'                    => 'max:60'
             );
 
         $message_codeudor = array(
@@ -114,12 +118,14 @@ class ClienteController extends Controller
            'num_docc.required'          => 'El número de documento del codeudor es requerido',
            'fecha_nacimientoc.required' => 'La fecha de nacimiento del codeudor es requerida',
            'direccionc.required'        => 'La dirección del codeudor es requerida',
+           'direccionc.max'             => 'La dirección del codeudor excede los 60 caracteres permitidos',
            'barrioc.required'           => 'El barrio del codeudor es requerido',
            'municipioc_id.required'     => 'El municipio del codeudor es requerido',
            'movilc.required'            => 'El número celular del codeudor es requerido',
            'movil.numeric'              => 'El celular del codeudor debe ser numérico',
            'ocupacionc.required'        => 'La ocupación del codeudor es requerida',
-           'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida'
+           'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida',
+           'emailc.max'                  => 'El correo electronico del codeudor excede los 60 caracteres permitidos'
             );
 
         // SI SE ESCOGE CODEUDOR "SI"     
@@ -344,12 +350,13 @@ class ClienteController extends Controller
             'tipo_doc'                  => 'required',
             'num_doc'                   => 'required|unique:clientes,'.'id',
             'fecha_nacimiento'          => 'required',
-            'direccion'                 => 'required',
+            'direccion'                 => 'required|max:60',
             'barrio'                    => 'required',
             'municipio_id'              => 'required',
             'movil'                     => 'required|numeric',
             'ocupacion'                 => 'required',
-            'tipo_actividad'            => 'required'
+            'tipo_actividad'            => 'required',
+            'email'                     => 'max:60'
             );
 
         $message_cliente = array(
@@ -360,12 +367,14 @@ class ClienteController extends Controller
            'num_doc.required'           => 'El número de documento del cliente es requerido',
            'fecha_nacimiento.required'  => "La fecha de Nacimiento del cliente es requerida",
            'direccion.required'         => 'La dirección del cliente es requerida',
+           'direccion.max'              => 'La dirección del cliente excede los 60 caracteres permitidos',
            'barrio.required'            => 'El barrio del cliente es requerido',
            'municipio_id.required'      => 'El municipio del cliente es requerido' ,
            'movil.required'             => "El celular del cliente es requrido",
            'movil.numeric'              => 'El celular del cliente debe ser numérico',
            'ocupacion.required'         => 'La ocupación  del cliente es requerida',
-           'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida'
+           'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
+           'email.max'                  => 'El correo electronico del cliente excede los 60 caracteres permitidos'
 
             );
 
@@ -377,12 +386,13 @@ class ClienteController extends Controller
             'tipo_docc'                 => 'required',
             'num_docc'                  => 'required',
             'fecha_nacimientoc'         => 'required',
-            'direccionc'                => 'required',
+            'direccionc'                => 'required|max:60',
             'barrioc'                   => 'required',
             'municipioc_id'             => 'required',
             'movilc'                    => 'required|numeric',
             'ocupacionc'                => 'required',
-            'tipo_actividadc'           => 'required'
+            'tipo_actividadc'           => 'required',
+            'emailc'                    => 'max:60'
             );
         $message_codeudor = array(
            'primer_nombrec.required'    => 'EL primer nombre del codeudor es requerido',
@@ -392,12 +402,14 @@ class ClienteController extends Controller
            'num_doc.numeric'            => 'El número de documento del codeudor debe ser numérico',
            'fecha_nacimientoc.required' => 'La fecha de nacimiento del codeudor es requerida',
            'direccionc.required'        => 'La dirección del codeudor es requerida',
+           'direccionc.max'             => 'La dirección del codeudor excede los 60 caracteres',
            'barrioc.required'           => 'El barrio del codeudor es requerido',
            'municipioc_id.required'     => 'El municipio del codeudor es requerido',
            'movilc.required'            => 'El número celular del codeudor es requerido',
            'movil.numeric'              => 'El celular del codeudor debe ser numérico',
            'ocupacionc.required'        => 'La ocupación del codeudor es requerida',
-           'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida'
+           'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida',
+           'emailc.max'                  => 'El correo electronico del codeudor excede los 60 caracteres permitidos'
             );
 
         // $nombre ES UNA VARIABLE DONDE SE CONCATENA LOS NOMBRES Y LOS APELLIDOS DE CLIENTE

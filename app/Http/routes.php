@@ -162,6 +162,11 @@ Route::get('call/{tipo}/busqueda', 'CallcenterController@busqueda');
 
 Route::get('call/{id}/consultar','CallcenterController@consultar_credito');
 
+Route::get('call/{id}/index_unique',[
+	'uses' 	=> 'CallcenterController@index_unique',
+	'as'	=> 'call.index_unique'
+]);
+
 
 
 

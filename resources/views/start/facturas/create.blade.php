@@ -178,6 +178,10 @@
             <td colspan="2">{{number_format($pago_prejuridico['prejuridico'].$pago_prejuridico['valor'],0,",",".")}}</td>
           </tr>
           <tr>
+            <td colspan="2">Debe de cuotas parciales:</td>
+            <td colspan="2">{{number_format($total_parciales,0,",",".")}}</td>
+          </tr>  
+          <tr>
             <td colspan="2">Sanciones:</td>
             <td colspan="2" style="position:relative;">{{number_format($sum_sanciones,0,",",".") }} 
                 <select class="form-control input-sm" style="width:40%; position:absolute; top:0px; left:50%;">
