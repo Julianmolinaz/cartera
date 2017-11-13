@@ -17,7 +17,7 @@ class CreateOtrosPagosTable extends Migration
             $table->integer('factura_id')->unsigned();
             $table->integer('cartera_id')->unsigned();
             $table->string('fecha_factura');
-            $table->enum('concepto',['Gastos','Compras','Prestamos','Pago a Proveedores']);
+            $table->string('concepto');
             $table->double('valor_unitario');
             $table->double('cantidad');
             $table->double('subtotal');
