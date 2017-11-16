@@ -44,7 +44,7 @@
 // carga el listado de los criterios
   function Cargar(){
   	var route =  "{{url('admin/puntos_listall')}}";
-  	$.get(route, function(data){ 
+  	$.get(route, function(data){
   		$('#list_puntos').empty().html(data);
   	});
   }

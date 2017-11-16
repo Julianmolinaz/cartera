@@ -2,7 +2,7 @@
 
 @section('contenido')
 
-<div class="row">
+<!-- <div class="row">
 
   <div class="col-md-12 col-sm-12 col-xs-12">
 
@@ -16,7 +16,7 @@
         <div class="panel-body">
           <p>
            @include('flash::message')
-           <!--DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>-->
+          
          </p>
 
          <table id="datatable" data-order='[[ 6, "desc" ]]' class="table table-striped table-bordered">
@@ -49,8 +49,12 @@
               <td style="display:none;"> {{$user->updated_at}}</td>
 
               <td> 
-                <a href="{{route('admin.users.edit',$user->id)}}" class = 'btn btn-default btn-xs'><span class = "glyphicon glyphicon-pencil" title="Editar"></span></a> 
-                <a href="{{route('admin.users.destroy',$user->id)}}" onclick="return confirm('¿Esta seguro de eliminar el usuario?')" class = 'btn btn-default btn-xs'><span class = "glyphicon glyphicon-trash" title="Eliminar"></span></a>  
+                <a href="{{route('admin.users.edit',$user->id)}}" class = 'btn btn-default btn-xs'>
+                  <span class = "glyphicon glyphicon-pencil" title="Editar"></span>
+                </a> 
+                <a href="{{route('admin.users.destroy',$user->id)}}" onclick="return confirm('¿Esta seguro de eliminar el usuario?')" class = 'btn btn-default btn-xs'>
+                  <span class = "glyphicon glyphicon-trash" title="Eliminar"></span>
+                </a>  
               </td>
             </tr>		
 
@@ -63,7 +67,7 @@
     </div>   
   </div>
 </div>
-
+ -->
 
 
 

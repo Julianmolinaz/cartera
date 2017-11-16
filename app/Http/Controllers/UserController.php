@@ -18,6 +18,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('id','<>','1')->get();
+
+        //dd($users[0]);
         return view('admin.users.index')
             ->with('users',$users);
             

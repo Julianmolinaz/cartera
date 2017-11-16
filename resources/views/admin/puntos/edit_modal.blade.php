@@ -68,6 +68,8 @@
 <script>
 
    $('#actualizar').click(function(){ 
+
+
       var id          = $('#id').val();
       var nombre      = $('#_nombre').val();
       var direccion   = $('#_direccion').val();
@@ -76,6 +78,7 @@
       var descripcion = $('#_descripcion').val();
       var route       = "{{url('admin/puntos')}}/"+id;
       var token       = $('#token_').val();
+
           
       $.ajax({
         url: route,

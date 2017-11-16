@@ -29,11 +29,12 @@ class PuntoController extends Controller
      */
     public function listall()
     {
+
         $puntos = Punto::where('id','>',0)->orderBy('updated_at','desc')->paginate(6);
         $estados = getEnumValues('puntos', 'estado');
         $municipios = Municipio::all();
-        
 
+        
         return view('admin.puntos.list_puntos')
             ->with('puntos',$puntos)
             ->with('estados',$estados)

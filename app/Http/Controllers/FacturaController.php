@@ -38,8 +38,10 @@ class FacturaController extends Controller
 
       $pagos = Pago::all();
 
+      dd($pagos);
+
       return view('start.pagos.index')
-      ->with('pagos',$pagos);
+        ->with('pagos',$pagos);
 
     }
 

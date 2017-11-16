@@ -55,7 +55,8 @@ class Handler extends ExceptionHandler
         $error = $e->getMessage();
 
         if(substr($error,0,36) == 'Trying to get property of non-object'){
-            return redirect()->to('log');
+            dd($error);
+            //return redirect()->to('log');
         }
 
         return parent::render($request, $e);
