@@ -113,7 +113,7 @@ class FacturaController extends Controller
         $pago_prejuridico = DB::table('pagos')->where([['credito_id','=',$id],['concepto','=','Prejuridico'],['estado','=','Debe']])->get();
         
         if(count($pago_prejuridico) > 0){                    
-          $pago_prejuridico = array('prejuridico' => $pago_prejuridico[0]->debe, 'valor' => ' de '.$prejuridico[0]->valor);               
+          $pago_prejuridico = array('prejuridico' => $pago_prejuridico[0]->debe, 'valor' => $prejuridico[0]->valor);               
         }
         else{
           $pago_prejuridico = array('prejuridico' => null, 'valor' => $prejuridico[0]->valor);
@@ -134,6 +134,8 @@ class FacturaController extends Controller
       $variables = Variable::all();
       $tipo_pago  = getEnumValues('facturas','tipo');
       $total_pagos = sum_pagos($credito);
+
+//      dd($credito);
 
       return view('start.facturas.create')
         ->with('credito',$credito)

@@ -61,6 +61,7 @@ class ClienteController extends Controller
 
         // REGLAS DE VALIDACION DE LOS DATOS DEL CLIENTE
 
+
         $rules_cliente = array(
             'primer_nombre'             => 'required',
             'primer_apellido'           => 'required',
@@ -344,6 +345,7 @@ class ClienteController extends Controller
     {
         // REGLAS DE VALIDACION DE LOS DATOS CLIENTE
 
+
         $rules_cliente = array(
             'primer_nombre'             => 'required',
             'primer_apellido'           => 'required',
@@ -449,6 +451,7 @@ class ClienteController extends Controller
             if($request->input('segundo_apellidoc') != ""){
                 $nombrec = $nombrec.' '.$request->input('segundo_apellidoc');
             }
+            
 
 
            $cliente = Cliente::find($id);
@@ -511,6 +514,8 @@ class ClienteController extends Controller
             $cliente->save();
            }
            elseif($cliente->codeudor->codeudor == "si"){
+
+            dd('hola');
 
                 $codeudor                   = Codeudor::find($cliente->codeudor_id);
                 $codeudor->nombrec          = strtoupper($nombrec);

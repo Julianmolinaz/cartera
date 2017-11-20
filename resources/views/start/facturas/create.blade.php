@@ -171,11 +171,11 @@
           </tr>
           <tr>
             <td colspan="2">Jurídico: </td>
-            <td colspan="2">{{number_format($pago_juridico['juridico'].$pago_juridico['valor'],0,",",".")}}</td>
+            <td colspan="2">{{number_format($pago_juridico['juridico'],0,",",".").' de '.number_format($pago_juridico['valor'],0,",",".")}}</td>
           </tr>
           <tr>
             <td colspan="2">Prejurídico: </td>
-            <td colspan="2">{{number_format($pago_prejuridico['prejuridico'].$pago_prejuridico['valor'],0,",",".")}}</td>
+            <td colspan="2">{{number_format($pago_prejuridico['prejuridico'],0,",",".").' de '. number_format($pago_prejuridico['valor'],0,",",".")}}</td>
           </tr>
           <tr>
             <td colspan="2">Debe de cuotas parciales:</td>
