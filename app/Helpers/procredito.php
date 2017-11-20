@@ -394,7 +394,7 @@ function reporte_procredito(){
 
         //$corte = Carbon::now();
 
-        //pago_hasta es la fecha limite de ago
+        //pago_hasta es la fecha limite de pago
 
         $pago_hasta     = FechaCobro::where('credito_id',$credito->id)->get();
         $pago_hasta     = $pago_hasta[0]->fecha_pago;

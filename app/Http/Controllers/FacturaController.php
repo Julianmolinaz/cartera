@@ -36,12 +36,11 @@ class FacturaController extends Controller
     //retorna la vista de todos pagos en el sistema
     public function pagos(){
 
-      $pagos = Pago::all();
-
-      dd($pagos);
+      $pagos = Pago::cursor();
+      
 
       return view('start.pagos.index')
-        ->with('pagos',$pagos);
+      ->with('pagos',$pagos);
 
     }
 
