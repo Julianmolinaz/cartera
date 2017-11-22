@@ -313,7 +313,7 @@ class PrecreditoController extends Controller
       $ini = $request->input('p_fecha')+1;
       $fin = $request->input('s_fecha')-1;
 
-      if($request->input('s_fecha') == "" && $request->input('periodo') == 'Quincenal'){
+      if($request->input('s_fecha') == ""){
         $fin = 30;
       }
      

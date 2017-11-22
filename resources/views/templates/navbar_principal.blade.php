@@ -54,7 +54,7 @@
             <li><a href="{{route('start.pagos.inicio')}}">Hacer Pago</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="{{route('start.facturas.index')}}">Ver Facturas Créditos</a></li>
-            <li><a href="{{route('start.pagos')}}">Ver Pagos Créditos</a></li> 
+            <!-- <li><a href="{{route('start.pagos')}}">Ver Pagos Créditos</a></li>  -->
             <li><a href="{{route('start.anuladas.index')}}">Ver Facturas Anuladas</a></li> 
             <li role="separator" class="divider"></li>
             <li><a href="{{route('start.pagos.index_otros_ingresos')}}">Ver Otros Ingresos</a></li> 
