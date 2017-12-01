@@ -89,7 +89,7 @@ class FacturaController extends Controller
                           ->get();
 
         if(count($pago_juridico) > 0){                    
-          $pago_juridico = array('juridico' => $pago_juridico[0]->debe, 'valor' => ' de '.$juridico[0]->valor);               
+          $pago_juridico = array('juridico' => $pago_juridico[0]->debe, 'valor' => $juridico[0]->valor);               
         }
         else{
           $pago_juridico = array('juridico' => null, 'valor' => $juridico[0]->valor);

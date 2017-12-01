@@ -455,7 +455,11 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
 
     $total['diferencia'] = $total['ingresos'] - $total['egresos'];
     
-
+    // foreach($sanciones as $sancion){
+    //     echo $sancion->user_create;
+    //     echo '<br>';
+    // }
+    // dd('hola');
 
     $reporte = array(
                 'cuotas' => $cuotas,

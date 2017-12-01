@@ -76,7 +76,7 @@
               <td> {{ $sancion->num_fact    }} </td>
               <td> {{ $sancion->fecha       }} </td>
               <td> {{ $sancion->cartera     }} </td>
-              <td> {{ $sanciones->user_create }}</td>
+              <td> {{ $sancion->user_create }}</td>
               <td> {{ $sancion->created_at}}</td>
             </tr>
           @endforeach   

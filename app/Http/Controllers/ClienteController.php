@@ -27,9 +27,9 @@ class ClienteController extends Controller
     {  
         $clientes = Cliente::where('id', '>', 0)->orderBy('updated_at','desc')->get();
 
-
         return view('start.clientes.index')
             ->with('clientes',$clientes);
+
     }
 
     /**
@@ -39,7 +39,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        $municipios         = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
+        $municipios         = Municipio::where('id', '!=', 10)->orderBy('departamento','asc')->get();
         $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
         $tipos_documento    = getEnumValues('clientes','tipo_doc');
 
@@ -63,15 +63,17 @@ class ClienteController extends Controller
 
 
         $rules_cliente = array(
-            'primer_nombre'             => 'required',
-            'primer_apellido'           => 'required',
+            'primer_nombre'             => 'required|max:60',
+            'segundo_nombre'            => 'max:30',
+            'primer_apellido'           => 'required|max:30',
+            'segundo_apellido'          => 'max:30',
             'tipo_doc'                  => 'required',
-            'num_doc'                   => 'required|unique:clientes',
+            'num_doc'                   => 'required|max:15|unique:clientes',
             'fecha_nacimiento'          => 'required',
-            'direccion'                 => 'required|max:60',
+            'direccion'                 => 'required|max:100',
             'barrio'                    => 'required',
             'municipio_id'              => 'required',
-            'movil'                     => 'required|numeric',
+            'movil'                     => 'required|max:20',
             'ocupacion'                 => 'required',
             'tipo_actividad'            => 'required',
             'email'                     => 'max:60'
@@ -79,17 +81,23 @@ class ClienteController extends Controller
 
         $message_cliente = array(
            'primer_nombre.required'     => 'EL primer nombre del cliente es requerido',
+           'primer_nombre.max'          => 'El primer nombre del cliente excede los 60 caracteres permitidos',
+           'segundo_nombre.max'         => 'El segundo nombre del cliente excede los 30 caracteres',
            'primer_apellido.required'   => 'EL primer apellido del cliente es requerido',
+           'primer_apellido.max'        => 'El primer apellido del cliente excede los 30 caracteres permitidos',
+           'segundo_apellido.max'       => 'El segundo apellido del cliente excede los 30 caracteres permitidos',
            'tipo_doc.required'          => 'El tipo de documento  del cliente es requerido',
            'num_doc.unique'             => 'EL número de documento del cliente ya esta en uso',
+           'num_doc.max'                => 'El número de documento excede los 8 digitos permitidos',
            'num_doc.required'           => 'El número de documento del cliente es requerido',
            'fecha_nacimiento.required'  => "La fecha de nacimiento del cliente es requerida",
            'direccion.required'         => 'La dirección del cliente es requerida',
-           'direccion.max'              => 'La dirección del cliente excede los 60 caracteres permitidos',
+           'direccion.max'              => 'La dirección del cliente excede los 100 caracteres permitidos',
            'barrio.required'            => 'El barrio del cliente es requerido',
            'municipio_id.required'      => 'El municipio del cliente es requerido' ,
            'movil.required'             => "El celular del cliente es requrido",
-           'movil.numeric'              => 'El celular  del cliente debe ser numérico',
+        //    'movil.numeric'              => 'El celular  del cliente debe ser numérico',
+           'movil.max'                  => 'El número celular del cliente excede los 20 dígitos permitidos',
            'ocupacion.required'         => 'La ocupación del cliente es requerida',
            'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
            'email.max'                  => 'El correo electronico del cliente excede los 60 caracteres permitidos'
@@ -98,15 +106,17 @@ class ClienteController extends Controller
         // DATOS DE VALIDACION DEL CODEUDOR
 
         $rules_codeudor = array(
-            'primer_nombrec'            => 'required',
-            'primer_apellidoc'          => 'required',
+            'primer_nombrec'            => 'required|max:60',
+            'segundo_nombrec'           => 'max:30',
+            'primer_apellidoc'          => 'required|max:30',
+            'segundo_apellido'          => 'max:30',
             'tipo_docc'                 => 'required',
-            'num_docc'                  => 'required',
+            'num_docc'                  => 'required|max:15',
             'fecha_nacimientoc'         => 'required',
-            'direccionc'                => 'required|max:60',
+            'direccionc'                => 'required|max:100',
             'barrioc'                   => 'required',
             'municipioc_id'             => 'required',
-            'movilc'                    => 'required|numeric',
+            'movilc'                    => 'required|max:20',
             'ocupacionc'                => 'required',
             'tipo_actividadc'           => 'required',
             'emailc'                    => 'max:60'
@@ -114,19 +124,25 @@ class ClienteController extends Controller
 
         $message_codeudor = array(
            'primer_nombrec.required'    => 'EL primer nombre del codeudor es requerido',
+           'primer_nombrec.max'         => 'El primer nombre del codeudor excede los 60 caracteres permitidos',
+           'segundo_nombrec'            => 'El segundo nombre del codeudor excede los 30 caracteres permitidos',
            'primer_apellidoc.required'  => 'El primer apellido del codeudor es requerido',
+           'primer_apellido.max'        => 'El primer apellido del codeudor excede los 30 caracteres',
+           'segundo_apellido.max'       => 'El segundo apellido del codeudor excede los 30 caracteres',
            'tipo_docc.required'         => 'El tipo de documento del codeudor es requerido',    
            'num_docc.required'          => 'El número de documento del codeudor es requerido',
+           'num_docc.max'               => 'El número de documento del codeudor excede los 8 digitos permitidos',
            'fecha_nacimientoc.required' => 'La fecha de nacimiento del codeudor es requerida',
            'direccionc.required'        => 'La dirección del codeudor es requerida',
-           'direccionc.max'             => 'La dirección del codeudor excede los 60 caracteres permitidos',
+           'direccionc.max'             => 'La dirección del codeudor excede los 100 caracteres permitidos',
            'barrioc.required'           => 'El barrio del codeudor es requerido',
            'municipioc_id.required'     => 'El municipio del codeudor es requerido',
            'movilc.required'            => 'El número celular del codeudor es requerido',
-           'movil.numeric'              => 'El celular del codeudor debe ser numérico',
+        //    'movilc.numeric'             => 'El celular del codeudor debe ser numérico',
+           'movilc.max'                 => 'El número celular del codeudor excede los 20 dígitos permitidos',  
            'ocupacionc.required'        => 'La ocupación del codeudor es requerida',
            'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida',
-           'emailc.max'                  => 'El correo electronico del codeudor excede los 60 caracteres permitidos'
+           'emailc.max'                 => 'El correo electronico del codeudor excede los 60 caracteres permitidos'
             );
 
         // SI SE ESCOGE CODEUDOR "SI"     
@@ -345,17 +361,18 @@ class ClienteController extends Controller
     {
         // REGLAS DE VALIDACION DE LOS DATOS CLIENTE
 
-
         $rules_cliente = array(
-            'primer_nombre'             => 'required',
-            'primer_apellido'           => 'required',
+            'primer_nombre'             => 'required|max:60',
+            'segundo_nombre'            => 'max:30',
+            'primer_apellido'           => 'required|max:30',
+            'segundo_apellido'          => 'max:30',
             'tipo_doc'                  => 'required',
-            'num_doc'                   => 'required|unique:clientes,'.'id',
+            'num_doc'                   => 'required|max:15|unique:clientes,'.'id',
             'fecha_nacimiento'          => 'required',
-            'direccion'                 => 'required|max:60',
+            'direccion'                 => 'required|max:100',
             'barrio'                    => 'required',
             'municipio_id'              => 'required',
-            'movil'                     => 'required|numeric',
+            'movil'                     => 'required|max:20',
             'ocupacion'                 => 'required',
             'tipo_actividad'            => 'required',
             'email'                     => 'max:60'
@@ -363,17 +380,22 @@ class ClienteController extends Controller
 
         $message_cliente = array(
            'primer_nombre.required'     => 'EL primer nombre del cliente es requerido',
+           'primer_nombre.max'          => 'El primer nombre del cliente excede los 60 caracteres permitidos',
+           'segundo_nombre.max'         => 'El segundo nombre del cliente excede los 30 caracteres permitidos',
            'primer_apellido.required'   => 'El primer apellido del cliente es requerido',
+           'primer_apellido.max'        => 'El primer apellido del cliente excede los 30 caracteres permitidos',
+           'segundo_apellido.max'       => 'El segundo apellido del cliente excede los 30 caracteres permitidos',
            'tipo_doc.required'          => 'El tipo de documento del cliente es requerido',
            'num_doc.unique'             => 'EL número de documento del cliente ya esta en uso',
            'num_doc.required'           => 'El número de documento del cliente es requerido',
+           'num_doc.max'                => 'El número de documento del cliente excede los 8 caracteres permitidos',
            'fecha_nacimiento.required'  => "La fecha de Nacimiento del cliente es requerida",
            'direccion.required'         => 'La dirección del cliente es requerida',
-           'direccion.max'              => 'La dirección del cliente excede los 60 caracteres permitidos',
+           'direccion.max'              => 'La dirección del cliente excede los 100 caracteres permitidos',
            'barrio.required'            => 'El barrio del cliente es requerido',
            'municipio_id.required'      => 'El municipio del cliente es requerido' ,
            'movil.required'             => "El celular del cliente es requrido",
-           'movil.numeric'              => 'El celular del cliente debe ser numérico',
+           'movil.max'                  => 'El número celular del cliente excede los 20 dígitos',
            'ocupacion.required'         => 'La ocupación  del cliente es requerida',
            'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
            'email.max'                  => 'El correo electronico del cliente excede los 60 caracteres permitidos'
@@ -383,35 +405,42 @@ class ClienteController extends Controller
         // REGLAS DE VALIDACION DE LOS DATOS CODEUDOR
 
         $rules_codeudor = array(
-            'primer_nombrec'            => 'required',
-            'primer_apellidoc'          => 'required',
+            'primer_nombrec'            => 'required|max:60',
+            'segundo_nombrec'           => 'max:30',
+            'primer_apellidoc'          => 'required|max:30',
+            'segundo_apellidoc'         => 'max:30',    
             'tipo_docc'                 => 'required',
-            'num_docc'                  => 'required',
+            'num_docc'                  => 'required|max:15',
             'fecha_nacimientoc'         => 'required',
-            'direccionc'                => 'required|max:60',
+            'direccionc'                => 'required|max:100',
             'barrioc'                   => 'required',
             'municipioc_id'             => 'required',
-            'movilc'                    => 'required|numeric',
+            'movilc'                    => 'required|max:20',
             'ocupacionc'                => 'required',
             'tipo_actividadc'           => 'required',
             'emailc'                    => 'max:60'
             );
         $message_codeudor = array(
-           'primer_nombrec.required'    => 'EL primer nombre del codeudor es requerido',
+           'primer_nombrec.required'    => 'El primer nombre del codeudor es requerido',
+           'primer_nombrec.max'         => 'El primer nombre del codeudor excede los 60 caracteres permitidos',
+           'segundo_nombrec.max'        => 'El segundo nombre del codeudor excede los 30 caracteres permitidos',
            'primer_apellidoc.required'  => 'El primer apellido del codeudor es requerido',
+           'primer_apellidoc.max'       => 'El primer apellido del codeudor excede los 30 caracteres permitidos',
+           'segundo_apellidoc.max'      => 'El segundo apellido del codeudor excede los 30 caracteres permitidos',
            'tipo_docc.required'         => 'El tipo de documento del codeudor es requerido',    
            'num_docc.required'          => 'El número de documento del codeudor es requerido',
-           'num_doc.numeric'            => 'El número de documento del codeudor debe ser numérico',
+           'num_docc.max'               => 'El numero de documento del codeudor excede los 8 digitos permitidos',
            'fecha_nacimientoc.required' => 'La fecha de nacimiento del codeudor es requerida',
            'direccionc.required'        => 'La dirección del codeudor es requerida',
-           'direccionc.max'             => 'La dirección del codeudor excede los 60 caracteres',
+           'direccionc.max'             => 'La dirección del codeudor excede los 100 caracteres',
            'barrioc.required'           => 'El barrio del codeudor es requerido',
            'municipioc_id.required'     => 'El municipio del codeudor es requerido',
            'movilc.required'            => 'El número celular del codeudor es requerido',
-           'movil.numeric'              => 'El celular del codeudor debe ser numérico',
+        //    'movilc.numeric'              => 'El celular del codeudor debe ser numérico',
+           'movilc.max'                  => 'El número celular del codeudor excede los 20 dígitos',
            'ocupacionc.required'        => 'La ocupación del codeudor es requerida',
            'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida',
-           'emailc.max'                  => 'El correo electronico del codeudor excede los 60 caracteres permitidos'
+           'emailc.max'                 => 'El correo electronico del codeudor excede los 60 caracteres permitidos'
             );
 
         // $nombre ES UNA VARIABLE DONDE SE CONCATENA LOS NOMBRES Y LOS APELLIDOS DE CLIENTE
@@ -514,8 +543,6 @@ class ClienteController extends Controller
             $cliente->save();
            }
            elseif($cliente->codeudor->codeudor == "si"){
-
-            dd('hola');
 
                 $codeudor                   = Codeudor::find($cliente->codeudor_id);
                 $codeudor->nombrec          = strtoupper($nombrec);
