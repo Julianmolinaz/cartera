@@ -50,18 +50,18 @@
           <tr>
               <td style="display:none;"> {{$cliente->updated_at}}</td>
               <td>{{$fila++}}</td>
-          		<td> {{ $cliente->id }}    </td>
-          		<td> {{ $cliente->nombre}} </td>
-          		<td> {{ $cliente->num_doc}}</td>
-              <td> {{ $cliente->fecha_nacimiento}}</td>
-              <td> {{ $cliente->movil.' - '.$cliente->fijo}}</td>
-<!--           		<td> {{ $cliente->municipio->nombre .' ('.$cliente->municipio->departamento.')' }}</td> -->
-              <td> {{ $cliente->codeudor->nombrec }}</td>
-              <td> {{ $cliente->codeudor->movilc.' - '.$cliente->codeudor->fijoc}}</td>
-              <td> <small>{{ $cliente->user_create->name.' '.$cliente->created_at}}</small></td>
+          		<td> {{ $cliente->id}}    </td>
+          		<td> {{ $cliente->nombre }} </td>
+          		<td> {{ $cliente->num_doc }}</td>
+              <td> {{ $cliente->fecha_nacimiento }}</td>
+              <td> {{ $cliente->movil .' - '.$cliente->fijo }}</td>
+              <td> {{ $cliente->codeudor  }}</td>
+              <td>{{ $cliente->movilc .' - '.$cliente->fijoc }}</td>
+
+              <td> <small>{{ $cliente->user_create .' '.$cliente->created_at }}</small></td>
 
 
-          		<td>
+              <td>
               <a href="{{route('start.clientes.show',$cliente->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver"><span class = "glyphicon glyphicon-eye-open"  ></a>
               <a href="{{route('start.clientes.edit',$cliente->id)}}" class = 'btn btn-default btn-xs'  data-toggle="tooltip" data-placement="top" title="Editar"><span class = "glyphicon glyphicon-pencil"></a>
               <a href="{{route('start.clientes.destroy',$cliente->id)}}" onclick="return confirm('¿Esta seguro de eliminar el usuario?')" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Eliminar"><span class = "glyphicon glyphicon-trash" ></a>

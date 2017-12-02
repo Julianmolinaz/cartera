@@ -25,17 +25,59 @@ class CreditoController extends Controller
      */
     public function index()
     {        
-        $creditos = DB::table('creditos')
-                        ->whereIn('estado',['Al dia','Mora','Prejuridico','Juridico'])
-                        ->orderBy('updated_at','desc')
-                        ->get();
+        $creditos = 
+        DB::table('creditos')
+            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id','=','carteras.id')
+            ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->join('users','creditos.user_create_id','=','users.id')
+            ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
+            ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+            //->where('clientes.num_doc',11111111111)
+            ->select(DB::raw('
+                creditos.id as id,
+                creditos.created_at as created_at,
+                creditos.updated_at as updated_at,
+                creditos.estado as estado,
+                precreditos.fecha as precredito_fecha,
+                carteras.nombre as cartera,
+                clientes.id as cliente_id,
+                clientes.nombre as cliente,
+                clientes.num_doc as doc,
+                precreditos.periodo as periodo,
+                creditos.saldo as saldo,
+                users.name as user_create,
+                precreditos.id as precredito_id,
+                precreditos.fecha as fecha,
+                fecha_cobros.fecha_pago as fecha_pago,
+                null as sanciones
+            '))
+            ->orderBy('creditos.updated_at','desc')
+            ->get();
 
-        $ids = array();
-        foreach($creditos as $credito){
-          array_push($ids,$credito->id);
-        }
+  
+            
+            $creditos_array = [];
+           
+            foreach($creditos as $credito){
+              $sanciones = 
+              DB::table('sanciones')
+                ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
+                ->count();
 
-        $creditos = Credito::find($ids);
+              $credito->sanciones = $sanciones;
+
+              }
+
+
+
+        // $ids = array();
+        // foreach($creditos as $credito){
+        //   array_push($ids,$credito->id);
+        // }
+
+        // $creditos = Credito::find($ids);
+
 
         return view('start.creditos.index')
           ->with('creditos',$creditos);

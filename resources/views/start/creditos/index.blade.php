@@ -1,4 +1,4 @@
-@section('title','Creditos')
+  @section('title','Creditos')
 @section('contenido')
 
 <div class="row">
@@ -21,19 +21,18 @@
           <tr  style="background-color:#FFC300;">
             <th style="display:none;">    Actualizacion  </th>
             <th> <small>   Credito id </small> </th>
-            <th>    Factura       </th>
             <th>    Cartera       </th>
             <th>    Fecha Creación</th>
             <th>    Cliente       </th>
             <th>    Documento     </th>
             <th>    Estado        </th>
-            <th>    Dias en mora  </th>
-            <th>    Refinanciación</th>
-            <th>    Cuotas        </th>
+            <th> Días mora</th>
+  
+
+
             <th>    Saldo         </th>
-            <th>    Fecha de pago </th>
+
             <th>    Pago hasta    </th>
-            <th>    Observaciones </th>
             <th>    Creó          </th>
             <th>    Acciones      </th>
           </tr>
@@ -48,11 +47,11 @@
               @endif    
               <td style="display:none;"> {{$credito->updated_at}}</td>
               <td> {{$credito->id}}          </td>
-              <td> {{$credito->precredito->num_fact}}    </td>
-              <td> {{$credito->precredito->cartera->nombre}}</td>
-              <td> {{$credito->precredito->fecha}}       </td>
-              <td> {{$credito->precredito->cliente->nombre}}</td>
-              <td> {{$credito->precredito->cliente->num_doc}}</td>
+
+              <td> {{$credito->cartera}}</td>
+              <td> {{$credito->fecha}}       </td>
+              <td> {{$credito->cliente}}</td>
+              <td> {{$credito->doc}}</td>
 
               <td>
                 @if($credito->estado == 'Al dia')
@@ -76,36 +75,19 @@
                 @endif
 
               </td>
-
-              <?php
-                if(count($credito->sanciones) >= 1 ){
-                  $sanciones = 0;
-                  foreach($credito->sanciones as $sancion){
-                    if($sancion->estado == 'Debe'){
-                      $sanciones++;
-                    }
-                  }
-                  echo "<td>".$sanciones."</td>"; 
-                }   
-                else{
-                  echo "<td>0</td>";
-                }        
-
-              ?>
-
-              <td> {{ $credito->refinanciacion }} </td>
-              <td> {{$credito->cuotas_faltantes.' de '.$credito->precredito->cuotas.' '.$credito->precredito->periodo.' * '.number_format($credito->precredito->vlr_cuota,0,",",".")}}</td>
+              <td>{{$credito->sanciones}}</td>
+             
               <td align="right"> {{number_format($credito->saldo,0,",",".")}}</td>
-              <td> {{$credito->precredito->p_fecha.'-'.$credito->precredito->s_fecha }} </td>
-              <td> {{ $credito->fecha_pago->fecha_pago}}</td>
-              <td> {{$credito->precredito->observaciones}}</td>
-              <td> <small>{{$credito->user_create->name.' ('.$credito->created_at.')'}}</small></td>
+              
+              <td>{{ $credito->fecha_pago }} </td>
+ 
+              <td> <small>{{$credito->user_create.' ('.$credito->created_at.')'}}</small></td>
 
               <td>
-                <a href="{{route('start.precreditos.ver',$credito->precredito->id)}}"
+                <a href="{{route('start.precreditos.ver',$credito->precredito_id)}}"
                   class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver crédito"><span class = "glyphicon glyphicon-eye-open" ></span></a>
 
-                <a href="{{route('start.clientes.show',$credito->precredito->cliente_id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver cliente"><span class = "glyphicon glyphicon-user" ></span></a>
+                <a href="{{route('start.clientes.show',$credito->cliente_id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver cliente"><span class = "glyphicon glyphicon-user" ></span></a>
 
                 <a href="{{route('start.facturas.create',$credito->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Hacer pagos"><span class = "glyphicon glyphicon-usd" ></span></a>
 

@@ -25,10 +25,51 @@ class ClienteController extends Controller
      */
     public function index()
     {  
-        $clientes = Cliente::where('id', '>', 0)->orderBy('updated_at','desc')->get();
+        $clientes_qwery = 
+        DB::table('clientes')
+            ->join('codeudores','clientes.codeudor_id','=','codeudores.id')
+            ->join('users','clientes.user_create_id','=','users.id')
+            ->select('clientes.id as id',
+                     'clientes.nombre as nombre',
+                     'clientes.num_doc as num_doc',
+                     'clientes.fecha_nacimiento as fecha_nacimiento',
+                     'clientes.movil as movil',
+                     'clientes.fijo as fijo',
+                     'codeudores.nombrec as codeudor',
+                     'codeudores.movilc as movilc',
+                     'codeudores.fijoc as fijoc',
+                     'users.name as user_create',
+                     'clientes.created_at as created_at',
+                     'clientes.updated_at as updated_at')
+            ->get();
 
+        //  dd($clientes_qwery);   
+
+        // $clientes_obj = Cliente::where('id', '>', 0)->orderBy('updated_at','desc')->get();
+
+        // $clientes = array();
+
+        // foreach($clientes_obj as $cliente){
+        //     $temp = array(
+        //         'id'                => $cliente->id,
+        //         'nombre'            => $cliente->nombre,
+        //         'num_doc'           => $cliente->num_doc,
+        //         'fecha_nacimiento'  => $cliente->fecha_nacimiento,
+        //         'movil'             => $cliente->movil,
+        //         'fijo'              => $cliente->fijo,
+        //         'codeudor'          => $cliente->codeudor->nombrec,
+        //         'movilc'            => $cliente->codeudor->movilc,
+        //         'fijoc'             => $cliente->codeudor->fijoc,
+        //         'user_create'       => $cliente->user_create->name,
+        //         'created_at'        => $cliente->created_at->toDateString(),
+        //         'updated_at'        => $cliente->updated_at->toDateString(),
+        //     );
+        //     array_push($clientes,$temp);
+        // }
+
+        //dd($clientes);
         return view('start.clientes.index')
-            ->with('clientes',$clientes);
+            ->with('clientes',$clientes_qwery);
 
     }
 
