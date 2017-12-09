@@ -152,22 +152,22 @@
                 <td>
                   @if($credito->estado == 'Al dia')
 
-                    <spam class="label label-primary">={{$credito->estado}}</spam>
+                    <spam class="label label-primary">{{$credito->estado}}</spam>
 
                   @elseif($credito->estado == 'Mora')
                   
-                    <spam class="label label-danger">={{$credito->estado}}<spam>  
+                    <spam class="label label-danger">{{$credito->estado}}<spam>  
 
                   @elseif($credito->estado == 'Prejuridico')
 
-                    <spam class="label label-success">={{$credito->estado}}</spam>
+                    <spam class="label label-success">{{$credito->estado}}</spam>
 
                   @elseif($credito->estado == 'Juridico')
 
-                    <spam class="label label-info">={{$credito->estado}}</spam>
+                    <spam class="label label-info">{{$credito->estado}}</spam>
 
                   @else
-                    <spam class="label label-warning">={{$credito->estado}}</spam>
+                    <spam class="label label-warning">{{$credito->estado}}</spam>
                   @endif
 
                 </td>
