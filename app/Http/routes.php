@@ -136,18 +136,31 @@ Route::post('start/creditos/crear_refinanciacion',[
 	'uses' => 'CreditoController@crear_refinanciacion',
 	'as'   => 'start/creditos/crear_refinanciacion'
 	]);
-
+//LISTAR CREDITOS CANCELADOS
 Route::get('start/creditos/cancelados',[
 	'uses' => 'CreditoController@cancelados',
 	'as'   => 'start.creditos.cancelados'	
 ]);
+//EXPORTAR TODOS LOS CREDITOS
+Route::get('start/creditos/exportar_todo',[
+	'uses'	=> 'CreditoController@ExportarTodo',
+	'as'	=> 'start.creditos.exportar_todo'
+	]);
 
 
 //CALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTER
 
-//CALLCENTER LISTAR
+//CALLCENTER LISTAR TODOS LOS CREDITOS
 Route::get('call',
 	['uses' => 'CallcenterController@index','as'=> 'call.index']);
+
+//CALLCENTER LISTAR TODOS LOS MOROSOS
+Route::get('call/morosos',
+	['uses' => 'CallcenterController@list_morosos','as'=> 'call.morosos']);
+
+//CALLCENTER LISTAR TODOS LOS AGENDADOS
+Route::get('call/agendados',
+	['uses' => 'CallcenterController@list_agendados','as'=> 'call.agendados']);
 
 //CALLCENTER VER
 Route::get('call/{call}',
@@ -167,7 +180,10 @@ Route::get('call/{id}/index_unique',[
 	'as'	=> 'call.index_unique'
 ]);
 
-
+Route::get('call/exportar/todo',[
+	'uses'	=> 'CallcenterController@ExportarTodo',
+	'as'	=> 'call.exportar.todo'
+	]);
 
 
 
@@ -354,6 +370,9 @@ Route::get('admin/carteras/{id}/destroy',[
 
 
 Route::resource('log','LogController');
+
+
+
 Route::get('logout',[
 	'uses'	=> 'LogController@logout',
 	'as'	=> 'logout'

@@ -33,7 +33,9 @@
             <li><a href="{{route('start.clientes.index')}}">Ver Clientes</a></li>
             <li><a href="{{route('start.clientes.create')}}">Crear Cliente</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="{{route('call.index')}}">CallCenter</a></li>
+            <li><a href="{{route('call.index')}}">CallCenter Todos</a></li>
+            <li><a href="{{route('call.morosos')}}">CallCenter Morosos</a></li>
+            <li><a href="{{route('call.agendados')}}">CallCenter Agendados</a></li>
           </ul>
         </li>
 

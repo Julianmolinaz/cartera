@@ -15,73 +15,89 @@ use App\Cartera;
 use App\Cliente;
 use App\FechaCobro;
 use App\Castigada;
+use Carbon\Carbon;
+use App\Repositories\CreditoRepository;
+use Excel;
 use DB;
 use Auth;
 
 class CreditoController extends Controller
 {
-    /**
-     * @return Listado de creditos
-     */
+    protected $creditos;
+
+    public function __construct(CreditoRepository $creditos){
+      $this->creditos = $creditos;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | index
+    |--------------------------------------------------------------------------
+    | 
+    | Return: listado de creditos en estado:
+    | Al dia, Mora, Prejuridico, Juridico
+    | 
+    */
+
+
     public function index()
     {        
-        $creditos = 
-        DB::table('creditos')
-            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-            ->join('carteras','precreditos.cartera_id','=','carteras.id')
-            ->join('clientes','precreditos.cliente_id','=','clientes.id')
-            ->join('users','creditos.user_create_id','=','users.id')
-            ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
-            ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
-            //->where('clientes.num_doc',11111111111)
-            ->select(DB::raw('
-                creditos.id as id,
-                creditos.created_at as created_at,
-                creditos.updated_at as updated_at,
-                creditos.estado as estado,
-                precreditos.fecha as precredito_fecha,
-                carteras.nombre as cartera,
-                clientes.id as cliente_id,
-                clientes.nombre as cliente,
-                clientes.num_doc as doc,
-                precreditos.periodo as periodo,
-                creditos.saldo as saldo,
-                users.name as user_create,
-                precreditos.id as precredito_id,
-                precreditos.fecha as fecha,
-                fecha_cobros.fecha_pago as fecha_pago,
-                null as sanciones
-            '))
-            ->orderBy('creditos.updated_at','desc')
-            ->get();
+      $creditos = 
+      DB::table('creditos')
+          ->join('precreditos','creditos.precredito_id',  '=',  'precreditos.id')
+          ->join('carteras'   ,'precreditos.cartera_id',  '=',  'carteras.id')
+          ->join('clientes'   ,'precreditos.cliente_id',  '=',  'clientes.id')
+          ->join('users'      ,'creditos.user_create_id', '=',  'users.id')
+          ->join('fecha_cobros','creditos.id',            '=',  'fecha_cobros.credito_id')
+          ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+          ->select(DB::raw('
+              creditos.id         as id,
+              creditos.created_at as created_at,
+              creditos.updated_at as updated_at,
+              creditos.estado     as estado,
+              precreditos.fecha   as precredito_fecha,
+              carteras.nombre     as cartera,
+              clientes.id         as cliente_id,
+              clientes.nombre     as cliente,
+              clientes.num_doc    as doc,
+              precreditos.periodo as periodo,
+              creditos.saldo      as saldo,
+              users.name          as user_create,
+              precreditos.id      as precredito_id,
+              precreditos.fecha   as fecha,
+              fecha_cobros.fecha_pago as fecha_pago,
+              null                as sanciones
+          '))
+          ->orderBy('creditos.updated_at','desc')
+          ->paginate(500);
+          
+          $creditos_array = [];
+          
+          //asignación numero de sanciones diarias
+          
+          foreach($creditos as $credito){
+            $sanciones = 
+            DB::table('sanciones')
+              ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
+              ->count();
 
-  
-            
-            $creditos_array = [];
-           
-            foreach($creditos as $credito){
-              $sanciones = 
-              DB::table('sanciones')
-                ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
-                ->count();
+            $credito->sanciones = $sanciones;
 
-              $credito->sanciones = $sanciones;
-
-              }
-
-
-
-        // $ids = array();
-        // foreach($creditos as $credito){
-        //   array_push($ids,$credito->id);
-        // }
-
-        // $creditos = Credito::find($ids);
-
+          }
 
         return view('start.creditos.index')
           ->with('creditos',$creditos);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | cancelados
+    |--------------------------------------------------------------------------
+    | 
+    | Return: listado de creditos en estado "Cancelado" y "Cancelado por refinanciación"
+    | 
+    */
+
 
     public function cancelados()
     {        
@@ -101,11 +117,15 @@ class CreditoController extends Controller
           ->with('creditos',$creditos);
     }
 
-    /**
-     * @ FUNCION: CREAR CREDITO
-     * @ RECIBE EL ID DE UN PRECREDITO (SOLICITUD)
-     * @return UN NUEVO CREDITO ASOCIADO AL PRECREDTITO (SOLICITUD)
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | create
+    |--------------------------------------------------------------------------
+    | RECIBE EL ID DE UN PRECREDITO (SOLICITUD)
+    | RETORNA UN NUEVO CREDITO ASOCIADO AL PRECREDTITO (SOLICITUD)
+    | 
+    */
+
     public function create($id)
     {
        $precredito = Precredito::find($id);
@@ -173,69 +193,56 @@ class CreditoController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request){}
+    public function show($id){}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | edit
+    |--------------------------------------------------------------------------
+    | 
+    | recibe el id de un crédito
+    | retorna toda la información relacionada a un crédito
+    |
+    */
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  recibe id de un crédito
-     * @return vista de edición del credito
-     */
     public function edit($id)
     {  
       
-        $credito      = Credito::find($id);
-        $productos    = Producto::all();
-        $variables    = Variable::find(1);
-        $users        = User::all();
-        $carteras     = Cartera::all();
-        $f            = FechaCobro::where('credito_id',$id)->get()[0]->fecha_pago;
-        $fecha_de_pago= formatoFecha(dia($f), mes($f), ano($f));
-        $estados_credito = getEnumValues('creditos', 'estado');
-        unset($estados_credito['Cancelado por refinanciacion']);
-        $calificaciones = getEnumValues('clientes', 'calificacion'); 
+      $credito        = Credito::find($id);
+      $productos      = Producto::all();
+      $variables      = Variable::find(1);
+      $users          = User::all();
+      $carteras       = Cartera::all();
+      $f              = FechaCobro::where('credito_id',$id)->get()[0]->fecha_pago;
+      $fecha_de_pago  = formatoFecha(dia($f), mes($f), ano($f));
+      $estados_credito= getEnumValues('creditos', 'estado');
+      unset($estados_credito['Cancelado por refinanciacion']);
+      $calificaciones = getEnumValues('clientes', 'calificacion'); 
 
-        return view('start.creditos.edit')
-          ->with('credito',$credito)
-          ->with('productos',$productos)
-          ->with('variables',$variables)
-          ->with('users',$users)
-          ->with('carteras',$carteras)
-          ->with('estados_credito',$estados_credito)
-          ->with('fecha_de_pago',$fecha_de_pago)
-          ->with('calificaciones',$calificaciones);
+      return view('start.creditos.edit')
+        ->with('credito',$credito)
+        ->with('productos',$productos)
+        ->with('variables',$variables)
+        ->with('users',$users)
+        ->with('carteras',$carteras)
+        ->with('estados_credito',$estados_credito)
+        ->with('fecha_de_pago',$fecha_de_pago)
+        ->with('calificaciones',$calificaciones);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | update
+    |--------------------------------------------------------------------------
+    | 
+    | recibe el request del credito y el id del crédito
+    | retorna un credito modificado 
+    |
+    */
+
     public function update(Request $request, $id)
     {
-
       // valida que p_fecha sea menor que s_fecha
 
       $ini = $request->input('p_fecha')+1;
@@ -247,15 +254,15 @@ class CreditoController extends Controller
 
       if($request->input('periodo') == 'Quincenal'){
         $rule_s_fecha_quincena = 'required|integer|between:'.$ini.',30';
-      }else {
+      }
+      else {
         $rule_s_fecha_quincena = 'between:0,30';
       }
 
       // reglas de validacion del formulario
         if($request->input('periodo') == 'Quincenal'){
-            $this->validate($request,
-                            ['s_fecha' => 'required'],
-                            ['s_fecha.required' => 'La Fecha 2 es requerida.']);
+            $this->validate($request, ['s_fecha' => 'required'],
+                                      ['s_fecha.required' => 'La Fecha 2 es requerida.']);
         }  
 
         $rules_fijos = array(
@@ -365,23 +372,23 @@ class CreditoController extends Controller
           return redirect()->route('start.creditos.index');         
 
         }
-            
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
-    // castigar valida si se quiere castigar cartera para crear un registro en la tabla castigadas
-    // con el saldo a la fecha y la referencia al respectivo credito, si no se va a castigar no sucede nada
-    // recibe un objeto credito y el atributo castigada que puede ser si o no.
+    }
+    /*
+    |--------------------------------------------------------------------------
+    | destroy
+    |--------------------------------------------------------------------------
+    | 
+    | castigar valida si se quiere castigar cartera para crear un registro en la 
+    | tabla castigadas  con el saldo a la fecha y la referencia al respectivo credito, 
+    | si no se va a castigar no sucede nada, recibe un objeto credito y el atributo 
+    | castigada que puede ser si o no.
+    |
+    | recibe un objeto credito ($credito), un si o no para castigada ($castigada_in),
+    |  como estaba la castigada anteriormente ($anterior)
+    |
+    */
 
     private function castigar($credito, $castigada_in, $anterior){ 
 
@@ -414,6 +421,106 @@ class CreditoController extends Controller
       }
 
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ExportarTodo
+    |--------------------------------------------------------------------------
+    | 
+    | retorna un excel con toda la información relacionada de un crédito en estado
+    | Al dia, Mora. Juridico, Prejuridico, Cancelado
+    |
+    */
+
+    // retorna un archivo excel con el listado de todos los creditos activos
+
+    function ExportarTodo(){
+
+      try{
+        $fecha = Carbon::now();
+        $fecha = fecha_plana($fecha->toDateTimeString());
+
+        Excel::create('creditos'.$fecha,function($excel){
+          $excel->sheet('Sheetname',function($sheet){
+
+            $creditos = $this->creditos->creditosQuery();
+            $array_creditos = [];
+
+            $header = ['id','cartera','producto','fecha_aprobacion','estado',
+                        'sanciones','tipo de mora','cuotas_faltantes','centro_costo',
+                        'valor_credito','periodo','cuotas','p_fecha', 's_fecha','inicial',
+                        'funcionario', 'observaciones','castigada','refinanciacion','credito_padre',
+                        'pago_hasta','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido',
+                        'documento'    
+                    ];
+            array_push($array_creditos,$header);
+
+            foreach($creditos as $credito){
+              $sanciones = 
+                DB::table('sanciones')
+                  ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
+                  ->count();
+
+              if($sanciones > 0 && $sanciones <= 30){
+                $tipo_moroso = 'Morosos ideales';
+              }
+              elseif($sanciones > 30 && $sanciones <= 90){
+                  $tipo_moroso = 'Morosos alerta';
+              }
+              elseif($sanciones > 90){
+                  $tipo_moroso = 'Morosos crìticos';
+              }
+              else{
+                  $tipo_moroso = 'No moroso';
+              }
+
+              $temp = [
+                'id'                => $credito->id,
+                'cartera'           => $credito->cartera,
+                'producto'          => $credito->producto,
+                'fecha_aprobacion'  => $credito->fecha_aprobacion,
+                'estado'            => $credito->estado,
+                'sanciones'         => $sanciones,
+                'tipo de mora'      => $tipo_moroso,  
+                'cuotas_faltantes'  => $credito->cuotas_faltantes,
+                'centro_costo'      => $credito->centro_costo,
+                'valor_credito'     => $credito->valor_credito,
+                'periodo'           => $credito->periodo,
+                'cuotas'            => $credito->cuotas,
+                'p_fecha'           => $credito->p_fecha,
+                's_fecha'           => $credito->s_fecha,
+                'inicial'           => $credito->inicial,
+                'funcionario'       => $credito->funcionario,
+                'observaciones'     => $credito->observaciones,
+                'castigada'         => $credito->castigada,
+                'refinanciacion'    => $credito->refinanciacion,
+                'credito_padre'     => $credito->credito_padre,
+                'pago_hasta'        => $credito->pago_hasta,
+                'primer_nombre'     => $credito->primer_nombre,
+                'segundo_nombre'    => $credito->segundo_nombre,
+                'primer_apellido'   => $credito->primer_apellido,
+                'segundo_apellido'  => $credito->segundo_apellido,
+                'documento'         => $credito->documento
+              ];
+
+
+              array_push($array_creditos, $temp);
+          }  
+
+
+            $sheet->fromArray($array_creditos,null,'A1',false,false);
+          });
+      })->download('xls');
+
+    }//end try
+    catch(\Exception $e){
+      dd('Error <br>*<br>*<br>'.$e);
+    }
+          
+    }
+
+
+
 
     function refinanciar($id){
 

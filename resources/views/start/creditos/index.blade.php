@@ -5,36 +5,39 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="panel panel-primary">
     <div class="panel-heading"><h2>Créditos
-    <a href="#" class = 'btn btn-default btn-xs' OnClick="alert('Ayuda');" data-toggle="tooltip" data-placement="top" title="Ayuda">
-                <span class = "glyphicon glyphicon-question-sign" ></span>
-              </a> 
-      <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button>
+
+
+      <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="ExportarTodo();">
+        Exportar todos los créditos xls
+      </button>
+
+      <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">
+        Exportar vista xls
+      </button>
+
+
     </h2></div>
     <div class="panel-body">
         <p>
          @include('flash::message')
-         <!--DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>-->
+        
        </p>
        
        <table id="datatable"  data-order='[[ 0, "desc" ]]'class="table table-striped table-bordered" style="font-size:11px">
         <thead>
           <tr  style="background-color:#FFC300;">
             <th style="display:none;">    Actualizacion  </th>
-            <th> <small>   Credito id </small> </th>
-            <th>    Cartera       </th>
-            <th>    Fecha Creación</th>
-            <th>    Cliente       </th>
-            <th>    Documento     </th>
-            <th>    Estado        </th>
-            <th> Días mora</th>
-  
-
-
-            <th>    Saldo         </th>
-
-            <th>    Pago hasta    </th>
-            <th>    Creó          </th>
-            <th>    Acciones      </th>
+            <th> <small>   Credito id </small>  </th>
+            <th>      Cartera                   </th>
+            <th>      Fecha Creación            </th>
+            <th>      Cliente                   </th>
+            <th>      Documento                 </th>
+            <th>      Estado                    </th>
+            <th>      Días mora                 </th>
+            <th>      Saldo                     </th>
+            <th>      Pago hasta                </th>
+            <th>      Creó                      </th>
+            <th>      Acciones                  </th>
           </tr>
           </thead>
           <tbody>
@@ -46,12 +49,11 @@
                 <tr>
               @endif    
               <td style="display:none;"> {{$credito->updated_at}}</td>
-              <td> {{$credito->id}}          </td>
-
-              <td> {{$credito->cartera}}</td>
-              <td> {{$credito->fecha}}       </td>
-              <td> {{$credito->cliente}}</td>
-              <td> {{$credito->doc}}</td>
+              <td> {{$credito->id}}       </td>
+              <td> {{$credito->cartera}}  </td>
+              <td> {{$credito->fecha}}    </td>
+              <td> {{$credito->cliente}}  </td>
+              <td> {{$credito->doc}}      </td>
 
               <td>
                 @if($credito->estado == 'Al dia')
@@ -107,22 +109,32 @@
       </div>
     </div>
   </div>
+
+
+  {{ $creditos->links() }}
+
+
   <script>
     $( document ).ready(function() {
 
       $('#datatable').dataTable({
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  
-        'scrollY': 400,
-        "scrollCollapse": true
+        "lengthMenu"    : [[10, 25, 50, -1], [10, 25, 50, "All"]],  
+        'scrollY'       : 400,
+        'paging'        : false,
+        "scrollCollapse": true,
+        "iDisplayLength": 500
         });
 
       });
 
     function Exportar(){
       $('#datatable').table2excel({
-        name: 'creditos',
+        name    : 'creditos',
         filename: "creditos.xls"
       });
+    }
+    function ExportarTodo(){
+      window.open("{{url('start/creditos/exportar_todo')}}", '_blank');
     }
   </script>
 

@@ -38,8 +38,8 @@ class LogController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
-        if(Auth::attempt([
+        
+        if(Auth::attempt($data=[
             'email' => $request->input('email'),
             'password' => $request->input('password'),
             'estado' => 'Activo',

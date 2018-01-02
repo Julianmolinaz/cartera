@@ -321,6 +321,8 @@ function fecha_plana_Ymd($obj_date){
     $date = $obj_date->toDateString();
     $date = inv_fech(formatoFecha(dia($date),mes($date),ano($date)));
     $date = str_replace('-','',$date);
+    $date = str_replace(' ','',$date);
+    $date = str_replace(':','',$date);
     return $date;
 }
 

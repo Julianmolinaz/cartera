@@ -1,27 +1,16 @@
-@section('title','callcenter')
+<!-- plantilla html del listado de creditos para el callcenter -->
 
-@section('contenido')
-<!--
-** VISTA ENCARGADA DE MOSTRAR EL LISTADO DE LOS CLIENTES JUNTO A UNA BARRA DE BUSQUEDA Y LA
-** OPCION DE ORDENAMIENTO
-**
--->
-
-@section('title','Creditos')
-@section('contenido')
 
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="panel panel-warning">
-    <div class="panel-heading"><h2>CallCenter&nbsp;&nbsp;&nbsp;&nbsp;{{$busqueda->busqueda}}
-
+    <div class="panel-heading"><h2>
+    @yield('encabezado','agregue el encabezado')
 
         <div class="pull-right">
           <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-warning" onclick="Busqueda('Agenda');" data-toggle="tooltip" data-placement="top" title="Muestra los agendados del día anterior">Agendados</button>
-            <button type="button" class="btn btn-primary" onclick="Busqueda('Morosos');">Todos los Morosos</button>
-            <button type="button" class="btn btn-danger"  onclick="Busqueda('Todos');">Todos los Créditos</button>
-            <button type="button" class="btn btn-default" onclick="Exportar();">Exportar xls</button>
+            <button type="button" class="btn btn-default" onclick="Exportar();">Exportar vista xls</button>
+            <button type="button" class="btn btn-default" onclick="ExportarTodo();">Exportar todos los creditos xls</button>
           </div>
          </div>
 
@@ -46,9 +35,11 @@
               <th>    #             </th>
               <th>    Cartera       </th>
               <th>    Credito id    </th>
+              <th>    Saldo         </th>
               <th>    Ciudad cliente</th>
               <th>    Estado        </th>
               <th>    Dias en mora  </th>
+              <th>    Tipo mora     </th>
               <th>    Cliente       </th>
               <th>    Documento     </th>
               <th>    Pago hasta    </th>
@@ -66,77 +57,71 @@
 
           @if(isset($creditos))
 
-            @foreach($creditos as $credito)
-              <tr>
-                <td>{{  $fila++                               }}</td>
-                <td>{{  $credito->precredito->cartera->nombre }}</td>
-                <td>{{  $credito->id                          }}</td>
-                <td>*{{  $credito->precredito->cliente->municipio->nombre.'-'.
-                        $credito->precredito->cliente->municipio->departamento
-                }}</td>
+          @foreach($creditos as $credito)
+          <tr>
+            <td>{{  $fila++                               }}</td>
+            <td>{{  $credito->cartera                     }}</td>
+            <td>{{  $credito->credito_id                  }}</td>
+            <td>{{  number_format($credito->saldo,0,",",".") }}</td>
+            <td>*{{  $credito->municipio.'-'.$credito->departamento  }}</td>
 
-                <td>
-                  @if($credito->estado == 'Al dia')
+            <td>
+              @if($credito->estado == 'Al dia')
 
-                    <spam class="label label-primary">={{$credito->estado}}</spam>
+                <spam class="label label-primary">{{$credito->estado}}</spam>
 
-                  @elseif($credito->estado == 'Mora')
-                  
-                    <spam class="label label-danger">={{$credito->estado}}<spam>  
+              @elseif($credito->estado == 'Mora')
+              
+                <spam class="label label-danger">{{$credito->estado}}<spam>  
 
-                  @elseif($credito->estado == 'Prejuridico')
+              @elseif($credito->estado == 'Prejuridico')
 
-                    <spam class="label label-success">={{$credito->estado}}</spam>
+                <spam class="label label-success">{{$credito->estado}}</spam>
 
-                  @elseif($credito->estado == 'Juridico')
+              @elseif($credito->estado == 'Juridico')
 
-                    <spam class="label label-info">={{$credito->estado}}</spam>
-
-                  @else
-                    <spam class="label label-warning">={{$credito->estado}}</spam>
-                  @endif
-
-                </td>
-                <?php
-                  if(count($credito->sanciones) >= 1 ){
-                    $sanciones = 0;
-                    foreach($credito->sanciones as $sancion){
-                      if($sancion->estado == 'Debe'){
-                        $sanciones++;
-                      }
-                    }
-                    echo "<td>".$sanciones."</td>"; 
-                  }   
-                  else{
-                    echo "<td>0</td>";
-                  }        
-                ?>
-                <td>{{  $credito->precredito->cliente->nombre }}</td>
-                <td>{{  $credito->precredito->cliente->num_doc}}</td>
-                <td>{{  $credito->fecha_pago->fecha_pago      }}</td>
-
-              @if($credito->llamadas->last())
-                <td>{{  $credito->llamadas->last()->agenda}}</td>
-                <td>{{  '['.$credito->llamadas->last()->created_at.'] '.$credito->llamadas->last()->observaciones}}</td>
-                <td>{{  $credito->llamadas->last()->user_create->name}}</td>
+                <spam class="label label-info">{{$credito->estado}}</spam>
 
               @else
-                <td></td>
-                <td></td>
-                <td></td>
+                <spam class="label label-warning">{{$credito->estado}}</spam>
               @endif
-                <td>
-                  <a href="#"  id="btn_registro" OnClick='Mostrar({{$credito->id}});' class = 'btn btn-default btn-xs' data-toggle="modal" data-target="#myModal">
-                    <span class = "glyphicon glyphicon-phone-alt" data-toggle="tooltip" data-placement="top" title="Registro de llamada"></span>
-                  </a>
 
-                  <a href="{{route('call.show',$credito->id)}}"  class = 'btn btn-default btn-xs'>
-                    <span class = "glyphicon glyphicon-tasks" data-toggle="tooltip" data-placement="top" title="Información del crédito"></span>
-                  </a>
+            </td>
+            <td>{{  $credito->sanciones}} </td>
 
-                </td>
-              </tr>
-            @endforeach
+            @if($credito->sanciones > 0 && $credito->sanciones <= 30 )
+              <td> Morosos ideales  </td>
+            @elseif($credito->sanciones > 30 && $credito->sanciones <= 90)
+              <td> Morosos alerta   </td>
+            @elseif($credito->sanciones > 90)
+              <td> Morosos crìticos </td>
+            @else
+              <td> No moroso        </td>
+            @endif
+
+            <td>{{  $credito->cliente }}  </td>
+            <td>{{  $credito->doc}}       </td>
+            <td>{{  $credito->fecha_pago}}</td>
+
+
+            <td>{{  $credito->agenda }}</td>
+            <td>{{  $credito->observaciones }}</td>
+            <td>{{  $credito->funcionario .$credito->fecha_llamada }}</td>
+
+
+            <td>
+            <a href="#"  id="btn_registro" OnClick='Mostrar({{$credito->credito_id}});' class = 'btn btn-default btn-xs' data-toggle="modal" data-target="#myModal">
+              <span class = "glyphicon glyphicon-phone-alt" data-toggle="tooltip" data-placement="top" title="Registro de llamada"></span>
+            </a>
+
+            <a href="#" OnClick="infoDesdeListado({{$credito->credito_id}});" class = 'btn btn-default btn-xs'>
+              <span class = "glyphicon glyphicon-tasks" data-toggle="tooltip" data-placement="top" title="Información del crédito"></span>
+            </a>
+
+          </td>
+          </tr>
+        @endforeach
+
 
           <!-- cuando se trae solo un credito, funcionalidad del buscador -->
           @else
@@ -145,9 +130,10 @@
                 <td>{{  $fila++                               }}</td>
                 <td>{{  $credito->precredito->cartera->nombre }}</td>
                 <td>{{  $credito->id                          }}</td>
+                <td>{{  number_format($credito->saldo,0,",",".")}}</td>
                 <td>*{{  $credito->precredito->cliente->municipio->nombre.'-'.
-                        $credito->precredito->cliente->municipio->departamento
-                }}</td>
+                        $credito->precredito->cliente->municipio->departamento}}
+                </td>
 
                 <td>
                   @if($credito->estado == 'Al dia')
@@ -182,9 +168,20 @@
                     echo "<td>".$sanciones."</td>"; 
                   }   
                   else{
-                    echo "<td>0</td>";
+                    $sanciones = 0;
+                    echo "<td>".$sanciones."</td>";
                   }        
                 ?>
+
+                @if($sanciones > 0 && $sanciones <= 30 )
+                  <td> Morosos ideales  </td>
+                @elseif($sanciones > 30 && $sanciones <= 90)
+                  <td> Morosos alerta   </td>
+                @elseif($sanciones > 90)
+                  <td> Morosos crìticos </td>
+                @else
+                  <td> No moroso        </td>
+                @endif
                 <td>{{  $credito->precredito->cliente->nombre }}</td>
                 <td>{{  $credito->precredito->cliente->num_doc}}</td>
                 <td>{{  $credito->fecha_pago->fecha_pago      }}</td>
@@ -204,15 +201,12 @@
                     <span class = "glyphicon glyphicon-phone-alt" data-toggle="tooltip" data-placement="top" title="Registro de llamada"></span>
                   </a>
 
-                  <a href="{{route('call.show',$credito->id)}}"  class = 'btn btn-default btn-xs'>
+                  <a href="#" OnClick="infoDesdeListado({{$credito->id}});"  class = 'btn btn-default btn-xs'>
                     <span class = "glyphicon glyphicon-tasks" data-toggle="tooltip" data-placement="top" title="Información del crédito"></span>
                   </a>
 
                 </td>
               </tr>
-
-
-
 
           @endif
           </tbody>
@@ -319,101 +313,11 @@
   </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
+  @if(isset($creditos))
+    {{ $creditos->links() }}
+  @endif
 
 
-
-<script>
-
-
-  $( document ).ready(function() {
-
-    $('#datatable').dataTable( {
-
-      "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  
-      'scrollY': 400,
-      "scrollCollapse": true
-
-    });
-
-  });
-
-var credito_id;
-
-function Salir(){
-    $("#myModal").modal('toggle');
-  }
-
-function Mostrar(id){
-  var route  = "{{url('call')}}/"+id+"/consultar";
-  credito_id = id;
-  $.get(route,function(res){
-    $('#id').val(res.credito.id);
-    $('#nombre').val(res.credito.precredito.cliente.nombre);
-    $('#documento').val(res.credito.precredito.cliente.num_doc);
-    $('#movil').val(res.credito.precredito.cliente.movil);
-    $('#fijo').val(res.credito.precredito.cliente.fijo);
-  });
-
-}
-
-function Aceptar(){
+@include('start.callcenter.script_list_call')
 
 
-  if($('#agenda').val() == ""){
-    var agenda      = null;
-  }
-  else{
-    var agenda      = $('#agenda').val();
-  }
-
-
-  var criterio_id   = $('#criterio').val();
-  var observaciones = $('#observaciones').val();
-  var route         = "{{url('call/call_create')}}";
-  var token         = $("#token").val();
-
-
-   $.ajax({
-    url: route,
-    headers: {'X-CSRF-TOKEN': token},
-    type: 'POST',
-    dataType: 'json',
-    data: {credito_id: credito_id, criterio_id: criterio_id, observaciones: observaciones, agenda:agenda },
-    success: function(){
-      $("#myModal").modal('toggle');
-      $("#msj-success").fadeIn();
-      location.reload();
-    }
-  });
-
-}
-
-function Info(){
-  var id = $("#id").val();
-  window.open("{{url('call')}}/"+id, '_blank');
-
-}
-
-function Busqueda(opcion){
-  var route = "{{url('call')}}/"+opcion+"/busqueda";
-    $.get(route,function(data){
-      if(data){ location.reload(); }
-      else{  alert('Ocurrió un error, intentelo de nuevo.'); }
-    });
-}
-
-function Exportar(){
-  $('#datatable').table2excel({
-    name: 'CallCenter',
-    filename: "callcenter.xls"
-  });
-}
-
-
-
-</script>
-
-
-
-@endsection
-@include('templates.main2')

@@ -43,31 +43,7 @@ class ClienteController extends Controller
                      'clientes.updated_at as updated_at')
             ->get();
 
-        //  dd($clientes_qwery);   
 
-        // $clientes_obj = Cliente::where('id', '>', 0)->orderBy('updated_at','desc')->get();
-
-        // $clientes = array();
-
-        // foreach($clientes_obj as $cliente){
-        //     $temp = array(
-        //         'id'                => $cliente->id,
-        //         'nombre'            => $cliente->nombre,
-        //         'num_doc'           => $cliente->num_doc,
-        //         'fecha_nacimiento'  => $cliente->fecha_nacimiento,
-        //         'movil'             => $cliente->movil,
-        //         'fijo'              => $cliente->fijo,
-        //         'codeudor'          => $cliente->codeudor->nombrec,
-        //         'movilc'            => $cliente->codeudor->movilc,
-        //         'fijoc'             => $cliente->codeudor->fijoc,
-        //         'user_create'       => $cliente->user_create->name,
-        //         'created_at'        => $cliente->created_at->toDateString(),
-        //         'updated_at'        => $cliente->updated_at->toDateString(),
-        //     );
-        //     array_push($clientes,$temp);
-        // }
-
-        //dd($clientes);
         return view('start.clientes.index')
             ->with('clientes',$clientes_qwery);
 
@@ -367,6 +343,7 @@ class ClienteController extends Controller
     public function show($id)
     {
         $cliente        = Cliente::find($id);
+
         $precreditos    = Precredito::where('cliente_id',$id)
                             ->orderBy('updated_at','desc')
                             ->get();

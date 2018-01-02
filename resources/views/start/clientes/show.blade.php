@@ -25,7 +25,7 @@
 
             <tr>
               <th scope="row">Documento</th>
-              <td> {{ $cliente->num_doc}}</td>
+              <td> {{ $cliente->tipo_doc. ' ' .$cliente->num_doc}}</td>
             </tr>
                         
             <tr>
