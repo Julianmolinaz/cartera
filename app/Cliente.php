@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Cliente extends Model
+class Cliente extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     protected $table = 'clientes';
 
     protected $fillable = [
@@ -58,6 +61,8 @@ class Cliente extends Model
         return $this->belongsTo('App\Estudio','id','cliente_id');
     }
 
-
+    protected $auditExclude = [
+        'published',
+    ];
 
 }
