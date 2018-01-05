@@ -3,15 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-
-class Credito extends Model
+class Credito extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     protected $table = 'creditos';
 
     protected $fillable = [
         'precredito_id' , 'cuotas_faltantes' , 'saldo' , 'estado' , 'rendimiento'  , 'valor_credito' ,  'castigada',
-        'refinanciacion', 'credito_refinanciado_id', 'end_procredito', 'end_credito','funcionario_id'
+        'refinanciacion', 'credito_refinanciado_id', 'end_procredito', 'end_credito','funcionario_id', 'last_llamada_id'
     ];  
 
     public function precredito(){
@@ -58,5 +60,9 @@ class Credito extends Model
 
     public function credito_nuevo_refinanciado(){
         return $this->hasOne('App\Credito','credito_refinanciado_id','id');
+    }
+
+    public function last_llamada(){
+        return $this->hasOne('App\Llamada','id','last_llamada_id');
     }
 }

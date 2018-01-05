@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Egreso extends Model
+class Egreso extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     protected $table = 'egresos';
     protected $fillable = ['fecha','comprobante_egreso','concepto','valor','user_create_id','user_update_id','observaciones', 'cartera_id'];
 

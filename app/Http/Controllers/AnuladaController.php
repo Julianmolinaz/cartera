@@ -17,11 +17,16 @@ use DB;
 
 class AnuladaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | index
+    |--------------------------------------------------------------------------
+    | 
+    | Retorna un listado de todas las facturas anuladas
+    | 
+    |
+    */
+
     public function index()
     {
         $anuladas = Anulada::all();
@@ -29,22 +34,21 @@ class AnuladaController extends Controller
             ->with('anuladas',$anuladas);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function create(){}
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | store
+    |--------------------------------------------------------------------------
+    | 
+    | Recibe el request con la info de la factura a eliminar
+    | Retorna un mensaje si la factura se eliminó con exito 
+    |  de lo contrario mostrará un mensaje de error
+    |
+    */
+
     public function store(Request $request)
     {
         $this->validate($request,
@@ -55,6 +59,8 @@ class AnuladaController extends Controller
         $factura    = Factura::find($id);
         $credito    = Credito::find($factura->credito_id);
 
+        //Consulta la ultima factura de ese credito
+
         $ultima_factura = DB::table('facturas')
             ->where('credito_id',$factura->credito_id)
             ->orderBy('created_at','desc')
@@ -64,6 +70,7 @@ class AnuladaController extends Controller
           
           try{  
 
+          // se valida si la factura a eliminar es la ultima realizada para ese crédito  
           if( $ultima_factura->id == $factura->id ){
 
             $anulada = new Anulada();
@@ -272,50 +279,12 @@ class AnuladaController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
+    public function show($id){}
 
+    public function edit($id){}
 
-          
-    }
+    public function update(Request $request, $id){}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    public function destroy($id){}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

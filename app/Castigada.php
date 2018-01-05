@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Castigada extends Model
+class Castigada extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     protected $table = 'castigadas';
 
     protected $fillable = ['credito_id', 'fecha_limite','saldo', 'user_create_id', 'user_update_id'];

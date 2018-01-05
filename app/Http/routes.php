@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -162,6 +163,11 @@ Route::get('call/morosos',
 Route::get('call/agendados',
 	['uses' => 'CallcenterController@list_agendados','as'=> 'call.agendados']);
 
+Route::get('call/miscall',[
+	'uses'	=> 'CallcenterController@misCall',
+	'as'	=> 'call.miscall'
+	]);
+
 //CALLCENTER VER
 Route::get('call/{call}',
 	['uses' => 'CallcenterController@show','as'=> 'call.show']);
@@ -184,6 +190,7 @@ Route::get('call/exportar/todo',[
 	'uses'	=> 'CallcenterController@ExportarTodo',
 	'as'	=> 'call.exportar.todo'
 	]);
+
 
 
 

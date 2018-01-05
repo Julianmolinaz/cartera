@@ -64,6 +64,9 @@ class User extends Authenticatable  implements Auditable, UserResolver
         return $this->hasOne('App\Punto','id','punto_id');
     }
 
+    public function llamadas(){
+        return $this->hasMany('App\Llamada','user_create_id');
+    }
 
     /**
      * The attributes that should be hidden for arrays.

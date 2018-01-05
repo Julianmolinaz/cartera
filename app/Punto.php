@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Punto extends Model
+class Punto extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     protected $table = 'puntos';
 
     protected $fillable = ['nombre', 'estado', 'direccion', 'descripcion','municipio_id'];

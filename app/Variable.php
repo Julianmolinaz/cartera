@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Variable extends Model
+class Variable extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     protected $table = "variables";
 
     protected $fillable = [

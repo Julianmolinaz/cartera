@@ -3,14 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Anulada extends Model
+class Anulada extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     protected $table = 'anuladas';
 
     protected $fillable = [
-    	'cliente_id', 'factura_id', 'credito_id', 'num_fact', 'fecha', 'total','pagos', 'motivo_anulacion',
-    'user_anula', 'user_create_id'
+        'cliente_id', 'factura_id', 'credito_id', 'num_fact', 
+        'fecha', 'total','pagos', 'motivo_anulacion',
+        'user_anula', 'user_create_id'
     ];
 
     public function cliente(){

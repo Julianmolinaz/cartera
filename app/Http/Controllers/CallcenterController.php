@@ -47,19 +47,28 @@ class CallcenterController extends Controller
              ->join('clientes','precreditos.cliente_id','=','clientes.id')
              ->join('municipios','clientes.municipio_id','=','municipios.id')
              ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
+             ->leftJoin('llamadas','creditos.last_llamada_id','=','llamadas.id')
+             ->leftjoin('users','llamadas.user_create_id','=','users.id')
              ->select(DB::raw('
                  carteras.nombre             as cartera,
                  creditos.id                 as credito_id,
                  creditos.saldo              as saldo,
+                 precreditos.vlr_fin         as valor_financiar,
                  municipios.nombre           as municipio,
                  municipios.departamento     as departamento,
                  creditos.estado             as estado,
                  clientes.nombre             as cliente,
                  clientes.num_doc            as doc,
-                 fecha_cobros.fecha_pago     as fecha_pago'))
+                 fecha_cobros.fecha_pago     as fecha_pago,
+                 llamadas.agenda             as agenda,
+                 llamadas.observaciones      as observaciones,
+                 llamadas.created_at         as fecha_llamada,
+                 users.name                  as funcionario'))
              ->whereIn('creditos.estado',$array)
-             ->orderBy('creditos.updated_at','desc')
+             ->orderBy('llamadas.created_at','desc')
              ->paginate(500);
+
+
  
          // segundo query para contabilizar el numero de sanciones diarias en debe
          // extracción ultima llamada realizada en el callcenter
@@ -72,34 +81,13 @@ class CallcenterController extends Controller
                  ->count();
              
              $credito->sanciones = $sanciones;
- 
- 
-             $ultima_llamada = 
-             DB::table('llamadas')
-                 ->join('users','llamadas.user_create_id','=','users.id')
-                 ->where('llamadas.credito_id',$credito->credito_id)
-                 ->orderBy('llamadas.created_at','desc')
-                 ->first();
- 
-             // si el credito tiene llamadas
- 
-             if($ultima_llamada){
-                 $credito->agenda        = $ultima_llamada->agenda;
-                 $credito->observaciones = $ultima_llamada->observaciones;
-                 $credito->funcionario   = $ultima_llamada->name;
-                 $credito->fecha_llamada = "[ ".$ultima_llamada->created_at." ]";
-             }
-             // si el credito no tiene llamadas
-             else{
-                 $credito->agenda        = '';
-                 $credito->observaciones = '';
-                 $credito->funcionario   = '';
-                 $credito->fecha_llamada = '';
-             }
-            }
+             
+
+            
+         }
             return $creditos;        
     } 
-
+    
 
     
     /*
@@ -113,6 +101,24 @@ class CallcenterController extends Controller
     */
     public function index()
     {
+
+            // $creditos = Credito::all();
+        
+            // foreach($creditos as $credito){
+            // 	$ultima_llamada = 
+            // 	DB::table('llamadas')
+            // 		->where('credito_id',$credito->id)
+            // 		->orderBy('created_at','desc')
+            //         ->first();
+                    
+       
+            // 		if($ultima_llamada){
+            //             $credito->last_llamada_id = $ultima_llamada->id;
+            //             $credito->save();
+            // 		}
+        
+            //     }
+
 
         $criterios  = Criterio::all();
         $creditos   = $this->query(['Al dia','Mora','Prejuridico','Juridico']); 
@@ -163,16 +169,18 @@ class CallcenterController extends Controller
                 carteras.nombre             as cartera,
                 creditos.id                 as credito_id,
                 creditos.saldo              as saldo,
+                precreditos.vlr_fin         as valor_financiar,
                 municipios.nombre           as municipio,
                 municipios.departamento     as departamento,
                 creditos.estado             as estado,
                 clientes.nombre             as cliente,
                 clientes.num_doc            as doc,
                 fecha_cobros.fecha_pago     as fecha_pago,
-                users.name                  as funcionario'))
+                users.name                  as funcionario,
+                llamadas.agenda             as agenda'))
             ->where('llamadas.agenda','=',$ayer)
             ->whereIn('creditos.estado',['Mora','Juridico','Prejuridico'])
-            ->orderBy('creditos.updated_at','desc')
+            ->orderBy('creditos.last_llamada_id','desc')
             ->paginate(500);
 
 
@@ -187,6 +195,7 @@ class CallcenterController extends Controller
             $ultima_llamada = 
             DB::table('llamadas')
                 ->join('users','llamadas.user_create_id','=','users.id')
+                ->select('llamadas.observaciones', 'users.name', 'llamadas.created_at')
                 ->where('llamadas.credito_id',$credito->credito_id)
                 ->orderBy('llamadas.created_at','desc')
                 ->first();
@@ -194,19 +203,18 @@ class CallcenterController extends Controller
             // si el credito tiene llamadas
 
             if($ultima_llamada){
-                $credito->agenda        = $ultima_llamada->agenda;
                 $credito->observaciones = $ultima_llamada->observaciones;
                 $credito->funcionario   = $ultima_llamada->name;
                 $credito->fecha_llamada = "[ ".$ultima_llamada->created_at." ]";
             }
             // si el credito no tiene llamadas
             else{
-                $credito->agenda        = '';
                 $credito->observaciones = '';
                 $credito->funcionario   = '';
                 $credito->fecha_llamada = '';
             }
         }
+        
         
         return view('start.callcenter.list_agendados')
             ->with('creditos',$creditos)
@@ -330,6 +338,8 @@ class CallcenterController extends Controller
 
        try{
 
+            $credito = Credito::find($request->credito_id);
+
             $llamada = new Llamada();
             $llamada->credito_id    = $request->credito_id;
             $llamada->criterio_id   = $request->criterio_id;
@@ -345,6 +355,9 @@ class CallcenterController extends Controller
             $llamada->user_create_id = Auth::user()->id;
             $llamada->user_update_id = Auth::user()->id;
             $llamada->save();
+
+            $credito->last_llamada_id = $llamada->id;
+            $credito->save();
 
             DB::commit();
 
@@ -406,7 +419,7 @@ class CallcenterController extends Controller
 
                     $header = [
                         'cartera','credito_id','municipio','departamento',
-                        'estado','saldo','sanciones','tipo moroso','cliente','doc',
+                        'estado','centro de costos','saldo','sanciones','tipo moroso','cliente','doc',
                         'fecha_pago','agenda','observaciones','funcionario','fecha_llamada'];
         
                     array_push($array_creditos,$header);
@@ -468,6 +481,7 @@ class CallcenterController extends Controller
                             'municipio'     => $credito->municipio,
                             'departamento'  => $credito->departamento,
                             'estado'        => $credito->estado,
+                            'valor_financiar'=> $credito->valor_financiar,
                             'saldo'         => $credito->saldo,
                             'sanciones'     => $sanciones,
                             'tipo_moroso'   => $tipo_moroso,
@@ -492,6 +506,16 @@ class CallcenterController extends Controller
             echo 'Error<br>*<br>*<br>*<br>*<br>';
             dd($e);
         }    
+    }
+
+    public function misCall(){
+        $calls = 
+        Llamada::where('user_create_id',Auth()->user()->id)
+            ->orderBy('id','desc')
+            ->paginate(100);
+        
+        return view('start.callcenter.miscall')
+            ->with('calls', $calls);
     }
 
 

@@ -29,12 +29,13 @@
         <div style="display:none;">{{$fila = 1}}</div>
 
 
-        <table id="datatable" data-order='[[ 0, "asc" ]]' class="table table-striped table-bordered" style="font-size:12px">
+        <table id="datatable" data-order='[[ 0, "asc" ]]' class="table table-striped table-bordered" style="font-size:10px">
           <thead>
             <tr>
               <th>    #             </th>
               <th>    Cartera       </th>
               <th>    Credito id    </th>
+              <th>    Centro de Costo</th>
               <th>    Saldo         </th>
               <th>    Ciudad cliente</th>
               <th>    Estado        </th>
@@ -62,6 +63,7 @@
             <td>{{  $fila++                               }}</td>
             <td>{{  $credito->cartera                     }}</td>
             <td>{{  $credito->credito_id                  }}</td>
+            <td>{{  number_format($credito->valor_financiar,0,",",".") }}</td>
             <td>{{  number_format($credito->saldo,0,",",".") }}</td>
             <td>*{{  $credito->municipio.'-'.$credito->departamento  }}</td>
 
@@ -106,7 +108,7 @@
 
             <td>{{  $credito->agenda }}</td>
             <td>{{  $credito->observaciones }}</td>
-            <td>{{  $credito->funcionario .$credito->fecha_llamada }}</td>
+            <td>{{  $credito->funcionario .' =) '.$credito->fecha_llamada }}</td>
 
 
             <td>
@@ -130,6 +132,7 @@
                 <td>{{  $fila++                               }}</td>
                 <td>{{  $credito->precredito->cartera->nombre }}</td>
                 <td>{{  $credito->id                          }}</td>
+                <td>{{  number_format($credito->precredito->vlr_fin,0,",",".")}}</td>
                 <td>{{  number_format($credito->saldo,0,",",".")}}</td>
                 <td>*{{  $credito->precredito->cliente->municipio->nombre.'-'.
                         $credito->precredito->cliente->municipio->departamento}}
