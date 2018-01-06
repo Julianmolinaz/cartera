@@ -161,7 +161,7 @@ function reporte_procredito(){
                                         'numero_cuota'      => $numero_cuota,
                                         'valor_cuota'       => (int)$credito->precredito->vlr_cuota,
                                         'valor_pagado'      => (int)$valor_pagado,
-                                        'estado_obligacion' => estado($credito),
+                                        'estado_obligacion' => estado($credito,$now),
                                         'dias_en_mora'      => 0,
                                         'fecha_pago'        => $fecha_pago,
                                         'fecha_vencimiento' => fecha_vencimiento($credito)
@@ -209,7 +209,7 @@ function reporte_procredito(){
                                     'numero_cuota'      => $numero_cuota,
                                     'valor_cuota'       => (int)$credito->precredito->vlr_cuota,
                                     'valor_pagado'      => 0,
-                                    'estado_obligacion' => estado($credito),
+                                    'estado_obligacion' => estado($credito,$now),
                                     'dias_en_mora'      => dias_mora($credito,$now),
                                     'fecha_pago'        => '',
                                     'fecha_vencimiento' => fecha_plana($f)
@@ -279,7 +279,8 @@ function reporte_procredito(){
             array_push($reporte_array, $temp_g);
 
         }
-    }
+        
+    }dd($reporte_array);
     $sheet->fromArray($reporte_array,null,'A1',false,false);
         });
         })->download('txt');
@@ -642,18 +643,22 @@ function reporte_procredito(){
     // recibe un objeto credito y retorna "Al dia" o "Mora"
 
 
-    function estado($credito){
+    function estado($credito,$corte){
 
         $estado = '';
+        $dias_mora = dias_mora($credito,$corte);
 
-        if( $credito->estado == 'Mora' || $credito->estado == 'Prejuridico' || $credito->estado == 'Juridico'){
+        if( ($credito->estado == 'Mora'  && $dias_mora > 30)
+            || $credito->estado == 'Prejuridico' 
+            || $credito->estado == 'Juridico'){
             $estado = 2;
         }
-        else if( $credito->estado == 'Al dia'){
+        else if( $credito->estado == 'Al dia'
+                 || ($credito->estado == 'Mora'  && $dias_mora < 30)){
             $estado = 1;
         }
         else{
-            $estado = null;
+            $estado = 1;
         }
 
         if( $credito->castigada == "Si"){

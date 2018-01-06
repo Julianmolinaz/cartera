@@ -33,6 +33,7 @@ class ReporteController extends Controller
               array('value' => 'venta_creditos_por_asesor','vista' => 'Venta de Créditos por Asesor'),
               array('value' => 'castigada', 'vista' => 'Cartera Castigada'),
               array('value' => 'callcenter','vista' => 'Call Center'),
+              array('value' => 'auditoria','vista' => 'Auditoria del Sistema'),
               array('value' => 'procredito','vista' => 'Reporte Procredito'),
               array('value' => 'datacredito','vista' => 'Reporte Datacredito'));
 
@@ -276,9 +277,32 @@ class ReporteController extends Controller
             catch(\Exception $e){
 
                 return redirect()->route('admin.reportes.index'); 
-            }
-            
+            }  
         }
+
+    else if($request->input('tipo_reporte') == 'auditoria' ){
+        //dd($fin);
+        $audits = 
+        DB::table('audits')
+            ->join('users','audits.user_id','=','users.id')
+            ->select(
+                'users.name as name',
+                'audits.event as event',
+                'audits.auditable_type as type',
+                'audits.auditable_id as auditable',
+                'audits.old_values as old_values',
+                'audits.new_values as new_values',
+                'audits.url as url',
+                'audits.ip_address as ip_address',
+                'audits.user_agent as user_agent',
+                'audits.created_at as created_at')
+            ->whereBetween('audits.created_at',[$ini,$fin])
+            ->paginate(2000);
+
+        return view('admin.reportes.auditoria')
+                ->with('audits',$audits)
+                ->with('rango',$rango);
+    }
     }
 
     /**

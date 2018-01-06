@@ -102,24 +102,6 @@ $( document ).ready(function() {
 
   });
 
-
-// $('#btn_exc_venta_creditos').click(function(){
-//   $('#datatable').table2excel({
-//     name: 'Reporte',
-//     filename: "{{'repor_venta_creditos_'.$rango['ini'].'==='.$rango['fin'].'.xls'}}"
-//   });
-// });
-
-// $('#btn_exc_total_venta_creditos').click(function(){
-//   $('#tbl_total').table2excel({
-//     name: 'Reporte',
-//     filename: "{{'repor_total_venta_creditos_'.$rango['ini'].'==='.$rango['fin'].'.xls'}}"
-//   });
-// });
-
-
-
-
 });
 </script>
 
