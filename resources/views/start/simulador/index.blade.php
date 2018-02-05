@@ -5,11 +5,8 @@
 <div class="row">
 	<div class="col-md-4 col-sm-4"></div>
 	<div class="col-md-4 col-sm-4 col-xs-12">
-	<div class="panel panel-primary">
-  	<div class="panel-heading"><center><h2>Simulador
-	  <a href="https://www.youtube.com/watch?v=eBihrRkqAKs" target="_blank" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ayuda">
-                <span class = "glyphicon glyphicon-question-sign" ></span>
-              </a> </h2>
+	<div class="panel panel-primary" style="margin-top:40px;">
+  	<div class="panel-heading"><center><h2>Simulador</h2>
 	  </center></div>
   	<div class="panel-body">
     

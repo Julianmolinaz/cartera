@@ -7,10 +7,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <p><h2>Clientes
-      <a href="#" class = 'btn btn-default btn-xs' OnClick="alert('Ayuda');" data-toggle="tooltip" data-placement="top" title="Ayuda">
-                <span class = "glyphicon glyphicon-question-sign" ></span>
-              </a> 
+      <p><h2>Clientes <i class="fas fa-users"></i>
         <button type="button" class="btn btn-default pull-right" id="btn_exc">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button>
         <a href="{{route('start.clientes.create')}}">
           <button type="button" class="btn btn-warning pull-right">&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
@@ -76,16 +73,18 @@
       </div>
     </div>
 </div>
+<div style="margin-left:30px;">{{ $clientes->links() }}</div>
+
 <script>
 
 
   $( document ).ready(function() {
 
     $('#datatable').dataTable( {
-
-      "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  
       'scrollY': 400,
-      "scrollCollapse": true
+      "scrollCollapse": true,
+      "iDisplayLength": 500,
+      'paging'        : false,
 
     });
 

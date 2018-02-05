@@ -1,5 +1,6 @@
 @section('title','Creditos todos')
-@section('encabezado','Callcenter todos los créditos')
+@section('encabezado','Callcenter todos los créditos   <i class="fas fa-globe"></i>')
+
 
 @section('contenido')
   <!--

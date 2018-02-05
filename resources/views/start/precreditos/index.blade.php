@@ -5,8 +5,12 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="panel panel-warning">
     <div class="panel-heading">
-      <h2>Solicitudes
-        <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button>
+      <h2>Solicitudes <i class="fas fa-file-alt"></i>
+
+
+        <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">
+        &nbsp;&nbsp;Exportar&nbsp;&nbsp;
+        </button>
       </h2>
     </div>
     <div class="panel-body">
@@ -22,16 +26,16 @@
           <tr  style="background-color:#FFC300;">
           <th style="display:none;">    Actualizacion  </th>
           <th> # </th>
-            <th>    Solicitud id </th>
-            <th>    Factura      </th>
-            <th>    Cartera     </th>
-            <th>    Fecha       </th>
-            <th>    Cliente     </th>
-            <th>    Doc         </th>
-            <th>    Aprobado?   </th>
-            <th>    Observaciones</th>
-            <th>   Creó          </th>
-            <th>    Acción       </th>
+            <th>    Solicitud id  </th>
+            <th>    Factura       </th>
+            <th>    Cartera       </th>
+            <th>    Fecha         </th>
+            <th>    Cliente       </th>
+            <th>    Doc           </th>
+            <th>    Aprobado?     </th>
+            <th>    Observaciones </th>
+            <th>    Creó          </th>
+            <th>    Acción        </th>
           </tr>
         </thead>
           <tbody>
@@ -75,12 +79,19 @@
     </div>
   </div>
 
+
+  <div style="margin-left:30px;">
+    {{ $precreditos->links() }}
+  </div>
+
   <script>
     $( document ).ready(function() {
       $('#datatable').dataTable( {
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  
-        'scrollY': 400,
-        "scrollCollapse": true
+        'scrollY'       : 500,
+        'paging'        : false,
+        "scrollCollapse": true,
+        "iDisplayLength": 500
+
       });
     });
 

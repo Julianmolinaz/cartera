@@ -223,11 +223,16 @@
 
           <!--OBSERVACIONES-->
           <div class="form-group">  
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
               <label>Observaciones</label>
               <textarea class="form-control input-sm" rows="3" id="observaciones" name="observaciones" placeholder='Escriba la descripción de la modalidad' autocomplete="on"  value="{{$credito->precredito->observaciones}}">{{$credito->precredito->observaciones}}</textarea>
             </div>
-              
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <label>Recordatorio Pago</label>
+              <textarea class="form-control input-sm" rows="3" id="recordatorio" name="recordatorio" 
+                placeholder='Escriba el recordatorio del pago' autocomplete="on"  value="{{$credito->recordatorio}}">
+                {{$credito->recordatorio}}</textarea>
+            </div>
             </div>
 
          <!-- BOTONES **************************************************************************-->

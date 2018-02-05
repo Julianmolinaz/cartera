@@ -21,7 +21,10 @@ class PrecreditoController extends Controller
 
     public function index()
     {
-        $precreditos = Precredito::where('id','>',0)->orderBy('updated_at','desc')->get();
+        $precreditos = 
+            Precredito::where('id','>',0)
+            ->orderBy('updated_at','desc')
+            ->paginate(100);
 
         return view('start.precreditos.index')
             ->with('precreditos',$precreditos);

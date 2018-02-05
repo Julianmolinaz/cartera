@@ -5,22 +5,36 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Pago;
-use App\Credito;
-use App\Variable;
-use App\Egreso;
-use App\Cartera;
-use DB;
-use Carbon\Carbon;
-use App\Factura;
 use App\OtrosPagos;
-use Auth;
+use Carbon\Carbon;
+use App\Variable;
 use App\Llamada;
+use App\Factura;
+use App\Credito;
+use App\Cartera;
+use App\Egreso;
+use App\Http\Controllers\VentaController;
+use App\Pago;
 use App\User;
+use Auth;
+use Excel;
+use DB;
 
 
 class ReporteController extends Controller
 {
+    private $fecha_1;
+    private $fecha_2;
+
+
+    public function setFecha1($fecha_1){
+        $this->fecha_1 = $fecha_1;
+    }
+    public function setFecha2($fecha_2){
+        $this->fecha_2 = $fecha_2;
+    }
+ 
+
     // Pagina que muestra un listado de los reportes, con un calendario para el rango.
 
     public function index()
@@ -31,6 +45,7 @@ class ReporteController extends Controller
               array('value' => 'general_por_users', 'vista' => 'General por Funcionarios'), 
               array('value' => 'venta_creditos', 'vista' => 'Venta de Créditos'),
               array('value' => 'venta_creditos_por_asesor','vista' => 'Venta de Créditos por Asesor'),
+              array('value' => 'historial_ventas','vista' => 'Historial venta de creditos'),
               array('value' => 'castigada', 'vista' => 'Cartera Castigada'),
               array('value' => 'callcenter','vista' => 'Call Center'),
               array('value' => 'auditoria','vista' => 'Auditoria del Sistema'),
@@ -82,7 +97,7 @@ class ReporteController extends Controller
 
         if($request->input('tipo_reporte') == 'general'){
 
-            // reporte_general( $fecha_1, $fecha_2 ) se encuentra en helpers
+            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
 
             $reporte = reporte_general( $fecha_1, $fecha_2 );
 
@@ -126,6 +141,9 @@ class ReporteController extends Controller
 
         else if($request->input('tipo_reporte') == 'venta_creditos'){
 
+            if( Auth::user()->rol <> 'Administrador' &&
+                Auth::user()->rol <> 'Call VIP'){ return abort(403); }
+
             $reporte = reporte_venta_creditos( $fecha_1, $fecha_2 );
 
             return view('admin.reportes.venta_creditos')
@@ -142,6 +160,10 @@ class ReporteController extends Controller
         //VENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESOR
 
         else if( $request->input('tipo_reporte') == 'venta_creditos_por_asesor' ){
+
+            if( Auth::user()->rol <> 'Administrador' &&
+                Auth::user()->rol <> 'Call VIP'){ return abort(403); }
+
             $reporte = reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 );
             
                 return view('admin.reportes.venta_creditos_por_asesor')
@@ -156,17 +178,36 @@ class ReporteController extends Controller
                     ->with('total_puntos',$reporte['total_puntos']);
         }
 
+        //HISTORIALVENTACREDITOSHISTORIALVENTACREDITOSHISTORIALVENTACREDITOSHISTORIALVENTACREDITOS
+        //HISTORIALVENTACREDITOSHISTORIALVENTACREDITOSHISTORIALVENTACREDITOSHISTORIALVENTACREDITOS
+        
+        else if( $request->input('tipo_reporte') == 'historial_ventas'){
+
+            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
+
+            $detalleVentas = \File::allFiles(storage_path('0-detalleVentas'));
+            $ventaCarteras = \File::allFiles(storage_path('1-ventasCarteras'));
+            
+            return view('admin.reportes.historial_ventas')
+                ->with('detalleVentas',$detalleVentas)
+                ->with('ventaCarteras',$ventaCarteras);
+        }
+
+
+
         //CASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADA
         //CASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADA
 
         else if($request->input('tipo_reporte') == 'castigada'){
 
-          $reporte = reporte_castigada($fecha_1,$fecha_2);
+            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
 
-          return view('admin.reportes.castigada')
-            ->with('rango',$reporte['rango'])
-            ->with('castigadas',$reporte['castigadas'])
-            ->with('carteras',$reporte['carteras']);      
+            $reporte = reporte_castigada($fecha_1,$fecha_2);
+
+            return view('admin.reportes.castigada')
+                ->with('rango',$reporte['rango'])
+                ->with('castigadas',$reporte['castigadas'])
+                ->with('carteras',$reporte['carteras']);      
         }        
 
         /*
@@ -178,6 +219,10 @@ class ReporteController extends Controller
         //CALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTER  
   
         else if($request->input('tipo_reporte') == 'callcenter'){
+            
+            if( Auth::user()->rol <> 'Administrador' &&
+                Auth::user()->rol <> 'Call VIP'){ return abort(403); }
+
             $llamadas = Llamada::whereBetween('created_at',[$ini,$fin])->get();
 
             $sumatoria = 
@@ -202,8 +247,8 @@ class ReporteController extends Controller
 
         else if($request->input('tipo_reporte') == 'general_por_carteras'){
 
+            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
             //reporte_general_por_carteras() ver en helpers
-
 
            $reporte = reporte_general_por_carteras( $fecha_1, $fecha_2 , $request->input('cartera'));
            
@@ -240,9 +285,9 @@ class ReporteController extends Controller
         }
         else if($request->input('tipo_reporte') == 'general_por_users'){
 
+            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
+
             $respuesta = reporte_general_por_funcionarios( $fecha_1, $fecha_2);
-
-
 
             return view('admin.reportes.general_funcionarios')
                 ->with('reporte',$respuesta['reporte'])
@@ -251,6 +296,8 @@ class ReporteController extends Controller
             
             }
         else if($request->input('tipo_reporte') == 'procredito'){
+            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
+
             reporte_procredito();
             $this->index();
         }  
@@ -258,6 +305,9 @@ class ReporteController extends Controller
         //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
 
         else if($request->input('tipo_reporte') == 'datacredito' ){
+
+            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
+
             try{
                 $this->validate($request,
                         ['mes_corte' => 'required',
@@ -281,7 +331,9 @@ class ReporteController extends Controller
         }
 
     else if($request->input('tipo_reporte') == 'auditoria' ){
-        //dd($fin);
+
+        if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
+
         $audits = 
         DB::table('audits')
             ->join('users','audits.user_id','=','users.id')
@@ -305,74 +357,74 @@ class ReporteController extends Controller
     }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        
-        $users = User::where('id','<>',1)->get();
+  
+    public function show($id){}
 
-        $users = 
+    public function edit($id){}
 
-        DB::table('users')
-        ->join('puntos','users.punto_id','=','puntos.id')
-        ->leftJoin('facturas','users.id','=','facturas.user_create_id')
-        ->select(DB::raw(
-            'users.id as id,
-             users.name as nombre,
-             puntos.nombre as punto,
-             SUM(facturas.total) as total'))
-        ->where([['users.id','<>',1]])
-        ->whereBetween('facturas.created_at',[$ini,$fin])
-        ->groupBy('users.id')
-        ->get();
+    public function update(Request $request, $id){}
 
-        //dd($users);
-            
-        return view('admin.reportes.prueba');
-    }
+    public function destroy($id){}
+
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Genera xls del detallado de ventas de credito 
+     * y el total por c/u de las carteras
+     * @param  implicitamente utiliza $this->fecha_1 y $this->fecha_2 
+     * @param  string string
+     * @return dos archivos xls almacenados en el storage
      */
-    public function edit($id)
-    {
 
+    public function ventas(){
+
+        Excel::create('reporte_detallado_ventas-'.Carbon::now(),function($excel){
+
+            $excel->sheet('Sheetname',function($sheet){
+                
+                $reporte = reporte_venta_creditos($this->fecha_1, $this->fecha_2);
+                $creditos = $reporte['creditos'];   
+                $array = array();
+
+                for($i = 0; $i < count($creditos) ; $i++){
+                    $array[$i] = (array)$creditos[$i];
+                }
+                $sheet->fromArray($array);
+            });
+        })->store('xls', storage_path('0-detalleVentas'));
+
+        Excel::create('reporte_ventas_carteras-'.Carbon::now(),function($excel){
+
+            $excel->sheet('Sheetname',function($sheet){
+                $reporte = reporte_venta_creditos($this->fecha_1, $this->fecha_2);
+                $carteras = $reporte['carteras'];
+                $array = array();
+
+                for($i = 0; $i < count($carteras) ; $i++){
+                    $array[$i] = (array)$carteras[$i];
+                }
+                $sheet->fromArray($array);
+            });
+        })->store('xls', storage_path('1-ventasCarteras'));   
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function descargarDetalladoVentas($reporte){
+            return response()->download(storage_path('0-detalleVentas/'.$reporte));
+    }
+    public function descargarVentasCartera($reporte){
+        return response()->download(storage_path('1-ventasCarteras/'.$reporte));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    public function getReportVentas($fecha_1, $fecha_2){
+            $reporte = reporte_venta_creditos( $fecha_1, $fecha_2 );
 
-    public function centrales(){
-      
-      dd(reporte_centrales());      
-
+            return view('admin.reportes.venta_creditos')
+                ->with('creditos',$reporte['creditos'])
+                ->with('total_vlr_fin',$reporte['total_vlr_fin'])
+                ->with('total_vlr_credito',$reporte['total_vlr_credito'])
+                ->with('total_saldo',$reporte['total_saldo'])
+                ->with('rango',$reporte['rango'])
+                ->with('carteras',$reporte['carteras'])
+                ->with('total',$reporte['total']);
     }
+    
 }

@@ -1,4 +1,6 @@
 <?php
+use App\Cliente;
+use App\Codeudor;
 
 
 /*
@@ -16,6 +18,54 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVentas')
+	->middleware('admin');
+
+Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
+	->middleware('admin');
+
+// function quitar_tildes($cadena) {
+// 	$no_permitidas= array ("á","é","í","ó","ú","Á","É","Í","Ó","Ú","ñ","À","Ã","Ì","Ò","Ù","Ã™","Ã ","Ã¨","Ã¬","Ã²","Ã¹","ç","Ç","Ã¢","ê","Ã®","Ã´","Ã»","Ã‚","ÃŠ","ÃŽ","Ã”","Ã›","ü","Ã¶","Ã–","Ã¯","Ã¤","«","Ò","Ã","Ã„","Ã‹");
+// 	$permitidas= array ("a","e","i","o","u","A","E","I","O","U","n","N","A","E","I","O","U","a","e","i","o","u","c","C","a","e","i","o","u","A","E","I","O","U","u","o","O","i","a","e","U","I","A","E");
+// 	$texto = str_replace($no_permitidas, $permitidas ,$cadena);
+// 	return $texto;
+// 	}
+
+
+// //Script para quitar espacios finales de las cadenas de texto
+
+// Route::get('prueba', function () {
+
+// 	$clientes = Cliente::all();
+// 	$contador = 0;
+// 	foreach($clientes as $cliente){
+// 		$cliente->primer_nombre = quitar_tildes($cliente->primer_nombre);
+// 		$cliente->segundo_nombre = quitar_tildes($cliente->segundo_nombre);
+// 		$cliente->primer_apellido = quitar_tildes($cliente->primer_apellido);
+// 		$cliente->segundo_apellido = quitar_tildes($cliente->segundo_apellido);
+// 		$cliente->direccion = quitar_tildes($cliente->direccion);
+// 		$cliente->save();
+		
+// 		if($cliente->codeudor->id <> 100){
+
+// 			$codeudor = Codeudor::find($cliente->codeudor->id);
+
+// 			$codeudor->primer_nombrec = quitar_tildes($codeudor->primer_nombrec);
+// 			$codeudor->segundo_nombrec = quitar_tildes($codeudor->segundo_nombrec);
+// 			$codeudor->primer_apellidoc = quitar_tildes($codeudor->primer_apellidoc);
+// 			$codeudor->segundo_apellidoc = quitar_tildes($codeudor->segundo_apellidoc);
+// 			$codeudor->direccionc = quitar_tildes($codeudor->direccionc);
+// 			$codeudor->save();
+
+// 			$contador++;
+// 		}
+		
+// 	}
+// 	echo $contador;
+// });
+
+
+
 
 
 
@@ -30,10 +80,6 @@ Route::post('start/simulador',[
 	'uses' 	=> 'SimuladorController@store',
 	'as'	=> 'start.simulador.store'
 	])->middleware('simulador');
-
-
-
-
 
 
 // CLIENTESCLIENTESCLIENTESCLIENTESCLIENTESCLIENTESCLIENTES
@@ -71,12 +117,6 @@ Route::get('start/clientes/{id}/consultar_codeudor',[
 
 Route::get('start/clientes/{id}/destroy',
 	['uses'	=> 'ClienteController@destroy','as'	=> 'start.clientes.destroy'])->middleware('clientes_borrar');
-
-
-
-
-
-
 
 //ESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOS
 
@@ -294,8 +334,16 @@ Route::get('start/precreditos/{id}/ver',['uses'	=> 'PrecreditoController@ver','a
 
 Route::get('start/anuladas/index',[ 'uses' => 'AnuladaController@index', 'as'   => 'start.anuladas.index']);
 
+//WIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKI
 
-
+Route::get('wiki',[
+	'uses'	=> 'WikiController@index',
+	'as'	=> 'wiki'
+]);
+Route::get('wiki/{opcion}',[
+	'uses'	=> 'WikiController@escuchar',
+	'as'	=> 'wiki.opciones'
+]);
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
@@ -306,12 +354,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::resource('productos','ProductoController');
 	Route::resource('sanciones','SancionController');
 	Route::resource('multas','MultaController');
-	Route::resource('reportes','ReporteController');
+	
 	Route::resource('criteriocall','CriteriocallController');
   	Route::resource('anuladas','AnuladaController');
   	Route::resource('puntos','PuntoController');	
 });
 
+Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])
+	->middleware('reporte_listar');
+
+Route::post('admin/reportes',['uses' => 'ReporteController@store', 'as' => 'admin.reportes.store'])
+	->middleware('reporte_generate');
+
+//Route::resource('admin/reportes','ReporteController');
 
 //ADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMIN
 
@@ -320,13 +375,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 
 Route::get('admin/reporte_centrales','ReporteController@centrales');
 
+//REPORTESHISTORIALVENTAS
+
+Route::post('admin/descargar_reporte_detallado_ventas','ReporteController@descargar');
+
+
 
 //EGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOS
 
 //LISTAR
 Route::get('admin/egresos',
 	['uses' => 'EgresoController@index', 'as' => 'admin.egresos.index'])->middleware('egresos_listar');
-
 
 Route::get('admin/egresos/listar/egresos',
 	['uses' => 'EgresoController@listar_egresos', 'as' => 'admin.egresos.listar.egresos'])->middleware('egresos_listar');

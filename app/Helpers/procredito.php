@@ -35,41 +35,33 @@ function reporte_procredito(){
     Excel::create('294466092'.$fecha,function($excel){
         $excel->sheet('Sheetname',function($sheet){
 
-            $generar_tipo_d     = 0;
+            
             $now                = Carbon::now();
             $fecha              = fecha_plana($now->toDateString());
             $ids                = DB::table('creditos')
-                                    ->whereIn('estado', 
-                                    ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
+                                   //->where('creditos.id',100)
+                                     ->whereIn('estado', 
+                                     ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
                                     ->where('end_procredito','<>',1)
                                     ->select('id')
                                     ->get();
-
-            $ids_array = array(); 
-                    
-            foreach($ids as $id){ array_push($ids_array, $id->id); }                
-
-            $creditos       = Credito::find($ids_array);             
+                
+         
             $reporte_array  = array();
 
-            foreach($creditos as $credito){
+            for($i = 0; $i < count($ids); $i++ ){
+
+                $credito = Credito::find($ids[$i]->id);
+
+                $bandera            = 0;
+                $generar_tipo_d     = 0;
 
                 // TIPO EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-
-                $c = 
-                DB::table('creditos')
-                            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-                            ->join('clientes','precreditos.cliente_id','=','clientes.id')
-                            ->where([['clientes.id','=',$credito->precredito->cliente->id],
-                                    ['creditos.id','<>',$credito->id]])
-                            ->select('creditos.id as id','creditos.estado as estado')
-                            ->orderBy('creditos.id','desc')
-                            ->first();  
 
 
                 if($credito->refinanciacion == 'Si'){
                     $credito_id = $credito->credito_refinanciado_id;
-                    $refinanciacion = 0;
+                    $refinanciacion = '0';
                 }
                 else{
                     $credito_id = $credito->id;
@@ -92,16 +84,16 @@ function reporte_procredito(){
                 '11-tipo_garante'         => '1', //Deudor
                 '12-tipo_doc_cliente'     => tipo_documento($credito->precredito->cliente->tipo_doc),
                 '13-num_doc_cliente'      => $credito->precredito->cliente->num_doc,
-                '14-primer_nombre'        => $credito->precredito->cliente->primer_nombre, 
-                '15-segundo_nombre'       => $credito->precredito->cliente->segundo_nombre,       
-                '16-primer_apellido'      => $credito->precredito->cliente->primer_apellido,      
-                '17-segundo_apellido'     => $credito->precredito->cliente->segundo_apellido,      
+                '14-primer_nombre'        => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->primer_nombre)), 
+                '15-segundo_nombre'       => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->segundo_nombre)), 
+                '16-primer_apellido'      => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->primer_apellido)), 
+                '17-segundo_apellido'     => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->segundo_apellido)), 
                 '18-nombre_comercial'     => '',        
                 '19-pais'                 => '57',//Colombia
                 '20-departamento'         => $credito->precredito->cliente->municipio->codigo_departamento, //municipios
                 '21-ciudad'               => $credito->precredito->cliente->municipio->codigo_municipio, //municipios
                 '22-tipo_direccion'       => '1',//Casa
-                '23-direccion'            => $credito->precredito->cliente->direccion,
+                '23-direccion'            => str_replace("Ñ", "N",str_replace("ñ", "N",$credito->precredito->cliente->direccion)),
                 '24-tipo_telefono'        => '2', // Celular
                 '25-telefono'             => $credito->precredito->cliente->movil, 
                 '26-extension'            => '',
@@ -119,16 +111,17 @@ function reporte_procredito(){
                 '38-meses_clausula_permanencia'=> '',
                 '39-valor_obligacion'     => (int)$credito->precredito->vlr_fin,
                 '40-cargo_fijo'           => '',
-                '41-saldos_f_corte'       => (int)$credito->saldo,
-                '42-saldo_mora_f_corte'   => (int)saldo_mora($credito),
-                '43-cuotas_pactadas'      => $credito->precredito->cuotas, 
-                '44-cuotas_pagadas'       => $credito->precredito->cuotas -
-                                            $credito->cuotas_faltantes,
-                '45-cuotas_mora'          => cuotas_mora($credito,$now)['cts_mora'],
+                '41-saldos_f_corte'       => (string)((int)$credito->saldo),
+                '42-saldo_mora_f_corte'   => (string)saldo_mora($credito),
+                '43-cuotas_pactadas'      => cuotas_pactadas($credito), 
+                '44-cuotas_pagadas'       => (string)($credito->precredito->cuotas -
+                                            $credito->cuotas_faltantes),
+                '45-cuotas_mora'          => (string)(cuotas_mora($credito,$now)['cts_mora']),
                 '46-motivo_de_pago'       => motivo_pago($credito),
                 '47-estado_titular'       => '',
                 '48-tipo_doc_soporte'     => '',
-                '49-numero_obligacion_referenciada'=> ''   
+                '49-numero_obligacion_referenciada'=> '',
+                '50'                      => ' '
                 );
 
                 array_push($reporte_array, $temp);
@@ -156,20 +149,20 @@ function reporte_procredito(){
                     if($generar_tipo_d == 0){
                         $temp_e = array(
                                         'tipo_de_registro'  => 'D', // detalle
-                                        'tipo_obligacion'   => 7,   // 
+                                        'tipo_obligacion'   => '7',   // 
                                         'numero_obligacion' => $credito_id ,
                                         'numero_cuota'      => $numero_cuota,
                                         'valor_cuota'       => (int)$credito->precredito->vlr_cuota,
                                         'valor_pagado'      => (int)$valor_pagado,
                                         'estado_obligacion' => estado($credito,$now),
-                                        'dias_en_mora'      => 0,
+                                        'dias_en_mora'      => '0',
                                         'fecha_pago'        => $fecha_pago,
                                         'fecha_vencimiento' => fecha_vencimiento($credito)
                                         );
                         array_push($reporte_array, $temp_e);
                     }
 
-            }
+                }
 
                 // cuando el credito esta en un estado diferente al dia **************************************
 
@@ -185,44 +178,58 @@ function reporte_procredito(){
                                         'numero_obligacion' => $credito_id ,
                                         'numero_cuota'      => 1,
                                         'valor_cuota'       => (int)$credito->precredito->vlr_cuota,
-                                        'valor_pagado'      => (int)$factura->total,
+                                        'valor_pagado'      => (string)((int)$factura->total),
                                         'estado_obligacion' => 1,
-                                        'dias_en_mora'      => 0,
+                                        'dias_en_mora'      => '0',
                                         'fecha_pago'        => fecha_plana($factura->fecha),
                                         'fecha_vencimiento' => fecha_vencimiento($credito)
                                         );
+                        
+                        
                         $numero_cuota = 2;
                         array_push($reporte_array, $temp_e);
-
                     }
-                    else{
+                    else{  
                         $numero_cuota = 1;
                     }
 
-                    $f = $credito->fecha_pago->fecha_pago;
-                    $f = formatoFecha(dia($f),mes($f),ano($f));
+                    if($credito->estado == 'Cancelado'){
+                        $bandera = 1;
+                    }
+                    elseif($credito->estado == 'Mora' || $credito->estado == 'Prejuridico'
+                            || $credito->estado == 'Juridico'){
+                            
+                        if(dias_mora($credito,$now) <= 20){
+                            $bandera = 1;
+                        }
+                    }
 
-                    $temp_e = array(
-                                    'tipo_de_registro'  => 'D', // detalle
-                                    'tipo_obligacion'   => 7,   // 
-                                    'numero_obligacion' => $credito_id ,
-                                    'numero_cuota'      => $numero_cuota,
-                                    'valor_cuota'       => (int)$credito->precredito->vlr_cuota,
-                                    'valor_pagado'      => 0,
-                                    'estado_obligacion' => estado($credito,$now),
-                                    'dias_en_mora'      => dias_mora($credito,$now),
-                                    'fecha_pago'        => '',
-                                    'fecha_vencimiento' => fecha_plana($f)
-                                    );
-                    array_push($reporte_array, $temp_e);
+                    if($bandera == 0){ 
 
-
+                        $f = $credito->fecha_pago->fecha_pago;
+                        $f = formatoFecha(dia($f),mes($f),ano($f));
+                        $temp_e = array(
+                                        'tipo_de_registro'  => 'D', // detalle
+                                        'tipo_obligacion'   => '7',   // 
+                                        'numero_obligacion' => $credito_id ,
+                                        'numero_cuota'      => $numero_cuota,
+                                        'valor_cuota'       => (int)$credito->precredito->vlr_cuota,
+                                        'valor_pagado'      => '0',
+                                        'estado_obligacion' => estado($credito,$now),
+                                        'dias_en_mora'      => dias_mora($credito,$now),
+                                        'fecha_pago'        => '',
+                                        'fecha_vencimiento' => fecha_plana($f)
+                                        );
+                        array_push($reporte_array, $temp_e);   
+                
+                    } 
                 }
 
         // TIPO GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
 
 
         if( $credito->precredito->cliente->codeudor->id <> 100){
+
 
             $temp_g = array(
              '1-tipo_de_registro'      => 'G', // para deudor
@@ -238,16 +245,16 @@ function reporte_procredito(){
              '11-tipo_garante'          => '2', 
              '12-tipo_doc_cliente'      => tipo_documento($credito->precredito->cliente->codeudor->tipo_docc),
              '13-num_doc_cliente'       => $credito->precredito->cliente->codeudor->num_docc,
-             '14-primer_nombre'         => $credito->precredito->cliente->codeudor->primer_nombrec, //cliente
-             '15-segundo_nombre'        => $credito->precredito->cliente->codeudor->segundo_nombrec, //cliente
-             '16-primer_apellido'       => $credito->precredito->cliente->codeudor->primer_apellidoc, //cliente
-             '17-segundo_apellido'      => $credito->precredito->cliente->codeudor->segundo_apellidoc, //cliente
+             '14-primer_nombre'         => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->codeudor->primer_nombrec)), //cliente
+             '15-segundo_nombre'        => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->codeudor->segundo_nombrec)), //cliente
+             '16-primer_apellido'       => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->codeudor->primer_apellidoc)), //cliente
+             '17-segundo_apellido'      => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->codeudor->segundo_apellidoc)), //cliente
              '18-nombre_comercial'      => '',
              '19-pais'                  => '57',//Colombia
              '20-departamento'          => $credito->precredito->cliente->municipio->codigo_departamento, //municipios 
              '21-ciudad'                => $credito->precredito->cliente->municipio->codigo_municipio, //municipios
              '22-tipo_direccion'        => '1',//Casa
-             '23-direccion'             => $credito->precredito->cliente->codeudor->direccionc,
+             '23-direccion'             => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->codeudor->direccionc)),
              '24-tipo_telefono'         => '2', // Celular
              '25-telefono'              => $credito->precredito->cliente->codeudor->movilc, 
              '26-extension'             => '',
@@ -273,14 +280,15 @@ function reporte_procredito(){
              '46-motivo_de_pago'        => '',
              '47-estado_titular'        => '',
              '48-tipo_doc_soporte'      => '',
-             '49-numero_obligacion'     => ''  
+             '49-numero_obligacion'     => '',
+             '50'                       => ' '
                 );
     
             array_push($reporte_array, $temp_g);
 
         }
         
-    }dd($reporte_array);
+    }//dd($reporte_array);
     $sheet->fromArray($reporte_array,null,'A1',false,false);
         });
         })->download('txt');
@@ -295,6 +303,33 @@ function reporte_procredito(){
         // return $reporte_array;
 
     }
+    /*
+    |--------------------------------------------------------------------------
+    | cuotas_pactadas
+    |--------------------------------------------------------------------------
+    |
+    | recibe un objeto credito  
+    | retorna numero de cuotas pactadas
+    | Si el credito viene de una migración, no tiene pagos y esta en Mora
+    | el numero de cuotas pactadas se iguala al numero de cutas por pagar.  
+    */
+    function cuotas_pactadas($credito){
+        $cts = $credito->precredito->cuotas;
+        $cts_faltantes = $credito->cuotas_faltantes;
+        if($cts_faltantes < $cts ){
+            //si la cantidad de pagos es 0
+            if( DB::table('facturas')->where([['credito_id','=',$credito->id]])->count() == 0){
+                $credito->precredito->cuotas = $cts_faltantes;  
+                return $cts_faltantes;
+            }else{
+                return $cts;
+            }
+        }else{
+            return $cts;
+        }
+    }
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -309,12 +344,17 @@ function reporte_procredito(){
 
     function saldo_mora( $credito ){
 
-        if($credito->estado == 'Al dia'){
-            return 0;
-        }
-
         $corte      = Carbon::now();
         $total_multas = "";
+
+        if(dias_mora($credito,$corte) <= 20){
+            return '0';
+        }
+
+
+        if($credito->estado == 'Al dia' || $credito->estado == 'Cancelado'){
+            return '0';
+        }
 
         $sanciones  = 
             Sancion::where('credito_id',$credito->id)
@@ -332,7 +372,7 @@ function reporte_procredito(){
                 
         if( count($multas) > 0 ){
 
-            // consulta de si hay pagos por multas
+            // consulta si hay pagos por multas
 
             $pagos_por_multa = 
                 DB::table('pagos')
@@ -382,7 +422,11 @@ function reporte_procredito(){
 
         $saldo_en_mora = $sanciones + $total_multas + $total_parciales + $vlr_cuotas_mora ;
 
-        return $saldo_en_mora; 
+        
+        return (int)$saldo_en_mora; 
+     
+
+        
 
 
     }
@@ -402,63 +446,76 @@ function reporte_procredito(){
 
     function cuotas_mora( $credito ,$corte){
 
-        //$corte = Carbon::now();
+        $dias_mora = dias_mora($credito, $corte);
 
-        //pago_hasta es la fecha limite de pago
+        if($dias_mora > 20){
 
-        $pago_hasta     = FechaCobro::where('credito_id',$credito->id)->get();
-        $pago_hasta     = $pago_hasta[0]->fecha_pago;
+            
+            //pago_hasta es la fecha limite de pago
 
-        //se inician las variables
+            $pago_hasta     = FechaCobro::where('credito_id',$credito->id)->get();
+            $pago_hasta     = $pago_hasta[0]->fecha_pago;
 
-        $cuotas         = $credito->cuotas_faltantes;
-        $parada         = FALSE;
-        $cts_mora       = 0; // no incluye cuotas parciales
-        $cts_mora_todas = 0; // incluye cuotas parciales
-        
+            //se inician las variables
 
-        $f_pago         = Carbon::create(ano($pago_hasta),mes($pago_hasta),dia($pago_hasta));
+            $cuotas         = $credito->cuotas_faltantes;
+            $parada         = FALSE;
+            $cts_mora       = 0; // no incluye cuotas parciales
+            $cts_mora_todas = 0; // incluye cuotas parciales
+            
 
-
-        if( $corte->gt($f_pago)){
-            $cts_mora++;
-            $cuotas--;
-        }
-        else{
-            $parada = TRUE;
-        }
-
-        while( $cuotas > 0 && $parada == FALSE){   
+            $f_pago         = Carbon::create(ano($pago_hasta),mes($pago_hasta),dia($pago_hasta));
 
 
-            $f_pago  = pago_hasta($f_pago->toDateString(), 
-                                  $credito->precredito->periodo, 
-                                  1,
-                                  $credito->precredito->p_fecha, 
-                                  $credito->precredito->s_fecha
-                                  );
-
-            $f_pago = Carbon::create(ano($f_pago),mes($f_pago),dia($f_pago));
-
-            if( $corte->gt($f_pago) ){
+            if( $corte->gt($f_pago)){
                 $cts_mora++;
                 $cuotas--;
             }
             else{
                 $parada = TRUE;
             }
-        
+
+            while( $cuotas > 0 && $parada == FALSE){   
+
+
+                $f_pago  = pago_hasta($f_pago->toDateString(), 
+                                    $credito->precredito->periodo, 
+                                    1,
+                                    $credito->precredito->p_fecha, 
+                                    $credito->precredito->s_fecha
+                                    );
+
+                $f_pago = Carbon::create(ano($f_pago),mes($f_pago),dia($f_pago));
+
+                if( $corte->gt($f_pago) ){
+                    $cts_mora++;
+                    $cuotas--;
+                }
+                else{
+                    $parada = TRUE;
+                }
+            
+            }
+
+            //si existen pagosparciales se resta 1 al número de cuotas
+
+            $cts_mora_todas  = $cts_mora;
+
+            //oRganizar
+
+            //if( $cts_mora > 1 && pagos_parciales($credito,$corte) ){
+
+            
+            if( $cts_mora > 0 && pagos_parciales($credito,$corte) ){
+                $cts_mora--;
+            }
+
+            return array('cts_mora' => $cts_mora , 'cts_mora_todas' => $cts_mora_todas );
+
+        }//end if
+        else{
+            return array('cts_mora' => 0 , 'cts_mora_todas' => 0 );
         }
-
-        //si existen pagosparciales se resta 1 al número de cuotas
-
-        $cts_mora_todas  = $cts_mora;
-
-        if( $cts_mora > 0 && pagos_parciales($credito,$corte) ){
-            $cts_mora--;
-        }
-
-        return array('cts_mora' => $cts_mora , 'cts_mora_todas' => $cts_mora_todas );
     }
 
 
@@ -633,10 +690,11 @@ function reporte_procredito(){
             ->count('id');
 
         if($dias == null){
-            return 0;
-        } 
-
-        return $dias;    
+            return '0';
+        }
+        else{
+            return $dias;
+        }     
     }
 
     // funcion que retorna el estado formateado para el archivo plano
@@ -648,13 +706,13 @@ function reporte_procredito(){
         $estado = '';
         $dias_mora = dias_mora($credito,$corte);
 
-        if( ($credito->estado == 'Mora'  && $dias_mora > 30)
+        if( ($credito->estado == 'Mora'  && $dias_mora > 20)
             || $credito->estado == 'Prejuridico' 
             || $credito->estado == 'Juridico'){
             $estado = 2;
         }
         else if( $credito->estado == 'Al dia'
-                 || ($credito->estado == 'Mora'  && $dias_mora < 30)){
+                 || ($credito->estado == 'Mora'  && $dias_mora <= 20)){
             $estado = 1;
         }
         else{

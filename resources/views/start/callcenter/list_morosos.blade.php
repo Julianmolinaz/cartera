@@ -1,6 +1,6 @@
 
 @section('title','Creditos morosos')
-@section('encabezado','Callcenter créditos en mora')
+@section('encabezado','Callcenter créditos en mora <i class="fas fa-ban"></i>')
 
 @section('contenido')
     <!--

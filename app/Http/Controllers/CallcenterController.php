@@ -53,6 +53,9 @@ class CallcenterController extends Controller
                  carteras.nombre             as cartera,
                  creditos.id                 as credito_id,
                  creditos.saldo              as saldo,
+                 creditos.castigada          as castigada,
+                 creditos.refinanciacion     as refinanciado,
+                 creditos.credito_refinanciado_id as credito_refinanciado_id,
                  precreditos.vlr_fin         as valor_financiar,
                  municipios.nombre           as municipio,
                  municipios.departamento     as departamento,
@@ -66,7 +69,7 @@ class CallcenterController extends Controller
                  users.name                  as funcionario'))
              ->whereIn('creditos.estado',$array)
              ->orderBy('llamadas.created_at','desc')
-             ->paginate(500);
+             ->paginate(100);
 
 
  
@@ -101,24 +104,6 @@ class CallcenterController extends Controller
     */
     public function index()
     {
-
-            // $creditos = Credito::all();
-        
-            // foreach($creditos as $credito){
-            // 	$ultima_llamada = 
-            // 	DB::table('llamadas')
-            // 		->where('credito_id',$credito->id)
-            // 		->orderBy('created_at','desc')
-            //         ->first();
-                    
-       
-            // 		if($ultima_llamada){
-            //             $credito->last_llamada_id = $ultima_llamada->id;
-            //             $credito->save();
-            // 		}
-        
-            //     }
-
 
         $criterios  = Criterio::all();
         $creditos   = $this->query(['Al dia','Mora','Prejuridico','Juridico']); 
@@ -169,6 +154,8 @@ class CallcenterController extends Controller
                 carteras.nombre             as cartera,
                 creditos.id                 as credito_id,
                 creditos.saldo              as saldo,
+                creditos.refinanciacion     as refinanciado,
+                creditos.credito_refinanciado_id as credito_refinanciado_id,
                 precreditos.vlr_fin         as valor_financiar,
                 municipios.nombre           as municipio,
                 municipios.departamento     as departamento,
@@ -418,8 +405,8 @@ class CallcenterController extends Controller
                     $creditos = $this->creditos->creditosTipoCall();
 
                     $header = [
-                        'cartera','credito_id','municipio','departamento',
-                        'estado','centro de costos','saldo','sanciones','tipo moroso','cliente','doc',
+                        'cartera','credito_id','municipio','departamento','estado','centro de costos',
+                        'saldo','sanciones','tipo moroso','castigada','refinanciado','credito_padre','cliente','doc',
                         'fecha_pago','agenda','observaciones','funcionario','fecha_llamada'];
         
                     array_push($array_creditos,$header);
@@ -485,6 +472,9 @@ class CallcenterController extends Controller
                             'saldo'         => $credito->saldo,
                             'sanciones'     => $sanciones,
                             'tipo_moroso'   => $tipo_moroso,
+                            'castigada'     => $credito->castigada,
+                            'refinanciado'  => $credito->refinanciado,
+                            'padre'         => $credito->credito_refinanciado_id,
                             'cliente'       => $credito->cliente,
                             'doc'           => $credito->doc,
                             'fecha_pago'    => $credito->fecha_pago,

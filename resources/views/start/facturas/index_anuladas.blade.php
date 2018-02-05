@@ -4,7 +4,9 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="panel panel-primary">
-    <div class="panel-heading">Facturas Créditos Anuladas</div>
+    <div class="panel-heading"> <h2>Facturas Créditos Anuladas
+        <i class="far fa-frown"></i></h2>
+    </div>
     <div class="panel-body">
         <p>
          @include('flash::message')
@@ -54,11 +56,16 @@
     </div>
   </div>
 </div>
-
+<div style="margin-left:30px;">
+    {{ $anuladas->links() }}
+</div>
   <script>
     $( document ).ready(function() {
       $('#datatable').dataTable( {
-        //'ordering':false,
+        'scrollY'       : 500,
+        'paging'        : false,
+        "scrollCollapse": true,
+        "iDisplayLength": 500
       });
     });
 

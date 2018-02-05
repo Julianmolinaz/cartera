@@ -1,5 +1,5 @@
 @section('title','callcenter agendados')
-@section('encabezado','Callcenter agendados')
+@section('encabezado','Callcenter agendados <i class="fas fa-bell"></i>')
 
 @section('contenido')
     <!--

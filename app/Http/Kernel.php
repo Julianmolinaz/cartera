@@ -53,6 +53,7 @@ class Kernel extends HttpKernel
         'asesor' =>\App\Http\Middleware\AsesorMiddleware::class,
         'recaudador' => \App\Http\Middleware\RecaudadorMiddleware::class,
         'call' => \App\Http\Middleware\CallMiddleware::class,
+        'callvip' => \App\Http\Middleware\CallVipMiddleware::class,
         'simulador' => \App\Http\Middleware\SimuladorMiddleware::class,
 
         //CLIENTES
@@ -113,5 +114,9 @@ class Kernel extends HttpKernel
         'egresos_editar'        => \App\Http\Middleware\Egresos_editarMiddleware::class,
         'egresos_eliminar'      => \App\Http\Middleware\Egresos_eliminarMiddleware::class,
 
+        //REPORTES
+
+        'reporte_listar'        => \App\Http\Middleware\ReporteListMiddleware::class,
+        'reporte_generate'      => \App\Http\Middleware\ReporteGenerateMiddleware::class
     ];
 }

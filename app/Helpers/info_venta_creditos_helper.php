@@ -10,7 +10,6 @@ use App\Variable;
 use App\Egreso;
 use App\Cartera;
 use DB;
-
 use Carbon\Carbon;
 use App\Factura;
 use App\OtrosPagos;
@@ -19,9 +18,9 @@ use App\Llamada;
 use App\User;
 
 
-// Genera Reporte de Vent de creditos, ingresa el rango de fecha 1 a fecha 2
+// Genera Reporte de Vent de creditos, ingresa el rango de fecha 1 a fecha 2 (d,m,y)
 
-function reporte_venta_creditos( $fecha_1, $fecha_2 ){
+function reporte_venta_creditos( $fecha_1, $fecha_2 ){        
 
   $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
   $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
@@ -43,6 +42,8 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
         'creditos.id as id',
         'creditos.castigada as castigada',
         'creditos.saldo as saldo',
+        'creditos.refinanciacion as refinanciado',
+        'creditos.credito_refinanciado_id as credito_refinanciado_id',
         'clientes.nombre as cliente',
         'clientes.num_doc as documento',
         'precreditos.vlr_fin as vlr_fin',
@@ -68,10 +69,11 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
 
     $total_saldo = 0;
     foreach($creditos as $credito){ 
-        if($credito->castigada == 'No'){
+        if($credito->castigada == 'No' && $credito->refinanciado == 'No'){
             $total_saldo = $total_saldo + $credito->saldo; 
         }
     }
+
 
     $carteras           = DB::table('carteras')->select('id','nombre')->get();
     $array_carteras     = array();
@@ -96,7 +98,7 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
 
             if($array_carteras[$j]['nombre'] == $creditos[$i]->cartera){
 
-                if($creditos[$i]->castigada == 'No'){
+                if($creditos[$i]->castigada == 'No' && $creditos[$i]->refinanciado == 'No'){
 
                     $array_carteras[$j]['saldo']    =     $array_carteras[$j]['saldo']
                                                         + $creditos[$i]->saldo;

@@ -15,40 +15,22 @@
 
         <div style="display:none;">{{$fila = 1}}</div>  
 
-         <table id="datatable" class="table table-striped table-bordered" style="font-size:12px">
-          <thead>
-            <tr style="background-color:#FFC300;">
-              <th>  #</th>
-              <th>  Evento              </th>
-              <th>  Tipo                </th>
-              <th>  Auditable           </th>
-              <th>  Valor anterior      </th>
-              <th>  Valor nuevo         </th>
-              <th>  Url                 </th>
-              <th>  Agente              </th>
-              <th>  Funcionario         </th>
-              <th>  Fecha               </th>
-            </tr>
-          </thead>
-          <tbody style="font-size:12px">
-            @foreach($audits as $audit)
-              <tr>
-                <td>{{$fila++}}</td>
-                <td>{{$audit->event}}</td>
-                <td>{{$audit->type}}</td>
-                <td>{{$audit->auditable}}</td>
-                <td>{{$audit->old_values}}</td>
-                <td>{{$audit->new_values}}</td>
-                <td>{{$audit->url}}</td>
-                <td>{{$audit->user_agent}}</td>
-                <td>{{$audit->name}}</td>
-                <td>{{$audit->created_at}}</td>
-                
-              </tr>
-            @endforeach  
-
-          </tbody>
-         </table>
+        @foreach($audits as $audit)
+          <ul>
+            <li style="color:blue; font-weight:bold;">Fecha: {{$audit->created_at}}  </li>
+            <ul>
+            <li>Evento: {{$audit->event}}             </li>
+            <li>Tipo:{{$audit->type}}                 </li>
+            <li>Auditable: {{$audit->auditable}}      </li>
+            <li style="list-style:none;"><pre>Valor antiguo: {{$audit->old_values}} </pre></li>
+            <li style="list-style:none;"><pre>Valor nuevo:{{$audit->new_values}}    </pre></li>
+            <li>URL: {{$audit->url}}                  </li>
+            <li>Equipo: {{$audit->user_agent}}        </li>
+            <li>Responsable: {{$audit->name}}        </li>
+            </ul>
+          </ul>
+          <hr>
+        @endforeach
     </div>
   </div>
 </div>

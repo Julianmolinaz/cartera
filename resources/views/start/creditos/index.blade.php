@@ -4,7 +4,9 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="panel panel-primary">
-    <div class="panel-heading"><h2>Créditos
+    <div class="panel-heading"><h2>Créditos <i class="fas fa-suitcase"></i>
+
+
 
 
       <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="ExportarTodo();">
@@ -110,21 +112,19 @@
     </div>
   </div>
 
-
-  {{ $creditos->links() }}
-
+  <div style="margin-left:30px;">
+    {{ $creditos->links() }}
+  </div>
 
   <script>
     $( document ).ready(function() {
 
       $('#datatable').dataTable({
-        "lengthMenu"    : [[10, 25, 50, -1], [10, 25, 50, "All"]],  
-        'scrollY'       : 400,
+        'scrollY'       : 500,
         'paging'        : false,
         "scrollCollapse": true,
         "iDisplayLength": 500
         });
-
       });
 
     function Exportar(){

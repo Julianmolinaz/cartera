@@ -3,7 +3,7 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
 
-      <img alt="Brand" src="{{asset('images/gora_logo_mini.png')}}">
+      <img alt="Brand" src="{{asset('images/gora_logo_mini.png')}}" >
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -23,7 +23,7 @@
         <li class="">
             <a href="https://www.youtube.com/playlist?list=PLsemkTJmzpHvDs6ha0BMZ9ECkeO8GfKtx" target="_blank" 
              data-toggle="tooltip" data-placement="top" title="Ayuda">
-                <i><b>GoFin-3000!</b></i>
+                <i data-toggle="tooltip" data-placement="bottom" title="Ver Tutoriales"><b>GoFin-3000!</b></i>
             </a> 
         </li>
         <li class=""><a href="{{route('start.simulador.index')}}">Simulador <span class="sr-only">(current)</span></a></li>
@@ -75,7 +75,7 @@
             <li><a href="{{route('admin.multas.index')}}">Multas</a></li>
             
             <li role="separator" class="divider"></li>
-            <li><a href="{{route('admin.reportes.index')}}">Reportes</a></li>
+            <li><a href="{{route('admin.reportes.index')}}">Reportes &nbsp;<i class="fas fa-chart-line"></i></a></li>
 
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.carteras.index')}}">Carteras</a></li> 
@@ -84,7 +84,7 @@
                       
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.productos.index')}}">Productos</a></li>
-            <li><a href="{{route('admin.variables.index')}}">Variables</a></li>
+            <li><a href="{{route('admin.variables.index')}}">Variables &nbsp;<i class="fas fa-cogs"></i></a></li>
             <li><a href="{{route('admin.criteriocall.index')}}">Criterios de llamada</a></li>
             <li><a href=""></a></li> 
 
@@ -106,6 +106,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
           role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name!!} <span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li><a href="{{route('wiki')}}">Wiki-Gofin!</a></li>
             <li><a href="/logout">Salir</a></li>
           </ul>
         </li>

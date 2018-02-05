@@ -7,7 +7,7 @@
     <div class="panel-heading">
       <p>
         <h2>
-        Facturas Créditos
+        Facturas Créditos <i class="fas fa-handshake"></i>
         <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button>
       </h2>
       </p>  
@@ -23,17 +23,17 @@
           <thead>
             <tr>
             <th style="display:none;">    Actualizacion  </th>         
-              <th>    Factura id   </th>
-              <th>    Crédito id</th>
+              <th>    Factura id      </th>
+              <th>    Crédito id      </th>
               <th>    Factura número  </th>
-              <th>    Cartera </th>
-              <th>    Fecha     </th>
-              <th>    Total     </th>
-              <th>    Tipo de pago </th>
-              <th>    Cliente   </th>
-              <th>    Documento    </th>
-              <th>    Creó      </th>             
-              <th>    Acción         </th>
+              <th>    Cartera         </th>
+              <th>    Fecha           </th>
+              <th>    Total           </th>
+              <th>    Tipo de pago    </th>
+              <th>    Cliente         </th>
+              <th>    Documento       </th>
+              <th>    Creó            </th>             
+              <th>    Acción          </th>
 
             </tr>
           </thead>
@@ -85,12 +85,17 @@
   </div>
 </div>
 
+<div style="margin-left:30px;">
+    {{ $facturas->links() }}
+</div>
+
   <script>
     $( document ).ready(function() {
       $('#datatable').dataTable( {
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  
-        'scrollY': 400,
-        "scrollCollapse": true
+        'scrollY'       : 500,
+        'paging'        : false,
+        "scrollCollapse": true,
+        "iDisplayLength": 500
       });
     });
 

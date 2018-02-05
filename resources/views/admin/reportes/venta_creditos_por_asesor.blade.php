@@ -28,6 +28,8 @@
               <th>  Documento                 </th>
               <th>  Producto                  </th>
               <th>  Periodo                   </th>
+              <th>  Refinanciado              </th>
+              <th>  Crédito Padre             </th>
               <th>  Cuotas                    </th>
               <th>  Valor Cuota               </th> 
               <th>  Centro de Costos          </th>              
@@ -48,6 +50,8 @@
                 <td>  {{$credito->documento}} </td>
                 <td>  {{$credito->producto}}  </td>
                 <td>  {{$credito->periodo}}   </td>
+                <td>{{$credito->refinanciado}}</td>
+                <td>{{$credito->credito_refinanciado_id}}</td>
                 <td align="right">{{ $credito->cuotas}}</td>       
                 <td align="right">{{ number_format($credito->vlr_cuota,0,",",".")}}   </td>
                 <td align="right">{{ number_format($credito->vlr_fin,0,",",".")}}     </td>
@@ -66,6 +70,8 @@
                 <td><b>Totales :</b></td>
                 <td></td>
                 <td></td>
+                <td></td> 
+                <td></td> 
                 <td></td> 
                 <td></td>
                 <td></td>

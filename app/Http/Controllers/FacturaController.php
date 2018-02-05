@@ -25,7 +25,7 @@ class FacturaController extends Controller
      */
     public function index()
     {
-      $facturas   = Factura::where('credito_id','<>',null)->get();
+      $facturas   = Factura::paginate(100);
       $variables  = Variable::find(1);
 
       return view('start.facturas.index')

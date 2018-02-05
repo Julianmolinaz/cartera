@@ -5,8 +5,8 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="panel panel-warning">
     <div class="panel-heading"><h2>
-    @yield('encabezado','agregue el encabezado')
-
+    @yield('encabezado','agregue el encabezado') 
+ 
         <div class="pull-right">
           <div class="btn-group" role="group" aria-label="...">
             <button type="button" class="btn btn-default" onclick="Exportar();">Exportar vista xls</button>
@@ -59,10 +59,17 @@
           @if(isset($creditos))
 
           @foreach($creditos as $credito)
-          <tr>
-            <td>{{  $fila++                               }}</td>
-            <td>{{  $credito->cartera                     }}</td>
-            <td>{{  $credito->credito_id                  }}</td>
+          @if($credito->refinanciado == 'Si')
+          <tr class="info">
+              <td>{{  $fila++                               }}</td>
+              <td>{{  $credito->cartera                     }}</td>
+              <td>{{  $credito->credito_id. " [ Padre: ".$credito->credito_refinanciado_id."]"}}</td>
+          @else
+            <tr>
+              <td>{{  $fila++                               }}</td>
+              <td>{{  $credito->cartera                     }}</td>
+              <td>{{  $credito->credito_id                  }}</td>
+          @endif
             <td>{{  number_format($credito->valor_financiar,0,",",".") }}</td>
             <td>{{  number_format($credito->saldo,0,",",".") }}</td>
             <td>*{{  $credito->municipio.'-'.$credito->departamento  }}</td>
@@ -127,11 +134,18 @@
 
           <!-- cuando se trae solo un credito, funcionalidad del buscador -->
           @else
-
+            @if($credito->refinanciacion == 'Si')
+            <tr class="info">
+                <td>{{  $fila++                               }}</td>
+                <td>{{  $credito->precredito->cartera->nombre                     }}</td>
+                <td>{{  $credito->id. " [ Padre: ".$credito->credito_refinanciado_id."]"}}</td>
+            @else
               <tr>
                 <td>{{  $fila++                               }}</td>
-                <td>{{  $credito->precredito->cartera->nombre }}</td>
-                <td>{{  $credito->id                          }}</td>
+                <td>{{  $credito->cartera                     }}</td>
+                <td>{{  $credito->credito_id                  }}</td>
+            @endif
+
                 <td>{{  number_format($credito->precredito->vlr_fin,0,",",".")}}</td>
                 <td>{{  number_format($credito->saldo,0,",",".")}}</td>
                 <td>*{{  $credito->precredito->cliente->municipio->nombre.'-'.

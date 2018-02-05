@@ -18,6 +18,7 @@ class Facturas_listarMiddleware
     {
         if( 
             Auth::user()->rol == 'Call' ||
+            Auth::user()->rol == 'Call VIP' ||
             Auth::user()->rol == 'Recaudador' ||
             Auth::user()->rol == 'Asesor'     ||
             Auth::user()->rol == 'Asesor VIP' ||

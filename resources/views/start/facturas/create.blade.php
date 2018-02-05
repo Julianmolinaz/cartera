@@ -10,7 +10,7 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <!--panel generador de pagos-->
 <!--**********************************************************************-->
-        <div class="panel panel-default">
+        <div class="panel panel-primary" >
           <div class="panel-heading">
             <h3 class="panel-title">Generador de pagos</h3>
           </div>
@@ -69,10 +69,10 @@
         <!--panel resumen de pagos-->
 
 
-        <div class="panel panel-primary">
+        <div class="panel panel-warning">
           <!-- Default panel contents -->
-          <div class="panel-heading">
-            <h3 class="panel-title">Listado de los pagos</h3>
+          <div class="panel-heading" style="background-color: #FFC300;color:black;">
+            <h4>Listado de pagos</h4>
           </div>
           <div class="panel-body">
             <table id="tabla" class="table table-striped" >
@@ -119,7 +119,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading" style="position:relative;">
-        <h3 class="panel-title">
+        <h3 class="panel-title" >
           <a href="{{route('start.precreditos.ver',$credito->precredito->id)}}"target="_blank">
             Crédito {{$credito->id}}
           </a>

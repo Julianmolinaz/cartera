@@ -41,7 +41,8 @@ class ClienteController extends Controller
                      'users.name as user_create',
                      'clientes.created_at as created_at',
                      'clientes.updated_at as updated_at')
-            ->get();
+            ->orderBy('clientes.updated_at')
+            ->paginate(100);
 
 
         return view('start.clientes.index')
@@ -87,7 +88,7 @@ class ClienteController extends Controller
             'tipo_doc'                  => 'required',
             'num_doc'                   => 'required|max:15|unique:clientes',
             'fecha_nacimiento'          => 'required',
-            'direccion'                 => 'required|max:100',
+            'direccion'                 => ['required','max:100'],
             'barrio'                    => 'required',
             'municipio_id'              => 'required',
             'movil'                     => 'required|max:20',
@@ -113,7 +114,6 @@ class ClienteController extends Controller
            'barrio.required'            => 'El barrio del cliente es requerido',
            'municipio_id.required'      => 'El municipio del cliente es requerido' ,
            'movil.required'             => "El celular del cliente es requrido",
-        //    'movil.numeric'              => 'El celular  del cliente debe ser numérico',
            'movil.max'                  => 'El número celular del cliente excede los 20 dígitos permitidos',
            'ocupacion.required'         => 'La ocupación del cliente es requerida',
            'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
@@ -126,7 +126,7 @@ class ClienteController extends Controller
             'primer_nombrec'            => 'required|max:60',
             'segundo_nombrec'           => 'max:30',
             'primer_apellidoc'          => 'required|max:30',
-            'segundo_apellido'          => 'max:30',
+            'segundo_apellidoc'          => 'max:30',
             'tipo_docc'                 => 'required',
             'num_docc'                  => 'required|max:15',
             'fecha_nacimientoc'         => 'required',
@@ -142,10 +142,10 @@ class ClienteController extends Controller
         $message_codeudor = array(
            'primer_nombrec.required'    => 'EL primer nombre del codeudor es requerido',
            'primer_nombrec.max'         => 'El primer nombre del codeudor excede los 60 caracteres permitidos',
-           'segundo_nombrec'            => 'El segundo nombre del codeudor excede los 30 caracteres permitidos',
+           'segundo_nombrec.max'        => 'El segundo nombre del codeudor excede los 30 caracteres permitidos',
            'primer_apellidoc.required'  => 'El primer apellido del codeudor es requerido',
-           'primer_apellido.max'        => 'El primer apellido del codeudor excede los 30 caracteres',
-           'segundo_apellido.max'       => 'El segundo apellido del codeudor excede los 30 caracteres',
+           'primer_apellidoc.max'       => 'El primer apellido del codeudor excede los 30 caracteres',
+           'segundo_apellidoc.max'      => 'El segundo apellido del codeudor excede los 30 caracteres',
            'tipo_docc.required'         => 'El tipo de documento del codeudor es requerido',    
            'num_docc.required'          => 'El número de documento del codeudor es requerido',
            'num_docc.max'               => 'El número de documento del codeudor excede los 8 digitos permitidos',
@@ -155,7 +155,6 @@ class ClienteController extends Controller
            'barrioc.required'           => 'El barrio del codeudor es requerido',
            'municipioc_id.required'     => 'El municipio del codeudor es requerido',
            'movilc.required'            => 'El número celular del codeudor es requerido',
-        //    'movilc.numeric'             => 'El celular del codeudor debe ser numérico',
            'movilc.max'                 => 'El número celular del codeudor excede los 20 dígitos permitidos',  
            'ocupacionc.required'        => 'La ocupación del codeudor es requerida',
            'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida',
@@ -193,14 +192,14 @@ class ClienteController extends Controller
 
             $codeudor                   = new Codeudor();
             $codeudor->nombrec          = strtoupper($nombrec);
-            $codeudor->primer_nombrec   = strtoupper($request->input('primer_nombrec'));
-            $codeudor->segundo_nombrec  = strtoupper($request->input('segundo_nombrec'));
-            $codeudor->primer_apellidoc = strtoupper($request->input('primer_apellidoc'));
-            $codeudor->segundo_apellidoc= strtoupper($request->input('segundo_apellidoc'));
+            $codeudor->primer_nombrec   = trim(strtoupper($request->input('primer_nombrec')));
+            $codeudor->segundo_nombrec  = trim(strtoupper($request->input('segundo_nombrec')));
+            $codeudor->primer_apellidoc = trim(strtoupper($request->input('primer_apellidoc')));
+            $codeudor->segundo_apellidoc= trim(strtoupper($request->input('segundo_apellidoc')));
             $codeudor->tipo_docc        = $request->input('tipo_docc');
             $codeudor->num_docc         = $request->input('num_docc');
             $codeudor->fecha_nacimientoc= $request->input('fecha_nacimientoc');
-            $codeudor->direccionc       = $request->input('direccionc');
+            $codeudor->direccionc       = trim($request->input('direccionc'));
             $codeudor->barrioc          = $request->input('barrioc');
             $codeudor->municipioc_id    = $request->input('municipioc_id');
             $codeudor->movilc           = $request->input('movilc');
@@ -234,16 +233,16 @@ class ClienteController extends Controller
 
             $cliente                    = new Cliente();
             $cliente->nombre            = strtoupper($nombre);
-            $cliente->primer_nombre     = strtoupper($request->input('primer_nombre'));
-            $cliente->segundo_nombre    = strtoupper($request->input('segundo_nombre'));
-            $cliente->primer_apellido   = strtoupper($request->input('primer_apellido'));
-            $cliente->segundo_apellido  = strtoupper($request->input('segundo_apellido'));
+            $cliente->primer_nombre     = trim(strtoupper($request->input('primer_nombre')));
+            $cliente->segundo_nombre    = trim(strtoupper($request->input('segundo_nombre')));
+            $cliente->primer_apellido   = trim(strtoupper($request->input('primer_apellido')));
+            $cliente->segundo_apellido  = trim(strtoupper($request->input('segundo_apellido')));
             
             $cliente->tipo_doc          = $request->input('tipo_doc');
             $cliente->num_doc           = $request->input('num_doc');
             $cliente->fecha_nacimiento  = $request->input('fecha_nacimiento');
             
-            $cliente->direccion         = strtoupper($request->input('direccion'));
+            $cliente->direccion         = trim(strtoupper($request->input('direccion')));
             $cliente->barrio            = strtoupper($request->input('barrio'));
             $cliente->municipio_id      = $request->input('municipio_id');
             $cliente->movil             = $request->input('movil');
@@ -301,16 +300,16 @@ class ClienteController extends Controller
 
             $cliente                    = new Cliente();
             $cliente->nombre            = strtoupper($nombre);
-            $cliente->primer_nombre     = strtoupper($request->input('primer_nombre'));
-            $cliente->segundo_nombre    = strtoupper($request->input('segundo_nombre'));
-            $cliente->primer_apellido   = strtoupper($request->input('primer_apellido'));
-            $cliente->segundo_apellido  = strtoupper($request->input('segundo_apellido'));
+            $cliente->primer_nombre     = trim(strtoupper($request->input('primer_nombre')));
+            $cliente->segundo_nombre    = trim(strtoupper($request->input('segundo_nombre')));
+            $cliente->primer_apellido   = trim(strtoupper($request->input('primer_apellido')));
+            $cliente->segundo_apellido  = trim(strtoupper($request->input('segundo_apellido')));
             
             $cliente->tipo_doc          = $request->input('tipo_doc');
             $cliente->num_doc           = $request->input('num_doc');
             $cliente->fecha_nacimiento  = $request->input('fecha_nacimiento');
             
-            $cliente->direccion         = strtoupper($request->input('direccion'));
+            $cliente->direccion         = trim(strtoupper($request->input('direccion')));
             $cliente->barrio            = strtoupper($request->input('barrio'));
             $cliente->municipio_id      = strtoupper($request->input('municipio_id'));
             $cliente->movil             = $request->input('movil');
@@ -376,9 +375,9 @@ class ClienteController extends Controller
 
 
     public function update(Request $request, $id)
-    {
+    { 
         // REGLAS DE VALIDACION DE LOS DATOS CLIENTE
-
+        // regex:/^([aA-zZñÑáéíóúÁÉÍÓÚ\s]*)$/,
         $rules_cliente = array(
             'primer_nombre'             => 'required|max:60',
             'segundo_nombre'            => 'max:30',
@@ -423,10 +422,10 @@ class ClienteController extends Controller
         // REGLAS DE VALIDACION DE LOS DATOS CODEUDOR
 
         $rules_codeudor = array(
-            'primer_nombrec'            => 'required|max:60',
-            'segundo_nombrec'           => 'max:30',
-            'primer_apellidoc'          => 'required|max:30',
-            'segundo_apellidoc'         => 'max:30',    
+            'primer_nombrec'            => 'required|max:60|regex:/^([aA-zZñÑ]*)$/',
+            'segundo_nombrec'           => 'max:30|regex:/^([aA-zZñÑ]*)$/',
+            'primer_apellidoc'          => 'required|max:30|regex:/^([aA-zZñÑ]*)$/',
+            'segundo_apellidoc'         => 'max:30|regex:/^([aA-zZñÑ]*)$/',    
             'tipo_docc'                 => 'required',
             'num_docc'                  => 'required|max:15',
             'fecha_nacimientoc'         => 'required',
@@ -454,7 +453,6 @@ class ClienteController extends Controller
            'barrioc.required'           => 'El barrio del codeudor es requerido',
            'municipioc_id.required'     => 'El municipio del codeudor es requerido',
            'movilc.required'            => 'El número celular del codeudor es requerido',
-        //    'movilc.numeric'              => 'El celular del codeudor debe ser numérico',
            'movilc.max'                  => 'El número celular del codeudor excede los 20 dígitos',
            'ocupacionc.required'        => 'La ocupación del codeudor es requerida',
            'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida',
@@ -480,17 +478,16 @@ class ClienteController extends Controller
         /**********************************************/
 
 
-
         if($request->codeudor == 'si'){
             
-           $this->validate($request,
+            $this->validate($request,
                 array_merge($rules_cliente,$rules_codeudor),
                 array_merge($message_cliente,$message_codeudor));
 
             $nombrec = $request->input('primer_nombrec');
 
             if($request->input('segundo_nombrec') != ""){ 
-              $nombrec = $nombrec.' '.$request->input('segundo_nombrec');  
+                $nombrec = $nombrec.' '.$request->input('segundo_nombrec');  
             }
 
             $nombrec = $nombrec.' '.$request->input('primer_apellidoc');
@@ -499,79 +496,77 @@ class ClienteController extends Controller
                 $nombrec = $nombrec.' '.$request->input('segundo_apellidoc');
             }
             
-
-
            $cliente = Cliente::find($id);
 
-        /* valida la existencia del codeudor
-         * se recuerda que no existen codeudores nulos
-         * para no generar errores se creó un codeudor vacio de id 100
-         * que por defecto tiene en su campo codeudor 'no', esto para señalar que
-         * logicamente el codeudor no existe. !Dudas: etereosum@gmail.com
-         */
+            /* valida la existencia del codeudor
+            * se recuerda que no existen codeudores nulos
+            * para no generar errores se creó un codeudor vacio de id 100
+            * que por defecto tiene en su campo codeudor 'no', esto para señalar que
+            * logicamente el codeudor no existe. !Dudas: etereosum@gmail.com
+            */
 
-        if($cliente->codeudor->codeudor == "no"){
-            $codeudor                   = new Codeudor();
-            $codeudor->nombrec          = strtoupper($nombrec);
-            $codeudor->primer_nombrec   = strtoupper($request->input('primer_nombrec'));
-            $codeudor->segundo_nombrec  = strtoupper($request->input('segundo_nombrec'));
-            $codeudor->primer_apellidoc = strtoupper($request->input('primer_apellidoc'));
-            $codeudor->segundo_apellidoc= strtoupper($request->input('segundo_apellidoc'));
-            $codeudor->tipo_docc        = $request->input('tipo_docc');
-            $codeudor->num_docc         = $request->input('num_docc');
-            $codeudor->fecha_nacimientoc= $request->input('fecha_nacimientoc');
-            $codeudor->direccionc       = $request->input('direccionc');
-            $codeudor->barrioc          = $request->input('barrioc');
-            $codeudor->municipioc_id    = $request->input('municipioc_id');
-            $codeudor->movilc           = $request->input('movilc');
-            $codeudor->fijoc            = $request->input('fijoc');
-            $codeudor->tipo_actividadc  = $request->input('tipo_actividadc');
-            $codeudor->ocupacionc       = strtoupper($request->input('ocupacionc'));
-            $codeudor->empresac         = strtoupper($request->input('empresac'));
-            $codeudor->placac           = strtoupper($request->input('placac'));
-            $codeudor->emailc           = $request->input('emailc');
-
-            $codeudor->save();
-
-            if($codeudor->estudio != NULL){
-                $estudio = Estudio::find($codeudor->estudio->id);
-                $estudio->delete();
-            }
-
-            $cliente->nombre            = strtoupper($nombre);
-            $cliente->primer_nombre     = strtoupper($request->input('primer_nombre'));
-            $cliente->segundo_nombre    = strtoupper($request->input('segundo_nombre'));
-            $cliente->primer_apellido   = strtoupper($request->input('primer_apellido'));
-            $cliente->segundo_apellido  = strtoupper($request->input('segundo_apellido'));                
-            $cliente->tipo_doc          = $request->input('tipo_doc');
-            $cliente->num_doc           = $request->input('num_doc');
-            $cliente->fecha_nacimiento  = $request->input('fecha_nacimiento');                
-            $cliente->direccion         = strtoupper($request->input('direccion'));
-            $cliente->barrio            = strtoupper($request->input('barrio'));
-            $cliente->municipio_id      = strtoupper($request->input('municipio_id'));
-            $cliente->movil             = $request->input('movil');
-            $cliente->fijo              = $request->input('fijo');   
-            $cliente->tipo_actividad    = $request->input('tipo_actividad');
-            $cliente->ocupacion         = strtoupper($request->input('ocupacion'));
-            $cliente->empresa           = strtoupper($request->input('empresa'));
-            $cliente->placa             = strtoupper($request->input('placa'));
-            $cliente->email             = $request->input('email');                
-            $cliente->codeudor_id       = $codeudor->id;
-            $cliente->user_update_id    = Auth::user()->id;
-            $cliente->save();
-           }
-           elseif($cliente->codeudor->codeudor == "si"){
-
-                $codeudor                   = Codeudor::find($cliente->codeudor_id);
+            if($cliente->codeudor->codeudor == "no"){ 
+                $codeudor                   = new Codeudor();
                 $codeudor->nombrec          = strtoupper($nombrec);
-                $codeudor->primer_nombrec   = strtoupper($request->input('primer_nombrec'));
-                $codeudor->segundo_nombrec  = strtoupper($request->input('segundo_nombrec'));
-                $codeudor->primer_apellidoc = strtoupper($request->input('primer_apellidoc'));
-                $codeudor->segundo_apellidoc= strtoupper($request->input('segundo_apellidoc'));
+                $codeudor->primer_nombrec   = trim(strtoupper($request->input('primer_nombrec')));
+                $codeudor->segundo_nombrec  = trim(strtoupper($request->input('segundo_nombrec')));
+                $codeudor->primer_apellidoc = trim(strtoupper($request->input('primer_apellidoc')));
+                $codeudor->segundo_apellidoc= trim(strtoupper($request->input('segundo_apellidoc')));
                 $codeudor->tipo_docc        = $request->input('tipo_docc');
                 $codeudor->num_docc         = $request->input('num_docc');
                 $codeudor->fecha_nacimientoc= $request->input('fecha_nacimientoc');
-                $codeudor->direccionc       = $request->input('direccionc');
+                $codeudor->direccionc       = trim($request->input('direccionc'));
+                $codeudor->barrioc          = $request->input('barrioc');
+                $codeudor->municipioc_id    = $request->input('municipioc_id');
+                $codeudor->movilc           = $request->input('movilc');
+                $codeudor->fijoc            = $request->input('fijoc');
+                $codeudor->tipo_actividadc  = $request->input('tipo_actividadc');
+                $codeudor->ocupacionc       = strtoupper($request->input('ocupacionc'));
+                $codeudor->empresac         = strtoupper($request->input('empresac'));
+                $codeudor->placac           = strtoupper($request->input('placac'));
+                $codeudor->emailc           = $request->input('emailc');
+
+                $codeudor->save();
+
+                if($codeudor->estudio != NULL){
+                    $estudio = Estudio::find($codeudor->estudio->id);
+                    $estudio->delete();
+                }
+
+                $cliente->nombre            = strtoupper($nombre);
+                $cliente->primer_nombre     = trim(strtoupper($request->input('primer_nombre')));
+                $cliente->segundo_nombre    = trim(strtoupper($request->input('segundo_nombre')));
+                $cliente->primer_apellido   = trim(strtoupper($request->input('primer_apellido')));
+                $cliente->segundo_apellido  = trim(strtoupper($request->input('segundo_apellido'))); 
+                $cliente->tipo_doc          = $request->input('tipo_doc');
+                $cliente->num_doc           = $request->input('num_doc');
+                $cliente->fecha_nacimiento  = $request->input('fecha_nacimiento');                
+                $cliente->direccion         = trim(strtoupper($request->input('direccion')));
+                $cliente->barrio            = strtoupper($request->input('barrio'));
+                $cliente->municipio_id      = strtoupper($request->input('municipio_id'));
+                $cliente->movil             = $request->input('movil');
+                $cliente->fijo              = $request->input('fijo');   
+                $cliente->tipo_actividad    = $request->input('tipo_actividad');
+                $cliente->ocupacion         = strtoupper($request->input('ocupacion'));
+                $cliente->empresa           = strtoupper($request->input('empresa'));
+                $cliente->placa             = strtoupper($request->input('placa'));
+                $cliente->email             = $request->input('email');                
+                $cliente->codeudor_id       = $codeudor->id;
+                $cliente->user_update_id    = Auth::user()->id;
+                $cliente->save();
+            }
+            elseif($cliente->codeudor->codeudor == "si"){
+
+                $codeudor                   = Codeudor::find($cliente->codeudor_id);
+                $codeudor->nombrec          = strtoupper($nombrec);
+                $codeudor->primer_nombrec   = trim(strtoupper($request->input('primer_nombrec')));
+                $codeudor->segundo_nombrec  = trim(strtoupper($request->input('segundo_nombrec')));
+                $codeudor->primer_apellidoc = trim(strtoupper($request->input('primer_apellidoc')));
+                $codeudor->segundo_apellidoc= trim(strtoupper($request->input('segundo_apellidoc')));
+                $codeudor->tipo_docc        = $request->input('tipo_docc');
+                $codeudor->num_docc         = $request->input('num_docc');
+                $codeudor->fecha_nacimientoc= $request->input('fecha_nacimientoc');
+                $codeudor->direccionc       = trim($request->input('direccionc'));
                 $codeudor->barrioc          = $request->input('barrioc');
                 $codeudor->municipioc_id    = $request->input('municipioc_id');
                 $codeudor->movilc           = $request->input('movilc');
@@ -585,14 +580,14 @@ class ClienteController extends Controller
 
 
                 $cliente->nombre            = strtoupper($nombre);
-                $cliente->primer_nombre     = strtoupper($request->input('primer_nombre'));
-                $cliente->segundo_nombre    = strtoupper($request->input('segundo_nombre'));
-                $cliente->primer_apellido   = strtoupper($request->input('primer_apellido'));
-                $cliente->segundo_apellido  = strtoupper($request->input('segundo_apellido'));
+                $cliente->primer_nombre     = trim(strtoupper($request->input('primer_nombre')));
+                $cliente->segundo_nombre    = trim(strtoupper($request->input('segundo_nombre')));
+                $cliente->primer_apellido   = trim(strtoupper($request->input('primer_apellido')));
+                $cliente->segundo_apellido  = trim(strtoupper($request->input('segundo_apellido')));
                 $cliente->tipo_doc          = $request->input('tipo_doc');
                 $cliente->num_doc           = $request->input('num_doc');
                 $cliente->fecha_nacimiento  = $request->input('fecha_nacimiento');  
-                $cliente->direccion         = strtoupper($request->input('direccion'));
+                $cliente->direccion         = trim(strtoupper($request->input('direccion')));
                 $cliente->barrio            = strtoupper($request->input('barrio'));
                 $cliente->municipio_id      = strtoupper($request->input('municipio_id'));
                 $cliente->movil             = $request->input('movil');
@@ -613,20 +608,20 @@ class ClienteController extends Controller
         */
 
         elseif($request->codeudor == 'no')
-        {
+        { 
             $this->validate($request,$rules_cliente,$message_cliente);
              $cliente = Cliente::find($id);
 
            if($cliente->codeudor->codeudor == "no"){
                 $cliente->nombre            = strtoupper($nombre);
-                $cliente->primer_nombre     = strtoupper($request->input('primer_nombre'));
-                $cliente->segundo_nombre    = strtoupper($request->input('segundo_nombre'));
-                $cliente->primer_apellido   = strtoupper($request->input('primer_apellido'));
-                $cliente->segundo_apellido  = strtoupper($request->input('segundo_apellido'));
+                $cliente->primer_nombre     = trim(strtoupper($request->input('primer_nombre')));
+                $cliente->segundo_nombre    = trim(strtoupper($request->input('segundo_nombre')));
+                $cliente->primer_apellido   = trim(strtoupper($request->input('primer_apellido')));
+                $cliente->segundo_apellido  = trim(strtoupper($request->input('segundo_apellido')));
                 $cliente->tipo_doc          = $request->input('tipo_doc');
                 $cliente->num_doc           = $request->input('num_doc');
                 $cliente->fecha_nacimiento  = $request->input('fecha_nacimiento');  
-                $cliente->direccion         = strtoupper($request->input('direccion'));
+                $cliente->direccion         = trim(strtoupper($request->input('direccion')));
                 $cliente->barrio            = strtoupper($request->input('barrio'));
                 $cliente->municipio_id      = strtoupper($request->input('municipio_id'));
                 $cliente->movil             = $request->input('movil');
@@ -654,14 +649,14 @@ class ClienteController extends Controller
             $codeudor->save();
 
             $cliente->nombre            = strtoupper($nombre);
-            $cliente->primer_nombre     = strtoupper($request->input('primer_nombre'));
-            $cliente->segundo_nombre    = strtoupper($request->input('segundo_nombre'));
-            $cliente->primer_apellido   = strtoupper($request->input('primer_apellido'));
-            $cliente->segundo_apellido  = strtoupper($request->input('segundo_apellido'));
+            $cliente->primer_nombre     = trim(strtoupper($request->input('primer_nombre')));
+            $cliente->segundo_nombre    = trim(strtoupper($request->input('segundo_nombre')));
+            $cliente->primer_apellido   = trim(strtoupper($request->input('primer_apellido')));
+            $cliente->segundo_apellido  = trim(strtoupper($request->input('segundo_apellido')));
             $cliente->tipo_doc          = $request->input('tipo_doc');
             $cliente->num_doc           = $request->input('num_doc');
             $cliente->fecha_nacimiento  = $request->input('fecha_nacimiento');  
-            $cliente->direccion         = strtoupper($request->input('direccion'));
+            $cliente->direccion         = trim(strtoupper($request->input('direccion')));
             $cliente->barrio            = strtoupper($request->input('barrio'));
             $cliente->municipio_id      = strtoupper($request->input('municipio_id'));
             $cliente->movil             = $request->input('movil');

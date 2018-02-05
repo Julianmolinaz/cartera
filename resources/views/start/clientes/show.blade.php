@@ -11,7 +11,7 @@
         <div class="panel-heading">Información del Cliente </div>
           @include('flash::message')
 
-          <table class="table table-condensed"  style="font-size:12px">
+          <table class="table"  style="font-size:12px">
 
             <tr>
               <th scope="row">#</th>
@@ -128,7 +128,7 @@
       <div class="panel-heading">Información del Codeudor </div>
           @include('flash::message')
 
-        <table class="table table-condensed"  style="font-size:12px">
+        <table class="table"  style="font-size:12px;">
 
           <tr>
             <th scope="row">#</th>

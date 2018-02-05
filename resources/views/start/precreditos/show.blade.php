@@ -268,7 +268,11 @@
         <tr>  
           <th scope="row">Castigada </th>
           <td> {{$precredito->credito->castigada}}</td>
-        </tr>        
+        </tr> 
+        <tr>  
+          <th scope="row">Recordatorio Pago</th>
+          <td> <small>{{$precredito->credito->recordatorio}}</small></td>
+        </tr>         
         <tr>  
           <th scope="row" title="Funcionario que ingreso al sistema">Creó.</th>
           <td> <small>{{$precredito->credito->user_create->name.' '.$precredito->credito->created_at}}</small></td>
@@ -276,7 +280,7 @@
         <tr>  
           <th scope="row">Actualizó </th>
           <td> <small>{{$precredito->credito->user_update->name.' '.$precredito->credito->updated_at}}</small></td>
-        </tr>   
+        </tr>  
       </table>
 
 

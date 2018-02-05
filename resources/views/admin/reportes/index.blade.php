@@ -1,4 +1,4 @@
-@section('title','Pagos')
+@section('title','Reportes')
 @section('contenido')
 
 <div class="row">

@@ -44,6 +44,8 @@ function reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 ){
         'creditos.id as id',
         'creditos.castigada as castigada',
         'creditos.saldo as saldo',
+        'creditos.refinanciacion as refinanciado',
+        'creditos.credito_refinanciado_id as credito_refinanciado_id',
         'clientes.nombre as cliente',
         'clientes.num_doc as documento',
         'precreditos.vlr_fin as vlr_fin',
@@ -74,7 +76,7 @@ function reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 ){
 
     $total_saldo = 0;
     foreach($creditos as $credito){ 
-        if($credito->castigada == 'No'){
+        if($credito->castigada == 'No' && $credito->refinanciado == 'No'){
             $total_saldo = $total_saldo + $credito->saldo; 
         }
     }
@@ -128,7 +130,7 @@ function reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 ){
 
             if($array_funcionarios[$j]['id'] == $credito->precredito->funcionario_id){
 
-                if($credito->castigada == 'No'){
+                if($credito->castigada == 'No' && $credito->refinanciacion == 'No'){
 
                     $array_funcionarios[$j]['saldo']    =     $array_funcionarios[$j]['saldo']
                                                         + $credito->saldo;
@@ -157,7 +159,7 @@ function reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 ){
 
             if($array_puntos[$j]['municipio_id'] == $credito->precredito->user_create->punto->municipio_id){
 
-                if($credito->castigada == 'No'){
+                if($credito->castigada == 'No' && $credito->refinanciacion == 'No'){
 
                     $array_puntos[$j]['saldo']    =     $array_puntos[$j]['saldo']
                                                         + $credito->saldo;

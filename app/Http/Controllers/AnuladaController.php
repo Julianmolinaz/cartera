@@ -29,7 +29,7 @@ class AnuladaController extends Controller
 
     public function index()
     {
-        $anuladas = Anulada::all();
+        $anuladas = Anulada::paginate(100);
         return view('start.facturas.index_anuladas')
             ->with('anuladas',$anuladas);
     }

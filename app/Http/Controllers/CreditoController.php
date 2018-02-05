@@ -39,7 +39,6 @@ class CreditoController extends Controller
     | 
     */
 
-
     public function index()
     {        
       $creditos = 
@@ -69,7 +68,7 @@ class CreditoController extends Controller
               null                as sanciones
           '))
           ->orderBy('creditos.updated_at','desc')
-          ->paginate(500);
+          ->paginate(100);
           
           $creditos_array = [];
           
@@ -101,20 +100,61 @@ class CreditoController extends Controller
 
     public function cancelados()
     {        
-        $creditos = DB::table('creditos')
-                        ->whereIn('estado',['Cancelado','Cancelado por refinanciacion'])
-                        ->orderBy('updated_at','desc')
-                        ->get();
 
-        $ids = array();
-        foreach($creditos as $credito){
-          array_push($ids,$credito->id);
-        }
-
-        $creditos = Credito::find($ids);
-
-        return view('start.creditos.cancelados')
-          ->with('creditos',$creditos);
+        $creditos = 
+        DB::table('creditos')
+            ->join('precreditos','creditos.precredito_id',  '=',  'precreditos.id')
+            ->join('carteras'   ,'precreditos.cartera_id',  '=',  'carteras.id')
+            ->join('clientes'   ,'precreditos.cliente_id',  '=',  'clientes.id')
+            ->join('users'      ,'creditos.user_create_id', '=',  'users.id')
+            ->join('fecha_cobros','creditos.id',            '=',  'fecha_cobros.credito_id')
+            ->whereIn('creditos.estado',['Cancelado','Cancelado por refinanciacion'])
+            ->select(DB::raw('
+                creditos.id                       as id,
+                creditos.created_at               as created_at,
+                creditos.refinanciacion           as refinanciado,
+                creditos.credito_refinanciado_id  as padre,
+                creditos.cuotas_faltantes         as cuotas_faltantes,
+                precreditos.observaciones         as observaciones,
+                precreditos.p_fecha               as p_fecha,
+                precreditos.s_fecha               as s_fecha,
+                creditos.updated_at               as updated_at,
+                creditos.estado                   as estado,
+                precreditos.cuotas                as cuotas,
+                precreditos.vlr_cuota             as vlr_cuota,
+                precreditos.fecha                 as precredito_fecha,
+                carteras.nombre                   as cartera,
+                clientes.id                       as cliente_id,
+                clientes.nombre                   as cliente,
+                clientes.num_doc                  as doc,
+                precreditos.periodo               as periodo,
+                creditos.saldo                    as saldo,
+                users.name                        as user_create,
+                precreditos.id                    as precredito_id,
+                precreditos.fecha                 as fecha,
+                fecha_cobros.fecha_pago           as fecha_pago,
+                creditos.created_at               as created_at,
+                null                              as sanciones
+            '))
+            ->orderBy('creditos.updated_at','desc')
+            ->paginate(100);
+            
+            $creditos_array = [];
+            
+            //asignación numero de sanciones diarias
+            
+            foreach($creditos as $credito){
+              $sanciones = 
+              DB::table('sanciones')
+                ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
+                ->count();
+  
+              $credito->sanciones = $sanciones;
+  
+            }
+  
+          return view('start.creditos.cancelados')
+            ->with('creditos',$creditos);
     }
 
     /*
@@ -342,6 +382,7 @@ class CreditoController extends Controller
           $credito->rendimiento       = $request->input('rendimiento');
           $credito->valor_credito     = $request->input('valor_credito');
           $credito->castigada         = $request->input('castigada');
+          $credito->recordatorio      = $request->input('recordatorio');
           $credito->user_update_id    = Auth::user()->id;
           $credito->save();
 
