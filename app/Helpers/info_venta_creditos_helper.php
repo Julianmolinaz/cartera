@@ -36,7 +36,7 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
     ->join('clientes','precreditos.cliente_id','=','clientes.id')
     ->join('carteras','precreditos.cartera_id','=','carteras.id')
     ->join('productos','precreditos.producto_id','=','productos.id')
-    ->where([['creditos.estado','<>','Refinanciacion']])
+    ->where([['creditos.estado','<>','Refinanciacion']]) // Cancelado por refinanciacion
     ->whereBetween('creditos.created_at',[$ini,$fin])
     ->select(
         'creditos.id as id',

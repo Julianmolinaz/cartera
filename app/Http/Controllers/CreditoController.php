@@ -286,12 +286,14 @@ class CreditoController extends Controller
       // valida que p_fecha sea menor que s_fecha
 
       $ini = $request->input('p_fecha')+1;
-      $fin = $request->input('s_fecha')-1;
+      if($request->input('s_fecha')){
+        $fin = $request->input('s_fecha')-1;
+      }
+      
 
       if($request->input('s_fecha') == "" || $request->input('periodo') == 'Mensual'){
         $fin = 30;
       }
-
       if($request->input('periodo') == 'Quincenal'){
         $rule_s_fecha_quincena = 'required|integer|between:'.$ini.',30';
       }

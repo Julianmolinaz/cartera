@@ -17,7 +17,7 @@ class ReporteListMiddleware
     public function handle($request, Closure $next)
     {
         if( 
-            Auth::user()->rol == 'Call VIP' ||
+            Auth::user()->rol == 'Cartera' ||
             Auth::user()->rol == 'Administrador'
             )
         {

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Auth;
 
-class CallVipMiddleware
+class CarteraMiddleware
 {
 
     /**
@@ -17,7 +17,7 @@ class CallVipMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if( Auth::user()->rol == 'Call VIP')
+        if( Auth::user()->rol == 'Cartera')
         {
             return $next($request);
         }else{

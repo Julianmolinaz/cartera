@@ -142,7 +142,7 @@ class ReporteController extends Controller
         else if($request->input('tipo_reporte') == 'venta_creditos'){
 
             if( Auth::user()->rol <> 'Administrador' &&
-                Auth::user()->rol <> 'Call VIP'){ return abort(403); }
+                Auth::user()->rol <> 'Cartera'){ return abort(403); }
 
             $reporte = reporte_venta_creditos( $fecha_1, $fecha_2 );
 
@@ -162,7 +162,7 @@ class ReporteController extends Controller
         else if( $request->input('tipo_reporte') == 'venta_creditos_por_asesor' ){
 
             if( Auth::user()->rol <> 'Administrador' &&
-                Auth::user()->rol <> 'Call VIP'){ return abort(403); }
+                Auth::user()->rol <> 'Cartera'){ return abort(403); }
 
             $reporte = reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 );
             
@@ -221,7 +221,7 @@ class ReporteController extends Controller
         else if($request->input('tipo_reporte') == 'callcenter'){
             
             if( Auth::user()->rol <> 'Administrador' &&
-                Auth::user()->rol <> 'Call VIP'){ return abort(403); }
+                Auth::user()->rol <> 'Cartera'){ return abort(403); }
 
             $llamadas = Llamada::whereBetween('created_at',[$ini,$fin])->get();
 

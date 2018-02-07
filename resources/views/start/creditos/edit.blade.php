@@ -230,8 +230,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <label>Recordatorio Pago</label>
               <textarea class="form-control input-sm" rows="3" id="recordatorio" name="recordatorio" 
-                placeholder='Escriba el recordatorio del pago' autocomplete="on"  value="{{$credito->recordatorio}}">
-                {{$credito->recordatorio}}</textarea>
+                placeholder='Escriba el recordatorio del pago' autocomplete="on"  value="{{$credito->recordatorio}}">{{$credito->recordatorio}}</textarea>
             </div>
             </div>
 

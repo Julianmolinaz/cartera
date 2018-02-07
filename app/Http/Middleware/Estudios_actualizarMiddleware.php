@@ -21,7 +21,7 @@ class Estudios_actualizarMiddleware
             Auth::user()->rol == 'Asesor VIP' ||
             Auth::user()->rol == 'Administrador'  ||
             Auth::user()->rol == 'Call'     ||
-            Auth::user()->rol == 'Call VIP'
+            Auth::user()->rol == 'Cartera'
             )
         {
             return $next($request);

@@ -57,14 +57,15 @@ $( document ).ready(function() {
 // El boton aceptar valida cierta información y la envía al controlador FacturaController funcion store para ser procesada
 
  $('#aceptar').on('click',function(){
-
-
-  if (confirm("Le recordamos que el credito esta reportado como cartera castigada, desea continuar?") == true) {
-    txt = "Si!";
-  } else {
-      txt = "No!";
-      return true;
+  if("{{$credito->castigada}}" == "Si"){
+    if (confirm("Le recordamos que el credito esta reportado como cartera castigada, desea continuar?") == true) {
+      txt = "Si!";
+    } else {
+        txt = "No!";
+        return true;
+    }
   }
+
 
   if(bandera2 == 0){ return false;}
 
