@@ -29,7 +29,7 @@
             <th>    Solicitud id  </th>
             <th>    Factura       </th>
             <th>    Cartera       </th>
-            <th>    Fecha         </th>
+            <th>    Fecha aprobación       </th>
             <th>    Cliente       </th>
             <th>    Doc           </th>
             <th>    Aprobado?     </th>

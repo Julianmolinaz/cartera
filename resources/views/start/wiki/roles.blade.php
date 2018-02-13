@@ -15,7 +15,7 @@
                 <th>Asesor</th>
                 <th>Asesor VIP</th>
                 <th>Call</th>
-                <th>Call VIP</th>
+                <th>Cartera</th>
                 <th>Recaudador</th>
             </tr>
             </thead>

@@ -14,7 +14,7 @@
       <div class="panel-body">
 
 
-        <form class="form-horizontal form-label-left" action="{{route('admin.users.store')}}" method="POST">        
+        <form class="form-horizontal form-label-left" action="{{route('admin.users.store')}}" method="POST" autocomplete="off">        
 
           <!-- NOMBRE**************************************************************************-->
           <div class="form-group">

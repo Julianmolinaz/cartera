@@ -83,35 +83,84 @@
     <div class="panel-heading" style="color:#dd4437;">Crédito</div>
     <div class="panel-body">
 
-              <div class="col-md-6">
-              <h2>Reglas del negocio</h2>
-              <ul>
-                <li>Credito id: {{$credito->id}}</li>
-                <li>Cartera: {{$credito->precredito->cartera->nombre}}</li>
-                <li>Aprobado: {{$credito->precredito->fecha}}</li>
-                <li>Producto: {{$credito->precredito->producto->nombre}}</li>
-                <li>Centro de costos: {{number_format($credito->precredito->vlr_fin,0,",",".")}}</li>
-                <li>Número de cuotas: {{$credito->precredito->cuotas}}</li>
-                <li>Periodo: {{$credito->precredito->periodo}}</li>
-                <li>Valor cuota: {{number_format($credito->precredito->vlr_cuota,0,",",".")}}</li>
-                <li>Primera fecha: {{$credito->precredito->p_fecha}}</li>
-                <li>Segunda fecha: {{$credito->precredito->s_fecha}}</li>
-              </ul>
+     <table class="table table-bordered" style="font-size:12px">
+-
+         <tr>
+           <th>#</th>
+           <th>Aprobación</th>
+           <th>Cartera</th>
+           <th>Funcionario</th>
+           <th>Producto</th>
+           <th>Meses</th>
+           <th>Periodo</th>
+           <th>Cuotas</th> 
+           <th>1° Fecha</th>
+           <th>2° Fecha</th>   
+         </tr>
+         <tr>
+          <td style="font-weight: bold;font-size: 150%;">{{$credito->id}}</td>
+          <td><small>{{$credito->precredito->fecha}}</small></td>
+          <td style="font-weight: bold;font-size: 150%;">{{$credito->precredito->cartera->nombre}}</td>
+          <td><small>{{$credito->precredito->funcionario->name}}</small></td>
+          <td><small>{{$credito->precredito->producto->nombre}}</small></td>
+          <td><small>{{$credito->precredito->meses}}</small></td>
+          <td><small>{{$credito->precredito->periodo}}</small></td>
+          <td><small>{{$credito->precredito->cuotas}}</small></td>
+          <td><small>{{$credito->precredito->p_fecha}}</small></td>
+          <td><small>{{$credito->precredito->s_fecha}}</small></td>
+         </tr>
+         <tr><th></th></tr>
+         <tr>
+           <th>Estudio Credito</th>
+           <th>Centro de Costos</th>
+           <th>Cuota Inicial</th>              
+           <th>Valor Cuota</th>
+           <th>Estado</th>
+           <th>Castigada</th>
+           <th>Cuotas Faltantes</th>
+           <th>Saldo Deuda</th>
+           <th>Saldo a Favor</th>
+           <th>Vlr Total Crédito</th>
+         </tr>
+         <tr>
+           <td><small>{{$credito->precredito->estudio}}</small></td>
+           <td align="right"><small>{{number_format($credito->precredito->vlr_fin,0,",",".")}}</small></td>
+           <td><small>{{number_format($credito->precredito->cuota_inicial,0,",",".")}}</small></td>
+           <td><small>{{number_format($credito->precredito->vlr_cuota,0,",",".")}}</small></td>
+           <td  style="font-weight: bold;font-size: 150%;">{{$credito->estado}}</td>
+           <td><small>{{$credito->castigada}}</small></td>
+           <td><small>{{$credito->cuotas_faltantes}}</small></td>
+           <td align="right"><small>{{number_format($credito->saldo,0,",",".")}}</small></td>
+           <td align="right"><small>{{number_format($credito->saldo_favor,0,",",".")}}</small></td>
+           <td align="right"><small>{{number_format($credito->valor_credito,0,",",".")}}</small></td>
+         </tr>
+         <tr><th></th></tr>
+         <tr>
+           <th>Cobro Jurídico</th>
+           <th>Cobro Prejurídico</th>
+           <th>Sanciones</th>
+           <th>Debe Cuotas Parciales</th>
+           <th>Fecha Pago</th>
+           <th>Creó</th>
+           <th>Actualizó</th>              
+           <th colspan="3">observaciones</th>
+         </tr>
+         <tr>
+           @if($juridico) <td style="font-weight: bold;" align="right">{{number_format($juridico[0]->valor,0,",",".")}}</td>
+           @else          <td></td>
+           @endif    
+           @if($prejuridico) <td style="font-weight: bold;" align="right">{{number_format($prejuridico[0]->valor,0,",",".")}}</td>
+           @else          <td></td>
+           @endif   
+           <td align="right"><small>{{number_format($sum_sanciones,0,",",".")}}</small></td>
+           <td align="right"><small>{{number_format($total_parciales,0,",",".")}}</small></td>
+           <td><small>{{$credito->fecha_pago->fecha_pago}}</small></td>
+           <td><small>{{$credito->user_create->name.' '.$credito->created_at}}</small></td>
+           <td><small>{{$credito->user_update->name.' '.$credito->updated_at}}</small></td>
+           <td colspan="3">{{$credito->precredito->observaciones}}</td>
+         </tr>
 
-              </div>
-              <div class="col-md-6">
-              <h2>Estado de la obligación</h2>
-              <ul>
-                <li>Estado: {{$credito->estado}}</li>
-                <li>Castigada: {{$credito->castigada}}</li>
-                <li>Cuotas Faltantes: {{$credito->cuotas_faltantes}}</li>
-                <li>Saldo Deuda: {{$credito->saldo}}</li>
-                <li>Saldo a Favor: {{$credito->saldo_favor}}</li>
-                <li>Valor total crédito: {{$credito->valor_credito}}</li>
-                <li>Observaciones:<br/>{{$credito->precredito->observaciones}}</li>
-                <li>Recordatorio pago:<br/>{{$credito->recordatorio}}</li>
-              </ul>
-              </div>
+     </table>
     </div>
   </div>
   </div>

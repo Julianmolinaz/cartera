@@ -31,7 +31,7 @@
             <th style="display:none;">    Actualizacion  </th>
             <th> <small>   Credito id </small>  </th>
             <th>      Cartera                   </th>
-            <th>      Fecha Creación            </th>
+            <th>      Fecha Aprobación            </th>
             <th>      Cliente                   </th>
             <th>      Documento                 </th>
             <th>      Estado                    </th>
@@ -53,7 +53,7 @@
               <td style="display:none;"> {{$credito->updated_at}}</td>
               <td> {{$credito->id}}       </td>
               <td> {{$credito->cartera}}  </td>
-              <td> {{$credito->fecha}}    </td>
+              <td> {{$credito->created_at}}    </td>
               <td> {{$credito->cliente}}  </td>
               <td> {{$credito->doc}}      </td>
 

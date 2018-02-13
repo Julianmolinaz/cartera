@@ -43,7 +43,7 @@ function reporte_general_por_funcionarios( $fecha_1, $fecha_2){
         'facturas.total as valor',
         'facturas.num_fact as factura',
         'facturas.created_at as create',
-        'facturas.tipo    as tipo_pago',
+        'facturas.tipo as tipo_pago',
         'carteras.nombre as cartera',
         'puntos.nombre as punto',
         'creditos.id as credito'

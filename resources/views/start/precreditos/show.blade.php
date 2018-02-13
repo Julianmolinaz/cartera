@@ -52,7 +52,7 @@
           </tr>
 
           <tr>
-            <th scope="row">Fecha</th>
+            <th scope="row">Fecha solicitud</th>
             <td> {{$precredito->fecha}}</td>
             <th scope="row">Funcionario gestion</th>
             <td> {{$precredito->funcionario->name}}</td>
@@ -187,6 +187,10 @@
           <td> {{$precredito->credito->estado}}</td>
         </tr>
         <tr>  
+          <th scope="row">Fecha de aprobacion </th>
+          <td> {{$precredito->credito->created_at}}</td>
+        </tr>
+        <tr>  
           <th scope="row">Fecha límite de pago </th>
           <td> {{$precredito->credito->fecha_pago->fecha_pago}}</td>
         </tr>        
@@ -268,11 +272,7 @@
         <tr>  
           <th scope="row">Castigada </th>
           <td> {{$precredito->credito->castigada}}</td>
-        </tr> 
-        <tr>  
-          <th scope="row">Recordatorio Pago</th>
-          <td> <small>{{$precredito->credito->recordatorio}}</small></td>
-        </tr>         
+        </tr>     
         <tr>  
           <th scope="row" title="Funcionario que ingreso al sistema">Creó.</th>
           <td> <small>{{$precredito->credito->user_create->name.' '.$precredito->credito->created_at}}</small></td>

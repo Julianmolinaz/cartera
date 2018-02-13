@@ -440,6 +440,7 @@ class ClienteController extends Controller
         $message_codeudor = array(
            'primer_nombrec.required'    => 'El primer nombre del codeudor es requerido',
            'primer_nombrec.max'         => 'El primer nombre del codeudor excede los 60 caracteres permitidos',
+           'primer_nombrec.regex'       => 'El primer nombre no tiene el formato requerido',
            'segundo_nombrec.max'        => 'El segundo nombre del codeudor excede los 30 caracteres permitidos',
            'primer_apellidoc.required'  => 'El primer apellido del codeudor es requerido',
            'primer_apellidoc.max'       => 'El primer apellido del codeudor excede los 30 caracteres permitidos',

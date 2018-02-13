@@ -16,7 +16,7 @@
         <br />
 
 
-        <form class="form-horizontal form-label-left" action="{{route('admin.users.update',$user)}}" method="POST">        
+        <form class="form-horizontal form-label-left" action="{{route('admin.users.update',$user)}}" method="POST" autocomplete="off">        
           <input type="hidden" name="_method" value="PUT">
           <!-- NOMBRE**************************************************************************-->
 
