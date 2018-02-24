@@ -17,6 +17,7 @@ class Clientes_editarMiddleware
     public function handle($request, Closure $next)
     {
         if( Auth::user()->rol == 'Asesor' ||
+            Auth::user()->rol == 'Cartera'||
             Auth::user()->rol == 'Asesor VIP' ||
             Auth::user()->rol == 'Administrador'
             )

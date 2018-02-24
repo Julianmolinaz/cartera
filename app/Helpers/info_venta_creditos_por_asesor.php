@@ -130,7 +130,7 @@ function reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 ){
 
             if($array_funcionarios[$j]['id'] == $credito->precredito->funcionario_id){
 
-                if($credito->castigada == 'No' && $credito->refinanciacion == 'No'){
+                if($credito->castigada == 'No'){
 
                     $array_funcionarios[$j]['saldo']    =     $array_funcionarios[$j]['saldo']
                                                         + $credito->saldo;
@@ -159,7 +159,7 @@ function reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 ){
 
             if($array_puntos[$j]['municipio_id'] == $credito->precredito->user_create->punto->municipio_id){
 
-                if($credito->castigada == 'No' && $credito->refinanciacion == 'No'){
+                if($credito->castigada == 'No'){
 
                     $array_puntos[$j]['saldo']    =     $array_puntos[$j]['saldo']
                                                         + $credito->saldo;

@@ -97,8 +97,6 @@ class ReporteController extends Controller
 
         if($request->input('tipo_reporte') == 'general'){
 
-            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
-
             $reporte = reporte_general( $fecha_1, $fecha_2 );
 
             return view('admin.reportes.general')
@@ -141,9 +139,6 @@ class ReporteController extends Controller
 
         else if($request->input('tipo_reporte') == 'venta_creditos'){
 
-            if( Auth::user()->rol <> 'Administrador' &&
-                Auth::user()->rol <> 'Cartera'){ return abort(403); }
-
             $reporte = reporte_venta_creditos( $fecha_1, $fecha_2 );
 
             return view('admin.reportes.venta_creditos')
@@ -160,9 +155,6 @@ class ReporteController extends Controller
         //VENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESOR
 
         else if( $request->input('tipo_reporte') == 'venta_creditos_por_asesor' ){
-
-            if( Auth::user()->rol <> 'Administrador' &&
-                Auth::user()->rol <> 'Cartera'){ return abort(403); }
 
             $reporte = reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 );
             
@@ -200,8 +192,6 @@ class ReporteController extends Controller
 
         else if($request->input('tipo_reporte') == 'castigada'){
 
-            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
-
             $reporte = reporte_castigada($fecha_1,$fecha_2);
 
             return view('admin.reportes.castigada')
@@ -219,9 +209,6 @@ class ReporteController extends Controller
         //CALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTER  
   
         else if($request->input('tipo_reporte') == 'callcenter'){
-            
-            if( Auth::user()->rol <> 'Administrador' &&
-                Auth::user()->rol <> 'Cartera'){ return abort(403); }
 
             $llamadas = Llamada::whereBetween('created_at',[$ini,$fin])->get();
 
@@ -246,8 +233,6 @@ class ReporteController extends Controller
         //GENERALPORCARTERASGENERALPORCARTERASGENERALPORCARTERASGENERALPORCARTERASGENERALPORCARTERAS
 
         else if($request->input('tipo_reporte') == 'general_por_carteras'){
-
-            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
             //reporte_general_por_carteras() ver en helpers
 
            $reporte = reporte_general_por_carteras( $fecha_1, $fecha_2 , $request->input('cartera'));
@@ -285,8 +270,6 @@ class ReporteController extends Controller
         }
         else if($request->input('tipo_reporte') == 'general_por_users'){
 
-            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
-
             $respuesta = reporte_general_por_funcionarios( $fecha_1, $fecha_2);
 
             return view('admin.reportes.general_funcionarios')
@@ -296,8 +279,6 @@ class ReporteController extends Controller
             
             }
         else if($request->input('tipo_reporte') == 'procredito'){
-            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
-
             reporte_procredito();
             $this->index();
         }  
@@ -305,8 +286,6 @@ class ReporteController extends Controller
         //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
 
         else if($request->input('tipo_reporte') == 'datacredito' ){
-
-            if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
 
             try{
                 $this->validate($request,
@@ -331,9 +310,6 @@ class ReporteController extends Controller
         }
 
     else if($request->input('tipo_reporte') == 'auditoria' ){
-
-        if( Auth::user()->rol <> 'Administrador'){ return abort(403); }
-
         $audits = 
         DB::table('audits')
             ->join('users','audits.user_id','=','users.id')

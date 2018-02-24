@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Auth;
 
-class Call_crearMiddleware
+class RefinanciacionMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,6 @@ class Call_crearMiddleware
     public function handle($request, Closure $next)
     {
         if( 
-            Auth::user()->rol == 'Call' ||
-            Auth::user()->rol == 'Asesor' ||
-            Auth::user()->rol == 'Asesor VIP' ||
-            Auth::user()->rol == 'Cartera'||
             Auth::user()->rol == 'Administrador'
             )
         {

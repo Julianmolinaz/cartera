@@ -98,7 +98,7 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
 
             if($array_carteras[$j]['nombre'] == $creditos[$i]->cartera){
 
-                if($creditos[$i]->castigada == 'No' && $creditos[$i]->refinanciado == 'No'){
+                if($creditos[$i]->castigada == 'No'){
 
                     $array_carteras[$j]['saldo']    =     $array_carteras[$j]['saldo']
                                                         + $creditos[$i]->saldo;

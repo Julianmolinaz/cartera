@@ -170,23 +170,23 @@ Route::get('start/creditos/create/{id}',[
 Route::get('start/creditos/{id}/refinanciar',[
 	'uses' => 'CreditoController@refinanciar',
 	'as'   => 'start.creditos.refinanciar'
-]);
+])->middleware('refinanciacion');;
 
 //CREAR REFINANCIACION
 Route::post('start/creditos/crear_refinanciacion',[
 	'uses' => 'CreditoController@crear_refinanciacion',
 	'as'   => 'start/creditos/crear_refinanciacion'
-	]);
+	])->middleware('refinanciacion');;
 //LISTAR CREDITOS CANCELADOS
 Route::get('start/creditos/cancelados',[
 	'uses' => 'CreditoController@cancelados',
 	'as'   => 'start.creditos.cancelados'	
-]);
+])->middleware('refinanciacion');;
 //EXPORTAR TODOS LOS CREDITOS
 Route::get('start/creditos/exportar_todo',[
 	'uses'	=> 'CreditoController@ExportarTodo',
 	'as'	=> 'start.creditos.exportar_todo'
-	]);
+	])->middleware('refinanciacion');;
 
 
 //CALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTER

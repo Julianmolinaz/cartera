@@ -117,6 +117,10 @@ class Kernel extends HttpKernel
         //REPORTES
 
         'reporte_listar'        => \App\Http\Middleware\ReporteListMiddleware::class,
-        'reporte_generate'      => \App\Http\Middleware\ReporteGenerateMiddleware::class
+        'reporte_generate'      => \App\Http\Middleware\ReporteGenerateMiddleware::class,
+
+        //REFINANCIACION
+
+        'refinanciacion'        => \App\Http\Middleware\RefinanciacionMiddleware::class
     ];
 }

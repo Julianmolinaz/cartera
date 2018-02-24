@@ -19,6 +19,7 @@ class Clientes_actualizarMiddleware
         if( 
             Auth::user()->rol == 'Asesor' ||
             Auth::user()->rol == 'Asesor VIP' ||
+            Auth::user()->rol == 'Cartera'||
             Auth::user()->rol == 'Administrador'
             )
         {
