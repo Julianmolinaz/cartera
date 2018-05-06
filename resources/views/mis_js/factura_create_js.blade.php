@@ -6,6 +6,7 @@ $( document ).ready(function() {
   //alert('ready!!');
   var bandera = 0;
   var bandera2  = 0;
+  var count = 0; 
   $('#monto').val("");
 
 
@@ -57,6 +58,7 @@ $( document ).ready(function() {
 // El boton aceptar valida cierta información y la envía al controlador FacturaController funcion store para ser procesada
 
  $('#aceptar').on('click',function(){
+
   if("{{$credito->castigada}}" == "Si"){
     if (confirm("Le recordamos que el credito esta reportado como cartera castigada, desea continuar?") == true) {
       txt = "Si!";
@@ -105,19 +107,27 @@ $( document ).ready(function() {
           var credito_id    = "{{$credito->id}}"
           var token         = $('#token').val();
           var route         = "{{url('start/facturas')}}";
-
-          $.ajax({
-            url : route,
-            headers: {'X-CSRF-TOKEN': token},
-            type: 'POST',
-            dataType: 'json',
-            data:{info:pagos,credito_id:credito_id, num_factura:num_factura, fecha_factura:fecha_factura,
-                  sum_sanciones:sum_sanciones, tipo_pago:tipo_pago},
-            success: function( msg ) {
-              alert(msg.mensaje);
-              document.location.href="{{route('start.facturas.create',$credito->id)}}";
-            }
-          });
+          
+          if(count == 0){
+            count++;
+            $.ajax({
+              url : route,
+              headers: {'X-CSRF-TOKEN': token},
+              type: 'POST',
+              dataType: 'json',
+              data:{  info:pagos,
+                      credito_id:credito_id, 
+                      num_factura:num_factura, 
+                      fecha_factura:fecha_factura,
+                      sum_sanciones:sum_sanciones, 
+                      tipo_pago:tipo_pago
+                      },
+              success: function( msg ) {
+                alert(msg.mensaje);
+                document.location.href="{{route('start.facturas.create',$credito->id)}}";
+              }
+            });
+          }
         }
         else{ alert('El número de Factura ya existe !!!'); }
       });
