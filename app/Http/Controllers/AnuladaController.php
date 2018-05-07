@@ -63,7 +63,7 @@ class AnuladaController extends Controller
 
         $ultima_factura = DB::table('facturas')
             ->where('credito_id',$factura->credito_id)
-            ->orderBy('created_at','desc')
+            ->orderBy('id','desc')
             ->first();
 
           DB::beginTransaction();
