@@ -79,6 +79,9 @@
       
         <center>
            <button type="submit" class="btn btn-primary">&nbsp;&nbsp;Generar Reporte&nbsp;&nbsp;</button>
+           <a href="{{route('admin.marcar_cancelados')}}" class="btn btn-success" id="btnCancelados">
+              Marcar créditos finalizados {{ $ultimo_reporte_cancelados }}
+          </a>
         </center>  
    
       </form>
@@ -102,6 +105,9 @@
 
 
 $(function() {
+
+  ocultarCancelados();
+
   $('input[name="daterange"]').daterangepicker({
    locale: { format: 'DD/MM/YYYY' }
   });
@@ -119,26 +125,34 @@ $('#tipo_reporte').on('change',function(){
       ocultarPeriodo();
       mostrarRange();
       mostrarCarteras();
+      ocultarCancelados();
   }
   else if( $('#tipo_reporte').val() == 'datacredito' ){
     mostrarPeriodo()
     ocultarRange();
     ocultarCarteras();
+    ocultarCancelados();
+  }
+  else if( $('#tipo_reporte').val() == 'procredito' ){
+    ocultarPeriodo();
+    //mostrarCancelados();
   }
   else{
     ocultarCarteras();
     ocultarPeriodo();
     mostrarRange();
+    ocultarCancelados();
   }
 });
 
-var mostrarCarteras = function(){  $('#carteras').show(); }
-var ocultarCarteras = function(){  $('#carteras').hide(); }
-var mostrarRange    = function(){  $('#range').show();    }
-var ocultarRange    = function(){  $('#range').hide();    }
-var mostrarPeriodo  = function(){  $('#periodo').show()   }
-var ocultarPeriodo  = function(){  $('#periodo').hide()   }
-
+var mostrarCarteras   = function(){  $('#carteras').show(); }
+var ocultarCarteras   = function(){  $('#carteras').hide(); }
+var mostrarRange      = function(){  $('#range').show();    }
+var ocultarRange      = function(){  $('#range').hide();    }
+var mostrarPeriodo    = function(){  $('#periodo').show()   }
+var ocultarPeriodo    = function(){  $('#periodo').hide()   }
+var mostrarCancelados = function(){  $('#btnCancelados').show(); } 
+var ocultarCancelados = function(){  $('#btnCancelados').hide(); } 
 </script>
 
 

@@ -65,10 +65,6 @@ Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
 // });
 
 
-
-
-
-
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
 Route::get('start/simulador',[
@@ -379,6 +375,9 @@ Route::get('admin/reporte_centrales','ReporteController@centrales');
 
 Route::post('admin/descargar_reporte_detallado_ventas','ReporteController@descargar');
 
+Route::get('admin/marcar-cancelados', 
+	[ 'uses' => 'ReporteController@marcar_cancelados', 'as' => 'admin.marcar_cancelados'])
+	->middleware('admin');
 
 
 //EGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOS

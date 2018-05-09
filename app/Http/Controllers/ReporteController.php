@@ -56,10 +56,21 @@ class ReporteController extends Controller
         $now = Carbon::now();
         $ano = $now->year;
 
+        $ultimo_reporte_cancelados = DB::table('cancelados')->first();
+
+
+        if($ultimo_reporte_cancelados){
+            $ultimo_reporte_cancelados = $ultimo_reporte_cancelados->created_at;
+        }
+        else{ $ultimo_reporte_cancelados = null; }
+
+        //dd($ultimo_reporte_cancelados);
+
         return view('admin.reportes.index')
             ->with('tipo_reportes', $tipo_reportes)
             ->with('carteras',$carteras)
-            ->with('ano',$ano);
+            ->with('ano',$ano)
+            ->with('ultimo_reporte_cancelados', $ultimo_reporte_cancelados);
     }
 
     public function create()
@@ -278,9 +289,34 @@ class ReporteController extends Controller
                 ->with('rango',$rango);
             
             }
+
+        //PROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITO
+        //PROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITO
+        
         else if($request->input('tipo_reporte') == 'procredito'){
-            reporte_procredito();
-            $this->index();
+
+            $report_procredito  =  reporte_procredito(); // array con el reporte    
+            $nombre_archivo     = '294466092'.fecha_plana(Carbon::now()).'.txt';  // nombre del reporte
+            $archivo            = fopen($nombre_archivo, "w"); // creacion del archivo
+            
+            //asignacion de datos al archivo
+            foreach($report_procredito as $reporte){
+                foreach($reporte as $key => $elemento){
+
+                    if ($elemento === reset($reporte)) {
+                        fwrite($archivo, $elemento);
+                    }
+                    else{
+                        fwrite($archivo, '|'.$elemento);
+                    }
+                }
+                fwrite($archivo, PHP_EOL);  
+            }
+            fclose($archivo); // cierre del archivo
+    
+            //echo  nl2br(file_get_contents($nombre_archivo));
+
+            return response()->download($nombre_archivo);
         }  
         //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
         //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
@@ -401,6 +437,45 @@ class ReporteController extends Controller
                 ->with('rango',$reporte['rango'])
                 ->with('carteras',$reporte['carteras'])
                 ->with('total',$reporte['total']);
+    }
+
+    public function marcar_cancelados()
+    {
+        
+
+        DB::beginTransaction();
+
+        try{
+
+            $cancelados = DB::table('cancelados')->get();
+
+            if(count($cancelados) > 0){
+                foreach($cancelados as $cancelado){
+    
+                    DB::table('creditos')
+                        ->where('id',$cancelado->credito_id)
+                        ->update(['end_procredito' => 1]);
+                }
+
+                DB::table('cancelados')->delete();
+                DB::commit();
+                flash()->success('Se marcaron los creditos cancelados correctamente');
+                return redirect()->route('admin.reportes.index');
+            } //.if
+
+            else{
+                flash()->error('No hay creditos que marcar');
+                return redirect()->route('admin.reportes.index');
+            }
+
+        }//.try
+        catch(\Exception $e)
+        {
+            flash()->info('Error al marcar los créditos cancelados');
+            return redirect()->route('admin.reportes.index');
+        }
+
+        
     }
     
 }
