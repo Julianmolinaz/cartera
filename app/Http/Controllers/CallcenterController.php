@@ -405,7 +405,7 @@ class CallcenterController extends Controller
                     $creditos = $this->creditos->creditosTipoCall();
 
                     $header = [
-                        'cartera','credito_id','municipio','departamento','estado','centro de costos',
+                        'cartera','credito_id','producto','municipio','departamento','estado','centro de costos',
                         'saldo','sanciones','tipo moroso','castigada','refinanciado','credito_padre','cliente','doc',
                         'fecha_pago','agenda','observaciones','funcionario','fecha_llamada'];
         
@@ -465,6 +465,7 @@ class CallcenterController extends Controller
                         $temp = [
                             'cartera'       => $credito->cartera,
                             'credito_id'    => $credito->credito_id,
+                            'producto'      => $credito->producto,
                             'municipio'     => $credito->municipio,
                             'departamento'  => $credito->departamento,
                             'estado'        => $credito->estado,

@@ -21,6 +21,7 @@ class CreditoRepository{
         $creditos = 
         DB::table('creditos')
             ->join('precreditos','precreditos.id',      '=','creditos.precredito_id')
+            ->join('productos','precreditos.producto_id','=','productos.id')
             ->join('carteras','precreditos.cartera_id', '=','carteras.id')
             ->join('clientes','precreditos.cliente_id', '=','clientes.id')
             ->join('municipios','clientes.municipio_id','=','municipios.id')
@@ -28,6 +29,7 @@ class CreditoRepository{
             ->select(DB::raw('
                 carteras.nombre         as cartera,
                 creditos.id             as credito_id,
+                productos.nombre        as producto,
                 creditos.saldo          as saldo,
                 creditos.castigada      as castigada,
                 creditos.refinanciacion  as refinanciado,
