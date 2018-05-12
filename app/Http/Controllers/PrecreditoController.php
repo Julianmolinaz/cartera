@@ -194,7 +194,11 @@ class PrecreditoController extends Controller
 
           if(count($prejuridico) > 0){
 
-            $pago_prejuridico = DB::table('pagos')->where([['credito_id','=',$credito[0]->id],['concepto','=','Prejuridico']])->get();
+            $pago_prejuridico = DB::table('pagos')
+					->where([['credito_id','=',$credito[0]->id],
+						 ['concepto','=','Prejuridico'],
+						 ['estado','=','Debe']])
+					->get();
 
             if(count($pago_prejuridico) > 0){
               $pago_prejuridico = array('prejuridico' => (int)$pago_prejuridico[0]->debe, 'valor' => ' de '.$prejuridico[0]->valor);
