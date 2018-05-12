@@ -16,6 +16,7 @@
   });
 
 var credito_id;
+var count_click = 0;
 
 function Salir(){
     $("#myModal").modal('toggle');
@@ -44,25 +45,29 @@ function Aceptar(){
     var agenda      = $('#agenda').val();
   }
 
-
   var criterio_id   = $('#criterio').val();
   var observaciones = $('#observaciones').val();
   var route         = "{{url('call/call_create')}}";
   var token         = $("#token").val();
 
-
-   $.ajax({
-    url: route,
-    headers: {'X-CSRF-TOKEN': token},
-    type: 'POST',
-    dataType: 'json',
-    data: {credito_id: credito_id, criterio_id: criterio_id, observaciones: observaciones, agenda:agenda },
-    success: function(){
-      $("#myModal").modal('toggle');
-      $("#msj-success").fadeIn();
-      location.reload();
-    }
-  });
+  if(count_click == 0){
+    count_click++;
+    $.ajax({
+      url: route,
+      headers: {'X-CSRF-TOKEN': token},
+      type: 'POST',
+      dataType: 'json',
+      data: {credito_id: credito_id, criterio_id: criterio_id, observaciones: observaciones, agenda:agenda },
+      success: function(){
+        $("#myModal").modal('toggle');
+        $("#msj-success").fadeIn();
+        location.reload();
+      }
+    });
+  }
+  else{
+    alert('Se esta procesando el envio de la llamada');
+  }
 
 }
 
