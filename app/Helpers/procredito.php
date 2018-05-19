@@ -35,7 +35,7 @@ function reporte_procredito(){
         $no_admitidos       = no_admitidos(); // listado de creditos que generan error
 
         $ids                = DB::table('creditos')
-                            //->where('creditos.id',31)
+                            //->where('creditos.id',2038)
                             ->whereIn('estado', ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
                             ->where('end_procredito','<>',1)
                             ->whereNotIn('id',$no_admitidos)
@@ -52,7 +52,7 @@ function reporte_procredito(){
                     ['credito_id' => $credito->id,
                      'created_at' => Carbon::now()]);
             }
-                
+               
             $bandera            = 0;
             $generar_tipo_d     = 0;
 
@@ -275,6 +275,8 @@ function reporte_procredito(){
         
         }//.foreach
 
+        //dd($reporte_array);
+
         return $reporte_array;
 
     }//.try
@@ -412,7 +414,7 @@ function reporte_procredito(){
 
 
     /*
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------- 
     | cuotas_mora
     |--------------------------------------------------------------------------
     |
@@ -432,11 +434,13 @@ function reporte_procredito(){
         
         $dias_mora = dias_mora($credito, $corte);
 
+
         if($dias_mora > 20){
             
             //pago_hasta es la fecha limite de pago
 
             $pago_hasta     = FechaCobro::where('credito_id',$credito->id)->get();
+
             $pago_hasta     = $pago_hasta[0]->fecha_pago;
 
             //se inician las variables

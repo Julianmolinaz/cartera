@@ -57,7 +57,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        $municipios         = Municipio::where('id', '!=', 10)->orderBy('departamento','asc')->get();
+        $municipios         = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
         $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
         $tipos_documento    = getEnumValues('clientes','tipo_doc');
 
@@ -81,14 +81,14 @@ class ClienteController extends Controller
 
 
         $rules_cliente = array(
-            'primer_nombre'             => ['required','max:60','regex:/^[a-zA-Z[:space:]]*$/'],
-            'segundo_nombre'            => ['max:30','regex:/^[a-zA-Z[:space:]]*$/'],
-            'primer_apellido'           => ['required','max:30','regex:/^[a-zA-Z[:space:]]*$/'],
-            'segundo_apellido'          => ['max:30','regex:/^[a-zA-Z[:space:]]*$/'],
+            'primer_nombre'             => ['required','max:60','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'segundo_nombre'            => ['max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'primer_apellido'           => ['required','max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'segundo_apellido'          => ['max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
             'tipo_doc'                  => 'required',
             'num_doc'                   => 'required|max:15|unique:clientes',
             'fecha_nacimiento'          => 'required',
-            'direccion'                 => ['required','max:100', 'regex:/^[a-zA-Z0-9#\-\.[:space:]]*$/'],
+            'direccion'                 => ['required','max:100', 'regex:/^[a-zA-ZñÑ0-9#\-\.[:space:]]*$/'],
             'barrio'                    => 'required',
             'municipio_id'              => 'required',
             'movil'                     => 'required|max:20|alpha_num',
@@ -129,14 +129,14 @@ class ClienteController extends Controller
         // DATOS DE VALIDACION DEL CODEUDOR
 
         $rules_codeudor = array(
-            'primer_nombrec'            => ['required','max:60','regex:/^[a-zA-Z[:space:]]*$/'],
-            'segundo_nombrec'           => ['max:30','regex:/^[a-zA-Z[:space:]]*$/'],
-            'primer_apellidoc'          => ['required','max:30','regex:/^[a-zA-Z[:space:]]*$/'],
-            'segundo_apellidoc'         => ['max:30','regex:/^[a-zA-Z[:space:]]*$/'],
+            'primer_nombrec'            => ['required','max:60','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'segundo_nombrec'           => ['max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'primer_apellidoc'          => ['required','max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'segundo_apellidoc'         => ['max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
             'tipo_docc'                 => 'required',
             'num_docc'                  => 'required|max:15',
             'fecha_nacimientoc'         => 'required',
-            'direccionc'                => ['required','max:100','regex:/^[a-zA-Z0-9#\-\.[:space:]]*$/'],
+            'direccionc'                => ['required','max:100','regex:/^[a-zA-ZñÑ0-9#\-\.[:space:]]*$/'],
             'barrioc'                   => 'required',
             'municipioc_id'             => 'required',
             'movilc'                    => 'required|max:20',
@@ -388,16 +388,16 @@ class ClienteController extends Controller
     public function update(Request $request, $id)
     { 
         // REGLAS DE VALIDACION DE LOS DATOS CLIENTE
-        // regex:/^([aA-zZñÑáéíóúÁÉÍÓÚ\s]*)$/,
+
         $rules_cliente = array(
-            'primer_nombre'             => 'required|max:60',
-            'segundo_nombre'            => 'max:30',
-            'primer_apellido'           => 'required|max:30',
-            'segundo_apellido'          => 'max:30',
+            'primer_nombre'             => ['required','max:60','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'segundo_nombre'            => ['max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'primer_apellido'           => ['required','max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'segundo_apellido'          => ['required','max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
             'tipo_doc'                  => 'required',
             'num_doc'                   => 'required|max:15|unique:clientes,'.'id',
             'fecha_nacimiento'          => 'required',
-            'direccion'                 => 'required|max:100',
+            'direccion'                 => ['required','max:100', 'regex:/^[a-zA-ZñÑ0-9#\-\.[:space:]]*$/'],
             'barrio'                    => 'required',
             'municipio_id'              => 'required',
             'movil'                     => 'required|max:20',
@@ -409,10 +409,14 @@ class ClienteController extends Controller
         $message_cliente = array(
            'primer_nombre.required'     => 'EL primer nombre del cliente es requerido',
            'primer_nombre.max'          => 'El primer nombre del cliente excede los 60 caracteres permitidos',
+           'primer_nombre.regex'        => 'El primer nombre del cliente no tiene el formato requerido',
            'segundo_nombre.max'         => 'El segundo nombre del cliente excede los 30 caracteres permitidos',
+           'segundo_nombre.regex'       => 'El segundo nombre del cliente no tiene el formato requerido',
            'primer_apellido.required'   => 'El primer apellido del cliente es requerido',
            'primer_apellido.max'        => 'El primer apellido del cliente excede los 30 caracteres permitidos',
+           'primer_apellido.regex'      => 'El primer apellido del cliente no tiene el formato requerido',
            'segundo_apellido.max'       => 'El segundo apellido del cliente excede los 30 caracteres permitidos',
+           'segundo_apellido.regex'     => 'El segundo apellido del cliente no tiene el formato requerido',
            'tipo_doc.required'          => 'El tipo de documento del cliente es requerido',
            'num_doc.unique'             => 'EL número de documento del cliente ya esta en uso',
            'num_doc.required'           => 'El número de documento del cliente es requerido',
@@ -433,14 +437,14 @@ class ClienteController extends Controller
         // REGLAS DE VALIDACION DE LOS DATOS CODEUDOR
 
         $rules_codeudor = array(
-            'primer_nombrec'            => 'required|max:60|regex:/^([aA-zZñÑ]*)$/',
-            'segundo_nombrec'           => 'max:30|regex:/^([aA-zZñÑ]*)$/',
-            'primer_apellidoc'          => 'required|max:30|regex:/^([aA-zZñÑ]*)$/',
-            'segundo_apellidoc'         => 'max:30|regex:/^([aA-zZñÑ]*)$/',    
+            'primer_nombrec'            => ['required','max:60','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'segundo_nombrec'           => ['max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'primer_apellidoc'          => ['required','max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'segundo_apellidoc'         => ['max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],   
             'tipo_docc'                 => 'required',
             'num_docc'                  => 'required|max:15',
             'fecha_nacimientoc'         => 'required',
-            'direccionc'                => 'required|max:100',
+            'direccionc'                => ['required','max:100', 'regex:/^[a-zA-ZñÑ0-9#\-\.[:space:]]*$/'],
             'barrioc'                   => 'required',
             'municipioc_id'             => 'required',
             'movilc'                    => 'required|max:20',
@@ -451,11 +455,14 @@ class ClienteController extends Controller
         $message_codeudor = array(
            'primer_nombrec.required'    => 'El primer nombre del codeudor es requerido',
            'primer_nombrec.max'         => 'El primer nombre del codeudor excede los 60 caracteres permitidos',
-           'primer_nombrec.regex'       => 'El primer nombre no tiene el formato requerido',
+           'primer_nombrec.regex'       => 'El primer nombre del codeudor no tiene el formato requerido',
            'segundo_nombrec.max'        => 'El segundo nombre del codeudor excede los 30 caracteres permitidos',
+           'segundo_nombrec.regex'      => 'El segundo nombre del codeudor no tiene el formato requerido',
            'primer_apellidoc.required'  => 'El primer apellido del codeudor es requerido',
            'primer_apellidoc.max'       => 'El primer apellido del codeudor excede los 30 caracteres permitidos',
+           'primer_apellidoc.regex'     => 'El primer apellido del codeudor no tiene el formato requerido',
            'segundo_apellidoc.max'      => 'El segundo apellido del codeudor excede los 30 caracteres permitidos',
+           'segundo_apellidoc.regex'    => 'El segundo apellido del codeudor no tiene el formato requerido',
            'tipo_docc.required'         => 'El tipo de documento del codeudor es requerido',    
            'num_docc.required'          => 'El número de documento del codeudor es requerido',
            'num_docc.max'               => 'El numero de documento del codeudor excede los 8 digitos permitidos',
