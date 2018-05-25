@@ -41,7 +41,7 @@ class ClienteController extends Controller
                      'users.name as user_create',
                      'clientes.created_at as created_at',
                      'clientes.updated_at as updated_at')
-            ->orderBy('clientes.updated_at')
+            ->orderBy('clientes.updated_at','desc')
             ->paginate(100);
 
 
