@@ -393,7 +393,7 @@ class ClienteController extends Controller
             'primer_nombre'             => ['required','max:60','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
             'segundo_nombre'            => ['max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
             'primer_apellido'           => ['required','max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
-            'segundo_apellido'          => ['required','max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
+            'segundo_apellido'          => ['max:30','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
             'tipo_doc'                  => 'required',
             'num_doc'                   => 'required|max:15|unique:clientes,'.'id',
             'fecha_nacimiento'          => 'required',
