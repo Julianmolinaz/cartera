@@ -49,15 +49,23 @@ class PrecreditoController extends Controller
      */
     public function store(Request $request)
     {
+      // valida que p_fecha sea menor que s_fecha
+
       $ini = $request->input('p_fecha')+1;
-      $fin = $request->input('s_fecha')-1;
-      if($request->input('s_fecha') == ""){
+      if($request->input('s_fecha')){
+        $fin = $request->input('s_fecha')-1;
+      }
+
+      if($request->input('s_fecha') == "" || $request->input('periodo') == 'Mensual'){
         $fin = 30;
       }
       if($request->input('periodo') == 'Quincenal'){
-        $s_fecha_quincena = 'required|integer|between:'.$ini.',30';
-      }else {$s_fecha_quincena = 'between:0,30'; }
-
+        $rule_s_fecha_quincena = 'required|integer|between:'.$ini.',30';
+      }
+      else {
+        $rule_s_fecha_quincena = 'between:0,30';
+      }
+        
         $rules_fijos = array(
             'num_fact' => 'required|unique:precreditos',
             'fecha'    => 'required',
@@ -69,7 +77,7 @@ class PrecreditoController extends Controller
             'estudio'  => 'required',
             'vlr_cuota'=> 'required',
             'p_fecha'  => 'required|integer|between:1,'.$fin,
-            's_fecha'  => $s_fecha_quincena,
+            's_fecha'  => $rule_s_fecha_quincena,
             'funcionario_id' => 'required',
             );
         $message_fijos = array(
@@ -86,6 +94,7 @@ class PrecreditoController extends Controller
             'p_fecha.required'       => 'La Fecha 1 es requerida',
             'p_fecha.between'        => 'La Fecha 1 debe ser menor que la Fecha 2',
             's_fecha.between'        => 'La Fecha 2 debe ser mayor que la Fecha 1',
+            's_fecha.required'       => 'La Fecha 2 es requerida',
             'funcionario_id.required'=> 'El Funcionario es requerido',
             );
 
@@ -101,6 +110,7 @@ class PrecreditoController extends Controller
         DB::beginTransaction();
 
         try{
+            
             //validar que un cliente no tenga mas precréditos o créditos en proceso
 
             $cant_precred =
@@ -120,6 +130,10 @@ class PrecreditoController extends Controller
                 if($request->input('cuota_inicial') == ""){
                     $precredito->cuota_inicial = 0;
                 }
+                
+                if($request->input('periodo') == 'Mensual'){ $s_fecha = '';}
+                else{ $s_fecha = $request->input('s_fecha');}
+
                 $precredito->user_create_id = Auth::user()->id;
                 $precredito->user_update_id = Auth::user()->id;
                 $precredito->aprobado = 'En estudio';
@@ -317,18 +331,22 @@ class PrecreditoController extends Controller
     public function update(Request $request, $id)
     {
      
-      $ini = $request->input('p_fecha')+1;
-      $fin = $request->input('s_fecha')-1;
+      // valida que p_fecha sea menor que s_fecha
 
-      if($request->input('s_fecha') == ""){
+      $ini = $request->input('p_fecha')+1;
+      if($request->input('s_fecha')){
+        $fin = $request->input('s_fecha')-1;
+      }
+      
+
+      if($request->input('s_fecha') == "" || $request->input('periodo') == 'Mensual'){
         $fin = 30;
       }
-     
       if($request->input('periodo') == 'Quincenal'){
-        $s_fecha_quincena = 'required|integer|between:'.$ini.',30';
+        $rule_s_fecha_quincena = 'required|integer|between:'.$ini.',30';
       }
       else {
-        $s_fecha_quincena = 'between:0,30'; 
+        $rule_s_fecha_quincena = 'between:0,30';
       }
 
         $rules_fijos = array(
@@ -341,7 +359,7 @@ class PrecreditoController extends Controller
             'estudio'  => 'required', 
             'vlr_cuota'=> 'required',
             'p_fecha'  => 'required|integer|between:1,'.$fin,
-            's_fecha'  => $s_fecha_quincena,
+            's_fecha'  => $rule_s_fecha_quincena,
             'funcionario_id' => 'required',
             );
         $message_fijos = array(
@@ -357,6 +375,7 @@ class PrecreditoController extends Controller
             'p_fecha.required'       => 'La Fecha 1 es requerida',
             'p_fecha.between'        => 'La Fecha 1 debe ser menor que la Fecha 2',
             's_fecha.between'        => 'La Fecha 2 debe ser mayor que la Fecha 1',
+            's_fecha.required'       => 'La Fecha 2 es requerida',
             'funcionario_id.required'=> 'El Funcionario es requerido',
             );
 
@@ -374,9 +393,13 @@ class PrecreditoController extends Controller
 
         try{
 
+            if($request->input('periodo') == 'Mensual'){ $s_fecha = '';}
+            else{ $s_fecha = $request->input('s_fecha');}
+
             $precredito = Precredito::find($id);
             $cliente = Cliente::find($precredito->cliente_id);
             $precredito->fill($request->all());
+            $precredito->s_fecha = $s_fecha;
             $precredito->user_update_id = Auth::user()->id;
             $precredito->save();
 
