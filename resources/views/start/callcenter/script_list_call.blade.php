@@ -16,7 +16,7 @@
   });
 
 var credito_id;
-var count_click = 0;
+var count_click = 0; // INCREMENTABLE QUE PERMITO NO ENVIAR DOS VECES UNA MISMA LLAMADA
 
 function Salir(){
     $("#myModal").modal('toggle');
@@ -37,6 +37,13 @@ function Mostrar(id){
 
 function Aceptar(){
 
+  //VALIDACIÓN DE CAMPO CRITERIO Y OBSERVACIONES REQUERIDOS
+
+  if(($('#criterio').val() === null) || ($('#observaciones').val() === ''))
+  {
+    alert('Los campos con asterisco (*) son obligatorios');
+    return false;
+  }
 
   if($('#agenda').val() == ""){
     var agenda      = null;
