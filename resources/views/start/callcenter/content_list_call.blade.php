@@ -303,7 +303,7 @@
 
                     <div class="form-group">
                       <div class="col-md-12 col-sm-12 col-xs-12">
-                         <label>Observaciones</label>
+                         <label>Observaciones *</label>
                          <textarea class="form-control" rows="3" id="observaciones" name="observaciones" placeholder='Escriba acá las observaciones'></textarea>
                       </div>
                     </div>
