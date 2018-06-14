@@ -135,7 +135,7 @@ $('#tipo_reporte').on('change',function(){
   }
   else if( $('#tipo_reporte').val() == 'procredito' ){
     ocultarPeriodo();
-    //mostrarCancelados();
+    mostrarCancelados();
   }
   else{
     ocultarCarteras();
