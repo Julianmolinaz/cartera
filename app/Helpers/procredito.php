@@ -35,7 +35,7 @@ function reporte_procredito(){
         $no_admitidos       = no_admitidos(); // listado de creditos que generan error
 
         $ids                = DB::table('creditos')
-                            //->where('creditos.id',2038)
+                            //->where('creditos.id',1000)
                             ->whereIn('estado', ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
                             ->where('end_procredito','<>',1)
                             ->whereNotIn('id',$no_admitidos)
@@ -65,6 +65,18 @@ function reporte_procredito(){
             else{
                 $credito_id = $credito->id;
                 $refinanciacion = ''; }
+
+            $tipo_documento = tipo_documento($credito->precredito->cliente->tipo_doc);
+            if($tipo_documento == '2'){
+                $nombre_comercial = 
+                str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->primer_nombre)).' '.
+                str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->segundo_nombre)).' '.
+                str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->primer_apellido)).' '.
+                str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->segundo_apellido));
+            }
+            else{
+                $nombre_comercial = '';
+            }
                  
         $temp = array(
 
@@ -79,13 +91,13 @@ function reporte_procredito(){
         '9-num_doc_afiliado'      => '94466092', //nit del afiliado
         '10-codigo_sucursal_nuevo'=> '0',
         '11-tipo_garante'         => '1', //Deudor
-        '12-tipo_doc_cliente'     => tipo_documento($credito->precredito->cliente->tipo_doc),
+        '12-tipo_doc_cliente'     => $tipo_documento,
         '13-num_doc_cliente'      => $credito->precredito->cliente->num_doc,
         '14-primer_nombre'        => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->primer_nombre)), 
         '15-segundo_nombre'       => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->segundo_nombre)), 
         '16-primer_apellido'      => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->primer_apellido)), 
         '17-segundo_apellido'     => str_replace("ñ", "N",str_replace("Ñ", "N",$credito->precredito->cliente->segundo_apellido)), 
-        '18-nombre_comercial'     => '',        
+        '18-nombre_comercial'     => $nombre_comercial,        
         '19-pais'                 => '57',//Colombia
         '20-departamento'         => $credito->precredito->cliente->municipio->codigo_departamento, //municipios
         '21-ciudad'               => $credito->precredito->cliente->municipio->codigo_municipio, //municipios
@@ -432,8 +444,12 @@ function reporte_procredito(){
             return array('cts_mora' => 0 , 'cts_mora_todas' => 0 );
         }
         
+        //CALCULA LOS DIAS EN MORA
         $dias_mora = dias_mora($credito, $corte);
 
+        // echo 'dias en mora: '.$dias_mora.'<br>';
+
+        //SI LOS DIAS EN MORA SON MAS DE 20 ENTRA AL IF
 
         if($dias_mora > 20){
             
@@ -443,9 +459,13 @@ function reporte_procredito(){
 
             $pago_hasta     = $pago_hasta[0]->fecha_pago;
 
+            // echo 'pago hasta. '.$pago_hasta.'<br>';
+
             //se inician las variables
 
             $cuotas         = $credito->cuotas_faltantes;
+            // ECHO 'CUOTAS FALTANTES 1: '.$cuotas.'<br>';
+
             $parada         = FALSE;
             $cts_mora       = 0; // no incluye cuotas parciales
             $cts_mora_todas = 0; // incluye cuotas parciales
@@ -457,6 +477,8 @@ function reporte_procredito(){
             if( $corte->gt($f_pago)){
                 $cts_mora++;
                 $cuotas--;
+                // echo 'cuotas en mora: '.$cts_mora.'<br>';
+                // echo 'cuotas '.$cuotas.'<br>';
             }
             else{
                 $parada = TRUE;
@@ -472,6 +494,7 @@ function reporte_procredito(){
                                     $credito->precredito->s_fecha
                                     );
 
+                // echo 'fecha_pago'.$f_pago.'<br>';
                 $f_pago = Carbon::create(ano($f_pago),mes($f_pago),dia($f_pago));
 
                 if( $corte->gt($f_pago) ){
@@ -479,6 +502,7 @@ function reporte_procredito(){
                     $cuotas--;
                 }
                 else{
+                    // echo 'true';
                     $parada = TRUE;
                 }
             
@@ -493,10 +517,10 @@ function reporte_procredito(){
             //if( $cts_mora > 1 && pagos_parciales($credito,$corte) ){
 
             
-            if( $cts_mora > 0 && pagos_parciales($credito,$corte) ){
+            if( $cts_mora > 1 && pagos_parciales($credito,$corte) ){
                 $cts_mora--;
+                // echo 'cts con parcial: '.$cts_mora.'<br>';
             }
-
             return array('cts_mora' => $cts_mora , 'cts_mora_todas' => $cts_mora_todas );
 
         }//end if
@@ -601,7 +625,7 @@ function reporte_procredito(){
             if( count($pago_por_multas) > 0){
                 return 1;
             }else{
-                return 0;
+                return '';
             }   
             $credito->estado = 'Finalizado en Procredito';
             $credito->save();
