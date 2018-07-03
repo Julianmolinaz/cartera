@@ -779,6 +779,10 @@ class ClienteController extends Controller
         try{
 
             $cliente = Cliente::find($id);
+            if( $cliente->soat ){
+                $soat = Soat::where('cliente_id',$cliente->id)->get();
+                $soat[0]->delete();
+            }
             $cliente->delete();
 
             DB::commit();
