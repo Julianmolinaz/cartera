@@ -26,6 +26,7 @@ class CreditoRepository{
             ->join('clientes','precreditos.cliente_id', '=','clientes.id')
             ->join('municipios','clientes.municipio_id','=','municipios.id')
             ->join('fecha_cobros','creditos.id',        '=','fecha_cobros.credito_id')
+            ->leftJoin('soat','clientes.id','=','soat.cliente_id')
             ->select(DB::raw('
                 carteras.nombre         as cartera,
                 creditos.id             as credito_id,
@@ -35,12 +36,15 @@ class CreditoRepository{
                 creditos.refinanciacion  as refinanciado,
                 creditos.credito_refinanciado_id as credito_refinanciado_id,
                 precreditos.vlr_fin     as valor_financiar,
+                precreditos.cuotas      as cuotas_pactadas,
+                creditos.cuotas_faltantes as cuotas_faltantes,
                 municipios.nombre       as municipio,
                 municipios.departamento as departamento,
                 creditos.estado         as estado,
                 clientes.nombre         as cliente,
                 clientes.num_doc        as doc,
-                fecha_cobros.fecha_pago as fecha_pago'))
+                fecha_cobros.fecha_pago as fecha_pago,
+                soat.vencimiento        as soat'))
             ->whereIn('creditos.estado',['Al dia','Mora','Juridico','Prejuridico','Cancelado'])
             ->get();
 

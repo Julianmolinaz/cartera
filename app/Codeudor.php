@@ -36,6 +36,10 @@ class Codeudor extends Model implements Auditable
     	return $this->belongsTo('App\Cliente');
     }
 
+    public function soat(){
+        return $this->hasOne('App\Soat','codeudor_id', 'id');
+    }
+
     public function municipio(){
     	return $this->hasOne('App\Municipio','id','municipioc_id');
     }

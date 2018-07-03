@@ -43,6 +43,10 @@ class Cliente extends Model implements Auditable
     public function estudio(){
         return $this->belongsTo('App\Estudio','id','cliente_id');
     }
+    
+    public function soat(){
+        return $this->hasOne('App\Soat', 'cliente_id', 'id');
+    }
 
     protected $auditExclude = [
         'published',

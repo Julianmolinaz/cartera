@@ -168,10 +168,18 @@
      <input type="text" class="form-control input-sm" placeholder="placa" id="placac" name="placac" value="{{$cliente->codeudor->placac}}">
    </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
+      <label>F. vencimiento SOAT :</label>
+     <input type="date" class="form-control input-sm" id="soatc" 
+            name="soatc" value="{{($cliente->codeudor->soat) ? $cliente->codeudor->soat->vencimiento : ''}}">
+   </div>
+ </div>
+
+  <!-- PLACA VEHIUCLO **************************************************************************-->
+  <div class="form-group" > 
+    <div class="col-md-12 col-sm-12 col-xs-12">
       <label>Email :</label>
      <input type="email" class="form-control input-sm" placeholder="correo electrónico" id="emailc" name="emailc" value="{{$cliente->codeudor->emailc}}">
    </div>
  </div>
-
 
 

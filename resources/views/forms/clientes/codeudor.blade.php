@@ -1,14 +1,15 @@
-<h3>Codeudor</h3>
-    
+
+<div style="margin-top:-19px;margin-bottom:15px;">
+  <h3>Codeudor</h3>
+      
   Si:
   <input type="radio"  name="codeudor" id="codeudor" value="si" checked="checked"
   <?php if(Request::old('codeudor')== "si") { echo 'checked="checked"'; } ?>/> 
   No:
   <input type="radio"  name="codeudor" id="codeudor" value="no" 
   <?php if(Request::old('codeudor')== "no") { echo 'checked="checked"'; } ?>/>
+</div>
 
-</p>
-<br>
 
 
 
@@ -149,10 +150,16 @@
      <input type="text" class="form-control input-sm" placeholder="placa" id="placac" name="placac" value="{{old('placac')}}">
    </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
+      <label>F. vencimiento SOAT :</label>
+     <input type="date" class="form-control input-sm" id="soatc" name="soatc" value="{{old('soatc')}}">
+   </div>
+ </div>
+    <!-- PLACA VEHIUCLO **************************************************************************-->
+  <div class="form-group" > 
+    <div class="col-md-12 col-sm-12 col-xs-12">
       <label>Email :</label>
      <input type="email" class="form-control input-sm" placeholder="correo electrónico" id="emailc" name="emailc" value="{{old('emailc')}}">
    </div>
  </div>
-
 
 

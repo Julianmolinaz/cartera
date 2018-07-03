@@ -135,9 +135,15 @@
      <input type="text" class="form-control input-sm" placeholder="placa" id="placa" name="placa" value="{{old('placa')}}">
    </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
-      <label>Email :</label>
-     <input type="email" class="form-control input-sm" placeholder="correo electrónico" id="email" name="email" value="{{old('email')}}" size="60">
+      <label>F. vencimiento SOAT :</label>
+     <input type="date" class="form-control input-sm" id="soat" name="soat" value="{{old('soat')}}">
    </div>
  </div>
-
-<br><br><br><br>
+    <!-- Email VEHIUCLO **************************************************************************-->
+  <div class="form-group" > 
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <label>Email :</label>
+     <input type="email" class="form-control input-sm" placeholder="correo electrónico" id="email" name="email" value="{{old('email')}}"  size="60">
+   </div>
+ </div>
+<br>
