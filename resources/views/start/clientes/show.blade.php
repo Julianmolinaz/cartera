@@ -77,10 +77,20 @@
                   <td>{{$cliente->estudio->cal_estudio}}</td>
                 @endif
             </tr>
+            @if($cliente->soat)
+            <tr>
+              <th scope="row">Vencimiento SOAT</th>
+              <td>
+              {{substr( $cliente->soat->vencimiento , 8, 3 ).
+                substr( $cliente->soat->vencimiento , 4, 4 ).
+                substr( $cliente->soat->vencimiento , 0, 4 )}}
+              </td>
+            </tr>
+            @endif
 
             <tr>
               <th scope="row"># de créditos</th>
-              <td> {{ $cliente->numero_de_creditos}}</td>
+              <td> {{ $cliente->numero_de_creditos }}</td>
             </tr>
 
             <tr style="color:green; font-weight: bold;">
