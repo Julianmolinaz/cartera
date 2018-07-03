@@ -227,6 +227,10 @@ Route::get('call/exportar/todo',[
 	'as'	=> 'call.exportar.todo'
 	]);
 
+Route::get('call/exportar/soat',[
+	'uses'	=> 'CallcenterController@soat',
+	'as'	=> 'call.exportar.soat'
+	]);
 
 
 
@@ -467,3 +471,4 @@ Route::get('admin/municipios/cargar','PuntoController@cargar');
 Route::post('admin/sanciones/crear_sanciones','SancionController@crearSanciones');
 
 
+Route::get('prueba', 'PruebaController@reporte');

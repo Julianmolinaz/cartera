@@ -126,18 +126,25 @@
             </div>
           </div>  
 
-            <!-- PLACA VEHIUCLO **************************************************************************-->
-          <div class="form-group">  
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <label>Placa :</label>
-             <input type="text" class="form-control" placeholder="ingrese placa" id="placa" name="placa" value="{{$cliente->placa}}">
-           </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <label>Email :</label>
-             <input type="email" class="form-control" placeholder="correo electrónico" id="email" name="email" value="{{$cliente->email}}">
-           </div>
-         </div>          
-         <br>
+          <!-- PLACA VEHIUCLO **************************************************************************-->
+        <div class="form-group" > 
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <label>Placa :</label>
+          <input type="text" class="form-control input-sm" placeholder="placa" id="placa" name="placa" value="{{$cliente->placa}}">
+        </div>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <label>F. vencimiento SOAT :</label>
+          <input type="date" class="form-control input-sm" id="soat" name="soat" value="{{ ($cliente->soat) ? $cliente->soat->vencimiento : ''}}">
+        </div>
+      </div>
+          <!-- Email VEHIUCLO **************************************************************************-->
+        <div class="form-group" > 
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <label>Email :</label>
+          <input type="email" class="form-control input-sm" placeholder="correo electrónico" id="email" name="email" value="{{ $cliente->email }}"  size="60">
+        </div>
+      </div>       
+
 
 
          <!-- BOTONES **************************************************************************-->

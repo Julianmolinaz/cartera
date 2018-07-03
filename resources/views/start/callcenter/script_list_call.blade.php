@@ -16,7 +16,7 @@
   });
 
 var credito_id;
-var count_click = 0; // INCREMENTABLE QUE PERMITO NO ENVIAR DOS VECES UNA MISMA LLAMADA
+var count_click = 0; // INCREMENTABLE QUE PERMITE NO ENVIAR DOS VECES UNA MISMA LLAMADA
 
 function Salir(){
     $("#myModal").modal('toggle');
@@ -85,7 +85,6 @@ function Info(){
 }
 
 function infoDesdeListado(id){
-  console.log(id);
   window.open("{{url('call')}}/"+id, '_blank');
 }
 
@@ -106,7 +105,10 @@ function Exportar(){
 
 function ExportarTodo(){
   window.open("{{url('call/exportar/todo')}}", '_blank');
+}
 
+function soat(){
+  window.open("{{url('call/exportar/soat')}}", '_blank');
 }
 
 

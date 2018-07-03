@@ -388,8 +388,8 @@ class CallcenterController extends Controller
     |
     */  
 
-    public function ExportarTodo(){
-
+    public function ExportarTodo()
+    {
         try{
 
             $now            = Carbon::now();
@@ -405,10 +405,32 @@ class CallcenterController extends Controller
                     $creditos = $this->creditos->creditosTipoCall();
 
                     $header = [
-                        'cartera','credito_id','producto','municipio','departamento','estado','centro de costos',
-                        'saldo','sanciones','tipo moroso','castigada','refinanciado','credito_padre','cliente','doc',
-                        'fecha_pago','agenda','observaciones','funcionario','fecha_llamada'];
-        
+                        'cartera',
+                        'credito_id',
+                        'producto',
+                        'vence SOAT',
+                        'municipio',
+                        'departamento',
+                        'estado',
+                        'centro de costos',
+                        'saldo',
+                        'cuotas pactadas',
+                        'cuotas faltantes',
+                        'cuotas pagadas (pactadas - faltantes)',
+                        'sanciones',
+                        'tipo moroso',
+                        'castigada',
+                        'refinanciado',
+                        'credito_padre',
+                        'cliente',
+                        'doc',
+                        'fecha_pago',
+                        'agenda',
+                        'observaciones',
+                        'funcionario',
+                        'fecha_llamada'
+                    ];
+
                     array_push($array_creditos,$header);
 
         
@@ -460,17 +482,21 @@ class CallcenterController extends Controller
                             $funcionario   = '';
                             $fecha_llamada = '';
                         }
-
         
                         $temp = [
                             'cartera'       => $credito->cartera,
                             'credito_id'    => $credito->credito_id,
                             'producto'      => $credito->producto,
+                            'vence soat'    => $credito->soat,
                             'municipio'     => $credito->municipio,
                             'departamento'  => $credito->departamento,
                             'estado'        => $credito->estado,
                             'valor_financiar'=> $credito->valor_financiar,
                             'saldo'         => $credito->saldo,
+                            'cuotas pactadas' => $credito->cuotas_pactadas,
+                            'cuotas faltantes'=> $credito->cuotas_faltantes,
+                            'cuotas pagadas (pactadas - faltantes)'  => $credito->cuotas_pactadas -
+                                                 $credito->cuotas_faltantes,
                             'sanciones'     => $sanciones,
                             'tipo_moroso'   => $tipo_moroso,
                             'castigada'     => $credito->castigada,
@@ -484,7 +510,7 @@ class CallcenterController extends Controller
                             'funcionario'   => $funcionario,
                             'fecha_llamada' => $fecha_llamada         
                             ];
-            
+
                     array_push($array_creditos,$temp);
                     }
                 $sheet->fromArray($array_creditos,null,'A1',false,false);
@@ -507,6 +533,144 @@ class CallcenterController extends Controller
         
         return view('start.callcenter.miscall')
             ->with('calls', $calls);
+    }
+
+    public function soat()
+    {
+        try
+        {
+            $now            = Carbon::now();
+            $fecha          = $now->toDateTimeString();
+
+            Excel::create('SoatCallCenter'.$fecha,function($excel){
+                $excel->sheet('Sheetname',function($sheet){
+                    
+                    $soat_clientes = 
+                    DB::table('soat')
+                    ->join('clientes','soat.cliente_id','=','clientes.id')
+                    ->join('municipios','clientes.municipio_id','=','municipios.id')
+                    ->where('tipo','cliente')
+                    ->select('soat.id as id',
+                             'soat.tipo as tipo',
+                             'clientes.id as cliente_id',
+                             'soat.placa as placa',
+                             'soat.vencimiento as vence',
+                             'clientes.nombre as cliente',
+                             'clientes.num_doc as documento',
+                             'clientes.movil as movil',
+                             'clientes.fijo as telefono',
+                             'clientes.direccion as direccion',
+                             'clientes.barrio as barrio',
+                             'municipios.nombre as municipio',
+                             'clientes.fecha_nacimiento as f_nacimiento',
+                             'clientes.email as email',
+                             'clientes.calificacion as calificacion'            
+                    )
+                    ->orderBy('soat.vencimiento','desc')
+                    ->get();
+
+                    $soat_codeudores = 
+                    DB::table('soat')
+                    ->join('codeudores','soat.codeudor_id','=','codeudores.id')
+                    ->join('municipios','codeudores.municipioc_id','=','municipios.id')
+                    ->where('tipo','codeudor')
+                    ->select('soat.id as id',
+                            'soat.tipo as tipo',
+                            'soat.placa as placa',
+                            'soat.vencimiento as vence',
+                            'codeudores.nombrec as cliente',
+                            'codeudores.num_docc as documento',
+                            'codeudores.movilc as movil',
+                            'codeudores.fijoc as telefono',
+                            'codeudores.direccionc as direccion',
+                            'codeudores.barrioc as barrio',
+                            'municipios.nombre as municipio',
+                            'codeudores.fecha_nacimientoc as f_nacimiento',
+                            'codeudores.emailc as email')
+                    ->orderBy('soat.vencimiento','desc')
+                    ->get();                    
+
+                    $temp  = array();
+                    $array_soat  = array();
+
+
+                    $header = [
+                        'id',
+                        'tipo',
+                        'cliente',
+                        'documento',
+                        'placa',
+                        'vencimiento',
+                        'movil',
+                        'telefono',
+                        'direccion',
+                        'barrio',
+                        'municipio',
+                        'fecha_nacimiento',
+                        'email',
+                        'calificacion'
+                    ];
+        
+                    array_push($array_soat,$header);
+
+        
+                    foreach($soat_clientes as $soat){
+        
+                        $temp = [
+                            'id'            => $soat->id,
+                            'tipo'          => $soat->tipo,
+                            'cliente'       => $soat->cliente,
+                            'num_doc'       => $soat->documento,
+                            'placa'         => $soat->placa,
+                            'vencimiento'   => $soat->vence,
+                            'movil'         => $soat->movil,
+                            'telefono'      => $soat->telefono,
+                            'direccion'     => $soat->direccion,
+                            'barrio'        => $soat->barrio,
+                            'municipio'     => $soat->municipio,
+                            'fecha_nacimiento'=> $soat->f_nacimiento,
+                            'email'         => $soat->email,
+                            'calificacion'  => $soat->calificacion      
+                            ];
+            
+                    array_push($array_soat,$temp);
+                    }
+
+                    foreach($soat_codeudores as $soat){
+        
+                        $temp = [
+                            'id'            => $soat->id,
+                            'tipo'          => $soat->tipo,
+                            'cliente'       => $soat->cliente,
+                            'num_doc'       => $soat->documento,
+                            'placa'         => $soat->placa,
+                            'vencimiento'   => $soat->vence,
+                            'movil'         => $soat->movil,
+                            'telefono'      => $soat->telefono,
+                            'direccion'     => $soat->direccion,
+                            'barrio'        => $soat->barrio,
+                            'municipio'     => $soat->municipio,
+                            'fecha_nacimiento'=> $soat->f_nacimiento,
+                            'email'         => $soat->email,
+                            'calificacion'  => ''     
+                            ];
+            
+                    array_push($array_soat,$temp);
+                    }
+
+                $sheet->fromArray($array_soat,null,'A1',false,false);
+                });
+            })->download('xls');
+
+            return redirect()->route('call.index'); 
+        }//end try
+        catch(\Exception $e){
+            echo 'Error<br>*<br>*<br>*<br>*<br>';
+            dd($e);
+        }   
+
+
+
     }
 
 

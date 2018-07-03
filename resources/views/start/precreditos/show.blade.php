@@ -18,8 +18,8 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       
       @if($precredito->credito &&
-          ($precredito->credito->estado == 'Al dia'  ||
-          $precredito->credito->estado == 'Mora'    ||
+          ($precredito->credito->estado == 'Al dia'     ||
+          $precredito->credito->estado == 'Mora'        ||
           $precredito->credito->estado == 'Prejuridico' ||
           $precredito->credito->estado == 'Juridico')
       ) 

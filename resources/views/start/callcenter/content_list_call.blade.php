@@ -9,6 +9,7 @@
  
         <div class="pull-right">
           <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default" onclick="soat()">SOAT</button>
             <button type="button" class="btn btn-default" onclick="Exportar();">Exportar vista xls</button>
             <button type="button" class="btn btn-default" onclick="ExportarTodo();">Exportar todos los creditos xls</button>
           </div>
