@@ -20,7 +20,7 @@ class Soat extends Model
 
     public function setPlacaAttribute($value){
         $this->attributes['placa'] = strtoupper($value);
-    }
+    }   
 
     public function cliente(){
         return $this->hasOne('App\Cliente', 'id', 'cliente_id');

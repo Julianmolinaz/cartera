@@ -183,7 +183,9 @@ class FacturaController extends Controller
       //variables creacion factura
       $factura = new Factura();
       $factura->num_fact        = $request->num_factura;
-      $factura->fecha           = $request->fecha_factura;
+      $factura->fecha           = substr($request->fecha_factura, 8, 2).
+                                  substr($request->fecha_factura, 4, 3).'-'.
+                                  substr($request->fecha_factura, 0, 4);
       $factura->credito_id      = $request->credito_id;
       $factura->total           = 0 ;
       $factura->tipo            = $request->tipo_pago;
