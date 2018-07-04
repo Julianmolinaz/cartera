@@ -30,7 +30,7 @@
                  <!-- fecha_factura *****-->
                 <div class="col-md-3 col-sm-3 col-xs-12">
                       <label>Fecha:</label>
-                        <input type="text" class="form-control input-sm" data-inputmask="'mask': '99-99-9999'" placeholder="dd-mm-aaaa" id="fecha_factura">
+                        <input type="date" class="form-control input-sm" id="fecha_factura">
                       </div>
 
                <!-- monto *****-->
