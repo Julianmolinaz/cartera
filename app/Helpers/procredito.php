@@ -35,7 +35,7 @@ function reporte_procredito(){
         $no_admitidos       = no_admitidos(); // listado de creditos que generan error
 
         $ids                = DB::table('creditos')
-                            //->where('creditos.id',248)
+                            //->where('creditos.id',642)
                             ->whereIn('estado', ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
                             ->where('end_procredito','<>',1)
                             ->whereNotIn('id',$no_admitidos)
@@ -732,7 +732,11 @@ function reporte_procredito(){
         }
 
         if( $credito->castigada == "Si"){
-            $estado = 3;
+            if($credito->estado == 'Al dia'){
+                $estado = 4;
+            }else{
+                $estado = 3;
+            }
         }
 
         return $estado; 
