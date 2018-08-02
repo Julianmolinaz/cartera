@@ -22,6 +22,12 @@ use App\Extra;
 use App\FechaCobro;
 use Excel;
 
+/**
+ * NÚMERO DE DIAS LIMITE PARA REPORTAR UN CRÉDITO COMO MOROSO (>30)
+ */
+ 
+const DIAS_PARA_REPORTAR = 30;
+
 
 function reporte_procredito(){
 
@@ -201,7 +207,7 @@ function reporte_procredito(){
         elseif($credito->estado == 'Mora' || $credito->estado == 'Prejuridico'
                 || $credito->estado == 'Juridico'){
                 
-            if(dias_mora($credito,$now) <= 20){
+            if(dias_mora($credito,$now) <= DIAS_PARA_REPORTAR){
                 $bandera = 0;  }
         }
 
@@ -324,8 +330,6 @@ function reporte_procredito(){
         }
     }
 
-
-
     /*
     |--------------------------------------------------------------------------
     | saldo_mora
@@ -343,7 +347,7 @@ function reporte_procredito(){
         $corte      = Carbon::now();
         $total_multas = "";
 
-        if(dias_mora($credito,$corte) <= 20){
+        if(dias_mora($credito,$corte) <= DIAS_PARA_REPORTAR){
             return '0';
         }
 
@@ -452,7 +456,7 @@ function reporte_procredito(){
 
         //SI LOS DIAS EN MORA SON MAS DE 20 ENTRA AL IF
 
-        if($dias_mora > 20){
+        if($dias_mora > DIAS_PARA_REPORTAR){
             
             //pago_hasta es la fecha limite de pago
 
@@ -718,13 +722,13 @@ function reporte_procredito(){
         $estado = '';
         $dias_mora = dias_mora($credito,$corte);
 
-        if( ($credito->estado == 'Mora'  && $dias_mora > 20)
+        if( ($credito->estado == 'Mora'  && $dias_mora > DIAS_PARA_REPORTAR)
             || $credito->estado == 'Prejuridico' 
             || $credito->estado == 'Juridico'){
             $estado = 2;
         }
         else if( $credito->estado == 'Al dia'
-                 || ($credito->estado == 'Mora'  && $dias_mora <= 20)){
+                 || ($credito->estado == 'Mora'  && $dias_mora <= DIAS_PARA_REPORTAR)){
             $estado = 1;
         }
         else{
@@ -741,8 +745,6 @@ function reporte_procredito(){
 
         return $estado; 
     }
-
-
 
 
 
