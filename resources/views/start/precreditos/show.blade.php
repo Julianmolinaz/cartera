@@ -227,6 +227,19 @@
             <td> </td>
           @endif  
         </tr>
+        <tr>
+          <th scope="row">Crédito hijo</th>
+            @if($hijo)
+            <td> 
+              <a href="{{route('start.precreditos.ver',$hijo->precredito_id)}}" 
+              class="btn btn-info btn-xs">
+                {{ $hijo->id }} 
+              </a>  
+            </td>  
+          @else
+            <td> </td>
+          @endif  
+        </tr>
         <tr class="danger">  
           <th scope="row">Saldo a Favor </th>
           <td> {{'$ '.number_format($precredito->credito->saldo_favor,0,",",".")}}</td>
