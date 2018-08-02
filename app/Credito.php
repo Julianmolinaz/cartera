@@ -65,4 +65,8 @@ class Credito extends Model implements Auditable
     public function last_llamada(){
         return $this->hasOne('App\Llamada','id','last_llamada_id');
     }
+
+    public function hijo(){
+        return $this->hasOne('App\credito','credito_refinanciado_id','id');
+    }
 }
