@@ -249,13 +249,29 @@ class PrecreditoController extends Controller
             $total_parciales = 0;
         }
 
+        /****************** PADRE? ***********************/
+        /**
+         * SE TRAE LA REFERENCIA DE UN CREDITO HIJO, ES DECIR,
+         * UN CREDITO QUE FUE REFINANCIADO, EL ORIGEN ES EL PADRE
+         * EL NUEVO CREDITO ES EL HIJO
+         * PABLO GONZALEZ 02-08-2018
+         */
+
+        if(isset($precredito->credito->hijo)){
+            $hijo = $precredito->credito->hijo;
+        }
+        else{
+            $hijo = null;
+        }
+        
         return view('start.precreditos.show')
             ->with('precredito',$precredito)
             ->with('juridico',$pago_juridico)
             ->with('prejuridico',$pago_prejuridico)
             ->with('parciales',$total_parciales)
             ->with('sanciones',$sum_sanciones)
-            ->with('total_pagos',$total_pagos);
+            ->with('total_pagos',$total_pagos)
+            ->with('hijo',$hijo);
 
 
     }
