@@ -114,7 +114,7 @@ class EstudioController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Permite crear un estudio
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -122,22 +122,25 @@ class EstudioController extends Controller
      */
     public function store(Request $request)
     {
+
+        dd($request);
         $rules = array(
-                  "funcionario_id" => "required",  
-                  "estLaboral_id" => "required",
-                  "estVivienda_id" => "required",
-                  "estReferencia_id" => "required",
-                  "estDatacredito_id" => "required",
-                  "cal_asesor" => "required",                  
+                  "funcionario_id"      => "required",  
+                  "estLaboral_id"       => "required",
+                  "estVivienda_id"      => "required",
+                  "estReferencia_id"    => "required",
+                  "estDatacredito_id"   => "required",
+                  "cal_asesor"          => "required",                  
             );
         $message = array(
-                  "funcionario_id.required" => "El Asesor es requerido",  
-                  "estLaboral_id.required" => "La Valoración Laboral es requerida",
-                  "estVivienda_id.required" => "El Tiempo en Vivienda es requerido",
-                  "estReferencia_id.required" => "Las Referencias son requeridas",
-                  "estDatacredito_id.required" => "El Datacredito es requerido",
-                  "cal_asesor.required" => "La Calificación del Asesor es requerido",    
+                  "funcionario_id.required"     => "El Asesor es requerido",  
+                  "estLaboral_id.required"      => "La Valoración Laboral es requerida",
+                  "estVivienda_id.required"     => "El Tiempo en Vivienda es requerido",
+                  "estReferencia_id.required"   => "Las Referencias son requeridas",
+                  "estDatacredito_id.required"  => "El Datacredito es requerido",
+                  "cal_asesor.required"         => "La Calificación del Asesor es requerido",    
             );
+
         $this->validate($request,$rules,$message);
 
         $estudio = new Estudio($request->all());
@@ -209,21 +212,21 @@ class EstudioController extends Controller
      */
     public function update(Request $request, $id)
     {
-                $rules = array(
-                  "funcionario_id" => "required",  
-                  "estLaboral_id" => "required",
-                  "estVivienda_id" => "required",
-                  "estReferencia_id" => "required",
-                  "estDatacredito_id" => "required",
-                  "cal_asesor" => "required",                  
+        $rules = array(
+                  "funcionario_id"      => "required",  
+                  "estLaboral_id"       => "required",
+                  "estVivienda_id"      => "required",
+                  "estReferencia_id"    => "required",
+                  "estDatacredito_id"   => "required",
+                  "cal_asesor"          => "required",                  
             );
         $message = array(
-                  "funcionario_id.required" => "El Asesor es requerido",  
-                  "estLaboral_id.required" => "La Valoración Laboral es requerida",
-                  "estVivienda_id.required" => "El Tiempo en Vivienda es requerido",
-                  "estReferencia_id.required" => "Las Referencias son requeridas",
-                  "estDatacredito_id.required" => "El Datacredito es requerido",
-                  "cal_asesor.required" => "La Calificación del Asesor es requerido",    
+                  "funcionario_id.required"     => "El Asesor es requerido",  
+                  "estLaboral_id.required"      => "La Valoración Laboral es requerida",
+                  "estVivienda_id.required"     => "El Tiempo en Vivienda es requerido",
+                  "estReferencia_id.required"   => "Las Referencias son requeridas",
+                  "estDatacredito_id.required"  => "El Datacredito es requerido",
+                  "cal_asesor.required"         => "La Calificación del Asesor es requerido",    
             );
         $this->validate($request,$rules,$message);
 
@@ -246,7 +249,7 @@ class EstudioController extends Controller
 
         $datacredito = EstDatacredito::find($request->input('estDatacredito_id'))->puntaje * 0.4;
         $laboral     = EstLaboral::find($request->input('estLaboral_id'))->puntaje * 0.15;
-        $vivienda     = EstVivienda::find($request->input('estVivienda_id'))->puntaje * 0.1;
+        $vivienda    = EstVivienda::find($request->input('estVivienda_id'))->puntaje * 0.1;
         $referencia  = EstReferencia::find($request->input('estReferencia_id'))->puntaje * 0.2;
         $cal_asesor  = $request->input('cal_asesor') * 0.15;
 
