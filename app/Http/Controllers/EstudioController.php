@@ -122,8 +122,6 @@ class EstudioController extends Controller
      */
     public function store(Request $request)
     {
-
-        dd($request);
         $rules = array(
                   "funcionario_id"      => "required",  
                   "estLaboral_id"       => "required",
