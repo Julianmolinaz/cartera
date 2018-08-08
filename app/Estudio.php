@@ -12,7 +12,21 @@ class Estudio extends Model implements Auditable
     protected $table = 'estudios';
 
     protected $fillable = [
-    	'cliente_id' , 'codeudor_id' , 'funcionario_id' , 'estDatacredito_id' , 'estLaboral_id' , 'estVivienda_id' , 'estReferencia_id' , 'cal_asesor' , 'observaciones' , 'user_create_id' , 'user_update_id'
+    	'cliente_id' , 
+        'codeudor_id' , 
+        'funcionario_id' , 
+        'estDatacredito_id' , 
+        'estLaboral_id' , 
+        'estVivienda_id' , 
+        'estReferencia_id' , 
+        'cal_asesor' , 
+        'observaciones' , 
+        'user_create_id' , 
+        'user_update_id',
+        'ref_1',
+        'ref_2',
+        'ref_3',
+        'ref_4'
     ];
 
     public function cliente(){
