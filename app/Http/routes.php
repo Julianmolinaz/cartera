@@ -471,4 +471,6 @@ Route::get('admin/municipios/cargar','PuntoController@cargar');
 Route::post('admin/sanciones/crear_sanciones','SancionController@crearSanciones');
 
 
-Route::get('prueba', 'PruebaController@reporte');
+//API
+
+Route::get('api/cuenta/{cedula}','ConsultaController@cuenta');
