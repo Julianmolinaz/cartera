@@ -16,7 +16,10 @@ class CreateEgresosTable extends Migration
             $table->increments('id');
             $table->string('fecha');
             $table->string('comprobante_egreso');
-            $table->enum('concepto',['Gastos','Compras','Prestamos','Pago a Proveedores']);
+            $table->enum('concepto',
+                ['Bancos','Cartera de terceros','Comisión','Compras','Financiero','Gastos',
+                 'Jurídico','Libre inversión','Nómina','Operativo','Pago a proveedores',
+                 'Prestamos','Publicidad','Tarjetas de crédito']);
             $table->double('valor');
             $table->text('observaciones')->nullable();
             $table->integer('cartera_id')->unsigned();

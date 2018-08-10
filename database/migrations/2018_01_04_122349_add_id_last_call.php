@@ -15,8 +15,8 @@ class AddIdLastCall extends Migration
         Schema::table('creditos', function (Blueprint $table) {
             $table->integer('last_llamada_id')->unsigned()->nullable();
 
-            $table->foreign('last_llamada_id')
-                ->references('id')->on('llamadas');
+            // $table->foreign('last_llamada_id')
+            //     ->references('id')->on('llamadas');
         });
     }
 
