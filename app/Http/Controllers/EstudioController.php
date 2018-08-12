@@ -22,10 +22,7 @@ class EstudioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+    public function index(){}
 
     /**
      * Show the form for creating a new resource.
@@ -40,20 +37,16 @@ class EstudioController extends Controller
         * ṕara los clientes que no tienen codeudor ya que si no se crea se pueden generar 
         * errores en la vista start.clientes.show
         */
-        //dd($id_cliente.' ' . $id_codeudor.' '. $objeto);
-        //dd($id_cliente.' '.$id_codeudor.' '.$objeto);
 
         if ($objeto == 'codeudor' && $id_codeudor == 100){
             flash()->error('El Codeudor no existe');
             return redirect()->route('start.clientes.show',$id_cliente);
         }
 
-
         if($objeto == 'codeudor'){
             $existe = DB::table('estudios')
                     ->where('codeudor_id',$id_codeudor)
-                    ->count();
-                  
+                    ->count();   
              if($existe){
               $estudio = Estudio::where('codeudor_id','=',$id_codeudor)->get();  
               $ir = 'editar';
@@ -62,7 +55,6 @@ class EstudioController extends Controller
              $ir = 'crear';
 
             }
-
         }
         else{
             $existe = DB::table('estudios')
@@ -143,7 +135,7 @@ class EstudioController extends Controller
         $this->validate($request,$rules,$message);
 
         $estudio = new Estudio($request->all());
-        
+
         //si el objeto de estudio es cliente
         
         if($request->input('objeto') == 'cliente'){
@@ -214,7 +206,7 @@ class EstudioController extends Controller
 
         $estudio->save();
 
-        flash()->success('El Estudio tiene una calificación de: '.$estudio->cal_estudio);
+        flash()->success('Se crearon las referencias');
         return redirect()->route('start.clientes.show',$request->input('id_cliente'));
 
     }
@@ -250,7 +242,7 @@ class EstudioController extends Controller
                 "estDatacredito_id.required"  => "El Datacredito es requerido",
                 "cal_asesor.required"         => "La Calificación del Asesor es requerido",    
           );
-      //$this->validate($request,$rules,$message);
+      $this->validate($request,$rules,$message);
 
         
         //si el objeto de estudio es cliente
@@ -301,7 +293,7 @@ class EstudioController extends Controller
       $message = array(
                 "ref_1.required"     => "se requiere por lo menos la primera referencia"
           );
-      //$this->validate($request,$rules,$message);
+      $this->validate($request,$rules,$message);
 
         
         //si el objeto de estudio es cliente
@@ -313,19 +305,19 @@ class EstudioController extends Controller
         }//si el objeto de estudio es el codeudor
 
         else{
+
             $estudio = Estudio::where('codeudor_id','=',$request->input('id_codeudor'))->get()[0];
-         
+
         }
 
         $estudio->fill($request->all());
         // Cálculo del punta del estudio
 
-
         $estudio->user_update_id = Auth::user()->id;
 
         $estudio->save();
 
-        flash()->success('El Estudio tiene una calificación de: '.$estudio->cal_estudio);
+        flash()->success('Se actualizarón las referencias');
         return redirect()->route('start.clientes.show',$request->input('id_cliente'));
 
     }

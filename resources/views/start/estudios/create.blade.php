@@ -12,7 +12,17 @@
     <div class="col-md-6  col-sm-6 col-xs-12">
 
       <div class="panel panel-primary">
-        <div class="panel-heading"><h3 style="margin-top: 8px;">Estudio <i class="fab fa-fly"></i></h3></div>
+        <div class="panel-heading">
+            <h3 style="margin-top: 8px;">
+            <i class="fas fa-users"></i>
+              Estudio 
+              @if($id_codeudor == 0)
+                cliente
+              @else
+                codeudor
+              @endif
+            </h3>
+        </div>
         <div class="panel-body">
           @include('templates.error')
           @include('flash::message')
@@ -98,7 +108,7 @@
                   <div class="form-group">  
                     <div class="col-md-12 col-sm-12 col-xs-12">
                       <label>Observaciones :</label>
-                      <textarea class="form-control input-sm" rows="3" id="observaciones" name="observaciones" placeholder='Escriba las observaciones y recordatorios' autocomplete="off"  value="{{old('observaciones')}}"></textarea>
+                      <textarea class="form-control input-sm" rows="4" id="observaciones" name="observaciones" placeholder='Escriba las observaciones y recordatorios' autocomplete="off"  value="{{old('observaciones')}}"></textarea>
                     </div>    
                   </div> 
 
@@ -132,7 +142,17 @@
       <div class="col-md-6  col-sm-6 col-xs-12">
 
         <div class="panel panel-primary">
-          <div class="panel-heading"><h3 style="margin-top: 8px;">Referencias <i class="fab fa-fly"></i></h3></div>
+          <div class="panel-heading">
+            <h3 style="margin-top: 8px;">
+            <i class="fas fa-users"></i>
+              Referencias 
+              @if($id_codeudor == 0)
+                cliente
+              @else
+                codeudor
+              @endif
+            </h3>
+          </div>
           <div class="panel-body">
             @include('templates.error')
             @include('flash::message')
@@ -143,8 +163,12 @@
               <div class="form-group">  
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <label>Referencia 1 :</label>
-                <textarea class="form-control input-sm" rows="3" id="ref_1" name="ref_1" placeholder='Escriba la referencia 1' 
-                          autocomplete="on"  value="{{old('ref_1')}}"></textarea>
+                <textarea class="form-control input-sm" 
+                          rows="4" id="ref_1" 
+                          name="ref_1" 
+                          placeholder='Escriba la referencia 1' 
+                          autocomplete="on"  
+                          value="{{old('ref_1')}}"></textarea>
               </div>    
             </div> 
 
@@ -152,7 +176,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <label>Referencia 2 :</label>
                 <textarea class="form-control input-sm" 
-                          rows="3" id="ref_2" 
+                          rows="4" id="ref_2" 
                           name="ref_2" 
                           placeholder='Escriba la referencia 2' 
                           autocomplete="on"  
@@ -164,7 +188,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <label>Referencia 3 :</label>
                 <textarea class="form-control input-sm" 
-                          rows="3" id="ref_3" 
+                          rows="4" id="ref_3" 
                           name="ref_3" 
                           placeholder='Escriba la referencia 3' 
                           autocomplete="on"  
@@ -203,8 +227,7 @@
               <input type="hidden" name="id_codeudor" value="{{$id_codeudor}}" />
 
           </form>
-            
-
+          
           </div>
         </div>
       </div>
