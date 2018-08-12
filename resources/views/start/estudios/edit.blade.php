@@ -220,9 +220,4 @@
 
 
 @endsection
-<<<<<<< HEAD
-@section('proceso','Crear cliente')
 @include('templates.main2')
-=======
-@include('templates.main2')
->>>>>>> 13f6814a1a02b3a20ba752ec0f1e28239d4d20e8

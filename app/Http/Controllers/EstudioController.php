@@ -140,7 +140,7 @@ class EstudioController extends Controller
                   "cal_asesor.required"         => "La Calificación del Asesor es requerido",    
             );
 
-        //$this->validate($request,$rules,$message);
+        $this->validate($request,$rules,$message);
 
         $estudio = new Estudio($request->all());
         
@@ -249,7 +249,7 @@ class EstudioController extends Controller
                 "estDatacredito_id.required"  => "El Datacredito es requerido",
                 "cal_asesor.required"         => "La Calificación del Asesor es requerido",    
           );
-      //$this->validate($request,$rules,$message);
+      $this->validate($request,$rules,$message);
 
         
         //si el objeto de estudio es cliente
