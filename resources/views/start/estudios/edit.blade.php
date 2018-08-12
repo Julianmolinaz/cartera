@@ -1,30 +1,27 @@
-@section('title','editar estudio')
+@section('title','crear estudio')
 
 @section('contenido')
 
+<div class="row">
 
-    <div class="col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-2 col-xs-12">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    
 
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 style="margin-top: 8px;">Estudio <i class="fab fa-fly"></i></h3>
-      </div>
-      <div class="panel-body">
-        @include('templates.error')
-        @include('flash::message')
+    <!-- PANEL DE VALIDACION DE CREDITO -->
+    
+    <div class="col-md-6  col-sm-6 col-xs-12">
 
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h3 style="margin-top: 8px;">Estudio <i class="fab fa-fly"></i></h3></div>
+        <div class="panel-body">
+          @include('templates.error')
+          @include('flash::message')
+            
+          <form class="form-horizontal form-label-left" action="{{route('start.estudios.update', $estudio)}}" method="POST">   
 
+                <input type="hidden" name="_method" value="PUT">     
 
-        <form class="form-horizontal form-label-left" action="{{route('start.estudios.update',$estudio)}}" method="POST">   
-
-        <!-- ROW 1 -->
-
-         <div class="col-md-6">
-
-
-          <input type="hidden" name="_method" value="PUT">     
-
-          <!-- Funcionario -->
+                <!-- Funcionario -->
 
           <div class="form-group">
           <div class="col-md-12 col-sm-12 col-xs-12">
@@ -111,18 +108,51 @@
               </div>
                 
               </div> 
+ 
 
 
-          </div> <!-- END ROW -->
+              <center>
+                <div class="form-group">
+                  <a href="javascript:window.history.back();"><button type="button" class="btn btn-primary">Volver</button></a>
+                  <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Guardar Estudio&nbsp;&nbsp;</button>
+                </div>  
 
-         <!-- ROW 2   -->
-        <div class="col-md-6">
-            
+              </center>
+
+
+                <!-- Botones -->  
+              <br>
+
+              <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+              <input type="hidden" name="objeto" value="{{$objeto}}" />
+              <input type="hidden" name="id_cliente" value="{{$id_cliente}}" />
+              <input type="hidden" name="id_codeudor" value="{{$id_codeudor}}" />
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+      <!-- END PANEL DE VALIDACION DE CREDITO -->
+
+
+      <!-- PANEL DE VALIDACION DE CREDITO -->
+      <div class="col-md-6  col-sm-6 col-xs-12">
+
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h3 style="margin-top: 8px;">Referencias <i class="fab fa-fly"></i></h3></div>
+          <div class="panel-body">
+            @include('templates.error')
+            @include('flash::message')
+              
+            <form class="form-horizontal form-label-left" action="{{route('start.estudios.create.ref')}}" method="POST">   
+
+            <input type="hidden" name="_method" value="PUT">     
 
             <div class="form-group">  
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <label>Referencia 1</label>
-                <textarea class="form-control input-sm" rows="4" id="ref_1" name="ref_1" placeholder="Escriba la referencia 1" autocomplete="on" value="{{ $estudio->ref_1 }}">{{ $estudio->ref_1 }}</textarea>
+                <textarea class="form-control input-sm" rows="3" id="ref_1" name="ref_1" placeholder="Escriba la referencia 1" autocomplete="on" value="{{ $estudio->ref_1 }}">{{ $estudio->ref_1 }}</textarea>
               </div>    
             </div> 
 
@@ -130,7 +160,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <label>Referencia 2</label>
                 <textarea class="form-control input-sm" 
-                          rows="4" id="ref_2" 
+                          rows="3" id="ref_2" 
                           name="ref_2" 
                           placeholder='Escriba la referencia 2'  
                           value="{{ $estudio->ref_2}}">{{$estudio->ref_2}}</textarea>
@@ -141,7 +171,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <label>Referencia 3</label>
                 <textarea class="form-control input-sm" 
-                          rows="4" id="ref_3" 
+                          rows="3" id="ref_3" 
                           name="ref_3"
                           placeholder='Escriba la referencia 3' 
                           value="{{ $estudio->ref_3}}">{{$estudio->ref_3}}</textarea>
@@ -152,48 +182,47 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <label>Referencia 4</label>
                 <textarea class="form-control input-sm" 
-                          rows="4" 
+                          rows="3" 
                           id="ref_4" 
                           name="ref_4" 
                           placeholder='Escriba la referencia 4' 
                           value="{{ $estudio->ref_4}}">{{$estudio->ref_4}}</textarea>
               </div>    
-            </div>                         
+            </div>                    
+
+
+              <center>
+                <div class="form-group">
+                  <a href="javascript:window.history.back();"><button type="button" class="btn btn-primary">Volver</button></a>
+                  <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Guradar Referencias&nbsp;&nbsp;</button>
+                </div>  
+
+              </center>
+
+
+                <!-- Botones -->  
+
+              <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+              <input type="hidden" name="objeto" value="{{$objeto}}" />
+              <input type="hidden" name="id_cliente" value="{{$id_cliente}}" />
+              <input type="hidden" name="id_codeudor" value="{{$id_codeudor}}" />
+
+          </form>
+            
+
+          </div>
         </div>
-
-        </div>
-          
-
-          <!-- Botones -->
-          <center>
-            <div class="form-group">
-         
-              <a href="javascript:window.history.back();"><button type="button" class="btn btn-success">Volver</button></a>
-              <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Guardar Cambios&nbsp;&nbsp;</button>
-         
-            </div> 
-          </center>  
-
-
-        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-        <input type="hidden" name="objeto" value="{{$objeto}}" />
-        <input type="hidden" name="id_cliente" value="{{$id_cliente}}" />
-        <input type="hidden" name="id_codeudor" value="{{$id_codeudor}}" />
-
-      </form>
-
-
-
-
       </div>
+      <!-- END PANEL DE VALIDACION DE CREDITO -->
     </div>
   </div>
-  
-
-
-
+  </div>
 
 
 @endsection
+<<<<<<< HEAD
 @section('proceso','Crear cliente')
 @include('templates.main2')
+=======
+@include('templates.main2')
+>>>>>>> 13f6814a1a02b3a20ba752ec0f1e28239d4d20e8

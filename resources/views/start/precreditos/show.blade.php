@@ -142,6 +142,9 @@
 </div>
  
 <!-- Panel Precredito -->
+<div>
+  hola
+</div>
 
 @if($precredito->credito)   
 <!--***************************************-->

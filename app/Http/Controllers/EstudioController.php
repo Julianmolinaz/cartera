@@ -122,6 +122,7 @@ class EstudioController extends Controller
      */
     public function store(Request $request)
     {
+
         $rules = array(
                   "funcionario_id"      => "required",  
                   "estLaboral_id"       => "required",
@@ -158,6 +159,7 @@ class EstudioController extends Controller
    
         // Cálculo del puntaje del estudio
 
+
         $datacredito  = EstDatacredito::find($request->input('estDatacredito_id'))->puntaje * 0.4;
         $laboral      = EstLaboral::find($request->input('estLaboral_id'))->puntaje * 0.15;
         $vivienda     = EstVivienda::find($request->input('estVivienda_id'))->puntaje * 0.1;
@@ -169,6 +171,7 @@ class EstudioController extends Controller
 
         $estudio->cal_estudio = $cal_estudio;
 
+
         $estudio->user_create_id = Auth::user()->id;
         $estudio->user_update_id = Auth::user()->id;
 
@@ -179,27 +182,47 @@ class EstudioController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+
+    public function store_ref(Request $request)
     {
-        //
+        
+        $rules = array(
+                  "ref_1"      => "required"                
+            );
+        $message = array(
+                  "ref_1.required"     => "Se requiere por lo menos una referencia"  
+            );
+
+        $this->validate($request,$rules,$message);  
+        $estudio = new Estudio($request->all());
+        
+        //si el objeto de estudio es cliente
+        
+        if($request->input('objeto') == 'cliente'){
+         
+            $estudio->cliente_id = $request->input('id_cliente');            
+
+        }//si el objeto de estudio es el codeudor
+
+        else{
+            $estudio->codeudor_id = $request->input('id_codeudor');
+        }
+
+        $estudio->user_create_id = Auth::user()->id;
+        $estudio->user_update_id = Auth::user()->id;
+
+        $estudio->save();
+
+        flash()->success('El Estudio tiene una calificación de: '.$estudio->cal_estudio);
+        return redirect()->route('start.clientes.show',$request->input('id_cliente'));
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
+    public function show($id){}
+
+    public function edit($id){}
 
     /**
      * Update the specified resource in storage.
@@ -210,23 +233,23 @@ class EstudioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rules = array(
-                  "funcionario_id"      => "required",  
-                  "estLaboral_id"       => "required",
-                  "estVivienda_id"      => "required",
-                  "estReferencia_id"    => "required",
-                  "estDatacredito_id"   => "required",
-                  "cal_asesor"          => "required",                  
-            );
-        $message = array(
-                  "funcionario_id.required"     => "El Asesor es requerido",  
-                  "estLaboral_id.required"      => "La Valoración Laboral es requerida",
-                  "estVivienda_id.required"     => "El Tiempo en Vivienda es requerido",
-                  "estReferencia_id.required"   => "Las Referencias son requeridas",
-                  "estDatacredito_id.required"  => "El Datacredito es requerido",
-                  "cal_asesor.required"         => "La Calificación del Asesor es requerido",    
-            );
-        //$this->validate($request,$rules,$message);
+      $rules = array(
+                "funcionario_id"      => "required",  
+                "estLaboral_id"       => "required",
+                "estVivienda_id"      => "required",
+                "estReferencia_id"    => "required",
+                "estDatacredito_id"   => "required",
+                "cal_asesor"          => "required",                  
+          );
+      $message = array(
+                "funcionario_id.required"     => "El Asesor es requerido",  
+                "estLaboral_id.required"      => "La Valoración Laboral es requerida",
+                "estVivienda_id.required"     => "El Tiempo en Vivienda es requerido",
+                "estReferencia_id.required"   => "Las Referencias son requeridas",
+                "estDatacredito_id.required"  => "El Datacredito es requerido",
+                "cal_asesor.required"         => "La Calificación del Asesor es requerido",    
+          );
+      //$this->validate($request,$rules,$message);
 
         
         //si el objeto de estudio es cliente
@@ -245,6 +268,7 @@ class EstudioController extends Controller
         $estudio->fill($request->all());
         // Cálculo del punta del estudio
 
+          
         $datacredito = EstDatacredito::find($request->input('estDatacredito_id'))->puntaje * 0.4;
         $laboral     = EstLaboral::find($request->input('estLaboral_id'))->puntaje * 0.15;
         $vivienda    = EstVivienda::find($request->input('estVivienda_id'))->puntaje * 0.1;
@@ -256,6 +280,45 @@ class EstudioController extends Controller
 
 
         $estudio->cal_estudio = $cal_estudio;
+
+
+        $estudio->user_update_id = Auth::user()->id;
+
+        $estudio->save();
+
+        flash()->success('El Estudio tiene una calificación de: '.$estudio->cal_estudio);
+        return redirect()->route('start.clientes.show',$request->input('id_cliente'));
+
+    }
+
+    public function update_ref(Request $request)
+    {
+
+      $rules = array(
+                "ref_1"      => "required"                 
+          );
+      $message = array(
+                "ref_1.required"     => "se requiere por lo menos la primera referencia"
+          );
+      //$this->validate($request,$rules,$message);
+
+        
+        //si el objeto de estudio es cliente
+        
+        if($request->input('objeto') == 'cliente'){
+         
+            $estudio = Estudio::where('cliente_id','=',$request->input('id_cliente'))->get()[0];
+          
+        }//si el objeto de estudio es el codeudor
+
+        else{
+            $estudio = Estudio::where('codeudor_id','=',$request->input('id_codeudor'))->get()[0];
+         
+        }
+
+        $estudio->fill($request->all());
+        // Cálculo del punta del estudio
+
 
         $estudio->user_update_id = Auth::user()->id;
 

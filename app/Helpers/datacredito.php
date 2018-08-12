@@ -4,24 +4,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Pago;
-use App\Credito;
-use App\Variable;
-use App\Egreso;
-use App\Cartera;
-use DB;
-use Carbon\Carbon;
-use App\Factura;
+
 use App\OtrosPagos;
-use Auth;
-use App\Llamada;
-use App\User;
-use App\Cliente;
-use App\Sancion;
-use App\Extra;
 use App\FechaCobro;
+use App\Variable;
+use App\Sancion;
+use App\Credito;
+use App\Cartera;
+use App\Cliente;
+use App\Llamada;
+use App\Factura;
+use App\Egreso;
 use App\Punto;
+use App\Extra;
+use App\User;
+use App\Pago;
+
+use Carbon\Carbon;
 use Excel;
+use Auth;
+use DB;
 
 function sanciones_vigentes($credito){
     $sanciones = array();

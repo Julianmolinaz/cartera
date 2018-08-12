@@ -122,6 +122,17 @@ Route::get('start/estudios/cliente/{id_cliente}/codeudor/{id_codeudor}/create/{o
 	'as'	=> 'start.estudios.create'
 	])->middleware('estudios_crear');
 
+
+Route::post('estudios-ref',[
+	'uses'	=> 'EstudioController@store_ref',
+	'as'	=> 'start.estudios.create.ref'
+	])->middleware('estudios_crear');
+
+Route::put('estudios-ref',[
+	'uses'	=> 'EstudioController@update_ref',
+	'as'	=> 'start.estudios.create.ref'
+	])->middleware('estudios_crear');
+
 Route::resource('estudios','EstudioController');
 
 //ESTUDIO GUARDAR

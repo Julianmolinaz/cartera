@@ -4,20 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\VentaController;
 use App\Http\Requests;
 use App\OtrosPagos;
-use Carbon\Carbon;
 use App\Variable;
 use App\Llamada;
 use App\Factura;
 use App\Credito;
 use App\Cartera;
 use App\Egreso;
-use App\Http\Controllers\VentaController;
 use App\Pago;
 use App\User;
-use Auth;
+
+use Carbon\Carbon;
 use Excel;
+use Auth;
 use DB;
 
 
@@ -337,7 +338,7 @@ class ReporteController extends Controller
                $fecha = Carbon::create($fecha->year,$fecha->month,$dias_mes,23,59,59);
                
 
-                dd(reporte_datacredito( $fecha ));  
+               // dd(reporte_datacredito( $fecha ));  
             }
             catch(\Exception $e){
 
