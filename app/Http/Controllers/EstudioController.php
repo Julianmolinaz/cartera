@@ -225,7 +225,6 @@ class EstudioController extends Controller
      */
     public function update(Request $request, $id)
     {
-
       $rules = array(
                 "funcionario_id"      => "required",  
                 "estLaboral_id"       => "required",

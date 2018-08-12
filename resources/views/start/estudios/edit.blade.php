@@ -34,7 +34,7 @@
           <div class="form-group">
           <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Asesor *: </label>
-              <select class="form-control" name="funcionario_id" id="funcionario_id" required>
+              <select class="form-control" name="funcionario_id" id="funcionario_id">
                 <option value="" readonly selected hidden="">- -</option>
                 @foreach($users as $user)
                 <option value="{{$user->id}}" {{ $estudio->funcionario_id == $user->id ? "selected":"" }}>{{$user->name}}</option>
@@ -48,7 +48,7 @@
             <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Estabilidad Laboral *: </label>
-              <select class="form-control" placeholder="Calificación Perfil Laboral" name="estLaboral_id" id="estLaboral_id" required>
+            <select class="form-control" placeholder="Calificación Perfil Laboral" name="estLaboral_id" id="estLaboral_id">
                 <option value="" readonly selected hidden="">- -</option>
                 @foreach($laborales as $laboral)
                 <option value="{{ $laboral->id }}" {{ $estudio->estLaboral_id == $laboral->id ? "selected":"" }}>{{  $laboral->criterio }}</option>
@@ -62,7 +62,7 @@
             <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Duración en Vivienda *: </label>
-              <select class="form-control" placeholder="" name="estVivienda_id" id="estVivienda_id" required>
+              <select class="form-control" placeholder="" name="estVivienda_id" id="estVivienda_id">
                 <option value="" readonly selected hidden="">- -</option>
                 @foreach($viviendas as $vivienda)
                 <option value="{{ $vivienda->id }}" {{ $estudio->estVivienda_id == $vivienda->id ? "selected":"" }}>{{  $vivienda->criterio }}</option>
@@ -76,7 +76,7 @@
           <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Coincidencia en las Refrencias *: </label>
-              <select class="form-control" placeholder="" name="estReferencia_id" id="estReferencia_id" required>
+              <select class="form-control" placeholder="" name="estReferencia_id" id="estReferencia_id">
                 <option value="" readonly selected hidden="">- -</option>
                 @foreach($referencias as $referencia)
                 <option value="{{ $referencia->id }}" {{ $estudio->estReferencia_id == $referencia->id ? "selected":"" }}>{{  $referencia->criterio }}</option>
@@ -90,7 +90,7 @@
           <div class="form-group">  
             <div class="col-md-6 col-sm-6 col-xs-12">
               <label for="">Datacredito *: </label>
-              <select class="form-control" placeholder="" name="estDatacredito_id" id="estDatacredito_id" required>
+              <select class="form-control" placeholder="" name="estDatacredito_id" id="estDatacredito_id">
                 <option value="" readonly selected hidden="">- -</option>
                 @foreach($datacreditos as $datacredito)
                 <option value="{{ $datacredito->id }}" {{ $estudio->estDatacredito_id == $datacredito->id ? "selected":"" }}>{{  $datacredito->criterio }}</option>
@@ -102,7 +102,7 @@
 
             <div class="col-md-6 col-sm-6 col-xs-12">
               <label>Calificación Asesor</label>
-                <input type="number" min="0" max="5" step="any" title="0 action 5" class="form-control" id="cal_asesor" name="cal_asesor"  autocomplete="off" placeholder="Ingrese un valor entre 0 y 5"  value="{{$estudio->cal_asesor}}" required>
+                <input type="number" min="0" max="5" step="any" title="0 action 5" class="form-control" id="cal_asesor" name="cal_asesor"  autocomplete="off" placeholder="Ingrese un valor entre 0 y 5"  value="{{$estudio->cal_asesor}}">
               </div>
   
             </div>
