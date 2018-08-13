@@ -143,8 +143,8 @@
             @else
               <tr>
                 <td>{{  $fila++                               }}</td>
-                <td>{{  $credito->cartera                     }}</td>
-                <td>{{  $credito->credito_id                  }}</td>
+                <td>{{  $credito->precredito->cartera->nombre }}</td>
+                <td>{{  $credito->id                  }}</td>
             @endif
 
                 <td>{{  number_format($credito->precredito->vlr_fin,0,",",".")}}</td>

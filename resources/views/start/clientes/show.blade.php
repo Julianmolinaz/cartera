@@ -299,13 +299,19 @@
 
             <td>
               <a href="{{route('start.precreditos.ver',$precredito->id)}}"
-              class = 'btn btn-default btn-xs'>
+                 class = 'btn btn-default btn-xs'
+                 data-toggle="tooltip" 
+                 data-placement="top" 
+                 title="Ver">
                 <span class = "glyphicon glyphicon-eye-open"></span>
               </a>
 
               @if($precredito->credito != NULL && $precredito->credito->estado != 'Cancelado por refinanciacion')
                 <a href="{{route('start.facturas.create',$precredito->credito->id)}}"
-                class = 'btn btn-default btn-xs'>
+                   class = 'btn btn-default btn-xs'
+                   data-toggle="tooltip" 
+                   data-placement="top" 
+                   title="Pagar">
                   <span class = "glyphicon glyphicon-usd"></span>
                 </a>
               @endif
@@ -315,16 +321,33 @@
 
                @if(!$precredito->credito)    
                   <a href="{{route('start.precreditos.edit',$precredito->id)}}"
-                  class = 'btn btn-default btn-xs'> 
+                     class = 'btn btn-default btn-xs' 
+                     data-toggle="tooltip" 
+                     data-placement="top" 
+                     title="Editar" > 
                       <span class = "glyphicon glyphicon-pencil"></span>
                   </a>
+
               @elseif($precredito->credito->estado <> 'Cancelado por refinanciacion')
               <a href="{{route('start.creditos.edit',$precredito->credito->id)}}"
-                class = 'btn btn-default btn-xs'>
+                 class = 'btn btn-default btn-xs'
+                 data-toggle="tooltip" 
+                 data-placement="top" 
+                 title="Editar">
                 <span class = "glyphicon glyphicon-pencil"></span>
               </a>
+
+                <a href="{{route('call.index_unique',$precredito->credito->id)}}"
+                   class = 'btn btn-default btn-xs'
+                   data-toggle="tooltip" 
+                   data-placement="top" 
+                   title="Llamar">
+                  <span class = "glyphicon glyphicon-phone-alt"></span>
+                </a>
+
               @endif 
 
+              
             </td>
           </tr>
 

@@ -29,7 +29,7 @@
             Refinanciar
           </button>
         </a>
-      @elseif(count($precredito->credito) == 0)
+      @elseif(!$precredito->credito)
         <a href="{{route('start.creditos.create',$precredito->id)}}">
             <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" 
                 title="Para crear un crédito la solicitud debe haber sido aprobada">
@@ -118,7 +118,7 @@
           </tr>
 
         </table>
-        <br><br><br>
+        <br>
         <center>
           <a href="javascript:window.history.back();">
             <button type="button" class="btn btn-primary">Volver</button></a>
@@ -135,16 +135,20 @@
                 @endif  
         </center>
         <br>
-        
+  </div>
 
+  @if($precredito->credito && $precredito->credito->recordatorio)
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <label>Recordatorio Pago</label><br>
+      {{ $precredito->credito->recordatorio }}
+    </div>
+  </div>
+  @endif
 
-  </div>  
 </div>
  
 <!-- Panel Precredito -->
-<div>
-  hola
-</div>
 
 @if($precredito->credito)   
 <!--***************************************-->
@@ -298,15 +302,16 @@
           <td> <small>{{$precredito->credito->user_update->name.' '.$precredito->credito->updated_at}}</small></td>
         </tr>  
       </table>
-
-
   </div>
 </div>
-
 <div class="col-md-1"></div>  
 </div>
 
 @endif
+
+
+
+<!-- ************ PANEL CREDITO ********************* -->
 
 <div class="row">
   <div class="col-md-1 col-sm-1"></div>
