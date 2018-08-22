@@ -428,7 +428,7 @@ class CallcenterController extends Controller
                         'agenda',
                         'observaciones',
                         'funcionario ultima llamada',
-                        'gestionó'
+                        'gestionó',
                         'fecha_llamada'
                     ];
 
