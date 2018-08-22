@@ -427,7 +427,8 @@ class CallcenterController extends Controller
                         'fecha_pago',
                         'agenda',
                         'observaciones',
-                        'funcionario',
+                        'funcionario ultima llamada',
+                        'gestionó'
                         'fecha_llamada'
                     ];
 
@@ -508,6 +509,7 @@ class CallcenterController extends Controller
                             'agenda'        => $agenda,
                             'observaciones' => $observaciones,
                             'funcionario'   => $funcionario,
+                            'gestiono'      => $credito->precredito->funcionario->name,
                             'fecha_llamada' => $fecha_llamada         
                             ];
 
