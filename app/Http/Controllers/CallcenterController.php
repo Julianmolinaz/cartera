@@ -423,13 +423,13 @@ class CallcenterController extends Controller
                         'refinanciado',
                         'credito_padre',
                         'cliente',
-                        'doc',
+                        'documento',
                         'fecha_pago',
-                        'agenda',
+                        'fecha de agenda',
                         'observaciones',
                         'funcionario ultima llamada',
-                        'gestionó',
-                        'fecha_llamada'
+                        'fecha ultima llamada',
+                        'funcionario que gestionó',
                     ];
 
                     array_push($array_creditos,$header);
@@ -509,8 +509,8 @@ class CallcenterController extends Controller
                             'agenda'        => $agenda,
                             'observaciones' => $observaciones,
                             'funcionario'   => $funcionario,
-                            'gestiono'      => $credito->precredito->funcionario->name,
-                            'fecha_llamada' => $fecha_llamada         
+                            'fecha_llamada' => $fecha_llamada,        
+                            'gestiono'      => $credito->funcionario
                             ];
 
                     array_push($array_creditos,$temp);
