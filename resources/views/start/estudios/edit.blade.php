@@ -216,7 +216,7 @@
               <center>
                 <div class="form-group">
                   <a href="javascript:window.history.back();"><button type="button" class="btn btn-primary">Volver</button></a>
-                  <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Guradar Referencias&nbsp;&nbsp;</button>
+                  <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Guardar Referencias&nbsp;&nbsp;</button>
                 </div>  
 
               </center>
