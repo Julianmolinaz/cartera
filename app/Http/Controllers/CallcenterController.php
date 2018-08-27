@@ -510,7 +510,7 @@ class CallcenterController extends Controller
                             'observaciones' => $observaciones,
                             'funcionario'   => $funcionario,
                             'fecha_llamada' => $fecha_llamada,        
-                            'gestiono'      => $credito->funcionario
+                            'funcionario_gestion'=> $credito->funcionario
                             ];
 
                     array_push($array_creditos,$temp);
@@ -532,9 +532,15 @@ class CallcenterController extends Controller
         Llamada::where('user_create_id',Auth()->user()->id)
             ->orderBy('id','desc')
             ->paginate(100);
+
+        $dt = Carbon::now();
+        $total = Llamada::where('created_at','like','%'.$dt->toDateString().'%')
+                            ->where('user_create_id',Auth::user()->id)
+                            ->count();
         
         return view('start.callcenter.miscall')
-            ->with('calls', $calls);
+            ->with('calls', $calls)
+            ->with('total',$total);
     }
 
     public function soat()

@@ -6,7 +6,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <p><h2>=) Mis Call
+      <p><h2>=) Mis Call <small style="color:yellow;font-size: 12px;">[ Hoy: {{ $total }} ]</small>
 
         <button type="button" class="btn btn-default pull-right" id="btn_exc">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button>
 
