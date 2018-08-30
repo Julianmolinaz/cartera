@@ -278,17 +278,21 @@
 
   $('#btn_exc_llamadas').click( 
     function(){
-      $('#table_llamadas').table2excel({
-        name: 'llamadas',
-        filename: "historial_llamadas-"+ "{{ $credito->precredito->cliente->num_doc }}"+".xls"
-      });
+      if("{{Auth::user()->rol == 'Administrador'}}"){
+        $('#table_llamadas').table2excel({
+          name: 'llamadas',
+          filename: "historial_llamadas-"+ "{{ $credito->precredito->cliente->num_doc }}"+".xls"
+        });
+      }
   });
   $('#btn_exc_pagos').click( 
     function(){
-      $('#table_pagos').table2excel({
-        name: 'pagos',
-        filename: "historial_pagos-"+ "{{ $credito->precredito->cliente->num_doc }}"+".xls"
-      });
+      if("{{Auth::user()->rol == 'Administrador'}}"){
+        $('#table_pagos').table2excel({
+          name: 'pagos',
+          filename: "historial_pagos-"+ "{{ $credito->precredito->cliente->num_doc }}"+".xls"
+        });
+      }
   });
   });
 
