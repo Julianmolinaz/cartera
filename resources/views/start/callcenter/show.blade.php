@@ -10,7 +10,7 @@
     <div class="panel-heading" style="color:#dd4437;">Cliente</div>
     <div class="panel-body">
 
-      <table class="table table-bordered" style="font-size:12px">
+      <table class="table table-bordered" id="table_cliente" style="font-size:12px">
 
           <tr>
             <th>Documento</th>
@@ -83,7 +83,7 @@
     <div class="panel-heading" style="color:#dd4437;">Crédito</div>
     <div class="panel-body">
 
-     <table class="table table-bordered" style="font-size:12px">
+     <table class="table table-bordered" id="table_credito" style="font-size:12px">
 -
          <tr>
            <th>#</th>
@@ -174,10 +174,12 @@
   <div class="col-md-1 col-sm-1"></div>
   <div class="col-md-10 col-sm-10 col-xs-12">
   <div class="panel panel-default">
-    <div class="panel-heading" style="color:#dd4437;">Pagos</div>
+    <div class="panel-heading" style="color:#dd4437;">Pagos
+      <button class="btn btn-danger btn-xs pull-right" id="btn_exc_pagos">Exportar</button>
+    </div>
     <div class="panel-body">
 
-      <table class="table table-bordered" style="font-size:12px">
+      <table class="table table-bordered" id="table_pagos" style="font-size:12px">
         <thead>
           <tr>
             <th>#</th>
@@ -220,10 +222,12 @@
   <div class="col-md-1 col-sm-1"></div>
   <div class="col-md-10 col-sm-10 col-xs-12">
   <div class="panel panel-default">
-    <div class="panel-heading" style="color:#dd4437;">Llamadas  </div>
+    <div class="panel-heading" style="color:#dd4437;">Llamadas  
+        <button class="btn btn-danger btn-xs pull-right" id="btn_exc_llamadas">Exportar</button>
+    </div>
     <div class="panel-body">
 
-        <table class="table table-bordered" style="font-size:12px">
+        <table class="table table-bordered" id="table_llamadas" style="font-size:12px">
           <thead>
             <tr>
               <th>  Criterio      </th>
@@ -261,6 +265,34 @@
   <div class="col-md-1 col-sm-1"></div>
 </div>  
   
+<script>
+  $(document).ready(function(){
+    $('#table_llamadas').DataTable({
+      dom: 'Bfrtip'
+    });
+
+  $('#table_pagos').DataTable({
+        dom: 'Bfrtip'
+      });
+
+
+  $('#btn_exc_llamadas').click( 
+    function(){
+      $('#table_llamadas').table2excel({
+        name: 'llamadas',
+        filename: "historial_llamadas-"+ "{{ $credito->precredito->cliente->num_doc }}"+".xls"
+      });
+  });
+  $('#btn_exc_pagos').click( 
+    function(){
+      $('#table_pagos').table2excel({
+        name: 'pagos',
+        filename: "historial_pagos-"+ "{{ $credito->precredito->cliente->num_doc }}"+".xls"
+      });
+  });
+  });
+
+</script>
 
 
 @endsection
