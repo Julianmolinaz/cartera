@@ -118,5 +118,9 @@
 </nav>
 
 <script>
-    
+    document.addEventListener ("keydown", function (e) {
+        if (e.altKey  &&  e.which === 78) {
+            window.location.href = "{{ url('start/inicio/index') }}";
+        }
+    });
 </script>
