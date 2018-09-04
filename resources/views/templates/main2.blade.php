@@ -7,7 +7,7 @@
       <!-- Bootstrap -->
     <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.css')}}" rel="stylesheet">
     <!-- jQuery -->
-<script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
 
     <!-- Datatables -->
     <link href="{{asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
@@ -26,7 +26,8 @@
     <!-- font awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
-
+    <!-- mis css -->
+    <link rel="stylesheet" href="{{ asset('build/css/micss.css') }}">
 
     <style>
       input[type=number]::-webkit-outer-spin-button,
@@ -47,9 +48,14 @@
 
 <body>
 
+    
   @include('templates.navbar_principal')
 
+
+<div class="col-md-12">
   @yield('contenido','Ingrese Contenido')
+  
+</div>
 
 
     <footer class="footer">
