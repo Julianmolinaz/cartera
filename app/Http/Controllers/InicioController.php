@@ -79,6 +79,39 @@ class InicioController extends Controller
                 }
             }
         }
+
+        else if(substr($string,0,1) == "+"){
+            $string = substr($string,1);
+
+            $clientes    = DB::table('clientes')->where('placa','like','%'.$string.'%')->get();
+            $codeudores  = DB::table('codeudores')->where('placac','like','%'.$string.'%')->get();
+
+            if(count($clientes) > 0){
+                foreach($clientes as $cliente){  
+                    $respuesta .=   "<p><strong>Placa cliente: </strong>".
+                                    "<a href=".route('start.clientes.show',$cliente->id).">".
+                                    $cliente->placa." : ".
+                                    $cliente->nombre." - ".
+                                    $cliente->tipo_doc.": ".
+                                    $cliente->num_doc." </p></a>";  
+                }   
+            }
+            if(count($codeudores) > 0){
+                foreach($codeudores as $codeudor){  
+                    $clientes = Cliente::where('codeudor_id',$codeudor->id)->get();
+                    
+                    foreach($clientes as $cliente){
+                        $cliente = Cliente::find($cliente->id);
+                        $respuesta .=   "<p><strong>Placa codeudor: </strong>".
+                                        "<a href=".route('start.clientes.show',$cliente->id).">".
+                                        $cliente->codeudor->placac." : ".
+                                        $cliente->codeudor->nombrec." - ".
+                                        $cliente->codeudor->tipo_docc.": ".
+                                        $cliente->codeudor->num_docc." </p></a>";  
+                    }
+                }
+            }
+        }        
         else{
             $nombre_clientes    = DB::table('clientes')->where('nombre','like','%'.$string.'%')->get();
             $doc_clientes       = DB::table('clientes')->where('num_doc','like','%'.$string.'%')->get();
