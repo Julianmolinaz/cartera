@@ -119,8 +119,22 @@
 
 <script>
     document.addEventListener ("keydown", function (e) {
+        //alert(e.which);
         if (e.altKey  &&  e.which === 78) {
             window.location.href = "{{ url('start/inicio/index') }}";
         }
+        else if (e.altKey  &&  e.which === 83) {
+            window.location.href = "{{route('start.simulador.index')}}";
+        }
+        else if (e.altKey  &&  e.which === 67) {
+            window.location.href = "{{route('start.clientes.index')}}";
+        }
+        else if (e.altKey  &&  e.which === 79) {
+            window.location.href = "{{route('start.creditos.index')}}";
+        }
+        else if (e.altKey  &&  e.which === 80) {
+            window.location.href = "{{route('start.pagos.inicio')}}";
+        }
+          
     });
 </script>

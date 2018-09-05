@@ -9,6 +9,7 @@
         <h1>Wiki Gofin-3000!</h1>
             @foreach($opciones as $opcion)
                 <p><a href="{{route('wiki.opciones',$opcion)}}">{{$opcion}}</a></p>
+                <p><a href="{{route('wiki.opciones',$opcion)}}">{{$opcion}}</a></p>
             @endforeach
         </div>
         </div>
