@@ -23,3 +23,6 @@
 
 <!-- bootstra-datepicker -->
 <script src="{{asset('vendors/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+
+<!-- Vue -->
+<script src="{{asset('js.vue.min.js')}}"></script>

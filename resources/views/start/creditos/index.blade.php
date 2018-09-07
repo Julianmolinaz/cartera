@@ -101,6 +101,14 @@
 
                  <a href="{{route('start.creditos.edit',$credito->id)}}" class = 'btn btn-default btn-xs'  data-toggle="tooltip" data-placement="top" title="Editar"><span class = "glyphicon glyphicon-pencil"></a>
 
+                <a href="{{route('call.index_unique',$credito->id)}}"
+                   class = 'btn btn-default btn-xs'
+                   data-toggle="tooltip" 
+                   data-placement="top" 
+                   title="Llamar">
+                  <span class = "glyphicon glyphicon-phone-alt"></span>
+                </a>
+
                 </td>
               </tr>
 

@@ -20,7 +20,7 @@ class AddRecordatorioToCreditosTable extends Migration
     public function down()
     {
         Schema::table('creditos', function (Blueprint $table) {
-            //
+            $table->dropColumn('recordatorio');
         });
     }
 }

@@ -229,8 +229,12 @@ function pago_hasta($fecha_ini, $periodo, $num_cuotas,$p_fecha, $s_fecha){
     $fin = formatoFecha(dia($fecha_ini), mes($fecha_ini) + $meses ,ano($fecha_ini));
 
     if ( $quincenas == 1 ) { 
-      if (dia($fecha_ini) == $p_fecha) { $fin = formatoFecha($s_fecha,mes($fin),ano($fin)); }
-      elseif(dia($fecha_ini) == $s_fecha){ $fin = formatoFecha($p_fecha,mes($fin)+1,ano($fin)); }
+      if (dia($fecha_ini) == $p_fecha) { 
+        $fin = formatoFecha($s_fecha,mes($fin),ano($fin)); 
+      }
+      elseif(dia($fecha_ini) == $s_fecha){ 
+        $fin = formatoFecha($p_fecha,mes($fin)+1,ano($fin)); 
+      }
     }
 
     return organizar($fin);

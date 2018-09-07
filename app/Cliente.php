@@ -16,9 +16,58 @@ class Cliente extends Model implements Auditable
         'segundo_apellido','tipo_docc','num_doc','fecha_nacimiento',
         'direccion','barrio','municipio_id', 'movil','fijo','ocupacion',
         'tipo_actividad','empresa','placa','email','codeudor_id', 
-        'user_create_id','user_update_id','calificacion'
+        'user_create_id','user_update_id','calificacion', 
+        'conyuge_id', 'tel_empresa', 'dir_empresa'
 
     ];
+
+    public function setNombreAttribute($value){
+
+        $_1 = ucwords(strtolower($this->primer_nombre));
+        $_2 = ' '.ucwords(strtolower($this->segundo_nombre));
+        $_3 = ' '.ucwords(strtolower($this->primer_apellido));
+        $_4 = ' '.ucwords(strtolower($this->segundo_apellido));
+
+        $this->attributes['nombre'] = trim($_1.$_2.$_3.$_4);
+
+    }
+
+    public function setPrimernombreAttribute($value){
+        $this->attributes['primer_nombre'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setSegundonombreAttribute($value){
+        $this->attributes['segundo_nombre'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setPrimerapellidoAttribute($value){
+        $this->attributes['primer_apellido'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setSegundoapellidoAttribute($value){
+        $this->attributes['segundo_apellido'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setDireccionAttribute($value){
+        $this->attributes['direccion'] = trim(strtoupper($value));
+    }
+
+    // public function setOcupacionAttribute($value){
+    //     $this->attributes['ocupacion'] = strtoupper($value);
+    // }
+
+    // public function setEmpresaAttribute($value){
+    //     $this->attributes['empresa'] = strtoupper($value);
+    // }
+
+    public function setPlacaAttribute($value){
+        $this->attributes['placa'] = strtoupper($value);
+    }
+
 
     public function municipio(){
     	return $this->hasOne('App\Municipio','id','municipio_id');
@@ -46,6 +95,10 @@ class Cliente extends Model implements Auditable
     
     public function soat(){
         return $this->hasOne('App\Soat', 'cliente_id', 'id');
+    }
+
+    public function conyuge(){
+        return $this->hasOne('App\Conyuge','id','conyuge_id');
     }
 
     protected $auditExclude = [

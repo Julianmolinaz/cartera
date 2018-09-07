@@ -16,7 +16,8 @@ class Clientes_verMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if( Auth::user()->rol == 'Call' ||
+        if( 
+            Auth::user()->rol == 'Call' ||
             Auth::user()->rol == 'Cartera' ||
             Auth::user()->rol == 'Recaudador' ||
             Auth::user()->rol == 'Asesor' ||

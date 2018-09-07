@@ -22,3 +22,33 @@ input[type=number] {
     width:40%;
 }
 
+.linea{
+	margin: 0px 0px 11px 0px;
+}
+
+.title-section{
+	padding: 6px 12px 4px 12px;
+	background: #ffc30066;
+	-webkit-box-shadow: 10px 10px 24px -5px rgba(0,0,0,0.15);
+	-moz-box-shadow: 10px 10px 24px -5px rgba(0,0,0,0.15);
+	box-shadow: 10px 10px 24px -5px rgba(0,0,0,0.15);
+}
+
+.txt-small{
+	font-size: 11px;
+}
+
+.marg-bott-small{
+	margin-bottom: 6px;
+}
+
+.input-small{
+	height:23px;
+	padding:2px 5px 0px 7px;
+	font-size: 11px;
+}
+
+.panel-body:{
+    padding: 0px;
+}
+

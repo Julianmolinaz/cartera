@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Cliente;
 use App\Credito;
+use App\Precredito;
 
 class ConsultaController extends Controller
 {
@@ -58,5 +59,52 @@ class ConsultaController extends Controller
             ]);
         }
 
+    }//.cuenta
+
+    public function solicitud($id)
+    {
+        $precredito = Precredito::find($id);
+
+
+        if(!isset($precredito->credito)){
+
+            $pago = $this->pagos($precredito);
+
+            if( ( $pago['inicial'] == 0 ) && $precredito->cuota_incial){
+                echo $precredito->inicial;
+            }
+            // if( ( $pago['estudio']) ){
+
+            // }
+
+
+            //validar si tiene pagos por estudio o inicial
+
+
+
+            // if($precredito->cuota_incial){
+            //     $inicial = $precredito->cuota_incial;
+            // }
+            // if($precredito->estudio != 'Sin estudio'){
+            //     if( $precredito->estudio == 'Tipico' ){
+            //         $estudio = 
+            //     }
+            // }
+        }
+        return response()->json($id);
+    }
+
+    private function pagos($precredito)
+    {
+        $bandera_estudio_tradicional = 0;
+        $bandera_estudio_domicilio = 0;
+        $bandera_inicial = 0;
+
+
+        return [
+                'estudio_tradicional' => $bandera_estudio_tradicional, 
+                'estudio_tradicional' => $bandera_estudio_tradicional, 
+                'inicial' => $bandera_inicial
+            ];
     }
 }

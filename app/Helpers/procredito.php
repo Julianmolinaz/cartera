@@ -344,8 +344,8 @@ function reporte_procredito(){
     function saldo_mora( $credito ){
 
 
-        $corte      = Carbon::now();
-        $total_multas = "";
+        $corte          = Carbon::now();
+        $total_multas   = "";
 
         if(dias_mora($credito,$corte) <= DIAS_PARA_REPORTAR){
             return '0';
@@ -452,25 +452,19 @@ function reporte_procredito(){
         //CALCULA LOS DIAS EN MORA
         $dias_mora = dias_mora($credito, $corte);
 
-        // echo 'dias en mora: '.$dias_mora.'<br>';
+        //SI LOS DIAS EN MORA SON MAS DEl LIMITE ENTRA AL IF
 
-        //SI LOS DIAS EN MORA SON MAS DE 20 ENTRA AL IF
-
-        if($dias_mora > DIAS_PARA_REPORTAR){
+        if( $dias_mora > DIAS_PARA_REPORTAR ){
             
-            //pago_hasta es la fecha limite de pago
+                //pago_hasta es la fecha limite de pago
 
             $pago_hasta     = FechaCobro::where('credito_id',$credito->id)->get();
 
             $pago_hasta     = $pago_hasta[0]->fecha_pago;
 
-            // echo 'pago hasta. '.$pago_hasta.'<br>';
-
             //se inician las variables
 
             $cuotas         = $credito->cuotas_faltantes;
-            // ECHO 'CUOTAS FALTANTES 1: '.$cuotas.'<br>';
-
             $parada         = FALSE;
             $cts_mora       = 0; // no incluye cuotas parciales
             $cts_mora_todas = 0; // incluye cuotas parciales
@@ -482,8 +476,6 @@ function reporte_procredito(){
             if( $corte->gt($f_pago)){
                 $cts_mora++;
                 $cuotas--;
-                // echo 'cuotas en mora: '.$cts_mora.'<br>';
-                // echo 'cuotas '.$cuotas.'<br>';
             }
             else{
                 $parada = TRUE;
@@ -499,7 +491,6 @@ function reporte_procredito(){
                                     $credito->precredito->s_fecha
                                     );
 
-                // echo 'fecha_pago'.$f_pago.'<br>';
                 $f_pago = Carbon::create(ano($f_pago),mes($f_pago),dia($f_pago));
 
                 if( $corte->gt($f_pago) ){
@@ -507,7 +498,6 @@ function reporte_procredito(){
                     $cuotas--;
                 }
                 else{
-                    // echo 'true';
                     $parada = TRUE;
                 }
             
@@ -558,11 +548,15 @@ function reporte_procredito(){
 
         // si no hay pagos parciales se iguala a 0        
 
-        if( count($total_parciales) == null ){
-            return FALSE;
+        // if( count($total_parciales) == null ){
+        //     return FALSE;
+        // } 
+
+        if( isset($total_parciales) ){
+            return $total_parciales;
         }    
         else{
-            return $total_parciales;
+            return 0;
         } 
 
     }

@@ -12,7 +12,7 @@ class Pago extends Model implements Auditable
     protected $table = 'pagos';
 
     protected $fillable = [
-    	'factura_id' , 'credito_id' , 'concepto' , 'tipo' , 'abono' , 'debe' , 'descripcion' , 'estado' , 'pago_desde' , 'pago_hasta' , 'abono_pago_id'
+    	'factura_id' , 'credito_id' , 'precredito_id' 'concepto' , 'tipo' , 'abono' , 'debe' , 'descripcion' , 'estado' , 'pago_desde' , 'pago_hasta' , 'abono_pago_id'
     ];
 
     public function factura(){
@@ -23,4 +23,8 @@ class Pago extends Model implements Auditable
     	return $this->hasOne('App\Credito','id','credito_id');
     }
 
+    public function precredito(){
+
+        return $this->hasOne('App\Precredito','id','precredito_id');
+    }
 }

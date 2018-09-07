@@ -28,7 +28,7 @@ class AddIdLastCall extends Migration
     public function down()
     {
         Schema::table('creditos', function (Blueprint $table) {
-            //
+            $table->dropColumn('last_llamada_id');
         });
     }
 }
