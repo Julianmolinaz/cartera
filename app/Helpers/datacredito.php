@@ -40,9 +40,9 @@ function reporte_datacredito($fecha_corte){
         // REGISTRO DE CONTROL
 
         $registro_de_control = array(
-            '1.1-indicador_inicial'     => 'HHHHHHHHHHHHHHHHHHH', // 18 caracteres en H
-            '1.2-codigo_suscriptor'     => '', // POR DEFINIR
-            '1.3-tipo_cuenta'           => '21', //CREDITOS DE BAJO MONTO
+            '1.1-indicador_inicial'     => 'HHHHHHHHHHHHHHHHHH', // 18 caracteres en H
+            '1.2-codigo_suscriptor'     => '116881', // POR DEFINIR
+            '1.3-tipo_cuenta'           => '11', //CREDITOS DE BAJO MONTO
             '1.4-fecha_corte'           => fecha_plana_Ymd($now), // FECHA FORMATO YYYYMMDD
             '1.5-ampliacion_milenio'    => 'M',  //CUANDO EL AÑO ES DE 4 DIGITOS
             '1.6-indicador_miles'       => '0',  //????????????????????????????
@@ -211,7 +211,7 @@ function reporte_datacredito($fecha_corte){
                 array_push($info_clientes_array,$registro_info_clientes);
             }
 
-            //dd($info_clientes_array);
+            dd($info_clientes_array);
 
         }// .foreach
 
