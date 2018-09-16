@@ -6,7 +6,7 @@
 	<div class="col-md-4 col-sm-4"></div>
 	<div class="col-md-4 col-sm-4 col-xs-12">
 	<div class="panel panel-primary" style="margin-top:40px;">
-  	<div class="panel-heading"><center><h2>Simulador</h2>
+  	<div class="panel-heading"><center><h2>Simulador &nbsp;&nbsp;<i class="fas fa-calculator"></i></h2>
 	  </center></div>
   	<div class="panel-body">
     

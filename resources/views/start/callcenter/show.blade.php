@@ -234,6 +234,7 @@
               <th>  Observaciones </th>
               <th>  Agenda        </th>
               <th>  Creó          </th>
+	      <th>  Fecha de creación </th>	
           
             </tr>
           </thead>
@@ -247,7 +248,8 @@
               @else
                 <td>  {{$llamada->agenda}}              </td>
               @endif
-              <td>  {{$llamada->user_create->name.' '.$llamada->created_at}}</td>    
+              <td>  {{$llamada->user_create->name}}</td>
+              <td>  {{$llamada->created_at}}</td>    
             </tr>      
             @endforeach
           </tbody>
@@ -268,11 +270,13 @@
 <script>
   $(document).ready(function(){
     $('#table_llamadas').DataTable({
-      dom: 'Bfrtip'
+      dom: 'Bfrtip',
+      order:[[4,"desc"]]
     });
 
   $('#table_pagos').DataTable({
-        dom: 'Bfrtip'
+        dom: 'Bfrtip',
+	order:[[3,"desc"]]
       });
 
 

@@ -62,7 +62,8 @@
       <div class="container">
         <center><small>
         <p class="text-muted">Sistema de Cartera <i>GoFin-3000! ©</i> </p>
-        <p class="text-muted">etereosum@gmail.com</p>
+        <p class="text-muted">soporte: sistemas@inversionesgora.com</p>
+        <p class="text-muted">creó. etereosum@gmail.com</p>
         </smalL>
       </center>
       </div>

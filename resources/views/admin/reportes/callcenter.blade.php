@@ -9,7 +9,7 @@
     <div class="panel panel-primary">
 
       <div class="panel-heading">Reporte Call Center [ {{$rango['ini'].' - '.$rango['fin']}} ]
-        <button id="btn_exc_venta_creditos" class="btn btn-warning"><b>Exportar</b></button>
+        <button id="btn_exc_call" class="btn btn-warning"><b>Exportar</b></button>
       </div>
         <div class="panel-body">
 
@@ -58,7 +58,7 @@
     <div class="panel panel-primary">
 
       <div class="panel-heading"><h2>Totales
-        <button id="btn_exc_total_venta_creditos" class="btn btn-warning"><b>Exportar</b></button>
+        <button id="btn_exc_total_call" class="btn btn-warning"><b>Exportar</b></button>
       </h2></div>
         <div class="panel-body">
 
@@ -103,6 +103,24 @@ $( document ).ready(function() {
   });
 
 });
+
+
+$('#btn_exc_call').click(function(){
+  $('#datatable').table2excel({
+    name: 'Reporte',
+    filename: "{{'repor_call_'.$rango['ini'].'-a-'.$rango['fin'].'.xls'}}"
+  });
+});
+
+$('#btn_exc_total_call').click(function(){
+  $('#tbl_total').table2excel({
+    name: 'Reporte',
+    filename: "{{'repor_total_call_'.$rango['ini'].'-a-'.$rango['fin'].'.xls'}}"
+  });
+});
+
+
+
 </script>
 
 @endsection
