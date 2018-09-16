@@ -24,45 +24,6 @@ Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVent
 Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
 	->middleware('admin');
 
-// function quitar_tildes($cadena) {
-// 	$no_permitidas= array ("á","é","í","ó","ú","Á","É","Í","Ó","Ú","ñ","À","Ã","Ì","Ò","Ù","Ã™","Ã ","Ã¨","Ã¬","Ã²","Ã¹","ç","Ç","Ã¢","ê","Ã®","Ã´","Ã»","Ã‚","ÃŠ","ÃŽ","Ã”","Ã›","ü","Ã¶","Ã–","Ã¯","Ã¤","«","Ò","Ã","Ã„","Ã‹");
-// 	$permitidas= array ("a","e","i","o","u","A","E","I","O","U","n","N","A","E","I","O","U","a","e","i","o","u","c","C","a","e","i","o","u","A","E","I","O","U","u","o","O","i","a","e","U","I","A","E");
-// 	$texto = str_replace($no_permitidas, $permitidas ,$cadena);
-// 	return $texto;
-// 	}
-
-
-// //Script para quitar espacios finales de las cadenas de texto
-
-// Route::get('prueba', function () {
-
-// 	$clientes = Cliente::all();
-// 	$contador = 0;
-// 	foreach($clientes as $cliente){
-// 		$cliente->primer_nombre = quitar_tildes($cliente->primer_nombre);
-// 		$cliente->segundo_nombre = quitar_tildes($cliente->segundo_nombre);
-// 		$cliente->primer_apellido = quitar_tildes($cliente->primer_apellido);
-// 		$cliente->segundo_apellido = quitar_tildes($cliente->segundo_apellido);
-// 		$cliente->direccion = quitar_tildes($cliente->direccion);
-// 		$cliente->save();
-		
-// 		if($cliente->codeudor->id <> 100){
-
-// 			$codeudor = Codeudor::find($cliente->codeudor->id);
-
-// 			$codeudor->primer_nombrec = quitar_tildes($codeudor->primer_nombrec);
-// 			$codeudor->segundo_nombrec = quitar_tildes($codeudor->segundo_nombrec);
-// 			$codeudor->primer_apellidoc = quitar_tildes($codeudor->primer_apellidoc);
-// 			$codeudor->segundo_apellidoc = quitar_tildes($codeudor->segundo_apellidoc);
-// 			$codeudor->direccionc = quitar_tildes($codeudor->direccionc);
-// 			$codeudor->save();
-
-// 			$contador++;
-// 		}
-		
-// 	}
-// 	echo $contador;
-// });
 
 
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
@@ -485,3 +446,5 @@ Route::post('admin/sanciones/crear_sanciones','SancionController@crearSanciones'
 //API
 
 Route::get('api/cuenta/{cedula}','ConsultaController@cuenta');
+
+Route::get('api/solicitud/{precredito_id}','ConsultaController@solicitud');

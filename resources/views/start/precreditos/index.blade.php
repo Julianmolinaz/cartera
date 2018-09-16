@@ -13,7 +13,7 @@
         </button>
       </h2>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" id="solicitudes">
         <p>
          @include('flash::message')
          <!--DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>-->
@@ -21,7 +21,7 @@
 
        <div style="display:none;">{{$fila = 1}}</div>
 
-       <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered" style="font-size:12px">
+       <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered pagos-pre" style="font-size:12px">
         <thead>
           <tr  style="background-color:#FFC300;">
           <th style="display:none;">    Actualizacion  </th>
@@ -62,6 +62,7 @@
                 <a href="{{route('start.clientes.show',$precredito->cliente_id)}}" class = 'btn btn-default btn-xs'>
                   <span class = "glyphicon glyphicon-user" data-toggle="tooltip" data-placement="top" title="Ver cliente"></span>
                 </a>
+                <pagos-precredito precredito_id="{{$precredito->id}}"></pagos-precredito>
                 @if($precredito->credito)
                 <a href="{{route('start.precreditos.ver',$precredito->id)}}" class = 'btn btn-default btn-xs'>
                   <span class = "glyphicon glyphicon-sunglasses"  data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
@@ -74,11 +75,14 @@
               @endforeach
             </tbody>
           </table>
+
+          @include('start.precreditos.pagos_precredito')
+
         </div>
       </div>
     </div>
   </div>
-
+  
 
   <div style="margin-left:30px;">
     {{ $precreditos->links() }}
@@ -101,6 +105,9 @@
         filename: "solicitudes.xls"
       });
     }
+
+
+
   </script>
 
 

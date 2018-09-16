@@ -338,7 +338,7 @@ class ReporteController extends Controller
                $fecha = Carbon::create($fecha->year,$fecha->month,$dias_mes,23,59,59);
                
 
-               // dd(reporte_datacredito( $fecha ));  
+               return reporte_datacredito( $fecha );  
             }
             catch(\Exception $e){
 

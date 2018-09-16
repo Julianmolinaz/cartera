@@ -137,6 +137,8 @@
         <br>
   </div>
 
+  <!-- CUADRO CON EL RECORDATORIO DEL CREDITO SI ESTE EXISTE -->
+
   @if($precredito->credito && $precredito->credito->recordatorio)
   <div class="panel panel-default">
     <div class="panel-body">
@@ -182,6 +184,14 @@
       <a href="{{route('admin.multas.show',$precredito->credito->id)}}" 
           class = 'btn btn-default btn-xs' 
           data-toggle="tooltip" data-placement="top" title="Multas prejuridicas y juridicas"><span class = "glyphicon glyphicon-hourglass" ></span></a>
+
+      <a href="{{route('call.index_unique',$precredito->credito->id)}}"
+         class = 'btn btn-default btn-xs'
+         data-toggle="tooltip" 
+         data-placement="top" 
+         title="Llamar">
+        <span class = "glyphicon glyphicon-phone-alt"></span>
+      </a>
       @endif    
     </div>
     @include('flash::message')

@@ -16,7 +16,8 @@ class Clientes_crearMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if( Auth::user()->rol == 'Asesor' ||
+        if( 
+            Auth::user()->rol == 'Asesor' ||
             Auth::user()->rol == 'Asesor VIP' ||
             Auth::user()->rol == 'Cartera'||
             Auth::user()->rol == 'Administrador'   

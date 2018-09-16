@@ -15,6 +15,11 @@ class Cartera extends Model implements Auditable
     	'nombre', 'estado'
     ];
 
+
+    public function setNombreAttribute($value){
+    	$this->attributes['nombre'] = strtoupper($value);
+    }
+
     public function precreditos(){
         return $this->belongsTo('App\Precredito');
     }

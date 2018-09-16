@@ -67,6 +67,7 @@ class Credito extends Model implements Auditable
     }
 
     public function hijo(){
-        return $this->hasOne('App\credito','credito_refinanciado_id','id');
+        return $this->hasOne('App\Credito','credito_refinanciado_id','id');
     }
+
 }

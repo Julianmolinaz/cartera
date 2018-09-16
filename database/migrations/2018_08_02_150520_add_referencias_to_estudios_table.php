@@ -28,7 +28,7 @@ class AddReferenciasToEstudiosTable extends Migration
     public function down()
     {
         Schema::table('estudios', function (Blueprint $table) {
-            //
+            $table->dropColumn(['ref_1','ref_2','ref_3','ref_4']);
         });
     }
 }

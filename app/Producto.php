@@ -15,6 +15,11 @@ class Producto extends Model implements Auditable
     	'nombre' , 'descripcion',
     ];
 
+
+    public function setNombreAttribute($value){
+    	$this->attributes['nombre'] = strtoupper($value);
+    }
+
     public function precredito(){
     	return $this->belongsTo('App\Precredito');
     }

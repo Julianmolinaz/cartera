@@ -32,8 +32,8 @@ class CreateClientesTable extends Migration
                'Número único de Identificación Personal',
                'Nit de Extranjería'])
             ->default('Cedula Ciudadanía');
-            $table->string('num_doc')->unique();
 
+            $table->string('num_doc')->unique();
             $table->string('fecha_nacimiento')->nullable();
             $table->string('direccion')->nullable();
             $table->string('barrio')->nullable();
@@ -56,21 +56,13 @@ class CreateClientesTable extends Migration
 
             $table->enum('calificacion',['BB','B','M','MM','CASTIGADA'])->nullable();
             
-
             $table->timestamps();
 
-
-            $table->foreign('municipio_id')
-                ->references('id')->on('municipios');
-
-            $table->foreign('codeudor_id')
-                ->references('id')->on('codeudores');
-
-            $table->foreign('user_create_id')
-                ->references('id')->on('users');       
-
-            $table->foreign('user_update_id')
-                ->references('id')->on('users');    
+            $table->foreign('municipio_id')->references('id')->on('municipios');
+            $table->foreign('codeudor_id')->references('id')->on('codeudores');
+            $table->foreign('user_create_id')->references('id')->on('users');  
+            $table->foreign('user_update_id')->references('id')->on('users');  
+ 
         });
     }
 
