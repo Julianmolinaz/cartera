@@ -136,6 +136,8 @@ class ClienteController extends Controller
             $cliente->save();
         }
 
+        $cliente = Cliente::find($id);
+
         $precreditos    = Precredito::where('cliente_id',$id)
                             ->orderBy('updated_at','desc')
                             ->get();
@@ -155,10 +157,10 @@ class ClienteController extends Controller
         $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
         $cliente            = Cliente::find($id);
         $tipos_documento    = getEnumValues('clientes','tipo_doc');
-        $cliente->fecha_nacimiento = date("Y-m-d", strtotime($cliente->fecha_nacimiento));
+        $cliente->fecha_nacimiento = inv_fech2($cliente->fecha_nacimiento);
         
         if($cliente->soat){
-            $cliente->soat->vencimiento = date("Y-m-d", strtotime($cliente->soat->vencimiento));
+            $cliente->soat->vencimiento = inv_fech2($cliente->soat->vencimiento);
         }
 
         return view('start.clientes.edit')
@@ -250,6 +252,11 @@ class ClienteController extends Controller
         try{
 
             $cliente = Cliente::find($id);
+
+            if($cliente->estudio){
+                $estudio = Estudio::find($cliente->estudio->id);
+                $estudio->delete();
+            }
 
             if( $cliente->soat ){
                 $soat = Soat::where('cliente_id',$cliente->id)->get();

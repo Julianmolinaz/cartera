@@ -134,11 +134,11 @@
     </a>
 
     <a href="{{route('start.estudios.create',[$cliente->id,'0', 'cliente'])}}">
-      <button type="button" class="btn btn-primary">Estudio</button>
+      <button type="button" class="btn btn-danger">Estudio</button>
     </a>
 
-    <a href="{{route('start.clientes.edit',$cliente->id)}}">
+    <!-- <a href="{{route('start.clientes.edit',$cliente->id)}}">
       <button type="button" class="btn btn-danger">Editar</button>
-  </a>
+  </a> -->
 
 </center>

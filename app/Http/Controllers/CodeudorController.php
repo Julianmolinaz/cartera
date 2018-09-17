@@ -11,6 +11,7 @@ use App\Codeudor;
 use App\Cliente;
 use App\Conyuge;
 use App\Estudio;
+use Carbon\Carbon;
 use App\Soat;
 use Auth;
 use DB;
@@ -114,13 +115,13 @@ class CodeudorController extends Controller
     public function edit($id)
     {
         $municipios         = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
-        $tipo_actividadesc   = getEnumValues('codeudores','tipo_actividadc');
+        $tipo_actividadesc  = getEnumValues('codeudores','tipo_actividadc');
         $cliente            = Cliente::find($id);
-        $tipos_documentoc    = getEnumValues('codeudores','tipo_docc');
-        $cliente->codeudor->fecha_nacimientoc = date("Y-m-d", strtotime($cliente->codeudor->fecha_nacimientoc));
+        $tipos_documentoc   = getEnumValues('codeudores','tipo_docc');
+        $cliente->codeudor->fecha_nacimientoc = inv_fech2($cliente->codeudor->fecha_nacimientoc);
 
         if($cliente->codeudor->soat){
-            $cliente->codeudor->soat->vencimiento = date("Y-m-d", strtotime($cliente->codeudor->soat->vencimiento));
+            $cliente->codeudor->soat->vencimiento = inv_fech2($cliente->codeudor->soat->vencimiento); 
         }
 
         return view('start.codeudores.edit')
@@ -154,7 +155,11 @@ class CodeudorController extends Controller
             $codeudor->fill($request->all());    
             if($codeudor->isDirty()){
                 $codeudor->save();
-            }     
+            }
+            elseif($request->soatc && $request->placac == NULL){
+                flash()->error('Para crear el SOAT se necesita una placa');
+                return redirect()->route('start.codeudores.edit',$id); 
+            }   
             else{
                 flash()->info('Ningun cambio en registro');
                 return redirect()->route('start.codeudores.edit', $request->cliente_id);   
@@ -194,6 +199,11 @@ class CodeudorController extends Controller
             $codeudor = Codeudor::find($cliente->codeudor_id);
             $cliente->codeudor_id = null;
             $cliente->save();
+
+            if($codeudor->estudio){
+                $estudio = Estudio::find($codeudor->estudio->id);
+                $estudio->delete();
+            }
 
             if($codeudor->soat){
                 $soat = Soat::find($codeudor->soat->id);

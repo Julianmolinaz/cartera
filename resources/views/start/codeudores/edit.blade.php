@@ -109,7 +109,8 @@
             <input type="date" 
                   class="form-control" 
                   id="fecha_nacimientoc" 
-                  name="fecha_nacimientoc">
+                  name="fecha_nacimientoc"
+                  value="{{ $cliente->codeudor->fecha_nacimientoc }}">
         </div>
 
       </div>
@@ -275,7 +276,8 @@
                   class="form-control" 
                   id="soatc" 
                   name="soatc" 
-                  value="{{($cliente->codeudor->soat) ? $cliente->codeudor->soat->vencimiento : ''}}">
+                  value="{{($cliente->codeudor && $cliente->codeudor->soat) ? 
+                  $cliente->codeudor->soat->vencimiento : ''}}">
         </div>
       </div>
    <input type="hidden" name="_token" value="{{ csrf_token() }}" />

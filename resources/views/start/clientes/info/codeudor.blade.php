@@ -22,9 +22,9 @@
       </a>
         @if($cliente->codeudor && $cliente->codeudor->conyuge)
         @else
-          <a href="{{route('start.conyuges.create',[$cliente->id,'codeudor'])}}" 
+          <!-- <a href="{{route('start.conyuges.create',[$cliente->id,'codeudor'])}}" 
             class = 'btn btn-default btn-xs'>Crear conyuge
-          </a>
+          </a> -->
 
         @endif
       @else
@@ -81,6 +81,7 @@
             <th scope="row">Placa</th>
             <td> {{ ($cliente->codeudor) ? $cliente->codeudor->placac : ''}}</td>
           </tr>
+
           @if($cliente->codeudor && $cliente->codeudor->conyuge)
             <tr>
               <th scope="row">Conyuge codeudor</th>
@@ -88,12 +89,17 @@
             </tr>
           @endif
 
+          <tr>
+              <th scope="row">Ocupación</th>
+              <td>@include('start.clientes.info.empresa_codeudor')</td>
+          </tr>
+
           <tr  style="color:#FE0000;">
             <th scope="row">Estudio</th>
             @if($cliente->codeudor && $cliente->codeudor->estudio)
-              <td> {{($cliente->codeudor) ? $cliente->codeudor->estudio->cal_estudio : ''}} </td>
+              <td> {{($cliente->codeudor && $cliente->codeudor->estudio) ? $cliente->codeudor->estudio->cal_estudio : ''}} </td>
             @else
-              <td> No hay estudio..</td>
+              <td></td>
             @endif
           </tr>
 
@@ -108,16 +114,13 @@
             </tr>
           @endif
 
-          <tr>
-              <th scope="row">Ocupación</th>
-              <td>@include('start.clientes.info.empresa_codeudor')</td>
-          </tr>
-
         </table>
       </div>
 
     <center>
-        <a href="#">
+        @if($cliente->codeudor)
+        <a href="{{route('start.estudios.create',[$cliente->id, $cliente->codeudor->id, 'codeudor'])}}">
           <button type="button" class="btn btn-primary">Estudio</button>
         </a>
+        @endif
       </center>

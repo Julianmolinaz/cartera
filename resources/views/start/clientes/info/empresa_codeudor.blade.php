@@ -2,7 +2,9 @@
   <div class="">
     <div role="tab" id="headingFour">
       <p>
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour" style="font-size:12px;color:black;">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour"
+         aria-expanded="true" aria-controls="collapseFour" style="font-size:12px;color:black;"
+         class="btn btn-default btn-xs">
           {{ ($cliente->codeudor) ? $cliente->codeudor->ocupacionc : ''}}
         </a>
       </p>

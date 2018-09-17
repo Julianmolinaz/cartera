@@ -27,6 +27,19 @@ function inv_fech($input){
   }
 }
 
+function inv_fech2($input){
+  $caracter = substr($input,5,1);
+  if ( $caracter == "/" ||  $caracter == "-"){
+    $dia = substr($input,0,2);
+    $mes = substr($input,3,2);
+    $ano = substr($input,6,4);
+    return ($ano.'-'.$mes.'-'.$dia);
+  }
+  else{
+    return $input;
+  }
+}
+
 function dia($input){
    $caracter = substr($input,5,1);
   if ( $caracter == "/" ||  $caracter == "-"){
