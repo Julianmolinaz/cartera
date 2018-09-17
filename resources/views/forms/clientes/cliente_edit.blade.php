@@ -106,7 +106,7 @@
                      placeholder="primer nombre cónyuge" 
                      id="p_nombrey" 
                      name="p_nombrey"  
-                     value="{{ $cliente->conyuge->p_nombrey }}">
+                     value="{{ ($cliente->conyuge) ? $cliente->conyuge->p_nombrey : '' }}">
 
             </div>
 
@@ -118,7 +118,7 @@
                      placeholder="segundo nombre cóyuge" 
                      id="s_nombrey" 
                      name="s_nombrey"  
-                     value="{{ $cliente->conyuge->s_nombrey }}">
+                     value="{{ ($cliente->conyuge) ? $cliente->conyuge->s_nombrey : '' }}">
 
             </div>
           </div>  
@@ -133,7 +133,7 @@
                      placeholder="primer apellido" 
                      id="p_apellidoy" 
                      name="p_apellidoy"  
-                     value="{{ $cliente->p_apellidoy }}">
+                     value="{{ ($cliente->conyuge) ? $cliente->conyuge->p_apellidoy : '' }}">
             </div>
 
 
@@ -145,7 +145,7 @@
                      placeholder="segundo apellido cónyuge" 
                      id="s_apellidoy" 
                      name="s_apellidoy"  
-                     value="{{ $cliente->conyuge->s_apellidoy }}">
+                     value="{{ ($cliente->conyuge) ? $cliente->conyuge->s_apellidoy : '' }}">
             </div>
           </div>                   
 

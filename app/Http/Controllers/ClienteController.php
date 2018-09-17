@@ -137,6 +137,7 @@ class ClienteController extends Controller
 
     public function edit($id)
     {
+
         $municipios         = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
         $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
         $cliente            = Cliente::find($id);

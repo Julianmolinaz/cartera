@@ -38,7 +38,7 @@
                   <div class="col-xs-12 form-group pull-right top_search">
                     
                       <span >
-                             <a href="{{route('log.index')}}"> <button type="button" class="btn btn-danger btn-lg">Entrar</button>
+                            <a href="{{route('log.index')}}"> <button type="button" class="btn btn-danger btn-lg">Entrar</button>
                              </a>
                           </span>
                     </div>
