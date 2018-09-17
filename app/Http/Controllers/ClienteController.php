@@ -155,6 +155,7 @@ class ClienteController extends Controller
         $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
         $cliente            = Cliente::find($id);
         $tipos_documento    = getEnumValues('clientes','tipo_doc');
+        $cliente->fecha_nacimiento = inv_fech($cliente->fecha_nacimiento);    
 
         return view('start.clientes.edit')
             ->with('cliente',$cliente)
