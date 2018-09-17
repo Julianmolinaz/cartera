@@ -106,7 +106,7 @@
                      placeholder="primer nombre cónyuge" 
                      id="p_nombrey" 
                      name="p_nombrey"  
-                     value="{{ $cliente->conyuge->p_nombrey }}">
+                     value="{{ ($cliente->conyuge) ? $cliente->conyuge->p_nombrey : '' }}">
 
             </div>
 
@@ -118,7 +118,7 @@
                      placeholder="segundo nombre cóyuge" 
                      id="s_nombrey" 
                      name="s_nombrey"  
-                     value="{{ $cliente->conyuge->s_nombrey }}">
+                     value="{{ ($cliente->conyuge) ? $cliente->conyuge->s_nombrey : '' }}">
 
             </div>
           </div>  
@@ -133,7 +133,7 @@
                      placeholder="primer apellido" 
                      id="p_apellidoy" 
                      name="p_apellidoy"  
-                     value="{{ $cliente->p_apellidoy }}">
+                     value="{{ ($cliente->conyuge) ? $cliente->conyuge->p_apellidoy : ''}}">
             </div>
 
 
@@ -145,7 +145,7 @@
                      placeholder="segundo apellido cónyuge" 
                      id="s_apellidoy" 
                      name="s_apellidoy"  
-                     value="{{ $cliente->conyuge->s_apellidoy }}">
+                     value="{{ ($cliente->conyuge) ? $cliente->conyuge->s_apellidoy : '' }}">
             </div>
           </div>                   
 
@@ -158,7 +158,7 @@
                 <option value="" disabled selected hidden=""></option>
                 @foreach($tipos_documentoy as $tipo_docy)
                   <option value="{{$tipo_docy}}" 
-                          {{ ( $cliente->conyuge->tipo_docy == $tipo_docy ? "selected":"") }}>
+                          {{ ( $cliente->conyuge && $cliente->conyuge->tipo_docy == $tipo_docy ? "selected":"") }}>
                           {{ $tipo_docy }}
                   </option>
                 @endforeach
@@ -173,7 +173,7 @@
                      placeholder="#" 
                      id="num_docy" 
                      name="num_docy" 
-                     value="{{ $cliente->conyuge->num_docy }}">
+                     value="{{ ($cliente->conyuge) ? $cliente->conyuge->num_docy : '' }}">
             </div>
           </div>
 
@@ -186,7 +186,7 @@
                          class="form-control input-small" 
                          id="movily" 
                          name="movily" 
-                         value="{{ $cliente->conyuge->movily }}">
+                         value="{{ ($cliente->conyuge) ? $cliente->conyuge->movily : ''}}">
               </div>
               
               <!-- Fijo -->
@@ -197,7 +197,7 @@
                          class="form-control input-small" 
                          id="fijoy" 
                          name="fijoy" 
-                         value="{{ $cliente->conyuge->fijoy }}">
+                         value="{{ ($cliente->conyuge) ? $cliente->conyuge->fijoy : '' }}">
               </div>
             </div>
 
@@ -212,7 +212,7 @@
                          class="form-control input-small" 
                          id="diry" 
                          name="diry" 
-                         value="{{ $cliente->conyuge->diry }}">
+                         value="{{ ($cliente->conyuge) ? $cliente->conyuge->diry : '' }}">
               </div>
             </div>
             
@@ -253,7 +253,8 @@
               <select class="form-control input-small" name="municipio_id" id="municipio_id" required>
                <option value="" disabled selected hidden="">- -</option>
                @foreach($municipios as $municipio)
-                  <option value="{{$municipio->id}}" {{ $cliente->municipio->id == $municipio->id ? "selected":"" }}>{{$municipio->nombre.' ('.$municipio->departamento.')'}}</option>
+                  <option value="{{$municipio->id}}" {{ $cliente->municipio->id == $municipio->id ? "selected":"" }}>
+                    {{$municipio->nombre.' ('.$municipio->departamento.')'}}</option>
                @endforeach  
 
              </select>
