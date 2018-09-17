@@ -117,6 +117,11 @@ class CodeudorController extends Controller
         $tipo_actividadesc   = getEnumValues('codeudores','tipo_actividadc');
         $cliente            = Cliente::find($id);
         $tipos_documentoc    = getEnumValues('codeudores','tipo_docc');
+        $codeudor->fecha_nacimientoc = date("Y-m-d", strtotime($codeudor->fecha_nacimientoc));
+
+        if($codeudor->soat){
+            $codeudor->soat->vencimiento = date("Y-m-d", strtotime($codeudor->soat->vencimiento));
+        }
 
         return view('start.codeudores.edit')
             ->with('cliente',$cliente)
