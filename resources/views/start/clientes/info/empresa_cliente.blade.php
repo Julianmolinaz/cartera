@@ -2,7 +2,9 @@
   <div class="">
     <div role="tab" id="headingThree">
       <p>
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree" style="font-size:12px;color:black;">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" 
+        href="#collapseThree" aria-expanded="true" aria-controls="collapseThree" 
+        style="font-size:12px;color:black;" class="btn btn-default btn-xs">
           {{$cliente->ocupacion}}
         </a>
       </p>

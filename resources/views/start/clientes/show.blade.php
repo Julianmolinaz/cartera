@@ -2,10 +2,11 @@
 @section('contenido')
 
 <div class="row">
-
-  @include('flash::message')
-  
   <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+    @include('flash::message')
+  </div>
+  <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+
     <div class="col-md-6  col-sm-6 col-xs-12">
       
       @include('start.clientes.info.cliente')

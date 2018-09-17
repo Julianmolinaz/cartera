@@ -100,7 +100,10 @@
              class="form-control input-small" 
              id="fecha_nacimientoc" 
              name="fecha_nacimientoc" 
-             value="{{$cliente->codeudor->fecha_nacimientoc}}">
+            value="{{ ($cliente->codeudor && $cliente->codeudor->fecha_nacimientoc) ? 
+                      substr($cliente->codeudor->fecha_nacimientoc,0,4).'-'.
+                      substr($cliente->codeudor->fecha_nacimientoc,5,2).'-'.
+                      substr($cliente->codeudor->fecha_nacimientoc,8,2) : ''}}">
   </div>
     
  </div>

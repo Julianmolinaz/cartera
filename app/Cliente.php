@@ -68,7 +68,6 @@ class Cliente extends Model implements Auditable
         $this->attributes['placa'] = strtoupper($value);
     }
 
-
     public function municipio(){
     	return $this->hasOne('App\Municipio','id','municipio_id');
     }
