@@ -1,22 +1,8 @@
 <script>
 
-new Vue({
-  el:'#main-factura',
-  data:{
-    bandera : 0,
-    bandera2: 0,
-    count: 0
-  },
-  methods:{
-    agregar(){
-      alert();
-    }
-  } 
-});
-
-
-
 $( document ).ready(function() {
+
+
 
   //alert('ready!!');
   var bandera = 0;

@@ -14,7 +14,7 @@
            <span class = "glyphicon glyphicon-eye-open" ></span>
         </a>
       </div>
-      <div class="panel-body">
+      <div class="panel-body" style="padding: 0px 13px;">
         <table class="table table-condensed">
 
           <tr>
