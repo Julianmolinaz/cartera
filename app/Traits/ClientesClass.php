@@ -44,9 +44,10 @@ trait ClientesClass
         }
 
         // CREACIÓN DEL CONYUGE
-
-        $this->createConyuge($codeudor,'codeudor',$request);
-
+        if($request->p_nombreyc){
+            $this->createConyuge($codeudor,'codeudor',$request);
+        }
+            
         // CREACIÓN DE CLIENTE
 
         $cliente  = new Cliente();
@@ -57,7 +58,9 @@ trait ClientesClass
         $cliente->user_update_id    = Auth::user()->id; 
         $cliente->save();
     
-        $this->createConyuge($cliente,'cliente',$request);
+        if($request->p_nombrec){
+            $this->createConyuge($cliente,'cliente',$request);
+        }
 
         // CREACIÓN DEL SOAT
         
@@ -94,25 +97,13 @@ trait ClientesClass
 
     DB::beginTransaction();
     try{
-
-        // SE CREA UN CODEUDOR VACIO CON ID 100 TABLA CODEUDORES
-    
-        $codeudor  = Codeudor::find(100);
-
         // CREACION DEL CLIENTE
 
         $cliente = new Cliente();
-        $values = $request->except(['tipo_docc']);
         $cliente->fill($values);                
-        $cliente->codeudor_id     = $codeudor->id;
         $cliente->user_create_id  = Auth::user()->id;
-        $cliente->user_update_id  = Auth::user()->id;
 
         $cliente->save();
-
-        // CREACIÓN DEL CONYUGE
-
-        $this->createConyuge($cliente,'cliente',$request);
 
         //CREACION REGISTRO VENCIMIENTO SOAT
 
@@ -151,7 +142,6 @@ trait ClientesClass
 
     try
     {    
-
         $cliente = Cliente::find($id);
 
         //ACTUALIZAR CLIENTE CON CODEUDOR SIN CODEUDOR ANTERIORMENTE
@@ -179,8 +169,12 @@ trait ClientesClass
                 $this->updateSoat($cliente,'cliente', $request);
             }
 
-            $this->createConyuge($codeudor,'codeudor',$request);
-            $this->editConyuge($cliente,'cliente',$request);
+            if($cliente->conyuge){
+                $this->editConyuge($cliente,'cliente',$request);
+            }
+            if($request->p_nombrecy){
+                $this->createConyuge($codeudor,'codeudor',$request);
+            }
 
         }//.if($cliente->codeudor->codeudor == "no")
 
@@ -189,7 +183,7 @@ trait ClientesClass
         elseif($cliente->codeudor->codeudor == "si"){
 
             // ACTUALIZA CODEUDOR
-
+       
             $codeudor  = Codeudor::find($cliente->codeudor_id);
             $codeudor->fill($request->all());
             $codeudor->save();
@@ -207,10 +201,15 @@ trait ClientesClass
             if($request->soat){
                 $this->updateSoat($cliente, 'cliente', $request);
             }
+            if($codeudor->conyuge){
+                $this->editConyuge($codeudor,'codeudor',$request);
+            }
+            if($cliente->conyuge){
+                $this->editConyuge($cliente,'cliente',$request);
+            }
 
-            $this->editConyuge($codeudor,'codeudor',$request);
-            $this->editConyuge($cliente,'cliente',$request);
         }//.elseif
+
         
         DB::commit();
         flash()->info('El cliente ('.$cliente->id.') '.$cliente->nombre. ' se editó con éxito!');
@@ -219,7 +218,7 @@ trait ClientesClass
     }//.try
     catch(\Exception $e){
         DB::rollback();
-        flash()->error($e->getMessage());
+        flash()->error($e);
         return redirect()->route('start.clientes.edit',$id);
     }
     
@@ -443,6 +442,7 @@ trait ClientesClass
 
     private function editConyuge($obj, $tipo, $request)
     {
+        dd($obj->conyuge);
       if( $tipo == 'cliente' ){
 
         $conyuge = Conyuge::find($obj->conyuge->id);
@@ -461,7 +461,6 @@ trait ClientesClass
       elseif( $tipo == 'codeudor' ){
 
         $conyuge = Conyuge::find($obj->conyuge->id);
-
         $conyuge->nombrey     = $request->nombreyc;
         $conyuge->p_nombrey   = $request->p_nombreyc;
         $conyuge->s_nombrey   = $request->s_nombreyc;

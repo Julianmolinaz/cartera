@@ -6,7 +6,7 @@
         &nbsp;&nbsp;
           <span class="glyphicon glyphicon-briefcase" style="margin-bottom:-5px;" aria-hidden="true"></span>
           <a href="{{route('start.precreditos.show',$cliente->id)}}">
-            <button type="button" class="btn btn-default pull-right" style="margin-top: -4px;">Crear Solicitud</button>
+            <button type="button" class="btn btn-warning pull-right" style="margin-top: -4px;">Crear Solicitud</button>
           </a>
         </h4>
       </div>

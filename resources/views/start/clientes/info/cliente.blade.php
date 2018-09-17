@@ -17,6 +17,14 @@
      title="Eliminar">
     <span class = "glyphicon glyphicon-trash" >
   </a>
+  @if($cliente->conyuge)
+
+  @else
+    <a href="{{route('start.conyuges.create',[$cliente->id,'cliente'])}}" 
+      class = 'btn btn-default btn-xs'>Crear conyuge
+    </a>
+
+  @endif
 </div>
 
 
@@ -65,7 +73,9 @@
     @if($cliente->conyuge)
       <tr>
         <th scope="row">Conyuge</th>
-        <td>@include('start.clientes.info.conyuge_cliente')</td>
+        <td>
+        @include('start.clientes.info.conyuge_cliente')
+        </td>
       </tr>
     @endif
 
@@ -110,7 +120,7 @@
     
     <tr>
       <th scope="row">Actualizó</th>
-      <td> {{ $cliente->user_update->name.' '.$cliente->updated_at}}</td>
+      <td> {{ ($cliente->user_update) ? $cliente->user_update->name.' '.$cliente->updated_at : ''}}</td>
     </tr>
 
   </table>
@@ -119,7 +129,8 @@
 <center>
 
     <a href="javascript:window.history.back();">
-      <button type="button" class="btn btn-primary  ">&nbsp;&nbsp;&nbsp;&nbsp;Volver&nbsp;&nbsp;&nbsp;&nbsp;</button>
+      <button type="button" class="btn btn-primary  ">
+      &nbsp;&nbsp;&nbsp;&nbsp;Volver&nbsp;&nbsp;&nbsp;&nbsp;</button>
     </a>
 
     <a href="{{route('start.estudios.create',[$cliente->id,'0', 'cliente'])}}">

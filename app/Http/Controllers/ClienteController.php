@@ -88,30 +88,38 @@ class ClienteController extends Controller
 
         $rules_cliente    = $this->rules_cliente('crear');
         $message_cliente  = $this->messages_cliente('crear');
-        $rules_codeudor   = $this->rules_codeudor('crear');
-        $message_codeudor = $this->messages_codeudor('codeudor');
 
-        // SI SE ESCOGE CODEUDOR "SI"     
+        $this->validate($request,$rules_cliente,$message_cliente);
+        
+        DB::beginTransaction();
 
-        if($request->codeudor == 'si'){
+        try{
+            // CREACION DEL CLIENTE
 
-            // EJECUCIÓN VALIDACIÓN CLIENTE Y CODEUDOR
-            $this->validate($request,
-                array_merge($rules_cliente,$rules_codeudor),
-                array_merge($message_cliente,$message_codeudor));
+            $cliente = new Cliente();
+            $cliente->fill($request->all());    
+            $cliente->fecha_nacimiento = inv_fech($request->fecha_nacimiento);         
+            $cliente->user_create_id  = Auth::user()->id;
 
-            return $this->crearClienteConCodeudor($request);
+            $cliente->save();
 
+            //CREACION REGISTRO VENCIMIENTO SOAT
 
-        }//.if
-        // SI SE ESCOGE CODEUDOR "NO" 
-        else
-        {
-            // VALIDACION DE LOS DATOS DEL CLIENTE
+            if( $request->soat ){
+                $this->createSoat($cliente, 'cliente', $request);
+            }
 
-            $this->validate($request,$rules_cliente,$message_cliente);
-            return $this->crearClienteSinCodeudor($request);
-        }//.else
+            DB::commit();
+
+            flash()->info('El cliente ('.$cliente->id.') '.$cliente->nombre. ' se creo con éxito!');
+            return redirect()->route('start.clientes.show',$cliente->id);
+        }//.try
+        catch(\Exception $e){
+            DB::rollback();
+            flash()->error($e->getMessage());
+            return redirect()->route('start.clientes.create');                    
+        }
+
      }
 
     /**
@@ -122,6 +130,11 @@ class ClienteController extends Controller
     public function show($id)
     {
         $cliente        = Cliente::find($id);
+
+        if($cliente->codeudor && $cliente->codeudor->id == 100){
+            $cliente->codeudor_id = null;
+            $cliente->save();
+        }
 
         $precreditos    = Precredito::where('cliente_id',$id)
                             ->orderBy('updated_at','desc')
@@ -142,46 +155,79 @@ class ClienteController extends Controller
         $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
         $cliente            = Cliente::find($id);
         $tipos_documento    = getEnumValues('clientes','tipo_doc');
-        $tipos_documentoc   = getEnumValues('codeudores','tipo_docc');
-        $tipos_documentoy   = getEnumValues('conyuges','tipo_docy');
 
         return view('start.clientes.edit')
             ->with('cliente',$cliente)
             ->with('municipios',$municipios)
             ->with('tipo_actividades',$tipo_actividades)
-            ->with('tipos_documento',$tipos_documento)
-            ->with('tipos_documentoc',$tipos_documentoc)
-            ->with('tipos_documentoy',$tipos_documentoy);
+            ->with('tipos_documento',$tipos_documento);
     }
 
 
 
     public function update(Request $request, $id)
     {  
-
         $rules_cliente    = $this->rules_cliente('editar');
         $message_cliente  = $this->messages_cliente('editar');
-        $rules_codeudor   = $this->rules_codeudor('editar');
-        $message_codeudor = $this->messages_codeudor('editar');
-
+  
         //ACTUALIZAR CLIENTE CON CODEUDOR
+        $this->validate($request,$rules_cliente,$message_cliente);
 
-        if($request->codeudor == 'si')
+        DB::beginTransaction();
+
+        try
         {
-            
-            $this->validate($request,array_merge($rules_cliente,$rules_codeudor),
-                                     array_merge($message_cliente,$message_codeudor));
-            return $this->actualizarClienteConCodeudor($request,$id);
+            $cliente = Cliente::find($id); 
+            $cliente->fill($request->all());
 
-        }//.f($request->codeudor == 'si')
-            
-        //ACTUALIZAR UN CLIENTE SIN CODEUDOR
+            if($cliente->isDirty()){ 
+                $cliente->user_update_id = Auth::user()->id;
+                $cliente->save();
+            }
 
-        elseif($request->codeudor == 'no')
-        { 
-            $this->validate($request,$rules_cliente,$message_cliente);
-            return $this->actualizarClienteSinCodeudor($request, $id);
+            if($cliente->soat && $request->soat && $request->placa){
+                $soat = Soat::find($cliente->soat->id);
+                $soat->fill([
+                    'cliente_id' => $cliente->id,
+                    'placa' => $request->placa,
+                    'tipo'  => 'cliente',
+                    'vencimiento' => $request->soat,
+                    'user_update_id' => Auth::user()->id
+                ]);
+                
+                if($soat->isDirty()){
+                    $soat->save();
+                }
+            }
+            elseif($cliente->soat === NULL && $request->soat && $request->placa){
+                $soat = new Soat();
 
+                $soat->fill([
+                    'cliente_id' => $cliente->id,
+                    'placa' => $request->placa,
+                    'tipo'  => 'cliente',
+                    'vencimiento' => $request->soat,
+                    'user_create_id' => Auth::user()->id,
+                    'user_update_id' => Auth::user()->id
+                ]);
+
+                $soat->save();
+            }
+            elseif($request->soat && $request->placa == NULL){
+                flash()->error('Para crear el SOAT se necesita una placa');
+                return redirect()->route('start.clientes.edit',$id); 
+            }
+            DB::commit();
+
+            flash()->info('El cliente ('.$cliente->id.') '.$cliente->nombre. ' se editó con éxito!');
+            return redirect()->route('start.clientes.show',$cliente->id);            
+
+        }
+        catch(\Exception $e)
+        {
+            DB::rollback();
+            flash()->error($e->getMessage());
+            return redirect()->route('start.clientes.edit',$id);     
         }
     }
 

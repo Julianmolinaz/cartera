@@ -1,81 +1,103 @@
 
 
     <div class="panel panel-primary">
-      <div class="panel-heading">Información del Codeudor </div>
+      <div class="panel-heading">Información del Codeudor 
+
+      @if($cliente->codeudor)
+      <a href="{{route('start.codeudores.edit',$cliente->id)}}" 
+        class = 'btn btn-default btn-xs'  
+        data-toggle="tooltip" data-placement="top" 
+        title="Editar"
+        style="margin-left:10px;">
+        <span class = "glyphicon glyphicon-pencil">
+      </a>
+
+      <a href="{{route('start.codeudores.destroy',$cliente->id)}}" 
+        onclick="return confirm('¿Esta seguro de eliminar el usuario?')" 
+        class = 'btn btn-default btn-xs' 
+        data-toggle="tooltip" 
+        data-placement="top" 
+        title="Eliminar">
+        <span class = "glyphicon glyphicon-trash" >
+      </a>
+        @if($cliente->codeudor && $cliente->codeudor->conyuge)
+        @else
+          <a href="{{route('start.conyuges.create',[$cliente->id,'codeudor'])}}" 
+            class = 'btn btn-default btn-xs'>Crear conyuge
+          </a>
+
+        @endif
+      @else
+        <a href="{{route('start.codeudores.create',[$cliente->id,'codeudor'])}}" 
+          class = 'btn btn-warning btn-xs'>Crear codeudor</a>
+
+      @endif
+
+      </div>
 
 
         <table class="table"  style="font-size:12px;">
 
           <tr>
             <th scope="row">#</th>
-            @if( $cliente->codeudor->id == '100')
-              <td></td>
-             @else
-              <td>{{ $cliente->codeudor->id}}</td>
-             @endif
+              <td>{{ ($cliente->codeudor) ? $cliente->codeudor->id : ''}}</td>
           </tr>
 
           <tr>
             <th scope="row">Nombre</th>
-            <td>{{ $cliente->codeudor->nombrec }}</td>
+            <td>{{ ($cliente->codeudor) ? $cliente->codeudor->nombrec : ''}}</td>
           </tr>
 
           <tr>
             <th scope="row">Documento</th>
-            <td> {{ $cliente->codeudor->num_docc}}</td>
+            <td> {{ ($cliente->codeudor) ? $cliente->codeudor->num_docc : ''}}</td>
           </tr>
 
           <tr>
             <th scope="row">Fecha de Nacimiento</th>
-            <td> {{ $cliente->codeudor->fecha_nacimientoc }}</td>
+            <td> {{ ($cliente->codeudor) ? $cliente->codeudor->fecha_nacimientoc : '' }}</td>
           </tr>
 
           <tr>
             <th scope="row">Dirección</th>
-            @if( $cliente->codeudor->id == '100')
-              <td></td>
-            @elseif($cliente->codeudor->municipio)
-              <td>{{ $cliente->codeudor->direccionc.' '.$cliente->codeudor->barrioc.' - '.$cliente->codeudor->municipio->nombre.' '.$cliente->codeudor->municipio->departamento }}
+              <td>{{ ($cliente->codeudor ) ? 
+                    $cliente->codeudor->direccionc.' '.$cliente->codeudor->barrioc.' - '.$cliente->codeudor->municipio->nombre.' '.$cliente->codeudor->municipio->departamento 
+                    :'' }}
               </td>
-             @else
-              <td></td> 
-            @endif  
+
           </tr>
 
           <tr>
             <th scope="row">Telefono</th>
-            <td> {{ $cliente->codeudor->movilc. ' - '. $cliente->codeudor->fijoc}}</td>
+            <td> {{ ($cliente->codeudor) ? $cliente->codeudor->movilc. ' - '. $cliente->codeudor->fijoc : ''}}</td>
           </tr>
 
           <tr>
             <th scope="row">Email</th>
-            <td> {{ $cliente->codeudor->emailc}}</td>
+            <td> {{ ($cliente->codeudor) ? $cliente->codeudor->emailc : ''}}</td>
           </tr>
 
           <tr>
             <th scope="row">Placa</th>
-            <td> {{ $cliente->codeudor->placac}}</td>
+            <td> {{ ($cliente->codeudor) ? $cliente->codeudor->placac : ''}}</td>
           </tr>
-          @if($cliente->codeudor->conyuge)
+          @if($cliente->codeudor && $cliente->codeudor->conyuge)
             <tr>
               <th scope="row">Conyuge codeudor</th>
               <td>@include('start.clientes.info.conyuge_codeudor')</td>
             </tr>
           @endif
-            <tr>
-              <th scope="row">Ocupación</th>
-              <td>@include('start.clientes.info.empresa_codeudor')</td>
-            </tr>
 
           <tr  style="color:#FE0000;">
             <th scope="row">Estudio</th>
-            @if($cliente->codeudor->estudio == NULL)
-              <td> No hay estudio..</td>
+            @if($cliente->codeudor && $cliente->codeudor->estudio)
+              <td> {{($cliente->codeudor) ? $cliente->codeudor->estudio->cal_estudio : ''}} </td>
             @else
-              <td> {{$cliente->codeudor->estudio->cal_estudio}} </td>
+              <td> No hay estudio..</td>
             @endif
           </tr>
-          @if($cliente->codeudor->soat)
+
+          @if($cliente->codeudor && $cliente->codeudor->soat)
             <tr>
               <th scope="row">Vencimiento SOAT</th>
               <td>
@@ -86,11 +108,16 @@
             </tr>
           @endif
 
+          <tr>
+              <th scope="row">Ocupación</th>
+              <td>@include('start.clientes.info.empresa_codeudor')</td>
+          </tr>
+
         </table>
       </div>
 
-      <center>
-        <a href="{{route('start.estudios.create',[$cliente->id, $cliente->codeudor->id, 'codeudor'])}}">
+    <center>
+        <a href="#">
           <button type="button" class="btn btn-primary">Estudio</button>
         </a>
       </center>

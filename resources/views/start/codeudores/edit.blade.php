@@ -3,26 +3,31 @@
 
 
   <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+
+
       <div class="row">
 
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="panel panel-primary">
-          <div class="panel-heading">Editar Cliente</div>
-            <div class="panel-body">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">Editar Codeudor</div>
+              <div class="panel-body">
               @include('templates.error')
               @include('flash::message')
+                
+
 
       <form class="form-horizontal form-label-left" 
-            action="{{route('start.clientes.update',$cliente)}}" 
+            action="{{route('start.codeudores.update',$cliente)}}" 
             method="POST">
 
-        <input type="hidden" name="_method" value="PUT">
-        
-        
-        <div class="form-group">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="cliente_id" value="{{ $cliente->id }}">
+    <input type="hidden" name="id" value="{{ $cliente->codeudor->id }}">
+
+      <div class="form-group">
 
         <div class="col-md-12 col-sm-12 col-xs-12 ">  
-          <label class="title-section">Datos personales del solicitante</label>
+          <label class="title-section">Datos personales del codeudor</label>
           <hr class="linea">
         </div>
 
@@ -33,9 +38,9 @@
           <input type="text" 
                 class="form-control" 
                 placeholder="primer nombre" 
-                id="primer_nombre" 
-                name="primer_nombre"  
-                value="{{ $cliente->primer_nombre }}">
+                id="primer_nombrec" 
+                name="primer_nombrec"  
+                value="{{$cliente->codeudor->primer_nombrec}}">
 
         </div>
 
@@ -45,9 +50,9 @@
           <input type="text" 
                 class="form-control" 
                 placeholder="segundo nombre" 
-                id="segundo_nombre" 
-                name="segundo_nombre"  
-                value="{{ $cliente->segundo_nombre}}">
+                id="segundo_nombrec" 
+                name="segundo_nombrec"  
+                value="{{$cliente->codeudor->segundo_nombrec}}">
         </div>
  
         <div class="col-md-3 col-sm-3 col-xs-12">
@@ -55,9 +60,9 @@
           <input type="text" 
                 class="form-control" 
                 placeholder="primer apellido" 
-                id="primer_apellido" 
-                name="primer_apellido"  
-                value="{{$cliente->primer_apellido}}">
+                id="primer_apellidoc" 
+                name="primer_apellidoc"  
+                value="{{$cliente->codeudor->primer_apellidoc}}">
         </div>
 
 
@@ -66,9 +71,9 @@
           <input type="text" 
                 class="form-control" 
                 placeholder="segundo apellido" 
-                id="segundo_apellido" 
-                name="segundo_apellido"  
-                value="{{$cliente->segundo_apellido}}">
+                id="segundo_apellidoc" 
+                name="segundo_apellidoc"  
+                value="{{$cliente->codeudor->segundo_apellidoc}}">
         </div>
       </div>                   
 
@@ -78,13 +83,12 @@
         <div class="col-md-3 col-sm-3 col-xs-12">
           <label class="txt-small">Tipo de documento *:</label>
           <select class="form-control" 
-                  id="tipo_doc" 
-                  name="tipo_doc">
+                  id="tipo_docc" 
+                  name="tipo_docc">
 
             <option value="" disabled selected hidden=""></option>
-            @foreach($tipos_documento as $tipo_doc)
-              <option value="{{$tipo_doc}}" {{ ($cliente->tipo_doc == $tipo_doc) ? "selected" : "" }}>
-                {{$tipo_doc}}</option>
+            @foreach($tipos_documentoc as $tipo_docc)
+              <option value="{{$tipo_docc}}" {{ ($cliente->codeudor->tipo_docc == $tipo_docc ? "selected":"") }}>{{$tipo_docc}}</option>
             @endforeach
           </select>
 
@@ -95,18 +99,18 @@
           <input type="number" 
                 class="form-control" 
                 placeholder="#" 
-                id="num_doc" 
-                name="num_doc" 
-                value="{{ $cliente->num_doc}}">
+                id="num_docc" 
+                name="num_docc" 
+                value="{{$cliente->codeudor->num_docc}}">
         </div>
 
         <div class="col-md-6 col-sm-6 col-xs-12">
           <label class="txt-small">F. nacimiento *:</label>
             <input type="date" 
                   class="form-control" 
-                  id="fecha_nacimiento" 
-                  name="fecha_nacimiento" 
-                  value="{{ $cliente->fecha_nacimiento}}">
+                  id="fecha_nacimientoc" 
+                  name="fecha_nacimientoc" 
+                  value="{{$cliente->codeudor->fecha_nacimientoc}}">
         </div>
 
       </div>
@@ -123,9 +127,9 @@
           <input type="text" 
                 class="form-control" 
                 placeholder="dirección" 
-                id="direccion" 
-                name="direccion"  
-                value="{{ $cliente->direccion }}">
+                id="direccionc" 
+                name="direccionc"  
+                value="{{$cliente->codeudor->direccionc}}">
         </div>
 
         <!-- BARRIO **************************************************************************-->
@@ -134,20 +138,19 @@
           <input type="text" 
                 class="form-control" 
                 placeholder="ingrese barrio" 
-                id="barrio" 
-                name="barrio" 
-                value="{{$cliente->barrio}}">
+                id="barrioc" 
+                name="barrioc" 
+                value="{{$cliente->codeudor->barrioc}}">
 
         </div>
 
         <!-- MUNICIIPIO **************************************************************************-->
         <div class="col-md-4 col-sm-4 col-xs-12">
           <label class="txt-small">Municipio *:</label>
-          <select class="form-control" name="municipio_id" id="municipio_id">
+          <select class="form-control" name="municipioc_id" id="municipioc_id">
             <option value="" disabled selected hidden="">- -</option>
-            @foreach($municipios as $municipio)
-            <option value="{{$municipio->id}}" {{ $cliente->municipio_id == $municipio->id ? "selected":"" }}>
-              {{$municipio->nombre.' ('.$municipio->departamento.')'}}</option>
+            @foreach($municipios as $municipioc)
+            <option value="{{$municipioc->id}}" {{ ($cliente->codeudor->municipioc_id == $municipioc->id ? "selected":"") }}>{{$municipioc->nombre.' ('.$municipioc->departamento.')'}}</option>
             @endforeach
         </select>
       </div>
@@ -157,9 +160,8 @@
       <!-- MOVIL **************************************************************************-->
         <div class="col-md-4 col-sm-4 col-xs-12">
           <label class="txt-small">Celular *:</label>
-          <input type="tel" class="form-control" 
-                 placeholder="ingrese # celular" 
-                 id="movil" name="movil"  value="{{ $cliente->movil }}">
+          <input type="tel" class="form-control" placeholder="ingrese # celular" 
+                 id="movilc" name="movilc"  value="{{$cliente->codeudor->movilc}}">
         </div>
         <!-- FIJO **************************************************************************-->
         <div class="col-md-4 col-sm-4 col-xs-12">
@@ -167,9 +169,9 @@
           <input type="tel" 
                 class="form-control" 
                 placeholder="ingrese # teléfono" 
-                id="fijo" 
-                name="fijo" 
-                value="{{ $cliente->fijo}}">
+                id="fijoc" 
+                name="fijoc" 
+                value="{{$cliente->codeudor->fijoc}}">
 
         </div>
 
@@ -178,9 +180,9 @@
             <input type="email" 
                   class="form-control" 
                   placeholder="correo electrónico" 
-                  id="email" 
-                  name="email" 
-                  value="{{ $cliente->email }}"  
+                  id="emailc" 
+                  name="emailc" 
+                  value="{{$cliente->codeudor->emailc}}"  
                   size="60">
         </div>
       </div>
@@ -199,21 +201,20 @@
           <input type="text-small" 
                 class="form-control" 
                 placeholder="ocupación" 
-                id="ocupacion" 
-                name="ocupacion"  
-                value="{{$cliente->ocupacion}}">
+                id="ocupacionc" 
+                name="ocupacionc"  
+                value="{{$cliente->codeudor->ocupacionc}}">
         </div>
 
                     <!-- TIPO DE ACTIVIDAD *****************************************************-->
         <div class="col-md-4 col-sm-4 col-xs-12">
           <label class="txt-small">Tipo de actividad *: </label>
           <select class="form-control" 
-                  name="tipo_actividad" 
-                  id="tipo_actividad">
+                  name="tipo_actividadc" 
+                  id="tipo_actividadc">
           <option value="" disabled selected hidden="">- -</option>
-              @foreach($tipo_actividades as $tipo_actividad)
-                  <option value="{{$tipo_actividad}}" {{ $cliente->tipo_actividad == $tipo_actividad ? "selected":"" }}>
-                   {{$tipo_actividad}}</option>
+              @foreach($tipo_actividadesc as $tipo_actividad)
+                  <option value="{{$tipo_actividad}}" {{ ($cliente->codeudor->tipo_actividadc == $tipo_actividad ? "selected":"") }}>{{$tipo_actividad}}</option>
           @endforeach
         </select>
         </div>
@@ -223,9 +224,9 @@
             <input type="text" 
                     class="form-control" 
                     placeholder="ingrese empresa" 
-                    id="empresa" 
-                    name="empresa"  
-                    value="{{ $cliente->empresa }}">
+                    id="empresac" 
+                    name="empresac"  
+                    value="{{$cliente->codeudor->empresac}}">
           </div>
 
         </div>
@@ -235,9 +236,9 @@
             <input type="text" 
                   class="form-control" 
                   placeholder="ingrese teléfono empresa" 
-                  id="tel_empresa" 
-                  name="tel_empresa"  
-                  value="{{ $cliente->tel_empresa }}">
+                  id="tel_empresac" 
+                  name="tel_empresac"  
+                  value="{{$cliente->codeudor->tel_empresac}}">
           </div>
 
           <div class="col-md-8 col-sm-8 col-xs-12">
@@ -245,9 +246,9 @@
             <input type="text" 
                   class="form-control" 
                   placeholder="ingrese dirección empresa" 
-                  id="dir_empresa" 
-                  name="dir_empresa"  
-                  value="{{ $cliente->dir_empresa }}">
+                  id="dir_empresac" 
+                  name="dir_empresac"  
+                  value="{{$cliente->codeudor->dir_empresac}}">
           </div>
         </div>
         
@@ -264,18 +265,18 @@
           <input type="text" 
                   class="form-control" 
                   placeholder="placa" 
-                  id="placa" 
-                  name="placa" 
-                  value="{{ $cliente->placa }}">
+                  id="placac" 
+                  name="placac" 
+                  value="{{$cliente->codeudor->placac}}">
         </div>
 
           <div class="col-md-6 col-sm-6 col-xs-12">
             <label class="txt-small">F. vencimiento SOAT :</label>
           <input type="date" 
                   class="form-control" 
-                  id="soat" 
-                  name="soat" 
-                  value="{{ ($cliente->soat) ? $cliente->soat->vencimiento :'' }}">
+                  id="soatc" 
+                  name="soatc" 
+                  value="{{$cliente->codeudor->soat->vencimiento}}">
         </div>
       </div>
    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -283,7 +284,7 @@
 
         <center>
           <a href="javascript:window.history.back();"><button type="button" class="btn btn-primary">Volver</button></a>
-          <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Guaradar Cambios&nbsp;&nbsp;</button>
+          <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
         </center>  
 
               </div>
