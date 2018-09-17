@@ -2,7 +2,7 @@
       <div class="panel-heading">
         <h3 class="panel-title">Pagos</h3>
       </div>
-      <div class="panel-body">
+      <div class="panel-body" style="padding: 17px 20px;">
 
         <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered" style="font-size:10px">
           <thead>
@@ -24,7 +24,7 @@
           <tbody>
           <?php
             $color_A = "<tr style='background-color:#ffffff;'>";
-            $color_B = "<tr style='background-color:#D8D8D8;'>";
+            $color_B = "<tr style='background-color:#F5F5E0;'>";
             $color = $color_A;
             for( $i = 0; $i < count($pagos); $i++){  
               

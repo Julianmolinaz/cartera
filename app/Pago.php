@@ -12,7 +12,7 @@ class Pago extends Model implements Auditable
     protected $table = 'pagos';
 
     protected $fillable = [
-    	'factura_id' , 'credito_id' , 'precredito_id' 'concepto' , 'tipo' , 'abono' , 'debe' , 'descripcion' , 'estado' , 'pago_desde' , 'pago_hasta' , 'abono_pago_id'
+    	'factura_id' , 'credito_id' , 'precredito_id', 'concepto' , 'tipo' , 'abono' , 'debe' , 'descripcion' , 'estado' , 'pago_desde' , 'pago_hasta' , 'abono_pago_id'
     ];
 
     public function factura(){
