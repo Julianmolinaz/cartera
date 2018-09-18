@@ -2,7 +2,7 @@
       <div class="panel-heading">
         <h3 class="panel-title">Pagos</h3>
       </div>
-      <div class="panel-body" style="padding: 17px 20px;">
+      <div class="panel-body" style="padding: 20px 18px !important;">
 
         <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered" style="font-size:10px">
           <thead>
