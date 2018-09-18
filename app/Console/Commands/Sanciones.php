@@ -277,7 +277,6 @@ class Sanciones extends Command
 
 
         $fecha_cobro = $fecha[0]->fecha_pago;
-        
 
         $fecha_tope = Carbon::create($this->ano($fecha_cobro) , $this->mes($fecha_cobro) , $this->dia($fecha_cobro) ,23,59,59);
 
@@ -345,14 +344,13 @@ public function handle()
           echo $credito->id.' ';
           $this->generar_sanciones($credito->id);
         }
-
         $auditoria->clave_fin = 1;
         $auditoria->save();
 
         DB::commit();
 
       } catch (\Exception $e) {
-        echo "****ERROR****";
+        echo "****ERROR****" . $e->getMessage();
         DB::rollback();
       }   
 
