@@ -310,7 +310,6 @@ class Sanciones extends Command
               $credito->saldo   = $credito->saldo + $vlr_sancion;
               $credito->user_update_id = 1;
               $credito->save();
-
               $sancion = new Sancion();
               $sancion->credito_id = $credito->id;
               $sancion->valor = $vlr_sancion;
@@ -318,7 +317,6 @@ class Sanciones extends Command
               $sancion->save();
 
           }
-
         }
 
         return $credito->estado;
@@ -340,8 +338,8 @@ public function handle()
         $creditos = DB::table('creditos')
                     ->whereIn('Estado',['Al dia','Mora','Prejuridico','Juridico'])
                     ->get();
-
-        foreach ($creditos as $credito) {
+        
+	foreach ($creditos as $credito) {
           echo $credito->id.' ';
           $this->generar_sanciones($credito->id);
         }
