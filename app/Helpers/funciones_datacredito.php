@@ -45,15 +45,11 @@ function generar_listado_creditos($fecha_corte)
     $ids    = 
     DB::table('creditos')
         ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-        ->where('creditos.id',3549)
-        // ->whereIn('creditos.estado', 
-        //             ['Mora'])
-                    // ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado',
-                    //  'Cancelado por refinanciacion'])
+        //->where('creditos.id',3549)
+        ->whereIn('creditos.estado', ['Al dia', 'Mora', 'Prejuridico','Juridico'])
         ->where([['creditos.end_datacredito','<>',1]]) //no marcados como finalizado
         ->select('creditos.id')
         ->get();
-
 
     foreach($ids as $id)
     {
@@ -61,7 +57,6 @@ function generar_listado_creditos($fecha_corte)
         $bandera        = 0;
         $x              = $credito->precredito->fecha;
         $fecha_apertura = Carbon::create(ano($x),mes($x),dia($x));
-
 
         // bandera = 0 => el crédito se selecciona;
         // bandera = 1 => el crédito se descarta
@@ -108,7 +103,6 @@ function generar_listado_creditos($fecha_corte)
 
 function tipo_identificacion_datacredito($tipo_doc){
 
-
     if( $tipo_doc == 'Cedula Ciudadanía'                        ||
         $tipo_doc == 'Número único de Identificación Personal'  ||
         $tipo_doc == 'Tarjeta de Identidad'){   
@@ -142,9 +136,8 @@ function sanciones_vigentes($credito){
     return $sanciones;
 }
 
-function fecha_limite_pago($credito, $corte){
-
-    
+function fecha_limite_pago($credito, $corte)
+{
     if($credito->estado == 'Al dia' || 'Cancelado'){
 
         if(count($credito->pagos) > 0){
@@ -175,7 +168,8 @@ function fecha_limite_pago($credito, $corte){
 |
 */
 
-function fecha_plana_Ymd($obj_date){ 
+function fecha_plana_Ymd($obj_date)
+{ 
     $date = $obj_date->toDateString();
     $date = inv_fech(formatoFecha(dia($date),mes($date),ano($date)));
     $date = str_replace('-','',$date);
@@ -199,8 +193,8 @@ function fecha_plana_Ymd($obj_date){
 */
 
 
-function cast_number($data, $len, $align){
-
+function cast_number($data, $len, $align)
+{
     if($align == 'right'){
         while(strlen($data) < $len){
             $data = '0'.$data;
@@ -228,7 +222,8 @@ function cast_number($data, $len, $align){
 | cast('hola',10); .. retorna 'hola      '
 |
 */
-function cast_string($string, $len){
+function cast_string($string, $len)
+{
     while(strlen($string) < $len){
         $string = $string.' ';
     }
@@ -250,7 +245,8 @@ function cast_string($string, $len){
 |
 */
 
-function fecha_Ymd($str){
+function fecha_Ymd($str)
+{
     $str = inv_fech($str);
     return str_replace('-','',$str);
 }
@@ -266,7 +262,8 @@ function fecha_Ymd($str){
 |
 */
 
-function vence_credito($credito){
+function vence_credito($credito)
+{
 
     $fecha_ini  = $credito->fecha_pago->fecha_pago;
     $periodo    = $credito->precredito->periodo;
@@ -507,8 +504,12 @@ function saldo_deuda_capital($credito, $corte){
                 ->where([['created_at','<=',inv_fech($corte)],['credito_id','=',$credito->id]])
                 ->get();
 
-
-    $valor_real_cuota = $credito->precredito->vlr_fin / $credito->precredito->cuotas;
+    if($credito->precredito->cuotas != 0){
+        $valor_real_cuota = $credito->precredito->vlr_fin / $credito->precredito->cuotas;
+    }
+    else{
+        $valor_real_cuota = 0;
+    }
     $sum_pagos = 0;
     $vlr_cuota = $credito->precredito->vlr_cuota;
 
@@ -608,8 +609,6 @@ function saldo_en_mora($credito,$corte){
 
         //CALCULA LOS DIAS EN MORA
         $dias_mora = dias_mora($credito, $corte);
-
-        dd($dias_mora);
 
         if( $dias_mora > DIAS_PARA_REPORTAR )
         {

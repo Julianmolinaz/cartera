@@ -324,26 +324,39 @@ class ReporteController extends Controller
 
         else if($request->input('tipo_reporte') == 'datacredito' ){
 
-            try{
-                $this->validate($request,
-                        ['mes_corte' => 'required',
-                         'ano_corte' => 'required'],
-                        ['mes_corte.required' => 'El mes de corte es requerido',
-                         'ano_corte.required' => 'El año de corte es requerido']);
+            $report_datacredito  =  reporte_datacredito(); // array con el reporte    
+            $nombre_archivo      = '111111.txt';  // nombre del reporte
+            $archivo             = fopen($nombre_archivo, "w"); // creacion del archivo
+            
+            //asignacion de datos al archivo
+            foreach($report_datacredito as $reporte){
+                foreach($reporte as $key => $elemento){
 
-               // creacion fecha de corte tomando con ultimo dia del mes de corte
-                
-               $fecha  = Carbon::create($request->input('ano_corte'), $request->input('mes_corte'),1 );
-               $dias_mes = $fecha->daysInMonth;
-               $fecha = Carbon::create($fecha->year,$fecha->month,$dias_mes,23,59,59);
-               
-
-               return reporte_datacredito( $fecha );  
+                    if ($elemento === reset($reporte)) {
+                        fwrite($archivo, $elemento);
+                    }
+                    else{
+                        fwrite($archivo, $elemento);
+                    }
+                }
+                fwrite($archivo, PHP_EOL);  
             }
-            catch(\Exception $e){
+            fclose($archivo); // cierre del archivo
+    
+            //echo  nl2br(file_get_contents($nombre_archivo));
 
-                return redirect()->route('admin.reportes.index'); 
-            }  
+            return response()->download($nombre_archivo);
+
+
+
+
+            // try{
+            //    return reporte_datacredito();  
+            // }
+            // catch(\Exception $e){
+
+            //     return redirect()->route('admin.reportes.index'); 
+            // }  
         }
 
     else if($request->input('tipo_reporte') == 'auditoria' ){
@@ -427,23 +440,22 @@ class ReporteController extends Controller
         return response()->download(storage_path('1-ventasCarteras/'.$reporte));
     }
 
-    public function getReportVentas($fecha_1, $fecha_2){
-            $reporte = reporte_venta_creditos( $fecha_1, $fecha_2 );
+    public function getReportVentas($fecha_1, $fecha_2)
+    {
+        $reporte = reporte_venta_creditos( $fecha_1, $fecha_2 );
 
-            return view('admin.reportes.venta_creditos')
-                ->with('creditos',$reporte['creditos'])
-                ->with('total_vlr_fin',$reporte['total_vlr_fin'])
-                ->with('total_vlr_credito',$reporte['total_vlr_credito'])
-                ->with('total_saldo',$reporte['total_saldo'])
-                ->with('rango',$reporte['rango'])
-                ->with('carteras',$reporte['carteras'])
-                ->with('total',$reporte['total']);
+        return view('admin.reportes.venta_creditos')
+            ->with('creditos',$reporte['creditos'])
+            ->with('total_vlr_fin',$reporte['total_vlr_fin'])
+            ->with('total_vlr_credito',$reporte['total_vlr_credito'])
+            ->with('total_saldo',$reporte['total_saldo'])
+            ->with('rango',$reporte['rango'])
+            ->with('carteras',$reporte['carteras'])
+            ->with('total',$reporte['total']);
     }
 
     public function marcar_cancelados()
     {
-        
-
         DB::beginTransaction();
 
         try{

@@ -179,7 +179,6 @@ function reporte_procredito(){
 
     else{
 
-
         $factura = ultima_factura($credito);
 
         if( $factura ){
@@ -203,7 +202,8 @@ function reporte_procredito(){
             $numero_cuota = 1;  }
 
         if($credito->estado == 'Cancelado'){
-            $bandera = 1; }
+            $bandera = 1; 
+        }
         elseif($credito->estado == 'Mora' || $credito->estado == 'Prejuridico'
                 || $credito->estado == 'Juridico'){
                 

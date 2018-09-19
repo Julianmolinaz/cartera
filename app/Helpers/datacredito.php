@@ -26,12 +26,14 @@ use Auth;
 use DB;
 
 
-function reporte_datacredito($fecha_corte){
-
-    $now    = Carbon::now();
-    $fecha  = fecha_plana($now->toDateString());
-    $punto  = Punto::find(1);
-    $ids    = generar_listado_creditos($fecha_corte);
+function reporte_datacredito()
+{
+    
+    $now            = Carbon::now();
+    $fecha_corte    = $now;
+    $fecha          = fecha_plana($now->toDateString());
+    $punto          = Punto::find(1);
+    $ids            = generar_listado_creditos($fecha_corte);
 
     try
     {                            
@@ -61,6 +63,7 @@ function reporte_datacredito($fecha_corte){
         // REGISTRO CON INFORMACIÓN DE CLLIENTES
 
         foreach( $ids as $id ){
+            set_time_limit(0);
 
             $credito = Credito::find($id);
 
@@ -136,7 +139,7 @@ function reporte_datacredito($fecha_corte){
 
             array_push($info_clientes_array,$registro_info_clientes);
 
-            if( $credito->precredito->cliente->codeudor->id != '100' )
+            if( $credito->precredito->cliente->codeudor && $credito->precredito->cliente->codeudor->id != '100' )
             {
                 $registro_info_codeudor = array(
 
@@ -210,14 +213,12 @@ function reporte_datacredito($fecha_corte){
         
                 array_push($info_clientes_array,$registro_info_clientes);
             }
-
-            dd($info_clientes_array);
-
         }// .foreach
 
     }catch(\Exception $e){
         dd($e);
     }
+
     $registro_fin = array(
         '3.1-identificador'         => 'ZZZZZZZZZZZZZZZZZZ',
         '3.2-fecha_proceso'         => fecha_plana_Ymd($now),
@@ -227,29 +228,10 @@ function reporte_datacredito($fecha_corte){
     );
 
     array_push($info_clientes_array,$registro_fin);
-    $data = '';
-
-    foreach($info_clientes_array as $array){
-        $data .= implode($array);
-    }        
-            
-    global $array;
-    $array = [$data];
-    
-    Excel::create('116881.'.$now->year.cast_number($now->month,2,'right').cast_number($now->day,2,'right').'.T',function($excel){
-        $excel->sheet('Sheetname',function($sheet){
-
-            global $array;
-            
-            $sheet->fromArray($array,null,'A1',false,false); });
-        
-        })->download('txt');
 
     return $info_clientes_array;
     
 }
-
-
 
 
 ?>

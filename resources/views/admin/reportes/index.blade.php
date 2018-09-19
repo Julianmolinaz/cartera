@@ -22,36 +22,6 @@
               <input type="text" name="daterange" id="daterange" class="form-control" value="" />  
             </div>
 
-            <div id="periodo" style="display:none;" class="col-md-6">
-              <div class="col-md-6">
-                <select name="mes_corte" id="" class="form-control">
-                  <option  disabled selected>- -</option>
-                  <option value="1">Enero</option>
-                  <option value="2">Febrero</option>
-                  <option value="3">Marzo</option>
-                  <option value="4">Abril</option>
-                  <option value="5">Mayo</option>
-                  <option value="6">Junio</option>
-                  <option value="7">Julio</option>
-                  <option value="8">Agosto</option>
-                  <option value="9">Septiembre</option>
-                  <option value="10">Octubre</option>
-                  <option value="11">Noviembre</option>
-                  <option value="12">Diciembre</option>
-                </select>
-              </div>
-
-              <div class="col-md-6">
-                <select name="ano_corte" id="" class="form-control">
-                  <option disabled selected>- -</option>
-                  @foreach(range($ano,2015) as $year)
-                    <option value="{{$year}}">{{$year}}</option>
-                  @endforeach
-                </select>
-              </div>  
-            </div>
-
-
 
          <div class="col-md-6">
            <select name="tipo_reporte" id="tipo_reporte" class="form-control">
