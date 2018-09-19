@@ -295,28 +295,28 @@ class Sanciones extends Command
 
           if( $credito->estado == 'Al dia' ){
               $credito->estado  = 'Mora';
-              $credito->saldo   = $credito->saldo + $vlr_sancion;
+              //$credito->saldo   = $credito->saldo + $vlr_sancion;
               $credito->user_update_id = 1;
               $credito->save();
-              $sancion = new Sancion();
-              $sancion->credito_id = $credito->id;
-              $sancion->valor = $vlr_sancion;
-              $sancion->estado = 'Debe';
-              $sancion->save();
+              //$sancion = new Sancion();
+              //$sancion->credito_id = $credito->id;
+              //$sancion->valor = $vlr_sancion;
+              //$sancion->estado = 'Debe';
+              //$sancion->save();
           }
-          else{
+          //else{
 
-              $credito->saldo   = $credito->saldo + $vlr_sancion;
-              $credito->user_update_id = 1;
-              $credito->save();
+            //  $credito->saldo   = $credito->saldo + $vlr_sancion;
+            //  $credito->user_update_id = 1;
+            //  $credito->save();
 
-              $sancion = new Sancion();
-              $sancion->credito_id = $credito->id;
-              $sancion->valor = $vlr_sancion;
-              $sancion->estado = 'Debe';
-              $sancion->save();
+            //  $sancion = new Sancion();
+            //  $sancion->credito_id = $credito->id;
+            //  $sancion->valor = $vlr_sancion;
+            //  $sancion->estado = 'Debe';
+            //  $sancion->save();
 
-          }
+          //}
         }
 
         return $credito->estado;
@@ -350,7 +350,7 @@ public function handle()
         DB::commit();
 
       } catch (\Exception $e) {
-        echo "****ERROR****" . $e->getMessage();
+        echo "****ERROR**" . $e->getMessage();
         DB::rollback();
       }   
 
