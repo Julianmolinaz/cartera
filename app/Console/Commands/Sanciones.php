@@ -277,6 +277,7 @@ class Sanciones extends Command
 
 
         $fecha_cobro = $fecha[0]->fecha_pago;
+        
 
         $fecha_tope = Carbon::create($this->ano($fecha_cobro) , $this->mes($fecha_cobro) , $this->dia($fecha_cobro) ,23,59,59);
 
@@ -295,28 +296,28 @@ class Sanciones extends Command
 
           if( $credito->estado == 'Al dia' ){
               $credito->estado  = 'Mora';
-              $credito->saldo   = $credito->saldo + $vlr_sancion;
+              // $credito->saldo   = $credito->saldo + $vlr_sancion;
               $credito->user_update_id = 1;
               $credito->save();
-              $sancion = new Sancion();
-              $sancion->credito_id = $credito->id;
-              $sancion->valor = $vlr_sancion;
-              $sancion->estado = 'Debe';
-              $sancion->save();
+              // $sancion = new Sancion();
+              // $sancion->credito_id = $credito->id;
+              // $sancion->valor = $vlr_sancion;
+              // $sancion->estado = 'Debe';
+              // $sancion->save();
           }
-          else{
+          // else{
 
-              $credito->saldo   = $credito->saldo + $vlr_sancion;
-              $credito->user_update_id = 1;
-              $credito->save();
+          //     $credito->saldo   = $credito->saldo + $vlr_sancion;
+          //     $credito->user_update_id = 1;
+          //     $credito->save();
 
-              $sancion = new Sancion();
-              $sancion->credito_id = $credito->id;
-              $sancion->valor = $vlr_sancion;
-              $sancion->estado = 'Debe';
-              $sancion->save();
+          //     $sancion = new Sancion();
+          //     $sancion->credito_id = $credito->id;
+          //     $sancion->valor = $vlr_sancion;
+          //     $sancion->estado = 'Debe';
+          //     $sancion->save();
 
-          }
+          // }
         }
 
         return $credito->estado;
@@ -344,13 +345,14 @@ public function handle()
           echo $credito->id.' ';
           $this->generar_sanciones($credito->id);
         }
+
         $auditoria->clave_fin = 1;
         $auditoria->save();
 
         DB::commit();
 
       } catch (\Exception $e) {
-        echo "****ERROR****" . $e->getMessage();
+        echo "****ERROR****";
         DB::rollback();
       }   
 
