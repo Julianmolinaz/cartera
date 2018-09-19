@@ -25,7 +25,7 @@ class FacturaController extends Controller
      */
     public function index()
     {
-      $facturas   = Factura::paginate(100);
+      $facturas   = Factura::orderBy('created_at','desc')->paginate(100);
       $variables  = Variable::find(1);
 
       return view('start.facturas.index')
