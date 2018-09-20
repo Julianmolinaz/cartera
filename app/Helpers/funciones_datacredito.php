@@ -501,6 +501,7 @@ function adjetivo($credito){
 
 function saldo_deuda_capital($credito, $corte){
     
+    $credito->precredito->cuotas = 0;
     if($credito->saldo == 0 || $credito->cuotas_faltantes == 0){ return 0; }
 
     $pagos = DB::table('pagos')
@@ -555,7 +556,7 @@ function cuotas_canceladas($credito){
     if ( $cts_canceladas < 0 || $cts_canceladas > $cts )
     {
         array_push($GLOBALS['errores_datacredito'], '2.38-EXISTE UN PROBLEMA CON LAS CUOTAS CANCELADAS EN EL CRÉDITO ' . $credito->id  . 
-                ' : cuotas pactadas ('. $cts .') - cuotas faltantes ('.$cts_faltantes .') = '.$cts_canceladas.'<br>');
+                ' : cuotas pactadas ('. $cts .') - cuotas faltantes ('.$cts_faltantes .') = '.$cts_canceladas);
     }
 
     return $cts_canceladas;

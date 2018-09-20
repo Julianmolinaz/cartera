@@ -232,6 +232,7 @@ function reporte_datacredito()
     if($GLOBALS['errores_datacredito']){
         dd($GLOBALS['errores_datacredito']);
     }
+    
 
     return $info_clientes_array;
     
