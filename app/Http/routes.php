@@ -471,3 +471,10 @@ Route::post('admin/sanciones/crear_sanciones','SancionController@crearSanciones'
 Route::get('api/cuenta/{cedula}','ConsultaController@cuenta');
 
 Route::get('api/solicitud/{precredito_id}','ConsultaController@solicitud');
+
+$GLOBALS['a'] = array();
+
+Route::get('prueba', function(){
+	array_push($GLOBALS['a'],'hola_mundo');
+	return $GLOBALS['a'];
+});

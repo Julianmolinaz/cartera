@@ -323,9 +323,9 @@ class ReporteController extends Controller
         //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
 
         else if($request->input('tipo_reporte') == 'datacredito' ){
-
+            $now                 = Carbon::now();
             $report_datacredito  =  reporte_datacredito(); // array con el reporte    
-            $nombre_archivo      = '111111.txt';  // nombre del reporte
+            $nombre_archivo      = '116881.'.$now->year.cast_number($now->month,2,'right').cast_number($now->day,2,'right').'.T.txt';  // nombre del reporte
             $archivo             = fopen($nombre_archivo, "w"); // creacion del archivo
             
             //asignacion de datos al archivo

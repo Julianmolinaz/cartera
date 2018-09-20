@@ -25,6 +25,8 @@ use Excel;
 use Auth;
 use DB;
 
+$errores_datacredito = array();
+
 /*
 |--------------------------------------------------------------------------
 | generar_listado_creditos
@@ -46,7 +48,7 @@ function generar_listado_creditos($fecha_corte)
     DB::table('creditos')
         ->join('precreditos','creditos.precredito_id','=','precreditos.id')
         //->where('creditos.id',3549)
-        ->whereIn('creditos.estado', ['Al dia', 'Mora', 'Prejuridico','Juridico'])
+        ->whereIn('creditos.estado', ['Al dia', 'Mora', 'Prejuridico','Juridico', 'Cancelado'])
         ->where([['creditos.end_datacredito','<>',1]]) //no marcados como finalizado
         ->select('creditos.id')
         ->get();
@@ -101,7 +103,7 @@ function generar_listado_creditos($fecha_corte)
 |
 */
 
-function tipo_identificacion_datacredito($tipo_doc){
+function tipo_identificacion_datacredito($tipo_doc, $credito){
 
     if( $tipo_doc == 'Cedula Ciudadanía'                        ||
         $tipo_doc == 'Número único de Identificación Personal'  ||
@@ -121,7 +123,7 @@ function tipo_identificacion_datacredito($tipo_doc){
         return 4;
     }
     else{
-        dd('error tipo de identificacion' . $tipo_doc);
+        array_push($GLOBALS['errores_datacredito'],'Error en tipo de documento cliente: '.$credito->id);
     }
     
 }
@@ -206,7 +208,7 @@ function cast_number($data, $len, $align)
         }
     }
     else{
-        dd('error al hacer cast ' . $data);
+        array_push($GLOBALS['errores_datacredito'],'Error al hacer cast credito: '.$data);
     }
     return $data;  
 }
@@ -369,6 +371,8 @@ function novedad($credito,$corte){
         }
     }
     if( $estado == 'Cancelado' || $credito->saldo == 0){
+        // $credito->end_datacredito = 1;
+        // $credito->save();
         $novedad = '05';
     }
     if( ( $credito->castigada == 'Si' && 
@@ -384,7 +388,6 @@ function novedad($credito,$corte){
           $credito->saldo <= 0 ) ){
           $novedad = '14'; // cartera recuperada
     }
-
 
     return $novedad;
 }
@@ -508,6 +511,7 @@ function saldo_deuda_capital($credito, $corte){
         $valor_real_cuota = $credito->precredito->vlr_fin / $credito->precredito->cuotas;
     }
     else{
+        array_push($GLOBALS['errores_datacredito'], '2.33-División por 0 credito: '.$credito->id.' cuotas: '.$credito->precredito->cuotas);
         $valor_real_cuota = 0;
     }
     $sum_pagos = 0;
@@ -537,8 +541,10 @@ function fecha_pago($credito){
     }
 }
 
+$GLOBALS['errores_datacredito'] = array();
 
 function cuotas_canceladas($credito){
+
     $cts            = $credito->precredito->cuotas;
     $cts_faltantes  = $credito->cuotas_faltantes;
     $cts_canceladas = 0;
@@ -548,8 +554,8 @@ function cuotas_canceladas($credito){
 
     if ( $cts_canceladas < 0 || $cts_canceladas > $cts )
     {
-        dd('2.38-EXISTE UN PROBLEMA CON LAS CUOTAS CANCELADAS EN EL CRÉDITO ' . $credito->id  . 
-            ' : cuotas pactadas ('. $cts .') - cuotas faltantes ('.$cts_faltantes .') = '.$cts_canceladas);
+        array_push($GLOBALS['errores_datacredito'], '2.38-EXISTE UN PROBLEMA CON LAS CUOTAS CANCELADAS EN EL CRÉDITO ' . $credito->id  . 
+                ' : cuotas pactadas ('. $cts .') - cuotas faltantes ('.$cts_faltantes .') = '.$cts_canceladas.'<br>');
     }
 
     return $cts_canceladas;
@@ -596,8 +602,6 @@ function saldo_en_mora($credito,$corte){
     catch(\Exception $e){
         dd($e->getMessage() .' ' . $credito->id);
     }
-
-
 
 
     function cts_mora($credito, $corte)

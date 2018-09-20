@@ -27,7 +27,7 @@ use DB;
 
 
 function reporte_datacredito()
-{
+{   
     
     $now            = Carbon::now();
     $fecha_corte    = $now;
@@ -69,7 +69,7 @@ function reporte_datacredito()
 
             $registro_info_clientes = array(
 
-                '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->tipo_doc),1,'right'),
+                '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->tipo_doc, $credito),1,'right'),
                 '2.2-numero_identificacion' => cast_number($credito->precredito->cliente->num_doc,11,'right'),
                 '2.3-numero_obligacion'     => cast_number($credito->id,18,'right'),
                 '2.4-nombre_completo'       => cast_string($credito->precredito->cliente->nombre,45),
@@ -143,7 +143,7 @@ function reporte_datacredito()
             {
                 $registro_info_codeudor = array(
 
-                '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->codeudor->tipo_docc),1,'right'),
+                '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->codeudor->tipo_docc, $credito),1,'right'),
                 '2.2-numero_identificacion' => cast_number($credito->precredito->cliente->codeudor->num_docc,11,'right'),
                 '2.3-numero_obligacion'     => cast_number($credito->id,18,'right'),
                 '2.4-nombre_completo'       => cast_string($credito->precredito->cliente->codeudor->nombrec,45),
@@ -228,6 +228,10 @@ function reporte_datacredito()
     );
 
     array_push($info_clientes_array,$registro_fin);
+
+    if($GLOBALS['errores_datacredito']){
+        dd($GLOBALS['errores_datacredito']);
+    }
 
     return $info_clientes_array;
     
