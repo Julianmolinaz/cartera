@@ -52,8 +52,11 @@ class Handler extends ExceptionHandler
 
         // si se cierra la session se redirige a la pagina de login
 
-        if($e){
-            return redirect()->guest('log');
+        $error = $e->getMessage();
+
+        if(substr($error,0,36) == 'Trying to get property of non-object'){
+            dd($error);
+            //return redirect()->to('log');
         }
 
         return parent::render($request, $e);
