@@ -431,6 +431,8 @@ class CallcenterController extends Controller
                         'funcionario ultima llamada',
                         'fecha ultima llamada',
                         'funcionario que gestionó',
+                        'fecha solicitud credito',
+                        'fecha de apertura'
                     ];
 
                     array_push($array_creditos,$header);
@@ -497,8 +499,7 @@ class CallcenterController extends Controller
                             'saldo'         => $credito->saldo,
                             'cuotas pactadas' => $credito->cuotas_pactadas,
                             'cuotas faltantes'=> $credito->cuotas_faltantes,
-                            'cuotas pagadas (pactadas - faltantes)'  => $credito->cuotas_pactadas -
-                                                 $credito->cuotas_faltantes,
+                            'cuotas pagadas (pactadas - faltantes)'  => $credito->cuotas_pactadas - $credito->cuotas_faltantes,
                             'sanciones'     => $sanciones,
                             'tipo_moroso'   => $tipo_moroso,
                             'castigada'     => $credito->castigada,
@@ -511,9 +512,11 @@ class CallcenterController extends Controller
                             'observaciones' => $observaciones,
                             'funcionario'   => $funcionario,
                             'fecha_llamada' => $fecha_llamada,        
-                            'funcionario_gestion'=> $credito->funcionario
+                            'funcionario_gestion'=> $credito->funcionario,
+                            'fecha_solicitud' => $credito->fecha_solicitud,
+                            'fecha_aprobacion' => $credito->aprobacion_credito
                             ];
-
+    
                     array_push($array_creditos,$temp);
                     }
                 $sheet->fromArray($array_creditos,null,'A1',false,false);
