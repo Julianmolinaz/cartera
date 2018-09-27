@@ -519,7 +519,6 @@ class CallcenterController extends Controller
                             'pagos totales' => sum_pagos(Credito::find($credito->credito_id))
                             ];
 
-                            dd($temp);
     
                     array_push($array_creditos,$temp);
                     }

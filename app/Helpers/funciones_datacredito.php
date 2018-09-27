@@ -499,9 +499,8 @@ function adjetivo($credito){
 |
 */
 
-function saldo_deuda_capital($credito, $corte){
-    
-    $credito->precredito->cuotas = 0;
+function saldo_deuda_capital($credito, $corte)
+{
     if($credito->saldo == 0 || $credito->cuotas_faltantes == 0){ return 0; }
 
     $pagos = DB::table('pagos')
