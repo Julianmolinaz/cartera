@@ -432,7 +432,8 @@ class CallcenterController extends Controller
                         'fecha ultima llamada',
                         'funcionario que gestionó',
                         'fecha solicitud credito',
-                        'fecha de apertura'
+                        'fecha de apertura',
+                        'pagos totales'
                     ];
 
                     array_push($array_creditos,$header);
@@ -514,8 +515,11 @@ class CallcenterController extends Controller
                             'fecha_llamada' => $fecha_llamada,        
                             'funcionario_gestion'=> $credito->funcionario,
                             'fecha_solicitud' => $credito->fecha_solicitud,
-                            'fecha_aprobacion' => $credito->aprobacion_credito
+                            'fecha_aprobacion' => $credito->aprobacion_credito,
+                            'pagos totales' => sum_pagos(Credito::find($credito->credito_id))
                             ];
+
+                            dd($temp);
     
                     array_push($array_creditos,$temp);
                     }
