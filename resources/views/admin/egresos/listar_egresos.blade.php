@@ -57,7 +57,7 @@
         {data: 'fecha'},
         {data: 'valor'},
         {data: 'observaciones'},
-        //{data: 'cartera'},
+        {data: 'cartera'},
         //{data: 'creo'}
       ] 
     });
