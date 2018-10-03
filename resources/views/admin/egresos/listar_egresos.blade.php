@@ -17,7 +17,7 @@
          <!--DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>-->
        </p>
 
-       <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered" style="font-size:10px">
+       <table id="datatable" class="compact display" style="width:100%">
         <thead>
           <tr>
             <th>    Egreso id               </th>
@@ -34,22 +34,6 @@
         </thead>
 
         <tbody>
-          @foreach($egresos as $egreso)
-          <tr>
-            <td>{{$egreso->id}}</td>
-            <td>{{$egreso->comprobante_egreso}}</td>
-            <td>{{$egreso->concepto}}</td>
-            <td>{{$egreso->fecha}}</td>
-            <td align="right">{{number_format($egreso->valor,0,",",".")}}</td>
-            <td>{{$egreso->observaciones}}</td>
-            <td>{{$egreso->cartera->nombre}}</td>
-            <td>{{$egreso->user_create->name.' '.$egreso->created_at}}</td>
-            <td>{{$egreso->user_update->name.' '.$egreso->updated_at}}</td>
-          </tr>   
-
-          @endforeach
-
-
         </tbody>
       </table>
 
@@ -59,22 +43,28 @@
 </div>
 
 
-  <script>
-    $( document ).ready(function() {
-      $('#datatable').dataTable( {
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  
-        'scrollY': 400,
-        "scrollCollapse": true
-      });
+<script>
+  $(document).ready(function(){
+
+    $('#datatable').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{{ url('data/egresos') }}",  
+      columns: [
+        {data: 'id'},
+        {data: 'comprobante_egreso'},
+        {data: 'concepto'},
+        {data: 'fecha'},
+        {data: 'valor'},
+        {data: 'observaciones'},
+        //{data: 'cartera'},
+        //{data: 'creo'}
+      ] 
     });
 
-    function Exportar(){
-      $('#datatable').table2excel({
-        name: 'todos_los_egresos',
-        filename: "todos_los_egresos.xls"
-      });
-    }
-  </script>
+  });
+
+</script>
 
 @endsection
 

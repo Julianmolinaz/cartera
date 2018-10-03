@@ -36,11 +36,7 @@ class EgresoController extends Controller
     }
 
     public function listar_egresos(){
-        $egresos = Egreso::where('id','>','0')->orderBy('updated_at')->get();
-
-        return view('admin.egresos.listar_egresos')
-            ->with('egresos',$egresos);
-
+        return view('admin.egresos.listar_egresos');
     }
 
     /**

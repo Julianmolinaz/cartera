@@ -478,3 +478,7 @@ Route::get('prueba', function(){
 	array_push($GLOBALS['a'],'hola_mundo');
 	return $GLOBALS['a'];
 });
+
+Route::group(['prefix' => 'data'],function(){
+	Route::get('egresos','DatatableController@egresos');
+});

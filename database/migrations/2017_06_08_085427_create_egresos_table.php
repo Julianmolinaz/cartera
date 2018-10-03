@@ -17,7 +17,7 @@ class CreateEgresosTable extends Migration
             $table->string('fecha');
             $table->string('comprobante_egreso');
             $table->enum('concepto',
-                ['Anulado','Bancos','Cartera de terceros','Comisión','Compras','Consultar','Financiero','Gastos',
+                ['Anulado','Asistimotos','Bancos','Cartera de terceros','Comisión','Compras','Consultar','Financiero','Gastos',
                  'Jurídico','Libre inversión','Nómina','Operativo','Pago a proveedores',
                  'Prestamos','Publicidad','Tarjetas de crédito']);
             $table->double('valor');

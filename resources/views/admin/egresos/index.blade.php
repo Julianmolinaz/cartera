@@ -34,25 +34,6 @@
         </thead>
 
         <tbody>
-          @foreach($egresos as $egreso)
-          <tr>
-            <td>{{$egreso->id}}</td>
-            <td>{{$egreso->comprobante_egreso}}</td>
-            <td>{{$egreso->concepto}}</td>
-            <td>{{$egreso->fecha}}</td>
-            <td align="right">{{number_format($egreso->valor,0,",",".")}}</td>
-            <td>{{$egreso->observaciones}}</td>
-            <td>{{$egreso->cartera->nombre}}</td>
-            <td>{{$egreso->user_create->name.' '.$egreso->created_at}}</td>
-            <td>{{$egreso->user_update->name.' '.$egreso->updated_at}}</td>
-            <td> 
-              <a href="{{route('admin.egresos.edit',$egreso->id)}}" class = 'btn btn-default btn-xs'><span class = "glyphicon glyphicon-pencil"  title="ver"></span></a>
-              <a href="{{route('admin.egresos.destroy',$egreso->id)}}" onclick="return confirm('¿Esta seguro de eliminar el registro de egreso?')" class = 'btn btn-default btn-xs'><span class = "glyphicon glyphicon-trash" title="Eliminar"></span></a>              
-
-            </td>
-          </tr>   
-
-          @endforeach
 
 
         </tbody>
@@ -63,23 +44,30 @@
 </div>     
 </div>
 
+<script>
+$(document).ready(funcion(){
+  $('#datatable').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: "{{ url('data/egresos') }}",  
+    columns: [
+      {data: 'id'},
+      {data: 'comprobante'},
+      {data: 'concepto'},
+      {data: 'fecha'},
+      {data: 'valor'},
+      {data: 'observaciones'},
+      {data: 'cartera'},
+      {data: 'creo'}
+    ]
+    ]
+    ]
 
-  <script>
-    $( document ).ready(function() {
-      $('#datatable').dataTable( {
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  
-        'scrollY': 400,
-        "scrollCollapse": true
-      });
-    });
 
-    function Exportar(){
-      $('#datatable').table2excel({
-        name: 'egresos',
-        filename: "egresos.xls"
-      });
-    }
-  </script>
+});
+
+</script>
+
 
 @endsection
 
