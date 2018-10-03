@@ -31,7 +31,8 @@ const DIAS_PARA_REPORTAR = 30;
 
 function reporte_procredito(){
 
-    try{
+    try
+    {
  
         $now                = Carbon::now(); // fecha actual
         $fecha              = fecha_plana($now->toDateString()); // convertir fecha 
@@ -41,8 +42,8 @@ function reporte_procredito(){
         $no_admitidos       = no_admitidos(); // listado de creditos que generan error
 
         $ids                = DB::table('creditos')
-                            //->where('creditos.id',90)
-                            ->whereIn('estado', ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
+                            ->where('creditos.id',1271)
+                            //->whereIn('estado', ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
                             ->where('end_procredito','<>',1)
                             ->whereNotIn('id',$no_admitidos)
                             ->select('id')
@@ -177,7 +178,8 @@ function reporte_procredito(){
 
     // cuando el credito esta en un estado diferente al dia **************************************
 
-    else{
+    else
+    {
 
         $factura = ultima_factura($credito);
 
@@ -233,7 +235,6 @@ function reporte_procredito(){
         }//.else
 
         // TIPO GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
-
 
         if( $credito->precredito->cliente->codeudor && $credito->precredito->cliente->codeudor->id != '100' )
         {
@@ -294,7 +295,7 @@ function reporte_procredito(){
         
         }//.foreach
 
-        //dd($reporte_array);
+        dd($reporte_array);
 
         return $reporte_array;
 
