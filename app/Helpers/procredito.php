@@ -235,8 +235,8 @@ function reporte_procredito(){
         // TIPO GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
 
 
-        if( $credito->precredito->cliente->codeudor->id <> 100){
-
+        if( $credito->precredito->cliente->codeudor && $credito->precredito->cliente->codeudor->id != '100' )
+        {
             $temp_g = array(
                 '1-tipo_de_registro'      => 'G', // para deudor
                 '2-tipo_de_noveda'        => 1,
