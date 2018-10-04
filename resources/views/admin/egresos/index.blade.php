@@ -1,14 +1,16 @@
-@section('title','egresos')
+@section('title','todos los egresos')
 
 @section('contenido')
 
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="panel panel-default">
-      <div class="panel-heading">Egresos
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="{{route('admin.egresos.create')}}"><button type="button" class="btn btn-default">Crear Egreso</button></a>
-        <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button> 
+      <div class="panel-heading">
+        <h2>
+          Todos los Egresos
+          <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button> 
+          <a href="{{route('admin.egresos.create')}}" class="btn btn-default pull-right">Crear Egreso</a>
+        </h2>
       </div>
       <div class="panel-body">
         <p>
@@ -16,7 +18,7 @@
          <!--DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>-->
        </p>
 
-       <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered" style="font-size:12px">
+       <table id="datatable" class="table table-striped table-bordered" style="width:100%">
         <thead>
           <tr>
             <th>    Egreso id               </th>
@@ -28,14 +30,11 @@
             <th>    Cartera                 </th>
             <th>    Creó                    </th>
             <th>    Actualizó               </th>
-            <th>    Actividad               </th>
 
           </tr>
         </thead>
 
         <tbody>
-
-
         </tbody>
       </table>
 
@@ -44,30 +43,31 @@
 </div>     
 </div>
 
+
 <script>
-$(document).ready(funcion(){
-  $('#datatable').DataTable({
-    processing: true,
-    serverSide: true,
-    ajax: "{{ url('data/egresos') }}",  
-    columns: [
-      {data: 'id'},
-      {data: 'comprobante'},
-      {data: 'concepto'},
-      {data: 'fecha'},
-      {data: 'valor'},
-      {data: 'observaciones'},
-      {data: 'cartera'},
-      {data: 'creo'}
-    ]
-    ]
-    ]
+  $(document).ready(function(){
 
+    $('#datatable').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{{ url('data/egresos') }}",  
+      columns: [
+        {data: 'id'},
+        {data: 'comprobante_egreso'},
+        {data: 'concepto'},
+        {data: 'fecha'},
+        {data: 'valor'},
+        {data: 'observaciones'},
+        {data: 'cartera.nombre'},
+        {data: 'user_create.name'},
+        {data: 'btn'}
 
-});
+      ] 
+    });
+
+  });
 
 </script>
-
 
 @endsection
 

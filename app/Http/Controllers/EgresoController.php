@@ -22,21 +22,7 @@ class EgresoController extends Controller
      */
     public function index()
     {
-        $now     = Carbon::today();
-        $now     = inv_fech(formatoFecha($now->day,$now->month,$now->year));
-
-        $egresos = DB::table('egresos')->where('created_at','like',$now.'%')->get();
-
-        $array = array();
-        foreach($egresos as $egreso){   array_push($array,$egreso->id);  }   
-        $egresos = Egreso::find($array);
-
-        return view('admin.egresos.index')
-            ->with('egresos',$egresos);
-    }
-
-    public function listar_egresos(){
-        return view('admin.egresos.listar_egresos');
+        return view('admin.egresos.index');
     }
 
     /**
