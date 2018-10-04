@@ -385,9 +385,6 @@ Route::get('admin/marcar-cancelados',
 Route::get('admin/egresos',
 	['uses' => 'EgresoController@index', 'as' => 'admin.egresos.index'])->middleware('egresos_listar');
 
-Route::get('admin/egresos/listar/egresos',
-	['uses' => 'EgresoController@listar_egresos', 'as' => 'admin.egresos.listar.egresos'])->middleware('egresos_listar');
-
 //CREAR
 Route::get('admin/egresos/create',
 	['uses' => 'EgresoController@create','as' => 'admin.egresos.create'])->middleware('egresos_crear');
@@ -478,3 +475,8 @@ Route::get('prueba', function(){
 	array_push($GLOBALS['a'],'hola_mundo');
 	return $GLOBALS['a'];
 });
+
+Route::group(['prefix' => 'data'],function(){
+	Route::get('egresos','DatatableController@egresos');
+});
+

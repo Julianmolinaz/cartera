@@ -1,14 +1,16 @@
-@section('title','egresos')
+@section('title','todos los egresos')
 
 @section('contenido')
 
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="panel panel-default">
-      <div class="panel-heading">Egresos
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="{{route('admin.egresos.create')}}"><button type="button" class="btn btn-default">Crear Egreso</button></a>
-        <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button> 
+      <div class="panel-heading">
+        <h2>
+          Todos los Egresos
+          <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button> 
+          <a href="{{route('admin.egresos.create')}}" class="btn btn-default pull-right">Crear Egreso</a>
+        </h2>
       </div>
       <div class="panel-body">
         <p>
@@ -16,7 +18,7 @@
          <!--DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>-->
        </p>
 
-       <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered" style="font-size:12px">
+       <table id="datatable" class="table table-striped table-bordered" style="width:100%">
         <thead>
           <tr>
             <th>    Egreso id               </th>
@@ -28,33 +30,11 @@
             <th>    Cartera                 </th>
             <th>    Creó                    </th>
             <th>    Actualizó               </th>
-            <th>    Actividad               </th>
 
           </tr>
         </thead>
 
         <tbody>
-          @foreach($egresos as $egreso)
-          <tr>
-            <td>{{$egreso->id}}</td>
-            <td>{{$egreso->comprobante_egreso}}</td>
-            <td>{{$egreso->concepto}}</td>
-            <td>{{$egreso->fecha}}</td>
-            <td align="right">{{number_format($egreso->valor,0,",",".")}}</td>
-            <td>{{$egreso->observaciones}}</td>
-            <td>{{$egreso->cartera->nombre}}</td>
-            <td>{{$egreso->user_create->name.' '.$egreso->created_at}}</td>
-            <td>{{$egreso->user_update->name.' '.$egreso->updated_at}}</td>
-            <td> 
-              <a href="{{route('admin.egresos.edit',$egreso->id)}}" class = 'btn btn-default btn-xs'><span class = "glyphicon glyphicon-pencil"  title="ver"></span></a>
-              <a href="{{route('admin.egresos.destroy',$egreso->id)}}" onclick="return confirm('¿Esta seguro de eliminar el registro de egreso?')" class = 'btn btn-default btn-xs'><span class = "glyphicon glyphicon-trash" title="Eliminar"></span></a>              
-
-            </td>
-          </tr>   
-
-          @endforeach
-
-
         </tbody>
       </table>
 
@@ -64,22 +44,30 @@
 </div>
 
 
-  <script>
-    $( document ).ready(function() {
-      $('#datatable').dataTable( {
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  
-        'scrollY': 400,
-        "scrollCollapse": true
-      });
+<script>
+  $(document).ready(function(){
+
+    $('#datatable').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{{ url('data/egresos') }}",  
+      columns: [
+        {data: 'id'},
+        {data: 'comprobante_egreso'},
+        {data: 'concepto'},
+        {data: 'fecha'},
+        {data: 'valor'},
+        {data: 'observaciones'},
+        {data: 'cartera.nombre'},
+        {data: 'user_create.name'},
+        {data: 'btn'}
+
+      ] 
     });
 
-    function Exportar(){
-      $('#datatable').table2excel({
-        name: 'egresos',
-        filename: "egresos.xls"
-      });
-    }
-  </script>
+  });
+
+</script>
 
 @endsection
 

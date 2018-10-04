@@ -12,7 +12,8 @@
         "nesbot/carbon": "^1.22",
         "laracasts/flash": "^2.0",
         "maatwebsite/excel": "~2.1.0",
-        "owen-it/laravel-auditing": "^4.1"
+        "owen-it/laravel-auditing": "^4.1",
+        "yajra/laravel-datatables-oracle": "^6.0"
 
     },
     "require-dev": {
@@ -44,7 +45,8 @@
             "app/Helpers/info_castigada.php",
             "app/Helpers/info_venta_creditos_por_asesor.php",
             "app/Helpers/no_incluidos.php",
-            "app/Helpers/funciones_datacredito.php"
+            "app/Helpers/funciones_datacredito.php",
+            "app/Helpers/middleware.php"
         ]
     },
     "autoload-dev": {
