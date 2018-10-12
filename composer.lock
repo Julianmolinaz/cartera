@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f65cf8de2f4725464824400b94a22e9",
+    "content-hash": "ee1db36cab8b36f7b46b617b16b78b7d",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1690,7 +1690,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.16",
+            "version": "v3.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",

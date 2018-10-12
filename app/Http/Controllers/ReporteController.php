@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\ReporteTrait;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\VentaController;
@@ -26,6 +27,7 @@ class ReporteController extends Controller
 {
     private $fecha_1;
     private $fecha_2;
+    use ReporteTrait;
 
 
     public function setFecha1($fecha_1){
@@ -40,18 +42,7 @@ class ReporteController extends Controller
 
     public function index()
     {
-        $tipo_reportes = array(
-              array('value' => 'general','vista' => 'General'),
-              array('value' => 'general_por_carteras', 'vista' => 'General por Carteras'),
-              array('value' => 'general_por_users', 'vista' => 'General por Funcionarios'), 
-              array('value' => 'venta_creditos', 'vista' => 'Venta de Créditos'),
-              array('value' => 'venta_creditos_por_asesor','vista' => 'Venta de Créditos por Asesor'),
-              array('value' => 'historial_ventas','vista' => 'Historial venta de creditos'),
-              array('value' => 'castigada', 'vista' => 'Cartera Castigada'),
-              array('value' => 'callcenter','vista' => 'Call Center'),
-              array('value' => 'auditoria','vista' => 'Auditoria del Sistema'),
-              array('value' => 'procredito','vista' => 'Reporte Procredito'),
-              array('value' => 'datacredito','vista' => 'Reporte Datacredito'));
+        $tipo_reportes = $this->tipo_reportes();
 
         $carteras = Cartera::all()->sortBy('nombre');   
         $now = Carbon::now();
@@ -324,6 +315,8 @@ class ReporteController extends Controller
 
         else if($request->input('tipo_reporte') == 'datacredito' ){
             $now                 = Carbon::now();
+            $now->subMonth()->modify('last day of this month');
+
             $report_datacredito  =  reporte_datacredito(); // array con el reporte    
             $nombre_archivo      = '116881.'.$now->year.cast_number($now->month,2,'right').cast_number($now->day,2,'right').'.T.txt';  // nombre del reporte
             $archivo             = fopen($nombre_archivo, "w"); // creacion del archivo
@@ -345,21 +338,11 @@ class ReporteController extends Controller
     
             //echo  nl2br(file_get_contents($nombre_archivo));
 
-            return response()->download($nombre_archivo);
-
-
-
-
-            // try{
-            //    return reporte_datacredito();  
-            // }
-            // catch(\Exception $e){
-
-            //     return redirect()->route('admin.reportes.index'); 
-            // }  
+            return response()->download($nombre_archivo); 
         }
 
-    else if($request->input('tipo_reporte') == 'auditoria' ){
+    else if($request->input('tipo_reporte') == 'auditoria' )
+    {
         $audits = 
         DB::table('audits')
             ->join('users','audits.user_id','=','users.id')
@@ -381,7 +364,16 @@ class ReporteController extends Controller
                 ->with('audits',$audits)
                 ->with('rango',$rango);
     }
+
+    else if($request->input('tipo_reporte') == 'financiero')
+    {
+        $info = financiero($fecha_1, $fecha_2);
+
+        return view('admin.reportes.financiero_operativo')
+            ->with('rango',$rango)
+            ->with('info', $info);
     }
+}
 
   
     public function show($id){}

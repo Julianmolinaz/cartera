@@ -48,6 +48,8 @@
         </div>
       
         <center>
+          <p></p>
+
            <button type="submit" class="btn btn-primary">&nbsp;&nbsp;Generar Reporte&nbsp;&nbsp;</button>
            <a href="{{route('admin.marcar_cancelados')}}" class="btn btn-success" id="btnCancelados">
               Marcar créditos finalizados {{ $ultimo_reporte_cancelados }}
@@ -91,6 +93,7 @@ $(function() {
 });
 
 $('#tipo_reporte').on('change',function(){
+
   if( $('#tipo_reporte').val() == 'general_por_carteras' ){
       ocultarPeriodo();
       mostrarRange();
@@ -114,6 +117,15 @@ $('#tipo_reporte').on('change',function(){
     ocultarCancelados();
   }
 });
+
+var info = function(contenido){
+  if($('#info').val()){
+    $('#info').val(contenido);
+  }
+  else{
+   $('#info').val(''); 
+  }
+}
 
 var mostrarCarteras   = function(){  $('#carteras').show(); }
 var ocultarCarteras   = function(){  $('#carteras').hide(); }

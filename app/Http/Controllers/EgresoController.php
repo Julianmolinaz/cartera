@@ -31,8 +31,7 @@ class EgresoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        
+    {   
         $conceptos = getEnumValues('egresos','concepto');
         $carteras  = Cartera::where('estado','Activo')->get();
         return view('admin.egresos.create')

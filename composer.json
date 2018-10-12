@@ -44,6 +44,7 @@
             "app/Helpers/datacredito.php",
             "app/Helpers/info_castigada.php",
             "app/Helpers/info_venta_creditos_por_asesor.php",
+            "app/Helpers/info_financiero.php",
             "app/Helpers/no_incluidos.php",
             "app/Helpers/funciones_datacredito.php",
             "app/Helpers/middleware.php"

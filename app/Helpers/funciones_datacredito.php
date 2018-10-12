@@ -42,12 +42,11 @@ function generar_listado_creditos($fecha_corte)
 {
     $now    = Carbon::now();
     $dias_mora_para_reportar = 30;
-    $ids_array = array();       
+    $ids_array = array();    
 
     $ids    = 
     DB::table('creditos')
-        ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-        //->where('creditos.id',3549)
+        //->where('creditos.id','=',31)
         ->whereIn('creditos.estado', ['Al dia', 'Mora', 'Prejuridico','Juridico', 'Cancelado'])
         ->where([['creditos.end_datacredito','<>',1]]) //no marcados como finalizado
         ->select('creditos.id')
@@ -501,7 +500,7 @@ function adjetivo($credito){
 
 function saldo_deuda_capital($credito, $corte){
     
-    $credito->precredito->cuotas = 0;
+    //$credito->precredito->cuotas = 0;
     if($credito->saldo == 0 || $credito->cuotas_faltantes == 0){ return 0; }
 
     $pagos = DB::table('pagos')

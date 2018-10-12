@@ -48,8 +48,13 @@
   $(document).ready(function(){
 
     $('#datatable').DataTable({
+
       processing: true,
       serverSide: true,
+      dom: 'Bfrtip',
+      buttons: [
+        'excel'
+      ],
       ajax: "{{ url('data/egresos') }}",  
       columns: [
         {data: 'id'},
@@ -60,7 +65,7 @@
         {data: 'observaciones'},
         {data: 'cartera.nombre'},
         {data: 'user_create.name'},
-        {data: 'btn'}
+        {data: 'btn', searchable: false}
 
       ] 
     });

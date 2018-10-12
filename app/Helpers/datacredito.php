@@ -59,7 +59,8 @@ function reporte_datacredito()
         $str_control_ini = implode($registro_de_control);
 
         array_push($info_clientes_array,$registro_de_control);
-    
+
+
         // REGISTRO CON INFORMACIÓN DE CLLIENTES
 
         foreach( $ids as $id ){
@@ -67,12 +68,13 @@ function reporte_datacredito()
 
             $credito = Credito::find($id);
 
+
             $registro_info_clientes = array(
 
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->tipo_doc, $credito),1,'right'),
                 '2.2-numero_identificacion' => cast_number($credito->precredito->cliente->num_doc,11,'right'),
                 '2.3-numero_obligacion'     => cast_number($credito->id,18,'right'),
-                '2.4-nombre_completo'       => cast_string($credito->precredito->cliente->nombre,45),
+                '2.4-nombre_completo'       => str_replace("ñ", "N",str_replace("Ñ", "N",cast_string($credito->precredito->cliente->nombre,45))),
                 '2.5-situacion_titular'     => '0',// 0 normal
                 '2.6-fecha_apertura'        => fecha_Ymd($credito->precredito->fecha),
                 '2.7-fecha_vencimiento'     => vence_credito($credito),
@@ -118,7 +120,7 @@ function reporte_datacredito()
                 '2.47-ciudad_res_com'       => cast_string($credito->precredito->cliente->municipio->nombre,20),//ciudad de residencia del usuario
                 '2.48-codigo_dane_res_com'  => cast_number($credito->precredito->cliente->municipio->codigo_municipio,8, 'right'),// codigo dane de la ciudad de residencia del usuario
                 '2.49-depto_res_com'        => cast_string($credito->precredito->cliente->municipio->departamento,20),//depto ubicación residencia o comercial
-                '2.50-dir_res_com'          => cast_string($credito->precredito->cliente->direccion,60), // direccion residencia o comercial 
+                '2.50-dir_res_com'          => str_replace("ñ", "N",str_replace("Ñ", "N",cast_string($credito->precredito->cliente->direccion,60))), // direccion residencia o comercial 
                 '2.51-tel_res_com'          => cast_number($credito->precredito->cliente->telefono,12, 'right'),// telefono residencia o comercial
                 '2.52-ciudad_laboral'       => cast_string('',20),
                 '2.53-cod_dane_ciudad_lab'  => cast_number('',8,'right'),
@@ -128,7 +130,7 @@ function reporte_datacredito()
                 '2.57-ciud_correspondencia' => cast_string($credito->precredito->cliente->municipio->nombre,20),
                 '2.58-cod_dane_ciud_corresp'=> cast_number($credito->precredito->cliente->municipio->codigo_municipio,8,'right'),
                 '2.59-depto_correspondencia'=> cast_string($credito->precredito->cliente->municipio->departamento,20),
-                '2.60-dir_correspondencia'  => cast_string($credito->precredito->cliente->direccion,60),
+                '2.60-dir_correspondencia'  => str_replace("ñ", "N",str_replace("Ñ", "N",cast_string($credito->precredito->cliente->direccion,60))),
                 '2.61-correo_electronico'   => cast_string($credito->precredito->cliente->email,60),
                 '2.62-celular'              => cast_number($credito->precredito->cliente->movil,12,'right'),
                 '2.63-suscriptor_destino'   => cast_number('',6,'right'),//N/A
@@ -146,7 +148,7 @@ function reporte_datacredito()
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->codeudor->tipo_docc, $credito),1,'right'),
                 '2.2-numero_identificacion' => cast_number($credito->precredito->cliente->codeudor->num_docc,11,'right'),
                 '2.3-numero_obligacion'     => cast_number($credito->id,18,'right'),
-                '2.4-nombre_completo'       => cast_string($credito->precredito->cliente->codeudor->nombrec,45),
+                '2.4-nombre_completo'       => str_replace("ñ", "N",str_replace("Ñ", "N",cast_string($credito->precredito->cliente->codeudor->nombrec,45))),
                 '2.5-situacion_titular'     => '0',// 0 normal
                 '2.6-fecha_apertura'        => fecha_Ymd($credito->precredito->fecha),
                 '2.7-fecha_vencimiento'     => vence_credito($credito),
@@ -192,7 +194,7 @@ function reporte_datacredito()
                 '2.47-ciudad_res_com'       => cast_string($credito->precredito->cliente->codeudor->municipio->nombre,20),//ciudad de residencia del usuario
                 '2.48-codigo_dane_res_com'  => cast_number($credito->precredito->cliente->codeudor->municipio->codigo_municipio,8, 'right'),// codigo dane de la ciudad de residencia del usuario
                 '2.49-depto_res_com'        => cast_string($credito->precredito->cliente->codeudor->municipio->departamento,20),//depto ubicación residencia o comercial
-                '2.50-dir_res_com'          => cast_string($credito->precredito->cliente->codeudor->direccion,60), // direccion residencia o comercial 
+                '2.50-dir_res_com'          => str_replace("ñ", "N",str_replace("Ñ", "N",cast_string($credito->precredito->cliente->codeudor->direccion,60))), // direccion residencia o comercial 
                 '2.51-tel_res_com'          => cast_number($credito->precredito->cliente->codeudor->telefono,12, 'right'),// telefono residencia o comercial
                 '2.52-ciudad_laboral'       => cast_string('',20),
                 '2.53-cod_dane_ciudad_lab'  => cast_number('',8,'right'),
@@ -202,7 +204,7 @@ function reporte_datacredito()
                 '2.57-ciud_correspondencia' => cast_string($credito->precredito->cliente->codeudor->municipio->nombre,20),
                 '2.58-cod_dane_ciud_corresp'=> cast_number($credito->precredito->cliente->codeudor->municipio->codigo_municipio,8,'right'),
                 '2.59-depto_correspondencia'=> cast_string($credito->precredito->cliente->codeudor->municipio->departamento,20),
-                '2.60-dir_correspondencia'  => cast_string($credito->precredito->cliente->codeudor->direccion,60),
+                '2.60-dir_correspondencia'  => str_replace("ñ", "N",str_replace("Ñ", "N",cast_string($credito->precredito->cliente->codeudor->direccion,60))),
                 '2.61-correo_electronico'   => cast_string($credito->precredito->cliente->codeudor->email,60),
                 '2.62-celular'              => cast_number($credito->precredito->cliente->codeudor->movil,12,'right'),
                 '2.63-suscriptor_destino'   => cast_number('',6,'right'),//N/A
@@ -228,7 +230,7 @@ function reporte_datacredito()
     );
 
     array_push($info_clientes_array,$registro_fin);
-
+    
     if($GLOBALS['errores_datacredito']){
         dd($GLOBALS['errores_datacredito']);
     }
