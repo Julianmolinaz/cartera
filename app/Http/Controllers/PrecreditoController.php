@@ -15,9 +15,12 @@ use App\Credito;
 use DB;
 use Auth;
 use App\Extra;
+use App\Traits\Mensaje;
 
 class PrecreditoController extends Controller
 {
+
+    use Mensaje;
 
     public function index()
     {
@@ -413,11 +416,16 @@ class PrecreditoController extends Controller
             else{ $s_fecha = $request->input('s_fecha');}
 
             $precredito = Precredito::find($id);
+
+            $estado_anterior_solicitud = $precredito->aprobado; //toma el estado (aprobado) antes de editar
+
             $cliente = Cliente::find($precredito->cliente_id);
             $precredito->fill($request->all());
             $precredito->s_fecha = $s_fecha;
             $precredito->user_update_id = Auth::user()->id;
             $precredito->save();
+
+            //actualizacion del crédito relacionado
 
             if($precredito->credito != NULL){
 
@@ -428,8 +436,12 @@ class PrecreditoController extends Controller
                $credito->rendimiento = $credito->valor_credito - ($precredito->vlr_fin -$precredito->cuota_inicial);
                $credito->user_update_id = Auth::user()->id;
                $credito->save();
-
             }
+
+/*            if( ($precredito->aprobado != $estado_anterior_solicitud ) && $precredito->aprobado == 'Si'){
+              if($precredito->cliente->)
+              $this->send_message(,$key)
+            }*/
 
             DB::commit();
 

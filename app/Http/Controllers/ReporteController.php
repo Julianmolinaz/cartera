@@ -314,11 +314,11 @@ class ReporteController extends Controller
         //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
 
         else if($request->input('tipo_reporte') == 'datacredito' ){
-            $now                 = Carbon::now();
-            $now->subMonth()->modify('last day of this month');
+            $corte               = Carbon::now();
+            $corte->subMonth()->modify('last day of this month');
 
-            $report_datacredito  =  reporte_datacredito(); // array con el reporte    
-            $nombre_archivo      = '116881.'.$now->year.cast_number($now->month,2,'right').cast_number($now->day,2,'right').'.T.txt';  // nombre del reporte
+            $report_datacredito  =  reporte_datacredito($corte); // array con el reporte    
+            $nombre_archivo      = '116881.'.$corte->year.cast_number($corte->month,2,'right').cast_number($corte->day,2,'right').'.T.txt';  // nombre del reporte
             $archivo             = fopen($nombre_archivo, "w"); // creacion del archivo
             
             //asignacion de datos al archivo
@@ -369,7 +369,7 @@ class ReporteController extends Controller
     {
         $info = financiero($fecha_1, $fecha_2);
 
-        return view('admin.reportes.financiero_operativo')
+        return view('admin.reportes.financiero.financiero_operativo')
             ->with('rango',$rango)
             ->with('info', $info);
     }

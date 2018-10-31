@@ -353,6 +353,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::resource('criteriocall','CriteriocallController');
   	Route::resource('anuladas','AnuladaController');
   	Route::resource('puntos','PuntoController');	
+  	Route::resource('mensajes','MensajeController');
 });
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])

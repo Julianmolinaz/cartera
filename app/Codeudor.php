@@ -107,6 +107,10 @@ class Codeudor extends Model implements Auditable
         return $this->hasOne('App\Conyuge','id','conyuge_id');
     }
 
+    public function clientes(){
+        return $this->hasMany('App\Cliente');
+    }
+
 
 
 }

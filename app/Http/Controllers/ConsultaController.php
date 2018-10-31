@@ -6,93 +6,139 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Precredito;
+use App\Codeudor;
 use App\Cliente;
 use App\Credito;
-use App\Precredito;
 
 class ConsultaController extends Controller
 {
-    public function cuenta($cedula){
+    public function cuenta($cedula)
+    {
         $cliente = Cliente::where('num_doc',$cedula)->get();
         
         if(count($cliente) > 0){ // si existe el cliente
-            
-            $solicitudes = $cliente[0]->precreditos;
-            $temp = 0;
-            
-            foreach($solicitudes as $solicitud){ // iterar sobre las solicitudes
-                if(isset($solicitud->credito)){ // si la solicitud tiene un credito creado
-                    
-                    if($temp < $solicitud->credito->id){ // se escoge el credito con mayor id
-                        $temp = $solicitud->credito->id;
-                    }
-                }
-            }  
-    
-            if($temp <> 0){
-                $credito = Credito::find($temp);
-                $data = [
-                    'nombre' => $credito->precredito->cliente->nombre,
-                    'estado' => $credito->estado,
-                    'vlr_cuota' => $credito->precredito->vlr_cuota,
-                    'saldo'  => $credito->saldo,
-                    'f_pago' => inv_fech($credito->fecha_pago->fecha_pago)
-                ];
 
-                return response()->json([
-                    'error' => false,
-                    'data'  => $data
-                ]);
+            return $this->consultar_cliente($cliente[0]);
+            
+        }
+        else{
+            //codeudor
+            $codeudor = Codeudor::where('num_docc',$cedula)->get();
+
+            if(count($codeudor) > 0){
+                return $this->consultar_codeudor($codeudor[0]);
+                
             }
             else{
+                //si no es codeudor
+
                 return response()->json([
                     'error' => true,
                     'data'  => ''
                 ]);
             }
-
         }
+
+    }//.cuenta
+
+    public function consultar_cliente($cliente)
+    {
+        $solicitudes = $cliente->precreditos;
+        $temp = 0;
+        
+        foreach($solicitudes as $solicitud){ // iterar sobre las solicitudes
+            if(isset($solicitud->credito)){ // si la solicitud tiene un credito creado
+                
+                if($temp < $solicitud->credito->id){ // se escoge el credito con mayor id
+                    $temp = $solicitud->credito->id;
+                }
+            }
+        }  
+
+        if($temp <> 0){
+            $credito = Credito::find($temp);
+
+            if( $credito->estado == 'Cancelado' || $credito->saldo <= 0 ){
+                $estado = 'Cancelado';
+                $saldo  = 0;
+                $f_pago = '';
+            }
+            else{
+                $estado = $credito->estado;
+                $saldo  = $credito->saldo;
+                $f_pago = inv_fech($credito->fecha_pago->fecha_pago);   
+            }
+
+            $data = [
+                'nombre' => $credito->precredito->cliente->nombre,
+                'estado' => $estado,
+                'vlr_cuota' => $credito->precredito->vlr_cuota,
+                'saldo'  => $saldo,
+                'f_pago' => $f_pago
+            ];
+
+            return response()->json([
+                'error' => false,
+                'data'  => $data
+            ]);
+        }//.if
         else{
             return response()->json([
                 'error' => true,
                 'data'  => ''
             ]);
-        }
+        }//.else
+    }//.consultar_cliente()
 
-    }//.cuenta
-
-    public function solicitud($id)
+    public function consultar_codeudor($codeudor)
     {
-        $precredito = Precredito::find($id);
-
-
-        if(!isset($precredito->credito)){
-
-            $pago = $this->pagos($precredito);
-
-            if( ( $pago['inicial'] == 0 ) && $precredito->cuota_incial){
-                echo $precredito->inicial;
+        $solicitudes = $codeudor->clientes[0]->precreditos;
+        $temp = 0;
+        
+        foreach($solicitudes as $solicitud){ // iterar sobre las solicitudes
+            if(isset($solicitud->credito)){ // si la solicitud tiene un credito creado
+                
+                if($temp < $solicitud->credito->id){ // se escoge el credito con mayor id
+                    $temp = $solicitud->credito->id;
+                }
             }
-            // if( ( $pago['estudio']) ){
+        }  
 
-            // }
+        if($temp <> 0){
+            $credito = Credito::find($temp);
 
+            if( $credito->estado == 'Cancelado' || $credito->saldo <= 0 ){
+                $estado = 'Cancelado';
+                $saldo  = 0;
+                $f_pago = '';
+            }
+            else{
+                $estado = $credito->estado;
+                $saldo  = $credito->saldo;
+                $f_pago = inv_fech($credito->fecha_pago->fecha_pago);   
+            }
 
-            //validar si tiene pagos por estudio o inicial
+            $data = [
+                'nombre' => $credito->precredito->cliente->codeudor->nombrec,
+                'estado' => $estado,
+                'vlr_cuota' => $credito->precredito->vlr_cuota,
+                'saldo'  => $saldo,
+                'f_pago' => $f_pago
+            ];
 
-
-
-            // if($precredito->cuota_incial){
-            //     $inicial = $precredito->cuota_incial;
-            // }
-            // if($precredito->estudio != 'Sin estudio'){
-            //     if( $precredito->estudio == 'Tipico' ){
-            //         $estudio = 
-            //     }
-            // }
-        }
-        return response()->json($id);
-    }
+            return response()->json([
+                'error' => false,
+                'data'  => $data
+            ]);
+        }//.if
+        else{
+            return response()->json([
+                'error' => true,
+                'data'  => ''
+            ]);
+        }//.else
+    }//.consultar_cliente()
 
     private function pagos($precredito)
     {

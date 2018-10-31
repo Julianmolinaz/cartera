@@ -14,7 +14,6 @@ class AddPrecreditoIdToPagosTable extends Migration
     {
         Schema::table('pagos', function (Blueprint $table) {
             $table->integer('precredito_id')->unsigned()->nullable();
-
             $table->foreign('precredito_id')->references('id')->on('precreditos');
         });
     }
