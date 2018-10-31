@@ -520,7 +520,6 @@ class CallcenterController extends Controller
                             'pagos sanciones'   => sanciones_pagadas($credito->credito_id)
                             ];
 
-                         
     
                     array_push($array_creditos,$temp);
                     }
