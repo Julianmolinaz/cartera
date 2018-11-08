@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
          Commands\Inspire::class,
          Commands\Sanciones::class,
          Commands\VentasCommand::class,
+         Commands\Cumpleanos::class,
+         Commands\Morosos::class,
         
     ];
 
@@ -27,11 +29,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('inspire')
-                  ->everyMinute();
+/*         $schedule->command('inspire')
+                  ->everyMinute();*/
          $schedule->command('generar:sanciones') 
                   ->cron('01 01 * * *');  
          $schedule->command('generar:reporteVentas')
                   ->monthlyOn(1, '23:59');
+         $schedule->command('generar:cumpleanos')
+                  ->cron('55 10 * * *');
+         $schedule->command('generar:morosos')
+                  ->cron('* 13 * * *');
     }
 }

@@ -7,39 +7,42 @@ use Carbon\Carbon;
 
 trait Mensaje
 {
-	//array con yave y atributos: estado (1 para activo, 0 para inactivo) y contenido del mensaje a enviar
+	//array con llave y atributos: estado (1 para activo, 0 para inactivo) y contenido del mensaje a enviar
 
 	public function tipo_mensaje()
 	{
 		$list = [
 			'MSS111' => 
 			[
-				'estado'	=> '1',
-				'contenido' => 'Su solicitud de financiación ha sido aprobada'
+				'estado'	=> '0',
+				'contenido' => '.'
+				/*'contenido' => 'Su solicitud de financiación ha sido aprobada'*/
 			],
 			'MSS222' =>
 			[
-				'estado'	=> '1', 
+				'estado'	=> '0', 
 				'contenido' => 'Usted presenta 5 días de mora'
 			],
 			'MSS333' =>
 			[
-				'estado'	=> '1',
+				'estado'	=> '0',
 				'contenido' => 'Usted presenta 20 días de mora'
 			],
 			'MSS444' =>
 			[
-				'estado'	=> '1',
-				'contenido' => 'Su obligación ha pasado a cobro prejurídico'
+				'estado'	=> '0',
+				'contenido' => '..'
+				/*'contenido' => 'Su obligación ha pasado a cobro prejurídico'*/
 			],
 			'MSS555' =>
 			[
-				'estado'	=> '1',
-				'contenido' => 'Su obligación ha pasado a cobro jurídico'
+				'estado'	=> '0',
+				'contenido' => '...'
+				/*'contenido' => 'Su obligación ha pasado a cobro jurídico'*/
 			],
 			'MSS666' =>
 			[
-				'estado'	=> '1',
+				'estado'	=> '0',
 				'contenido' => 'Gora te desea un feliz cumpleaños'
 			],
 		];
@@ -55,22 +58,29 @@ trait Mensaje
 
 	public function send_message($telefonos,$key)
 	{
-		$tel = $this->array_to_string($telefonos);
+		$tipo_msm = $this->get_tipo_mensaje($key);
 
-		$result = $this->api_hablame($tel,$key);
+		if($tipo_msm['estado'])
+		{
+			$tel = $this->array_to_string($telefonos);
 
-		$this->log($result, 'seguimiento/mensajes_de_texto', 'seguimiento/errores');
+			$result = $this->api_hablame($tel,$key);
 
-		if ($result["resultado"]===0) {
-			print 'Se ha enviado el SMS exitosamente';
-		} 
-		else {
-			print 'ha ocurrido un error!!';
+
+			$this->log(serialize($result), 'seguimiento/mensajes_de_texto', 'seguimiento/errores');
+
+			if ($result["resultado"] === 0) {
+				print 'Se ha enviado el SMS exitosamente';
+			} 
+			else {
+				print 'ha ocurrido un error!!';
+			}
+			
+		}	
+		else{
+			print 'la opcion se encuentra deshabilitada';
+			$this->log('la opcion se encuentra deshabilitada '.$key,'seguimiento/mensajes_de_texto', 'seguimiento/errores');
 		}
-
-		dd(1);
-
-		$this->log($result);
 
 	}
 
@@ -83,24 +93,22 @@ trait Mensaje
 			if(Storage::disk('local')->exists($ruta_registro)){
 
 				$txt = Storage::disk('local')->get($ruta_registro);
-				$txt = $now->toDateTimeString().' ==> '.$mensaje. "\n".$txt;
+				$txt = '#########'.$now->toDateTimeString().' ==> '.$mensaje. "\n".$txt."\n";
 			}
 			else{
 
 				Storage::disk('local')->put($ruta_registro,'CREACIÓN');	
-				$txt = $now->toDateTimeString().' ==> '.$mensaje;
+				$txt = $now->toDateTimeString().' ==> '.$mensaje."\n";
 			}
 
-			Storage::disk('local')->put($ruta_registro,$txt);
+			Storage::disk('local')->put($ruta_registro,$txt."\n\n");
 
 			return true;
 			
 		}
 		catch(\Exception $e)
 		{
-			Storage::disk('local')->put($ruta_error,$e->getMessage());
-			Log::error('FUNCTION LOG() - ERROR EN GUARDADO DE SEGUIMIENTO'.$e->getMessage());
-
+			Storage::disk('local')->put($ruta_error,$e);
 			return false;
 		}
 	}//.log
@@ -115,13 +123,16 @@ trait Mensaje
 
 	public function api_hablame($telefonos, $key)
 	{
+		$client = 10012808;
+		$clave_api = 'bHoHiZWU96RC1yctSJoK3fSTXhUah7';
+
 		$mdt = $this->get_tipo_mensaje($key);
 
 		$url = 'https://api.hablame.co/sms/envio/';
 
 		$data = array(
-			'cliente' 	=> 10012723, //Numero de cliente
-			'api' 		=> 'XcCBHyhMMbtGQ9dVk2LuqYOHgRy07k', //Clave API suministrada
+			'cliente' 	=> $client, //Numero de cliente
+			'api' 		=> $clave_api, //Clave API suministrada
 			'numero' 	=> $telefonos, //numero o numeros telefonicos a enviar el SMS (separados por una coma ,)
 			'sms' 		=> $mdt['contenido'], //Mensaje de texto a enviar
 			'fecha' 	=> '', //(campo opcional) Fecha de envio, si se envia vacio se envia inmediatamente (Ejemplo: 2017-12-31 23:59:59)

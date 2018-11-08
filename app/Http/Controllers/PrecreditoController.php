@@ -429,28 +429,56 @@ class PrecreditoController extends Controller
 
             if($precredito->credito != NULL){
 
+
                $credito = Credito::find($precredito->credito->id);
+
+               $estado_anterior_credito   = $credito->estado; // se guarda el estado anterior del credito
+
                $credito->cuotas_faltantes = $precredito->cuotas;
-               $credito->saldo = $precredito->vlr_fin - $precredito->cuota_inicial;
-               $credito->valor_credito = $precredito->cuotas * $precredito->vlr_cuota;
-               $credito->rendimiento = $credito->valor_credito - ($precredito->vlr_fin -$precredito->cuota_inicial);
-               $credito->user_update_id = Auth::user()->id;
+               $credito->saldo            = $precredito->vlr_fin - $precredito->cuota_inicial;
+               $credito->valor_credito    = $precredito->cuotas * $precredito->vlr_cuota;
+               $credito->rendimiento      = $credito->valor_credito - ($precredito->vlr_fin -$precredito->cuota_inicial);
+               $credito->user_update_id   = Auth::user()->id;
                $credito->save();
+
             }
 
-/*            if( ($precredito->aprobado != $estado_anterior_solicitud ) && $precredito->aprobado == 'Si'){
-              if($precredito->cliente->)
-              $this->send_message(,$key)
-            }*/
-
             DB::commit();
+
+            //envío de mensjae de texto 'MSS111' 'su solicitud de credito ha sido aprobada'
+
+            $movil  = $precredito->cliente->movil;
+
+            // si el objeto de edición es el crédito
+
+            if(isset($precredito->credito)){
+              if( ($credito->estado != $estado_anterior_credito ) && $movil){
+                if( $credito->estado == 'Prejuridico' ){
+                    $this->send_message([$movil],'MSS444'); 
+                }
+                elseif( $credito->estado == 'Juridico' ){
+                    $this->send_message([$movil],'MSS555'); 
+                }
+              }
+            } 
+            // si el objeto de edición es el precredito (solicitud)
+            else{
+
+              if( ($precredito->aprobado != $estado_anterior_solicitud ) && $movil){
+                if( $precredito->aprobado == 'Si' ){
+                    $this->send_message([$movil],'MSS111'); 
+                }
+              }
+            }
+
+
 
             flash()->success('La solicitud con Id: '.$precredito->id.' del cliente '.$cliente->nombre.' se editó con éxito!');
             return redirect()->route('start.precreditos.ver',$precredito->id);
 
         } catch(\Exception $e){
             DB::rollback();
-            flash()->error('Ocurrió un error!!!');
+            flash()->error('Ocurrió un error!!!'.$e->getMessage());
             return redirect()->route('start.precreditos.index');
         }
 }

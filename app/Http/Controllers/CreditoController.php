@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Repositories\CreditoRepository;
 
+use App\Traits\Mensaje;
 use App\Credito;
 use App\Precredito;
 use App\Producto;
@@ -16,7 +18,6 @@ use App\Cliente;
 use App\FechaCobro;
 use App\Castigada;
 use Carbon\Carbon;
-use App\Repositories\CreditoRepository;
 use Excel;
 use DB;
 use Auth;
@@ -24,6 +25,7 @@ use Auth;
 class CreditoController extends Controller
 {
     protected $creditos;
+    use Mensaje;
 
     public function __construct(CreditoRepository $creditos){
       $this->creditos = $creditos;
@@ -352,6 +354,7 @@ class CreditoController extends Controller
           else{ $s_fecha = $request->input('s_fecha');}
 
           $credito    = Credito::find($id);
+          $estado_anterior_credito   = $credito->estado; // se guarda el estado anterior del credito
           $precredito = Precredito::find($credito->precredito->id);
           $cliente    = Cliente::find($credito->precredito->cliente_id);
 
@@ -404,6 +407,20 @@ class CreditoController extends Controller
 
           DB::commit();
 
+            $movil  = $precredito->cliente->movil;
+
+            // si el objeto de edición es el crédito
+
+            if( ($credito->estado != $estado_anterior_credito ) && $movil){
+
+              if( $credito->estado == 'Prejuridico' ){
+                  $this->send_message([$movil],'MSS444'); }
+
+              elseif( $credito->estado == 'Juridico' ){
+                  $this->send_message([$movil],'MSS555'); }
+            }
+            
+
           flash()->success('El crédito con Id: '.$precredito->credito->id.' del cliente '.$cliente->nombre.' se editó con éxito!');
           return redirect()->route('start.precreditos.ver',$precredito->id);
 
@@ -411,7 +428,7 @@ class CreditoController extends Controller
 
           DB::rollback();
 
-          flash()->error('Ocurrió un error');
+          flash()->error('Ocurrió un error' . $e->getMessage());
           return redirect()->route('start.creditos.index');         
 
         }

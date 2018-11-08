@@ -40,10 +40,6 @@
           </div>
         
 
-
-         
-    
-
           <ul>
             <li> Número de créditos : {{ $info['num_creditos']  }}  </li>       
             <li> Valor a financiar: {{ $info['vlr_fin_total']  }}  </li>      
@@ -61,9 +57,10 @@
             <li> % créditos promedio: {{ $info['porcien_promedio']  }}  </li>     
             <li> % créditos ideales: {{ $info['porcien_ideales']  }}  </li>      
             <li> Total ingresos adicionales: {{ $info['total_ingresos_adicionales'] }} </li>
-            <li> Total valor financiado creditos ideales: {{ $info['vlr_fin_creditos_ideales']  }}  </li> 
-            <li> Total valor financiado creditos 0-1 pago: {{ $info['vlr_fin_creditos_0_1_pago']  }}  </li>
-            <li> Total valor creditos promedio: {{ $info['vlr_fin_creditos_promedio']  }}  </li>
+            <li> Total valor financiado creditos ideales: {{ $info['total_debe_vlr_fin_creditos_ideales']  }}  </li> 
+            <li> Total valor financiado creditos 0-1 pago: {{ $info['total_debe_vlr_fin_creditos_0_1_pago']  }}  </li>
+            <li> Total valor creditos promedio: {{ $info['total_debe_vlr_fin_creditos_promedio']  }}  </li>
+            <li> Saldo menos cartera: {{ $info['saldo_menos_cartera'] }}</li>
             <li> Total costo cartera: {{ $info['total_costo_cartera']  }}  </li>       
           </ul>
 

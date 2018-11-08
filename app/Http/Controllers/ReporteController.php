@@ -16,11 +16,12 @@ use App\Cartera;
 use App\Egreso;
 use App\Pago;
 use App\User;
-
+use App\Traits\Financierotrait;
 use Carbon\Carbon;
 use Excel;
 use Auth;
 use DB;
+use App\Punto;
 
 
 class ReporteController extends Controller
@@ -28,7 +29,7 @@ class ReporteController extends Controller
     private $fecha_1;
     private $fecha_2;
     use ReporteTrait;
-
+    use Financierotrait;
 
     public function setFecha1($fecha_1){
         $this->fecha_1 = $fecha_1;
@@ -367,8 +368,22 @@ class ReporteController extends Controller
 
     else if($request->input('tipo_reporte') == 'financiero')
     {
-        $info = financiero($fecha_1, $fecha_2);
+        $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
+        $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
+        $info = $this->financiero($ini, $fin);
 
+        /*return $info;
+        $sucursales = Punto::all();
+        $sucursal_financiero = [];
+
+        foreach($sucursales as $sucursal)
+        {
+            $temp = $this->financiero_por_sucursales($ini,$fin, $sucursal->id);
+            array_push($sucursal_financiero, ['sucursal' => $sucursal, 'financiero' => $temp ]);
+        }
+        return  $sucursal_financiero;
+*/
+        dd($info);
         return view('admin.reportes.financiero.financiero_operativo')
             ->with('rango',$rango)
             ->with('info', $info);
