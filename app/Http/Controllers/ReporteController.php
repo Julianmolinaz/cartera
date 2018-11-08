@@ -372,18 +372,6 @@ class ReporteController extends Controller
         $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
         $info = $this->financiero($ini, $fin);
 
-        /*return $info;
-        $sucursales = Punto::all();
-        $sucursal_financiero = [];
-
-        foreach($sucursales as $sucursal)
-        {
-            $temp = $this->financiero_por_sucursales($ini,$fin, $sucursal->id);
-            array_push($sucursal_financiero, ['sucursal' => $sucursal, 'financiero' => $temp ]);
-        }
-        return  $sucursal_financiero;
-*/
-        dd($info);
         return view('admin.reportes.financiero.financiero_operativo')
             ->with('rango',$rango)
             ->with('info', $info);
@@ -496,6 +484,23 @@ class ReporteController extends Controller
         }
 
         
+    }//.marcar_cancelados
+
+
+    public function financiero_sucursales($ini, $fin)
+    {
+        $sucursales = Punto::orderBy('nombre','asc')->get();
+        $ini     = Carbon::create(ano($ini),mes($ini),dia($ini),00,00,00);
+        $fin     = Carbon::create(ano($fin),mes($fin),dia($fin),23,59,59);
+
+        $array = [];
+        
+        foreach ($sucursales as $sucursal) {
+            $temp =  $this->financiero_por_sucursales($ini, $fin, $sucursal->id);
+            array_push($array, $temp);
+        }
+
+        dd($array);
     }
     
 }

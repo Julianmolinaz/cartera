@@ -78,7 +78,7 @@ trait Financierotrait
         $num_creditos	= count($creditos);
 
         if($num_creditos <= 0){
-          return 'Lo sentimos no hay créditos registrados en este periodo ';
+          return 'o creditos';
         }
 
         $total_listados = [
@@ -121,22 +121,6 @@ trait Financierotrait
       			$creditos_promedio ++;
       			$total_debe_vlr_fin_creditos_promedio += $credito->precredito->vlr_fin - $pagos_credito['total_pagos_credito'];	}
 
-
-
-/*      		$temp = [
-      			'id' 						            => $credito->id,
-      			'cliente' 					        => $credito->precredito->cliente->nombre,
-      			'documento' 				        => $credito->precredito->cliente->num_doc,
-      			'cuotas'					          => $credito->precredito->cuotas,
-      			'vlr_a_recaudar' 			      => $credito->valor_credito,
-      			'vlr_financiado' 			      => $credito->precredito->vlr_fin,
-      			'vlr_recaudado_en_cuotas' 	=> $pagos_credito['total_pagos_credito'],
-      			'vlr_recaudado_prejuridico' => $pagos_credito['total_pagos_prejuridico_credito'],
-      			'vlr_recaudado_juridico'    => $pagos_credito['total_pagos_juridico_credito'],
-      			'vlr_recaudado_en_sanciones'=> $pagos_credito['total_pagos_sanciones_credito'],
-      			'created_at'				        => $credito->created_at 
-      		];
-*/
        
       		$total_listados['vlr_a_recaudar']				     +=  $credito->valor_credito;
       		$total_listados['vlr_financiado']				     +=  $credito->precredito->vlr_fin;

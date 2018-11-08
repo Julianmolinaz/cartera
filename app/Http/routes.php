@@ -24,7 +24,8 @@ Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVent
 Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
 	->middleware('admin');
 
-
+Route::get('repor-financiero-sucursales/{rango_ini}/{rango_fin}','ReporteController@financiero_sucursales')
+	->middleware('admin');
 
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
