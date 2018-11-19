@@ -74,7 +74,6 @@
             
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.reportes.index')}}">Reportes &nbsp;<i class="fas fa-chart-line"></i></a></li>
-            <li><a href="{{route('admin.mensajes.index')}}">Mensajes de texto</a></li>
 
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.carteras.index')}}">Carteras</a></li> 

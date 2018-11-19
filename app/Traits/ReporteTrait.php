@@ -10,8 +10,9 @@ trait ReporteTrait
 {
 	public function tipo_reportes()
 	{
-		return array(
-			array('value' => 'financiero','vista'=>'Financiero operativo','definicion' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium id dignissimos veritatis repellat iure ut, dolor tempora eaque similique voluptate fugit aliquam facere veniam, eum harum pariatur vel hic explicabo.'),
+          return array(
+               array('value' => 'egresos','vista' => 'Egresos','definicion' => ''),
+               array('value' => 'financiero','vista'=>'Financiero operativo','definicion' => 'Este reporte evalua el estado financiero de la empresa, partiendo de la base del valor solicitado en un crédito, esto permite clasificar los tipos de obligación como ideaales, promedio y 0-1 pago'),
                array('value' => 'general','vista' => 'General'),
                array('value' => 'general_por_carteras', 'vista' => 'General por Carteras'),
                array('value' => 'general_por_users', 'vista' => 'General por Funcionarios'), 

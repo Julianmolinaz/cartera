@@ -25,7 +25,7 @@ class DatatableController extends Controller
             return false;
         }
 
-       $query = Egreso::with('user_create')->with('cartera')->orderBy('updated_at','desc');
+       $query = Egreso::with('user_create')->with('cartera')->with('punto')->orderBy('updated_at','desc');
 
     	return DataTables::of($query)
         ->addColumn('btn','

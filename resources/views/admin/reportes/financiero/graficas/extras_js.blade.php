@@ -4,10 +4,13 @@ google.charts.setOnLoadCallback(drawMultSeries);
 
 function drawMultSeries() {
       var data = google.visualization.arrayToDataTable([
-        ['Extras', 'Pesos', { role: 'style' } ],
-        ['Sanciones', {!! $info['vlr_recaudado_en_sanciones'] !!}, 'color: #2E64FE'],
-        ['Prejurídico',{!! $info['vlr_recaudado_prejuridico'] !!}, 'color: #FF4000'],
-        ['Jurídico', {!! $info['vlr_recaudado_juridico'] !!}, 'color: #01DF01']
+        ['Extras', 'Pesos', { role: 'style' },{role: 'annotation'} ],
+        ['Sanciones', {!! $info['vlr_recaudado_en_sanciones'] !!}, 'color: #FF5733',
+          "{{number_format( $info['vlr_recaudado_en_sanciones'] ,0, ",",".") }}"],
+        ['Prejurídico',{!! $info['vlr_recaudado_prejuridico'] !!}, 'color: #FF4000',
+          "{{number_format($info['vlr_recaudado_prejuridico'] ,0, ",",".") }}"],
+        ['Jurídico', {!! $info['vlr_recaudado_juridico'] !!}, 'color: #01DF01',
+          "{{number_format($info['vlr_recaudado_juridico'] ,0, ",",".") }}"]
       ]);
 
 

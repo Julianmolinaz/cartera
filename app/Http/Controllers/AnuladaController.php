@@ -242,7 +242,7 @@ class AnuladaController extends Controller
 
             //al anular la ultima factura se debe modificar tambien la fecha de pago en la tabla fecha_cobros.fecha_pago esta se fecha se extrae de la ultima factura vigente.
 
-            if(count($ultima_factura) > 0){
+            if($ultima_factura){
 
                 $fecha_cobro = FechaCobro::where('credito_id',$credito->id)->get();
                 $fecha_cobro[0]->fecha_pago = $ultima_factura->fecha_proximo_pago;

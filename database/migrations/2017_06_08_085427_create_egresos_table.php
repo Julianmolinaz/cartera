@@ -14,6 +14,7 @@ class CreateEgresosTable extends Migration
     {
         Schema::create('egresos', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('punto_id')->unsigned()->nullable();
             $table->string('fecha');
             $table->string('comprobante_egreso');
             $table->enum('concepto',

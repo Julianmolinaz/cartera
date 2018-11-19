@@ -24,8 +24,18 @@ Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVent
 Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
 	->middleware('admin');
 
+Route::get('repor-financiero-sucursales/{rango_ini}/{rango_fin}','ReporteController@financiero_sucursales')
+	->middleware('admin');
 
+Route::get('repor-financiero-comparativa-anual/{year}',[
+	'uses' 	=> 'ReporteController@financiero_comparativo',
+	'as'	=> 'reporte.financiero.comparativo'
+])->middleware('admin');
 
+Route::get('repor-financiero-tipo-creditos-sucursal-anual/{year}',[
+	'uses' 	=> 'ReporteController@tipo_creditos_sucursal_anual',
+	'as'	=> 'reporte.financiero.comparativo.tipo_creditos.sucursal'
+])->middleware('admin');
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
 Route::get('start/simulador',[
@@ -270,11 +280,10 @@ Route::post('start/facturas/abonos','FacturaController@abonos');
 
 Route::get('start/pagos',['uses' => 'FacturaController@pagos','as'   => 'start.pagos'])->middleware('pagos_listar');
 
-
-
-
-
-
+Route::get('start/invoice-print/{factura_id}',[
+	'uses' => 'FacturaController@invoice_to_print',
+	'as'   => 'start.factura.print'])
+->middleware('facturas_listar');
 
 //OTROSPAGOSOTROSPAGOSOTROSPAGOSOTROSPAGOSOTROSPAGOSOTROSPAGOSOTROSPAGOSOTROSPAGOSOTROSPAGOS
 
@@ -353,7 +362,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::resource('criteriocall','CriteriocallController');
   	Route::resource('anuladas','AnuladaController');
   	Route::resource('puntos','PuntoController');	
-  	Route::resource('mensajes','MensajeController');
 });
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])
