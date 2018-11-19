@@ -110,6 +110,12 @@ $('#tipo_reporte').on('change',function(){
     ocultarPeriodo();
     mostrarCancelados();
   }
+  else if( $('#tipo_reporte').val() == 'financiero' ){
+/*    ocultarPeriodo();
+    ocultarCancelados();
+    ocultarCarteras();
+    ocultarRange();*/
+  }
   else{
     ocultarCarteras();
     ocultarPeriodo();

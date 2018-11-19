@@ -10,9 +10,18 @@ use DB;
 trait Financierotrait
 {
 
+  /*
+  |--------------------------------------------------------------------------
+  | financiero
+  |--------------------------------------------------------------------------
+  | permite generar un reporte general fiananciero acotado por fecha.
+  | recibe dos fechas carbon de inicio $ini y final $fin
+  | retorna el reporte financiero
+  |
+  */
+
   function financiero($ini,$fin)
   {
-
       $creditos = Credito::
         where('credito_refinanciado_id',null)
         ->whereBetween('created_at',[$ini, $fin])
@@ -20,6 +29,17 @@ trait Financierotrait
 
       return $this->reporte_financiero($creditos);
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | financiero_por_sucursales
+  |--------------------------------------------------------------------------
+  | permite generar un reporte financiero por sucursales acotado por fecha.
+  | recibe dos fechas carbon de inicio $ini (fecha inicial) $fin (fecha inicial)
+  | y una $sucursal_id (id de la sucursal o punto)
+  | retorna el reporte financiero para esa sucursal
+  |
+  */  
 
   function financiero_por_sucursales($ini, $fin, $sucursal_id)
   {
@@ -42,10 +62,15 @@ trait Financierotrait
     return $this->reporte_financiero($credits);
   }
 
-  /**
-   * Definiciones: 
-   * $costo_total = total costo (SUM centros de costo de c/u creditos)
-   */
+  /*
+  |--------------------------------------------------------------------------
+  | reporte_financiero
+  |--------------------------------------------------------------------------
+  | generador de reportes
+  | recibe un array de $creditos
+  | retorna el reporte financiero con toda LA INFORMACIÓN REQUERIDA
+  |
+  */  
 
   function reporte_financiero($creditos)
    {
@@ -78,7 +103,7 @@ trait Financierotrait
         $num_creditos	= count($creditos);
 
         if($num_creditos <= 0){
-          return 'o creditos';
+          return '0 creditos';
         }
 
         $total_listados = [
@@ -110,7 +135,8 @@ trait Financierotrait
 
           //TIPOS DE CREDITO
 
-      		if($pagos_credito['total_pagos_credito'] >= $credito->precredito->vlr_fin){	$creditos_ideales ++;	} //IDEALES
+      		if($pagos_credito['total_pagos_credito'] >= $credito->precredito->vlr_fin){	
+            $creditos_ideales ++;	} //IDEALES
 
       		elseif($pagos_credito['total_pagos_credito'] <= ($credito->precredito->vlr_fin * $limite_0_1_pago)){ //0-1-PAGO
       			$creditos_0_1_pago ++;
@@ -145,6 +171,7 @@ trait Financierotrait
         $total_costo_cartera          = $total_debe_vlr_fin_creditos_0_1_pago + $total_debe_vlr_fin_creditos_promedio;
 
         $saldo_menos_cartera          = $total_saldo - $total_costo_cartera;
+        $total_pendiente_para_cubrir_vlr_a_recaudar = $vlr_a_recaudar - $vlr_recaudado_en_cuotas;
 
         $data = [
         	'num_creditos'				                   => $num_creditos,
@@ -159,9 +186,9 @@ trait Financierotrait
         	'creditos_0_1_pago'			                 => $creditos_0_1_pago,
         	'creditos_promedio'			                 => $creditos_promedio,
         	'pago_ideal'      			                 => $pago_menos_costo,
-        	'porcien_0_1_pago'			                 => $porcien_0_1_pago,
-        	'porcien_promedio'			                 => $porcien_promedio,
-        	'porcien_ideales'    		                 => $porcien_ideales,
+        	'porcien_0_1_pago'			                 => round($porcien_0_1_pago,2),
+        	'porcien_promedio'			                 => round($porcien_promedio,2),
+        	'porcien_ideales'    		                 => round($porcien_ideales,2),
         	'total_ingresos_adicionales'             => $total_ingresos_adicionales,
         	'total_debe_vlr_fin_creditos_ideales'    => 0,
         	'total_debe_vlr_fin_creditos_0_1_pago'   => $total_debe_vlr_fin_creditos_0_1_pago,
@@ -169,12 +196,24 @@ trait Financierotrait
         	'total_costo_cartera'		                 => $total_costo_cartera,
         	'total_listados'                         => $total_listados,
         	//'creditos'					                     => $data_creditos,
-          'saldo_menos_cartera'                    => $saldo_menos_cartera
+          'saldo_menos_cartera'                    => $saldo_menos_cartera,
+          'total_pendiente_para_cubrir_vlr_a_recaudar' => $total_pendiente_para_cubrir_vlr_a_recaudar
         ];
 
         return $data;
    }
 
+
+  /*
+  |--------------------------------------------------------------------------
+  | total_pagos_credito
+  |--------------------------------------------------------------------------
+  | adiciona los pagos de un credito refinanciado a su credito origen (credito padre)
+  | los creditos refinanciados.
+  | recibe un credito
+  | retorna los pagos discriminados por criterio
+  |
+  */ 
 
   function total_pagos_credito($credito)
   {
@@ -249,7 +288,42 @@ trait Financierotrait
 
   		return $data;
 
-  	//	dd($data);
   	}
+
+    function quarts($year)
+    {
+
+        $date = new Carbon($year.'-01-01');
+        $enero = $date->toDateString();
+        $abril = $date->addQuarter()->toDateString();
+        $julio = $date->addQuarter()->toDateString();
+        $octubre = $date->addQuarter()->toDateString(); 
+        $enero_other = $date->addQuarter()->toDateString(); 
+
+        $enero_ini = new Carbon($enero);
+        $enero_fin = new Carbon($abril);
+        $enero_fin->subDay()->endOfDay();
+
+        $marzo_ini = new Carbon($abril);
+        $marzo_fin = new Carbon($julio);
+        $marzo_fin->subDay()->endOfDay();
+  
+        $julio_ini = new Carbon($julio);
+        $julio_fin = new Carbon($octubre);
+        $julio_fin->subDay()->endOfDay();
+
+        $octubre_ini = new Carbon($octubre);
+        $octubre_fin = new Carbon($enero_other);
+        $octubre_fin->subDay()->endOfDay();
+
+        $cuartos = [
+          ['ini' => $enero_ini , 'fin' => $enero_fin],
+          ['ini' => $marzo_ini , 'fin' => $marzo_fin],
+          ['ini' => $julio_ini , 'fin' => $julio_fin],
+          ['ini' => $octubre_ini , 'fin' => $octubre_fin]
+        ];
+
+        return $cuartos;
+    }
 
 }

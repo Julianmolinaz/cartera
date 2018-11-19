@@ -7,6 +7,7 @@ use App\Http\Requests;
 
 use App\OtrosPagos;
 use App\FechaCobro;
+use Appp\Cancelado;
 use Carbon\Carbon;
 use App\Variable;
 use App\Sancion;
@@ -72,8 +73,13 @@ use DB;
             $x              = $credito->precredito->fecha;
             $fecha_apertura = Carbon::create(ano($x),mes($x),dia($x));
 
-            // bandera = 0 => el crédito se selecciona;
-            // bandera = 1 => el crédito se descarta
+            // Registrar creditos cancelados para luego marcar si el reporte es aprobado
+
+            if($credito->estado == 'Cancelado' || $credito->saldo <= 0){
+                //se registran los creditos finalizados
+                DB::table('cancelados')->insert(['credito_id' => $credito->id]);
+
+            }
 
             if( $fecha_apertura->gt($fecha_corte) ){ 
                 $bandera = 1; }
@@ -81,15 +87,6 @@ use DB;
             //se descartan los créditos nuevos que no han hecho su primer pago    
             if( $credito->estado == 'Al dia' && count($credito->pagos) == 0 ){ 
                 $bandera = 1; }
-
-            //se descartan los creditos con moras inferiores o iguales que $dias_mora_para_reportar
-
-    /*        if(($credito->estado == 'Mora'          ||  
-                $credito->estado == 'Prejuridico'   || 
-                $credito->estado == 'Juridico'      ||
-                $credito->estado == 'Cancelado por refinanciacion' ) 
-                && count( sanciones_vigentes( $credito) ) <= $dias_mora_para_reportar){
-                $bandera = 1;}*/
 
             //si los créditos marcados son bandera 0 se seleccionan
             if($bandera == 0){
@@ -815,7 +812,8 @@ function saldo_en_mora($credito,$corte){
     function cts_mora($credito, $corte)
     {
         // a los Cancelados se les quita las cuotas en mora
-        if( $credito->estado == 'Cancelado' || $credito->estado == 'Cancelado por refinanciacion' ){       
+        if( $credito->estado == 'Cancelado' || $credito->estado == 'Cancelado por refinanciacion' ){ 
+
             return array('cts_mora' => 0 , 'cts_mora_todas' => 0 );
         }
 

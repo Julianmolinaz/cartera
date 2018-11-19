@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Carbon\Carbon;
-use App\Egreso;
-use DB;
-use Auth;
-use App\User;
 use App\Cartera;
+use App\Egreso;
+use App\Punto;
+use App\User;
+use Auth;
+use DB;
 
 
 class EgresoController extends Controller
@@ -34,9 +35,12 @@ class EgresoController extends Controller
     {   
         $conceptos = getEnumValues('egresos','concepto');
         $carteras  = Cartera::where('estado','Activo')->get();
+        $puntos    = Punto::where('estado','Activo')->orderBy('nombre','asc')->get();
+
         return view('admin.egresos.create')
             ->with('conceptos',$conceptos)
-            ->with('carteras',$carteras);
+            ->with('carteras',$carteras)
+            ->with('puntos',$puntos);
     }
 
     /**
@@ -54,6 +58,7 @@ class EgresoController extends Controller
             'cartera_id'               => 'required',
             'concepto'              => 'required',
             'valor'                 => 'required|numeric',
+            'punto_id'              => 'required'
             );
         $rules_message = array(
             'fecha.required'                => 'La Fecha es requerida',
@@ -63,6 +68,7 @@ class EgresoController extends Controller
             'concepto.required'             => 'El Concepto es requerido',
             'valor.required'                => 'El Valor es requerido',
             'valor.numeric'                 => 'El Valor debe ser un numero',
+            'punto_id.required'             => 'El punto es requerido'
             );
 
         $this->validate($request,$rules_egreso,$rules_message); 
@@ -110,13 +116,16 @@ class EgresoController extends Controller
      */
     public function edit($id)
     {
-        $egreso = Egreso::find($id);
-        $conceptos = getEnumValues('egresos','concepto');
-        $carteras = Cartera::all();
+        $egreso     = Egreso::find($id);
+        $conceptos  = getEnumValues('egresos','concepto');
+        $carteras   = Cartera::all();
+        $puntos     = Punto::where('estado','Activo')->orderBy('nombre','asc')->get();
+
         return view('admin.egresos.edit')
             ->with('egreso',$egreso)
             ->with('conceptos',$conceptos)
-            ->with('carteras',$carteras);
+            ->with('carteras',$carteras)
+            ->with('puntos',$puntos);
     }
 
     /**
@@ -134,6 +143,7 @@ class EgresoController extends Controller
             'cartera_id'               => 'required',
             'concepto'              => 'required',
             'valor'                 => 'required|numeric',
+            'punto_id'              => 'required'
             );
         $rules_message = array(
             'fecha.required'                => 'La Fecha es requerida',
@@ -143,6 +153,7 @@ class EgresoController extends Controller
             'concepto.required'             => 'El Concepto es requerido',
             'valor.required'                => 'El Valor es requerido',
             'valor.numeric'                 => 'El Valor debe ser un numero',
+            'punto_id.required'             => 'El punto es requerido'
             );
 
         $this->validate($request,$rules_egreso,$rules_message); 

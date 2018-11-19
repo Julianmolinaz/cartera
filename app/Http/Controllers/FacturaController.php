@@ -5,19 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Variable;
+use App\FechaCobro;
+use App\Traits\FacturaTrait;
 use Carbon\Carbon;
-use App\Pago;
+use App\Variable;
 use App\Factura;
 use App\Credito;
 use App\Sancion;
+use App\Pago;
 use App\Extra;
-use App\FechaCobro;
 use Auth;
 use DB;
 
 class FacturaController extends Controller
 {
+    use FacturaTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +43,12 @@ class FacturaController extends Controller
       
       return view('start.pagos.index')
             ->with('pagos',$pagos);
+    }
 
+    public function invoice_to_print($factura_id)
+    {
+      return view('start.pagos.prueba');
+      //return $this->generate_content_to_print($factura_id);
     }
 
     /**
@@ -50,8 +58,8 @@ class FacturaController extends Controller
      */
     public function create($id)
     {
-      $hoy = Carbon::today();
-      $credito = Credito::find($id);
+      $hoy      = Carbon::today();
+      $credito  = Credito::find($id);
 
       $sum_sanciones = DB::table('sanciones')
                           ->where([['credito_id','=',$id],['estado','Debe']])
@@ -66,7 +74,7 @@ class FacturaController extends Controller
 
       //dd($ultimo_pago);
 
-      $cuota_parcial =DB::table('pagos') 
+      $cuota_parcial = DB::table('pagos') 
                           ->where([['credito_id','=',$id],
                             ['concepto','=','Cuota Parcial']])
                           ->orderBy('pago_hasta','desc')
@@ -77,7 +85,10 @@ class FacturaController extends Controller
       la tabla pagos en los casos de que no existan se generan los respectivos valores */
 
 
-      $juridico = Extra::where('credito_id',$id)->where('concepto','Juridico')->where('estado','Debe')->get();   
+      $juridico = 
+        Extra::where('credito_id',$id)
+          ->where('concepto','Juridico')
+          ->where('estado','Debe')->get();   
 
       if(count($juridico) > 0){
 
@@ -88,7 +99,9 @@ class FacturaController extends Controller
                           ->get();
 
         if(count($pago_juridico) > 0){                    
-          $pago_juridico = array('juridico' => $pago_juridico[0]->debe, 'valor' => $juridico[0]->valor);               
+          $pago_juridico = array(
+                  'juridico' => $pago_juridico[0]->debe, 
+                  'valor'    => $juridico[0]->valor);               
         }
         else{
           $pago_juridico = array('juridico' => null, 'valor' => $juridico[0]->valor);
@@ -105,11 +118,16 @@ class FacturaController extends Controller
       la tabla pagos en los casos de que no existan se generan los respectivos valores */
 
 
-      $prejuridico = Extra::where('credito_id',$id)->where('concepto','Prejuridico')->where('estado','Debe')->get();   
+      $prejuridico = 
+        Extra::where('credito_id',$id)
+          ->where('concepto','Prejuridico')
+          ->where('estado','Debe')->get();   
 
       if(count($prejuridico) > 0){
 
-        $pago_prejuridico = DB::table('pagos')->where([['credito_id','=',$id],['concepto','=','Prejuridico'],['estado','=','Debe']])->get();
+        $pago_prejuridico = DB::table('pagos')
+          ->where([['credito_id','=',$id],['concepto','=','Prejuridico'],['estado','=','Debe']])
+          ->get();
         
         if(count($pago_prejuridico) > 0){                    
           $pago_prejuridico = array('prejuridico' => $pago_prejuridico[0]->debe, 'valor' => $prejuridico[0]->valor);               
@@ -450,7 +468,7 @@ class FacturaController extends Controller
               ->orderBy('pago_hasta','desc')
               ->first();
 
-        if(count($ultima_cuota) > 0){
+        if($ultima_cuota){
             $d = $ultima_cuota->pago_hasta; 
             $ultima_cuota = Carbon::create(ano($d),mes($d),dia($d),00,00,00);
 
@@ -508,66 +526,31 @@ class FacturaController extends Controller
 
         DB::commit();
 
-      return response()->json(["mensaje" => "Se generaron los pagos Éxitosamente !!!"]); 
+      return response()->json([
+        "error"   => false,
+        "mensaje" => "Se generaron los pagos Éxitosamente !!!"
+      ]); 
     } catch(\Exception $e){
         DB::rollback();
+        return response()->json([
+          "error"   => true,
+          "mensaje" => $e->getMessage()
+        ]);
     }
 
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-
       $factura = Factura::find($id);
       return view('start.facturas.show')
       ->with('factura',$factura);
     } 
 
 
-    public function edit($id)
-    {
-
-      $cuota_parcial = Pago::where('credito_id',$id)
-      ->where('concepto','Cuota Parcial')
-      ->where('estado','Debe')
-      ->where('pago_desde','2017-10-30')
-      ->where('pago_hasta','2017-11-15')
-      ->get();
-
-
-      dd($cuota_parcial);
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    public function edit($id){}
+    public function update(Request $request, $id){}
+    public function destroy($id){}
 
     public function fecha_pago(Request $request)
     {
@@ -602,21 +585,23 @@ class FacturaController extends Controller
     public function abonos(Request $request)
     {
 
-      $monto = $request->monto;
-      $credito = Credito::find($request->credito_id);
-      $sanciones = Sancion::where('credito_id',$request->credito_id)->where('estado','Debe')->get();
+      $monto      = $request->monto;
+      $credito    = Credito::find($request->credito_id);
+      $sanciones  = Sancion::where('credito_id',$request->credito_id)
+        ->where('estado','Debe')
+        ->get();
       $hay_sanciones  = count($sanciones) > 0;
       $dia_sancion = Variable::find(1)->vlr_dia_sancion;
       $monto_por_sancion = 0;
-      $contador = 0;
-      $fila = "";
+      $contador   = 0;
+      $fila       = "";
       $fila_monto = "";
       $fila_saldo = "";
-      $fila_juridico = "";
-      $fila_prejuridico = "";
-      $fila_cuotas_completas = "";
-      $fila_cuotas_incompletas = "";
-      $fila_pagos_parciales = "";
+      $fila_juridico          = "";
+      $fila_prejuridico       = "";
+      $fila_cuotas_completas  = "";
+      $fila_cuotas_incompletas= "";
+      $fila_pagos_parciales   = "";
 
 
       /****************************** JURIDICO **************************************/
@@ -810,20 +795,20 @@ if($monto > 0){
   }
 }
 
-if($monto > 0){
-  $fila_saldo = 
-  "<tr class='otras_filas'>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td style='color:#ff0000'><strong>Saldo a Favor</strong></td>
-  <td style='color:#ff0000'>".$monto."</td>
-</tr>";
-}
+    if($monto > 0){
+      $fila_saldo = 
+      "<tr class='otras_filas'>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td style='color:#ff0000'><strong>Saldo a Favor</strong></td>
+      <td style='color:#ff0000'>".$monto."</td>
+    </tr>";
+    }
 
-$fila = $fila_juridico.$fila_prejuridico.$fila.$fila_pagos_parciales.$fila_cuotas_completas.$fila_cuotas_incompletas.$fila_saldo;
+    $fila = $fila_juridico.$fila_prejuridico.$fila.$fila_pagos_parciales.$fila_cuotas_completas.$fila_cuotas_incompletas.$fila_saldo;
 
-if ($request->ajax()){  return response()->json(['fila' => $fila , 'monto' => $monto]);  }
-}
+    if ($request->ajax()){  return response()->json(['fila' => $fila , 'monto' => $monto]);  }
+  }
 
 }

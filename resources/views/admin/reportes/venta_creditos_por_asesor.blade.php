@@ -75,7 +75,7 @@
                 <td></td> 
                 <td></td>
                 <td></td>
-                <td align="right"><b>{{number_format($total_vlr_fin,0,",",".")}}</b></td>                
+                <td align="right"><b>{{number_format($total_vlr_fin,0,",",".")}}</b></td>           
                 <td align="right"><b>{{number_format($total_vlr_credito,0,",",".")}}</b></td>
                 <td align="right"><b>{{number_format($total_saldo,0,",",".")}}</b></td>
                 <td></td>

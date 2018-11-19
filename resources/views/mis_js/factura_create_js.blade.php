@@ -108,7 +108,7 @@ $( document ).ready(function() {
           var credito_id    = "{{$credito->id}}"
           var token         = $('#token').val();
           var route         = "{{url('start/facturas')}}";
-          
+
           if(count == 0){
             count++;
             $.ajax({
@@ -124,8 +124,14 @@ $( document ).ready(function() {
                       tipo_pago:tipo_pago
                       },
               success: function( msg ) {
-                alert(msg.mensaje);
-                document.location.href="{{route('start.facturas.create',$credito->id)}}";
+                if(msg.error){
+                  alert(msg.mensaje);
+                  count = 0;
+                }
+                else{
+                  alert(msg.mensaje);
+                  document.location.href="{{route('start.facturas.create',$credito->id)}}";
+                }
               }
             });
           }
@@ -136,7 +142,7 @@ $( document ).ready(function() {
 
   });
 
-});//end document.ready
+
 
 
 // evento que se activa al pulsar el concepto de un pago ingresado en la table "tabla"
@@ -168,6 +174,5 @@ function validar(){
   }
 }
 
-
-
+});//end document.ready
 </script>

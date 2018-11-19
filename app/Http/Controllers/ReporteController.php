@@ -6,22 +6,23 @@ use App\Traits\ReporteTrait;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\VentaController;
+use App\Traits\Financierotrait;
+use App\Traits\EgresoTrait;
 use App\Http\Requests;
 use App\OtrosPagos;
+use Carbon\Carbon;
 use App\Variable;
 use App\Llamada;
 use App\Factura;
 use App\Credito;
 use App\Cartera;
 use App\Egreso;
+use App\Punto;
 use App\Pago;
 use App\User;
-use App\Traits\Financierotrait;
-use Carbon\Carbon;
 use Excel;
 use Auth;
 use DB;
-use App\Punto;
 
 
 class ReporteController extends Controller
@@ -30,6 +31,7 @@ class ReporteController extends Controller
     private $fecha_2;
     use ReporteTrait;
     use Financierotrait;
+    use EgresoTrait;
 
     public function setFecha1($fecha_1){
         $this->fecha_1 = $fecha_1;
@@ -77,6 +79,13 @@ class ReporteController extends Controller
 
     public function store(Request $request)
     {
+
+        $fecha_1 = substr($request->daterange,0,10);
+        $fecha_2 = substr($request->daterange,13,22);
+        $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
+        $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
+        $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
+
         //validación de los datos
 
         if($request->input('tipo_reporte') == 'general_por_carteras'){
@@ -89,12 +98,6 @@ class ReporteController extends Controller
                 ['tipo_reporte' => 'required'],
                 ['tipo_reporte.required' => 'Se requiere el Tipo de Reporte']);
         }
-
-        $fecha_1 = substr($request->daterange,0,10);
-        $fecha_2 = substr($request->daterange,13,22);
-        $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
-        $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
-        $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
 
         //REPORTEGENERALREPORTEGENERALREPORTEGENERALREPORTEGENERALREPORTEGENERALREPORTEGENERALREPORTEGENERAL
         //REPORTEGENERALREPORTEGENERALREPORTEGENERALREPORTEGENERALREPORTEGENERALREPORTEGENERALREPORTEGENERAL
@@ -138,8 +141,8 @@ class ReporteController extends Controller
          * cuantos creditos se otorgado y cuanta es la ganancia o rendimiento.
          */
         
-        //VENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOS
-        //VENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOS
+        //VENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOS
+        //VENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOS
 
         else if($request->input('tipo_reporte') == 'venta_creditos'){
 
@@ -155,8 +158,8 @@ class ReporteController extends Controller
                 ->with('total',$reporte['total']);
         }
 
-        //VENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESOR
-        //VENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESOR
+        //VENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOS
+        //VENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOSASESORVENTACREDITOS
 
         else if( $request->input('tipo_reporte') == 'venta_creditos_por_asesor' ){
 
@@ -191,8 +194,8 @@ class ReporteController extends Controller
 
 
 
-        //CASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADA
-        //CASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADA
+        //CASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADA
+        //CASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADACASTIGADA
 
         else if($request->input('tipo_reporte') == 'castigada'){
 
@@ -209,8 +212,8 @@ class ReporteController extends Controller
          * 
          */ 
 
-        //CALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTER
-        //CALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTER  
+        //CALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTER
+        //CALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTERCALLCENTER
   
         else if($request->input('tipo_reporte') == 'callcenter'){
 
@@ -283,8 +286,8 @@ class ReporteController extends Controller
             
             }
 
-        //PROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITO
-        //PROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITO
+        //PROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITO
+        //PROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITOPROCREDITO
         
         else if($request->input('tipo_reporte') == 'procredito'){
 
@@ -311,8 +314,8 @@ class ReporteController extends Controller
 
             return response()->download($nombre_archivo);
         }  
-        //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
-        //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
+        //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
+        //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
 
         else if($request->input('tipo_reporte') == 'datacredito' ){
             $corte               = Carbon::now();
@@ -327,17 +330,13 @@ class ReporteController extends Controller
                 foreach($reporte as $key => $elemento){
 
                     if ($elemento === reset($reporte)) {
-                        fwrite($archivo, $elemento);
-                    }
+                        fwrite($archivo, $elemento); }
                     else{
-                        fwrite($archivo, $elemento);
-                    }
+                        fwrite($archivo, $elemento); }
                 }
                 fwrite($archivo, PHP_EOL);  
             }
             fclose($archivo); // cierre del archivo
-    
-            //echo  nl2br(file_get_contents($nombre_archivo));
 
             return response()->download($nombre_archivo); 
         }
@@ -366,15 +365,24 @@ class ReporteController extends Controller
                 ->with('rango',$rango);
     }
 
+    //FINANCIEROFINANCIEROFINANCIEROFINANCIEROFINANCIEROFINANCIEROFINANCIERO
+    //FINANCIEROFINANCIEROFINANCIEROFINANCIEROFINANCIEROFINANCIEROFINANCIERO
+
     else if($request->input('tipo_reporte') == 'financiero')
     {
-        $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
-        $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
         $info = $this->financiero($ini, $fin);
 
         return view('admin.reportes.financiero.financiero_operativo')
             ->with('rango',$rango)
             ->with('info', $info);
+    }
+
+    //EGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOS
+    //EGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOS
+
+    else if($request->input('tipo_reporte') == 'egresos' )
+    {
+        return $this->get_egresos($ini, $fin);
     }
 }
 
@@ -489,18 +497,115 @@ class ReporteController extends Controller
 
     public function financiero_sucursales($ini, $fin)
     {
-        $sucursales = Punto::orderBy('nombre','asc')->get();
+        $sucursales = Punto::all();
         $ini     = Carbon::create(ano($ini),mes($ini),dia($ini),00,00,00);
         $fin     = Carbon::create(ano($fin),mes($fin),dia($fin),23,59,59);
-
+        $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
         $array = [];
         
-        foreach ($sucursales as $sucursal) {
-            $temp =  $this->financiero_por_sucursales($ini, $fin, $sucursal->id);
-            array_push($array, $temp);
+        foreach ($sucursales as $sucursal) 
+        {
+            $resp = $this->financiero_por_sucursales($ini, $fin, $sucursal->id);
+
+            if( $resp == "0 creditos"){}
+            else{
+
+                $financiero_sucursal = $resp;
+                $num_creditos        = $financiero_sucursal['num_creditos'];
+
+                $temp =  [ 
+                           'info'           => $financiero_sucursal,
+                           'num_creditos'   => $num_creditos, 
+                           'sucursal'       => $sucursal 
+                       ];
+                array_push($array, $temp);
+            }
+        }   
+
+        $array = collect($array)->sortByDesc('num_creditos');
+
+        return view('admin.reportes.financiero.sucursales.index')
+            ->with('sucursales', $array)
+            ->with('rango',$rango);
+    }
+
+
+    public function tipo_creditos_sucursal_anual($fecha)
+    {
+        $year       = substr($fecha, 6); // se extrae el año de a fecha
+        $quarts     = $this->quarts($year);
+        $sucursales = Punto::all();
+        $trimestres = [];
+
+        foreach($quarts as $quart)
+        {
+            $array = [];
+            $total_creditos = 0;
+
+            $empresa = $this->financiero($quart['ini'],$quart['fin']);
+
+            foreach ($sucursales as $sucursal) 
+            {
+                $res = $this->financiero_por_sucursales($quart['ini'], $quart['fin'], $sucursal->id);
+
+                if($res == "0 creditos"){}
+                else{
+                    $financiero_sucursal = $res;
+                    $num_creditos        = $financiero_sucursal['num_creditos'];
+                    $total_creditos      += $num_creditos;
+
+                    $temp =  [ 
+                               'info'           => $financiero_sucursal,
+                               'num_creditos'   => $num_creditos, 
+                               'sucursal'       => $sucursal 
+                           ];
+                    array_push($array, $temp);
+                }
+            }
+
+            $array = collect($array)->sortByDesc('num_creditos');
+            array_push($trimestres, 
+                [ 'data'            => $array, //info financiero de las sucursales
+                  'total_creditos'  => $total_creditos,
+                  'empresa'         => $empresa
+                ]);   
+            
         }
 
-        dd($array);
+        return view('admin.reportes.financiero.sucursales.comparativa_tipos')
+            ->with('quarts',$trimestres)
+            ->with('year',$year);
+
+
+    }
+
+    public function financiero_comparativo($year)
+    {
+
+        $quarts     = $this->quarts($year);
+        $sucursales = Punto::all();
+        $array_sucur_finan = ['q1' => [],'q2' => [], 'q3' => [],'q4' => []];
+
+
+        foreach($quarts as $key => $quart){
+            $num_indice = $key+1;
+            $indice = 'q'.$num_indice;
+
+            foreach($sucursales as $sucursal){
+                $temp = ['sucursal' => $sucursal, 
+                'info' => $this->financiero_por_sucursales($quart['ini'], 
+                                                           $quart['fin'], 
+                                                           $sucursal->id)];
+
+                array_push($array_sucur_finan[$indice],$temp);
+            }
+        }
+        //dd($array_sucur_finan['q1']);
+        return view('admin.reportes.financiero.sucursales.comparativa_financiero_general')
+            ->with('year',$year)
+            ->with('quarts',$array_sucur_finan);
+
+
     }
     
 }

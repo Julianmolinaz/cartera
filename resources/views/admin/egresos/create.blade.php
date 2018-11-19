@@ -49,6 +49,18 @@
           </div>  
         </div>  
 
+         <div class="form-group">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <label for="">Punto *: </label>
+            <select class="form-control input-sm" id="punto_id" name="punto_id">
+              <option disabled selected >- -</option>
+              @foreach($puntos as $punto)
+              <option value="{{$punto->id}}" {{ (old("punto_id") == $punto->id ? "selected":"") }}>{{$punto->nombre}}</option>
+              @endforeach  
+            </select> 
+          </div>  
+        </div>  
+
         <div class="form-group">
 
           <!-- concepto -->
