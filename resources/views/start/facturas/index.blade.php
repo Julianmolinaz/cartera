@@ -69,7 +69,9 @@
               <a href="#" class = 'btn btn-default btn-xs' OnClick="Anular({{$factura->id}},{{$factura->num_fact}});" data-toggle="modal" data-target="#modal" title="Anular factura">
                 <span class = "glyphicon glyphicon-fire" ></span>
               </a>  
-
+              <a href="#" class = 'btn btn-default btn-xs' onclick="print('{{$factura->id}}')" title="Imprimir factura">
+                <span class = "glyphicon glyphicon-print" ></span>
+              </a>  
             </td>
           </tr>		
 
@@ -80,6 +82,7 @@
 
         @include('start.facturas.anularFacturaModal')
 
+
       </div>
     </div>
   </div>
@@ -88,6 +91,8 @@
 <div style="margin-left:30px;">
     {{ $facturas->links() }}
 </div>
+
+  @include('start.pagos.print_js')
 
   <script>
     $( document ).ready(function() {

@@ -19,6 +19,10 @@ class CreateVariablesTable extends Migration
             $table->integer('vlr_dia_sancion');
             $table->integer('vlr_estudio_tipico');
             $table->integer('vlr_estudio_domicilio');
+            $table->string('razon_social')->nullable();
+            $table->string('nit')->nullable();
+            $table->string('telefono_1')->nullable();
+            $table->string('telefono_2')->nullable();
             $table->timestamps();
         });
     }

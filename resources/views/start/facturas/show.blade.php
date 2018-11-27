@@ -53,6 +53,9 @@
               <a href="{{route('start.precreditos.ver',$factura->credito->precredito->id)}}" class = 'btn btn-default btn-xs'>
                 <span class = "glyphicon glyphicon-sunglasses"  data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
               </a>
+              <a href="#" class = 'btn btn-default btn-xs' onclick="print('{{$factura->id}}')" title="Imprimir factura">
+                <span class = "glyphicon glyphicon-print" ></span>
+              </a>                
               @endif
             </td>
           </tr>
@@ -72,6 +75,8 @@
 </div>
 <div class="col-md-1 col-sm-1"></div>
 </div>
+
+@include('start.pagos.print_js')
 
 
 

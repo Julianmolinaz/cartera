@@ -15,12 +15,12 @@ use App\Credito;
 use DB;
 use Auth;
 use App\Extra;
-use App\Traits\Mensaje;
+use App\Traits\MensajeTrait;
 
 class PrecreditoController extends Controller
 {
 
-    use Mensaje;
+    use MensajeTrait;
 
     public function index()
     {

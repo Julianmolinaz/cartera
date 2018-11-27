@@ -44,7 +44,7 @@
 </div>
 
 @include('mis_js.factura_create_js')
-
+@include('start.pagos.print_js')
 
 @endsection
 @include('templates.main2')

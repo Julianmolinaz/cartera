@@ -6,12 +6,12 @@ use Illuminate\Console\Command;
 
 use App\Cliente;
 use Carbon\Carbon;
-use App\Traits\Mensaje;
+use App\Traits\MensajeTrait;
 use DB;
 
 class Cumpleanos extends Command
 {
-    use Mensaje;
+    use MensajeTrait;
     /**
      * The name and signature of the console command.
      *

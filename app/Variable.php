@@ -12,7 +12,9 @@ class Variable extends Model implements Auditable
     protected $table = "variables";
 
     protected $fillable = [
-    	'meses_min' , 'meses_max', 'vlr_dia_sancion', 'vlr_estudio_tipico','vlr_estudio_domicilio'
+    	'meses_min' , 'meses_max', 'vlr_dia_sancion', 
+    	'vlr_estudio_tipico','vlr_estudio_domicilio',
+    	'razon_social','nit','telefono_1','telefono_2'
     ];
 
 }

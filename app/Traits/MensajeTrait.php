@@ -4,6 +4,7 @@ namespace App\Traits;
 use GuzzleHttp\Client; 
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Mensaje;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,80 +14,11 @@ use Carbon\Carbon;
 | 
 */
 
-trait Mensaje
+trait MensajeTrait
 {
 	//array con llave y atributos: estado (1 para activo, 0 para inactivo) y contenido del mensaje a enviar
 
-	/*
-    |--------------------------------------------------------------------------
-    | tipo_mensaje
-    |--------------------------------------------------------------------------
-    |
-    | listado de mensajes de texto a enviar.
-    | "estado" => puede ser 0 (Inactivo), (1) (Activo)
-    | "contenido" => texto a ser enviado
-    | retorna el listado de mensajes
-    */
 
-
-	public function tipo_mensaje()
-	{
-		$list = [
-			//aprobación
-			'MSS111' => 
-			[
-				'estado'	=> '0',
-				'contenido' => 'INVERSIONES GORA SAS le informa que el crédito solicitado por usted ha sido aprobado. Cualquier inquietud comunicarse al Tel: 3104442464'
-			],
-			//5 dias de mora
-			'MSS222' =>
-			[
-				'estado'	=> '0', 
-				'contenido' => 'INVERSIONES GORA SAS le informa que su crédito presenta una mora de cinco (5) dias, lo invitamos a que pueda normalizar su obligación. Cualquier inquietud comunicarse al Tel: 3104450956 o visitenos a www.inversionesgora.com'
-			],
-			//20 dias de mora
-			'MSS333' =>
-			[
-				'estado'	=> '0',
-				'contenido' => 'INVERSIONES GORA SAS le informa que su crédito presenta una mora de veinte (20) dias, lo invitamos a que pueda normalizar su obligación y evite reportes negativos en las centrales de riesgo. Cualquier inquietud comunicarse al Tel: 3104450956'
-			],
-			//estado prejuridico
-			'MSS444' =>
-			[
-				'estado'	=> '0',
-				'contenido' => 'INVERSIONES GORA SAS le informa que su crédito pasó a estado prejurídico, lo invitamos a que se presenta al punto mas cercano y pueda normalizar su obligación, evite costos jurídicos. Cualquier inquietud comunicarse al Tel: 3104450956'
-			],
-			//estado juridico
-			'MSS555' =>
-			[
-				'estado'	=> '0',
-				'contenido' => 'INVERSIONES GORA SAS le informa que su crédito pasó a estado Jurídico, lo invitamos a que de manera URGENTE se presenta al punto mas cercano, pregunte por el estado de su cuenta y evite costos jurídicos. Cualquier inquietud comunicarse al Tel: 3104450956'
-			],
-			//cumpleaños
-			'MSS666' =>
-			[
-				'estado'	=> '0',
-				'contenido' => 'INVERSIONES GORA SAS le desea un feliz cumpleaños terminar.....'
-			],
-		];
-
-		return $list;
-	}
-
-	/*
-    |--------------------------------------------------------------------------
-    | get_tipo
-    |--------------------------------------------------------------------------
-    |
-    | recibe una llave ejemplo: "MSS111"
-    | retorna el elemento del listado de tipos de mensaje (function tipo_mensaje())
-    |
-    */
-
-	public function get_tipo_mensaje($key)
-	{
-		return $this->tipo_mensaje()[$key];
-	}
 
 	/*
     |--------------------------------------------------------------------------
@@ -102,9 +34,9 @@ trait Mensaje
 
 	public function send_message($telefonos,$key)
 	{
-		$tipo_msm = $this->get_tipo_mensaje($key);
-
-		if($tipo_msm['estado'])
+		$tipo_msm = Mensaje::where('nombre',$key)->get()[0];
+		
+		if($tipo_msm->estado)
 		{
 			$tel = $this->array_to_string($telefonos);
 
@@ -180,10 +112,10 @@ trait Mensaje
 
 	public function api_hablame($telefonos, $key)
 	{
-		$client = 10012808;
-		$clave_api = 'bHoHiZWU96RC1yctSJoK3fSTXhUah7';
+		$client = 10012723;
+		$clave_api = 'XcCBHyhMMbtGQ9dVk2LuqYOHgRy07k';
 
-		$mdt = $this->get_tipo_mensaje($key);
+		$mdt = Mensaje::where('nombre',$key)->get()[0];
 
 		$url = 'https://api.hablame.co/sms/envio/';
 
@@ -191,7 +123,7 @@ trait Mensaje
 			'cliente' 	=> $client, //Numero de cliente
 			'api' 		=> $clave_api, //Clave API suministrada
 			'numero' 	=> $telefonos, //numero o numeros telefonicos a enviar el SMS (separados por una coma ,)
-			'sms' 		=> $mdt['contenido'], //Mensaje de texto a enviar
+			'sms' 		=> $mdt->contenido, //Mensaje de texto a enviar
 			'fecha' 	=> '', //(campo opcional) Fecha de envio, si se envia vacio se envia inmediatamente (Ejemplo: 2017-12-31 23:59:59)
 			'referencia'=> $key, //(campo opcional) Numero de referencio ó nombre de campaña
 		);

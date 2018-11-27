@@ -349,7 +349,7 @@
               <th>    Desde     </th>
               <th>    Hasta     </th>   
               <th>    Abono Otro Pago </th>   
-              <th>    Actividad </th>
+              <th>    Acción </th>
             </tr>
           </thead>
 
@@ -387,7 +387,11 @@
                     <a href=".route('start.facturas.show',$pagos[$i]->factura->id)." 
                     class = 'btn btn-default btn-xs'><span class = 'glyphicon glyphicon-eye-open' 
                     data-toggle='tooltip' data-placement='top' title='Ver'></span></a>                   
-                      </td>
+
+                      <button class = 'btn btn-default btn-xs' onclick='print(". $pagos[$i]->factura_id .")'>
+                        <span class = 'glyphicon glyphicon-print'  data-toggle='tooltip' data-placement='top' title='Imprimir factura'></span>
+                      </button>  
+                    </td>
                     </tr>";
               }
             ?>
@@ -402,7 +406,7 @@
 
 </div>
 
-
+@include('start.pagos.print_js')
 @endsection
 
 @include('templates.main2')

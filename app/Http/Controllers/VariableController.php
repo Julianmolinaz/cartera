@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Variable;
+use App\Mensaje;
 
 
 class VariableController extends Controller
@@ -24,48 +25,13 @@ class VariableController extends Controller
             
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function create(){}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-       
-    }
+    public function store(Request $request){}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+    public function show($id){}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    public function edit($id){}
 
     /**
      * Update the specified resource in storage.
@@ -82,14 +48,16 @@ class VariableController extends Controller
             'meses_max'             => 'required',
             'vlr_dia_sancion'       => 'required',
             'vlr_estudio_tipico'    => 'required',
-            'vlr_estudio_domicilio' => 'required'
+            'vlr_estudio_domicilio' => 'required',
+            'razon_social'          => 'required'
             ],
             [
             'meses_min.required'        => 'El Rango de Meses Mínimo es requerido',
             'meses_max.required'        => 'El Rango de Meses Máximo es requerido',
             'vlr_dia_sancion.required'  => 'El Valor día de mora es requerido',
             'vlr_estudio_tipico.required'=>'El Valor estudio típico es requerido',
-            'vlr_estudio_domicilio.required'=>'El Valor estudio domicilio es requerido'
+            'vlr_estudio_domicilio.required'=>'El Valor estudio domicilio es requerido',
+            'razon_social.required'     => 'La razon social de la empresa es requerida'
             ]
             );
 
@@ -103,14 +71,33 @@ class VariableController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy($id){}
+
+    /*
+    |--------------------------------------------------------------------------
+    | get_mensajes
+    |--------------------------------------------------------------------------
+    |
+    | retorna los listado de los mensajes que se envian automaticamente por
+    | el sistema.
+    |
+    */    
+
+    public function get_mensajes()
     {
-        //
+        try
+        {
+            $mensajes = Mensaje::all();
+
+            $res = ['error' => false, 'res' => $mensajes];
+
+            return response()->json($res);
+        }
+        catch(\Exception $e)
+        {
+            $res = ['error' => true, 'res' => $e->getMessage()];
+
+            return response()->json($res);
+        }
     }
 }

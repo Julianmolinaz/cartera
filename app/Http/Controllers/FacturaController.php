@@ -47,8 +47,7 @@ class FacturaController extends Controller
 
     public function invoice_to_print($factura_id)
     {
-      return view('start.pagos.prueba');
-      //return $this->generate_content_to_print($factura_id);
+      return $this->generate_content_to_print($factura_id);
     }
 
     /**

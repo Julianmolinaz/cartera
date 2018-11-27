@@ -6,11 +6,11 @@ use Illuminate\Console\Command;
 use DB;
 use Auth;
 use App\Credito;
-use App\Traits\Mensaje;
+use App\Traits\MensajeTrait;
 
 class Morosos extends Command
 {
-    use Mensaje;
+    use MensajeTrait;
     /**
      * The name and signature of the console command.
      *

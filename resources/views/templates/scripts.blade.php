@@ -26,3 +26,6 @@
 
 <!-- Vue -->
 <script src="{{asset('js.vue.min.js')}}"></script>
+
+<!-- Axios -->
+<script src="{{asset('js.axios.min.js')}}"></script>
