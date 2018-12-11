@@ -49,7 +49,7 @@
   $(document).ready(function(){
 
     $('#datatable').DataTable({
-
+      pageLength: 1000,
       processing: true,
       serverSide: true,
       dom: 'Bfrtip',
@@ -64,7 +64,7 @@
         {data: 'fecha'},
         {data: 'valor'},
         {data: 'observaciones'},
-        {data: 'punto.nombre' },
+/*        {data: 'punto.nombre' },*/
         {data: 'cartera.nombre'},
         {data: 'user_create.name'},
         {data: 'btn', searchable: false}
@@ -73,6 +73,13 @@
     });
 
   });
+
+    $('#btn_exc').click(function(){
+        $('#datatable').table2excel({
+            name: 'Reporte',
+            filename: "{{'repor_egresos.xls'}}"
+        });
+    });
 
 </script>
 

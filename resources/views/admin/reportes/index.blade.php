@@ -48,12 +48,10 @@
         </div>
       
         <center>
-          <p></p>
-
            <button type="submit" class="btn btn-primary">&nbsp;&nbsp;Generar Reporte&nbsp;&nbsp;</button>
-           <a href="{{route('admin.marcar_cancelados')}}" class="btn btn-success" id="btnCancelados">
+           <a href="{{route('admin.marcar_cancelados', 'procredito')}}" class="btn btn-success" id="btnCancelados">
               Marcar créditos finalizados {{ $ultimo_reporte_cancelados }}
-          </a>
+           </a>
         </center>  
    
       </form>

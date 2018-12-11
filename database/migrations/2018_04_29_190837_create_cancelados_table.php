@@ -14,6 +14,7 @@ class CreateCanceladosTable extends Migration
     {
         Schema::create('cancelados', function (Blueprint $table) {
             $table->increments('id');
+            $table->enum('reporte',['datacredito','procredito']);
             $table->integer('credito_id')->unsigned();
             $table->timestamps();
         });
