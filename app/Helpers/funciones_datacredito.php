@@ -76,8 +76,14 @@ use DB;
             // Registrar creditos cancelados para luego marcar si el reporte es aprobado
 
             if($credito->estado == 'Cancelado' || $credito->saldo <= 0){
+                $fecha_actual = Carbon::now();
                 //se registran los creditos finalizados
-                DB::table('cancelados')->insert(['credito_id' => $credito->id]);
+                DB::table('cancelados')
+                    ->insert([
+                        'credito_id' => $credito->id,
+                        'reporte'    => 'datacredito',
+                        'created_at' => $fecha_actual->toDateTimeString()
+                    ]);
 
             }
 
@@ -560,8 +566,6 @@ function novedad($credito,$corte){
         }
     }
     if( $estado == 'Cancelado' || $credito->saldo == 0){
-        // $credito->end_datacredito = 1;
-        // $credito->save();
         $novedad = '05';
     }
     if( ( $credito->castigada == 'Si' && 

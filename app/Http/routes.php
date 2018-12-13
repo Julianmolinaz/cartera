@@ -385,7 +385,7 @@ Route::get('admin/reporte_centrales','ReporteController@centrales');
 
 Route::post('admin/descargar_reporte_detallado_ventas','ReporteController@descargar');
 
-Route::get('admin/marcar-cancelados', 
+Route::get('admin/marcar-cancelados/{tipo_reporte}', 
 	[ 'uses' => 'ReporteController@marcar_cancelados', 'as' => 'admin.marcar_cancelados'])
 	->middleware('admin');
 

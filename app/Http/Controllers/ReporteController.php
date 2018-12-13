@@ -457,23 +457,31 @@ class ReporteController extends Controller
             ->with('total',$reporte['total']);
     }
 
-    public function marcar_cancelados()
+    public function marcar_cancelados($tipo_reporte)
     {
         DB::beginTransaction();
 
         try{
 
-            $cancelados = DB::table('cancelados')->get();
+            $cancelados = DB::table('cancelados')->where('reporte',$tipo_reporte)->get();
+
+            if($tipo_reporte == 'procredito'){
+                $end = 'end_procredito';
+            }
+            elseif($tipo_reporte == 'datacredito')
+            {
+                $end = 'end_datacredito';
+            }
 
             if(count($cancelados) > 0){
+
                 foreach($cancelados as $cancelado){
-    
                     DB::table('creditos')
                         ->where('id',$cancelado->credito_id)
-                        ->update(['end_procredito' => 1]);
+                        ->update([$end => 1]);
                 }
 
-                DB::table('cancelados')->delete();
+                DB::table('cancelados')->where('reporte',$tipo_reporte)->delete();
                 DB::commit();
                 flash()->success('Se marcaron los creditos cancelados correctamente');
                 return redirect()->route('admin.reportes.index');

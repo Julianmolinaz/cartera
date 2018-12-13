@@ -7,25 +7,25 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Repositories\CreditoRepository;
 
-use App\Traits\Mensaje;
-use App\Credito;
+use App\Traits\MensajeTrait;
 use App\Precredito;
-use App\Producto;
-use App\User;
-use App\Variable;
-use App\Cartera;
-use App\Cliente;
 use App\FechaCobro;
 use App\Castigada;
 use Carbon\Carbon;
+use App\Producto;
+use App\Variable;
+use App\Cartera;
+use App\Credito;
+use App\Cliente;
+use App\User;
 use Excel;
-use DB;
 use Auth;
+use DB;
 
 class CreditoController extends Controller
 {
     protected $creditos;
-    use Mensaje;
+    use MensajeTrait;
 
     public function __construct(CreditoRepository $creditos){
       $this->creditos = $creditos;

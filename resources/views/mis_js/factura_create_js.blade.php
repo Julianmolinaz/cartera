@@ -2,13 +2,12 @@
 
 $( document ).ready(function() {
 
-
-
   //alert('ready!!');
-  var bandera = 0;
-  var bandera2  = 0;
-  var count = 0; 
+  var bandera     = 0;
+  var bandera2    = 0;
+  var count       = 0; 
   $('#monto').val("");
+  var auto = false;
 
 
 /***************** AGREGAR *******************************/
@@ -75,8 +74,10 @@ $( document ).ready(function() {
   var validacion = validar();
 
   if (validacion == true){ //valida los campos # Factura y Fecha del Generador de pagos con true si tienen la información
-
-    var num_factura = $('#num_factura').val();
+    var num_factura = '000000'; //se coloca un valor para que deje seguir
+    if(!auto){
+      var num_factura = $('#num_factura').val();
+    } 
     var route = "{{url('start/facturas')}}/"+num_factura+"/consultar_factura";
 
     $.get(route,function(data){ //valida que el numero de factura no se repita
@@ -116,14 +117,16 @@ $( document ).ready(function() {
               headers: {'X-CSRF-TOKEN': token},
               type: 'POST',
               dataType: 'json',
-              data:{  info:pagos,
-                      credito_id:credito_id, 
-                      num_factura:num_factura, 
-                      fecha_factura:fecha_factura,
-                      sum_sanciones:sum_sanciones, 
-                      tipo_pago:tipo_pago
+              data:{  info          : pagos,
+                      credito_id    : credito_id, 
+                      num_factura   : num_factura, 
+                      fecha_factura : fecha_factura,
+                      sum_sanciones : sum_sanciones, 
+                      tipo_pago     : tipo_pago,
+                      auto          : auto
                       },
               success: function( msg ) {
+                console.log(msg);
                 if(msg.error){
                   alert(msg.mensaje);
                   count = 0;
@@ -142,6 +145,13 @@ $( document ).ready(function() {
 
   });
 
+  $('#auto').on('click', function(){
+    $('#num_factura').val('');
+    $('#fecha_factura').val('');
+    auto = !auto;
+    $('#fecha_factura').attr('readonly',auto);
+    $('#num_factura').attr('readonly',auto);    
+  });
 
 
 
@@ -156,10 +166,10 @@ function Eliminar(i){
 
 function validar(){
   var mensaje = "";
-  if($('#num_factura').val() == ''){
+  if($('#num_factura').val() == '' && auto == false){
     mensaje = " # Factura, ";
   }
-  if($('#fecha_factura').val() == ''){
+  if($('#fecha_factura').val() == '' && auto == false){
     mensaje = mensaje+" Fecha, ";
   }
   if($('select[id = tipo]').val() == ''){
@@ -174,5 +184,5 @@ function validar(){
   }
 }
 
-});//end document.ready
+})//end document.ready
 </script>

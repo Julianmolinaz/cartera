@@ -37,7 +37,7 @@ function reporte_procredito(){
         $now                = Carbon::now(); // fecha actual
         $fecha              = fecha_plana($now->toDateString()); // convertir fecha 
 
-        DB::table('cancelados')->delete(); // vaciar tabla cancelados
+        DB::table('cancelados')->where('reporte','procredito')->delete(); // vaciar tabla cancelados
 
         $no_admitidos       = no_admitidos(); // listado de creditos que generan error
 
@@ -57,6 +57,7 @@ function reporte_procredito(){
             if( $credito->estado == 'Cancelado' ||  $credito->saldo == 0){
                 DB::table('cancelados')->insert(
                     ['credito_id' => $credito->id,
+                     'reporte'    => 'procredito',
                      'created_at' => Carbon::now()]);
             }
                

@@ -12,8 +12,9 @@ use App\Variable;
 use App\Factura;
 use App\Credito;
 use App\Sancion;
-use App\Pago;
 use App\Extra;
+use App\Pago;
+use App\Punto;
 use Auth;
 use DB;
 
@@ -166,6 +167,17 @@ class FacturaController extends Controller
         ->with('total_pagos',$total_pagos);
     }
 
+
+    public function generate_auto()
+    {
+      $punto        = Punto::find(Auth::user()->punto_id); 
+      $prefijo      = $punto->prefijo;
+      $consecutivo  = $punto->increment + 1;
+
+      return $prefijo .''. $consecutivo;
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -173,7 +185,8 @@ class FacturaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {//return response()->json(["mensaje" => $request->info]);
+    {
+
 
     DB::beginTransaction();
 
@@ -187,6 +200,13 @@ class FacturaController extends Controller
       $now        = Carbon::today();
       $bandera    = 0;
 
+      if($request->auto){
+        $date_time = Carbon::now();
+        $num_fact  = $this->generate_auto();
+      } else{
+        $date_time = new Carbon($request->fecha_factura);
+        $num_fact  = $request->num_factura;
+      }
 
       // convierte el string cadena en un array llamado vector
 
@@ -198,10 +218,8 @@ class FacturaController extends Controller
 
       //variables creacion factura
       $factura = new Factura();
-      $factura->num_fact        = $request->num_factura;
-      $factura->fecha           = substr($request->fecha_factura, 8, 2).
-                                  substr($request->fecha_factura, 4, 3).'-'.
-                                  substr($request->fecha_factura, 0, 4);
+      $factura->num_fact        = $num_fact;
+      $factura->fecha           = $date_time = $date_time->format('d-m-Y');
       $factura->credito_id      = $request->credito_id;
       $factura->total           = 0 ;
       $factura->tipo            = $request->tipo_pago;
