@@ -64,7 +64,8 @@ trait FacturaTrait
 			<head>
 				<style>
 					.cuerpo{
-						width:50mm;
+						width:45mm;
+						margin-top:0px;
 						/*border: 1px solid;*/
 						font-size: 11px;
 						padding: 5px 5px;
