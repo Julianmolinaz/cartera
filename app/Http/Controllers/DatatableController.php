@@ -25,8 +25,7 @@ class DatatableController extends Controller
             return false;
         }
 
-       $query = Egreso::with('user_create')->with('cartera')->orderBy('updated_at','desc');
-        /*$query = Egreso::with('user_create')->with('cartera')->with('punto')->orderBy('updated_at','desc')*/;
+        $query = Egreso::with('user_create')->with('cartera')->with('punto')->orderBy('updated_at','desc');
     	return DataTables::of($query)
         ->addColumn('btn','
              <a href="{{route(\'admin.egresos.edit\',$id)}}" class = \'btn btn-default btn-xs\'><span class="glyphicon glyphicon-pencil"  title="ver"></span></a>

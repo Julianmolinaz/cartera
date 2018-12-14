@@ -66,7 +66,7 @@
               <a href="{{route('start.facturas.create',$factura->credito->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Hacer pago">
                 <span class = "glyphicon glyphicon-usd"  ></span>
               </a>  
-              <a href="#" class = 'btn btn-default btn-xs' OnClick="Anular({{$factura->id}},{{$factura->num_fact}});" data-toggle="modal" data-target="#modal" title="Anular factura">
+              <a href="#" class = 'btn btn-default btn-xs' OnClick="Anular({{$factura->id}},'{{$factura->num_fact}}');" data-toggle="modal" data-target="#modal" title="Anular factura">
                 <span class = "glyphicon glyphicon-fire" ></span>
               </a>  
               <a href="#" class = 'btn btn-default btn-xs' onclick="print('{{$factura->id}}')" title="Imprimir factura">

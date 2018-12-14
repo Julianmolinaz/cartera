@@ -60,6 +60,7 @@ class FacturaController extends Controller
     {
       $hoy      = Carbon::today();
       $credito  = Credito::find($id);
+      $punto    = Punto::find(Auth::user()->punto_id);
 
       $sum_sanciones = DB::table('sanciones')
                           ->where([['credito_id','=',$id],['estado','Debe']])
@@ -164,7 +165,8 @@ class FacturaController extends Controller
         ->with('pago_prejuridico',$pago_prejuridico)
         ->with('total_parciales',$total_parciales)
         ->with('tipo_pago',$tipo_pago)
-        ->with('total_pagos',$total_pagos);
+        ->with('total_pagos',$total_pagos)
+	->with('punto',$punto);
     }
 
 
@@ -200,7 +202,7 @@ class FacturaController extends Controller
       $now        = Carbon::today();
       $bandera    = 0;
 
-      if($request->auto){
+      if($request->auto === true){
         $date_time = Carbon::now();
         $num_fact  = $this->generate_auto();
       } else{

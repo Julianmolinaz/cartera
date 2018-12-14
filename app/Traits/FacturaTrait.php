@@ -47,16 +47,8 @@ trait FacturaTrait
 		foreach($factura->pagos as $pago){
 			$str_pagos .= 
 			'<div id="pagos">
-				<p id="concepto">Concepto: '.$pago->concepto.'</p>';
+				<p id="concepto">'.$pago->concepto.' : $'.number_format($pago->abono,0,",",".").'</p>';
 
-			if($pago->pago_hasta){
-				$str_pagos .=
-					'<p id="p_hasta">Pago Hasta: '. $pago->pago_hasta .'</p>';
-
-			}
-			$str_pagos .=	
-					'<p id="subtotal">Subtotal: $ '. number_format($pago->abono,0,",",".") .'</p>
-				</div>';
 		}
 
 		return 
@@ -64,7 +56,7 @@ trait FacturaTrait
 			<head>
 				<style>
 					.cuerpo{
-						width:50mm;
+						width:45mm;
 						/*border: 1px solid;*/
 						font-size: 11px;
 						padding: 5px 5px;
@@ -104,28 +96,30 @@ trait FacturaTrait
 					<div class="center" id="encabezado">
 						<h3>'. $variable->razon_social .'</h3>
 						<p>Nit: '. $variable->nit .'</p>
-						<p>Dir: '.Auth::user()->punto->direccion.'</p>
+						<p>Dir: '.$factura->user_create->punto->direccion.'</p>
 						<p>Tel: '. $variable->telefono_1 .'</p>
 					</div>
 					<div id="datos_cliente" class="contenido">
 						<br>
 						<p>Fecha: '. $now->format('d-m-Y H:i') .'</p>
-						<p id="asesor">Asesor: '. Auth::user()->name .'</p>
-						<p id="cliente">Cliente: '. $factura->credito->precredito->cliente->nombre .'</p>
+						<p id="asesor">Asesor: '. $factura->user_create->name .'</p>
+						<p id="cliente">Cliente: '. strtoupper($factura->credito->precredito->cliente->nombre) .'</p>
 						<p>Doc: '. $factura->credito->precredito->cliente->num_doc .'</p>
 					</div>	
 					<br>
 					<div id="factura" class="contenido">
-						<h4>Referencia # '. $factura->num_fact .' - '. $factura->credito->id .'</h4><br>'.
+						<h4>Referencia # '. $factura->num_fact .' - '. $factura->credito->id .'</h4><br>
+						PAGOS:<br>'.
 						$str_pagos.
 						'<br>
 						<div>
 							<p id="abono">Total: $ '. number_format($factura->total,0,",",".") .'</p>
 							<br>
-							<p id="saldo">Saldo: $ '. number_format($factura->credito->saldo,0,",",".") .'</p>'.
-							$prox.
+							<p id="saldo">Saldo: $ '. number_format($factura->credito->saldo,0,",",".") .'</p>
+							<p id="prox_fech_pago">Próxima fecha de pago: </p><br><br>
+							<p>______________________________</p>
 							
-						'</div>			
+						</div>			
 					</div>		
 					<div>
 						<br>

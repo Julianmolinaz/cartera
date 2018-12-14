@@ -273,7 +273,7 @@ class AnuladaController extends Controller
       }//END DEL TRY
       catch(\Exception $e){
         DB::rollback();
-        flash()->error('ERROR'.$e);
+        flash()->error('ERROR'.$e->getMessage());
         return redirect()->route('start.facturas.index');
       }
 

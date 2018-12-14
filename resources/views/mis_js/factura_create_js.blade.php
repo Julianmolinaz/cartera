@@ -8,7 +8,12 @@ $( document ).ready(function() {
   var count       = 0; 
   $('#monto').val("");
   var auto = false;
+  var punto = {!! json_encode($punto) !!};
 
+
+  if(punto.id != 1){
+	$('#btn_auto').hide();
+  }
 
 /***************** AGREGAR *******************************/
 

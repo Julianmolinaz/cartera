@@ -41,7 +41,7 @@
               </div>
 
                 <div class="form-group">
-                  <div class="col-md-6 col-sm-6">
+                  <div class="col-md-6 col-sm-6" id='btn_auto'>
                     <a href="#" class="btn btn-default btn-block" id="auto">Consecutivo Auto</a>
                   </div>
 
