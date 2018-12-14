@@ -2,14 +2,16 @@
 
 $( document ).ready(function() {
 
-  //alert('ready!!');
+  var punto       = {!! json_encode($punto) !!};
   var bandera     = 0;
   var bandera2    = 0;
   var count       = 0; 
   $('#monto').val("");
   var auto = false;
 
-
+  if(punto.id != 1){
+    $('#btn_auto').hide();
+  }
 /***************** AGREGAR *******************************/
 
 

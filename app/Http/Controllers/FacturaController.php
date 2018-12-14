@@ -16,6 +16,7 @@ use App\Extra;
 use App\Pago;
 use App\Punto;
 use Auth;
+use PDF;
 use DB;
 
 class FacturaController extends Controller
@@ -60,6 +61,7 @@ class FacturaController extends Controller
     {
       $hoy      = Carbon::today();
       $credito  = Credito::find($id);
+      $punto    = Punto::find(Auth::user()->punto_id);
 
       $sum_sanciones = DB::table('sanciones')
                           ->where([['credito_id','=',$id],['estado','Debe']])
@@ -164,7 +166,8 @@ class FacturaController extends Controller
         ->with('pago_prejuridico',$pago_prejuridico)
         ->with('total_parciales',$total_parciales)
         ->with('tipo_pago',$tipo_pago)
-        ->with('total_pagos',$total_pagos);
+        ->with('total_pagos',$total_pagos)
+        ->with('punto',$punto);
     }
 
 
@@ -173,6 +176,8 @@ class FacturaController extends Controller
       $punto        = Punto::find(Auth::user()->punto_id); 
       $prefijo      = $punto->prefijo;
       $consecutivo  = $punto->increment + 1;
+      $punto->increment = $consecutivo;
+      $punto->save();
 
       return $prefijo .''. $consecutivo;
 
@@ -563,7 +568,6 @@ class FacturaController extends Controller
       return view('start.facturas.show')
       ->with('factura',$factura);
     } 
-
 
     public function edit($id){}
     public function update(Request $request, $id){}

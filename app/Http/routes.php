@@ -265,6 +265,9 @@ Route::get('start/facturas/{factura}/edit',
 Route::put('start/facturas/{factura}',
 	['uses' => 'FacturaController@update','as'=> 'start.facturas.update']);
 
+Route::get('start/factura_pdf/{factura_id}',
+	['uses' => 'FacturaController@get_pdf','as' => 'start.facturas.pdf']);
+
 Route::get('start/facturas/{id}/consultar_factura','FacturaController@consultar_factura');
 Route::post('start/facturas/fecha_pago','FacturaController@fecha_pago');
 Route::post('start/facturas/abonos','FacturaController@abonos');
