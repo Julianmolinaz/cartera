@@ -175,7 +175,8 @@ class FacturaController extends Controller
       $punto        = Punto::find(Auth::user()->punto_id); 
       $prefijo      = $punto->prefijo;
       $consecutivo  = $punto->increment + 1;
-
+      $punto->increment = $consecutivo; 
+      $punto->save();
       return $prefijo .''. $consecutivo;
 
     }
@@ -201,8 +202,10 @@ class FacturaController extends Controller
       $contenedor = "";
       $now        = Carbon::today();
       $bandera    = 0;
-
-      if($request->auto === true){
+	
+      //se valida si se solicita un consecutivo  para el numero de factura
+	
+      if($request->auto === 'true'){
         $date_time = Carbon::now();
         $num_fact  = $this->generate_auto();
       } else{
