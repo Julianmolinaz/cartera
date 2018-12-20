@@ -15,11 +15,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                   <td></td>
-                   <td></td>
-                   <td></td>
-                   <td style="color:#ff0000"><strong>Total:</strong></td>
-                   <td id="total" style="color:#ff0000"></td>
+                    <tr v-for="pago in general.pagos">
+                       <td>@{{ pago.cant }}     </td>
+                       <td>@{{ pago.concepto }} </td>
+                       <td>@{{ pago.ini  }}     </td>
+                       <td>@{{ pago.fin }}      </td>
+                       <td>@{{ pago.subtotal }} </td>
+                    </tr>
                  </tbody>
               </table>
 
@@ -28,8 +30,9 @@
                 <div class="col-md-12 col-sm-12 col-xs-12"><br>
 
                 {!! link_to('start/pagos/inicio',$title='Salir',$attributes =  ['id'=>'salir','class'=>'btn btn-warning '],$secure = null) !!}
-                {!! link_to('#',$title='Borrar',$attributes =  ['id'=>'borrar','class'=>'btn btn-danger '],$secure = null) !!}
-                {!! link_to('#',$title='Aceptar',$attributes =  ['id'=>'aceptar','class'=>'btn btn-primary '],$secure = null) !!}
+                <a href="#" class="btn btn-danger" @click="borrar">Borrar</a>
+                <a href="#" class="btn btn-primary" @click="aceptar">Aceptar</a>
+              
                 </div>
                </center>
 

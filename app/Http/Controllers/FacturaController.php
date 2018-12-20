@@ -183,123 +183,112 @@ class FacturaController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | store
+    |--------------------------------------------------------------------------
+    |
+    | Crea una factura
+    | Recibe request toda la informacion de la factura
+    | Retorna : recarga la vista
+    | 
+    */      
+
     public function store(Request $request)
     {
+     /* return response()->json($request->all());*/
+      DB::beginTransaction();
 
+      try{
 
-    DB::beginTransaction();
+        $id         = $request->credito_id;
+        $pagos      = $request->pagos; // pagos a registrar
+        $now        = Carbon::today(); // fecha actual
+        $bandera    = 0;
 
-    try{
-
-      $cadena     = $request->info;
-      $id         = $request->credito_id;
-      $len_cadena = strlen($cadena);
-      $vector     = array();
-      $contenedor = "";
-      $now        = Carbon::today();
-      $bandera    = 0;
-
-      if($request->auto){
-        $date_time = Carbon::now();
-        $num_fact  = $this->generate_auto();
-      } else{
-        $date_time = new Carbon($request->fecha_factura);
-        $num_fact  = $request->num_factura;
-      }
-
-      // convierte el string cadena en un array llamado vector
-
-      for( $i = 0; $i < $len_cadena ; $i++ ){
-        if( $cadena[$i] == ','){ array_push($vector,$contenedor);  $contenedor = "";  }
-        else{  $contenedor = $contenedor.$cadena[$i];  }        
-      }
-      array_push($vector,$contenedor);
-
-      //variables creacion factura
-      $factura = new Factura();
-      $factura->num_fact        = $num_fact;
-      $factura->fecha           = $date_time = $date_time->format('d-m-Y');
-      $factura->credito_id      = $request->credito_id;
-      $factura->total           = 0 ;
-      $factura->tipo            = $request->tipo_pago;
-      $factura->user_create_id  = Auth::user()->id;
-      $factura->user_update_id  = Auth::user()->id;
-      $factura->save();
-
-      
-      for ($k=0; $k < count($vector); $k++) { 
-        $credito = Credito::find($id);
-
-      /******************** JURIDICO *****************/  
-
-        if($vector[$k] == "Juridico"){
-
-          // Consulta el cobro jurìdico que este en Debe
-
-          $juridico = Extra::where('credito_id',$credito->id)
-                        ->where('concepto','Juridico')  
-                        ->where('estado','Debe')
-                        ->get();
-
-          // Consulta si existen pagos de ese cobro jurídico              
-
-          $pago_juridico = Pago::where('credito_id',$credito->id)
-                              ->where('concepto','Juridico')
-                              ->where('estado','Debe')
-                              ->get(); 
-
-          $pago = new Pago();
-          $pago->factura_id = $factura->id;
-          $pago->credito_id = $credito->id;
-          $pago->concepto   = 'Juridico';  
-          $pago->abono      = $vector[$k+3];  
-
-
-
-          if(count($pago_juridico) > 0){
-            $pago->debe         = $pago_juridico[0]->debe - $vector[$k+3];
-            $pago->abono_pago_id= 'p'.$pago_juridico[0]->id.'.m'.$juridico[0]->id; 
-
-            $pago_juridico          = Pago::find($pago_juridico[0]->id);
-            $pago_juridico->estado  = 'Ok'; 
-            $pago_juridico->save();
-          }
-          else{
-            $pago->debe         = $juridico[0]->valor - $vector[$k+3];  
-
-  // utilizo pago abono_id de la tabla pagos para referenciar a la multa que se le esta abonando (ver tabla extras) 
-            $pago->abono_pago_id = 'p(--)'.'.m'.$juridico[0]->id; 
-                       
-          } 
-
-          if($pago->debe == 0){ 
-            $pago->estado = 'Ok'; 
-            $juridico = Extra::find($juridico[0]->id);
-            $juridico->estado = 'Ok';
-            $juridico->save();
-          } 
-          else { 
-            $pago->estado = 'Debe'; 
-          }
-          $pago->pago_desde = null;
-          $pago->pago_hasta = null;
-          $pago->save();  
-          
-          $credito->saldo = $credito->saldo - $pago->abono;
-          $credito->save();
-          $bandera = 1;                                              
-
+        if( $request->auto ){ // validacion de consecutivo automático
+          $date_time = Carbon::now();
+          $num_fact  = $this->generate_auto();
+        } else {
+          $date_time = new Carbon($request->fecha);
+          $num_fact  = $request->num_fact;
         }
+
+        //Creacion de factura
+        $factura = new Factura();
+        $factura->num_fact        = $num_fact;
+        $factura->fecha           = $date_time->format('d-m-Y');
+        $factura->credito_id      = $request->credito_id;
+        $factura->total           = $request->monto;
+        $factura->tipo            = $request->tipo_pago;
+        $factura->user_create_id  = Auth::user()->id;
+        $factura->user_update_id  = Auth::user()->id;
+        $factura->save();
+                
+        foreach ($pagos as $pay) { 
+          $credito = Credito::find($id);
+
+        /******************** JURIDICO *****************/  
+
+          if($pay['concepto'] == "Juridico"){
+
+            // Consulta el cobro jurìdico que este en Debe
+
+            $juridico = Extra::where('credito_id',$credito->id)
+                          ->where('concepto','Juridico')  
+                          ->where('estado','Debe')
+                          ->get();
+
+            // Consulta si existen pagos de ese cobro jurídico              
+
+            $pago_juridico = Pago::where('credito_id',$credito->id)
+                                ->where('concepto','Juridico')
+                                ->where('estado','Debe')
+                                ->get(); 
+
+            $pago = new Pago();
+            $pago->factura_id = $factura->id;
+            $pago->credito_id = $credito->id;
+            $pago->concepto   = 'Juridico';  
+            $pago->abono      = $pay['subtotal'];  
+
+            if(count($pago_juridico) > 0){
+              $pago->debe             = $pago_juridico[0]->debe - $pay['subtotal'];
+              $pago->abono_pago_id    = 'p'.$pago_juridico[0]->id.'.m'.$juridico[0]->id; 
+              $pago_juridico          = Pago::find($pago_juridico[0]->id);
+              $pago_juridico->estado  = 'Ok'; 
+              $pago_juridico->save();
+            }
+            else{
+              $pago->debe             = $juridico[0]->valor - $pay['subtotal'];  
+
+            // utilizo pago abono_id de la tabla pagos para referenciar a la multa que se le esta abonando (ver tabla extras) 
+              $pago->abono_pago_id    = 'p(--)'.'.m'.$juridico[0]->id; 
+            } 
+
+            if($pago->debe == 0){ 
+              $pago->estado     = 'Ok'; 
+              $juridico         = Extra::find($juridico[0]->id);
+              $juridico->estado = 'Ok';
+              $juridico->save();
+            } 
+            else { 
+              $pago->estado   = 'Debe'; 
+            }
+            $pago->pago_desde = null;
+            $pago->pago_hasta = null;
+            $pago->save();  
+            
+            $credito->saldo = $credito->saldo - $pago->abono;
+            $credito->save();
+            $bandera = 1;                                              
+
+          }
 
         /******************** PREJURIDICO *****************/ 
 
-        if($vector[$k] == "Prejuridico"){
+        if($pay['concepto'] == "Prejuridico"){
 
           $prejuridico = Extra::where('credito_id',$credito->id)
                         ->where('concepto','Prejuridico')  
@@ -316,18 +305,18 @@ class FacturaController extends Controller
           $pago->factura_id = $factura->id;
           $pago->credito_id = $credito->id;
           $pago->concepto   = 'Prejuridico';  
-          $pago->abono      = $vector[$k+3];   
+          $pago->abono      = $pay['subtotal'];   
 
           if(count($pago_prejuridico) > 0){
 
-            $pago->debe       = $pago_prejuridico[0]->debe - $vector[$k+3];
+            $pago->debe       = $pago_prejuridico[0]->debe - $pay['subtotal'];
             $pago->abono_pago_id = 'p'.$pago_prejuridico[0]->id.'.m'.$prejuridico[0]->id; 
             $pago_prejuridico    = Pago::find($pago_prejuridico[0]->id);
             $pago_prejuridico->estado = 'Ok'; 
             $pago_prejuridico->save();   
           }
           else{
-            $pago->debe       = $prejuridico[0]->valor - $vector[$k+3];        
+            $pago->debe       = $prejuridico[0]->valor - $pay['subtotal'];        
             
             // utilizo pago abono_id de la tabla pagos para referenciar a la multa que se le esta abonando (ver tabla extras) 
             $pago->abono_pago_id = 'p(--)'.'.m'.$prejuridico[0]->id;     
@@ -354,20 +343,21 @@ class FacturaController extends Controller
 
         /******************** MORA  *****************/
 
-        if($vector[$k] == "Mora"){
-          $pago = new Pago();
-          $pago->factura_id = $factura->id;
-          $pago->credito_id = $id;
-          $pago->concepto   = 'Mora';
-          $pago->abono      = $vector[$k+3];
-          $pago->debe       = 0;
-          $pago->estado     = 'Ok';
-          $pago->pago_desde = null;
-          $pago->pago_hasta = null;
-          $pago->abono_pago_id = null;
+        if($pay['concepto'] == "Mora"){
+          $pago                 = new Pago();
+          $pago->factura_id     = $factura->id;
+          $pago->credito_id     = $id;
+          $pago->concepto       = 'Mora';
+          $pago->abono          = $pay['subtotal'];
+          $pago->debe           = 0;
+          $pago->estado         = 'Ok';
+          $pago->pago_desde     = null;
+          $pago->pago_hasta     = null;
+          $pago->abono_pago_id  = null;
           $pago->save();
 
-          $num_dias_sancion = $vector[$k-1];
+          $num_dias_sancion = $pay['cant'];
+
           $debe_sancion = 
           DB::table('sanciones')
             ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
@@ -375,9 +365,9 @@ class FacturaController extends Controller
             ->get();
 
           for ($i=0; $i < $num_dias_sancion; $i++) { 
-              $sancion = Sancion::find($debe_sancion[$i]->id);
+              $sancion          = Sancion::find($debe_sancion[$i]->id);
               $sancion->pago_id = $pago->id;
-              $sancion->estado = 'Ok';
+              $sancion->estado  = 'Ok';
               $sancion->save();
             }  
 
@@ -389,33 +379,34 @@ class FacturaController extends Controller
 
         /******************** CUOTA PARCIAL *****************/
 
-        if($vector[$k] == "Cuota Parcial") {
+        if($pay['concepto'] == "Cuota Parcial") {
 
           $cuota_parcial = Pago::where('credito_id',$credito->id)
                                ->where('concepto','Cuota Parcial')
                                ->where('estado','Debe')
-                               ->where('pago_desde',$vector[$k+1])
-                               ->where('pago_hasta',$vector[$k+2])
+                               ->where('pago_desde',$pay['ini'])
+                               ->where('pago_hasta',$pay['fin'])
                                ->get();
                      
           $pago = new Pago();
           $pago->factura_id = $factura->id;
           $pago->credito_id = $credito->id;
           $pago->concepto   = 'Cuota Parcial';
-          $pago->abono      = $vector[$k+3];
+          $pago->abono      = $pay['subtotal'];
+
 
 
           if(count($cuota_parcial) > 0){  
-            $pago->debe       = $cuota_parcial[0]->debe - $vector[$k+3];
+            $pago->debe       = $cuota_parcial[0]->debe - $pay['subtotal'];
             if($pago->debe == 0){
               $pago->estado = 'Ok';
-              $credito->cuotas_faltantes = $credito->cuotas_faltantes - $vector[$k-1];
+              $credito->cuotas_faltantes = $credito->cuotas_faltantes - $pay['subtotal'];
             }
             else{
               $pago->estado = 'Debe';
             }
-            $pago->pago_desde     = $vector[$k+1];
-            $pago->pago_hasta     = $vector[$k+2];
+            $pago->pago_desde     = $pay['ini'];
+            $pago->pago_hasta     = $pay['fin'];
             $pago->abono_pago_id  = $cuota_parcial[0]->id;
             $pago->save();
 
@@ -427,10 +418,10 @@ class FacturaController extends Controller
             $credito->save();
           }
           else{
-            $pago->debe           = $credito->precredito->vlr_cuota - $vector[$k+3];
+            $pago->debe           = $credito->precredito->vlr_cuota - $pay['subtotal'];
             $pago->estado         = 'Debe';
-            $pago->pago_desde     = inv_fech($vector[$k+1]);
-            $pago->pago_hasta     = inv_fech($vector[$k+2]);
+            $pago->pago_desde     = $pay['ini'];
+            $pago->pago_hasta     = $pay['fin'];
             $pago->abono_pago_id  = null;
             $pago->save();
             $credito->saldo       = $credito->saldo - $pago->abono;
@@ -441,31 +432,31 @@ class FacturaController extends Controller
 
         /******************** CUOTA *****************/
 
-        if ($vector[$k] == "Cuota") {
+        if ($pay['concepto'] == "Cuota") {
 
           $pago = new Pago();
           $pago->factura_id = $factura->id;
           $pago->credito_id = $request->credito_id;
           $pago->concepto   = 'Cuota';
-          $pago->abono      = $vector[$k+3];
+          $pago->abono      = $pay['subtotal'];
           $pago->debe       = 0;
           $pago->estado     = 'Ok';
-          $pago->pago_desde = inv_fech($vector[$k+1]);
-          $pago->pago_hasta = inv_fech($vector[$k+2]);
+          $pago->pago_desde = $pay['ini'];
+          $pago->pago_hasta = $pay['fin'];
           $pago->save();
 
           $credito->saldo            = $credito->saldo - $pago->abono;
-          $credito->cuotas_faltantes = $credito->cuotas_faltantes - $vector[$k-1];
+          $credito->cuotas_faltantes = $credito->cuotas_faltantes - $pay['cant'];
           $credito->save();
 
         }
-        if ($vector[$k] == "Saldo a Favor") {
+        if ($pay['concepto'] == "Saldo a Favor") {
 
           $pago = new Pago();
           $pago->factura_id = $factura->id;
           $pago->credito_id = $request->credito_id;
           $pago->concepto   = 'Saldo a Favor';
-          $pago->abono      = $vector[$k+1];
+          $pago->abono      = $pay['subtotal'];
           $pago->debe       = 0;
           $pago->estado     = 'Ok';
           $pago->pago_desde = null;
@@ -475,8 +466,8 @@ class FacturaController extends Controller
           $credito->saldo_favor      = $credito->saldo_favor + $pago->abono;
           $credito->save();
         }
-        if ($vector[$k] == "Total:"){
-          $factura->total  = $vector[$k+1];
+        if ($pay['concepto'] == "Total:"){
+          $factura->total  = $pay['subtotal'];
           $factura->save();
         } 
 
@@ -546,7 +537,7 @@ class FacturaController extends Controller
           $credito->save();
         }
 
-        DB::commit();
+        //DB::commit();
 
       return response()->json([
         "error"   => false,
@@ -588,29 +579,51 @@ class FacturaController extends Controller
 
     //Consulta si el numero de factura existe
 
-    public function consultar_factura($id){
 
+    /*
+    |--------------------------------------------------------------------------
+    | consutar_factura
+    |--------------------------------------------------------------------------
+    |
+    | Consulta si el numero de factura existe
+    | Recibe el numero de factura
+    | Retorna true si la factura existe, false si no
+    | 
+    */
+
+    public function consultar_factura($num_fact)
+    {
       $n = 
       DB::table('facturas')
-        ->where([['num_fact','=',$id]])
+        ->where([['num_fact','=',$num_fact]])
         ->count();
 
       if ($n > 0) { $hay_factura = true;  }
       else        { $hay_factura = false; }
 
       return response()->json($hay_factura);
-
-
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | abonos
+    |--------------------------------------------------------------------------
+    |
+    | Distribuye un valor suministrado en el pago de la obligacion
+    | Recibe request con el monto y el credito
+    | Retorna arreglo con los pagos generados
+    | 
+    */    
 
     public function abonos(Request $request)
     {
-
       $monto      = $request->monto;
       $credito    = Credito::find($request->credito_id);
+      $contenedor = [];  // almacena los pagos 
       $sanciones  = Sancion::where('credito_id',$request->credito_id)
         ->where('estado','Debe')
         ->get();
+
       $hay_sanciones  = count($sanciones) > 0;
       $dia_sancion = Variable::find(1)->vlr_dia_sancion;
       $monto_por_sancion = 0;
@@ -643,31 +656,22 @@ class FacturaController extends Controller
           if(count($juridico) > 0 ){                               
             if($monto > $juridico[0]->debe){ 
               $abono = $juridico[0]->debe;
-              $monto = $monto - $abono;
-            }
+              $monto = $monto - $abono; }
             else{
               $abono = $monto;
-              $monto = 0;
-            }
+              $monto = 0; }
           }  
           else{
             if($monto > $sancion_juridico[0]->valor){
               $abono = $sancion_juridico[0]->valor;
-              $monto = $monto - $abono;
-            }
+              $monto = $monto - $abono; }
             else{
               $abono = $monto;
-              $monto = 0;
-            }           
+              $monto = 0; }           
           }
-          $fila_juridico = 
-          "<tr class='otras_filas'>
-          <td>1</td>
-          <td><a href='#' onclick='Eliminar(this.parentNode.parentNode.rowIndex)'>Juridico</a></td>
-          <td></td>
-          <td></td>
-          <td class='vlr'>".$abono."</td>
-        </tr>";      
+
+          $temp = ['cant' => 1, 'concepto' => 'Juridico', 'ini' => '', 'fin' => '', 'subtotal' => $abono ];
+          array_push($contenedor, $temp);
       }
     }    
     /****************************** PREJURIDICO **************************************/
@@ -689,30 +693,22 @@ class FacturaController extends Controller
         if(count($prejuridico) > 0 ){                               
           if($monto > $prejuridico[0]->debe){ 
             $abono = $prejuridico[0]->debe;
-            $monto = $monto - $abono;
-          }
+            $monto = $monto - $abono; }
           else{
             $abono = $monto;
-            $monto = 0;
-          }
+            $monto = 0; }
         }  
         else{
           if($monto > $sancion_prejuridico[0]->valor){
             $abono = $sancion_prejuridico[0]->valor;
-            $monto = $monto - $abono;
-          }
+            $monto = $monto - $abono; }
           else{
             $abono = $monto;
-            $monto = 0;
-          }           
+            $monto = 0; }           
         }
-        $fila_prejuridico = 
-        "<tr class='otras_filas'><td>1</td>
-        <td><a href='#' onclick='Eliminar(this.parentNode.parentNode.rowIndex)'>Prejuridico</a></td>
-        <td></td>
-        <td></td>
-        <td class='vlr'>".$abono."</td>
-      </tr>";        
+        
+        $temp = ['cant' => 1, 'concepto' => 'Prejuridico', 'ini' => '', 'fin' => '', 'subtotal' => $abono ];
+        array_push($contenedor, $temp);        
     }
   }
   /****************************** SANCIONES **************************************/
@@ -725,13 +721,9 @@ class FacturaController extends Controller
           $contador++;
         }
       }
-      $fila = 
-      "<tr class='otras_filas'><td>".$contador."</td>
-      <td><a href='#' onclick='Eliminar(this.parentNode.parentNode.rowIndex)'>Mora</a></td>
-      <td></td>
-      <td></td>
-      <td class='vlr'>".$monto_por_sancion."</td>
-    </tr>";    
+
+      $temp = ['cant' => $contador, 'concepto' => 'Sanciones', 'ini' => '', 'fin' => '', 'subtotal' => $monto_por_sancion ];
+      array_push($contenedor, $temp);
   }
 
 }  
@@ -750,20 +742,14 @@ if($monto > 0){
 
       if ($monto > $pago->debe) {
         $abono = $pago->debe; 
-        $monto = $monto - $abono;
-      }
+        $monto = $monto - $abono; }
       else{
         $abono = $monto;
-        $monto = 0;
-      }
-      $fila_pagos_parciales = 
-      $fila_pagos_parciales."<tr class='otras_filas'>
-      <td>1</td>
-      <td><a>Cuota Parcial</a></td>
-      <td>".$pago->pago_desde."</td>
-      <td>".$pago->pago_hasta."</td>
-      <td class='vlr'>".$abono."</td>
-    </tr>";
+        $monto = 0; }
+
+      $temp = [ 'cant'  => 1, 'concepto' => 'Cuota Parcial', 'ini' => $pago->pago_desde, 
+                'fin'   => $pago->pago_hasta, 'subtotal' => $abono ];
+      array_push($contenedor, $temp);
   }               
 }  
 }
@@ -789,13 +775,11 @@ if($monto > 0){
     $monto_cuota    = $cuotas_completas * $credito->precredito->vlr_cuota;
     $monto          = $monto - $monto_cuota;
 
-    $fila_cuotas_completas = 
-    "<tr class='otras_filas'>
-    <td>".$cuotas_completas."</td>
-    <td><a>Cuota</a></td>
-    <td>".$fecha['fecha_ini']."</td><td>".$fecha['fecha_fin']."</td>
-    <td class='vlr'>".$monto_cuota."</td>
-  </tr>";
+    $temp = [ 'cant'      => $cuotas_completas,  'concepto'  => 'Cuota', 
+              'ini'       => $fecha['fecha_ini'],'fin'       => $fecha['fecha_fin'], 
+              'subtotal'  => $monto_cuota ];
+
+    array_push($contenedor, $temp);
 
   $date           = $fecha['fecha_fin']; 
   $primera_cuota  = false;
@@ -805,31 +789,26 @@ if($monto > 0){
     $fecha = calcularFecha($date, $credito->precredito->periodo, $cuotas_incompletas, 
       $credito->precredito->p_fecha, $credito->precredito->s_fecha,false );
 
-    $fila_cuotas_incompletas = 
-    "<tr class='otras_filas'><td>".$cuotas_incompletas."</td>
-    <td><a>Cuota Parcial</a></td>
-    <td>".$fecha['fecha_ini']."</td>
-    <td>".$fecha['fecha_fin']."</td>
-    <td class='vlr'>".$monto."</td>
-  </tr>";
-  $monto = 0;              
+    $temp = [ 'cant'      => $cuotas_incompletas,'concepto'  => 'Cuota Parcial', 
+              'ini'       => $fecha['fecha_ini'],'fin'       => $fecha['fecha_fin'], 
+              'subtotal'  => $monto ];
+
+    array_push($contenedor, $temp);
+
+    $monto = 0;            
   }
 }
 
+    $temp = [ 'cant' => '', 'concepto'  => 'Total','ini' => '','fin' => '', 'subtotal'  => $request->monto ];
+    array_push($contenedor, $temp);
+
     if($monto > 0){
-      $fila_saldo = 
-      "<tr class='otras_filas'>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td style='color:#ff0000'><strong>Saldo a Favor</strong></td>
-      <td style='color:#ff0000'>".$monto."</td>
-    </tr>";
-    }
+      $temp = [ 'cant' => '', 'concepto'  => 'Saldo a favor','ini' => '','fin' => '', 'subtotal'  => $monto ];
+      array_push($contenedor, $temp); }
 
-    $fila = $fila_juridico.$fila_prejuridico.$fila.$fila_pagos_parciales.$fila_cuotas_completas.$fila_cuotas_incompletas.$fila_saldo;
+      $res = ['error' => false, 'data' => $contenedor];
 
-    if ($request->ajax()){  return response()->json(['fila' => $fila , 'monto' => $monto]);  }
+      return response()->json($res);
   }
 
 }
