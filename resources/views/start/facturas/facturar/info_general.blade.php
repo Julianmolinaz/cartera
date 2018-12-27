@@ -1,4 +1,4 @@
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
       <div class="panel-heading" style="position:relative;">
         <h3 class="panel-title" >
           <a href="{{route('start.precreditos.ver',$credito->precredito->id)}}"target="_blank">
@@ -10,7 +10,8 @@
         <a href="{{route('start.precreditos.ver',$credito->precredito->id)}}"
            class = 'btn btn-default btn-xs' data-toggle="tooltip" 
            data-placement="top" title="Ver crédito"
-           style="right:20px; position:absolute;">
+           style="right:20px; position:absolute;"
+           target="_blank">
            <span class = "glyphicon glyphicon-eye-open" ></span>
         </a>
       </div>
@@ -65,7 +66,7 @@
           <tr>
             <td colspan="2">Sanciones:</td>
             <td colspan="2" style="position:relative;">{{number_format($sum_sanciones,0,",",".") }} 
-                <select class="form-control input-sm" style="width:40%; position:absolute; top:0px; left:50%;">
+                <select class="form-control input-sm" style="width:65%; position:absolute; top:0px; left:33%;">
                     <?php
                     
                       $debe = 0;
@@ -80,6 +81,7 @@
                       echo  "<option> Debe: ".$debe."</option>".
                             "<option> Pagadas: ".$pagadas."</option>".
                             "<option>Exoneradas: ".$exoneradas."</option>";
+
                   ?>
                 </select>
           </td>

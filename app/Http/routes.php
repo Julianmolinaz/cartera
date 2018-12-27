@@ -273,7 +273,12 @@ Route::post('start/facturas/fecha_pago','FacturaController@fecha_pago');
 Route::post('start/facturas/abonos','FacturaController@abonos');
 
 
+//FACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECRED
 
+Route::get('start/fact_precreditos/create/{precredito_id}',[
+	'uses' => 'FactPrecreditoCotroller@create', 'as' => 'start.fact_precreditos.create'
+
+]);
 
 
 

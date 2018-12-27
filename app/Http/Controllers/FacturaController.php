@@ -12,9 +12,9 @@ use App\Variable;
 use App\Factura;
 use App\Credito;
 use App\Sancion;
+use App\Punto;
 use App\Extra;
 use App\Pago;
-use App\Punto;
 use Auth;
 use PDF;
 use DB;
@@ -197,7 +197,6 @@ class FacturaController extends Controller
 
     public function store(Request $request)
     {
-     /* return response()->json($request->all());*/
       DB::beginTransaction();
 
       try{
@@ -210,8 +209,13 @@ class FacturaController extends Controller
         if( $request->auto ){ // validacion de consecutivo automático
           $date_time = Carbon::now();
           $num_fact  = $this->generate_auto();
-        } else {
+        } else { 
           $date_time = new Carbon($request->fecha);
+          $range = ['ini' => Carbon::today()->subMonths(6)->startOfDay(), 'fin' => Carbon::today()->endOfDay() ];
+
+          if(!$date_time->between($range['ini'],$range['fin'])){
+            return response()->json(['error' => true, 'mensaje' => '@=) ErRoR eN La fEchA de fActUrA @=(']);
+          }
           $num_fact  = $request->num_fact;
         }
 
@@ -309,7 +313,7 @@ class FacturaController extends Controller
 
           if(count($pago_prejuridico) > 0){
 
-            $pago->debe       = $pago_prejuridico[0]->debe - $pay['subtotal'];
+            $pago->debe          = $pago_prejuridico[0]->debe - $pay['subtotal'];
             $pago->abono_pago_id = 'p'.$pago_prejuridico[0]->id.'.m'.$prejuridico[0]->id; 
             $pago_prejuridico    = Pago::find($pago_prejuridico[0]->id);
             $pago_prejuridico->estado = 'Ok'; 
@@ -324,13 +328,13 @@ class FacturaController extends Controller
           } 
 
           if($pago->debe == 0){ 
-            $pago->estado = 'Ok'; 
+            $pago->estado= 'Ok'; 
             $prejuridico = Extra::find($prejuridico[0]->id);
             $prejuridico->estado = 'Ok';
             $prejuridico->save();
           } 
           else { 
-            $pago->estado = 'Debe'; 
+            $pago->estado   = 'Debe'; 
           }
           $pago->pago_desde = null;
           $pago->pago_hasta = null;
@@ -400,13 +404,16 @@ class FacturaController extends Controller
             $pago->debe       = $cuota_parcial[0]->debe - $pay['subtotal'];
             if($pago->debe == 0){
               $pago->estado = 'Ok';
-              $credito->cuotas_faltantes = $credito->cuotas_faltantes - $pay['subtotal'];
+              $credito->cuotas_faltantes = $credito->cuotas_faltantes - $pay['cant'];
             }
             else{
               $pago->estado = 'Debe';
             }
-            $pago->pago_desde     = $pay['ini'];
-            $pago->pago_hasta     = $pay['fin'];
+            $ini                  = new Carbon($pay['ini']);
+            $fin                  = new Carbon($pay['fin']);
+
+            $pago->pago_desde     = $ini->format('Y-m-d');
+            $pago->pago_hasta     = $fin->format('Y-m-d');
             $pago->abono_pago_id  = $cuota_parcial[0]->id;
             $pago->save();
 
@@ -418,10 +425,13 @@ class FacturaController extends Controller
             $credito->save();
           }
           else{
+            $ini                  = new Carbon($pay['ini']);
+            $fin                  = new Carbon($pay['fin']);
+
             $pago->debe           = $credito->precredito->vlr_cuota - $pay['subtotal'];
             $pago->estado         = 'Debe';
-            $pago->pago_desde     = $pay['ini'];
-            $pago->pago_hasta     = $pay['fin'];
+            $pago->pago_desde     = $ini->format('Y-m-d');
+            $pago->pago_hasta     = $fin->format('Y-m-d');
             $pago->abono_pago_id  = null;
             $pago->save();
             $credito->saldo       = $credito->saldo - $pago->abono;
@@ -441,8 +451,10 @@ class FacturaController extends Controller
           $pago->abono      = $pay['subtotal'];
           $pago->debe       = 0;
           $pago->estado     = 'Ok';
-          $pago->pago_desde = $pay['ini'];
-          $pago->pago_hasta = $pay['fin'];
+          $ini = new Carbon($pay['ini']);
+          $fin = new Carbon($pay['fin']);
+          $pago->pago_desde     = $ini->format('Y-m-d');
+          $pago->pago_hasta     = $fin->format('Y-m-d');
           $pago->save();
 
           $credito->saldo            = $credito->saldo - $pago->abono;
@@ -537,7 +549,7 @@ class FacturaController extends Controller
           $credito->save();
         }
 
-        //DB::commit();
+        DB::commit();
 
       return response()->json([
         "error"   => false,
@@ -568,8 +580,10 @@ class FacturaController extends Controller
     {
       $fecha_inicial = $request->fecha;
 
-      $periodo = calcularFecha($request->date,$request->periodo, $request->num_cuotas, $request->p_fecha, 
-        $request->s_fecha, $request->primera_cuota);
+      $periodo = calcularFecha($request->date,$request->periodo, 
+                               $request->num_cuotas, $request->p_fecha, 
+                               $request->s_fecha, 
+                               $request->primera_cuota);
 
       $fecha_ini = $periodo["fecha_ini"];
       $fecha_fin = $periodo["fecha_fin"];
@@ -588,6 +602,8 @@ class FacturaController extends Controller
     | Consulta si el numero de factura existe
     | Recibe el numero de factura
     | Retorna true si la factura existe, false si no
+    | El array contenedor de la respuesta tiene un atributo 'marcado' para señalar 
+    | que la cuota parcial se le puede mover o no la fecha
     | 
     */
 
@@ -636,6 +652,8 @@ class FacturaController extends Controller
       $fila_cuotas_completas  = "";
       $fila_cuotas_incompletas= "";
       $fila_pagos_parciales   = "";
+      $sin_mover_fecha        = []; //array donde se almacena Cuota Parcial sin movimiento de fecha (pago_hasta)
+      $date_ini               = $credito->fecha_pago->fecha_pago; //fecha de referencia inicial para cuota parcial sin cambio de fecha
 
 
       /****************************** JURIDICO **************************************/
@@ -670,7 +688,8 @@ class FacturaController extends Controller
               $monto = 0; }           
           }
 
-          $temp = ['cant' => 1, 'concepto' => 'Juridico', 'ini' => '', 'fin' => '', 'subtotal' => $abono ];
+          $temp = ['cant' => 1, 'concepto' => 'Juridico', 'ini' => '', 'fin' => '', 'subtotal' => $abono,
+                   'marcado' => false ];
           array_push($contenedor, $temp);
       }
     }    
@@ -707,7 +726,7 @@ class FacturaController extends Controller
             $monto = 0; }           
         }
         
-        $temp = ['cant' => 1, 'concepto' => 'Prejuridico', 'ini' => '', 'fin' => '', 'subtotal' => $abono ];
+        $temp = ['cant' => 1, 'concepto' => 'Prejuridico', 'ini' => '', 'fin' => '', 'subtotal' => $abono, 'marcado' => false ];
         array_push($contenedor, $temp);        
     }
   }
@@ -722,7 +741,8 @@ class FacturaController extends Controller
         }
       }
 
-      $temp = ['cant' => $contador, 'concepto' => 'Sanciones', 'ini' => '', 'fin' => '', 'subtotal' => $monto_por_sancion ];
+      $temp = ['cant' => $contador, 'concepto' => 'Sanciones', 'ini' => '', 'fin' => '', 'subtotal' => $monto_por_sancion, 
+               'marcado' => false];
       array_push($contenedor, $temp);
   }
 
@@ -748,8 +768,9 @@ if($monto > 0){
         $monto = 0; }
 
       $temp = [ 'cant'  => 1, 'concepto' => 'Cuota Parcial', 'ini' => $pago->pago_desde, 
-                'fin'   => $pago->pago_hasta, 'subtotal' => $abono ];
+                'fin'   => $pago->pago_hasta, 'subtotal' => $abono, 'marcado' => false ];
       array_push($contenedor, $temp);
+      $date_ini = $pago->pago_desde;
   }               
 }  
 }
@@ -777,13 +798,16 @@ if($monto > 0){
 
     $temp = [ 'cant'      => $cuotas_completas,  'concepto'  => 'Cuota', 
               'ini'       => $fecha['fecha_ini'],'fin'       => $fecha['fecha_fin'], 
-              'subtotal'  => $monto_cuota ];
+              'subtotal'  => $monto_cuota,       'marcado'   => false ];
 
     array_push($contenedor, $temp);
 
   $date           = $fecha['fecha_fin']; 
+  $date_ini       = $fecha['fecha_ini'];
   $primera_cuota  = false;
 }
+
+/********************************CTaS INCOMPLETAS*********************************/
 
   if($cuotas_incompletas > 0){
     $fecha = calcularFecha($date, $credito->precredito->periodo, $cuotas_incompletas, 
@@ -791,22 +815,26 @@ if($monto > 0){
 
     $temp = [ 'cant'      => $cuotas_incompletas,'concepto'  => 'Cuota Parcial', 
               'ini'       => $fecha['fecha_ini'],'fin'       => $fecha['fecha_fin'], 
-              'subtotal'  => $monto ];
+              'subtotal'  => $monto,             'marcado'   => true ];
 
     array_push($contenedor, $temp);
 
-    $monto = 0;            
+
+    $sin_mover_fecha =  [ 'cant'      => $cuotas_incompletas,'concepto'  => 'Cuota Parcial', 
+                          'ini'       => $date_ini,                 'fin'       => $date, 
+                          'subtotal'  => $monto,             'marcado'   => true ];         
+    $monto = 0;  
   }
 }
 
-    $temp = [ 'cant' => '', 'concepto'  => 'Total','ini' => '','fin' => '', 'subtotal'  => $request->monto ];
+    $temp = [ 'cant' => '', 'concepto'  => 'Total','ini' => '','fin' => '', 'subtotal'  => $request->monto, 'marcado' => false ];
     array_push($contenedor, $temp);
 
     if($monto > 0){
-      $temp = [ 'cant' => '', 'concepto'  => 'Saldo a favor','ini' => '','fin' => '', 'subtotal'  => $monto ];
+      $temp = [ 'cant' => '', 'concepto'  => 'Saldo a favor','ini' => '','fin' => '', 'subtotal'  => $monto, 'marcado' => false ];
       array_push($contenedor, $temp); }
 
-      $res = ['error' => false, 'data' => $contenedor];
+      $res = ['error' => false, 'data' => $contenedor, 'cta_parcial_sin_movimiento_de_fecha' => $sin_mover_fecha];
 
       return response()->json($res);
   }

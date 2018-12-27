@@ -14,4 +14,10 @@
 		printed.print();
 		printed.close();
 	}
+
+	//muestra detalle de factura
+
+	var show_fact = function(factura_id){
+		  window.open("{{url('start/facturas')}}/"+factura_id, '_blank');
+	}
 </script>

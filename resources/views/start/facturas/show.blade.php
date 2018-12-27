@@ -46,7 +46,7 @@
             <td>
 
               <a href="#" class = 'btn btn-default btn-xs' title="anular factura" 
-                OnClick="Anular({{$factura->id}},{{$factura->num_fact}});" data-toggle="modal" data-target="#modal">
+                OnClick="Anular({{$factura->id}},'{{$factura->num_fact}}');" data-toggle="modal" data-target="#modal">
                 <span class = "glyphicon glyphicon-fire"  ></span>
               </a>
               @if($factura->credito)

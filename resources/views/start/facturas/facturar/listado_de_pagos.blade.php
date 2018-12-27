@@ -1,12 +1,16 @@
         <div class="panel panel-warning">
           <!-- Default panel contents -->
           <div class="panel-heading" style="background-color: #FFC300;color:black;">
-            <h4><i class="fas fa-shopping-cart"></i> Listado de pagos </h4>
+            <h3 class="panel-title"><i class="fas fa-shopping-cart"></i> Pagos generados</h3>
           </div>
           <div class="panel-body" style="padding:5px;">
+
+            <div class="alert alert-danger" role="alert" v-if="message2">@{{ message2 }}</div>  
+
             <table id="tabla" class="table table-striped" >
                   <thead>
                     <tr>
+                      <th v-if="mover_fecha != ''">  No mover Fecha </th>
                       <th>  Cant        </th>
                       <th>  Concepto    </th>
                       <th>  Pago desde  </th>
@@ -15,19 +19,27 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="pago in general.pagos">
-                       <td>@{{ pago.cant }}     </td>
-                       <td>@{{ pago.concepto }} </td>
-                       <td>@{{ pago.ini  }}     </td>
-                       <td>@{{ pago.fin }}      </td>
-                       <td>@{{ pago.subtotal }} </td>
+                    <tr v-for="(pago, index) in general.pagos" style="font-size: 10px;"
+                        :class="{ danger : pago.marcado  }">
+                      <td class="td-small">  
+                        <div class="checkbox" v-if="pago.marcado" style="margin:0px;">
+                           <label>
+                            <input type="checkbox" @click="mover_fecha_parcial(index)">
+                          </label>
+                        </div>
+                      </td>
+                       <td class="td-small">@{{ pago.cant }}     </td>
+                       <td class="td-small">@{{ pago.concepto }} </td>
+                       <td class="td-small">@{{ pago.ini  }}     </td>
+                       <td class="td-small">@{{ pago.fin }}      </td>
+                       <td class="td-small">@{{ pago.subtotal }} </td>
                     </tr>
                  </tbody>
               </table>
 
                <!-- BOTON ACEPTAR -->
                <center>
-                <div class="col-md-12 col-sm-12 col-xs-12"><br>
+                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 5px;">
 
                 {!! link_to('start/pagos/inicio',$title='Salir',$attributes =  ['id'=>'salir','class'=>'btn btn-warning '],$secure = null) !!}
                 <a href="#" class="btn btn-danger" @click="borrar">Borrar</a>

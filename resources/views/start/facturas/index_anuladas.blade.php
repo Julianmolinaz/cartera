@@ -16,17 +16,17 @@
           <thead>
             <tr>
             <th style="display:none;">    Actualizacion  </th>            
-              <th>    # Factura  </th>
-              <th>    Cartera </th>
-              <th>    Crédito id </th>
-              <th>    Fecha      </th>
-              <th>    Total      </th>
-              <th>    Pagos      </th>
-              <th>    Cliente    </th>
-              <th>    # doc.     </th>
-              <th>    Motivo Anulación</th>
-              <th>    Creó       </th>  
-              <th>    Anuló      </th>           
+              <th>    # Factura         </th>
+              <th>    Cartera           </th>
+              <th>    Crédito id        </th>
+              <th>    Fecha             </th>
+              <th>    Total             </th>
+              <th>    Pagos             </th>
+              <th>    Cliente           </th>
+              <th>    # doc.            </th>
+              <th>    Motivo Anulación  </th>
+              <th>    Creó              </th>  
+              <th>    Anuló             </th>           
 
             </tr>
           </thead>
@@ -34,18 +34,18 @@
           <tbody>
             @foreach($anuladas as $anulada)
               <tr>
-                <td style="display:none;"> {{ $anulada->created_at}}    </td>
-                <td> {{ $anulada->num_fact}}                            </td>
-                <td>{{ $anulada->credito->precredito->cartera->nombre}} </td>
-                <td> {{ $anulada->credito_id}}                          </td>
-                <td> {{ $anulada->fecha}}                               </td>
-                <td> {{ number_format($anulada->total,0,",",".")}}      </td>
-                <td> <small>{{ $anulada->pagos}}</small>                </td>
-                <td> <small>{{ $anulada->cliente->nombre}}</small>      </td>
-                <td> <small>{{ $anulada->cliente->num_doc}}</small>     </td>
-                <td> {{ $anulada->motivo_anulacion}}                    </td>
-                <td> {{ $anulada->user_create->name}}                   </td>
-                <td> {{ $anulada->anula->name.' ['.$anulada->created_at.']'}}</td>
+                <td style="display:none;"> {{ $anulada->created_at}}          </td>
+                <td> {{ $anulada->num_fact  }}                                </td>
+                <td> {{ $anulada->credito->precredito->cartera->nombre  }}    </td>
+                <td> {{ $anulada->credito_id }}                               </td>
+                <td> {{ $anulada->fecha }}                                    </td>
+                <td> {{ number_format($anulada->total,0,",",".")  }}          </td>
+                <td> <small>{{ $anulada->pagos            }}</small>          </td>
+                <td> <small>{{ $anulada->cliente->nombre  }}</small>          </td>
+                <td> <small>{{ $anulada->cliente->num_doc }}</small>          </td>
+                <td> {{ $anulada->motivo_anulacion}}                          </td>
+                <td> {{ $anulada->user_create->name}}                         </td>
+                <td> {{ $anulada->anula->name.' ['.$anulada->created_at.']'}} </td>
               </tr>
             @endforeach          
           </tbody>
