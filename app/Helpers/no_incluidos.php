@@ -102,7 +102,8 @@ function no_admitidos()
         3057,
         3103,
         3177,
-        3184
+        3184,
+	4777
 ];
      
     return $array;

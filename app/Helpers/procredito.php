@@ -96,7 +96,7 @@ function reporte_procredito(){
         '6-consecutivo'           => '', //no requerido
         '7-codigo_sucursal_viejo' => '', //no requerido
         '8-tipo_doc_afiliado'     => '2', //nit
-        '9-num_doc_afiliado'      => '94466092', //nit del afiliado
+        '9-num_doc_afiliado'      => '900975741', //nit del afiliado
         '10-codigo_sucursal_nuevo'=> '0',
         '11-tipo_garante'         => '1', //Deudor
         '12-tipo_doc_cliente'     => $tipo_documento,
@@ -248,7 +248,7 @@ function reporte_procredito(){
                 '6-consecutivo'           => '',
                 '7-codigo_sucursal_viejo' => '',
                 '8-tipo_doc_afiliado'     => '2', 
-                '9-num_doc_afiliado'      => '94466092',
+                '9-num_doc_afiliado'      => '900975741',
                 '10-codigo_sucursal_nuevo' => '0',
                 '11-tipo_garante'          => '2', 
                 '12-tipo_doc_cliente'      => tipo_documento($credito->precredito->cliente->codeudor->tipo_docc),
@@ -296,7 +296,7 @@ function reporte_procredito(){
         
         }//.foreach
 
-        dd($reporte_array);
+        //dd($reporte_array);
 
         return $reporte_array;
 

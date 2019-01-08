@@ -11,7 +11,7 @@ $( document ).ready(function() {
   var punto = {!! json_encode($punto) !!};
 
 
-  if(punto.id != 1){
+  if(punto.id != 1 && punto.id != 8){
 	$('#btn_auto').hide();
   }
 
