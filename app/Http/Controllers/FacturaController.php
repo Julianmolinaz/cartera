@@ -740,7 +740,7 @@ class FacturaController extends Controller
         }
       }
 
-      $temp = ['cant' => $contador, 'concepto' => 'Sanciones', 'ini' => '', 'fin' => '', 'subtotal' => $monto_por_sancion, 
+      $temp = ['cant' => $contador, 'concepto' => 'Mora', 'ini' => '', 'fin' => '', 'subtotal' => $monto_por_sancion, 
                'marcado' => false];
       array_push($contenedor, $temp);
   }

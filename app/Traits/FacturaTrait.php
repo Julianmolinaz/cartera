@@ -104,6 +104,8 @@ trait FacturaTrait
 						<br>
 						<p>Fecha: '. $now->format('d-m-Y H:i') .'</p>
 						<p id="asesor">Asesor: '. $factura->user_create->name .'</p>
+						<p id="cliente">Cliente: '. $factura->credito->precredito->cliente->nombre .'</p>
+						<p>Doc: '. $factura->credito->precredito->cliente->num_doc .'</p>
 					</div>	
 					<br>
 					<div id="factura" class="contenido">
