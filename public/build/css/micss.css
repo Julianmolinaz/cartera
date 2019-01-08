@@ -36,6 +36,19 @@ input[type=number] {
 
 .input-small {
     height: 23px;
-    padding: 2px 5px 0px 7px;
+    padding: 1px 5px 0px 7px;
     font-size: 11px;
 }
+
+.btn-small{
+    margin-bottom: 0px;
+    height: 27px;
+    padding: 2px 0px 0px 0px;
+}
+
+.td-small{
+    font-size:11px;
+    padding:3px;
+}
+
+

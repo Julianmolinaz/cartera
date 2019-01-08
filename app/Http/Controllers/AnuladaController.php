@@ -112,8 +112,8 @@ class AnuladaController extends Controller
                     
                     if($pago->abono_pago_id > 0){
 
-                        $pago_anterior = Pago::find($pago->abono_pago_id);
-                        $pago_anterior->estado = 'Debe';
+                        $pago_anterior          = Pago::find($pago->abono_pago_id);
+                        $pago_anterior->estado  = 'Debe';
                         $pago_anterior->save();
                     }
 

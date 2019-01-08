@@ -38,7 +38,9 @@ trait MensajeTrait
 		
 		if($tipo_msm->estado)
 		{
-			$tel = $this->array_to_string($telefonos);
+			$tel = collect($telefonos)->unique();
+			
+			$tel = $tel->implode(',');
 
 			$result = $this->api_hablame($tel,$key);
 
@@ -82,7 +84,7 @@ trait MensajeTrait
 			if(Storage::disk('local')->exists($ruta_registro)){
 
 				$txt = Storage::disk('local')->get($ruta_registro);
-				$txt = '#########'.$now->toDateTimeString().' ==> '.$mensaje. "\n".$txt."\n";
+				$txt = '######## '.$now->toDateTimeString().' ==> '.$mensaje. "\n".$txt."\n";
 			}
 			else{
 
@@ -113,7 +115,7 @@ trait MensajeTrait
 	public function api_hablame($telefonos, $key)
 	{
 		$client = 10012723;
-		$clave_api = 'XcCBHyhMMbtGQ9dVk2LuqYOHgRy07k';
+		$clave_api = 'VoNlXgXie6M8OgOJ37j8A0tkKmLy1s';
 
 		$mdt = Mensaje::where('nombre',$key)->get()[0];
 
@@ -123,7 +125,7 @@ trait MensajeTrait
 			'cliente' 	=> $client, //Numero de cliente
 			'api' 		=> $clave_api, //Clave API suministrada
 			'numero' 	=> $telefonos, //numero o numeros telefonicos a enviar el SMS (separados por una coma ,)
-			'sms' 		=> $mdt->contenido, //Mensaje de texto a enviar
+			'sms' 		=> $mdt->mensaje, //Mensaje de texto a enviar
 			'fecha' 	=> '', //(campo opcional) Fecha de envio, si se envia vacio se envia inmediatamente (Ejemplo: 2017-12-31 23:59:59)
 			'referencia'=> $key, //(campo opcional) Numero de referencio ó nombre de campaña
 		);
@@ -142,37 +144,6 @@ trait MensajeTrait
 
 	}
 
-	/*
-    |--------------------------------------------------------------------------
-    | array_to_string
-    |--------------------------------------------------------------------------
-    |
-    | Convierte un array en un string
-    | entrada $array = array con telefonos
-    | retorna $temp = string de telefonos separados por comas
-    |
-    */
-
-	public function array_to_string($array)
-	{
-		$temp = '';
-		
-		if(count($array) == 0){
-			return 'array_vacio';
-		}
-
-		for ($i=0; $i < count($array) ; $i++) { 
-
-			if($i == count($array) - 1){
-				$temp = $temp . $array[$i];
-			}
-			else{
-				$temp = $temp . $array[$i]	. ',';
-			}
-		}
-
-		return $temp;
-	}
 
 }
 

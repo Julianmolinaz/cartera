@@ -29,6 +29,13 @@
     <!-- mis css -->
     <link rel="stylesheet" href="{{ asset('build/css/micss.css') }}">
 
+    <!-- vee validate -->
+    <script src="{{asset('js/vee.js')}}"></script>
+
+    <!-- axios -->
+    <script src="{{asset('js/axios.js')}}"></script>
+
+
     <style>
       input[type=number]::-webkit-outer-spin-button,
       input[type=number]::-webkit-inner-spin-button {

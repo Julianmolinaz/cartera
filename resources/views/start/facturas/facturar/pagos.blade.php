@@ -55,6 +55,10 @@
                   <td>{$pagos[$i]->abono_pagos_id}</td>
                   <td>".$pagos[$i]->factura->user_create->name." (".$pagos[$i]->created_at.")</td>
                   <td>
+                    <button class = 'btn btn-default btn-xs' onclick='show_fact(". $pagos[$i]->factura_id .")'>
+                      <span class = 'glyphicon glyphicon-eye-open'  data-toggle='tooltip' data-placement='top' title='Imprimir factura'></span>
+                    </button> 
+
                     <button class = 'btn btn-default btn-xs' onclick='print(". $pagos[$i]->factura_id .")'>
                       <span class = 'glyphicon glyphicon-print'  data-toggle='tooltip' data-placement='top' title='Imprimir factura'></span>
                     </button>  

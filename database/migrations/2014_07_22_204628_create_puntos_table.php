@@ -16,6 +16,7 @@ class CreatePuntosTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('prefijo')->nullable();
+            $table->integer('increment')->default(0);
             $table->enum('estado',['Activo','Inactivo'])->default('Activo');
             $table->string('direccion')->nullable();
             $table->text('descripcion')->nullable();

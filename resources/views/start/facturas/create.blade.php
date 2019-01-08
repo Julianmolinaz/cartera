@@ -3,8 +3,9 @@
 @section('contenido')
 
 
-<div class="row">
-  <div class="col-sm-1"></div>
+<div class="row" id="main">
+  <div class="col-sm-1">
+  </div>
   <div class="col-sm-6">
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
@@ -16,8 +17,6 @@
         <!--panel resumen de pagos-->
 
         @include('start.facturas.facturar.listado_de_pagos')
-
-
         <!--end panel resumen de pagos-->
       </div>
     </div>
@@ -26,8 +25,10 @@
     <!--panel información de los pagos-->
     @include('start.facturas.facturar.info_general')
     <!--end panel información de los pagos-->
+
   </div>
   <div class="col-sm-1"></div>
+
 
   <form class="form-horizontal form-label-left">
     <input type="hidden" name="_token" id="token" value="{{csrf_token()}}">

@@ -265,12 +265,20 @@ Route::get('start/facturas/{factura}/edit',
 Route::put('start/facturas/{factura}',
 	['uses' => 'FacturaController@update','as'=> 'start.facturas.update']);
 
+Route::get('start/factura_pdf/{factura_id}',
+	['uses' => 'FacturaController@get_pdf','as' => 'start.facturas.pdf']);
+
 Route::get('start/facturas/{id}/consultar_factura','FacturaController@consultar_factura');
 Route::post('start/facturas/fecha_pago','FacturaController@fecha_pago');
 Route::post('start/facturas/abonos','FacturaController@abonos');
 
 
+//FACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECRED
 
+Route::get('start/fact_precreditos/create/{precredito_id}',[
+	'uses' => 'FactPrecreditoCotroller@create', 'as' => 'start.fact_precreditos.create'
+
+]);
 
 
 
@@ -353,7 +361,7 @@ Route::get('wiki/{opcion}',[
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 
 	Route::resource('users','UserController');
-	Route::resource('variables','VariableController');
+	Route::resource('variables','VariableController',['only' =>['index','update']]);
 	Route::resource('carteras','CarteraController');
 	Route::resource('productos','ProductoController');
 	Route::resource('sanciones','SancionController');

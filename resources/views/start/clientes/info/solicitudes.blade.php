@@ -67,7 +67,13 @@
                      title="Ver">
                     <span class = "glyphicon glyphicon-eye-open"></span>
                   </a>
-
+                  <a href="{{route('start.fact_precreditos.create',$precredito->id)}}"
+                     class = 'btn btn-default btn-xs'
+                     data-toggle="tooltip" 
+                     data-placement="top" 
+                     title="Pagar valores iniciales">
+                    <span class = "glyphicon glyphicon-lamp"></span>
+                  </a>
                   @if($precredito->credito != NULL && $precredito->credito->estado != 'Cancelado por refinanciacion')
                     <a href="{{route('start.facturas.create',$precredito->credito->id)}}"
                        class = 'btn btn-default btn-xs'
