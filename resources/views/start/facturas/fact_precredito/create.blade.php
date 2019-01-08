@@ -2,7 +2,6 @@
 
 @section('contenido')
 
-
 <div class="row" id="main">
   <div class="col-sm-1">
   </div>
@@ -10,7 +9,7 @@
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
         <!--panel generador de pagos-->
-       
+        <generador-component></generador-component>
       </div>
       <div class="col-md-12 col-sm-12 col-xs-12">
         <!--panel resumen de pagos-->
@@ -37,8 +36,13 @@
   </div>
 </div>
 
+@include('start.facturas.fact_precredito.facturar.generador_de_pagos')
 @include('start.facturas.fact_precredito.create_js')
 <!-- @include('start.pagos.print_js') -->
-
+<script>
+  const main = new Vue({
+    el:'#main'
+  });
+</script>
 @endsection
 @include('templates.main2')

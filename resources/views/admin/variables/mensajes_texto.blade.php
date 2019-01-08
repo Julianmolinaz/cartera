@@ -25,10 +25,10 @@
 			get_mensajes: function(){
 				var route = "{{ url('get-mensajes') }}";
 				console.log(route);
-				axios.get(route)
+				/*axios.get(route)
 					.then(function(res){
 						console.log('data',res);
-					})
+					})*/
 			}
 		},
 		mounted: function(){

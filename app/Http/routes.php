@@ -361,7 +361,7 @@ Route::get('wiki/{opcion}',[
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 
 	Route::resource('users','UserController');
-	Route::resource('variables','VariableController');
+	Route::resource('variables','VariableController',['only' =>['index','update']]);
 	Route::resource('carteras','CarteraController');
 	Route::resource('productos','ProductoController');
 	Route::resource('sanciones','SancionController');

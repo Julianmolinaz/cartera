@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePuntosTable extends Migration
+class CreateFactPrecredConceptosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,18 +12,12 @@ class CreatePuntosTable extends Migration
      */
     public function up()
     {
-        Schema::create('puntos', function (Blueprint $table) {
+        Schema::create('fact_precred_conceptos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('prefijo')->nullable();
-            $table->integer('increment')->default(0);
             $table->enum('estado',['Activo','Inactivo'])->default('Activo');
-            $table->string('direccion')->nullable();
-            $table->text('descripcion')->nullable();
-            $table->integer('municipio_id')->unsigned()->nullable();
+            $table->double('valor')->nullable();
             $table->timestamps();
-
-            $table->foreign('municipio_id')->references('id')->on('municipios');
         });
     }
 
@@ -34,6 +28,6 @@ class CreatePuntosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('puntos');
+        Schema::drop('fact_precred_conceptos');
     }
 }

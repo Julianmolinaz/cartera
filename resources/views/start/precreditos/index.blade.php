@@ -62,11 +62,13 @@
                 <a href="{{route('start.clientes.show',$precredito->cliente_id)}}" class = 'btn btn-default btn-xs'>
                   <span class = "glyphicon glyphicon-user" data-toggle="tooltip" data-placement="top" title="Ver cliente"></span>
                 </a>
-                <pagos-precredito precredito_id="{{$precredito->id}}"></pagos-precredito>
-                @if($precredito->credito)
-                <a href="{{route('start.precreditos.ver',$precredito->id)}}" class = 'btn btn-default btn-xs'>
-                  <span class = "glyphicon glyphicon-sunglasses"  data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
+                <a href="{{route('start.fact_precreditos.create',$precredito->id)}}" class = 'btn btn-default btn-xs'>
+                  <span class = "glyphicon glyphicon-lamp" data-toggle="tooltip" data-placement="top" title="Iniciales y estudios"></span>
                 </a>
+                @if($precredito->credito)
+                  <a href="{{route('start.precreditos.ver',$precredito->id)}}" class = 'btn btn-default btn-xs'>
+                    <span class = "glyphicon glyphicon-sunglasses"  data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
+                  </a>
                 @endif
 
                 </td>
@@ -75,9 +77,6 @@
               @endforeach
             </tbody>
           </table>
-
-          @include('start.precreditos.pagos_precredito')
-
         </div>
       </div>
     </div>

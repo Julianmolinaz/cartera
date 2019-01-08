@@ -211,9 +211,8 @@ class FacturaController extends Controller
           $num_fact  = $this->generate_auto();
         } else { 
           $date_time = new Carbon($request->fecha);
-          $range = ['ini' => Carbon::today()->subMonths(6)->startOfDay(), 'fin' => Carbon::today()->endOfDay() ];
-
-          if(!$date_time->between($range['ini'],$range['fin'])){
+        
+          if( !$date_time->equalTo($now) ){
             return response()->json(['error' => true, 'mensaje' => '@=) ErRoR eN La fEchA de fActUrA @=(']);
           }
           $num_fact  = $request->num_fact;

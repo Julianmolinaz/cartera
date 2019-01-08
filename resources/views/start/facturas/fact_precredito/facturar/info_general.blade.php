@@ -1,16 +1,18 @@
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
       <div class="panel-heading" style="position:relative;">
-        <h3 class="panel-title" >
-          <a href="{{route('start.precreditos.ver',$precredito->id)}}"target="_blank">
-            Solicitud {{$precredito->id}} <small> {{ '-- Aprobado: ' . $precredito->aprobado}}</small>
+
+          <h3 class="panel-title ">
+            <span>
+              Solicitud {{$precredito->id}} <small style="color:white"> {{ '-- Aprobado: ' . $precredito->aprobado}}</small>
+            </span>
+          <a href="{{route('start.precreditos.ver',$precredito->id)}}" target="_blank"
+             class='btn btn-default btn-xs' data-toggle="tooltip" 
+             data-placement="top" title="Ver solicitud"
+             style="right:20px; position:absolute;">
+             <span class = "glyphicon glyphicon-eye-open" ></span>
           </a>
-        <a href="#"
-           class = 'btn btn-default btn-xs' data-toggle="tooltip" 
-           data-placement="top" title="Ver solicitud"
-           style="right:20px; position:absolute;">
-           <span class = "glyphicon glyphicon-eye-open" ></span>
-        </a>
-        </h3>
+          </h3>
+
       </div>
       <div class="panel-body" style="padding: 0px 13px;">
           <table class="table table-condensed">
@@ -40,3 +42,4 @@
           </table>  
       </div>
     </div>
+
