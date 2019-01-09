@@ -207,13 +207,22 @@ class FacturaController extends Controller
         $bandera    = 0;
 
         if( $request->auto ){ // validacion de consecutivo automático
-          $date_time = Carbon::now();
-          $num_fact  = $this->generate_auto();
-        } else { 
+          $date_time = Carbon::now(); //SE GENERA LA FECHA ACTUAL
+
+          //SE GENERA EL CONSECUTIVO
+          $punto        = Punto::find(Auth::user()->punto_id); 
+          $prefijo      = $punto->prefijo;
+          $consecutivo  = $punto->increment + 1;
+          $punto->increment = $consecutivo; 
+          $punto->save();
+
+          $num_fact = $prefijo .''. $consecutivo;
+        } 
+        else { 
           $date_time = new Carbon($request->fecha);
         
-          if( !$date_time->equalTo($now) ){
-            return response()->json(['error' => true, 'mensaje' => '@=) ErRoR eN La fEchA de fActUrA @=(']);
+          if( !$date_time->equalTo($now) && (Auth::user()->rol != 'Administrador')){
+            return response()->json(['error' => true, 'mensaje' => '@=) Error en la fecha, debe ser la fecha actual @=(']);
           }
           $num_fact  = $request->num_fact;
         }
@@ -836,6 +845,11 @@ if($monto > 0){
       $res = ['error' => false, 'data' => $contenedor, 'cta_parcial_sin_movimiento_de_fecha' => $sin_mover_fecha];
 
       return response()->json($res);
+  }
+
+  public function get_pdf($factura_id){
+    return view('start.facturas.pdf')
+      ->with( 'factura', Factura::find($factura_id));
   }
 
 }
