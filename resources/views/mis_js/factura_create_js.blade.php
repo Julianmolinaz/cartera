@@ -24,7 +24,7 @@
       cta_parcial_ini_origin  :'', //contenedor de la fecha inicial original cta parcial
       cta_parcial_fin_origin  :'',  //contenedor de la fecha final original cta parcial
       message     : '', //alerta con mesajes o notificaciones en generador de pagos
-      message2    : '', //alerta con mesajes o notificaciones en listado de pagos genrados
+      message2    : '', //alerta con mesajes o notificaciones en listado de pagos generados
     },
     
     methods:{
@@ -65,7 +65,7 @@
         this.general.pagos.filter(function(pago){
           if(pago.marcado){
             if(pago.subtotal < ( self.credito.precredito.vlr_cuota * 0.6) ){
-              self.message2 = 'Recuerde que la cuota parcial resaltada esta por debajo del valor normal permitido, seleccione el recuadro "No mover fecha" para impedir que se mueva la fecha';
+              self.message2 = 'Recuerde que la cuota parcial resaltada esta por debajo del valor normal permitido, seleccione el recuadro a la izquierda para no mover la fecha';
             }
           }
         })
@@ -74,6 +74,8 @@
       borrar: function(){ // reset de datos
         this.bandera        = 0;
         this.general.pagos  = [];
+        this.message        = '';
+        this.message2       = '';
       },
       /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
       aceptar: function(){//facturar
