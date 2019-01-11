@@ -498,4 +498,3 @@ Route::get('prueba', function(){
 Route::group(['prefix' => 'data'],function(){
 	Route::get('egresos','DatatableController@egresos');
 });
-
