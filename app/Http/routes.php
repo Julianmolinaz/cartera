@@ -280,6 +280,8 @@ Route::get('start/fact_precreditos/create/{precredito_id}',[
 
 ]);
 
+Route::post('start/fact_precreditos','FactPrecreditoCotroller@store');
+
 
 
 //PAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOSPAGOS

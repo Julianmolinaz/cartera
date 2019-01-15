@@ -13,6 +13,7 @@
       </div>
       <div class="col-md-12 col-sm-12 col-xs-12">
         <!--panel resumen de pagos-->
+        <list_pagos_generados-component></list_pagos_generados-component>
       </div>
     </div>
   </div>
@@ -38,8 +39,12 @@
 
 @include('start.facturas.fact_precredito.facturar.generador_de_pagos')
 @include('start.facturas.fact_precredito.create_js')
+@include('start.facturas.fact_precredito.facturar.list_pagos_generados')
 <!-- @include('start.pagos.print_js') -->
 <script>
+
+  const Bus = new Vue();
+
   const main = new Vue({
     el:'#main'
   });

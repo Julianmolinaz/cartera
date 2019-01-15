@@ -11,7 +11,9 @@ class Punto extends Model implements Auditable
     
     protected $table = 'puntos';
 
-    protected $fillable = ['nombre', 'estado', 'prefijo','increment','direccion', 'descripcion','municipio_id'];
+    protected $fillable = [
+    	'nombre', 'estado', 'prefijo','increment',
+    	'direccion', 'telefono', 'descripcion','municipio_id'];
     
     public function municipio(){
     	return $this->hasOne('App\Municipio','id','municipio_id');
