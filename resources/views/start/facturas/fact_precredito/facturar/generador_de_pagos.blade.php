@@ -46,7 +46,7 @@
                <!-- concepto del pago *****-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <label>Concepto</label>
-                  <select class="form-control input-small" v-model="pago.concepto" @change="get_concepto()">
+                  <select class="form-control input-small" v-model="concepto" @change="get_concepto()">
                     <option readonly selected>- -</option>
                     <option  :value="concepto" v-for="concepto in conceptos" 
                     >@{{ concepto.nombre }}</option>
@@ -111,9 +111,10 @@
       get_concepto(){ // evalua el concepto 
 
         console.log(this.concepto);
+        this.pago.concepto  = this.concepto;
 
-        if(this.pago.concepto.id == 1 ){ //si estudio típico el vlr es predeterminado
-          this.pago.subtotal = this.pago.concepto.valor; //vlr predeterminado
+        if(this.concepto.id == 1 ){ //si estudio típico el vlr es predeterminado
+          this.pago.subtotal = this.concepto.valor; //vlr predeterminado
           this.monto_readonly = true;
         } else{
           this.monto_readonly = false;
