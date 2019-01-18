@@ -9,7 +9,7 @@ class PrecreditoPago extends Model
     protected $table = 'precred_pagos';
 
     protected $fillable = [
-    	'fact_precredito_id','concepto_id','precredito_id','valor','user_create_id','user_update_id'
+    	'fact_precredito_id','concepto_id','precredito_id','subtotal','user_create_id','user_update_id'
     ];
 
     public function factura(){

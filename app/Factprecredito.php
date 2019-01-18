@@ -12,7 +12,7 @@ class Factprecredito extends Model implements Auditable
     protected $table = 'fact_precreditos';
 
     protected $fillable = [
-    	'precredito_id','num_fact','fecha','total','tipo','user_create_id','user_update_id'
+    	'id','precredito_id','num_fact','fecha','total','tipo','user_create_id','user_update_id'
     ];
 
     public function precredito(){
@@ -25,6 +25,10 @@ class Factprecredito extends Model implements Auditable
 
     public function user_update(){
     	return $this->hasOne('App\User','id','user_update_id');
+    }
+
+    public function pagos(){
+        return $this->hasMany('App\PrecreditoPago','fact_precredito_id','id');
     }
 
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\ConceptoFactPrecredito;
+use App\Traits\FacturaPrecreditoTrait;
 use App\Factprecredito;
 use App\PrecreditoPago;
 use App\Precredito;
@@ -16,8 +17,10 @@ use Validator;
 use Auth;
 use DB;
 
-class FactPrecreditoCotroller extends Controller
+class FactPrecreditoController extends Controller
 {
+    use FacturaPrecreditoTrait;
+
     protected $fact;
     protected $now;
 
@@ -25,7 +28,13 @@ class FactPrecreditoCotroller extends Controller
     {
         $this->fact = new Factprecredito();
         $this->now  = Carbon::now();
-    }   
+    }  
+
+    public function invoice_to_print($factura_id)
+    {
+      return $this->generate_content_to_print($factura_id);
+    }
+ 
     
     public function create($precredito_id)
     {
@@ -33,21 +42,24 @@ class FactPrecreditoCotroller extends Controller
     	$tipo_pago  = getEnumValues('fact_precreditos','tipo');
     	$punto      = Punto::find(Auth::user()->punto_id);
         $conceptos  = ConceptoFactPrecredito::orderBy('nombre')->get();
+        $pagos      = PrecreditoPago::where('precredito_id',$precredito_id)
+                        ->orderBy('created_at','desc')
+                        ->get();
 
     	return view('start.facturas.fact_precredito.create')
     		->with('precredito',$precredito)
     		->with('tipo_pago',$tipo_pago)
             ->with('conceptos', $conceptos)
-    		->with('punto',$punto);
+    		->with('punto',$punto)
+            ->with('pagos',$pagos);
     }
 
     public function store(Request $request)
     {
+
         DB::beginTransaction();
 
         try {
-
-            //QUEDA FALTANDO CONFIGURAR LA FECHA ??????????????????????
 
             // consecutivo automatico ****
 
@@ -57,16 +69,18 @@ class FactPrecreditoCotroller extends Controller
             // si se elabora manualmente la factura
             else{
                 //validar que la el numero de factura no se repita
+
                 if( $this->exist_fact( $request->factura['num_fact'] )) {
                     return response()->json(['error' => true,
                         'message'=>'Ya existe una factura con ese número de factura']);
                 } else {
                     $this->fact->num_fact = $request->factura['num_fact'];
-                    $validacion_fecha = $this->validar_fecha($request->factura['fecha']);
-                    if(!  $validacion_fecha->valid ){
-                        return $validacion_fecha->respuesta;
-                    }
                 }
+            }
+
+            // validar fecha
+            if(! $this->validar_fecha($request->factura['fecha']) ){
+                return response()->json(['error' => true, 'message' => 'Fecha incorrecta']);
             }
 
             //llenado de datos restantes factura ********************************
@@ -83,7 +97,7 @@ class FactPrecreditoCotroller extends Controller
             DB::commit();
 
             //respuesta**************************************************
-            $res = ['error' => false, 'message' => 'Transacción exitosa'];
+            $res = ['error' => false, 'message' => 'Transacción exitosa', 'dat' => $this->fact];
 
             return response()->json($res);
 
@@ -95,15 +109,43 @@ class FactPrecreditoCotroller extends Controller
     }
 
 
+    /**
+     * Falida que la fecha de la factura sea correcta
+     * 1- Si es un administrador la fecha puede ser de n $meses restantes
+     * 2- No se permite fechas futuras
+     * 3- Si es diferente de Administrador solo se permite la fecha actual
+     * recibe: una fecha en formato 'YYYY-MM-DD'
+     */
+
+
     public function validar_fecha($fecha)
     {
-        //VALIDAR QUE SEA UNA FECHA PERMITIDA
+        $fecha   = new Carbon($fecha);
+        $hoy     = Carbon::now();
+        $meses_restantes = 3;
 
         //SI ES ADMINISTRADOR PERMITIR FECHAS ANTERIORES
 
+        if(Auth::user()->rol === 'Administrador'){
+            $desde   = Carbon::now()->subMonths($meses_restantes);
+
+            if( $fecha->between($desde,$hoy) ){
+                $this->fact->fecha = $fecha;
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         // SI NO ES ADMINISTRADOR SOLO PERMITE LA FECHA ACTUAL
-        
-        //NO PERMITIR FECHAS FUTURAS
+
+        else{
+            if($fecha->equalTo($hoy->startOfDay())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
 
     }
 
@@ -121,7 +163,7 @@ class FactPrecreditoCotroller extends Controller
             $buy->concepto_id         = $pago[0]['concepto']['id'];
             $buy->fact_precredito_id  = $this->fact->id;
             $buy->precredito_id       = $factura['precredito']['id'];
-            $buy->valor               = $pago[0]['concepto']['valor'];
+            $buy->subtotal            = $pago[0]['subtotal'];
             $buy->user_create_id      = Auth()->user()->id;
             $buy->save();
         }
@@ -138,7 +180,6 @@ class FactPrecreditoCotroller extends Controller
         $this->fact->num_fact  = $punto->prefijo.$punto->increment;
         $this->fact->fecha     = $this->now;
         $punto->save();
-
     }
 
 
@@ -150,7 +191,7 @@ class FactPrecreditoCotroller extends Controller
 
     public function exist_fact($num_fact)
     {
-        $fact = DB::table('facturas')
+        $fact = DB::table('fact_precreditos')
             ->where('num_fact','=',$num_fact)
             ->count();
 

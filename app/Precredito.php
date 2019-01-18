@@ -50,7 +50,11 @@ class Precredito extends Model implements Auditable
         return $this->belongsTo('App\Factura');
     }
 
-    public function pagos(){
+/*    public function pagos(){
         return $this->belongsTo('App\Pago');
+    }*/
+
+    public function pagos() {
+        return $this->hasMany('App\PrecreditoPago','precredito_id','id');
     }
 }
