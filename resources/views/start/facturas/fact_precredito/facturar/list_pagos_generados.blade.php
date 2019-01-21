@@ -99,7 +99,7 @@
         var route = "/start/fact_precreditos";
         axios.post(route, {factura: this.factura}).then(
           function(res){
-            console.log('store',res.data)
+            //console.log('store',res.data)
             alert(res.data.message)
 
             if(! res.data.error){

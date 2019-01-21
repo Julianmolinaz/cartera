@@ -56,7 +56,6 @@ class FactPrecreditoController extends Controller
 
     public function store(Request $request)
     {
-        DB::beginTransaction();
 
         try {
 
@@ -76,7 +75,6 @@ class FactPrecreditoController extends Controller
                     $this->fact->num_fact = $request->factura['num_fact'];
                 }
             }
-
             // validar fecha
             if(! $this->validar_fecha($request->factura['fecha']) ){
                 return response()->json(['error' => true, 'message' => 'Fecha incorrecta']);
@@ -138,8 +136,8 @@ class FactPrecreditoController extends Controller
 
         // SI NO ES ADMINISTRADOR SOLO PERMITE LA FECHA ACTUAL
 
-        else{
-            if($fecha->equalTo($hoy->startOfDay()) ) {
+        else{ 
+            if($fecha->toDateString() === $hoy->toDateString() ) {
                 $this->fact->fecha = $fecha;
                 return true;
             } else {
