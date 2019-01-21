@@ -101,7 +101,8 @@ trait FacturaPrecreditoTrait
 					</div>	
 					<br>
 					<div id="factura" class="contenido">
-						<h4>Factura # '. $factura->num_fact .'-'. $factura->precredito->id .'</h4><br>
+						<h4>Factura: '. $factura->num_fact.'<br>
+						Solicitud: '. $factura->precredito->id .'</h4><br>
 						PAGOS:<br>'.
 						$str_pagos.
 						'<br>

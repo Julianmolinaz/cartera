@@ -502,3 +502,14 @@ Route::get('prueba', function(){
 Route::group(['prefix' => 'data'],function(){
 	Route::get('egresos','DatatableController@egresos');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Caja
+|--------------------------------------------------------------------------
+*/
+
+Route::get('start/cajas',[
+	'uses' => 'CajaController@index',
+	'as'   => 'start.cajas.index'
+]);

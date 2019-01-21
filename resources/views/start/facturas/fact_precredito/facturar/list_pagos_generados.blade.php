@@ -10,7 +10,7 @@
         <div class="panel-body" style="padding:5px;">
 
           <div class="alert alert-danger my-danger" role="alert"
-                v-if="(message.length > 0) && (type='danger')">
+                v-if="(message.length > 0)">
               <ul>
                 <li v-for="error in message">@{{ error[0] }}</li>
               </ul>
@@ -109,7 +109,7 @@
       }, //.aceptar
       validar(){
         var str       = []
-        this.message  = []
+        this.reset_message()
 
         if( Object.keys(this.factura).length > 0) {
 
@@ -137,22 +137,22 @@
         }
 
         if( str.length > 0) {
-          console.log('array errores: ',str)
           this.message = str
           return false
         } else {
           return true
-        }
-
-
-        
+        }        
       },//.validar
+      reset_message() {
+        this.message  = []
+      }
     },
     created(){
       var self = this;
       Bus.$on('add_pago', function(factura){
         self.factura = factura
         self.get_total()
+        self.reset_message()
       })
     }
   });

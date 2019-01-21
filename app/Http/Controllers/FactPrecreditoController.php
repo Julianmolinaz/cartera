@@ -41,7 +41,7 @@ class FactPrecreditoController extends Controller
     	$precredito = Precredito::find($precredito_id);
     	$tipo_pago  = getEnumValues('fact_precreditos','tipo');
     	$punto      = Punto::find(Auth::user()->punto_id);
-        $conceptos  = ConceptoFactPrecredito::orderBy('nombre')->get();
+        $conceptos  = ConceptoFactPrecredito::orderBy('id')->get();
         $pagos      = PrecreditoPago::where('precredito_id',$precredito_id)
                         ->orderBy('created_at','desc')
                         ->get();

@@ -111,7 +111,7 @@
 
         this.pago.concepto  = this.concepto;
 
-        if(this.concepto.id == 1 ){ //si estudio típico el vlr es predeterminado
+        if(this.concepto.id == 1 || this.concepto.id == 3){ //si estudio típico el vlr es predeterminado
           this.pago.subtotal  = this.concepto.valor; //vlr predeterminado
           this.monto_readonly = true;
         } else{
@@ -176,7 +176,7 @@
         this.message.length = []; this.type = "";
       },
       reset_message(){
-         this.message.length = []
+         this.message = []
          this.type     = ''
       }
     } 

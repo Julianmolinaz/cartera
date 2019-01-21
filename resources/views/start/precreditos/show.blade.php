@@ -31,10 +31,13 @@
         </a>
       @elseif(!$precredito->credito)
         <a href="{{route('start.creditos.create',$precredito->id)}}">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" 
+            <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" 
                 title="Para crear un crédito la solicitud debe haber sido aprobada">
               Crear Credito
             </button>
+          </a>
+          <a href="{{route('start.fact_precreditos.create',$precredito->id)}}" class = 'btn btn-default btn-xs'>
+            <span class = "glyphicon glyphicon-lamp" data-toggle="tooltip" data-placement="top" title="Iniciales y estudios"></span>
           </a>
       @endif  
       </div>
