@@ -20,7 +20,7 @@ class CreateFactPrecreditosTable extends Migration
             $table->double('total');
             $table->enum('tipo',['Efectivo','Consignación']);
             $table->integer('user_create_id')->unsigned();
-            $table->integer('user_update_id')->unsigned();
+            $table->integer('user_update_id')->unsigned()->nullable();
 
             $table->foreign('precredito_id')->references('id')->on('precreditos');
             $table->foreign('user_create_id')->references('id')->on('users');

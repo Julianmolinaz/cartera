@@ -3,17 +3,22 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Factprecredito extends Model implements Auditable 
+class PrecreditoPago extends Model
 {
-	use \OwenIt\Auditing\Auditable;
-
-    protected $table = 'fact_precreditos';
+    protected $table = 'precred_pagos';
 
     protected $fillable = [
-    	'id','precredito_id','num_fact','fecha','total','tipo','user_create_id','user_update_id'
+    	'fact_precredito_id','concepto_id','precredito_id','subtotal','user_create_id','user_update_id'
     ];
+
+    public function factura(){
+    	return $this->hasOne('App\Factprecredito','id','fact_precredito_id');
+    }
+
+    public function concepto(){
+    	return $this->hasOne('App\ConceptoFactPrecredito','id','concepto_id');
+    }
 
     public function precredito(){
     	return $this->hasOne('App\Precredito','id','precredito_id');
@@ -27,8 +32,5 @@ class Factprecredito extends Model implements Auditable
     	return $this->hasOne('App\User','id','user_update_id');
     }
 
-    public function pagos(){
-        return $this->hasMany('App\PrecreditoPago','fact_precredito_id','id');
-    }
 
 }

@@ -44,28 +44,32 @@
               <td style="display:none;"> {{$factura->updated_at}}</td>
           		<td> {{ $factura->id }}           </td>
           		<td> 
+                @if($factura->credito)
                 <a href="{{route('start.precreditos.ver',$factura->credito->precredito->id)}}">
                   {{ $factura->credito_id}} 
                 </a>
+                @endif
               </td>
           		<td> {{ $factura->num_fact }}     </td>
-              <td> {{ $factura->credito->precredito->cartera->nombre}}</td>
+              <td> {{ ($factura->credito) ? $factura->credito->precredito->cartera->nombre : ''}}</td>
           		<td> {{ $factura->fecha }}        </td>
               <td align="right"> {{ number_format($factura->total, 0, ",", ".") }}</td>
               <td> {{ $factura->tipo }}         </td>
-              <td> {{ $factura->credito->precredito->cliente->nombre }}           </td>
-              <td align="right"> {{ $factura->credito->precredito->cliente->num_doc}}</td>
+              <td> {{ ($factura->credito) ? $factura->credito->precredito->cliente->nombre : '' }}           </td>
+              <td align="right"> {{ ($factura->credito) ? $factura->credito->precredito->cliente->num_doc : ''}}</td>
               <td> <small>{{$factura->user_create->name.' ['.$factura->created_at.']'}}</small></td>
           		<td> 
               <a href="{{route('start.facturas.show',$factura->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver Factura">
                 <span class = "glyphicon glyphicon-eye-open"  ></span>
               </a>
+              @if($factura->credito)
               <a href="{{route('start.precreditos.ver',$factura->credito->precredito->id)}}" class = 'btn btn-default btn-xs'>
                 <span class = "glyphicon glyphicon-sunglasses"  data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
               </a>
               <a href="{{route('start.facturas.create',$factura->credito->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Hacer pago">
                 <span class = "glyphicon glyphicon-usd"  ></span>
               </a>  
+              @endif
               <a href="#" class = 'btn btn-default btn-xs' OnClick="Anular({{$factura->id}},'{{$factura->num_fact}}');" data-toggle="modal" data-target="#modal" title="Anular factura">
                 <span class = "glyphicon glyphicon-fire" ></span>
               </a>  

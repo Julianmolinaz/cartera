@@ -4,11 +4,11 @@ namespace App\Traits;
 
 use DB;
 use Auth;
-use App\Factura;
+use App\Factprecredito;
 use App\Variable;
 use Carbon\Carbon;
 
-trait FacturaTrait
+trait FacturaPrecreditoTrait
 {
 
     /*
@@ -25,20 +25,11 @@ trait FacturaTrait
 
 	public function generate_content_to_print($factura_id)
 	{
-		$factura = Factura::find($factura_id);
+		$factura = Factprecredito::find($factura_id);
 		$now     = Carbon::now();
-		$saldo   = $factura->credito->saldo;
-		$prox    = ''; //html con el saldo
 		$variable = Variable::all()[0];
 
 		//evalua si el saldo es mayor de 0 (no cancelado, aun vigente)
-
-		if($saldo > 0){
-			$prox = '<p id="prox_fech_pago">Próxima fecha de pago: '. $factura->credito->fecha_pago->fecha_pago .'</p>';
-		}
-		else{
-			$prox = '';
-		}
 
 		$str_pagos   = "";
 
@@ -47,7 +38,7 @@ trait FacturaTrait
 		foreach($factura->pagos as $pago){
 			$str_pagos .= 
 			'<div id="pagos">
-				<p id="concepto">'.$pago->concepto.' : $'.number_format($pago->abono,0,",",".").'</p>';
+				<p id="concepto">'.$pago->concepto->nombre.' : $'.number_format($pago->subtotal,0,",",".").'</p>';
 
 		}
 
@@ -105,23 +96,18 @@ trait FacturaTrait
 						<br>
 						<p>Fecha: '. $now->format('d-m-Y H:i') .'</p>
 						<p id="asesor">Asesor: '. ucwords(strtolower($factura->user_create->name)) .'</p>
-						<p id="cliente">Cliente: '. $factura->credito->precredito->cliente->nombre .'</p>
-						<p>Doc: '. $factura->credito->precredito->cliente->num_doc .'</p>
+						<p id="cliente">Cliente: '. $factura->precredito->cliente->nombre .'</p>
+						<p>Doc: '. $factura->precredito->cliente->num_doc .'</p>
 					</div>	
 					<br>
 					<div id="factura" class="contenido">
-						<h4>Factura # '. $factura->num_fact .'<br>
-						Crédito: '. $factura->credito->id .'</h4><br>
+						<h4>Factura: '. $factura->num_fact.'<br>
+						Solicitud: '. $factura->precredito->id .'</h4><br>
 						PAGOS:<br>'.
 						$str_pagos.
 						'<br>
 						<div>
 							<p id="abono">Total: $ '. number_format($factura->total,0,",",".") .'</p>
-							<br>
-							<p id="saldo">Saldo: $ '. number_format($factura->credito->saldo,0,",",".") .'</p>
-							<p id="prox_fech_pago">Próxima fecha de pago: </p><br><br>
-							<p>_____________________________</p>
-							
 						</div>			
 					</div>		
 					<div>

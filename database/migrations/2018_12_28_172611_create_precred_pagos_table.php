@@ -19,7 +19,7 @@ class CreatePrecredPagosTable extends Migration
             $table->integer('precredito_id')->unsigned();
             $table->double('valor');
             $table->integer('user_create_id')->unsigned();
-            $table->integer('user_update_id')->unsigned();
+            $table->integer('user_update_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('fact_precredito_id')->references('id')->on('fact_precreditos');

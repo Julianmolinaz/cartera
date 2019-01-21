@@ -19,6 +19,7 @@ class CreatePuntosTable extends Migration
             $table->integer('increment')->default(0);
             $table->enum('estado',['Activo','Inactivo'])->default('Activo');
             $table->string('direccion')->nullable();
+            $table->string('telefono')->nullable();
             $table->text('descripcion')->nullable();
             $table->integer('municipio_id')->unsigned()->nullable();
             $table->timestamps();

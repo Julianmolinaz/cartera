@@ -104,6 +104,11 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
           role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name!!} <span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li>
+              <a href="{{ route('start.cajas.index') }}">
+                <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Caja
+              </a>
+            </li>
             <li><a href="{{route('wiki')}}">Wiki-Gofin!</a></li>
             <li><a href="/logout">Salir</a></li>
           </ul>
