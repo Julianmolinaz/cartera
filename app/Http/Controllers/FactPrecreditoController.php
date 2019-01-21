@@ -56,7 +56,6 @@ class FactPrecreditoController extends Controller
 
     public function store(Request $request)
     {
-
         DB::beginTransaction();
 
         try {
@@ -140,7 +139,8 @@ class FactPrecreditoController extends Controller
         // SI NO ES ADMINISTRADOR SOLO PERMITE LA FECHA ACTUAL
 
         else{
-            if($fecha->equalTo($hoy->startOfDay())) {
+            if($fecha->equalTo($hoy->startOfDay()) ) {
+                $this->fact->fecha = $fecha;
                 return true;
             } else {
                 return false;

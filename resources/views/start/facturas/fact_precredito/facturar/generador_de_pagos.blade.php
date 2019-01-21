@@ -78,6 +78,8 @@
             </form>
               
                 <!--Fin del formulario creador de pagos-->
+            }
+            }
               </div><!--fin del panel-body-->
         </div><!-- fin de panel panel-default-->
       `,
