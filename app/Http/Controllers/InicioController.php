@@ -78,6 +78,20 @@ class InicioController extends Controller
                                     $factura->total."</a></p>";
                 }
             }
+
+            $anuladas  = DB::table('anuladas')
+                        ->where('num_fact','like','%'.$string.'%')
+                        ->get();
+
+            if(count($anuladas) > 0){
+                foreach($anuladas as $anulada){
+                    $respuesta .= "<p><strong>Anulada: </strong>".
+                                    $anulada->num_fact.", crédito id: ".
+                                    $anulada->credito_id.", fecha: ".
+                                    $anulada->created_at." total: ".
+                                    $anulada->total."</p>";
+                }
+            }
         }
 
         else if(substr($string,0,1) == "+"){
