@@ -8,6 +8,8 @@
     <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.css')}}" rel="stylesheet">
     <!-- jQuery -->
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
+    <!-- Moment -->
+    <script src="{{asset('js/moment.js')}}"></script>
 
     <!-- Datatables -->
     <link href="{{asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">

@@ -48,7 +48,8 @@
             "app/Helpers/info_financiero.php",
             "app/Helpers/no_incluidos.php",
             "app/Helpers/funciones_datacredito.php",
-            "app/Helpers/middleware.php"
+            "app/Helpers/middleware.php",
+            "app/Helpers/caja_helper.php"
         ]
     },
     "autoload-dev": {

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Carbon\Carbon;
 use App\Llamada;
+use App\Precredito;
 use Auth;
 use DB;
 
@@ -14,21 +15,14 @@ class CajaController extends Controller
 {
     public function index()
     {
-    	$fecha = Carbon::now();
-
-    	return view('start.cajas.index')
-    		->with('cantidad_llamadas', $this->cantidad_llamadas($fecha));
+        return view('start.cajas.index');
     }
 
-    Public function cantidad_llamadas($fecha)
+    public function get_cash_report($date)
     {
-        return Llamada::where('created_at','like','%'.$fecha->toDateString().'%')
-                            ->where('user_create_id',Auth::user()->id)
-                            ->count();
+        
+        return response()->json( caja($date,Auth::user()->id ));
     }
 
-    public function cantidad_solicitudes($fecha)
-    {
-
-    }
+   
 }

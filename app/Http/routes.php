@@ -513,3 +513,5 @@ Route::get('start/cajas',[
 	'uses' => 'CajaController@index',
 	'as'   => 'start.cajas.index'
 ]);
+
+Route::get('start/cajas/report/{date}','CajaController@get_cash_report');
