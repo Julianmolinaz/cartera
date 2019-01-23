@@ -37,6 +37,9 @@ use DB;
 
 		$valor_negocios = valor_negocios($date, $user_id);
 
+		// Listado de abonos 
+
+		$abonos = abonos($date, $user_id);
 
 		return [
 			'calls' 		  => $calls,
@@ -45,7 +48,8 @@ use DB;
 			'punto'  		  => $user->punto,
 			'precreditos' 	  => $precreditos,
 			'num_precreditos' => $num_precreditos,
-			'valor_negocios'  => $valor_negocios
+			'valor_negocios'  => $valor_negocios,
+			'abonos'          => $abonos
 
 		];
 	}
@@ -76,7 +80,10 @@ use DB;
         	->sum('creditos.valor_credito');
     }
 
-    function abonos()
+    function abonos($date, $user_id)
     {
-    
+    	return DB::table('facturas')
+    		->where('created_at','like',$date.'%')
+    		->where('user_create_id',$user_id)
+    		->get();
     }

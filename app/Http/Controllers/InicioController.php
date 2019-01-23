@@ -79,6 +79,22 @@ class InicioController extends Controller
                 }
             }
 
+            $fact_precreditos   = DB::table('fact_precreditos')
+                                    ->where('num_fact','like','%'.$string.'%')
+                                    ->get();
+
+            if(count($fact_precreditos) > 0){
+                foreach($fact_precreditos as $factura){
+                    $respuesta .= "<p><strong>Factura solicitudes: </strong>".
+                                    $factura->num_fact.", solicitud id: ".
+                                    $factura->precredito_id.", fecha: ".
+                                    $factura->fecha." total: ".
+                                    $factura->total."</p>";
+                }
+            }
+
+
+
             $anuladas  = DB::table('anuladas')
                         ->where('num_fact','like','%'.$string.'%')
                         ->get();
