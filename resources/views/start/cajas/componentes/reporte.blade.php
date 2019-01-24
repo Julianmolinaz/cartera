@@ -4,47 +4,81 @@
 			<div>
 				 <ul class="list-group">
 
+			     <li class="list-group-item">
+
+			        <div class="form-group has-info has-feedback"  style="margin-bottom:0px;">
+			          <label class="control-label" for="inputSuccess2">
+			          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			          @{{ (info.punto) ? info.punto.nombre : '' }}</label>
+			        </div>
+			      </li>
 			      <li class="list-group-item">
 
 			        <div class="form-group has-info has-feedback">
 			          <label class="control-label" for="inputSuccess2">Fecha de reporte</label>
 			          <input type="date" class="form-control" v-model="date">
-			          <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+			          <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true">
+			          </span>
 			        </div>
+			        <a href="#" class="btn btn-primary btn-xs" @click="get_cash_report()">
+			        	<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+						Generar reporte
+			        </a>
 			      </li>
+
 			    </ul>
-			 
 			    
 			    <ul class="list-group">
 
 			      <li class="list-group-item">
 			        <center>
-			          <h4>Reporte Caja</h4>
+			          <h4>Reporte Caja </h4>
 			        </center>
 			      </li>
 
 			      <li class="list-group-item">
-			        <span class="badge">14</span>
+			        <span class="badge">@{{ info.num_calls }}</span>
 			        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			        Llamadas
 			      </li>
 			      <li class="list-group-item">
-			          <span class="badge">14</span>
-			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-			          Valor negocios
-			        </li>
-			      <li class="list-group-item">
-			        <span class="badge">14</span>
+			        <span class="badge">@{{ info.num_precreditos }}</span>
 			        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			        Solicitudes
 			      </li>
+			      <li class="list-group-item">
+			          <span class="badge">@{{ info.valor_negocios_mes }}</span>
+			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+			          Valor negocios mes
+			        </li>
+			       <li class="list-group-item">
+			          <span class="badge">@{{ info.total_abonos }}</span>
+			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+			          Abonos
+			        </li>
+			        <li class="list-group-item">
+			          <span class="badge">@{{ info.total_estudios }}</span>
+			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+			          Estudios
+			        </li>
+			        <li class="list-group-item">
+			          <span class="badge">@{{ info.total_iniciales }}</span>
+			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+			          Iniciales
+			        </li>
+			        <li class="list-group-item">
+			          <span class="badge">@{{ info.total_caja }}</span>
+			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+			          Total caja
+			        </li>
+
 			    </ul>
-			    @{{$data}}
 			</div>
 		`,
 		data(){
 			return {
-				date:''
+				date: '',
+				info: ''
 			}
 		},
 		methods: {
@@ -55,6 +89,12 @@
 				axios.get(route).then(
 					function (res) {
 						console.log(res)
+						if (! res.error) {
+							self.info = res.data.dat
+							Bus.$emit('get_dat', res.data.dat)
+						} else {
+							alert(res.data.message)
+						}
 					})
 			}
 		},

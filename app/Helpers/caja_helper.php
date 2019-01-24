@@ -5,52 +5,62 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Carbon\Carbon;
 use App\User;
 use Auth;
 use DB;
 
 	function caja($date, $user_id)
 	{
+		$calls = calls($date, $user_id); // Llamadas
 
-		// Llamadas
+		$num_calls  = count($calls);  // Cantidad de llamadas
 
-		$calls      = calls($date, $user_id);
+		$user = User::find($user_id); // Información del usuario (funcionario)
 
-		// Cantidad de llamadas
+		$precreditos = precreditos($date, $user_id); // Solicitudes
 
-		$num_calls  = count($calls);
+		$num_precreditos = count($precreditos); // Cantidad de solicitudes
 
-		// Información del usuario (funcionario)
+		$negocios_mes    = negocios_mes($date, $user_id); // detallado de los creditos creados
 
-		$user       = User::find($user_id);
+		$valor_negocios_mes = valor_negocios_mes($negocios_mes); // Valor de negocios mensual
 
-		// Solicitudes
+		$pagos = pagos($date, $user_id);  // pagos a creditos
 
-		$precreditos = precreditos($date, $user_id);
+		$total_pagos = total_pagos($pagos); // total pagos a creditos
 
-		// Cantidad de solicitudes
+		$pagos_solicitudes = pagos_solicitudes($date, $user_id); // pagos por solicitudes
 
-		$num_precreditos = count($precreditos);
+		$total_solicitudes = total_pagos($pagos_solicitudes); // total pagos por solicitudes
 
+		$estudios  = estudios($pagos_solicitudes); // pagos de estudios
+ 
+		$total_estudios = total_pagos($estudios); // total pagos de estudios
 
-		// Valor de negocios mensual
+		$iniciales = iniciales($pagos_solicitudes); // pagos de cuotas iniciales
 
-		$valor_negocios = valor_negocios($date, $user_id);
+		$total_iniciales = total_pagos($iniciales); // total pago cuotas iniciales
 
-		// Listado de abonos 
+		$total_caja = $total_pagos + $total_solicitudes; // total caja
 
-		$abonos = abonos($date, $user_id);
 
 		return [
-			'calls' 		  => $calls,
-			'num_calls' 	  => $num_calls,
-			'user'   		  => $user,
-			'punto'  		  => $user->punto,
-			'precreditos' 	  => $precreditos,
-			'num_precreditos' => $num_precreditos,
-			'valor_negocios'  => $valor_negocios,
-			'abonos'          => $abonos
-
+			'calls' 		  	=> $calls,
+			'num_calls' 	  	=> $num_calls,
+			'user'   		  	=> $user,
+			'punto'  		  	=> $user->punto,
+			'precreditos' 	  	=> $precreditos,
+			'num_precreditos' 	=> $num_precreditos,
+			'negocios_mes'      => $negocios_mes,
+			'valor_negocios_mes'=> $valor_negocios_mes,
+			'abonos'          	=> $pagos,
+			'total_abonos'    	=> $total_pagos,
+			'pagos_solicitudes' => $pagos_solicitudes,
+			'total_estudios'  	=> $total_estudios,
+			'total_iniciales' 	=> $total_iniciales,
+			'total_caja'      	=> $total_caja
+ 
 		];
 	}
 
@@ -66,24 +76,125 @@ use DB;
     function precreditos($date, $user_id)
     {
       	return DB::table('precreditos')
-      		->where('user_create_id',$user_id)
-      		->where('created_at','like',$date.'%')
+      		->join('clientes','precreditos.cliente_id','=','clientes.id')
+      		->select('precreditos.id as id', 
+      			     'precreditos.vlr_fin as vlr_fin',
+      			     'clientes.nombre as cliente',
+      			     'clientes.num_doc as documento')
+      		->where('precreditos.user_create_id',$user_id)
+      		->where('precreditos.created_at','like',$date.'%')
     		->get();
     }
 
-    function valor_negocios($date, $user_id)
+
+    function negocios_mes($date, $user_id)
     {
+    	$date = new Carbon($date);
+
         return DB::table('creditos')
         	->join('precreditos','creditos.precredito_id','=','precreditos.id')
+        	->join('clientes','precreditos.cliente_id','=','clientes.id')
+        	->select('creditos.id as id',
+                     'creditos.valor_credito as valor_credito',
+                     'clientes.nombre as cliente',
+                     'clientes.num_doc as documento')
         	->where('precreditos.user_create_id', $user_id)
-        	->where('creditos.created_at','like',$date.'%')
-        	->sum('creditos.valor_credito');
+        	->where('creditos.created_at','like',$date->format('Y-m').'%')
+        	->get();  	
     }
 
-    function abonos($date, $user_id)
+    function valor_negocios_mes($negocios)
     {
-    	return DB::table('facturas')
-    		->where('created_at','like',$date.'%')
-    		->where('user_create_id',$user_id)
-    		->get();
+    	$collection = collect($negocios);
+
+    	return $collection->reduce(function($carry, $item) {
+    		return $carry + $item->valor_credito;
+    	});
+    }
+
+    function abonos($pagos, $date, $user_id)
+    {
+    	$collection = collect($pagos);
+
+    	$filtered 	= $collection->filter(function($element, $key)
+    	{
+    		return ( $element->concepto == 'Cuota' ) ||  ( $element->concepto == 'Cuota Parcial' ); 
+    	});
+
+    	return $filtered;
+    }
+
+    function sanciones($pagos, $date, $user_id)
+    {
+    	$collection = collect($pagos);
+
+    	return $collection->filter(function($element, $key)
+    	{
+    		return ( $element->concepto == 'Mora' ); 
+    	});
+
+    }
+
+    function total_pagos($pagos)
+    {
+    	$collection = collect($pagos);
+
+    	return $collection->reduce(function($carry, $item) {
+    		return $carry + $item->subtotal;
+    	});
+    }
+
+
+    function pagos($date, $user_id)
+    {
+		return DB::table('facturas')
+			->join('pagos','facturas.id','=','pagos.factura_id')
+			->select('facturas.num_fact as num_fact',
+		             'pagos.concepto as concepto',
+		             'pagos.abono as subtotal',
+		             'facturas.total as total',
+		             'facturas.credito_id as credito')
+			->where('facturas.created_at','like',$date.'%')
+			->where('facturas.user_create_id',$user_id)
+			->where('facturas.tipo','Efectivo')
+			->get();
+    }
+
+    function pagos_solicitudes($date, $user_id)
+    {
+		return DB::table('fact_precreditos')
+			->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
+			->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
+			->select('fact_precreditos.num_fact as num_fact',
+		             'fact_precred_conceptos.nombre as concepto',
+		             'precred_pagos.subtotal as subtotal',
+		             'fact_precreditos.total as total',
+		             'fact_precreditos.precredito_id')
+			->where('fact_precreditos.created_at','like',$date.'%')
+			->where('fact_precreditos.user_create_id',$user_id)
+			->where('fact_precreditos.tipo','Efectivo')
+			->get();
+    }
+
+    function estudios($pagos)
+    {
+    	$collection = collect($pagos);
+
+    	return $collection->filter(function($element, $key)
+    	{
+    		return ( $element->concepto == 'Estudio tipico' ) ||
+    		       ( $element->concepto == 'Estudio domicilio' );
+    	});
+
+    }
+
+    function iniciales($pagos)
+    {
+    	$collection = collect($pagos);
+
+    	return $collection->filter(function($element, $key)
+    	{
+    		return ( $element->concepto == 'Cuota inicial' );
+    	});
+
     }
