@@ -26,10 +26,15 @@ class CajaController extends Controller
 
     public function get_cash_report($date)
     {
-     
-            $res = [ 'error'  => false, 'dat' => caja( $date,Auth::user()->id )];
-            
-            return response()->json($res);
+        $res = [ 'error'  => false, 'dat' => caja( $date,Auth::user()->id )];
+        
+        return response()->json($res);
+    }
+
+    public function get_cashes_report($date) {
+        $res = [ 'error'  => false, 'dat' => cajas( $date )];
+        
+        return response()->json($res);
     }
 
    

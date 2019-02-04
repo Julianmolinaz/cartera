@@ -384,8 +384,23 @@ class ReporteController extends Controller
     {
         return $this->get_egresos($ini, $fin);
     }
+
+    /**
+     * Reporte Caja
+     */
+
+     else if($request->input('tipo_reporte') == 'caja')
+     {
+         return view('admin.reportes.caja.index');
+     }
 }
 
+    public function get_cashes_report($date)
+    {
+        $cajas = cajas($date);
+        $res   = ['error' => false, 'dat' => $cajas];
+        return responser()->json($res);
+    }
   
     public function show($id){}
 

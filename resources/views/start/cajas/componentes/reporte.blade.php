@@ -46,11 +46,6 @@
 			        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			        Solicitudes
 			      </li>
-			      <li class="list-group-item">
-			          <span class="badge">@{{ info.valor_negocios_mes }}</span>
-			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-			          Valor negocios mes
-			        </li>
 			       <li class="list-group-item">
 			          <span class="badge">@{{ info.total_abonos }}</span>
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>

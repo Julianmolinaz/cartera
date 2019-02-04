@@ -10,6 +10,27 @@ use App\User;
 use Auth;
 use DB;
 
+	function cajas($date) {
+
+		$cajas = [];
+
+		$users = DB::table('users')
+			->join('puntos','users.punto_id','=','puntos.id')
+			->where('users.estado','Activo')
+			->select('users.id as user_id',
+			         'puntos.nombre as punto')
+			->orderBy('puntos.nombre')
+			->get();
+
+		foreach ($users as $user) {
+			$temp = caja($date,$user->user_id);
+			array_push($cajas, $temp);
+		}
+
+		return $cajas;
+	}
+
+
 	function caja($date, $user_id)
 	{
 		$calls = calls($date, $user_id); // Llamadas
@@ -22,9 +43,9 @@ use DB;
 
 		$num_precreditos = count($precreditos); // Cantidad de solicitudes
 
-		$negocios_mes    = negocios_mes($date, $user_id); // detallado de los creditos creados
+		// $negocios_mes    = negocios_mes($date, $user_id); // detallado de los creditos creados
 
-		$valor_negocios_mes = valor_negocios_mes($negocios_mes); // Valor de negocios mensual
+		// $valor_negocios_mes = valor_negocios_mes($negocios_mes); // Valor de negocios mensual
 
 		$pagos = pagos($date, $user_id);  // pagos a creditos
 
@@ -52,15 +73,12 @@ use DB;
 			'punto'  		  	=> $user->punto,
 			'precreditos' 	  	=> $precreditos,
 			'num_precreditos' 	=> $num_precreditos,
-			'negocios_mes'      => $negocios_mes,
-			'valor_negocios_mes'=> $valor_negocios_mes,
 			'abonos'          	=> $pagos,
 			'total_abonos'    	=> $total_pagos,
 			'pagos_solicitudes' => $pagos_solicitudes,
 			'total_estudios'  	=> $total_estudios,
 			'total_iniciales' 	=> $total_iniciales,
 			'total_caja'      	=> $total_caja
- 
 		];
 	}
 
@@ -86,31 +104,6 @@ use DB;
     		->get();
     }
 
-
-    function negocios_mes($date, $user_id)
-    {
-    	$date = new Carbon($date);
-
-        return DB::table('creditos')
-        	->join('precreditos','creditos.precredito_id','=','precreditos.id')
-        	->join('clientes','precreditos.cliente_id','=','clientes.id')
-        	->select('creditos.id as id',
-                     'creditos.valor_credito as valor_credito',
-                     'clientes.nombre as cliente',
-                     'clientes.num_doc as documento')
-        	->where('precreditos.user_create_id', $user_id)
-        	->where('creditos.created_at','like',$date->format('Y-m').'%')
-        	->get();  	
-    }
-
-    function valor_negocios_mes($negocios)
-    {
-    	$collection = collect($negocios);
-
-    	return $collection->reduce(function($carry, $item) {
-    		return $carry + $item->valor_credito;
-    	});
-    }
 
     function abonos($pagos, $date, $user_id)
     {
@@ -197,4 +190,7 @@ use DB;
     		return ( $element->concepto == 'Cuota inicial' );
     	});
 
-    }
+	}
+	
+
+	

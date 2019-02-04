@@ -155,45 +155,6 @@
 			    </div>
 			  </div>
 
-		    <!--NEGOCIOS_MES-NEGOCIOS_MES-NEGOCIOS_MES-NEGOCIOS_MES-->
-			<!--NEGOCIOS_MES-NEGOCIOS_MES-NEGOCIOS_MES-NEGOCIOS_MES-->
-
-
-			  <div class="panel panel-default">
-			    <div class="panel-heading" role="tab" id="headingFive">
-			      <h4 class="panel-title">
-			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-			          Negocios del mes
-			        </a>
-			      </h4>
-			    </div>
-			    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
-			      <div class="panel-body">
-			        
-			       	<table class="table">
-			       		<thead>
-
-							<tr>
-								<th>Crédito</th>
-								<th>Valor crédito</th>
-								<th>Cliente</th>
-								<th>Documento</th>
-							</tr>
-			       		</thead>
-			       		<tbody>
-							<tr v-for="credito in dat.negocios_mes">
-								<td>@{{ credito.id }}</td>
-								<td>@{{ credito.valor_credito }}</td>
-								<td>@{{ credito.cliente }}</td>
-								<td>@{{ credito.documento }}</td>
-							</tr>
-			       		</tbody>
-					</table>
-
-			      </div>
-			    </div>
-			  </div>
-
 			</div>
 		`,
 		data(){
