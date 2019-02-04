@@ -22,16 +22,16 @@
 							<tr>
 								<th>Id</th>
 								<th>Cliente</th>
+								<th>Centro de costos</th>
 								<th>Documento</th>
-								<th>Valor solicitado</th>
 							</tr>
 			       		</thead>
 			       		<tbody>
 							<tr v-for="precredito in dat.precreditos">
 								<td>@{{ precredito.id }}</td>
 								<td>@{{ precredito.cliente }}</td>
-								<td>@{{ precredito.documento }}</td>
 								<td>@{{ precredito.vlr_fin }}</td>
+								<td>@{{ precredito.documento }}</td>
 							</tr>
 			       		</tbody>
 					</table>
@@ -175,7 +175,8 @@
 
 							<tr>
 								<th>Crédito</th>
-								<th>Valor crédito</th>
+								<th>Valor total crédito</th>
+							        <th>Centro de costos<th>
 								<th>Cliente</th>
 								<th>Documento</th>
 							</tr>
@@ -184,6 +185,7 @@
 							<tr v-for="credito in dat.negocios_mes">
 								<td>@{{ credito.id }}</td>
 								<td>@{{ credito.valor_credito }}</td>
+								<td>@{{ credito.centro_costos }}</td>
 								<td>@{{ credito.cliente }}</td>
 								<td>@{{ credito.documento }}</td>
 							</tr>

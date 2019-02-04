@@ -95,6 +95,7 @@ use DB;
         	->join('precreditos','creditos.precredito_id','=','precreditos.id')
         	->join('clientes','precreditos.cliente_id','=','clientes.id')
         	->select('creditos.id as id',
+		     'precreditos.vlr_fin as centro_costos',
                      'creditos.valor_credito as valor_credito',
                      'clientes.nombre as cliente',
                      'clientes.num_doc as documento')
@@ -108,7 +109,7 @@ use DB;
     	$collection = collect($negocios);
 
     	return $collection->reduce(function($carry, $item) {
-    		return $carry + $item->valor_credito;
+    		return $carry + $item->centro_costos;
     	});
     }
 
@@ -156,7 +157,7 @@ use DB;
 		             'facturas.credito_id as credito')
 			->where('facturas.created_at','like',$date.'%')
 			->where('facturas.user_create_id',$user_id)
-			->where('facturas.tipo','Efectivo')
+			//->where('facturas.tipo','Efectivo')
 			->get();
     }
 
@@ -172,7 +173,7 @@ use DB;
 		             'fact_precreditos.precredito_id')
 			->where('fact_precreditos.created_at','like',$date.'%')
 			->where('fact_precreditos.user_create_id',$user_id)
-			->where('fact_precreditos.tipo','Efectivo')
+			//->where('fact_precreditos.tipo','Efectivo')
 			->get();
     }
 
