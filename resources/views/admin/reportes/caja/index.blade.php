@@ -10,14 +10,14 @@
     <div class="form-group has-info has-feedback"  style="margin-bottom:0px;">
         <label class="control-label" for="inputSuccess2">
         <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-        Reporte cajas</label>
+        Reporte cajas <template v-if="cajas.length > 0">@{{ cajas[0].date }}</template></label>
     </div>
     </li>
     <li class="list-group-item">
 
     <div class="form-group has-info has-feedback">
         <label class="control-label" for="inputSuccess2">Fecha de reporte</label>
-        <input type="date" class="form-control" v-model="date">
+        <input type="date" class="form-control" v-model="date" id="date">
         <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true">
         </span>
     </div>
@@ -25,13 +25,18 @@
         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
         Generar reporte
     </a>
+    <a href="#" class="btn btn-danger btn-xs" id="btn_exportar">
+        <span class="glyphicon glyphicon-export" aria-hidden="true"></span>
+        Exportar CSV
+    </a>
     </li>
 
     </ul>
     </div>
     <div class="col-md-9">
         <template  v-if="cajas.length > 0">
-            <table class="table table-condensed">
+            
+            <table class="table table-condensed" id="cajas">
                 <thead>
                     <tr>
                         <th>Sucursal</th>
@@ -73,13 +78,16 @@
 
 <script>
 
+  
+
   var Bus = new Vue();
   
   var vm = new Vue({
     el:"#principal",
     data:{
       cajas : [],
-      date  : ''
+      date  : '',
+      date_real: ''
     },
     methods:{
         get_cashes_report:function() {
@@ -88,7 +96,7 @@
             var route = "/start/all_cajas/report/" + this.date
 
             axios.get(route).then(
-                function (res) { console.log(res);
+                function (res) {
                     if (! res.error) {
                         self.cajas = res.data.dat
                     } else {
@@ -102,6 +110,18 @@
         this.get_cashes_report()
     }
   })
+
+
+    $('#btn_exportar').click(function(){
+        var date = $('#date').val();
+        $('#cajas').table2excel({
+            name: 'Reporte',
+            filename: "repor_caja_"+ vm.cajas[0].date +".xls"
+        });
+    });
+
+
+
 </script>
 
 @endsection
