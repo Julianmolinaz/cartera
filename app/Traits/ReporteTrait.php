@@ -11,6 +11,7 @@ trait ReporteTrait
 	public function tipo_reportes()
 	{
           return array(
+               array('value' => 'caja','vista' => 'Caja','definicion' => 'Muestra todas las cajas'),
                array('value' => 'egresos','vista' => 'Egresos','definicion' => ''),
                array('value' => 'financiero','vista'=>'Financiero operativo','definicion' => 'Este reporte evalua el estado financiero de la empresa, partiendo de la base del valor solicitado en un crédito, esto permite clasificar los tipos de obligación como ideaales, promedio y 0-1 pago'),
                array('value' => 'general','vista' => 'General'),
