@@ -74,7 +74,8 @@ use DB;
 			'pagos_solicitudes' => $pagos_solicitudes,
 			'total_estudios'  	=> $total_estudios,
 			'total_iniciales' 	=> $total_iniciales,
-			'total_caja'      	=> $total_caja
+			'total_caja'      	=> $total_caja,
+			'date'              => $date
 		];
 	}
 
