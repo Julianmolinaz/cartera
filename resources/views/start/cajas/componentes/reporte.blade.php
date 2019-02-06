@@ -35,7 +35,11 @@
 			          <h4>Reporte Caja </h4>
 			        </center>
 			      </li>
-
+						<li class="list-group-item">
+			        <span class="badge">@{{ info.num_anuladas }}</span>
+			        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+			        Anuladas
+			      </li>
 			      <li class="list-group-item">
 			        <span class="badge">@{{ info.num_calls }}</span>
 			        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>

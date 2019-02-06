@@ -324,14 +324,15 @@
 
 
 
+
 <!-- ************ PANEL CREDITO ********************* -->
+
+
+@if($precredito->credito)
 
 <div class="row">
   <div class="col-md-1 col-sm-1"></div>
   <div class="col-md-10 col-sm-10 col-xs-12">
-
-    @if($precredito->credito)
-
 
     <div class="panel panel-default">
       <div class="panel-heading">Pagos</div>
@@ -402,14 +403,97 @@
         </table>
       </div>  
     </div>
-
-    @endif
   </div>
   <div class="col-md-1 col-sm-1"></div>
-
 </div>
+
+@endif
+
+
+<!-- ************ PANEL SOLICITUDES ********************* -->
+
+
+@if(count($precredito->pagos) > 0)
+
+<div class="row">
+
+  <div class="col-md-10 col-md-offset-1">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Pagos por solicitudes</div>
+      @include('flash::message')
+
+      <div class="panel-body" id="element">
+
+        <table class="table table-striped table-bordered" style="font-size:12px">
+          <thead>
+            <tr>
+              <th>    # Fact   </th>    
+              <th>    Pago id  </th>
+              <th>    Fecha    </th>
+              <th>    Concepto </th>
+              <th>    Funcionario </th>
+              <th>    Sistema   </th>
+              <th>    Acción   </th>
+            </tr>
+          </thead>
+            <tbody>
+            @foreach($precredito->pagos as $pago)
+              <tr>
+                <td>{{ $pago->factura->num_fact }}</td>
+                <td>{{ $pago->id }}</td>
+                <td>{{ $pago->factura->fecha }}</td>
+                <td>{{ $pago->concepto->nombre }}</td>
+                <td>{{ $pago->user_create->name }}</td>
+                <td>{{ $pago->created_at }}</td>
+                <td>
+                  <a href="{{ route('start.precred_pagos.show', $pago->factura->id) }}"
+                    class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                  </a>
+                  <a href="#" class='btn btn-default btn-xs' @click="print('{{$pago->factura->id}}')">
+		                	<span class = "glyphicon glyphicon-print" title="Imprimir"></span>
+		                </a>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+
+      </div>  
+
+    </div>
+  </div>
+</div>
+
+@endif        
+
+
 
 @include('start.pagos.print_js')
 @endsection
 
 @include('templates.main2')
+
+<script>
+
+  const element = new Vue({
+    el:  '#element',
+    methods: {
+      print(factura_id){
+      	var self = this
+        var route = "{{ url('start/precredito-invoice-print') }}/" + factura_id
+        axios.get(route).then(function(res){
+        	self.print_html(res.data)
+        })
+      },//.print
+      print_html(str){
+				var printed = window.open('','Print-Window');
+				printed.document.write(str);
+				printed.document.close();
+				printed.print();
+				printed.close();
+      }//.print_html
+    }
+  });
+</script>

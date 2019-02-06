@@ -32,4 +32,8 @@ class Anulada extends Model implements Auditable
     public function credito(){
         return $this->hasOne('App\Credito','id','credito_id');
     }
+
+    public function precredito(){
+        return $this->hasOne('App\Preredito','id','precredito_id');
+    }
 }

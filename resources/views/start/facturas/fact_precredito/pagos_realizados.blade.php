@@ -22,9 +22,10 @@
 					<td>{{ $pago->concepto->nombre  }}</td>
 					<td>{{ $pago->subtotal          }}</tds>
 					<td>
-						<a href="#" class = 'btn btn-default btn-xs'>
-							<span class = "glyphicon glyphicon-eye-open" title="Ver"></span>
-						</a>
+					<a href="{{ route('start.precred_pagos.show', $pago->factura->id) }}"
+                    class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                  </a>
 		                <a href="#" class='btn btn-default btn-xs' @click="print('{{$pago->factura->id}}')">
 		                	<span class = "glyphicon glyphicon-print" title="Imprimir"></span>
 		                </a>  
