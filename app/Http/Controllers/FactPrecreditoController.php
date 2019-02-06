@@ -193,7 +193,11 @@ class FactPrecreditoController extends Controller
             ->where('num_fact','=',$num_fact)
             ->count();
 
-        return ($fact > 0) ? true : false;
+        if($fact > 0){
+            return true; 
+        } else {
+            return false;
+        }
         
     }
 

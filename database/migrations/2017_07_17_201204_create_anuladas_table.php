@@ -16,7 +16,8 @@ class CreateAnuladasTable extends Migration
             $table->increments('id');
             $table->integer('cliente_id')->unsigned();
             $table->integer('factura_id');
-            $table->integer('credito_id')->unsigned();
+            $table->integer('credito_id')->unsigned()->nullable();
+            $table->integer('precredito_id')->unsigned()->nullable();
             $table->string('num_fact');
             $table->string('fecha');
             $table->double('total');

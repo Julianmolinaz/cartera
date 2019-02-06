@@ -43,10 +43,6 @@ use DB;
 
 		$num_precreditos = count($precreditos); // Cantidad de solicitudes
 
-		// $negocios_mes    = negocios_mes($date, $user_id); // detallado de los creditos creados
-
-		// $valor_negocios_mes = valor_negocios_mes($negocios_mes); // Valor de negocios mensual
-
 		$pagos = pagos($date, $user_id);  // pagos a creditos
 
 		$total_pagos = total_pagos($pagos); // total pagos a creditos
@@ -65,6 +61,9 @@ use DB;
 
 		$total_caja = $total_pagos + $total_solicitudes; // total caja
 
+		$anuladas  = anuladas($date, $user_id); // facturas anuladas
+
+		// $num_anuladas = count($anuladas);
 
 		return [
 			'calls' 		  	=> $calls,
@@ -79,9 +78,23 @@ use DB;
 			'total_estudios'  	=> $total_estudios,
 			'total_iniciales' 	=> $total_iniciales,
 			'total_caja'      	=> $total_caja,
-			'date'              => $date
+			'date'              => $date,
+			'anuladas'          => $anuladas,
+			// 'num_anuladas'      => $num_anuladas
 		];
 	}
+
+	// function anuladas($date, $user_id)
+	// {
+	// 	return DB::table('anuladas')
+	// 		->join('clientes','anuladas.cliente_id','=','clientes.id')
+	// 		->select('anuladas.id as id',
+	// 		         'anuladas.cliente.num_doc')
+	// 		->where('anuladas.user_create_id',$user_id)
+	// 		->where('anuladas.created_at','like',$date.'%')
+	// 		->orderBy('anuladas.created_at','DESC')
+    // 		->get();
+	// }
 
 	function calls($date, $user_id)
 	{
