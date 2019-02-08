@@ -61,7 +61,7 @@ use DB;
 
 		$total_caja = $total_pagos + $total_solicitudes; // total caja
 
-		$anuladas  = anuladas($date, $user_id); // facturas anuladas
+	//	$anuladas  = anuladas($date, $user_id); // facturas anuladas
 
 		// $num_anuladas = count($anuladas);
 
@@ -79,7 +79,7 @@ use DB;
 			'total_iniciales' 	=> $total_iniciales,
 			'total_caja'      	=> $total_caja,
 			'date'              => $date,
-			'anuladas'          => $anuladas,
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////			'anuladas'          => $anuladas,
 			// 'num_anuladas'      => $num_anuladas
 		];
 	}
