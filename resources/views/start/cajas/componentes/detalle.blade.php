@@ -6,7 +6,7 @@
 			    <div class="panel-heading" role="tab" id="headingOne">
 			      <h4 class="panel-title">
 			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-			          Solicitudes
+							<i class="fas fa-file-alt"></i> Solicitudes
 			        </a>
 			      </h4>
 			    </div>
@@ -47,7 +47,7 @@
 			    <div class="panel-heading" role="tab" id="headingTwo">
 			      <h4 class="panel-title">
 			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-			          Llamadas
+							<i class="fas fa-phone"></i> Llamadas
 			        </a>
 			      </h4>
 			    </div>
@@ -77,6 +77,52 @@
 			    </div>
 			  </div>
 
+
+				<!--ANULADAS-ANULADAS-ANULADAS-ANULADAS-ANULADAS-ANULADAS-ANULADAS-ANULADAS-->
+			<!--ANULADAS-ANULADAS-ANULADAS-ANULADAS-ANULADAS-ANULADAS-ANULADAS-ANULADAS-->
+
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab" id="headingSix">
+			      <h4 class="panel-title">
+			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+							<i class="far fa-frown"></i> Anuladas  
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+			      <div class="panel-body">
+			        
+			       	<table class="table table-striped">
+			       		<thead>
+
+							<tr>
+								<th>Obligación</th>
+								<th>Id obligación</th>
+								<th>Cliente</th>
+								<th>Num factura</th>
+								<th>Fecha factura</th>
+								<th>Anula</th>
+							</tr>
+			       		</thead>
+			       		<tbody>
+							<tr v-for="anulada in dat.anuladas">
+								<td>@{{ (anulada.credito_id) ? 'Credito' : 'Solicitud'  }}</td>
+								<td>@{{ (anulada.credito_id) ? anulada.credito_id : anulada.precredito_id }}</td>
+								<td>@{{ anulada.num_doc }}</td>
+								<td>@{{ anulada.num_fact }}</td>
+								<td>@{{ anulada.fecha }}</td>
+								<td>@{{ anulada.anula }}</td>
+							</tr>
+			       		</tbody>
+					</table>
+
+
+			      </div>
+			    </div>
+			  </div>
+
+
+
 			<!--PAGOS_POR_CREDITOS-PAGOS_POR_CREDITOS-PAGOS_POR_CREDITOS-PAGOS_POR_CREDITOS-->
 			<!--PAGOS_POR_CREDITOS-PAGOS_POR_CREDITOS-PAGOS_POR_CREDITOS-PAGOS_POR_CREDITOS-->
 
@@ -85,7 +131,7 @@
 			    <div class="panel-heading" role="tab" id="headingThree">
 			      <h4 class="panel-title">
 			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-			          Pagos por creditos
+							<i class="fas fa-shopping-cart"></i> Pagos por creditos
 			        </a>
 			      </h4>
 			    </div>
@@ -124,7 +170,7 @@
 			    <div class="panel-heading" role="tab" id="headingFour">
 			      <h4 class="panel-title">
 			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-			          Pagos por solicitudes
+							<i class="fas fa-shopping-cart"></i> Pagos por solicitudes
 			        </a>
 			      </h4>
 			    </div>
@@ -171,4 +217,11 @@
 		}
 	});
 
+</script>
+
+<script>
+$('#accordion').click(function(){
+  $('.panel-collapse.in')
+    .collapse('hide');
+});
 </script>

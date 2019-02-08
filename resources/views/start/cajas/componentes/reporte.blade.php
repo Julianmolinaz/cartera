@@ -9,7 +9,7 @@
 			        <div class="form-group has-info has-feedback"  style="margin-bottom:0px;">
 			          <label class="control-label" for="inputSuccess2">
 			          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-			          @{{ (info.punto) ? info.punto.nombre : '' }}</label>
+			          @{{ (info.punto) ? info.punto.nombre : '' }}@{{' '+info.date}}</label>
 			        </div>
 			      </li>
 			      <li class="list-group-item">
