@@ -61,9 +61,10 @@ use DB;
 
 		$total_caja = $total_pagos + $total_solicitudes; // total caja
 
-	//	$anuladas  = anuladas($date, $user_id); // facturas anuladas
+        	$anuladas  = anuladas($date, $user_id); // facturas anuladas
 
-		// $num_anuladas = count($anuladas);
+		$num_anuladas = count($anuladas); 
+
 
 		return [
 			'calls' 		  	=> $calls,
@@ -79,22 +80,30 @@ use DB;
 			'total_iniciales' 	=> $total_iniciales,
 			'total_caja'      	=> $total_caja,
 			'date'              => $date,
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////			'anuladas'          => $anuladas,
-			// 'num_anuladas'      => $num_anuladas
+			'anuladas'          => $anuladas,
+			'num_anuladas'      => $num_anuladas
 		];
+
+	
 	}
 
-	// function anuladas($date, $user_id)
-	// {
-	// 	return DB::table('anuladas')
-	// 		->join('clientes','anuladas.cliente_id','=','clientes.id')
-	// 		->select('anuladas.id as id',
-	// 		         'anuladas.cliente.num_doc')
-	// 		->where('anuladas.user_create_id',$user_id)
-	// 		->where('anuladas.created_at','like',$date.'%')
-	// 		->orderBy('anuladas.created_at','DESC')
-    // 		->get();
-	// }
+	function anuladas($date, $user_id)
+	{
+		return DB::table('anuladas')
+			->join('clientes','anuladas.cliente_id','=','clientes.id')
+			->join('users','anuladas.user_anula','=','users.id')
+			->select('anuladas.id as id',
+					 'clientes.num_doc as num_doc',
+					 'anuladas.num_fact as num_fact',
+					 'anuladas.fecha as fecha',
+					 'anuladas.credito_id as credito_id',
+					 'anuladas.precredito_id as precredito_id',
+					 'users.name as anula')
+			->where('anuladas.user_create_id',$user_id)
+			->where('anuladas.created_at','like',$date.'%')
+			->orderBy('anuladas.created_at','DESC')
+    		->get();
+	}
 
 	function calls($date, $user_id)
 	{

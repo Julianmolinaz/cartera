@@ -527,7 +527,7 @@ Route::get('start/all_cajas/report/{date}','CajaController@get_cashes_report');
 Route::get('start/precred_pagos/{fact_precredito_id}',[
 	'uses'   => 'PrecredPagosController@show',
 	'as' => 'start.precred_pagos.show'
-])->middleware(['auth', 'admin']);
+])->middleware(['auth']);
 
 Route::post('start/anular_precred_pagos',[
 	'uses'   => 'PrecredPagosController@anular',
