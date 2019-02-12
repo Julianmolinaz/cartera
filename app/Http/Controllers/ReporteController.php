@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\VentaController;
 use App\Traits\Financierotrait;
 use App\Traits\EgresoTrait;
+use App\Traits\MorososTrait;
 use App\Http\Requests;
 use App\OtrosPagos;
 use Carbon\Carbon;
@@ -32,6 +33,7 @@ class ReporteController extends Controller
     use ReporteTrait;
     use Financierotrait;
     use EgresoTrait;
+    use MorososTrait;
 
     public function setFecha1($fecha_1){
         $this->fecha_1 = $fecha_1;
@@ -392,6 +394,19 @@ class ReporteController extends Controller
      else if($request->input('tipo_reporte') == 'caja')
      {
          return view('admin.reportes.caja.index');
+     }
+
+     else if( $request->input('tipo_reporte') == 'morosos')
+     {
+        $now            = Carbon::now();
+        $fecha          = $now->toDateTimeString();
+
+        Excel::create('morosos'.$fecha,function($excel){
+            $excel->sheet('Sheetname',function($sheet){
+                $morosos =  $this->get_morosos();
+                $sheet->fromArray($morosos,null,'A1',false,false);
+            });
+        })->download('xls');
      }
 }
 
