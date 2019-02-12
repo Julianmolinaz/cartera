@@ -61,7 +61,7 @@ use DB;
 
 		$total_caja = $total_pagos + $total_solicitudes; // total caja
 
-		$anuladas  = anuladas($date, $user_id); // facturas anuladas
+        	$anuladas  = anuladas($date, $user_id); // facturas anuladas
 
 		$num_anuladas = count($anuladas); 
 
@@ -172,7 +172,6 @@ use DB;
 		             'facturas.credito_id as credito')
 			->where('facturas.created_at','like',$date.'%')
 			->where('facturas.user_create_id',$user_id)
-			->where('facturas.tipo','Efectivo')
 			->get();
     }
 
@@ -188,7 +187,6 @@ use DB;
 		             'fact_precreditos.precredito_id')
 			->where('fact_precreditos.created_at','like',$date.'%')
 			->where('fact_precreditos.user_create_id',$user_id)
-			->where('fact_precreditos.tipo','Efectivo')
 			->get();
     }
 
@@ -213,7 +211,7 @@ use DB;
     		return ( $element->concepto == 'Cuota inicial' );
     	});
 
-	}
+    }
 	
 
 	

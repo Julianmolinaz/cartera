@@ -22,16 +22,16 @@
 							<tr>
 								<th>Id</th>
 								<th>Cliente</th>
+								<th>Centro de costos</th>
 								<th>Documento</th>
-								<th>Valor solicitado</th>
 							</tr>
 			       		</thead>
 			       		<tbody>
 							<tr v-for="precredito in dat.precreditos">
 								<td>@{{ precredito.id }}</td>
 								<td>@{{ precredito.cliente }}</td>
-								<td>@{{ precredito.documento }}</td>
 								<td>@{{ precredito.vlr_fin }}</td>
+								<td>@{{ precredito.documento }}</td>
 							</tr>
 			       		</tbody>
 					</table>
@@ -217,11 +217,4 @@
 		}
 	});
 
-</script>
-
-<script>
-$('#accordion').click(function(){
-  $('.panel-collapse.in')
-    .collapse('hide');
-});
 </script>

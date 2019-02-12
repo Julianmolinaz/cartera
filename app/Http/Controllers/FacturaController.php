@@ -222,9 +222,9 @@ class FacturaController extends Controller
         else { 
           $date_time = new Carbon($request->fecha);
         
-          //if( !$date_time->equalTo($now) && (Auth::user()->rol != 'Administrador')){
-            //return response()->json(['error' => true, 'mensaje' => '@=) Error en la fecha, debe ser la fecha actual @=(']);
-          //}
+          if( !$date_time->equalTo($now) && (Auth::user()->rol != 'Administrador')){
+            return response()->json(['error' => true, 'mensaje' => '@=) Error en la fecha, debe ser la fecha actual @=(']);
+          }
           $num_fact  = $request->num_fact;
         }
 
