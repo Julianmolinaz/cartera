@@ -63,10 +63,10 @@ class FacturaController extends Controller
       $credito  = Credito::find($id);
       $punto    = Punto::find(Auth::user()->punto_id);
 
-      if($credito->estado == 'Cancelado') {
-        flash()->error('El crédito esta cancelado, no se pueden hacer pagos');
-        return back();
-      }
+      //if($credito->estado == 'Cancelado') {
+       // flash()->error('El crédito esta cancelado, no se pueden hacer pagos');
+       // return back();
+      //}
 
       $sum_sanciones = DB::table('sanciones')
                           ->where([['credito_id','=',$id],['estado','Debe']])
@@ -557,7 +557,7 @@ class FacturaController extends Controller
           $factura->save();
         }  
 
-        if($credito->cuotas_faltantes == 0 && $credito->saldo == 0){
+        if($credito->cuotas_faltantes == 0 && $credito->saldo <= 0){
           $credito->estado = 'Cancelado';
           $credito->save();
         }
