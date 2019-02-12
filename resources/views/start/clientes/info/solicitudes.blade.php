@@ -74,7 +74,9 @@
                      title="Pagar valores iniciales">
                     <span class = "glyphicon glyphicon-lamp"></span>
                   </a>
-                  @if($precredito->credito != NULL && $precredito->credito->estado != 'Cancelado por refinanciacion')
+                  @if($precredito->credito != NULL && 
+                      $precredito->credito->estado != 'Cancelado' &&
+                      $precredito->credito->estado != 'Cancelado por refinanciacion')
                     <a href="{{route('start.facturas.create',$precredito->credito->id)}}"
                        class = 'btn btn-default btn-xs'
                        data-toggle="tooltip" 

@@ -61,12 +61,8 @@ class FacturaController extends Controller
     {
       $hoy      = Carbon::today();
       $credito  = Credito::find($id);
+      $updated_at = new Carbon($credito->updated_at);
       $punto    = Punto::find(Auth::user()->punto_id);
-
-      if($credito->estado == 'Cancelado') {
-        flash()->error('El crédito esta cancelado, no se pueden hacer pagos');
-        return back();
-      }
 
       $sum_sanciones = DB::table('sanciones')
                           ->where([['credito_id','=',$id],['estado','Debe']])
