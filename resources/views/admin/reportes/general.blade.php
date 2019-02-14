@@ -15,7 +15,7 @@
          <table id="datatable" class="table table-striped table-bordered" style="font-size:12px">
           <thead>
             <tr style="background-color:#FFC300;">
-              <th>  <small>Credito Id</small></th>
+              <th>  <small>Obligación Id</small></th>
               <th>  Cliente       </th>
               <th>  Documento     </th>
               <th>  Tipo de Pago  </th>

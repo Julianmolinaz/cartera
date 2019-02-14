@@ -61,16 +61,16 @@ use DB;
 
 		$total_caja = $total_pagos + $total_solicitudes; // total caja
 
-        	$anuladas  = anuladas($date, $user_id); // facturas anuladas
+    $anuladas  = anuladas($date, $user_id); // facturas anuladas
 
 		$num_anuladas = count($anuladas); 
 
 
 		return [
-			'calls' 		  	=> $calls,
-			'num_calls' 	  	=> $num_calls,
-			'user'   		  	=> $user,
-			'punto'  		  	=> $user->punto,
+			'calls' 		  			=> $calls,
+			'num_calls' 	  		=> $num_calls,
+			'user'   		  			=> $user,
+			'punto'  		  			=> $user->punto,
 			'precreditos' 	  	=> $precreditos,
 			'num_precreditos' 	=> $num_precreditos,
 			'abonos'          	=> $pagos,
@@ -102,7 +102,7 @@ use DB;
 			->where('anuladas.user_create_id',$user_id)
 			->where('anuladas.created_at','like',$date.'%')
 			->orderBy('anuladas.created_at','DESC')
-    		->get();
+    	->get();
 	}
 
 	function calls($date, $user_id)
