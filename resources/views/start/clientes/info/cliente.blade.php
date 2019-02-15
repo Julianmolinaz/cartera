@@ -31,8 +31,10 @@
   <table class="table" style="font-size:12px">
 
     <tr>
-      <th scope="row">#</th>
-      <td>{{ $cliente->id}}</td>
+        <th scope="row">Documentación</th>
+        <td>
+          <span>@include('start.clientes.info.documentos_cliente')</span>
+        </td>
     </tr>
 
     <tr>
