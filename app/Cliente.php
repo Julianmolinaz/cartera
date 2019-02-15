@@ -100,6 +100,10 @@ class Cliente extends Model implements Auditable
         return $this->hasOne('App\Conyuge','id','conyuge_id');
     }
 
+    public function documentos(){
+        return $this->hasMany('App\Documento','cliente_id','id');
+    }
+
     protected $auditExclude = [
         'published',
     ];

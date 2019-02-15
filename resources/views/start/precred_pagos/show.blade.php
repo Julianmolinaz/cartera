@@ -25,6 +25,8 @@
             <th>    # Factura </th>
             <th>    Fecha     </th>
             <th>    Total     </th>
+            <th>    Tipo de pago</th>
+            <th>    Banco     </th>
             <th>    Creó      </th>
             <th>    Actividad    </th>
 
