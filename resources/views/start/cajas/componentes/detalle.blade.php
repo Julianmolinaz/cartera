@@ -146,6 +146,7 @@
 								<th>Concepto</th>
 								<th>subtotal</th>
 								<th>Crédito</th>
+								<th>Banco</th>
 							</tr>
 			       		</thead>
 			       		<tbody>
@@ -154,6 +155,7 @@
 								<td>@{{ abono.concepto }}</td>
 								<td>@{{ abono.subtotal }}</td>
 								<td>@{{ abono.credito }}</td>
+								<td>@{{ abono.banco}}</td>
 							</tr>
 			       		</tbody>
 					</table>

@@ -16,8 +16,9 @@
         credito_id  : {!! json_encode($credito->id) !!},
         auto        : false, // activa o desactiva el btn Consecutivo Auto 
         pagos       : [],  //listado de pagos
+        banco       : '', //banco por donde se hace la consignacion
       },
-      bandera     : 0,  // se pone enuna cuando se hace el pago
+      bandera     : 0,  // se pone en uno cuando se hace el pago
       credito     : {!! json_encode($credito) !!}, //objeto crédito
       mover_fecha : [], //contenedor de la cuota parcial sin mover fecha
       status_mover_fecha      : false, //se mueve la fecha si es true
@@ -40,7 +41,9 @@
       agregar: function(){//distribuye el mnonto en el listado de pagos
 
         if(this.general.monto === ''){ alert('Se requiere el monto');  return false; } // valida si se ingresó el monto
-        if(this.bandera > 0){ alert('Se esta procesando la petición'); return false; } // si la bandera esta > 1, sale, evita duplicar fact
+        if(this.bandera > 0){ // si la bandera esta > 1, sale, evita duplicar fact
+          alert('Se esta procesando la petición'); return false; 
+        } else { this.bandera = 1; } 
         if(this.general.pagos.length > 1){ 
           alert('Si dese agregar nuevamente el monto borre el listado de pagos');
           return false;
@@ -160,6 +163,12 @@
         }
 
         this.revisar_pagos(index);
+      },//.mover_fecha_parcial
+      set_banco() {
+        if(this.general.tipo_pago == 'Consignacion'){
+          
+          $('#banco_modal').modal('show');
+        }
       }
     },
     /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::*/

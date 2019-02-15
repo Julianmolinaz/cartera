@@ -33,7 +33,8 @@
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
                   <label for="">Tipo de Pago</label>
-                  <select class="form-control input-small" id="tipo" v-model="general.tipo_pago">
+                  <select class="form-control input-small" id="tipo" v-model="general.tipo_pago"
+                    v-on:change="set_banco">
                     <option value="" readonly selected hidden="">- -</option>
                     @foreach($tipo_pago as $tipo)
                       <option value="{{$tipo}}">{{$tipo}}</option>
@@ -58,6 +59,7 @@
               <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             </form>
                 <!--Fin del formulario creador de pagos-->
-
+    
+          @include('start.facturas.facturar.banco_modal')
           </div><!--fin del panel-body-->
         </div><!-- fin de panel panel-default-->
