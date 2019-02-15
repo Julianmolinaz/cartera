@@ -105,13 +105,13 @@ use DB;
     	->get();
 	}
 
-	function calls($date, $user_id)
-	{
-    	return DB::table('llamadas')
-    		->where('user_create_id',$user_id)
-    		->where('created_at','like',$date.'%')
-    		->get();
-	}
+		function calls($date, $user_id)
+		{
+				return DB::table('llamadas')
+					->where('user_create_id',$user_id)
+					->where('created_at','like',$date.'%')
+					->get();
+		}
 
 
     function precreditos($date, $user_id)
@@ -168,7 +168,8 @@ use DB;
 			->select('facturas.num_fact as num_fact',
 		             'pagos.concepto as concepto',
 		             'pagos.abono as subtotal',
-		             'facturas.total as total',
+								 'facturas.total as total',
+								 'facturas.banco as banco',
 		             'facturas.credito_id as credito')
 			->where('facturas.created_at','like',$date.'%')
 			->where('facturas.user_create_id',$user_id)
