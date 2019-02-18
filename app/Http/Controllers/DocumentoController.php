@@ -43,11 +43,14 @@ class DocumentoController extends Controller
             $doc = Documento::find($documento_id);
             
             $cliente = $doc->cliente;
-            $ruta = storage_path().'/app/doc_clientes/'.$doc->ruta;
+            $nombre  = $doc->nombre;
+            $ruta    = $doc->ruta;
+            $doc->delete();
+            $ruta    = storage_path().'/app/doc_clientes/'.$ruta;
 
-            Storage::delete($ruta); 
-
-            flash()->success('El documento se eliminó Exitosamente!');
+            unlink($ruta);
+            
+            flash()->success("El documento $nombre se eliminó Exitosamente!");
             return redirect()->route('start.clientes.show', $cliente->id);
 
         } catch(\Exception $e) {
