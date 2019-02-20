@@ -83,13 +83,17 @@ var drawMultSeries = function () {
           "{{ number_format($sucursal['info']['vlr_a_recaudar'] ,0,',','.') }}"
           ],
         [
-          'Recaudo cuotas', {!! $sucursal['info']['vlr_recaudado_en_cuotas'] !!}, 'color: #58FAF4',
+          'Rec. cuotas', {!! $sucursal['info']['vlr_recaudado_en_cuotas'] !!}, 'color: #58FAF4',
           "{{ number_format($sucursal['info']['vlr_recaudado_en_cuotas'] ,0,',','.') }}"
           ],
         [
-          'Total cartera',{!! $sucursal['info']['total_costo_cartera'] !!}, 'color: red',
+          'T. cartera',{!! $sucursal['info']['total_costo_cartera'] !!}, 'color: red',
           "{{ number_format($sucursal['info']['total_costo_cartera'] ,0,',','.') }}"
-          ]
+          ],
+        [
+          'T. Egresos',{!! $sucursal['total_egresos'] !!}, 'color: gray',
+          "{{ number_format($sucursal['total_egresos'] ,0,',','.') }}"
+          ]  
       ]);
 
 

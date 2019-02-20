@@ -11,7 +11,7 @@
       <div class="panel-heading">Financiero Operativo 
        
             <!-- Single button -->
-            <div class="btn-group">
+            <div class="btn-group pull-right" >
               <button type="button" class="btn btn-default btn-xs dropdown-toggle" 
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Reportes adicionales <span class="caret"></span>
@@ -25,14 +25,12 @@
                 </li>
                 <li><a href="{{route('reporte.financiero.comparativo','2018')}}" target="_blank">Comparativa anual por trimestres</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
+                <li><a href="#">Egresos</a></li>
               </ul>
             </div>
        
       </div>
         <div class="panel-body">
-
-
           <div class="row">
             <div class="col-xs-2  col-md-2 ">
               <div class="thumbnail">

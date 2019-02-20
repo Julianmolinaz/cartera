@@ -6,6 +6,7 @@ use App\Traits\ReporteTrait;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\VentaController;
+use App\Repositories\EgresosRepository;
 use App\Traits\Financierotrait;
 use App\Traits\EgresoTrait;
 use App\Traits\MorososTrait;
@@ -30,10 +31,17 @@ class ReporteController extends Controller
 {
     private $fecha_1;
     private $fecha_2;
+    public $egresos_repo;
+    public $egresos;
     use ReporteTrait;
     use Financierotrait;
     use EgresoTrait;
     use MorososTrait;
+
+    public function __construct(EgresosRepository $egresos_repo)
+    {
+        $this->egresos_repo = $egresos_repo;
+    }
 
     public function setFecha1($fecha_1){
         $this->fecha_1 = $fecha_1;
@@ -372,11 +380,17 @@ class ReporteController extends Controller
 
     else if($request->input('tipo_reporte') == 'financiero')
     {
-        $info = $this->financiero($ini, $fin);
+        $data = $this->financiero($ini, $fin);
+
+        if($data == '0 creditos') {
+            flash()->error('No hay créditos en este periodo');
+            return redirect()->route('admin.reportes.index');
+        }
 
         return view('admin.reportes.financiero.financiero_operativo')
             ->with('rango',$rango)
-            ->with('info', $info);
+            ->with('info', $data['info'])
+            ->with('total_egresos', $data['total_egresos']);
     }
 
     //EGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOS
@@ -518,7 +532,7 @@ class ReporteController extends Controller
             } //.if
 
             else{
-                flash()->error('No hay creditos que marcar');
+                flash()->error('No hay creditos en el rango');
                 return redirect()->route('admin.reportes.index');
             }
 
@@ -544,17 +558,14 @@ class ReporteController extends Controller
         foreach ($sucursales as $sucursal) 
         {
             $resp = $this->financiero_por_sucursales($ini, $fin, $sucursal->id);
+            $total_egresos = $this->egresos_repo->get_egresos_punto($ini, $fin, $sucursal->id);
 
-            if( $resp == "0 creditos"){}
-            else{
-
-                $financiero_sucursal = $resp;
-                $num_creditos        = $financiero_sucursal['num_creditos'];
-
+            if( $resp != '0 creditos'){
                 $temp =  [ 
-                           'info'           => $financiero_sucursal,
-                           'num_creditos'   => $num_creditos, 
-                           'sucursal'       => $sucursal 
+                           'info'           => $resp,
+                           'num_creditos'   => $resp['num_creditos'], 
+                           'total_egresos'  => $total_egresos,
+                           'sucursal'       => $sucursal
                        ];
                 array_push($array, $temp);
             }
@@ -585,8 +596,12 @@ class ReporteController extends Controller
             foreach ($sucursales as $sucursal) 
             {
                 $res = $this->financiero_por_sucursales($quart['ini'], $quart['fin'], $sucursal->id);
+;
 
-                if($res == "0 creditos"){}
+                if($res == "0 creditos"){
+                    flash()->error('No hay creditos en el rango');
+                    return redirect()->route('admin.reportes.index');
+                }
                 else{
                     $financiero_sucursal = $res;
                     $num_creditos        = $financiero_sucursal['num_creditos'];

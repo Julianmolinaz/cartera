@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Repositories\CreditoRepository;
-
+use App\Http\Requests;
 use App\Traits\MensajeTrait;
 use App\Precredito;
 use App\FechaCobro;
