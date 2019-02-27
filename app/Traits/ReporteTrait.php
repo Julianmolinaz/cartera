@@ -11,7 +11,7 @@ trait ReporteTrait
 	public function tipo_reportes()
 	{
           return array(
-               array('value' => 'auditoria','vista' => 'Auditoria del Sistema'),
+               array('value' => 'auditoria','vista' => 'Auditoria del Sistema','definición'=>'Muestra las transacciones de modificación en los registros'),
                array('value' => 'caja','vista' => 'Caja','definicion' => 'Muestra todas las cajas'),
                array('value' => 'castigada', 'vista' => 'Cartera Castigada'),
                array('value' => 'callcenter','vista' => 'Call Center'),
@@ -24,6 +24,7 @@ trait ReporteTrait
                array('value' => 'morosos','vista' => 'Morosos'),
                array('value' => 'procredito','vista' => 'Reporte Procredito'),
                array('value' => 'datacredito','vista' => 'Reporte Datacredito'),
+               array('value' => 'data-asis','vista' => 'Reporte Datacredito asistimotos'),
                array('value' => 'venta_creditos', 'vista' => 'Venta de Créditos'),
                array('value' => 'venta_creditos_por_asesor','vista' => 'Venta de Créditos por Asesor'));
 	}

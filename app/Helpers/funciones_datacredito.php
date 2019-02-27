@@ -289,14 +289,16 @@ use DB;
 |
 */
 
-function tipo_identificacion_datacredito($tipo_doc, $credito){
+function tipo_identificacion_datacredito($tipo_doc, $credito = null){
 
     if( $tipo_doc == 'Cedula Ciudadanía'                        ||
+        $tipo_doc == 'CC'                                       ||
         $tipo_doc == 'Número único de Identificación Personal'  ||
-        $tipo_doc == 'Tarjeta de Identidad'){   
+        $tipo_doc == 'Tarjeta de Identidad'                     ||
+        $tipo_doc == 'TI'){   
             return 1;   
         }
-    else if( $tipo_doc == 'Nit'  || $tipo_doc =='Rut'){  
+    else if( $tipo_doc == 'Nit'  || $tipo_doc == 'NIT' || $tipo_doc =='Rut'){  
         return 2; }
 
     else if( $tipo_doc == 'Nit de Extranjería'){
@@ -484,14 +486,14 @@ function vence_credito($credito)
 | 4-reestructuración / refinanciación
 |
 */
-function forma_pago($credito){
+function forma_pago($estado){
 
     $forma_pago = '';
 
-    if( $credito->estado == 'Cancelado' ){
+    if( $estado == 'Cancelado'|| $estado  == 'Finalizado' ){
         $forma_pago = '1';
     }
-    else if ( $credito->estado == 'Cancelado por refinanciacion' ){
+    else if ( $estado == 'Cancelado por refinanciacion' ){
         $forma_pago = '4';
     }
     else{

@@ -381,12 +381,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::resource('productos','ProductoController');
 	Route::resource('sanciones','SancionController');
 	Route::resource('multas','MultaController');
-	
 	Route::resource('criteriocall','CriteriocallController');
   	Route::resource('anuladas','AnuladaController');
   	Route::resource('puntos','PuntoController');	
 
-  	Route::get('get-mensajes','VariableController@get_mensajes');
+    Route::get('get-mensajes','VariableController@get_mensajes');
+	  
+	Route::post('data-asis',['uses' =>'DataAsisController@upload_excel','as' => 'data.data_asis']);
+
 });
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])

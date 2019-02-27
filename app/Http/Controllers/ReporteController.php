@@ -422,6 +422,14 @@ class ReporteController extends Controller
             });
         })->download('xls');
      }
+
+     /**
+      * Reporte datacredito asistimotos
+      */
+      else if($request->input('tipo_reporte') == 'data-asis')
+      {
+          return view('admin.reportes.data_asis.index');
+      }
 }
 
     public function get_cashes_report($date)

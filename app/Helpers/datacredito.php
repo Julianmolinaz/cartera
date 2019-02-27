@@ -80,7 +80,7 @@ function reporte_datacredito($f_corte)
                 '2.10-subcidio_hipotecario' => '0',         // 0 = no; 1=si
                 '2.11-fecha_subcidio'       => '00000000',  // fecha en la que se otorgo subsidio de credito hipotecario
                 '2.12-termino_contrato'     => '2',         // 1-defiido, 2-indefinido
-                '2.13-forma_pago'           => forma_pago($credito), // 0-no pagada-vigente, 1-pago voluntario, 
+                '2.13-forma_pago'           => forma_pago($credito->estado), // 0-no pagada-vigente, 1-pago voluntario, 
                 '2.14-periodicidad_pago'    => periodicidad_datacredito($credito), // 1-mensual, 9-quincenal 
                 '2.15-novedad'              => cast_number(novedad($credito,$f_corte),2,'right'), //comportamiento que tuvo el manejo del crédito en el periodo 01-al dia,05-pago total 06-mora 30, 07-mora 60, 08-mora 90, 09-mora 120, 13-cartera castigada, 14-cartera recuperada
                 '2.16-estado_origen'        => estado_origen($credito)['estado'],// 0-normal-creación apertura, 2-refinanciación
@@ -156,7 +156,7 @@ function reporte_datacredito($f_corte)
                 '2.10-subcidio_hipotecario' => '0',         // 0 = no; 1=si
                 '2.11-fecha_subcidio'       => '00000000',  // fecha en la que se otorgo subsidio de credito hipotecario
                 '2.12-termino_contrato'     => '2',         // 1-defiido, 2-indefinido
-                '2.13-forma_pago'           => forma_pago($credito), // 0-no pagada-vigente, 1-pago voluntario, 
+                '2.13-forma_pago'           => forma_pago($credito->estado), // 0-no pagada-vigente, 1-pago voluntario, 
                 '2.14-periodicidad_pago'    => periodicidad_datacredito($credito), // 1-mensual, 9-quincenal 
                 '2.15-novedad'              => cast_number(novedad($credito,$f_corte),2,'right'), //comportamiento que tuvo el manejo del crédito en el periodo 01-al dia,05-pago total 06-mora 30, 07-mora 60, 08-mora 90, 09-mora 120, 13-cartera castigada, 14-cartera recuperada
                 '2.16-estado_origen'        => estado_origen($credito)['estado'],// 0-normal-creación apertura, 2-refinanciación
