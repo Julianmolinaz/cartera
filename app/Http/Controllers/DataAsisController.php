@@ -113,12 +113,12 @@ class DataAsisController extends Controller
                 '2.58-cod_dane_ciud_corresp'=> '',
                 '2.59-depto_correspondencia'=> '',
                 '2.60-dir_correspondencia'  => '',
-                '2.61-correo_electronico'   => '',
-                '2.62-celular'              => '',
-                '2.63-suscriptor_destino'   => '',
-                '2.64-numero_tarjeta'       => '',
-                '2.65-detalle_garantia'     => '',
-                '2.66-espacio_blanco'       => ''
+                '2.61-correo_electronico'   => cast_string($d->email,60),
+                '2.62-celular'              => cast_number($d->movil,12,'right'),
+                '2.63-suscriptor_destino'   => cast_number('',6,'right'),
+                '2.64-numero_tarjeta'       => cast_number('',18,'right'),
+                '2.65-detalle_garantia'     => cast_string('',1),
+                '2.66-espacio_blanco'       => cast_string('',18)
             ];
         }
     }//get_estructura
