@@ -391,9 +391,11 @@ function fecha_plana_Ymd($obj_date)
 |
 */
 
-
 function cast_number($data, $len, $align)
 {
+    if($data == 'NULL'){
+        $data = '';
+    }
     if($align == 'right'){
         while(strlen($data) < $len){
             $data = '0'.$data;
@@ -423,6 +425,9 @@ function cast_number($data, $len, $align)
 */
 function cast_string($string, $len)
 {
+    if($string === 'NULL'){
+        $string = '';
+    } 
     while(strlen($string) < $len){
         $string = $string.' ';
     }

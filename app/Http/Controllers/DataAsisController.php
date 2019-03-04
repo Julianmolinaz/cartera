@@ -23,7 +23,7 @@ class DataAsisController extends Controller
         $this->now = Carbon::now();
     }
 
-    public function upload_excel(Request $request)
+    public function upload_excel( Request $request )
     {
         $this->validate($request, ['fileToUpload'=>'required']);
 
@@ -55,7 +55,7 @@ class DataAsisController extends Controller
             $this->content[] = [
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($d->tipo_doc),1,'right'),
                 '2.2-numero_identificacion' => cast_number($d->num_doc,11,'right'),
-                '2.3-numero_obligacion'     => cast_number($d->afil_id,18,'right'),
+                '2.3-numero_obligacion'     => cast_number('7770'.$d->afil_id,18,'right'),
                 '2.4-nombre_completo'       => cast_string(strtoupper(sanear_string($d->nombre)),45),
                 '2.5-situacion_titular'     => '0',
                 '2.6-fecha_apertura'        => fecha_Ymd($d->f_apertura),
@@ -99,20 +99,20 @@ class DataAsisController extends Controller
                 '2.44-oficina_radicacion'   => '',
                 '2.45-ciudad_radicacion'    => '',
                 '2.46-codigo_dane_radica'   => '',
-                '2.47-ciudad_res_com'       => '',
-                '2.48-codigo_dane_res_com'  => '',
-                '2.49-depto_res_com'        => '',
-                '2.50-dir_res_com'          => '',
-                '2.51-tel_res_com'          => '',
-                '2.52-ciudad_laboral'       => '',
-                '2.53-cod_dane_ciudad_lab'  => '',
-                '2.54-departamento_laboral' => '',
-                '2.55-direccion_laboral'    => '',
-                '2.56-tel_laboral'          => '',
-                '2.57-ciud_correspondencia' => '',
-                '2.58-cod_dane_ciud_corresp'=> '',
-                '2.59-depto_correspondencia'=> '',
-                '2.60-dir_correspondencia'  => '',
+                '2.47-ciudad_res_com'       => cast_string($d->mun_reside_nombre,20),//ciudad de residencia del usuario
+                '2.48-codigo_dane_res_com'  => cast_number($d->mun_reside,8, 'right'),// codigo dane de la ciudad de residencia del usuario
+                '2.49-depto_res_com'        => cast_string($d->depto_reside,20),//depto ubicación residencia o comercial
+                '2.50-dir_res_com'          => cast_string(sanear_string($d->dir_reside.' '.$d->barrio_reside),60), // direccion residencia o comercial 
+                '2.51-tel_res_com'          => cast_number($d->telefono,12, 'right'),
+                '2.52-ciudad_laboral'       => cast_string($d->mun_cobro_nombre,20),
+                '2.53-cod_dane_ciudad_lab'  => cast_number($d->mun_cobro,8,'right'),
+                '2.54-departamento_laboral' => cast_string($d->depto_cobro,20),
+                '2.55-direccion_laboral'    => cast_string($d->dir_cobro,60),
+                '2.56-tel_laboral'          => cast_number($d->telefono,12,'right'),
+                '2.57-ciud_correspondencia' => cast_string($d->mun_reside_nombre,20),
+                '2.58-cod_dane_ciud_corresp'=> cast_number($d->mun_reside,8,'right'),
+                '2.59-depto_correspondencia'=> cast_string($d->depto_reside,20),
+                '2.60-dir_correspondencia'  => cast_string(sanear_string($d->dir_reside.' '.$d->barrio_reside),60),   
                 '2.61-correo_electronico'   => cast_string($d->email,60),
                 '2.62-celular'              => cast_number($d->movil,12,'right'),
                 '2.63-suscriptor_destino'   => cast_number('',6,'right'),
