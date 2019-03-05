@@ -18,7 +18,7 @@ trait MorososTrait
             $sanciones = $this->sanciones($credito);
             $cliente = ucwords(strtolower($credito->cliente) );
           
-            if($sanciones > 5){
+            if($sanciones > 10){
                 $temp = ['telefono' => $credito->telefono, 
                          'mensaje'  => "Querido cliente $cliente, INVERSIONES GORA SAS le informa que su crédito presenta una mora de $sanciones dias, lo invitamos a que pueda normalizar su obligación. Cualquier inquietud comunicarse al Tel: 3104450956 o visitenos a www.inversionesgora.com"
                         ];
