@@ -549,41 +549,41 @@ Route::post('start/anular_precred_pagos',[
 ])->middleware(['auth', 'admin']);
 
 
-// Route::get('123', function(){
-// 	$m  = DB::table('municipios')->get();
-// 	$m2 = DB::table('municipios2')
-// 			->join('departamentos','municipios2.departamento_id','=','departamentos.id')
-// 			->select('municipios2.id as id',
-// 					 'municipios2.nombre as nombre',
-// 					 'departamentos.nombre as departamento',
-// 					 'departamentos.id as departamento_id')
-// 			->get();
-// 	$count = 0;
+Route::get('123', function(){
+	$m  = DB::table('municipios')->get();
+	$m2 = DB::table('municipios2')
+			->join('departamentos','municipios2.departamento_id','=','departamentos.id')
+			->select('municipios2.id as id',
+					 'municipios2.nombre as nombre',
+					 'departamentos.nombre as departamento',
+					 'departamentos.id as departamento_id')
+			->get();
+	$count = 0;
 
-// 	DB::beginTransaction();
+	DB::beginTransaction();
 
-// 	try{
+	try{
 
-// 		foreach($m as $mas){ 
-// 			$count++;
-// 			foreach($m2 as $m2as){ 
-// 				if($mas->nombre === $m2as->nombre && $mas->departamento == $m2as->departamento){ 
-// 					echo $mas->nombre.'/'.$mas->departamento.' = '.$m2as->nombre.'/'.$m2as->departamento.'<br>'; 
-// 					DB::table('municipios2')
-// 						->where('id',$m2as->id)
-// 						->update(['codigo' => $mas->codigo_municipio]);
+		foreach($m as $mas){ 
+			$count++;
+			foreach($m2 as $m2as){ 
+				if($mas->nombre === $m2as->nombre && $mas->departamento == $m2as->departamento){ 
+					echo $mas->nombre.'/'.$mas->departamento.' = '.$m2as->nombre.'/'.$m2as->departamento.'<br>'; 
+					DB::table('municipios2')
+						->where('id',$m2as->id)
+						->update(['codigo' => $mas->codigo_municipio]);
 	
-// 					DB::table('departamentos')
-// 						->where('id',$m2as->departamento_id)
-// 						->update(['codigo' => $mas->codigo_departamento]);
-// 				} 
-// 			}
-// 			DB::commit(); 
-// 		}
-// 		echo $count;
-// 	} catch(\Exception $e){
-// 		DB::rollback();
-// 		dd($e);
-// 	}
+					DB::table('departamentos')
+						->where('id',$m2as->departamento_id)
+						->update(['codigo' => $mas->codigo_departamento]);
+				} 
+			}
+			DB::commit(); 
+		}
+		echo $count;
+	} catch(\Exception $e){
+		DB::rollback();
+		dd($e);
+	}
 
-// });
+});

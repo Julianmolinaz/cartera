@@ -311,7 +311,10 @@ function tipo_identificacion_datacredito($tipo_doc, $credito = null){
         return 4;
     }
     else{
-        array_push($GLOBALS['errores_datacredito'],'Error en tipo de documento cliente: '.$credito->id);
+        if($credito && $credito->id)
+            array_push($GLOBALS['errores_datacredito'],'Error en tipo de documento cliente: '.$credito->id);
+        else
+        array_push($GLOBALS['errores_datacredito'],'Error en tipo de documento cliente: ');
     }
     
 }
