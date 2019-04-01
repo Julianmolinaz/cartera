@@ -10,7 +10,10 @@ class Egreso extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     
     protected $table = 'egresos';
-    protected $fillable = ['fecha','comprobante_egreso','concepto','valor','user_create_id','user_update_id','observaciones', 'cartera_id', 'punto_id'];
+    protected $fillable = [
+        'fecha','comprobante_egreso','concepto','valor','user_create_id',
+        'user_update_id','observaciones', 'cartera_id', 'punto_id'
+    ];
 
 
     public function user_create(){

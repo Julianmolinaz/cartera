@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\DataAsisTrait;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Carbon\Carbon;
@@ -12,8 +11,6 @@ use File;
 
 class DataAsisController extends Controller
 {
-    // use DataAsisTrait;
-
     public $data;
     public $content;
     public $now;
@@ -50,6 +47,9 @@ class DataAsisController extends Controller
 
     public function get_estructura()
     {
+        $f_corte               = Carbon::now();
+        $f_corte->subMonth()->modify('last day of this month');
+
         foreach( $this->data as $d ){
 
             $this->content[] = [
@@ -58,47 +58,47 @@ class DataAsisController extends Controller
                 '2.3-numero_obligacion'     => cast_number('7770'.$d->afil_id,18,'right'),
                 '2.4-nombre_completo'       => cast_string(strtoupper(sanear_string($d->nombre)),45),
                 '2.5-situacion_titular'     => '0',
-                '2.6-fecha_apertura'        => fecha_Ymd($d->f_apertura),
-                '2.7-fecha_vencimiento'     => fecha_Ymd($this->vencimiento($d->f_apertura) ),
+                '2.6-fecha_apertura'        => fecha_Ymd(inv_fech($d->f_apertura)),
+                '2.7-fecha_vencimiento'     => fecha_Ymd(inv_fech($this->vencimiento($d->f_apertura) )),
                 '2.8-responsable'           => '00',
                 '2.9-tipo_obligacion'       => '1',
                 '2.10-subcidio_hipotecario' => '00',
                 '2.11-fecha_subcidio'       => '00000000',
-                '2.12-termino_contrato'     => '1',
+                '2.12-termino_contrato'     => '1',//contrato definido
                 '2.13-forma_pago'           => forma_pago($d->estado),
                 '2.14-periodicidad_pago'    => '1',
-                '2.15-novedad'              => '',
+                '2.15-novedad'              => cast_number($this->get_novedad($d->fecha_pago,$d->estado),2,'right'),
                 '2.16-estado_origen'        => '0',
-                '2.17-fecha_estado_origen'  => '',
-                '2.18-estado_cuenta'        => $this->get_dias_mora($d->pago_hasta),
-                '2.19-fecha_estado_cuenta'  => '',
+                '2.17-fecha_estado_origen'  => fecha_Ymd(inv_fech($d->f_apertura)),
+                '2.18-estado_cuenta'        => $this->estadoCuenta($d, $f_corte)['estado'],
+                '2.19-fecha_estado_cuenta'  => $this->estadoCuenta($d, $f_corte)['fecha'],
                 '2.20-estado_plastico'      => '0',
                 '2.21-fecha_estado_plastico'=> '00000000',
-                '2.22-adjetivo'             => '',
-                '2.23-fecha_adjetivo'       => '',
+                '2.22-adjetivo'             => '0',
+                '2.23-fecha_adjetivo'       => '00000000',
                 '2.24-clase_tarjeta'        => '0',
                 '2.25-franquicia'           => '0',
-                '2.26-nombre_marca_privada' => '',// N/A
+                '2.26-nombre_marca_privada' => '000000000000000000000000000000',// N/A
                 '2.27-tipo_moneda'          => '1',
                 '2.28-tipo_garantia'        => '2',
-                '2.29-calificacion'         => '',// N/A
-                '2.30-prob_incumplimiento'  => '',
-                '2.31-edad_mora'            => '',
-                '2.32-valor_inicial'        => '',// N/A
-                '2.33-saldo_deuda'          => '',
-                '2.34-valor_disponible'     => '',
-                '2.35-vlr_cuota_mensual'    => '',
-                '2.36-vlr_saldo_mora'       => '',
-                '2.37-total_cuotas'         => '',
-                '2.38-cuotas_canceladas'    => '',
-                '2.39-cuotas_mora'          => '',
-                '2.40-clausula_permanencia' => '',
-                '2.41-fecha_clausula_perman'=> '',
-                '2.42-fecha_limite_pago'    => '',
-                '2.43-fecha_pago'           => '',
-                '2.44-oficina_radicacion'   => '',
-                '2.45-ciudad_radicacion'    => '',
-                '2.46-codigo_dane_radica'   => '',
+                '2.29-calificacion'         => '00',// N/A
+                '2.30-prob_incumplimiento'  => '000',
+                '2.31-edad_mora'            => cast_number($this->get_dias_mora($f_corte),3, 'right'),
+                '2.32-valor_inicial'        => cast_number('',11, 'right'),// N/A
+                '2.33-saldo_deuda'          => '',//?????
+                '2.34-valor_disponible'     => cast_number('',11, 'right'),// N/A
+                '2.35-vlr_cuota_mensual'    => cast_number((int)$d->vlr_cuota,11, 'right'),
+                '2.36-vlr_saldo_mora'       => cast_number($this->saldoMora($d, $f_corte)['saldo_mora'],11,'right'),
+                '2.37-total_cuotas'         => '012',
+                '2.38-cuotas_canceladas'    => $this->cuotasCanceladas($d),
+                '2.39-cuotas_mora'          => cast_number($this->saldoMora($d, $f_corte)['cts_mora'], 3,'right'),
+                '2.40-clausula_permanencia' => '012',
+                '2.41-fecha_clausula_perman'=> $this->fecha_clausula_permanencia($d->f_apertura),
+                '2.42-fecha_limite_pago'    => fecha_Ymd(inv_fech($d->fecha_pago)),
+                '2.43-fecha_pago'           => fecha_Ymd(inv_fech($d->fecha_ultimo_pago)),
+                '2.44-oficina_radicacion'   => cast_string('ASISTIMOTOS IBAGUE',30),
+                '2.45-ciudad_radicacion'    => cast_string('IBAGUE',20),
+                '2.46-codigo_dane_radica'   => cast_number(001,8,'right'),
                 '2.47-ciudad_res_com'       => cast_string($d->mun_reside_nombre,20),//ciudad de residencia del usuario
                 '2.48-codigo_dane_res_com'  => cast_number($d->mun_reside,8, 'right'),// codigo dane de la ciudad de residencia del usuario
                 '2.49-depto_res_com'        => cast_string($d->depto_reside,20),//depto ubicación residencia o comercial
@@ -120,12 +120,16 @@ class DataAsisController extends Controller
                 '2.65-detalle_garantia'     => cast_string('',1),
                 '2.66-espacio_blanco'       => cast_string('',18)
             ];
+           
         }
+
+        dd($this->content);
+        
     }//get_estructura
 
     public function vencimiento($f_apertura){
         $fecha = new Carbon($f_apertura);
-        return $fecha->addYear();
+        return $fecha->addYear()->subday();
     }
 
     public function get_dias_mora($pago_hasta){
@@ -149,52 +153,125 @@ class DataAsisController extends Controller
     */
 
 
-    function get_novedad($pago_hasta, $estado){
-
+    function get_novedad($pago_hasta, $estado)
+    {
         $corte = Carbon::now();
         $corte->subMonth()->modify('last day of this month');
 
-        $estado     = $credito->estado;
-        $dias_mora  = $this->get_dias_mora($credito, $corte);
+        $dias_mora  = $this->get_dias_mora($pago_hasta);
         $novedad    = '';
 
         if($estado == 'Activo' || ($estado == 'Mora' && $dias_mora < 30) )
         {
             $novedad = '01'; // al día
         }
-        if( ($estado == 'Mora' && $dias_mora >= 30) || $estado == 'Prejuridico' || $estado == 'Juridico')
-        {        
+        if( $estado == 'Mora' && $dias_mora >= 30 )
+        {   
+  
             if($dias_mora >= 30 && $dias_mora <= 59){
                 $novedad = '06';
+    
             }
             else if($dias_mora >= 60 && $dias_mora <= 89){
                 $novedad = '07';
+    
             }
             else if($dias_mora >= 90 && $dias_mora <= 119){
                 $novedad = '08';
+    
             }
-            else if($dias_mora >=120){
+            else if($dias_mora >= 120){
                 $novedad = '09';
+    
             }
         }
-        if( $estado == 'Cancelado' || $credito->saldo == 0){
+        if( $estado == 'Retirado'){
             $novedad = '05';
-        }
-        if( ( $credito->castigada == 'Si' && 
-            ($estado == 'Mora' || $estado == 'Prejuridico' || $estado == 'Juridico') && 
-            $dias_mora >= 30 && 
-            $credito->saldo > 0 ) ){
-            $novedad = '13'; // cartera castigada
-        }
 
-        if( ( $credito->castigada == 'Si' && 
-            ($estado == 'Mora' || $estado == 'Prejuridico' || $estado == 'Juridico') && 
-            $dias_mora >= 30 && 
-            $credito->saldo <= 0 ) ){
-            $novedad = '14'; // cartera recuperada
         }
 
         return $novedad;
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | estado_cuenta
+    |--------------------------------------------------------------------------
+    |
+    | 
+    |
+    |
+    */
+
+    function estadoCuenta($afiliacion, $f_corte)
+    {
+
+        $estado = '';
+        $fecha = fecha_plana_Ymd($f_corte);
+        $moras = $this->get_dias_mora($afiliacion->fecha_pago);
+
+        if( $afiliacion->estado == 'Activo' || ($afiliacion->estado == 'Mora' &&  $moras < 30)){
+            $estado = '01'; // Al día
+        }
+        if( $afiliacion->estado == 'Mora' && $moras >= 30){
+            $estado = '02'; // En mora
+        }
+        if($afiliacion->estado == 'Retirado'){
+            $fecha = fecha_plana_Ymd($afiliacion->updated_at);
+            $estado = '03'; // Pago total
+        }
+
+        return array('fecha' => $fecha,'estado' => $estado);
+    }
+
+    function saldoMora($afiliacion, $f_corte){
+        $dias_mora = $this->get_dias_mora($afiliacion->fecha_pago);
+        
+        $saldo_mora = 0;
+        $cts_mora   = 0;
+
+        if($dias_mora >= 30){
+            $cts_mora = ceil($dias_mora / 30);
+            $saldo_mora = $cts_mora * $afiliacion->vlr_cuota;
+        }
+
+        return  ['saldo_mora' => $saldo_mora, 'cts_mora' => $cts_mora];
+    }
+
+    function cuotasCanceladas($afiliacion){
+        
+        $f_apertura = new Carbon($afiliacion->f_apertura);
+
+       // dd($f_apertura);
+
+        $pago_hasta = new Carbon($afiliacion->fecha_pago);
+
+        if($pago_hasta->gt($f_apertura)){
+            return $f_apertura->diffInMonths($pago_hasta);
+        } else {
+            return 0;
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | fecha_clausula_permanencia
+    |--------------------------------------------------------------------------
+    | Genera la fecha donde se vence la clau        //calcular un año a a partir de la fecha de aperturasula de permanencia
+    | recibe la fecha de apertura ($f_apertura) y calcula
+    | un año a partir de ella.
+    |
+    */
+
+
+    function fecha_clausula_permanencia($f_apertura)
+    {
+        $fecha_apertura = new Carbon($f_apertura);
+
+        return $fecha_apertura->addYear()->subDay()->format('Ymd');
+    }
+
+
 
 }

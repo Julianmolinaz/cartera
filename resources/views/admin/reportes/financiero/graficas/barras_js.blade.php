@@ -1,7 +1,8 @@
 <script>
 
 /*grafica que muestra la sumatoria de 
-valor a financiar , ingreso esperado,valor a recaudar,recaudo en cuotas, total cartera*/
+valor a financiar , ingreso esperado,valor a recaudar,recaudo en cuotas, total cartera 
+y egresos*/
 
 
 google.charts.load('current', {packages: ['corechart', 'bar']});
@@ -37,10 +38,10 @@ function drawMultSeries() {
           'T. cartera', {!! $info['total_costo_cartera'] !!}, 'color: red',
           '{{ number_format( $info['total_costo_cartera'],0, ",",".") }}'
           ],
-        [
-          'T. egresos', {!! $total_egresos !!}, 'color: gray',
-          '{{ number_format( $total_egresos,0, ",",".") }}'
-          ]
+        // [
+        //   'T. egresos', {!! $total_egresos !!}, 'color: gray',
+        //   '{{ number_format( $total_egresos,0, ",",".") }}'
+        //   ]
       ]);
 
 

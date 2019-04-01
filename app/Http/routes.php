@@ -25,18 +25,28 @@ Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVent
 Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
 	->middleware('admin');
 
-Route::get('repor-financiero-sucursales/{rango_ini}/{rango_fin}','ReporteController@financiero_sucursales')
+
+//FINANCIERO
+
+Route::get('repor-financiero',[
+	'uses' => 'FinancieroController@index',
+	'as'   => 'reporte.financiero'
+])->middleware('admin');
+
+Route::get('repor-financiero/general/{rango}',[
+	'uses' => 'FinancieroController@general',
+	'as'   => 'reporte.financiero.general'
+])->middleware('admin');
+
+Route::get('repor-financiero/sucursales/{rango}/{sucursal_id}',
+		'FinancieroController@financiero_sucursales')
 	->middleware('admin');
 
-Route::get('repor-financiero-comparativa-anual/{year}',[
-	'uses' 	=> 'ReporteController@financiero_comparativo',
+Route::get('repor-financiero/comparativo-anual/{year}',[
+	'uses' 	=> 'FinancieroController@financiero_comparativo',
 	'as'	=> 'reporte.financiero.comparativo'
 ])->middleware('admin');
 
-Route::get('repor-financiero-tipo-creditos-sucursal-anual/{year}',[
-	'uses' 	=> 'ReporteController@tipo_creditos_sucursal_anual',
-	'as'	=> 'reporte.financiero.comparativo.tipo_creditos.sucursal'
-])->middleware('admin');
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
 Route::get('start/simulador',[
@@ -49,6 +59,14 @@ Route::post('start/simulador',[
 	'as'	=> 'start.simulador.store'
 	])->middleware('simulador');
 
+
+//FINANCIERO
+
+//carga la vista principal de los reportes financieros
+
+Route::get('financiero',
+	['uses' =>'FinancieroController@index','as'=>'admin.reporte.financiero'])
+	->middleware('admin');
 
 // CLIENTESCLIENTESCLIENTESCLIENTESCLIENTESCLIENTESCLIENTES
 

@@ -11,6 +11,34 @@ use DB;
 trait Financierotrait
 {
 
+  function financiero_sucursal($ini,$fin, $sucursal_id)
+  {
+      $creditos = DB::table('creditos')
+        ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+        ->join('users','precreditos.user_create_id','=','users.id')
+        ->where('users.punto_id',$sucursal_id)
+        ->whereBetween('precreditos.created_at',[$ini,$fin])
+        ->select('creditos.id as id')
+        ->get();
+
+      $ids = array_pluck($creditos, 'id');
+
+      $creditos = Credito::find($ids);
+         
+      // EGRESOS
+
+      $total_egresos  = $this->egresos_repo->get_egresos_punto($ini, $fin, $sucursal_id);
+  
+      $info = $this->reporte_financiero($creditos);
+
+      return array(
+        'total_egresos'         => $total_egresos, 
+        'egresos_por_concepto'  => 
+            $this->egresos_repo->get_egresos_sucursal_por_conceptos($ini,$fin,$sucursal_id),
+        'info' => $info
+      );
+  }
+
   /*
   |--------------------------------------------------------------------------
   | financiero
@@ -33,7 +61,12 @@ trait Financierotrait
       $total_egresos  = $this->egresos_repo->get_sum_egresos($ini, $fin);
       $info = $this->reporte_financiero($creditos);
 
-      return array('total_egresos'=> $total_egresos, 'info' => $info);
+      return array(
+        'total_egresos'         => $total_egresos, 
+        'egresos_por_concepto'  => 
+            $this->egresos_repo->get_egresos_general_por_conceptos($ini,$fin),
+        'info' => $info
+      );
   }
 
   /*
