@@ -258,7 +258,8 @@ class DataAsisController extends Controller
     |--------------------------------------------------------------------------
     | fecha_clausula_permanencia
     |--------------------------------------------------------------------------
-    | Genera la fecha donde se vence la clau        //calcular un año a a partir de la fecha de aperturasula de permanencia
+    | Genera la fecha donde se vence la clau        
+    | calcular un año a a partir de la fecha de aperturasula de permanencia
     | recibe la fecha de apertura ($f_apertura) y calcula
     | un año a partir de ella.
     |
@@ -272,6 +273,10 @@ class DataAsisController extends Controller
         return $fecha_apertura->addYear()->subDay()->format('Ymd');
     }
 
+    function saldo_deuda($credito)
+    {
+        
+    }
 
 
 }
