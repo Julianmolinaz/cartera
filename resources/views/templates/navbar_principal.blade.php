@@ -55,6 +55,7 @@
 
 
             <li><a href="{{route('start.pagos.inicio')}}">Hacer Pago</a></li>
+            <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="{{route('start.facturas.index')}}">Ver Facturas Créditos</a></li>
             <!-- <li><a href="{{route('start.pagos')}}">Ver Pagos Créditos</a></li>  -->
@@ -69,7 +70,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
           <ul class="dropdown-menu">
 
-            <li><a href="{{route('admin.egresos.index')}}">Egresos</a></li>
+            <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
             <li><a href="{{route('admin.multas.index')}}">Multas</a></li>
             
             <li role="separator" class="divider"></li>

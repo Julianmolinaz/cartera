@@ -18,6 +18,7 @@ class DataAsisController extends Controller
     public function __construct()
     {
         $this->now = Carbon::now();
+        $this->middleware('auth');
     }
 
     public function upload_excel( Request $request )

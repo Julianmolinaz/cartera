@@ -23,6 +23,11 @@ class FacturaController extends Controller
 {
     use FacturaTrait;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -387,6 +392,10 @@ class FacturaController extends Controller
               $sancion->pago_id = $pago->id;
               $sancion->estado  = 'Ok';
               $sancion->save();
+
+              $credito->sanciones_debe --;
+              $credito->sanciones_ok ++;
+              $credito->save();
             }  
 
           $credito->saldo = $credito->saldo - $pago->abono;

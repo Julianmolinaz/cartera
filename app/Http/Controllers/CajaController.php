@@ -13,7 +13,6 @@ use DB;
 
 class CajaController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -26,13 +25,13 @@ class CajaController extends Controller
 
     public function get_cash_report($date)
     {
-        $res = [ 'error'  => false, 'dat' => caja( $date,Auth::user()->id )];
+        $res = [ 'error'  => false, 'dat' => cajaHp( $date,Auth::user()->id )];
         
         return response()->json($res);
     }
 
     public function get_cashes_report($date) {
-        $res = [ 'error'  => false, 'dat' => cajas( $date )];
+        $res = [ 'error'  => false, 'dat' => cajasHp( $date )];
         
         return response()->json($res);
     }

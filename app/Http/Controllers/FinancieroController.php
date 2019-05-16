@@ -17,6 +17,7 @@ class FinancieroController extends Controller
     
     public function __construct(EgresosRepository $egresos_repo)
     {
+        $this->middleware('auth');
         $this->egresos_repo = $egresos_repo;
     }
 

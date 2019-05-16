@@ -297,6 +297,7 @@ class Sanciones extends Command
           if( $credito->estado == 'Al dia' ){
               $credito->estado  = 'Mora';
               $credito->saldo   = $credito->saldo + $vlr_sancion;
+              $credito->sanciones_debe ++;
               $credito->user_update_id = 1;
               $credito->save();
               $sancion = new Sancion();
@@ -309,6 +310,7 @@ class Sanciones extends Command
 
               $credito->saldo   = $credito->saldo + $vlr_sancion;
               $credito->user_update_id = 1;
+              $credito->sanciones_debe ++;
               $credito->save();
               $sancion = new Sancion();
               $sancion->credito_id = $credito->id;

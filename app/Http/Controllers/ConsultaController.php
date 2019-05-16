@@ -13,6 +13,11 @@ use App\Credito;
 
 class ConsultaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function cuenta($cedula)
     {
         $cliente = Cliente::where('num_doc',$cedula)->get();

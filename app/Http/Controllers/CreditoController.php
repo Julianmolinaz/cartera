@@ -28,6 +28,8 @@ class CreditoController extends Controller
 
     public function __construct(CreditoRepository $creditos){
       $this->creditos = $creditos;
+      $this->middleware('auth');
+
     }
 
     /*

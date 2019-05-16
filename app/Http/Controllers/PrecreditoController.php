@@ -22,6 +22,11 @@ class PrecreditoController extends Controller
 
     use MensajeTrait;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $precreditos = 

@@ -14,6 +14,10 @@ class DocumentoController extends Controller
 {
     use DocumentoTrait;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function set_documento(Request $request, $objeto_relacionado)
     {

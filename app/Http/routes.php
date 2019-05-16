@@ -1,8 +1,6 @@
 <?php
 use App\Cliente;
 use App\Codeudor;
-// use DB;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +16,8 @@ use App\Codeudor;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('set-sanciones','GeneradorController@set');
 
 Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVentas')
 	->middleware('admin');
@@ -104,7 +104,7 @@ Route::get('start/clientes/{id}/consultar_codeudor',[
 Route::get('start/clientes/{id}/destroy',
 	['uses'	=> 'ClienteController@destroy','as'	=> 'start.clientes.destroy'])->middleware('clientes_borrar');
 
-//ESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOS
+//ESTUDIOS
 
 
 Route::get('start/estudios/cliente/{id_cliente}/codeudor/{id_codeudor}/create/{obj}',[
@@ -408,7 +408,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	  
 	Route::post('data-asis',['uses' =>'DataAsisController@upload_excel','as' => 'data.data_asis']);
 
+	//PROVEEDORES
+
+	Route::resource('proveedores','ProveedorController');
+
 });
+
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])
 	->middleware('reporte_listar');
@@ -434,29 +439,18 @@ Route::get('admin/marcar-cancelados/{tipo_reporte}',
 	->middleware('admin');
 
 
-//EGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOS
+//EGRESOS
 
-//LISTAR
-Route::get('admin/egresos',
-	['uses' => 'EgresoController@index', 'as' => 'admin.egresos.index'])->middleware('egresos_listar');
-
-//CREAR
-Route::get('admin/egresos/create',
-	['uses' => 'EgresoController@create','as' => 'admin.egresos.create'])->middleware('egresos_crear');
-
-Route::post('admin/egresos',
-	['uses' => 'EgresoController@store', 'as' => 'admin.egresos.store'])->middleware('egresos_crear');
-
-//EDITAR
-Route::get('admin/egresos/{egreso}/edit',
-	['uses' => 'EgresoController@edit','as' => 'admin.egresos.edit'])->middleware('egresos_editar');
-
-Route::put('admin/egresos/{egreso}',
-	['uses' => 'EgresoController@update','as' => 'admin.egresos.update'])->middleware('egresos_editar');
+Route::get('start/egresos/get_info','EgresoController@get_info');
+Route::get('start/egresos/solicitudes','EgresoController@get_solicitudes');
+Route::get('start/egresos/search/{string?}','EgresoController@search');
+Route::get('start/egresos/get_data','EgresoController@get_data');
+Route::get('start/egresos/get_egresos','EgresoController@get_egresos');
+Route::resource('start/egresos','EgresoController');
 
 //ELIMINAR
-Route::get('admin/egresos/{id}/destroy',
-	['uses'	=> 'EgresoController@destroy','as'	=> 'admin.egresos.destroy'])->middleware('egresos_eliminar');
+Route::get('start/egresos/{id}/destroy',
+	['uses'	=> 'EgresoController@destroy','as'	=> 'start.egresos.destroy']);
 
 
 

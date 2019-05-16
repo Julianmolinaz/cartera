@@ -10,7 +10,7 @@ use App\User;
 use Auth;
 use DB;
 
-	function cajas($date) {
+	function cajasHp($date) {
 
 		$cajas = [];
 
@@ -23,7 +23,7 @@ use DB;
 			->get();
 
 		foreach ($users as $user) {
-			$temp = caja($date,$user->user_id);
+			$temp = cajaHp($date,$user->user_id);
 			array_push($cajas, $temp);
 		}
 
@@ -31,7 +31,7 @@ use DB;
 	}
 
 
-	function caja($date, $user_id)
+	function cajaHp($date, $user_id)
 	{
 		$calls = calls($date, $user_id); // Llamadas
 
@@ -39,38 +39,41 @@ use DB;
 
 		$user = User::find($user_id); // Información del usuario (funcionario)
 
-		$precreditos = precreditos($date, $user_id); // Solicitudes
+		$precreditos = precreditosHp($date, $user_id); // Solicitudes
 
 		$num_precreditos = count($precreditos); // Cantidad de solicitudes
 
-		$pagos = pagos($date, $user_id);  // pagos a creditos
+		$pagos = pagosHp($date, $user_id);  // pagos a creditos
 
-		$total_pagos = total_pagos($pagos); // total pagos a creditos
+		$total_pagos = totalPagosHp($pagos); // total pagos a creditos
 
-		$pagos_solicitudes = pagos_solicitudes($date, $user_id); // pagos por solicitudes
+		$pagos_solicitudes = pagosSolicitudesHp($date, $user_id); // pagos por solicitudes
 
-		$total_solicitudes = total_pagos($pagos_solicitudes); // total pagos por solicitudes
+		$total_solicitudes = totalPagosHp($pagos_solicitudes); // total pagos por solicitudes
 
-		$estudios  = estudios($pagos_solicitudes); // pagos de estudios
+		$estudios  = estudiosHp($pagos_solicitudes); // pagos de estudios
  
-		$total_estudios = total_pagos($estudios); // total pagos de estudios
+		$total_estudios = totalPagosHp($estudios); // total pagos de estudios
 
-		$iniciales = iniciales($pagos_solicitudes); // pagos de cuotas iniciales
+		$iniciales = inicialesHp($pagos_solicitudes); // pagos de cuotas iniciales
 
-		$total_iniciales = total_pagos($iniciales); // total pago cuotas iniciales
+		$total_iniciales = totalPagosHp($iniciales); // total pago cuotas iniciales
 
 		$total_caja = $total_pagos + $total_solicitudes; // total caja
 
-    $anuladas  = anuladas($date, $user_id); // facturas anuladas
+    	$anuladas  = anuladasHp($date, $user_id); // facturas anuladas
 
 		$num_anuladas = count($anuladas); 
 
+		$egresos   = getEgresosHp($date, $user_id);
+
+		$total_egresos = totalEgresosHp($egresos);
 
 		return [
-			'calls' 		  			=> $calls,
-			'num_calls' 	  		=> $num_calls,
-			'user'   		  			=> $user,
-			'punto'  		  			=> $user->punto,
+			'calls' 		  	=> $calls,
+			'num_calls' 	  	=> $num_calls,
+			'user'   		  	=> $user,
+			'punto'  		  	=> $user->punto,
 			'precreditos' 	  	=> $precreditos,
 			'num_precreditos' 	=> $num_precreditos,
 			'abonos'          	=> $pagos,
@@ -81,13 +84,15 @@ use DB;
 			'total_caja'      	=> $total_caja,
 			'date'              => $date,
 			'anuladas'          => $anuladas,
-			'num_anuladas'      => $num_anuladas
+			'num_anuladas'      => $num_anuladas,
+			'egresos'			=> $egresos,
+			'total_egresos'     => $total_egresos
 		];
 
 	
 	}
 
-	function anuladas($date, $user_id)
+	function anuladasHp($date, $user_id)
 	{
 		return DB::table('anuladas')
 			->join('clientes','anuladas.cliente_id','=','clientes.id')
@@ -105,16 +110,35 @@ use DB;
     	->get();
 	}
 
-		function calls($date, $user_id)
-		{
-				return DB::table('llamadas')
-					->where('user_create_id',$user_id)
-					->where('created_at','like',$date.'%')
-					->get();
+	function calls($date, $user_id)
+	{
+		return DB::table('llamadas')
+			->where('user_create_id',$user_id)
+			->where('created_at','like',$date.'%')
+			->get();
+	}
+
+	function getEgresosHp($date, $user_id)
+	{
+		return DB::table('egresos')
+			->where('user_create_id',$user_id)
+			->where('created_at','like',$date.'%')
+			->get();
+	}
+
+	function totalEgresosHp($egresos)
+	{
+		$sumatoria = 0;
+
+		foreach($egresos as $egreso){
+			$sumatoria += $egreso->valor;
 		}
 
+		return $sumatoria;
+	}
 
-    function precreditos($date, $user_id)
+
+    function precreditosHp($date, $user_id)
     {
       	return DB::table('precreditos')
       		->join('clientes','precreditos.cliente_id','=','clientes.id')
@@ -128,7 +152,7 @@ use DB;
     }
 
 
-    function abonos($pagos, $date, $user_id)
+    function abonosHp($pagos, $date, $user_id)
     {
     	$collection = collect($pagos);
 
@@ -140,7 +164,7 @@ use DB;
     	return $filtered;
     }
 
-    function sanciones($pagos, $date, $user_id)
+    function sancionesHp($pagos, $date, $user_id)
     {
     	$collection = collect($pagos);
 
@@ -151,7 +175,7 @@ use DB;
 
     }
 
-    function total_pagos($pagos)
+    function totalPagosHp($pagos)
     {
     	$collection = collect($pagos);
 
@@ -161,7 +185,7 @@ use DB;
     }
 
 
-    function pagos($date, $user_id)
+    function pagosHp($date, $user_id)
     {
 		return DB::table('facturas')
 			->join('pagos','facturas.id','=','pagos.factura_id')
@@ -176,7 +200,7 @@ use DB;
 			->get();
     }
 
-    function pagos_solicitudes($date, $user_id)
+    function pagosSolicitudesHp($date, $user_id)
     {
 		return DB::table('fact_precreditos')
 			->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
@@ -191,7 +215,7 @@ use DB;
 			->get();
     }
 
-    function estudios($pagos)
+    function estudiosHp($pagos)
     {
     	$collection = collect($pagos);
 
@@ -203,7 +227,7 @@ use DB;
 
     }
 
-    function iniciales($pagos)
+    function inicialesHp($pagos)
     {
     	$collection = collect($pagos);
 

@@ -40,6 +40,7 @@ class ReporteController extends Controller
 
     public function __construct(EgresosRepository $egresos_repo)
     {
+        $this->middleware('auth');
         $this->egresos_repo = $egresos_repo;
     }
 
@@ -399,7 +400,7 @@ class ReporteController extends Controller
 
     else if($request->input('tipo_reporte') == 'egresos' )
     {
-        return $this->get_egresos($ini, $fin);
+        return $this->getEgresosEt($ini, $fin);
     }
 
     /**

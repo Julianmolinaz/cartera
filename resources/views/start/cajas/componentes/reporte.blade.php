@@ -65,6 +65,11 @@
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			          Iniciales
 			        </li>
+							<li class="list-group-item">
+			          <span class="badge">@{{ info.total_egresos }}</span>
+			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+			          Egresos
+			        </li>
 			        <li class="list-group-item">
 			          <span class="badge">@{{ info.total_caja }}</span>
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>

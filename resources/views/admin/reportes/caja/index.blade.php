@@ -36,7 +36,7 @@
     <div class="col-md-9">
         <template  v-if="cajas.length > 0">
             
-            <table class="table table-condensed" id="cajas">
+            <table class="table table-condensed" id="cajas" style="font-size:10px;">
                 <thead>
                     <tr>
                         <th>Sucursal</th>
@@ -46,6 +46,7 @@
                         <th>Abonos</th>
                         <th>Estudios</th>
                         <th>Iniciales</th>
+                        <th>Egresos</th>
                         <th>Total Caja</th>
                     </tr>
                 </thead>
@@ -58,6 +59,7 @@
                         <td>@{{ caja.total_abonos }}</td>
                         <td>@{{ caja.total_estudios }}</td>
                         <td>@{{ caja.total_iniciales }}</td>
+                        <td>@{{ caja.total_egresos }}</td>
                         <td>@{{ caja.total_caja }}</td>
                     </tr>
                     <tr>
