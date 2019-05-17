@@ -26,6 +26,8 @@
             <th>    # Factura </th>
             <th>    Fecha     </th>
             <th>    Total     </th>
+            <th>    Tipo de pago</th>
+            <th>    Banco     </th>
             <th>    Creó      </th>
             <th style="display:none;">    Actualizacion  </th>
             <th>    Actividad    </th>
@@ -41,6 +43,8 @@
             <td> {{ $factura->num_fact }}</td>
             <td> {{ $factura->fecha }}</t d>
             <td> {{ number_format($factura->total,0,",",".") }}</td>
+            <td> {{ $factura->tipo }}</td>
+            <td> {{ $factura->banco }}</td>
             <td> {{ $factura->user_create->name.' '.$factura->created_at }} </td>
             <td style="display:none;"> {{$factura->updated_at}}</td>
             <td>
@@ -109,7 +113,6 @@
                   <th>   Estado     </th>
                   <th>   Pago desde </th>
                   <th>   Pago hasta </th>
-                  <th>   Actividad  </th>
                 </tr>
               </thead>
 
@@ -125,7 +128,6 @@
                 <td> {{ $pago->estado}}        </td>
                 <td> {{ $pago->pago_desde}}    </td>
                 <td> {{ $pago->pago_hasta}}    </td>
-                <td></td>
               </tr>
               @endforeach
 

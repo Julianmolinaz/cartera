@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Carbon\Carbon;
+use App\Proveedor;
 use App\Cartera;
 use App\Egreso;
 use App\Punto;
@@ -16,6 +17,15 @@ use DB;
 
 class EgresoController extends Controller
 {
+    protected $paginate;
+    protected $string;
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->paginate = 10;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +33,8 @@ class EgresoController extends Controller
      */
     public function index()
     {
-        return view('admin.egresos.index');
+        return view('start.egresos.index')
+            ->with('rol',Auth::user()->rol);
     }
 
     /**
@@ -36,11 +47,13 @@ class EgresoController extends Controller
         $conceptos = getEnumValues('egresos','concepto');
         $carteras  = Cartera::where('estado','Activo')->get();
         $puntos    = Punto::where('estado','Activo')->orderBy('nombre','asc')->get();
+        $egreso    = new Egreso();
 
-        return view('admin.egresos.create')
+        return view('start.egresos.create')
             ->with('conceptos',$conceptos)
             ->with('carteras',$carteras)
-            ->with('puntos',$puntos);
+            ->with('puntos',$puntos)
+            ->with('egreso',$egreso);
     }
 
     /**
@@ -51,48 +64,59 @@ class EgresoController extends Controller
      */
     public function store(Request $request)
     {
-  
-        $rules_egreso = array(
-            'fecha'                 => 'required',
-            'comprobante_egreso'    => 'required|unique:egresos',
-            'cartera_id'               => 'required',
-            'concepto'              => 'required',
-            'valor'                 => 'required|numeric',
-            'punto_id'              => 'required'
-            );
-        $rules_message = array(
-            'fecha.required'                => 'La Fecha es requerida',
-            'comprobante_egreso.required'   => 'El # Comprobande de Egreso es requerido',
-            'cartera_id.required'           => 'La Cartera es requerida',  
-            'comprobante_egreso.unique'     => 'El # Comprobante de Egreso ya existe',    
-            'concepto.required'             => 'El Concepto es requerido',
-            'valor.required'                => 'El Valor es requerido',
-            'valor.numeric'                 => 'El Valor debe ser un numero',
-            'punto_id.required'             => 'El punto es requerido'
-            );
+        //return response()->json($request->all());
+        // $rules_egreso = array(
+        //     'fecha'                 => 'required',
+        //     'comprobante_egreso'    => 'required|unique:egresos',
+        //     'cartera_id'               => 'required',
+        //     'concepto'              => 'required',
+        //     'valor'                 => 'required|numeric',
+        //     'punto_id'              => 'required'
+        //     );
+        // $rules_message = array(
+        //     'fecha.required'                => 'La Fecha es requerida',
+        //     'comprobante_egreso.required'   => 'El # Comprobande de Egreso es requerido',
+        //     'cartera_id.required'           => 'La Cartera es requerida',  
+        //     'comprobante_egreso.unique'     => 'El # Comprobante de Egreso ya existe',    
+        //     'concepto.required'             => 'El Concepto es requerido',
+        //     'valor.required'                => 'El Valor es requerido',
+        //     'valor.numeric'                 => 'El Valor debe ser un numero',
+        //     'punto_id.required'             => 'El punto es requerido'
+        //     );
 
-        $this->validate($request,$rules_egreso,$rules_message); 
+        // $this->validate($request,$rules_egreso,$rules_message); 
 
         DB::beginTransaction();
 
-        try{
+        try {
 
-            $egreso = new Egreso($request->all());
+            $prefijo =  DB::table('consecutivos')->select('prefijo')->get();
+            $consecutivo = DB::table('consecutivos')->select('incrementable')->get();
+
+            $comprobrante = $prefijo[0]->prefijo.$consecutivo[0]->incrementable;
+
+            // $egreso->comprobante = 
+            $egreso = new Egreso( $request->egreso );
+            $egreso->comprobante_egreso = $comprobrante;
             $egreso->user_create_id = Auth::user()->id;
             $egreso->user_update_id = Auth::user()->id;
             $egreso->save();
 
+            DB::table('consecutivos')
+                ->where('componente','egresos')
+                ->update(['incrementable' => $consecutivo[0]->incrementable + 1]);
+
             DB::commit();
 
-            flash()->success($egreso->comprobante_egreso.' -El egreso se creo con éxito!');
-            return redirect()->route('admin.egresos.index');
+            $res = ['error' => false, 'dat' => $egreso, 'message'=>'egreso creado exitosamente !!!'];
+            return response()->json($res);
 
-        }catch(\Exception $e){
+        } catch(\Exception $e){
             
             DB::rollback();
             
-            flash()->error('Ocurrió un error!');
-            return redirect()->route('admin.egresos.index');
+            $res = ['error' => true, 'message'=>$e->getMessage()];
+            return response()->json($res);
 
         }
     }
@@ -121,7 +145,7 @@ class EgresoController extends Controller
         $carteras   = Cartera::all();
         $puntos     = Punto::where('estado','Activo')->orderBy('nombre','asc')->get();
 
-        return view('admin.egresos.edit')
+        return view('start.egresos.edit')
             ->with('egreso',$egreso)
             ->with('conceptos',$conceptos)
             ->with('carteras',$carteras)
@@ -158,14 +182,13 @@ class EgresoController extends Controller
 
         $this->validate($request,$rules_egreso,$rules_message); 
 
-
         $egreso = Egreso::find($id);
         $egreso->fill($request->all());
         $egreso->user_update_id = Auth::user()->id;
         $egreso->save();
 
-         flash()->success($egreso->comprobante_egreso.' -El egreso se edito con éxito!');
-        return redirect()->route('admin.egresos.index');
+        flash()->success($egreso->comprobante_egreso.' -El egreso se edito con éxito!');
+        return redirect()->route('start.egresos.index');
     }
 
     /**
@@ -179,6 +202,174 @@ class EgresoController extends Controller
         $egreso = Egreso::find($id);
         $egreso->delete();
         flash()->error('El Egreso con comprobante '.$egreso->comprobante_egreso. ' se eliminó éxitosamente!');
-        return redirect()->route('admin.egresos.index');
+        return redirect()->route('start.egresos.index');
+    }
+
+    public function get_data()
+    {
+        try {
+            $bancos = getEnumValues('facturas', 'banco');
+            $proveedores   = Proveedor::where('estado','Activo')->orderBy('nombre')->get();
+            $puntos = Punto::where('estado','Activo')->orderBy('nombre')->get();
+            $auth = Auth::user();
+            $carteras = Cartera::where('estado','Activo')->orderBy('nombre')->get();
+            $now = Carbon::now();
+
+            if(auth::user()->rol == 'Administrador')
+                $conceptos = getEnumValues('egresos', 'concepto');
+            else 
+                $conceptos = [
+                    'Gastos',
+                    'Compras',
+                    'Consignacion',
+                    'Pago a proveedores'
+                ];
+
+            $res = [
+                'error' => false,
+                'dat'   => [
+                    'bancos'        => $bancos,
+                    'conceptos'     => $conceptos,
+                    'proveedores'   => $proveedores,
+                    'puntos'        => $puntos,
+                    'auth'          => $auth,
+                    'carteras'      => $carteras,
+                    'now'           => $now->format('Y-m-d')
+                ]
+            ];
+        }
+        catch(\Exception $e){
+            $res = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+        finally {
+            return response()->json($res);
+        }
+
+    }//.get_data()
+
+    public function get_egresos()
+    {
+        if(Auth::user()->rol == 'Administrador'){
+
+            $egresos = Egreso::orderBy('updated_at','desc')
+                ->with('punto')
+                ->with('cartera')
+                ->with('proveedor')
+                ->paginate($this->paginate);
+        } else {
+            $egresos = Egreso::where('punto_id',Auth::user()->punto_id)
+                ->orderBy('updated_at','desc')
+                ->with('punto')
+                ->with('cartera')
+                ->with('proveedor')
+                ->paginate($this->paginate);
+        }
+
+        $res = [
+            'error' => false, 
+            'dat' => $egresos,
+            'pagination' => [
+                'total'         => $egresos->total(),
+                'current_page'  => $egresos->currentPage(),
+                'per_page'      => $egresos->perPage(),
+                'last_page'     => $egresos->lastPage(), 
+                'from'          => $egresos->firstItem(),
+                'total'         => $egresos->total(),
+                'to'            => $egresos->lastPage()
+            ],
+        ];
+
+        return response()->json($res);
+    }
+
+    public function search($string = null)
+    {
+        $this->string = $string;
+        if(strlen($string) <= 0){
+            $egresos = Egreso::where('punto_id',Auth::user()->punto_id)
+                ->orderBy('updated_at','desc')
+                ->with('punto')
+                ->with('cartera')
+                ->with('proveedor')
+                ->paginate($this->paginate);
+        } 
+        else {
+            $egresos = Egreso::where('punto_id',Auth::user()->punto_id)
+                    ->where(function($query){
+                        $query->where('comprobante_egreso','like','%'.$this->string.'%')
+                        ->orWhere('fecha','like','%'.$this->string.'%')
+                        ->orWhere('concepto','like','%'.$this->string.'%');
+                    })
+                ->orderBy('updated_at','desc')
+                ->with('punto')
+                ->with('cartera')
+                ->with('proveedor')
+                ->paginate($this->paginate);
+    
+            if (count($egresos) <= 0 ){
+                $egresos = Egreso::orderBy('updated_at','desc')->paginate($this->paginate);
+            }
+        }
+
+        $res = [
+            'error' => false,
+            'dat'   => $egresos,
+            'pagination' => [
+                'total'         => $egresos->total(),
+                'current_page'  => $egresos->currentPage(),
+                'per_page'      => $egresos->perPage(),
+                'last_page'     => $egresos->lastPage(), 
+                'from'          => $egresos->firstItem(),
+                'total'         => $egresos->total(),
+                'to'            => $egresos->lastPage()
+            ]
+        ];
+
+        return response()->json($res);
+        
+    }
+
+    public function get_info()
+    {
+        $now = Carbon::now()->format('Y-m-d');
+        $start_week = Carbon::now()->startOfWeek()->format('Y-m-d 00:00:00');
+        $end_week   = Carbon::now()->endOfWeek()->format('Y-m-d 11:59:59');
+        $start_month = Carbon::now()->format('Y-m-1 00:00:00');
+        $month = Carbon::now();
+        $end_month = Carbon::now()->format('Y-m-'. $month->daysInMonth. ' 11:59:59');
+
+        $day = Egreso::where('created_at','like',$now.'%')->sum('valor');
+        $week = Egreso::whereBetween('created_at',[$start_week,$end_week])->sum('valor');
+        $month = Egreso::whereBetween('created_at',[$start_month,$end_month])->sum('valor');
+        
+
+        $res = [
+            'dat'   => [
+                'day' => $day,
+                'week' => $week,
+                'month' => $month
+            ]
+        ];
+
+        return response()->json($res);
+
+    }
+
+
+    public function get_solicitudes()
+    {
+        $solicitudes = DB::table('precreditos')
+            ->leftJoin('creditos','precreditos.id','=','creditos.precredito_id')
+            ->join('users','precreditos.user_create_id','=','users.id')
+            ->where('users.punto_id',Auth::user()->punto_id)
+            ->whereNull('creditos.id')
+            ->where('aprobado','si')
+            ->get();
+
+        
+        dd($solicitudes);
     }
 }

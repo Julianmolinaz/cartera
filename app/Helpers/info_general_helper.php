@@ -158,61 +158,46 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->get();
 
   $estudios   = 
-  DB::table('precreditos')
-      ->join('carteras','precreditos.cartera_id','=','carteras.id')
-      ->join('clientes','precreditos.cliente_id','=','clientes.id')
-      ->where('precreditos.estudio','<>','Sin estudio')
-      ->whereBetween('precreditos.created_at',[$ini,$fin])
-      ->select(DB::raw('
-                      null                    as credito_id,
-                      clientes.nombre         as cliente,
-                      clientes.num_doc        as documento,
-                      precreditos.num_fact    as factura,
-                      precreditos.fecha       as fecha,
-                      carteras.nombre         as cartera,
-                      precreditos.estudio     as estudio,
-                      precreditos.created_at  as created_at
-                      '))->get();  
-
-
-  $array_estudios = array();
-  foreach ($estudios as $credito) {
-
-      if     ($credito->estudio == 'Tipico'){ $valor_estudio = $estudio_tipico;   }
-      else if($credito->estudio == 'Domicilio'){ $valor_estudio = $estudio_domicilio;}
-
-      $temp = array(
-          'credito_id'    => $credito->credito_id,
-          'cliente'       => $credito->cliente,
-          'documento'     => $credito->documento,
-          'factura'       => $credito->factura,
-          'fecha'         => $credito->fecha,
-          'cartera'       => $credito->cartera,
-          'estudio'       => $credito->estudio,
-          'created_at'    => $credito->created_at,     
-          'valor_estudio' => $valor_estudio
-                  );
-      array_push($array_estudios,$temp);
-  }
-
+        DB::table('fact_precreditos')
+        ->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
+        ->join('precreditos','fact_precreditos.precredito_id','=','precreditos.id')
+        ->join('clientes','precreditos.cliente_id','=','clientes.id')
+        ->join('carteras','precreditos.cartera_id','=','carteras.id')
+        ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
+        ->where('fact_precred_conceptos.nombre','<>','Cuota inicial')
+        ->whereBetween('fact_precreditos.created_at',[$ini,$fin])
+        ->select(DB::raw('
+            clientes.nombre         as cliente,
+            clientes.num_doc        as documento,
+            precreditos.id          as precredito_id,
+            fact_precreditos.num_fact as factura,
+            fact_precreditos.fecha  as fecha,
+            carteras.nombre         as cartera,
+            fact_precred_conceptos.nombre  as concepto,
+            precred_pagos.subtotal  as subtotal,
+            precreditos.created_at  as created_at
+            '))->get();
 
   $iniciales   = 
-  DB::table('precreditos')
-      ->join('creditos','precreditos.id','=','creditos.precredito_id')
-      ->join('carteras','precreditos.cartera_id','=','carteras.id')
-      ->join('clientes','precreditos.cliente_id','=','clientes.id')
-      ->where('precreditos.cuota_inicial','>',0)
-      ->whereBetween('creditos.created_at',[$ini,$fin])
-      ->select(DB::raw('
-                      creditos.id                    as credito_id,
-                      clientes.nombre         as cliente,
-                      clientes.num_doc        as documento,
-                      precreditos.num_fact    as factura,
-                      precreditos.fecha       as fecha,
-                      carteras.nombre         as cartera,
-                      precreditos.cuota_inicial     as cta_inicial,
-                      precreditos.created_at  as created_at
-                      '))->get();  
+    DB::table('fact_precreditos')
+    ->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
+    ->join('precreditos','fact_precreditos.precredito_id','=','precreditos.id')
+    ->join('clientes','precreditos.cliente_id','=','clientes.id')
+    ->join('carteras','precreditos.cartera_id','=','carteras.id')
+    ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
+    ->where('fact_precred_conceptos.nombre','=','Cuota inicial')
+    ->whereBetween('fact_precreditos.created_at',[$ini,$fin])
+    ->select(DB::raw('
+        clientes.nombre         as cliente,
+        clientes.num_doc        as documento,
+        precreditos.id          as precredito_id,
+        fact_precreditos.num_fact as factura,
+        fact_precreditos.fecha  as fecha,
+        carteras.nombre         as cartera,
+        fact_precred_conceptos.nombre  as concepto,
+        precred_pagos.subtotal  as subtotal,
+        precreditos.created_at  as created_at
+        '))->get();
 
 
   $otros_pagos = 
@@ -258,10 +243,10 @@ function reporte_general( $fecha_1, $fecha_2 ){
   foreach($saldos_favor as $saldo){ $total_saldos = $total_saldos + $saldo->saldo_favor; }
 
   $total_estudios = 0;    
-  foreach($array_estudios as $estudio){ $total_estudios = $total_estudios + $estudio['valor_estudio']; }
+  foreach($estudios as $estudio){ $total_estudios = $total_estudios + $estudio->subtotal; }
 
   $total_iniciales = 0;    
-  foreach($iniciales as $inicial){ $total_iniciales = $total_iniciales + $inicial->cta_inicial; }
+  foreach($iniciales as $inicial){ $total_iniciales = $total_iniciales + $inicial->subtotal; }
 
   $total_otros_ingresos = 0;
   foreach($otros_pagos as $otro_pago){ $total_otros_ingresos = $total_otros_ingresos + $otro_pago->subtotal; }
@@ -318,17 +303,17 @@ function reporte_general( $fecha_1, $fecha_2 ){
               break;
           }}}
 
-  for($i = 0; $i < count($array_estudios); $i++){
+  for($i = 0; $i < count($estudios); $i++){
       for($j = 0; $j < count($array_carteras); $j++){
-          if($array_carteras[$j]['nombre'] == $array_estudios[$i]['cartera']){
-              $array_carteras[$j]['ingreso'] = $array_carteras[$j]['ingreso'] + $array_estudios[$i]['valor_estudio'];  
+          if($array_carteras[$j]['nombre'] == $estudios[$i]->cartera){
+              $array_carteras[$j]['ingreso'] = $array_carteras[$j]['ingreso'] + $estudios[$i]->subtotal;  
               break;
           }}}
 
   for($i = 0; $i < count($iniciales); $i++){
       for($j = 0; $j < count($array_carteras); $j++){
           if($array_carteras[$j]['nombre'] == $iniciales[$i]->cartera){
-              $array_carteras[$j]['ingreso'] = $array_carteras[$j]['ingreso'] + $iniciales[$i]->cta_inicial;  
+              $array_carteras[$j]['ingreso'] = $array_carteras[$j]['ingreso'] + $iniciales[$i]->subtotal;  
               break;
           }}}
 
@@ -392,7 +377,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
               'juridicos'     => $juridicos,
               'prejuridicos'  => $prejuridicos,
               'saldos_favor'  => $saldos_favor,
-              'estudios'      => $array_estudios,
+              'estudios'      => $estudios,
               'iniciales'     => $iniciales,
               'gastos'        => $gastos,
               'compras'       => $compras,

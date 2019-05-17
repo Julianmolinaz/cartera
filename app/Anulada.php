@@ -12,7 +12,7 @@ class Anulada extends Model implements Auditable
     protected $table = 'anuladas';
 
     protected $fillable = [
-        'cliente_id', 'factura_id', 'credito_id', 'num_fact', 
+        'cliente_id', 'factura_id', 'credito_id', 'precredito_id', 'num_fact', 
         'fecha', 'total','pagos', 'motivo_anulacion',
         'user_anula', 'user_create_id'
     ];
@@ -31,5 +31,9 @@ class Anulada extends Model implements Auditable
 
     public function credito(){
         return $this->hasOne('App\Credito','id','credito_id');
+    }
+
+    public function precredito(){
+        return $this->hasOne('App\Preredito','id','precredito_id');
     }
 }

@@ -8,33 +8,12 @@
 
     <div class="panel panel-primary">
 
-      <div class="panel-heading">Financiero Operativo 
-       
-            <!-- Single button -->
-            <div class="btn-group">
-              <button type="button" class="btn btn-default btn-xs dropdown-toggle" 
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Reportes adicionales <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="{{ url('repor-financiero-sucursales'.'/'.$rango['ini'].'/'.$rango['fin'])}}" target="_blank">
-                  Financiero por sucursales</a>
-                </li>
-                <li><a href="{{ url('repor-financiero-tipo-creditos-sucursal-anual/'.$rango['ini'])}}" target="_blank">
-                  Tipo de creditos por sucursal</a>
-                </li>
-                <li><a href="{{route('reporte.financiero.comparativo','2018')}}" target="_blank">Comparativa anual por trimestres</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </div>
-       
+      <div class="panel-heading">Financiero Operativo {{ ($sucursal) ? $sucursal :'' }}
+        
       </div>
         <div class="panel-body">
-
-
           <div class="row">
-            <div class="col-xs-2  col-md-2 ">
+            <div class="col-xs-2  col-md-2">
               <div class="thumbnail">
                   <ul class="list-group">
                     <li class="list-group-item">
@@ -90,6 +69,63 @@
               </a>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-12">
+
+            <div class="row">
+              <div class="col-xs-6 col-md-6">
+                <div href="#" class="thumbnail">
+
+                  <table class="table">
+                    <thead>
+                    
+                      <tr>
+                        <th>Concepto</th>
+                        <th>Valor</th>
+                        <th>Check </th>
+                      </tr>
+
+                    </thead>
+                    <tbody>
+                      @foreach($egresos_por_concepto as $element)
+                        <tr>
+                          <td style="padding:0px 10px;">{{ $element->concepto }}</td>
+                          <td style="padding:0px 10px;" align="right">
+                            {{ number_format($element->valor,0,",",".") }}
+                          </td>
+                          <td style="padding:0px 10px;" align="center">
+                            <input type="checkbox" id="{{str_replace(' ','',$element->concepto)}}" 
+                              onclick="set_value('{{str_replace(' ','',$element->concepto)}}','{{ $element->valor }}')">
+                          </td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+        
+
+                </div>
+              </div>
+              <div class="col-xs-6 col-md-6">
+                <div href="#" class="thumbnail" style="padding: 50px 20px;"> 
+
+                      <h1>Total Egresos</h1>
+                      <h3><label id="total_egresos"></label></h3>
+                    
+            
+                        <div class="progress">
+                          <div id="dynamic" class="progress-bar progress-bar-primary progress-bar-striped active" 
+                            role="progressbar" aria-valuenow="0" aria-valuemin="0" 
+                            aria-valuemax="100" style="width: 0%">
+                            <span id="current-progress"></span>
+                          </div>
+                        </div>
+
+                </div>
+              </div>
+            </div>
+
+            </div>
+          </div>
                    
     </div>
   </div>
@@ -97,6 +133,68 @@
 </div>  
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+
+<script>
+  var total_egresos;
+  var contenedor    = 0;
+
+  var sumatoria_egresos = parseInt("{{ $total_egresos }}");
+
+  function set_value(concepto, valor)
+  {
+    var check = $('#'+concepto).prop('checked');
+
+    if( check ){
+      contenedor += parseInt(valor);
+    } 
+    else {
+      contenedor -= parseInt(valor);
+    }
+
+    console.log('contenedor ',contenedor);
+    
+    var progress = 100 * contenedor / sumatoria_egresos
+
+    interval(progress);
+
+    total_egresos = miles(contenedor);
+
+    console.log(total_egresos);
+    
+    
+    $('#total_egresos').text('$ '+total_egresos);
+  }
+
+  var current_progress = 0;
+
+  var interval = function(progress) {
+
+      current_progress = progress.toFixed(2);
+      $("#dynamic")
+      .css("width", current_progress + "%")
+      .attr("aria-valuenow", current_progress)
+      .text(current_progress + "% Complete");
+
+    };
+
+  function miles(numero) {
+
+    var str = numero.toString();
+    
+
+    var resultado = "";
+    // Ponemos un punto cada 3 caracteres
+    for (var j, i = str.length - 1, j = 0; i >= 0; i--, j++)
+      resultado = str.charAt(i) + ((j > 0) && (j % 3 == 0)? ".": "") + resultado;
+
+    return resultado;
+
+  }
+
+</script>
+
 
 @include('admin.reportes.financiero.graficas.financiero_operativo_js')
 @include('admin.reportes.financiero.graficas.extras_js')

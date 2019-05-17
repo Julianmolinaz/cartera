@@ -4,9 +4,7 @@
 
 <div class="row">
 
-  <div class="col-md-1"></div>
-
-  <div class="col-md-10 col-sm-12 col-xs-12">
+  <div class="col-md-12 col-sm-12 col-xs-12">
 
     <div class="panel panel-primary">
 
@@ -22,6 +20,8 @@
               <th>  Número de Factuara    </th>
               <th>  Concepto del Ingreso  </th>
               <th>  Valor del Ingreso     </th>
+              <th>  Tipo de pago          </th>
+              <th>  Banco                 </th>
               <th>  Solicitud             </th>
               <th>  Credito               </th>              
               <th>  Cartera               </th>
@@ -39,6 +39,8 @@
                 <td>{{$data['factura']}}</td>
                 <td>{{$data['concepto']}}</td>
                 <td>{{number_format($data['valor'],0,",",".")}}</td>
+                <td>{{$data['tipo_pago']}}  </td>
+                <td>{{$data['banco']}}
                 <td>{{$data['solicitud']}}</td>
                 <td>{{$data['credito']}}</td>
                 <td>{{$data['cartera']}}</td>
@@ -50,7 +52,7 @@
     </div>
   </div>
 </div>
-<div class="col-md-1"></div>
+
 </div>
 
 <div class="row">

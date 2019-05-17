@@ -2,7 +2,6 @@
 use App\Cliente;
 use App\Codeudor;
 
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -18,24 +17,36 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('set-sanciones','GeneradorController@set');
+
 Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVentas')
 	->middleware('admin');
 
 Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
 	->middleware('admin');
 
-Route::get('repor-financiero-sucursales/{rango_ini}/{rango_fin}','ReporteController@financiero_sucursales')
+
+//FINANCIERO
+
+Route::get('repor-financiero',[
+	'uses' => 'FinancieroController@index',
+	'as'   => 'reporte.financiero'
+])->middleware('admin');
+
+Route::get('repor-financiero/general/{rango}',[
+	'uses' => 'FinancieroController@general',
+	'as'   => 'reporte.financiero.general'
+])->middleware('admin');
+
+Route::get('repor-financiero/sucursales/{rango}/{sucursal_id}',
+		'FinancieroController@financiero_sucursales')
 	->middleware('admin');
 
-Route::get('repor-financiero-comparativa-anual/{year}',[
-	'uses' 	=> 'ReporteController@financiero_comparativo',
+Route::get('repor-financiero/comparativo-anual/{year}',[
+	'uses' 	=> 'FinancieroController@financiero_comparativo',
 	'as'	=> 'reporte.financiero.comparativo'
 ])->middleware('admin');
 
-Route::get('repor-financiero-tipo-creditos-sucursal-anual/{year}',[
-	'uses' 	=> 'ReporteController@tipo_creditos_sucursal_anual',
-	'as'	=> 'reporte.financiero.comparativo.tipo_creditos.sucursal'
-])->middleware('admin');
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
 Route::get('start/simulador',[
@@ -48,6 +59,14 @@ Route::post('start/simulador',[
 	'as'	=> 'start.simulador.store'
 	])->middleware('simulador');
 
+
+//FINANCIERO
+
+//carga la vista principal de los reportes financieros
+
+Route::get('financiero',
+	['uses' =>'FinancieroController@index','as'=>'admin.reporte.financiero'])
+	->middleware('admin');
 
 // CLIENTESCLIENTESCLIENTESCLIENTESCLIENTESCLIENTESCLIENTES
 
@@ -85,7 +104,7 @@ Route::get('start/clientes/{id}/consultar_codeudor',[
 Route::get('start/clientes/{id}/destroy',
 	['uses'	=> 'ClienteController@destroy','as'	=> 'start.clientes.destroy'])->middleware('clientes_borrar');
 
-//ESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOSESTUDIOS
+//ESTUDIOS
 
 
 Route::get('start/estudios/cliente/{id_cliente}/codeudor/{id_codeudor}/create/{obj}',[
@@ -276,9 +295,13 @@ Route::post('start/facturas/abonos','FacturaController@abonos');
 //FACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECRED
 
 Route::get('start/fact_precreditos/create/{precredito_id}',[
-	'uses' => 'FactPrecreditoCotroller@create', 'as' => 'start.fact_precreditos.create'
-
+	'uses' => 'FactPrecreditoController@create', 'as' => 'start.fact_precreditos.create'
 ]);
+Route::get('start/precredito-invoice-print/{factura_id}',[
+	'uses' => 'FactPrecreditoController@invoice_to_print',
+	'as'   => 'start.precredito_factura.print']);
+
+Route::post('start/fact_precreditos','FactPrecreditoController@store');
 
 
 
@@ -306,8 +329,19 @@ Route::get('start/pagos/create',
 Route::get('start/pagos/hay_creditos/{doc}','PagoController@hay_creditos');
 
 
+//DOCUMENTOS
+Route::put('start/documentos/{objeto_relacionado}',
+	['uses' => 'DocumentoController@set_documento',
+	 'as' => 'start.documentos.upload']);
+	
+Route::get('start/documentos/{documento_id}/get/{nombre}',
+	['uses' => 'DocumentoController@get_documento',
+	 'as' => 'start.documentos.get_documento']);
 
-
+Route::get('start/documentos/{documento_id}/destroy',
+	 ['uses' => 'DocumentoController@destroy',
+	  'as' => 'start.documentos.destroy']);
+ 
 
 
 
@@ -366,13 +400,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::resource('productos','ProductoController');
 	Route::resource('sanciones','SancionController');
 	Route::resource('multas','MultaController');
-	
 	Route::resource('criteriocall','CriteriocallController');
   	Route::resource('anuladas','AnuladaController');
   	Route::resource('puntos','PuntoController');	
 
-  	Route::get('get-mensajes','VariableController@get_mensajes');
+    Route::get('get-mensajes','VariableController@get_mensajes');
+	  
+	Route::post('data-asis',['uses' =>'DataAsisController@upload_excel','as' => 'data.data_asis']);
+
+	//PROVEEDORES
+
+	Route::resource('proveedores','ProveedorController');
+
 });
+
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])
 	->middleware('reporte_listar');
@@ -398,29 +439,18 @@ Route::get('admin/marcar-cancelados/{tipo_reporte}',
 	->middleware('admin');
 
 
-//EGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOS
+//EGRESOS
 
-//LISTAR
-Route::get('admin/egresos',
-	['uses' => 'EgresoController@index', 'as' => 'admin.egresos.index'])->middleware('egresos_listar');
-
-//CREAR
-Route::get('admin/egresos/create',
-	['uses' => 'EgresoController@create','as' => 'admin.egresos.create'])->middleware('egresos_crear');
-
-Route::post('admin/egresos',
-	['uses' => 'EgresoController@store', 'as' => 'admin.egresos.store'])->middleware('egresos_crear');
-
-//EDITAR
-Route::get('admin/egresos/{egreso}/edit',
-	['uses' => 'EgresoController@edit','as' => 'admin.egresos.edit'])->middleware('egresos_editar');
-
-Route::put('admin/egresos/{egreso}',
-	['uses' => 'EgresoController@update','as' => 'admin.egresos.update'])->middleware('egresos_editar');
+Route::get('start/egresos/get_info','EgresoController@get_info');
+Route::get('start/egresos/solicitudes','EgresoController@get_solicitudes');
+Route::get('start/egresos/search/{string?}','EgresoController@search');
+Route::get('start/egresos/get_data','EgresoController@get_data');
+Route::get('start/egresos/get_egresos','EgresoController@get_egresos');
+Route::resource('start/egresos','EgresoController');
 
 //ELIMINAR
-Route::get('admin/egresos/{id}/destroy',
-	['uses'	=> 'EgresoController@destroy','as'	=> 'admin.egresos.destroy'])->middleware('egresos_eliminar');
+Route::get('start/egresos/{id}/destroy',
+	['uses'	=> 'EgresoController@destroy','as'	=> 'start.egresos.destroy']);
 
 
 
@@ -499,3 +529,73 @@ Route::group(['prefix' => 'data'],function(){
 	Route::get('egresos','DatatableController@egresos');
 });
 
+/*
+|--------------------------------------------------------------------------
+| Caja
+|--------------------------------------------------------------------------
+*/
+
+Route::get('start/cajas',[
+	'uses' => 'CajaController@index',
+	'as'   => 'start.cajas.index'
+]);
+
+Route::get('start/cajas/report/{date}','CajaController@get_cash_report');
+Route::get('start/all_cajas/report/{date}','CajaController@get_cashes_report');
+
+
+/*
+|--------------------------------------------------------------------------
+| PrecredPagos
+|--------------------------------------------------------------------------
+*/
+
+Route::get('start/precred_pagos/{fact_precredito_id}',[
+	'uses'   => 'PrecredPagosController@show',
+	'as' => 'start.precred_pagos.show'
+])->middleware(['auth']);
+
+Route::post('start/anular_precred_pagos',[
+	'uses'   => 'PrecredPagosController@anular',
+	'as' => 'start.precred_pagos.anular'
+])->middleware(['auth', 'admin']);
+
+
+Route::get('123', function(){
+	$m  = DB::table('municipios')->get();
+	$m2 = DB::table('municipios2')
+			->join('departamentos','municipios2.departamento_id','=','departamentos.id')
+			->select('municipios2.id as id',
+					 'municipios2.nombre as nombre',
+					 'departamentos.nombre as departamento',
+					 'departamentos.id as departamento_id')
+			->get();
+	$count = 0;
+
+	DB::beginTransaction();
+
+	try{
+
+		foreach($m as $mas){ 
+			$count++;
+			foreach($m2 as $m2as){ 
+				if($mas->nombre === $m2as->nombre && $mas->departamento == $m2as->departamento){ 
+					echo $mas->nombre.'/'.$mas->departamento.' = '.$m2as->nombre.'/'.$m2as->departamento.'<br>'; 
+					DB::table('municipios2')
+						->where('id',$m2as->id)
+						->update(['codigo' => $mas->codigo_municipio]);
+	
+					DB::table('departamentos')
+						->where('id',$m2as->departamento_id)
+						->update(['codigo' => $mas->codigo_departamento]);
+				} 
+			}
+			DB::commit(); 
+		}
+		echo $count;
+	} catch(\Exception $e){
+		DB::rollback();
+		dd($e);
+	}
+
+});

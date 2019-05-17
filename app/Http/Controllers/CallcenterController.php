@@ -6,24 +6,33 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Credito;
-use App\Criterio;
-use App\Llamada;
+use App\Repositories\CreditoRepository;
+use App\Repositories\CallRepository;
+use App\Traits\MorososTrait;
+use App\Traits\PagosTrait;
+use App\CallBusqueda;
 use App\FechaCobro; 
+use Carbon\Carbon;
+use App\Criterio;
+use App\Credito;
+use App\Llamada;
 use App\Pago;
+use Excel;
 use Auth;
 use DB;
-use Carbon\Carbon;
-use App\CallBusqueda;
-use App\Repositories\CreditoRepository;
-use Excel;
 
 class CallcenterController extends Controller
 {
-    protected $creditos ;
+    use MorososTrait;
+    use PagosTrait;
 
-    public function __construct(CreditoRepository $creditos){
-        $this->creditos = $creditos;
+    protected $creditos ;
+    protected $call_repo;
+
+    public function __construct (CreditoRepository $creditos, CallRepository $call_repo)
+    {
+        $this->creditos  = $creditos;
+        $this->call_repo = $call_repo;
         $this->middleware('auth');
     }
 
@@ -84,10 +93,7 @@ class CallcenterController extends Controller
                  ->where([['credito_id','=',$credito->credito_id],['estado','=','Debe']])
                  ->count();
              
-             $credito->sanciones = $sanciones;
-             
-
-            
+             $credito->sanciones = $sanciones;            
          }
             return $creditos;        
     } 
@@ -105,7 +111,6 @@ class CallcenterController extends Controller
     */
     public function index()
     {
-
         $criterios  = Criterio::all();
         $creditos   = $this->query(['Al dia','Mora','Prejuridico','Juridico']); 
        
@@ -392,7 +397,6 @@ class CallcenterController extends Controller
     public function ExportarTodo()
     {
         try{
-
             $now            = Carbon::now();
             $fecha          = $now->toDateTimeString();
 
@@ -401,128 +405,93 @@ class CallcenterController extends Controller
 
                     $temp           = array();
                     $array_creditos = array();
-                    $tipo_moroso;
 
-                    $creditos = $this->creditos->creditosTipoCall();
+                    if(Auth::user()->rol == 'Administrador'){
+                       // $creditos = DB::select('CALL call_todos()');
+                       $creditos = $this->call_repo->callAll();
+
+                    } else {
+                        $creditos = DB::select('CALL call_todos_por_punto(?)', [Auth::user()->punto_id]);
+                    }
 
                     $header = [
                         'cartera',
                         'credito_id',
-                        'producto',
-                        'vence SOAT',
+                        // 'producto',
+                        // 'vence SOAT',
                         'municipio',
                         'departamento',
                         'estado',
-                        'centro de costos',
-                        'saldo',
-                        'cuotas pactadas',
-                        'cuotas faltantes',
-                        'cuotas pagadas (pactadas - faltantes)',
+                        // 'centro de costos',
+                        // 'saldo',
+                        // 'cuotas pactadas',
+                        // 'cuotas faltantes',
+                        // 'cuotas pagadas (pactadas - faltantes)',
                         'sanciones',
                         'tipo moroso',
-                        'castigada',
-                        'refinanciado',
-                        'credito_padre',
-                        'cliente',
+                        // 'castigada',
+                        // 'refinanciado',
+                        // 'credito_padre',
+                        // 'cliente',
                         'documento',
+                        // 'celular',
+                        //'fijo',
                         'fecha_pago',
                         'fecha de agenda',
-                        'observaciones',
+                        // 'observaciones',
                         'funcionario ultima llamada',
                         'fecha ultima llamada',
-                        'funcionario que gestionó',
-                        'fecha solicitud credito',
-                        'fecha de apertura',
-                        'pagos totales'
+                        // 'funcionario que gestionó',
+                        // 'fecha solicitud credito',
+                        // 'fecha de apertura',
+                        // 'pagos totales',
+                        // 'total pago por sanciones'
                     ];
 
                     array_push($array_creditos,$header);
 
         
-                    foreach($creditos as $credito){
+                    foreach($creditos as $credito) {
             
-                        $sanciones = 
-                        DB::table('sanciones')
-                            ->where([['credito_id','=',$credito->credito_id],['estado','=','Debe']])
-                            ->count();
-            
-                        if($sanciones > 0 && $sanciones <= 30){
-                            $tipo_moroso = 'Morosos ideales';
-                        }
-                        elseif($sanciones > 30 && $sanciones <= 90){
-                            $tipo_moroso = 'Morosos alerta';
-                        }
-                        elseif($sanciones > 90){
-                            $tipo_moroso = 'Morosos crìticos';
-                        }
-                        else{
-                            $tipo_moroso = 'No moroso';
-                        }
-
-                        $ultima_llamada = 
-                        DB::table('llamadas')
-                            ->join('users','llamadas.user_create_id','=','users.id')
-                            ->where('llamadas.credito_id',$credito->credito_id)
-                            ->select(
-                                'llamadas.agenda as agenda',
-                                'llamadas.observaciones as observaciones',
-                                'llamadas.created_at as created_at',
-                                'users.name'
-                            )
-                            ->orderBy('llamadas.created_at','desc')
-                            ->first();
-  
-                        // si el credito tiene llamadas
-
-                        if($ultima_llamada){
-                            $agenda        = $ultima_llamada->agenda;
-                            $observaciones = $ultima_llamada->observaciones;
-                            $funcionario   = $ultima_llamada->name;
-                            $fecha_llamada = $ultima_llamada->created_at;
-                        }
-                        // si el credito no tiene llamadas
-                        else{
-                            $agenda        = '';
-                            $observaciones = '';
-                            $funcionario   = '';
-                            $fecha_llamada = '';
-                        }
-        
                         $temp = [
-                            'cartera'       => $credito->cartera,
-                            'credito_id'    => $credito->credito_id,
-                            'producto'      => $credito->producto,
-                            'vence soat'    => $credito->soat,
-                            'municipio'     => $credito->municipio,
-                            'departamento'  => $credito->departamento,
-                            'estado'        => $credito->estado,
-                            'valor_financiar'=> $credito->valor_financiar,
-                            'saldo'             => $credito->saldo,
-                            'cuotas pactadas'   => $credito->cuotas_pactadas,
-                            'cuotas faltantes'  => $credito->cuotas_faltantes,
-                            'cuotas pagadas (pactadas - faltantes)'  => $credito->cuotas_pactadas - $credito->cuotas_faltantes,
-                            'sanciones'         => $sanciones,
-                            'tipo_moroso'       => $tipo_moroso,
-                            'castigada'         => $credito->castigada,
-                            'refinanciado'      => $credito->refinanciado,
-                            'padre'             => $credito->credito_refinanciado_id,
-                            'cliente'           => $credito->cliente,
-                            'doc'               => $credito->doc,
-                            'fecha_pago'        => $credito->fecha_pago,
-                            'agenda'            => $agenda,
-                            'observaciones'     => $observaciones,
-                            'funcionario'       => $funcionario,
-                            'fecha_llamada'     => $fecha_llamada,        
-                            'funcionario_gestion'=> $credito->funcionario,
-                            'fecha_solicitud'   => $credito->fecha_solicitud,
-                            'fecha_aprobacion'  => $credito->aprobacion_credito,
-                            'pagos totales'     => sum_pagos_por_id($credito->credito_id),
-                            'pagos sanciones'   => sanciones_pagadas($credito->credito_id)
+                            'cartera'           =>  $credito->precredito->cartera->nombre,
+                            'credito_id'        =>  $credito->id,
+                            // 'producto'          =>  $credito->precredito->producto->nombre,
+                            // 'vence soat'        =>  $credito->precredito->vence_soat,
+                            'municipio'         =>  $credito->precredito->user_create->punto->municipio->nombre,
+                            'departamento'      =>  $credito->precredito->user_create->punto->municipio->departamento,
+                            'estado'            =>  $credito->estado,
+                            // 'valor_financiar'   =>  $credito->vlr_financiar,
+                            // 'saldo'             =>  $credito->saldo,
+                            // 'cuotas pactadas'   =>  $credito->precredito->cuotas,
+                            // 'cuotas faltantes'  =>  $credito->cuotas_faltantes,
+                            // 'cuotas pagadas (pactadas - faltantes)'  => $credito->precredito->cuotas - $credito->cuotas_faltantes,
+                            'sanciones'         =>  $credito->sanciones_debe,
+                            'tipo_moroso'       =>  $this->tipoMorosoTr($credito),
+                            // 'castigada'         =>  $credito->castigada,
+                            // 'refinanciado'      =>  $credito->refinanciacion,
+                            // 'padre'             =>  $credito->credito_refinanciado_id,
+                            // 'cliente'           =>  $credito->precredito->cliente->nombre,
+                            'doc'               =>  $credito->precredito->cliente->num_doc,
+                            // 'movil'             =>  $credito->precredito->cliente->movil,
+                            // 'fijo'              =>  $credito->precredito->cliente->fijo,
+                            'fecha_pago'        =>  $credito->fecha_pago->fecha_pago,
+                            'agenda'            =>  ($credito->last_llamada) ? $credito->last_llamada->agenda : '',
+                            // 'observaciones'     =>  ($credito->last_llamada) ? $credito->last_llamada->observaciones : '',
+                            'funcionario'       =>  ($credito->last_llamada) ? $credito->last_llamada->user_create->name : '',
+                            'fecha_llamada'     =>  ($credito->last_llamada) ? $credito->last_llamada->created_at->format('d-m-Y') : '',
+                            // 'funcionario_gestion'=> $credito->precredito->funcionario->nombre,
+                            // 'fecha_solicitud'   =>  $credito->precredito->fecha,
+                            // 'fecha_aprobacion'  =>  $credito->created_at->format('d-m-Y'),
+                            // 'pagos totales'     =>  $this->totalPagosTr($credito),
+                            // 'pagos sanciones'   =>  $credito->sanciones_ok,
                             ];
 
-    
                     array_push($array_creditos,$temp);
                     }
+
+                    //dd($array_creditos);
+     
                 $sheet->fromArray($array_creditos,null,'A1',false,false);
                 });
             })->download('xls');

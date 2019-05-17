@@ -19,21 +19,20 @@ function financiero($f_ini, $f_fin)
       $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
 
 
-      $vlr_fin_total 					          = 0; //sumatoria del valor a financiar 
-      $vlr_a_recaudar 					        = 0; //sumatoria del valor total del crédito (incluye intereses)
-      $vlr_recaudado_en_cuotas 			    = 0; //sumatoria del recaudo en cuotas (incluye refinanciados)
+      $vlr_fin_total 					  = 0; //sumatoria del valor a financiar 
+      $vlr_a_recaudar 					  = 0; //sumatoria del valor total del crédito (incluye intereses)
+      $vlr_recaudado_en_cuotas 			  = 0; //sumatoria del recaudo en cuotas (incluye refinanciados)
       $vlr_recaudado_en_sanciones 		  = 0; //sumatorio del recaudo por sanciones (incluye refinanciados)
-      $vlr_recaudado_prejuridico 		    = 0; //sumatorio del recaudo prejuridico (incluye refinanciados)
-      $vlr_recaudado_juridico 			    = 0; //sumatorio del recaudo juridico (incluye refinanciados)
+      $vlr_recaudado_prejuridico 		  = 0; //sumatorio del recaudo prejuridico (incluye refinanciados)
+      $vlr_recaudado_juridico 			  = 0; //sumatorio del recaudo juridico (incluye refinanciados)
       $creditos_ideales             	  = 0; //cantidad de créditos que su recaudo en cuotas es >= al valor a financiar
-
       $creditos_0_1_pago            	  = 0; //cantidad de créditos que su recaudo en cuotas es >= al 20 % del valor del credito
       $creditos_promedio            	  = 0; //cantidad de créditos que su recaudo en cuotas es > al 20 % del valor del credito y < que el 100 % del valor a financiar
       $pago_menos_costo             	  = 0; //resta del valor recaudado en cuotas de todos los creditos y el valor total a financiar de los creditos
       $porcien_0_1_pago             	  = 0; //porcentaje de creditos 0 – 1 pago
       $porcien_ideales              	  = 0; //porcentaje de creditos que han cubierto el 100% del valor a financiar (el valor se cubre con el total de pagos por cuota)
-      $porcien_promedio    				      = 0; //porcentaje de creditos que deben entre el 20% del valor a financiar y el 100%
-      $ingreso_esperado    				      = 0; //valor total que se espera como ganancia de la colocación
+      $porcien_promedio					  = 0; //porcentaje de creditos que deben entre el 20% del valor a financiar y el 100%
+      $ingreso_esperado    				  = 0; //valor total que se espera como ganancia de la colocación
       $total_ingresos_adicionales   	  = 0; //total del recaudo por otros conceptos  (sanciones, prejuridico, juridico)
       $total_debe_vlr_fin_creditos_ideales 	 = 0; // vlr a fianciar que se debe = 0
       $total_debe_vlr_fin_creditos_0_1_pago  = 0; // sumatoria de lo que adeudan los creditos 0-1 pago (ver definicion $creditos_0_1_pago), total del valor a financiar – total de lo que se ha pagado por cuotas
@@ -58,8 +57,8 @@ function financiero($f_ini, $f_fin)
       }
 
       $total_listados = [
-  			'vlr_a_recaudar' 			      => 0,
-  			'vlr_financiado' 			      => 0,
+  			'vlr_a_recaudar' 			=> 0,
+  			'vlr_financiado' 			=> 0,
   			'vlr_recaudado_en_cuotas' 	=> 0,
   			'vlr_recaudado_prejuridico' => 0,
   			'vlr_recaudado_juridico'    => 0,
@@ -76,12 +75,12 @@ function financiero($f_ini, $f_fin)
 
       	$pagos_credito = total_pagos_credito($credito);
 
-    		$vlr_recaudado_en_cuotas 			+= $pagos_credito['total_pagos_credito'];
+    		$vlr_recaudado_en_cuotas 	  += $pagos_credito['total_pagos_credito'];
     		$vlr_recaudado_prejuridico    += $pagos_credito['total_pagos_prejuridico_credito'];
     		$vlr_recaudado_juridico       += $pagos_credito['total_pagos_juridico_credito'];
     		$vlr_recaudado_en_sanciones   += $pagos_credito['total_pagos_sanciones_credito'];      	  
 
-      //FALTA TIPIFICAR
+        //FALTA TIPIFICAR
   		//CREDITOS IDEALES
 
         //TIPOS DE CREDITO
@@ -100,25 +99,25 @@ function financiero($f_ini, $f_fin)
 
 
     		$temp = [
-    			'id' 						            => $credito->id,
-    			'cliente' 					        => $credito->precredito->cliente->nombre,
-    			'documento' 				        => $credito->precredito->cliente->num_doc,
-    			'cuotas'					          => $credito->precredito->cuotas,
-    			'vlr_a_recaudar' 			      => $credito->valor_credito,
-    			'vlr_financiado' 			      => $credito->precredito->vlr_fin,
+    			'id' 						=> $credito->id,
+    			'cliente' 					=> $credito->precredito->cliente->nombre,
+    			'documento' 				=> $credito->precredito->cliente->num_doc,
+    			'cuotas'					=> $credito->precredito->cuotas,
+    			'vlr_a_recaudar' 			=> $credito->valor_credito,
+    			'vlr_financiado' 			=> $credito->precredito->vlr_fin,
     			'vlr_recaudado_en_cuotas' 	=> $pagos_credito['total_pagos_credito'],
     			'vlr_recaudado_prejuridico' => $pagos_credito['total_pagos_prejuridico_credito'],
     			'vlr_recaudado_juridico'    => $pagos_credito['total_pagos_juridico_credito'],
     			'vlr_recaudado_en_sanciones'=> $pagos_credito['total_pagos_sanciones_credito'],
-    			'created_at'				        => $credito->created_at 
+    			'created_at'				=> $credito->created_at 
     		];
 
      
-    		$total_listados['vlr_a_recaudar']				     +=  $credito->valor_credito;
-    		$total_listados['vlr_financiado']				     +=  $credito->precredito->vlr_fin;
+    		$total_listados['vlr_a_recaudar']			 +=  $credito->valor_credito;
+    		$total_listados['vlr_financiado']			 +=  $credito->precredito->vlr_fin;
     		$total_listados['vlr_recaudado_en_cuotas']	 +=  $pagos_credito['total_pagos_credito'];
     		$total_listados['vlr_recaudado_prejuridico'] +=  $pagos_credito['total_pagos_prejuridico_credito'];
-    		$total_listados['vlr_recaudado_juridico']		 +=  $pagos_credito['total_pagos_juridico_credito'];
+    		$total_listados['vlr_recaudado_juridico']	 +=  $pagos_credito['total_pagos_juridico_credito'];
     		$total_listados['vlr_recaudado_en_sanciones']+=  $pagos_credito['total_pagos_sanciones_credito'];
 
       	array_push($data_creditos,$temp);
@@ -129,9 +128,9 @@ function financiero($f_ini, $f_fin)
 
   	  $porcien_0_1_pago             = ($creditos_0_1_pago * 100 / $num_creditos);
       $porcien_ideales              = ($creditos_ideales  * 100 / $num_creditos);
-      $porcien_promedio    			    = ($creditos_promedio * 100 / $num_creditos);
+      $porcien_promedio    			= ($creditos_promedio * 100 / $num_creditos);
 
-      $ingreso_esperado				      = $vlr_a_recaudar - $vlr_fin_total;
+      $ingreso_esperado				= $vlr_a_recaudar - $vlr_fin_total;
       $total_ingresos_adicionales   = $vlr_recaudado_en_sanciones + $vlr_recaudado_prejuridico + $vlr_recaudado_juridico;
 
       $total_costo_cartera          = $total_debe_vlr_fin_creditos_0_1_pago + $total_debe_vlr_fin_creditos_promedio;
@@ -139,28 +138,28 @@ function financiero($f_ini, $f_fin)
       $saldo_menos_cartera          = $total_saldo - $total_costo_cartera;
 
       $data = [
-      	'num_creditos'				                   => $num_creditos,
-      	'vlr_fin_total' 			                   => $vlr_fin_total,
-      	'vlr_a_recaudar'			                   => $vlr_a_recaudar,
-      	'ingreso_esperado'			                 => $ingreso_esperado,
+      	'num_creditos'				             => $num_creditos,
+      	'vlr_fin_total' 			             => $vlr_fin_total,
+      	'vlr_a_recaudar'			             => $vlr_a_recaudar,
+      	'ingreso_esperado'			             => $ingreso_esperado,
       	'vlr_recaudado_en_cuotas' 	             => $vlr_recaudado_en_cuotas,
       	'vlr_recaudado_en_sanciones'             => $vlr_recaudado_en_sanciones,
       	'vlr_recaudado_prejuridico'              => $vlr_recaudado_prejuridico,
       	'vlr_recaudado_juridico'                 => $vlr_recaudado_juridico,
-      	'creditos_ideales'   	                   => $creditos_ideales,
-      	'creditos_0_1_pago'			                 => $creditos_0_1_pago,
-      	'creditos_promedio'			                 => $creditos_promedio,
-      	'pago_ideal'      			                 => $pago_menos_costo,
-      	'porcien_0_1_pago'			                 => round($porcien_0_1_pago, 1),
-      	'porcien_promedio'			                 => round($porcien_promedio, 1),
-      	'porcien_ideales'    		                 => round($porcien_ideales, 1),
+      	'creditos_ideales'   	                 => $creditos_ideales,
+      	'creditos_0_1_pago'			             => $creditos_0_1_pago,
+      	'creditos_promedio'			             => $creditos_promedio,
+      	'pago_ideal'      			             => $pago_menos_costo,
+      	'porcien_0_1_pago'			             => round($porcien_0_1_pago, 1),
+      	'porcien_promedio'			             => round($porcien_promedio, 1),
+      	'porcien_ideales'    		             => round($porcien_ideales, 1),
       	'total_ingresos_adicionales'             => $total_ingresos_adicionales,
       	'total_debe_vlr_fin_creditos_ideales'    => 0,
       	'total_debe_vlr_fin_creditos_0_1_pago'   => $total_debe_vlr_fin_creditos_0_1_pago,
       	'total_debe_vlr_fin_creditos_promedio'   => $total_debe_vlr_fin_creditos_promedio,
-      	'total_costo_cartera'		                 => $total_costo_cartera,
+      	'total_costo_cartera'		             => $total_costo_cartera,
       	'total_listados'                         => $total_listados,
-      	'creditos'					                     => $data_creditos,
+      	'creditos'					             => $data_creditos,
         'saldo_menos_cartera'                    => $saldo_menos_cartera
       ];
 
@@ -188,8 +187,8 @@ function total_pagos_credito($credito)
 
 function calculadora_pagos_credito($credito)
 {
-	$total_pagos_credito 				        = 0;
-	$total_pagos_prejuridico_credito	  = 0;
+	$total_pagos_credito 				= 0;
+	$total_pagos_prejuridico_credito	= 0;
 	$total_pagos_juridico_credito       = 0;
 	$total_pagos_sanciones_credito      = 0;
 
@@ -221,8 +220,8 @@ function calculadora_pagos_credito($credito)
   	}
 
   	return [
-  		'total_pagos_credito' 				    => $total_pagos_credito,
-  		'total_pagos_prejuridico_credito'	=> $total_pagos_prejuridico_credito,
+  		'total_pagos_credito' 			  => $total_pagos_credito,
+  		'total_pagos_prejuridico_credito' => $total_pagos_prejuridico_credito,
   		'total_pagos_juridico_credito'    => $total_pagos_juridico_credito,
   		'total_pagos_sanciones_credito'   => $total_pagos_sanciones_credito
   	];
@@ -231,10 +230,10 @@ function calculadora_pagos_credito($credito)
 	function seleccion_datos_credito($credito)
 	{
 		$data = [
-			'id' 		        => $credito->id,
+			'id' 		    => $credito->id,
 			'cliente' 	    => $credito->precredito->cliente->nombre,
 			'documento'     => $credito->precredito->cliente->num_doc,
-			'cuotas'	      => $credito->precredito->cuotas,
+			'cuotas'	    => $credito->precredito->cuotas,
 			'vlr_financiado'=> $credito->valor_credito,
 			'vlr_a_recaudar'=> $credito->precredito->vlr_fin
 		];

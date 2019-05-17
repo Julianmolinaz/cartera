@@ -97,19 +97,21 @@ trait FacturaTrait
 						<img src="{{ asset(\'images/gora_logo_mini.png\') }}">
 						<h3 style="margin-top: -5px;">'. $variable->razon_social .'</h3>
 						<p>Nit: '. $variable->nit .'</p>
+						<p>Sucursal: '.$factura->user_create->punto->nombre.'
 						<p>Dir: '.$factura->user_create->punto->direccion.'</p>
-						<p>Tel: '. $variable->telefono_1 .'</p>
+						<p>Tel: '. $factura->user_create->punto->telefono .'</p>
 					</div>
 					<div id="datos_cliente" class="contenido">
 						<br>
 						<p>Fecha: '. $now->format('d-m-Y H:i') .'</p>
-						<p id="asesor">Asesor: '. $factura->user_create->name .'</p>
+						<p id="asesor">Asesor: '. ucwords(strtolower($factura->user_create->name)) .'</p>
 						<p id="cliente">Cliente: '. $factura->credito->precredito->cliente->nombre .'</p>
 						<p>Doc: '. $factura->credito->precredito->cliente->num_doc .'</p>
 					</div>	
 					<br>
 					<div id="factura" class="contenido">
-						<h4>Factura # '. $factura->num_fact .'-'. $factura->credito->id .'</h4><br>
+						<h4>Factura # '. $factura->num_fact .'<br>
+						Crédito: '. $factura->credito->id .'</h4><br>
 						PAGOS:<br>'.
 						$str_pagos.
 						'<br>

@@ -22,6 +22,11 @@ class PrecreditoController extends Controller
 
     use MensajeTrait;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $precreditos = 
@@ -266,7 +271,7 @@ class PrecreditoController extends Controller
         else{
             $hijo = null;
         }
-        
+
         return view('start.precreditos.show')
             ->with('precredito',$precredito)
             ->with('juridico',$pago_juridico)

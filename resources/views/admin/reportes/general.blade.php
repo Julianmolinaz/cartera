@@ -15,7 +15,7 @@
          <table id="datatable" class="table table-striped table-bordered" style="font-size:12px">
           <thead>
             <tr style="background-color:#FFC300;">
-              <th>  <small>Credito Id</small></th>
+              <th>  <small>Obligación Id</small></th>
               <th>  Cliente       </th>
               <th>  Documento     </th>
               <th>  Tipo de Pago  </th>
@@ -142,24 +142,24 @@
           @endforeach 
           @foreach($estudios as $estudio)
             <tr>
-              <td> {{ $estudio['credito_id']    }} </td>
-              <td> {{ $estudio['cliente']       }}</td>
-              <td> {{ $estudio['documento']     }}</td>
+              <td> {{ $estudio->precredito_id   }} </td>
+              <td> {{ $estudio->cliente       }}</td>
+              <td> {{ $estudio->documento     }}</td>
               <td> </td><td></td><td></td><td></td><td></td><td></td>  
-              <td> {{ number_format($estudio['valor_estudio'],0,",",".") }}</td>
+              <td> {{ number_format($estudio->subtotal,0,",",".") }}</td>
               <td>                                </td>
               <td>                           </td> 
               <td>                           </td>
-              <td> {{ $estudio['factura']       }} </td>
-              <td> {{ $estudio['fecha']         }}</td>            
-              <td> {{ $estudio['cartera']       }}</td>
-              <td> {{ $estudio['created_at']}}</td>
+              <td> {{ $estudio->factura     }} </td>
+              <td> {{ $estudio->fecha       }}</td>            
+              <td> {{ $estudio->cartera     }}</td>
+              <td> {{ $estudio->created_at  }}</td>
             </tr>
           @endforeach   
 
           @foreach($iniciales as $inicial)
             <tr>
-              <td> {{ $inicial->credito_id   }} </td>
+              <td> {{ $inicial->precredito_id   }} </td>
               <td> {{ $inicial->cliente}}       </td>
               <td> {{ $inicial->documento}}     </td>
               <td></td>
@@ -169,7 +169,7 @@
               <td></td>
               <td></td>  
               <td></td>
-              <td> {{ number_format($inicial->cta_inicial,0,",",".")}} </td>
+              <td> {{ number_format($inicial->subtotal,0,",",".")}} </td>
               <td></td> 
               <td></td>
               <td> {{ $inicial->factura}}</td>

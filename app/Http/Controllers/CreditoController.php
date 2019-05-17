@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Repositories\CreditoRepository;
-
+use App\Http\Requests;
 use App\Traits\MensajeTrait;
 use App\Precredito;
 use App\FechaCobro;
@@ -29,6 +28,8 @@ class CreditoController extends Controller
 
     public function __construct(CreditoRepository $creditos){
       $this->creditos = $creditos;
+      $this->middleware('auth');
+
     }
 
     /*
@@ -172,6 +173,21 @@ class CreditoController extends Controller
     {
        $precredito = Precredito::find($id);
 
+       //validacion del pago de estudio de crédito
+
+       if (! $this->validar_pagos_por_estudio($precredito)) {
+          flash()->error('Se requiere el pago del estudio de crédito !');
+          return redirect()->route('start.precreditos.ver',$precredito->id);
+       }
+
+       // validacion del pago por cuota inicial
+
+       if (! $this->validar_pago_por_inicial($precredito)) {
+          flash()->error('Se requiere el pago completo de la cuota inicial !');
+          return redirect()->route('start.precreditos.ver',$precredito->id);
+       }
+
+
        //valida que no existan creditos vigentes o que la solicitud actual no este aprobada
 
        if($precredito->credito){
@@ -211,11 +227,24 @@ class CreditoController extends Controller
 
              // se genera la fecha limite del primer pago del crédito.
 
-             $fecha_pago = calcularFecha($credito->precredito->fecha,$credito->precredito->periodo, 1, $credito->precredito->p_fecha, $credito->precredito->s_fecha, true);
+             $fecha_pago = calcularFecha($credito->precredito->fecha,$credito->precredito->periodo, 
+                                         1, 
+                                         $credito->precredito->p_fecha, 
+                                         $credito->precredito->s_fecha, 
+                                         true);
 
+	     $ini = new Carbon($fecha_pago['fecha_ini']);
+             $hoy = Carbon::now();
+
+             if($ini->diffInDays($hoy) > 7) {
+               $fecha = $ini->format('Y-m-d');
+             } else {
+               $fecha = inv_fech($fecha_pago['fecha_fin']);
+             }
+ 
              $obj = new FechaCobro();
              $obj->credito_id = $credito->id;
-             $obj->fecha_pago = inv_fech($fecha_pago['fecha_ini']);
+             $obj->fecha_pago = $fecha;
              $obj->save();
 
              DB::commit();
@@ -230,10 +259,60 @@ class CreditoController extends Controller
             flash()->error('Ocurrió un error');
             return redirect()->route('start.precreditos.ver',$precredito->id);
           }
-
         }
-
     }
+
+    protected function validar_pagos_por_estudio($precredito)
+    {
+      $estudio = $precredito->estudio;
+
+      if($estudio === 'Sin estudio') {
+        return true;
+      } 
+      elseif ($estudio === 'Domicilio') {
+        return $this->validar_existencia_de_pago($precredito, 'Estudio domicilio');
+      }
+      elseif ($estudio === 'Tipico') {
+        return $this->validar_existencia_de_pago($precredito, 'Estudio tipico');
+      }
+
+    }//.if
+
+    public function validar_existencia_de_pago($precredito,$estudio)
+    {
+      $respuesta = false;
+
+      foreach($precredito->pagos as $pago) {
+        if ($pago->concepto->nombre === $estudio) {
+          $respuesta = true;
+        }
+      }
+
+      return $respuesta;
+    }
+
+    protected function validar_pago_por_inicial($precredito)
+    {
+      $respuesta = false; 
+      $sum_inicial= 0;
+      if( $precredito->cuota_inicial > 0 ) {
+        foreach($precredito->pagos as $pago) {
+          if ( ($pago->concepto->nombre === 'Cuota inicial') ) { 
+              
+            $sum_inicial += $pago->subtotal;
+
+            if ($sum_inicial == $precredito->cuota_inicial) {
+              $respuesta = true;
+            }
+          }
+        }
+      } 
+      else {
+        $respuesta = true;
+      }
+      return $respuesta;
+      
+    }//.if
 
     public function store(Request $request){}
     public function show($id){}

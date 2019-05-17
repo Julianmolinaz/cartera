@@ -13,7 +13,7 @@ class Cliente extends Model implements Auditable
 
     protected $fillable = [
         'nombre','primer_nombre','segundo_nombre','primer_apellido',
-        'segundo_apellido','tipo_docc','num_doc','fecha_nacimiento',
+        'segundo_apellido','tipo_doc','num_doc','fecha_nacimiento',
         'direccion','barrio','municipio_id', 'movil','fijo','ocupacion',
         'tipo_actividad','empresa','placa','email','codeudor_id', 
         'user_create_id','user_update_id','calificacion', 
@@ -98,6 +98,10 @@ class Cliente extends Model implements Auditable
 
     public function conyuge(){
         return $this->hasOne('App\Conyuge','id','conyuge_id');
+    }
+
+    public function documentos(){
+        return $this->hasMany('App\Documento','cliente_id','id');
     }
 
     protected $auditExclude = [

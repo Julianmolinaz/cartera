@@ -23,6 +23,11 @@ class FacturaController extends Controller
 {
     use FacturaTrait;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -61,7 +66,9 @@ class FacturaController extends Controller
     {
       $hoy      = Carbon::today();
       $credito  = Credito::find($id);
+      $updated_at = new Carbon($credito->updated_at);
       $punto    = Punto::find(Auth::user()->punto_id);
+      $bancos   = getEnumValues('facturas', 'banco');
 
       $sum_sanciones = DB::table('sanciones')
                           ->where([['credito_id','=',$id],['estado','Debe']])
@@ -167,7 +174,8 @@ class FacturaController extends Controller
         ->with('total_parciales',$total_parciales)
         ->with('tipo_pago',$tipo_pago)
         ->with('total_pagos',$total_pagos)
-        ->with('punto',$punto);
+        ->with('punto',$punto)
+        ->with('bancos',$bancos);
     }
 
 
@@ -221,9 +229,9 @@ class FacturaController extends Controller
         else { 
           $date_time = new Carbon($request->fecha);
         
-          //if( !$date_time->equalTo($now) && (Auth::user()->rol != 'Administrador')){
-            //return response()->json(['error' => true, 'mensaje' => '@=) Error en la fecha, debe ser la fecha actual @=(']);
-          //}
+          if( !$date_time->equalTo($now) && (Auth::user()->rol != 'Administrador')){
+            return response()->json(['error' => true, 'mensaje' => '@=) Error en la fecha, debe ser la fecha actual @=(']);
+          }
           $num_fact  = $request->num_fact;
         }
 
@@ -234,6 +242,9 @@ class FacturaController extends Controller
         $factura->credito_id      = $request->credito_id;
         $factura->total           = $request->monto;
         $factura->tipo            = $request->tipo_pago;
+        if($request->tipo_pago == 'Consignacion') {
+          $factura->banco = $request->banco;
+        }
         $factura->user_create_id  = Auth::user()->id;
         $factura->user_update_id  = Auth::user()->id;
         $factura->save();
@@ -381,6 +392,10 @@ class FacturaController extends Controller
               $sancion->pago_id = $pago->id;
               $sancion->estado  = 'Ok';
               $sancion->save();
+
+              $credito->sanciones_debe --;
+              $credito->sanciones_ok ++;
+              $credito->save();
             }  
 
           $credito->saldo = $credito->saldo - $pago->abono;

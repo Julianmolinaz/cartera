@@ -6,8 +6,10 @@ use App\Traits\ReporteTrait;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\VentaController;
+use App\Repositories\EgresosRepository;
 use App\Traits\Financierotrait;
 use App\Traits\EgresoTrait;
+use App\Traits\MorososTrait;
 use App\Http\Requests;
 use App\OtrosPagos;
 use Carbon\Carbon;
@@ -29,9 +31,18 @@ class ReporteController extends Controller
 {
     private $fecha_1;
     private $fecha_2;
+    public $egresos_repo;
+    public $egresos;
     use ReporteTrait;
     use Financierotrait;
     use EgresoTrait;
+    use MorososTrait;
+
+    public function __construct(EgresosRepository $egresos_repo)
+    {
+        $this->middleware('auth');
+        $this->egresos_repo = $egresos_repo;
+    }
 
     public function setFecha1($fecha_1){
         $this->fecha_1 = $fecha_1;
@@ -370,11 +381,18 @@ class ReporteController extends Controller
 
     else if($request->input('tipo_reporte') == 'financiero')
     {
-        $info = $this->financiero($ini, $fin);
+        $sucursales = Punto::orderBy('nombre')->get();
+        $anios = array();
+        $now = Carbon::now();
 
-        return view('admin.reportes.financiero.financiero_operativo')
-            ->with('rango',$rango)
-            ->with('info', $info);
+        for ($i=2017; $i <= $now->year ; $i++) { 
+            array_push($anios, $i);
+        }
+
+        return view('admin.reportes.financiero.index')
+            ->with('sucursales',$sucursales)
+            ->with('anios',$anios);
+
     }
 
     //EGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOS
@@ -382,10 +400,46 @@ class ReporteController extends Controller
 
     else if($request->input('tipo_reporte') == 'egresos' )
     {
-        return $this->get_egresos($ini, $fin);
+        return $this->getEgresosEt($ini, $fin);
     }
+
+    /**
+     * Reporte Caja
+     */
+
+     else if($request->input('tipo_reporte') == 'caja')
+     {
+         return view('admin.reportes.caja.index');
+     }
+
+     else if( $request->input('tipo_reporte') == 'morosos')
+     {
+        $now            = Carbon::now();
+        $fecha          = $now->toDateTimeString();
+
+        Excel::create('morosos'.$fecha,function($excel){
+            $excel->sheet('Sheetname',function($sheet){
+                $morosos =  $this->get_morosos();
+                $sheet->fromArray($morosos,null,'A1',false,false);
+            });
+        })->download('xls');
+     }
+
+     /**
+      * Reporte datacredito asistimotos
+      */
+      else if($request->input('tipo_reporte') == 'data-asis')
+      {
+          return view('admin.reportes.data_asis.index');
+      }
 }
 
+    public function get_cashes_report($date)
+    {
+        $cajas = cajas($date);
+        $res   = ['error' => false, 'dat' => $cajas];
+        return responser()->json($res);
+    }
   
     public function show($id){}
 
@@ -488,7 +542,7 @@ class ReporteController extends Controller
             } //.if
 
             else{
-                flash()->error('No hay creditos que marcar');
+                flash()->error('No hay creditos en el rango');
                 return redirect()->route('admin.reportes.index');
             }
 
@@ -502,118 +556,5 @@ class ReporteController extends Controller
         
     }//.marcar_cancelados
 
-
-    public function financiero_sucursales($ini, $fin)
-    {
-        $sucursales = Punto::all();
-        $ini     = Carbon::create(ano($ini),mes($ini),dia($ini),00,00,00);
-        $fin     = Carbon::create(ano($fin),mes($fin),dia($fin),23,59,59);
-        $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
-        $array = [];
-        
-        foreach ($sucursales as $sucursal) 
-        {
-            $resp = $this->financiero_por_sucursales($ini, $fin, $sucursal->id);
-
-            if( $resp == "0 creditos"){}
-            else{
-
-                $financiero_sucursal = $resp;
-                $num_creditos        = $financiero_sucursal['num_creditos'];
-
-                $temp =  [ 
-                           'info'           => $financiero_sucursal,
-                           'num_creditos'   => $num_creditos, 
-                           'sucursal'       => $sucursal 
-                       ];
-                array_push($array, $temp);
-            }
-        }   
-
-        $array = collect($array)->sortByDesc('num_creditos');
-
-        return view('admin.reportes.financiero.sucursales.index')
-            ->with('sucursales', $array)
-            ->with('rango',$rango);
-    }
-
-
-    public function tipo_creditos_sucursal_anual($fecha)
-    {
-        $year       = substr($fecha, 6); // se extrae el año de a fecha
-        $quarts     = $this->quarts($year);
-        $sucursales = Punto::all();
-        $trimestres = [];
-
-        foreach($quarts as $quart)
-        {
-            $array = [];
-            $total_creditos = 0;
-
-            $empresa = $this->financiero($quart['ini'],$quart['fin']);
-
-            foreach ($sucursales as $sucursal) 
-            {
-                $res = $this->financiero_por_sucursales($quart['ini'], $quart['fin'], $sucursal->id);
-
-                if($res == "0 creditos"){}
-                else{
-                    $financiero_sucursal = $res;
-                    $num_creditos        = $financiero_sucursal['num_creditos'];
-                    $total_creditos      += $num_creditos;
-
-                    $temp =  [ 
-                               'info'           => $financiero_sucursal,
-                               'num_creditos'   => $num_creditos, 
-                               'sucursal'       => $sucursal 
-                           ];
-                    array_push($array, $temp);
-                }
-            }
-
-            $array = collect($array)->sortByDesc('num_creditos');
-            array_push($trimestres, 
-                [ 'data'            => $array, //info financiero de las sucursales
-                  'total_creditos'  => $total_creditos,
-                  'empresa'         => $empresa
-                ]);   
-            
-        }
-
-        return view('admin.reportes.financiero.sucursales.comparativa_tipos')
-            ->with('quarts',$trimestres)
-            ->with('year',$year);
-
-
-    }
-
-    public function financiero_comparativo($year)
-    {
-
-        $quarts     = $this->quarts($year);
-        $sucursales = Punto::all();
-        $array_sucur_finan = ['q1' => [],'q2' => [], 'q3' => [],'q4' => []];
-
-
-        foreach($quarts as $key => $quart){
-            $num_indice = $key+1;
-            $indice = 'q'.$num_indice;
-
-            foreach($sucursales as $sucursal){
-                $temp = ['sucursal' => $sucursal, 
-                'info' => $this->financiero_por_sucursales($quart['ini'], 
-                                                           $quart['fin'], 
-                                                           $sucursal->id)];
-
-                array_push($array_sucur_finan[$indice],$temp);
-            }
-        }
-        //dd($array_sucur_finan['q1']);
-        return view('admin.reportes.financiero.sucursales.comparativa_financiero_general')
-            ->with('year',$year)
-            ->with('quarts',$array_sucur_finan);
-
-
-    }
     
 }

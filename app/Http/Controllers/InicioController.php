@@ -70,12 +70,43 @@ class InicioController extends Controller
             if(count($facturas) > 0){
                 foreach($facturas as $factura){
                     //$factura       = Factura::where($factura->id);
-                    $respuesta .= "<p><strong>Factura: </strong>".
+                    $respuesta .= "<p><strong>Factura crédito: </strong>".
                                     "<a href=".route('start.facturas.show',$factura->id)."> Número de factura: ".
                                     $factura->num_fact.", crédito id: ".
                                     $factura->credito_id.", fecha: ".
                                     $factura->fecha." total: ".
                                     $factura->total."</a></p>";
+                }
+            }
+
+            $fact_precreditos   = DB::table('fact_precreditos')
+                                    ->where('num_fact','like','%'.$string.'%')
+                                    ->get();
+
+            if(count($fact_precreditos) > 0){
+                foreach($fact_precreditos as $factura){
+                    $respuesta .= "<p><strong>Factura solicitud: </strong>".
+                                  "<a href=".route('start.precred_pagos.show',$factura->id)."> Número de factura: ".
+                                    $factura->num_fact.", solicitud id: ".
+                                    $factura->precredito_id.", fecha: ".
+                                    $factura->fecha." total: ".
+                                    $factura->total."</a></p>";
+                }
+            }
+
+
+
+            $anuladas  = DB::table('anuladas')
+                        ->where('num_fact','like','%'.$string.'%')
+                        ->get();
+
+            if(count($anuladas) > 0){
+                foreach($anuladas as $anulada){
+                    $respuesta .= "<p><strong>Anulada: </strong>".
+                                    $anulada->num_fact.", crédito id: ".
+                                    $anulada->credito_id.", fecha: ".
+                                    $anulada->created_at." total: ".
+                                    $anulada->total."</p>";
                 }
             }
         }

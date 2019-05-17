@@ -13,6 +13,11 @@ use Auth;
 
 class SancionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -68,6 +73,7 @@ class SancionController extends Controller
                 $nueva_sancion->save();
 
                 $credito->saldo = $credito->saldo + Variable::find(1)->vlr_dia_sancion;
+                $credito->sanciones_debe ++;
                 $credito->user_update_id = Auth::user()->id;
                 $credito->save();
 
@@ -117,6 +123,7 @@ class SancionController extends Controller
                    $nueva_sancion->save();
 
                    $credito->saldo = $credito->saldo + Variable::find(1)->vlr_dia_sancion;
+                   $credito->sanciones_debe ++;
                    $credito->user_update_id = Auth::user()->id;
                    $credito->save();
 
@@ -161,6 +168,8 @@ class SancionController extends Controller
                         $sancion->estado = 'Exonerada';
                         $sancion->save();
                         $credito->saldo = $credito->saldo - $sancion->valor;
+                        $credito->sanciones_exoneradas ++;
+                        $credito->sanciones_debe --;
                         $credito->save();
                         $bandera = 1;
                         $count_exoneradas++;
@@ -175,6 +184,8 @@ class SancionController extends Controller
                     $sancion->estado = 'Debe';
                     $sancion->save();
                     $credito->saldo = $credito->saldo + $sancion->valor;
+                    $credito->sanciones_exoneradas --;
+                    $credito->sanciones_debe ++;
                     $credito->save();
                     $count_debe++;                    
                 }
