@@ -1,15 +1,15 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="margin-bottom: 1px;">
   <div class="">
-    <div role="tab" id="headingThree">
+    <div role="tab" id="headingSeven">
       <p>
         <a role="button" data-toggle="collapse" data-parent="#accordion" 
-        href="#collapseThree" aria-expanded="true" aria-controls="collapseThree" 
+        href="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven" 
         style="font-size:12px;color:black;" class="btn btn-default btn-xs">
           Ver
         </a>
       </p>
     </div>
-    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+    <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
       <div class="panel-body" style="padding:0px;" >
 
             <p>

@@ -163,7 +163,7 @@ class EgresoController extends Controller
     {
         $rules_egreso = array(
             'fecha'                 => 'required',
-            'comprobante_egreso'    => 'required|unique:egresos,'.'id',
+            'comprobante_egreso'    => "required|unique:egresos,comprobante_egreso,$id,id",
             'cartera_id'               => 'required',
             'concepto'              => 'required',
             'valor'                 => 'required|numeric',

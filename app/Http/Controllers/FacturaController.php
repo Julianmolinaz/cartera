@@ -567,7 +567,7 @@ class FacturaController extends Controller
           $factura->save();
         }  
 
-        if($credito->cuotas_faltantes == 0 && $credito->saldo == 0){
+        if($credito->cuotas_faltantes == 0 && $credito->saldo <= 0){
           $credito->estado = 'Cancelado';
           $credito->save();
         }
