@@ -246,7 +246,8 @@ Route::get('call/{id}/index_unique',[
 	'as'	=> 'call.index_unique'
 ]);
 
-Route::get('call/exportar/todo',[
+//EXPORTAR TODOS LOS CREDITOS CALLCENTER
+Route::get('call/exportar/todo/{todos?}',[
 	'uses'	=> 'CallcenterController@ExportarTodo',
 	'as'	=> 'call.exportar.todo'
 	]);

@@ -104,6 +104,9 @@ function Exportar(){
 }
 
 function ExportarTodo(){
+  window.open("{{url('call/exportar/todo/true')}}", '_blank');
+}
+function ExportarTodoPunto(){
   window.open("{{url('call/exportar/todo')}}", '_blank');
 }
 

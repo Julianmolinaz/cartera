@@ -21,6 +21,7 @@ trait ReporteTrait
                array('value' => 'general_por_carteras', 'vista' => 'General por Carteras'),
                array('value' => 'general_por_users', 'vista' => 'General por Funcionarios'), 
                array('value' => 'historial_ventas','vista' => 'Historial venta de creditos'),
+               array('value' => 'informe_cartera','vista' => 'Informe Cartera'),
                array('value' => 'morosos','vista' => 'Morosos'),
                array('value' => 'procredito','vista' => 'Reporte Procredito'),
                array('value' => 'datacredito','vista' => 'Reporte Datacredito'),

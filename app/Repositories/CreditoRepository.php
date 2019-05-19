@@ -97,4 +97,75 @@ class CreditoRepository{
 
     }
 
+    /**
+     * Lista todos los creditos activos
+     */
+
+    public function callActiveAll()
+    {
+        return DB::table('creditos')
+            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id','=','carteras.id')
+            ->join('users','precreditos.funcionario_id','=','users.id')
+            ->join('puntos','users.punto_id','=','puntos.id')
+            ->join('municipios','puntos.municipio_id','=','municipios.id')
+            ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
+            ->join('llamadas','creditos.last_llamada_id','=','llamadas.id')
+            ->join('users as funcionario','llamadas.user_create_id','=','funcionario.id')
+            ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+            ->select(
+                    'carteras.nombre as cartera',
+                    'creditos.id as id',
+                    'municipios.nombre as municipio',
+                    'municipios.departamento as depto',
+                    'creditos.estado as estado',
+                    'creditos.sanciones_debe as sanciones_debe',
+                    'creditos.sanciones_ok as sanciones_ok',
+                    'creditos.sanciones_exoneradas as sanciones_exoneradas',
+                    'clientes.nombre as cliente',
+                    'clientes.num_doc as num_doc',
+                    'fecha_cobros.fecha_pago as fecha_pago',
+                    'llamadas.agenda as agenda',
+                    'funcionario.name as funcionario',
+                    'llamadas.created_at as fecha_llamada',
+                    'users.name as gestion'
+                    )
+            ->get();
+    }
+
+    public function callActivePunto()
+    {
+        return DB::table('creditos')
+            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id','=','carteras.id')
+            ->join('users','precreditos.funcionario_id','=','users.id')
+            ->join('puntos','users.punto_id','=','puntos.id')
+            ->join('municipios','puntos.municipio_id','=','municipios.id')
+            ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
+            ->join('llamadas','creditos.last_llamada_id','=','llamadas.id')
+            ->join('users as funcionario','llamadas.user_create_id','=','funcionario.id')
+            ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+            ->where('puntos.id', Auth::user()->punto_id)
+            ->select(
+                    'carteras.nombre as cartera',
+                    'creditos.id as id',
+                    'municipios.nombre as municipio',
+                    'municipios.departamento as depto',
+                    'creditos.estado as estado',
+                    'creditos.sanciones_debe as sanciones_debe',
+                    'creditos.sanciones_ok as sanciones_ok',
+                    'creditos.sanciones_exoneradas as sanciones_exoneradas',
+                    'clientes.nombre as cliente',
+                    'clientes.num_doc as num_doc',
+                    'fecha_cobros.fecha_pago as fecha_pago',
+                    'llamadas.agenda as agenda',
+                    'funcionario.name as funcionario',
+                    'llamadas.created_at as fecha_llamada',
+                    'users.name as gestion'
+                    )
+            ->get();
+    }
+
 }

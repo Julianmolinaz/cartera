@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Repositories\CreditoRepository;
-use App\Repositories\CallRepository;
 use App\Traits\MorososTrait;
 use App\Traits\PagosTrait;
 use App\CallBusqueda;
@@ -28,11 +27,11 @@ class CallcenterController extends Controller
 
     protected $creditos ;
     protected $call_repo;
+    protected $exp_todos;
 
-    public function __construct (CreditoRepository $creditos, CallRepository $call_repo)
+    public function __construct (CreditoRepository $creditos)
     {
         $this->creditos  = $creditos;
-        $this->call_repo = $call_repo;
         $this->middleware('auth');
     }
 
@@ -394,103 +393,63 @@ class CallcenterController extends Controller
     |
     */  
 
-    public function ExportarTodo()
+    public function ExportarTodo($todos = null)
     {
         try{
+            $this->exp_todos = $todos;
             $now            = Carbon::now();
             $fecha          = $now->toDateTimeString();
-
+            
             Excel::create('CreditosCallCenter'.$fecha,function($excel){
                 $excel->sheet('Sheetname',function($sheet){
 
                     $temp           = array();
                     $array_creditos = array();
 
-                    if(Auth::user()->rol == 'Administrador'){
-                       // $creditos = DB::select('CALL call_todos()');
-                       $creditos = $this->call_repo->callAll();
-
+                    if ($this->exp_todos) {
+                       $creditos = $this->creditos->callActiveAll();
                     } else {
-                        $creditos = DB::select('CALL call_todos_por_punto(?)', [Auth::user()->punto_id]);
+                        $creditos = $this->creditos->callActivePunto();
                     }
 
                     $header = [
                         'cartera',
                         'credito_id',
-                        // 'producto',
-                        // 'vence SOAT',
                         'municipio',
                         'departamento',
                         'estado',
-                        // 'centro de costos',
-                        // 'saldo',
-                        // 'cuotas pactadas',
-                        // 'cuotas faltantes',
-                        // 'cuotas pagadas (pactadas - faltantes)',
                         'sanciones',
                         'tipo moroso',
-                        // 'castigada',
-                        // 'refinanciado',
-                        // 'credito_padre',
-                        // 'cliente',
                         'documento',
-                        // 'celular',
-                        //'fijo',
                         'fecha_pago',
                         'fecha de agenda',
-                        // 'observaciones',
                         'funcionario ultima llamada',
                         'fecha ultima llamada',
-                        // 'funcionario que gestionó',
-                        // 'fecha solicitud credito',
-                        // 'fecha de apertura',
-                        // 'pagos totales',
-                        // 'total pago por sanciones'
+                        'funcionario que gestionó'
                     ];
 
                     array_push($array_creditos,$header);
 
-        
                     foreach($creditos as $credito) {
             
                         $temp = [
-                            'cartera'           =>  $credito->precredito->cartera->nombre,
-                            'credito_id'        =>  $credito->id,
-                            // 'producto'          =>  $credito->precredito->producto->nombre,
-                            // 'vence soat'        =>  $credito->precredito->vence_soat,
-                            'municipio'         =>  $credito->precredito->user_create->punto->municipio->nombre,
-                            'departamento'      =>  $credito->precredito->user_create->punto->municipio->departamento,
-                            'estado'            =>  $credito->estado,
-                            // 'valor_financiar'   =>  $credito->vlr_financiar,
-                            // 'saldo'             =>  $credito->saldo,
-                            // 'cuotas pactadas'   =>  $credito->precredito->cuotas,
-                            // 'cuotas faltantes'  =>  $credito->cuotas_faltantes,
-                            // 'cuotas pagadas (pactadas - faltantes)'  => $credito->precredito->cuotas - $credito->cuotas_faltantes,
-                            'sanciones'         =>  $credito->sanciones_debe,
-                            'tipo_moroso'       =>  $this->tipoMorosoTr($credito),
-                            // 'castigada'         =>  $credito->castigada,
-                            // 'refinanciado'      =>  $credito->refinanciacion,
-                            // 'padre'             =>  $credito->credito_refinanciado_id,
-                            // 'cliente'           =>  $credito->precredito->cliente->nombre,
-                            'doc'               =>  $credito->precredito->cliente->num_doc,
-                            // 'movil'             =>  $credito->precredito->cliente->movil,
-                            // 'fijo'              =>  $credito->precredito->cliente->fijo,
-                            'fecha_pago'        =>  $credito->fecha_pago->fecha_pago,
-                            'agenda'            =>  ($credito->last_llamada) ? $credito->last_llamada->agenda : '',
-                            // 'observaciones'     =>  ($credito->last_llamada) ? $credito->last_llamada->observaciones : '',
-                            'funcionario'       =>  ($credito->last_llamada) ? $credito->last_llamada->user_create->name : '',
-                            'fecha_llamada'     =>  ($credito->last_llamada) ? $credito->last_llamada->created_at->format('d-m-Y') : '',
-                            // 'funcionario_gestion'=> $credito->precredito->funcionario->nombre,
-                            // 'fecha_solicitud'   =>  $credito->precredito->fecha,
-                            // 'fecha_aprobacion'  =>  $credito->created_at->format('d-m-Y'),
-                            // 'pagos totales'     =>  $this->totalPagosTr($credito),
-                            // 'pagos sanciones'   =>  $credito->sanciones_ok,
+                            'cartera'            =>  $credito->cartera,
+                            'credito_id'         =>  $credito->id,
+                            'municipio'          =>  $credito->municipio,
+                            'departamento'       =>  $credito->depto,
+                            'estado'             =>  $credito->estado,                        
+                            'sanciones'          =>  $credito->sanciones_debe,
+                            'tipo_moroso'        =>  $this->tipoMorosoTr($credito),
+                            'doc'                =>  $credito->num_doc,
+                            'fecha_pago'         =>  $credito->fecha_pago,
+                            'agenda'             =>  $credito->agenda,
+                            'funcionario'        =>  $credito->funcionario,
+                            'fecha_llamada'      =>  $credito->fecha_llamada,
+                            'funcionario_gestion'=> $credito->gestion
                             ];
 
                     array_push($array_creditos,$temp);
                     }
-
-                    //dd($array_creditos);
      
                 $sheet->fromArray($array_creditos,null,'A1',false,false);
                 });

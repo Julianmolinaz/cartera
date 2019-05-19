@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\VentaController;
 use App\Repositories\EgresosRepository;
+use App\Traits\InformeCarteraTrait;
 use App\Traits\Financierotrait;
-use App\Traits\EgresoTrait;
 use App\Traits\MorososTrait;
+use App\Traits\EgresoTrait;
 use App\Http\Requests;
 use App\OtrosPagos;
 use Carbon\Carbon;
@@ -37,6 +38,7 @@ class ReporteController extends Controller
     use Financierotrait;
     use EgresoTrait;
     use MorososTrait;
+    use InformeCarteraTrait;
 
     public function __construct(EgresosRepository $egresos_repo)
     {
@@ -431,6 +433,13 @@ class ReporteController extends Controller
       else if($request->input('tipo_reporte') == 'data-asis')
       {
           return view('admin.reportes.data_asis.index');
+      }
+
+      /**
+       *  Informe cartera
+       */
+      else if ($request->input('tipo_reporte') == 'informe_cartera') {
+        $this->informeCarteraTr(); //ver InformeCarteraTrait
       }
 }
 
