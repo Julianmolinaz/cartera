@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Pago;
-use App\Credito;
-use App\Variable;
-use App\Egreso;
-use App\Cartera;
-use DB;
-use Carbon\Carbon;
-use App\Factura;
 use App\OtrosPagos;
-use Auth;
+use Carbon\Carbon;
+use App\Variable;
+use App\Cartera;
+use App\Credito;
+use App\Factura;
 use App\Llamada;
+use App\Egreso;
 use App\User;
+use App\Pago;
+use Auth;
+use DB;
 
 function reporte_general_por_funcionarios( $fecha_1, $fecha_2){
   
@@ -47,8 +47,7 @@ function reporte_general_por_funcionarios( $fecha_1, $fecha_2){
         'carteras.nombre as cartera',
         'puntos.nombre as punto',
         'creditos.id as credito',
-        'facturas.banco as banco'
-        )
+        'facturas.banco as banco')
     ->where([['users.id','<>',1]])
     ->whereBetween('facturas.created_at',[$ini,$fin])
     ->orderBy('users.id')

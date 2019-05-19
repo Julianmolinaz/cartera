@@ -1,7 +1,8 @@
 <script>
 
 /*grafica que muestra la sumatoria de 
-valor a financiar , ingreso esperado,valor a recaudar,recaudo en cuotas, total cartera*/
+valor a financiar , ingreso esperado,valor a recaudar,recaudo en cuotas, total cartera 
+y egresos*/
 
 
 google.charts.load('current', {packages: ['corechart', 'bar']});
@@ -26,17 +27,21 @@ function drawMultSeries() {
           '{{ number_format($info['vlr_a_recaudar'],0, ",",".") }}'
           ],
         [
-          'Recaudo cuotas', {!! $info['vlr_recaudado_en_cuotas'] !!}, 'color: #00a78e',
+          'Rec. cuotas', {!! $info['vlr_recaudado_en_cuotas'] !!}, 'color: #00a78e',
           '{{ number_format( $info['vlr_recaudado_en_cuotas'],0, ",",".") }}'
           ],
         [
-          'Recaudo pendiente', {!! $info['total_pendiente_para_cubrir_vlr_a_recaudar'] !!}, 'color: #00bce4',
+          'Rec. pendiente', {!! $info['total_pendiente_para_cubrir_vlr_a_recaudar'] !!}, 'color: #00bce4',
           '{{ number_format( $info['total_pendiente_para_cubrir_vlr_a_recaudar'],0, ",",".") }}'
           ],
         [
-          'Total cartera', {!! $info['total_costo_cartera'] !!}, 'color: red',
+          'T. cartera', {!! $info['total_costo_cartera'] !!}, 'color: red',
           '{{ number_format( $info['total_costo_cartera'],0, ",",".") }}'
-          ]
+          ],
+        // [
+        //   'T. egresos', {!! $total_egresos !!}, 'color: gray',
+        //   '{{ number_format( $total_egresos,0, ",",".") }}'
+        //   ]
       ]);
 
 

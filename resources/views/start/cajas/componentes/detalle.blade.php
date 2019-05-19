@@ -46,7 +46,8 @@
 			  <div class="panel panel-default">
 			    <div class="panel-heading" role="tab" id="headingTwo">
 			      <h4 class="panel-title">
-			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+			        <a  class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" 
+								  href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 							<i class="fas fa-phone"></i> Llamadas
 			        </a>
 			      </h4>
@@ -202,6 +203,54 @@
 			      </div>
 			    </div>
 			  </div>
+
+
+
+		    <!--PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-->
+			<!--PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-->
+
+
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab" id="headingSeven">
+			      <h4 class="panel-title">
+			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+							<i class="glyphicon glyphicon-compressed"></i> Egresos
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
+			      <div class="panel-body">
+			        
+			       	<table class="table">
+			       		<thead>
+
+							<tr>
+								<th>Comprobante</th>
+								<th>Concepto</th>
+								<th>Valor</th>
+								<th>Tipo de pago</th>
+								<th>Banco</th>
+								<th>Consignación</th>
+								<th>Proveedor</th>
+							</tr>
+			       		</thead>
+			       		<tbody>
+							<tr v-for="egreso in dat.egresos">
+								<td>@{{ egreso.id }}</td>
+								<td>@{{ egreso.concepto }}</td>
+								<td>@{{ egreso.valor }}</td>
+								<td>@{{ egreso.tipo }}</td>
+								<td>@{{ egreso.banco }}</td>
+								<td>@{{ egreso.num_consignacion }}</td>
+								<td>@{{ egreso.proveedor }}</td>
+							</tr>
+			    	</tbody>
+					</table>
+
+			      </div>
+			    </div>
+			  </div>
+
 
 			</div>
 		`,

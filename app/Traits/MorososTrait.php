@@ -63,4 +63,31 @@ trait MorososTrait
 
         return $creditos;
     }
+
+    /** 
+     * recibe un objetotipo credito
+     * calcula segun el numero de sanciones_debe
+     * el tipo de moroso
+     */
+
+
+    function tipoMorosoTr($credito)
+    {
+        $sanciones = $credito->sanciones_debe;
+
+        if ($sanciones > 0 && $sanciones <= 30) {
+            $tipo_moroso = 'Morosos ideales';
+        }
+        elseif ($sanciones > 30 && $sanciones <= 90) {
+            $tipo_moroso = 'Morosos alerta';
+        }
+        elseif ($sanciones > 90) {
+            $tipo_moroso = 'Morosos crìticos';
+        }
+        else {
+            $tipo_moroso = 'No moroso';
+        }
+
+        return $tipo_moroso;
+    }
 }

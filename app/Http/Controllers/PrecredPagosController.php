@@ -12,6 +12,13 @@ use Auth;
 
 class PrecredPagosController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    
     public function show($fact_precredito_id)
     {
         $facturas = Factprecredito::find($fact_precredito_id);

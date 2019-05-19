@@ -114,6 +114,12 @@ $('#tipo_reporte').on('change',function(){
     ocultarCarteras();
     ocultarRange();*/
   }
+  else if( $('#tipo_reporte').val() == 'caja' ){
+    ocultarCarteras();   
+    ocultarRange();      
+    ocultarPeriodo();    
+    ocultarCancelados(); 
+  }
   else{
     ocultarCarteras();
     ocultarPeriodo();
@@ -139,6 +145,7 @@ var mostrarPeriodo    = function(){  $('#periodo').show()   }
 var ocultarPeriodo    = function(){  $('#periodo').hide()   }
 var mostrarCancelados = function(){  $('#btnCancelados').show(); } 
 var ocultarCancelados = function(){  $('#btnCancelados').hide(); } 
+ 
 </script>
 
 

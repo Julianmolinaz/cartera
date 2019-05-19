@@ -28,6 +28,7 @@ class FactPrecreditoController extends Controller
     {
         $this->fact = new Factprecredito();
         $this->now  = Carbon::now();
+        $this->middleware('auth');
     }  
 
     public function invoice_to_print($factura_id)

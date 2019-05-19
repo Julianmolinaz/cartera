@@ -51,4 +51,27 @@ input[type=number] {
     padding:3px;
 }
 
+.progress {
+    width: 100%;
+  }
+
+.tbl_min > td{
+    font-size: 10px;
+    padding:0px 8px !important;
+}
+
+.li_min{
+    padding: 8px 4px;
+    font-size: 10px;
+}
+.badget{
+    font-size: 10px;
+    padding: 2px 7px;
+}
+
+.min{
+    padding-right: 2px;
+    padding-left: 2px;
+}
+
 

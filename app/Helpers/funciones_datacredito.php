@@ -289,14 +289,16 @@ use DB;
 |
 */
 
-function tipo_identificacion_datacredito($tipo_doc, $credito){
+function tipo_identificacion_datacredito($tipo_doc, $credito = null){
 
     if( $tipo_doc == 'Cedula Ciudadanía'                        ||
+        $tipo_doc == 'CC'                                       ||
         $tipo_doc == 'Número único de Identificación Personal'  ||
-        $tipo_doc == 'Tarjeta de Identidad'){   
+        $tipo_doc == 'Tarjeta de Identidad'                     ||
+        $tipo_doc == 'TI'){   
             return 1;   
         }
-    else if( $tipo_doc == 'Nit'  || $tipo_doc =='Rut'){  
+    else if( $tipo_doc == 'Nit'  || $tipo_doc == 'NIT' || $tipo_doc =='Rut'){  
         return 2; }
 
     else if( $tipo_doc == 'Nit de Extranjería'){
@@ -309,7 +311,10 @@ function tipo_identificacion_datacredito($tipo_doc, $credito){
         return 4;
     }
     else{
-        array_push($GLOBALS['errores_datacredito'],'Error en tipo de documento cliente: '.$credito->id);
+        if($credito && $credito->id)
+            array_push($GLOBALS['errores_datacredito'],'Error en tipo de documento cliente: '.$credito->id);
+        else
+        array_push($GLOBALS['errores_datacredito'],'Error en tipo de documento cliente: ');
     }
     
 }
@@ -389,9 +394,11 @@ function fecha_plana_Ymd($obj_date)
 |
 */
 
-
 function cast_number($data, $len, $align)
 {
+    if($data == 'NULL'){
+        $data = '';
+    }
     if($align == 'right'){
         while(strlen($data) < $len){
             $data = '0'.$data;
@@ -421,6 +428,9 @@ function cast_number($data, $len, $align)
 */
 function cast_string($string, $len)
 {
+    if($string === 'NULL'){
+        $string = '';
+    } 
     while(strlen($string) < $len){
         $string = $string.' ';
     }
@@ -484,14 +494,14 @@ function vence_credito($credito)
 | 4-reestructuración / refinanciación
 |
 */
-function forma_pago($credito){
+function forma_pago($estado){
 
     $forma_pago = '';
 
-    if( $credito->estado == 'Cancelado' ){
+    if( $estado == 'Cancelado'|| $estado  == 'Finalizado' ){
         $forma_pago = '1';
     }
-    else if ( $credito->estado == 'Cancelado por refinanciacion' ){
+    else if ( $estado == 'Cancelado por refinanciacion' ){
         $forma_pago = '4';
     }
     else{

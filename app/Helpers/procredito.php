@@ -53,6 +53,8 @@ function reporte_procredito(){
 
         for($i = 0; $i < count($ids); $i++ ){
 
+            set_time_limit(0);
+            
             $credito = Credito::find($ids[$i]->id);
             if( $credito->estado == 'Cancelado' ||  $credito->saldo == 0){
                 DB::table('cancelados')->insert(

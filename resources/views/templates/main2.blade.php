@@ -23,7 +23,7 @@
     <!-- VUE -->
 
     <script src="{{asset('js/vue.min.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+    
 
     <!-- font awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>

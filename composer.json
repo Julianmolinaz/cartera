@@ -30,7 +30,7 @@
             "database",
             "app/Helpers",
             "app/Console/Commands"
-                    ],
+        ],
         "psr-4": {
             "App\\": "app/"
         },

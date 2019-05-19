@@ -14,6 +14,10 @@ class DocumentoController extends Controller
 {
     use DocumentoTrait;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function set_documento(Request $request, $objeto_relacionado)
     {
@@ -46,9 +50,11 @@ class DocumentoController extends Controller
             $nombre  = $doc->nombre;
             $ruta    = $doc->ruta;
             $doc->delete();
-            $ruta    = storage_path().'/app/doc_clientes/'.$ruta;
-
-            unlink($ruta);
+            
+            // elimina archivo
+            
+            //$ruta    = storage_path().'/app/doc_clientes/'.$ruta;
+            //unlink($ruta);
             
             flash()->success("El documento $nombre se eliminó Exitosamente!");
             return redirect()->route('start.clientes.show', $cliente->id);

@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Repositories\CreditoRepository;
-
+use App\Http\Requests;
 use App\Traits\MensajeTrait;
 use App\Precredito;
 use App\FechaCobro;
@@ -29,6 +28,8 @@ class CreditoController extends Controller
 
     public function __construct(CreditoRepository $creditos){
       $this->creditos = $creditos;
+      $this->middleware('auth');
+
     }
 
     /*

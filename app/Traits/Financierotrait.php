@@ -1,14 +1,43 @@
 <?php
 namespace App\Traits;
 
-use App\Helpers;
+use App\Repositories\EgresosRepository;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Helpers;
 use App\Credito;
 use DB;
 
 trait Financierotrait
 {
+
+  function financiero_sucursal($ini,$fin, $sucursal_id)
+  {
+      $creditos = DB::table('creditos')
+        ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+        ->join('users','precreditos.user_create_id','=','users.id')
+        ->where('users.punto_id',$sucursal_id)
+        ->whereBetween('precreditos.created_at',[$ini,$fin])
+        ->select('creditos.id as id')
+        ->get();
+
+      $ids = array_pluck($creditos, 'id');
+
+      $creditos = Credito::find($ids);
+         
+      // EGRESOS
+
+      $total_egresos  = $this->egresos_repo->get_egresos_punto($ini, $fin, $sucursal_id);
+  
+      $info = $this->reporte_financiero($creditos);
+
+      return array(
+        'total_egresos'         => $total_egresos, 
+        'egresos_por_concepto'  => 
+            $this->egresos_repo->get_egresos_sucursal_por_conceptos($ini,$fin,$sucursal_id),
+        'info' => $info
+      );
+  }
 
   /*
   |--------------------------------------------------------------------------
@@ -26,8 +55,18 @@ trait Financierotrait
         where('credito_refinanciado_id',null)
         ->whereBetween('created_at',[$ini, $fin])
         ->get();
+              
+      // EGRESOS
 
-      return $this->reporte_financiero($creditos);
+      $total_egresos  = $this->egresos_repo->get_sum_egresos($ini, $fin);
+      $info = $this->reporte_financiero($creditos);
+
+      return array(
+        'total_egresos'         => $total_egresos, 
+        'egresos_por_concepto'  => 
+            $this->egresos_repo->get_egresos_general_por_conceptos($ini,$fin),
+        'info' => $info
+      );
   }
 
   /*
@@ -122,7 +161,6 @@ trait Financierotrait
         	$vlr_a_recaudar += $credito->valor_credito;
           $total_saldo    += $credito->saldo;
 
-
         	$pagos_credito = $this->total_pagos_credito($credito);
 
       		$vlr_recaudado_en_cuotas 			+= $pagos_credito['total_pagos_credito'];
@@ -172,7 +210,7 @@ trait Financierotrait
 
         $saldo_menos_cartera          = $total_saldo - $total_costo_cartera;
         $total_pendiente_para_cubrir_vlr_a_recaudar = $vlr_a_recaudar - $vlr_recaudado_en_cuotas;
-
+        
         $data = [
         	'num_creditos'				                   => $num_creditos,
         	'vlr_fin_total' 			                   => $vlr_fin_total,
@@ -324,6 +362,11 @@ trait Financierotrait
         ];
 
         return $cuartos;
+    }
+
+    public function egresos($ini,$fin)
+    {
+      return $this->egresos_repo->get_sum_egresos($ini, $fin) ;
     }
 
 }

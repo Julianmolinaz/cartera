@@ -25,11 +25,22 @@ class DatatableController extends Controller
             return false;
         }
 
-        $query = Egreso::with('user_create')->with('cartera')->with('punto')->orderBy('updated_at','desc');
+        $query = Egreso::where('user_create_id',Auth::user()->id)
+            ->with('user_create')
+            ->with('cartera')
+            ->with('punto')
+            ->orderBy('updated_at','desc');
+
     	return DataTables::of($query)
         ->addColumn('btn','
-             <a href="{{route(\'admin.egresos.edit\',$id)}}" class = \'btn btn-default btn-xs\'><span class="glyphicon glyphicon-pencil"  title="ver"></span></a>
-              <a href="{{route(\'admin.egresos.destroy\',$id)}}" onclick="return confirm(\'¿Esta seguro de eliminar el registro de egreso?\')" class = \'btn btn-default btn-xs\'><span class = "glyphicon glyphicon-trash" title="Eliminar"></span></a> ')
+            <a href="{{route(\'start.egresos.edit\',$id)}}" class = \'btn btn-default btn-xs\'>
+                <span class="glyphicon glyphicon-pencil"  title="ver"></span>
+            </a>
+            <a href="{{route(\'start.egresos.destroy\',$id)}}" 
+                onclick="return confirm(\'¿Esta seguro de eliminar el registro de egreso?\')" 
+                class = \'btn btn-default btn-xs\'>
+                <span class = "glyphicon glyphicon-trash" title="Eliminar"></span>
+            </a> ')
     	->make(true);
     }
 }
