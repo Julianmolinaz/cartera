@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Repositories\EgresosRepository;
 use Carbon\Carbon;
 use App\Proveedor;
 use App\Cartera;
@@ -19,10 +20,12 @@ class EgresoController extends Controller
 {
     protected $paginate;
     protected $string;
-    public function __construct()
+    protected $repo;
+
+    public function __construct(EgresosRepository $repo)
     {
         $this->middleware('auth');
-
+        $this->repo  = $repo; 
         $this->paginate = 10;
     }
 
@@ -297,17 +300,27 @@ class EgresoController extends Controller
                 ->paginate($this->paginate);
         } 
         else {
-            $egresos = Egreso::where('punto_id',Auth::user()->punto_id)
-                    ->where(function($query){
-                        $query->where('comprobante_egreso','like','%'.$this->string.'%')
-                        ->orWhere('fecha','like','%'.$this->string.'%')
-                        ->orWhere('concepto','like','%'.$this->string.'%');
-                    })
-                ->orderBy('updated_at','desc')
-                ->with('punto')
-                ->with('cartera')
-                ->with('proveedor')
-                ->paginate($this->paginate);
+
+            $egresos = $this->repo->filter($string, $this->paginate);
+
+            // $egresos = Egreso::find($ids)
+            //     ->orderBy('updated_at','desc')
+            //     ->with('proveedor')
+            //     ->with('cartera')
+            //     ->with('punto')
+            //     ->paginate($this->paginate);  
+
+            // $egresos = Egreso::where('punto_id',Auth::user()->punto_id)
+            //         ->where(function($query){
+            //             $query->where('comprobante_egreso','like','%'.$this->string.'%')
+            //             ->orWhere('fecha','like','%'.$this->string.'%')
+            //             ->orWhere('concepto','like','%'.$this->string.'%');
+            //         })
+            //     ->orderBy('updated_at','desc')
+            //     ->with('punto')
+            //     ->with('cartera')
+            //     ->with('proveedor')
+            //     ->paginate($this->paginate);
     
             if (count($egresos) <= 0 ){
                 $egresos = Egreso::orderBy('updated_at','desc')->paginate($this->paginate);

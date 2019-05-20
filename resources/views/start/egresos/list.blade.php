@@ -17,9 +17,10 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Comprobante</th>
+                <th>Comp</th>
                 <th>Fecha</th>
                 <th>Concepto</th>
+                <th>Punto</th>
                 <th>Valor</th>
                 <th>Acción</th>
             </tr>
@@ -29,6 +30,7 @@
                 <td>@{{ egreso.comprobante_egreso }}</td>
                 <td>@{{ egreso.fecha }}</td>
                 <td>@{{ egreso.concepto }}</td>
+                <td>@{{ egreso.punto.nombre }}</td>
                 <td>@{{ egreso.valor }}</td>
                 <td>
                     <a href="#" class="btn btn-default btn-xs"  @click="show_egreso(egreso)">
@@ -104,7 +106,8 @@ var list_egresos = new Vue({
             this.egreso = egreso
             $('#show_modal').modal('show')
         },
-        search(page){
+        search(page = 1){
+
             var self = this
             this.status = 'filtrado'
             axios.get('egresos/search/' + this.string+'?page='+page)
