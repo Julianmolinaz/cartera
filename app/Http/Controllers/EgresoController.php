@@ -291,7 +291,8 @@ class EgresoController extends Controller
     public function search($string = null)
     {
         $this->string = $string;
-        if(strlen($string) <= 0){
+
+        if (strlen($string) <= 0) {
             $egresos = Egreso::where('punto_id',Auth::user()->punto_id)
                 ->orderBy('updated_at','desc')
                 ->with('punto')
@@ -302,25 +303,6 @@ class EgresoController extends Controller
         else {
 
             $egresos = $this->repo->filter($string, $this->paginate);
-
-            // $egresos = Egreso::find($ids)
-            //     ->orderBy('updated_at','desc')
-            //     ->with('proveedor')
-            //     ->with('cartera')
-            //     ->with('punto')
-            //     ->paginate($this->paginate);  
-
-            // $egresos = Egreso::where('punto_id',Auth::user()->punto_id)
-            //         ->where(function($query){
-            //             $query->where('comprobante_egreso','like','%'.$this->string.'%')
-            //             ->orWhere('fecha','like','%'.$this->string.'%')
-            //             ->orWhere('concepto','like','%'.$this->string.'%');
-            //         })
-            //     ->orderBy('updated_at','desc')
-            //     ->with('punto')
-            //     ->with('cartera')
-            //     ->with('proveedor')
-            //     ->paginate($this->paginate);
     
             if (count($egresos) <= 0 ){
                 $egresos = Egreso::orderBy('updated_at','desc')->paginate($this->paginate);
