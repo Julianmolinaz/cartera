@@ -36,7 +36,7 @@
                     <a href="#" class="btn btn-default btn-xs"  @click="show_egreso(egreso)">
                         <span class="glyphicon glyphicon-eye-open"></span>
                     </a>
-                    <a href="#" class="btn btn-default btn-xs">
+                    <a href="#" class="btn btn-default btn-xs" @click="dropEgreso(egreso.id)">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>
                 </td>
@@ -107,7 +107,6 @@ var list_egresos = new Vue({
             $('#show_modal').modal('show')
         },
         search(page = 1){
-
             var self = this
             this.status = 'filtrado'
             axios.get('egresos/search/' + this.string+'?page='+page)
@@ -123,6 +122,21 @@ var list_egresos = new Vue({
                 this.get_egresos(page)
             else 
                 this.search(page)
+        },
+        dropEgreso(egreso_id){ 
+
+            var self = this
+
+            if(! confirm('Esta seguro de eliminar el registro ?')){
+                return false
+            }
+            axios.get('egresos/'+egreso_id+'/destroy')
+                .then(function(res){
+                    alert(res.data.message)
+                    if (!res.data.error) {
+                        self.get_egresos()
+                    }
+                })
         }
     },
     computed:{

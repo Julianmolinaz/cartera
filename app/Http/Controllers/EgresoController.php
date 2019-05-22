@@ -12,6 +12,7 @@ use App\Cartera;
 use App\Egreso;
 use App\Punto;
 use App\User;
+use Filter;
 use Auth;
 use DB;
 
@@ -36,6 +37,11 @@ class EgresoController extends Controller
      */
     public function index()
     {
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador','Asesor','Asesor VIP','Cartera','Recaudador','Call']) ){
+            return Filter::out();
+        } 
+
         return view('start.egresos.index')
             ->with('rol',Auth::user()->rol);
     }
@@ -46,7 +52,12 @@ class EgresoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {  
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador','Asesor','Asesor VIP','Cartera']) ){
+            return Filter::out();
+        } 
+
         $conceptos = getEnumValues('egresos','concepto');
         $carteras  = Cartera::where('estado','Activo')->get();
         $puntos    = Punto::where('estado','Activo')->orderBy('nombre','asc')->get();
@@ -67,6 +78,10 @@ class EgresoController extends Controller
      */
     public function store(Request $request)
     {
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador','Asesor','Asesor VIP','Cartera']) ){
+            return Filter::outJson();
+        } 
         //return response()->json($request->all());
         // $rules_egreso = array(
         //     'fecha'                 => 'required',
@@ -143,6 +158,10 @@ class EgresoController extends Controller
      */
     public function edit($id)
     {
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador','Asesor','Asesor VIP','Cartera']) ){
+            return Filter::out();
+        } 
         $egreso     = Egreso::find($id);
         $conceptos  = getEnumValues('egresos','concepto');
         $carteras   = Cartera::all();
@@ -164,6 +183,11 @@ class EgresoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador','Asesor','Asesor VIP','Cartera']) ){
+            return Filter::out();
+        } 
+
         $rules_egreso = array(
             'fecha'                 => 'required',
             'comprobante_egreso'    => "required|unique:egresos,comprobante_egreso,$id,id",
@@ -202,10 +226,53 @@ class EgresoController extends Controller
      */
     public function destroy($id)
     {
-        $egreso = Egreso::find($id);
-        $egreso->delete();
-        flash()->error('El Egreso con comprobante '.$egreso->comprobante_egreso. ' se eliminó éxitosamente!');
-        return redirect()->route('start.egresos.index');
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador','Asesor','Asesor VIP','Cartera']) ){
+            return Filter::out();
+        } 
+
+        try {
+            $egreso = Egreso::find($id);
+            $now = Carbon::now();
+
+            if (Auth::user()->rol != 'Administrador') {
+                if ($now->toDateString() == $egreso->created_at->format('Y-m-d') ) {
+
+                    $egreso->delete();
+
+                    $res = [
+                        'error'  => false,
+                        'message'=> 'Registro borrado exitosamente' 
+                    ];
+                } else {
+                    $res = [
+                        'error'  => true,
+                        'message'=> 'No puede borrar el registro' 
+                    ];
+                }
+
+            } 
+            if (Auth::user()->rol == 'Administrador'){
+
+                $egreso->delete();
+
+                $res = [
+                    'error'  => false,
+                    'message'=> 'Registro borrado exitosamente' 
+                ];
+            }
+
+        } catch (\Exception $e) {
+            $res = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        } finally {
+            return response()->json($res);
+        }
+
+      
+        
     }
 
     public function get_data()

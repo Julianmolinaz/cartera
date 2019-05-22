@@ -388,3 +388,23 @@ function sanciones_pagadas($credito_id){
 
                   return (int)$sanciones;
 }
+
+function bancos()
+{
+  return [
+    'Banco Agrario',
+    'Banco AV Villas',
+    'Banco Caja Social',
+    'Banco de Occidente',
+    'Banco Popular',
+    'Bancóldex',
+    'Bancolombia',
+    'BBVA',
+    'Banco de Bogotá',
+    'Citi',
+    'Colpatria',
+    'Davivienda',
+    'GNB Sudameris',
+    'Apostar'
+  ];
+}
