@@ -25,7 +25,6 @@ Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVent
 Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
 	->middleware('admin');
 
-
 //FINANCIERO
 
 Route::get('repor-financiero',[
@@ -58,7 +57,6 @@ Route::post('start/simulador',[
 	'uses' 	=> 'SimuladorController@store',
 	'as'	=> 'start.simulador.store'
 	])->middleware('simulador');
-
 
 //FINANCIERO
 
@@ -411,6 +409,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 
 	//PROVEEDORES
 
+	Route::get('proveedores/list','ProveedorController@list');
 	Route::resource('proveedores','ProveedorController');
 
 });
@@ -448,6 +447,7 @@ Route::get('start/egresos/search/{string?}','EgresoController@search');
 Route::get('start/egresos/get_data','EgresoController@get_data');
 Route::get('start/egresos/get_egresos','EgresoController@get_egresos');
 Route::resource('start/egresos','EgresoController');
+Route::get('start/egresos/{id}/destroy','EgresoController@destroy')->middleware('admin');
 
 //ELIMINAR
 Route::get('start/egresos/{id}/destroy',

@@ -17,7 +17,7 @@ class User extends Authenticatable  implements Auditable, UserResolver
      * @var array
      */
     protected $fillable = [
-        'name', 'estado' , 'rol' , 'email', 'password','punto_id'
+        'name', 'estado' , 'rol' , 'email', 'password','punto_id', 'banco', 'num_cuenta'
     ];
 
     public function cliente_create(){

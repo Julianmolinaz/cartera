@@ -4,7 +4,7 @@
     Crear egreso 
 </h3>
 <div style="display:inline-block;float:right;margin-top:12px;">
-    <a  href="{{ route('admin.proveedores.create') }}" class="btn btn-default btn-xs"
+    <a  href="{{ route('admin.proveedores.index') }}" class="btn btn-default btn-xs"
         target="_blanck">
         <span class="glyphicon glyphicon-new-window"></span>
         Crear proveedores

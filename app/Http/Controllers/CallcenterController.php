@@ -293,7 +293,9 @@ class CallcenterController extends Controller
 
     public function update(Request $request, $id){}
 
-    public function destroy($id){}
+    public function destroy($id){
+        return response()->json($id);
+    }
 
     /*
     |--------------------------------------------------------------------------
