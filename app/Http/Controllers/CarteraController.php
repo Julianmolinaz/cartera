@@ -188,4 +188,16 @@ class CarteraController extends Controller
             return redirect()->route('admin.carteras.index');
         }
     }
+
+    public function getCarteras()
+    {
+        try {
+            $carteras = Cartera::orderBy('nombre')->get();
+            $res = ['error' => false, 'dat' => $carteras];
+        } catch (\Exception $e) {
+            $res = ['error' => false, 'message' => $e->getMessage()];
+        }
+
+        return response()->json($res);
+    }
 }

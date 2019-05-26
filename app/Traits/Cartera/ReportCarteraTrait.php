@@ -20,11 +20,11 @@ trait ReportCarteraTrait{
         for ($i=0; $i < count($this->report); $i++) { 
 
             $this->struct['carteraTotal$'] += $this->report[$i]['carteraTotal$'];
-            $this->struct['carteraTotal#'] += $this->report[$i]['carteraTotal#'];
+            $this->struct['carteraTotalNo'] += $this->report[$i]['carteraTotalNo'];
 
             foreach(['alDia','ideal','alerta','critica','prejuridico','castigada','juridicoSinCastigar'] as $status) {
                 $this->struct[$status]['cartera$'] += $this->report[$i][$status]['cartera$'];
-                $this->struct[$status]['cartera#'] += $this->report[$i][$status]['cartera#'];
+                $this->struct[$status]['carteraNo'] += $this->report[$i][$status]['carteraNo'];
         
             }
         }
@@ -43,12 +43,12 @@ trait ReportCarteraTrait{
 
                 $carteraTotal = $this->report[$i]['carteraTotal$'];
 
-                $this->report[$i]['alDia']['indicador'] = $this->report[$i]['alDia']['cartera$'] / $carteraTotal;
-                $this->report[$i]['ideal']['indicador'] = $this->report[$i]['ideal']['cartera$'] / $carteraTotal;
-                $this->report[$i]['alerta']['indicador'] = $this->report[$i]['alerta']['cartera$']  / $carteraTotal;
-                $this->report[$i]['critica']['indicador'] = $this->report[$i]['critica']['cartera$'] / $carteraTotal;
-                $this->report[$i]['prejuridico']['indicador'] = $this->report[$i]['prejuridico']['cartera$'] / $carteraTotal;
-                $this->report[$i]['castigada']['indicador'] = $this->report[$i]['castigada']['cartera$'] / $carteraTotal;
+                $this->report[$i]['alDia']['indicador'] = round($this->report[$i]['alDia']['cartera$'] / $carteraTotal, 2);
+                $this->report[$i]['ideal']['indicador'] = round($this->report[$i]['ideal']['cartera$'] / $carteraTotal, 2);
+                $this->report[$i]['alerta']['indicador'] = round($this->report[$i]['alerta']['cartera$']  / $carteraTotal, 2);
+                $this->report[$i]['critica']['indicador'] = round($this->report[$i]['critica']['cartera$'] / $carteraTotal, 2);
+                $this->report[$i]['prejuridico']['indicador'] = round($this->report[$i]['prejuridico']['cartera$'] / $carteraTotal, 2);
+                $this->report[$i]['castigada']['indicador'] = round($this->report[$i]['castigada']['cartera$'] / $carteraTotal, 2);
             }          
         }
     }
@@ -59,18 +59,21 @@ trait ReportCarteraTrait{
 
     public function totalizarPorPuntoTr()
     {
+
         for ($i=0; $i < count($this->report); $i++) { 
-            $this->report[$i]['carteraTotal$'] = 
+            $this->report[$i]['carteraTotal$'] = round(
                         $this->report[$i]['alDia']  ['cartera$'] +
                         $this->report[$i]['ideal']  ['cartera$'] +
                         $this->report[$i]['alerta'] ['cartera$'] +
-                        $this->report[$i]['critica']['cartera$'];
-
-            $this->report[$i]['carteraTotal#'] = 
-                        $this->report[$i]['alDia']  ['cartera#'] +
-                        $this->report[$i]['ideal']  ['cartera#'] +
-                        $this->report[$i]['alerta'] ['cartera#'] +
-                        $this->report[$i]['critica']['cartera#'];            
+                        $this->report[$i]['critica']['cartera$'] +
+                        $this->report[$i]['prejuridico']['cartera$'],0);
+ 
+            $this->report[$i]['carteraTotalNo'] =  round(
+                        $this->report[$i]['alDia']  ['carteraNo'] +
+                        $this->report[$i]['ideal']  ['carteraNo'] +
+                        $this->report[$i]['alerta'] ['carteraNo'] +
+                        $this->report[$i]['critica']['carteraNo'] +
+                        $this->report[$i]['prejuridico']['carteraNo']);            
         }
     }
 
@@ -89,7 +92,7 @@ trait ReportCarteraTrait{
             if ( $this->report[$i]['puntoId'] == $credito->punto_id ) {
 
                 $this->report[$i][$status]['cartera$'] += $credito->saldo;
-                $this->report[$i][$status]['cartera#'] ++;
+                $this->report[$i][$status]['carteraNo'] ++;
             }
         }
     }

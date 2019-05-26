@@ -4,13 +4,12 @@
 
 <div class="row" id="principal">
   
-  <div class="col-md-4">
-    panel configuracion
+  <div class="col-md-3">
+    @include('admin.gestion_cartera.info')
   </div>
-  <div class="col-md-8">
-    @foreach($report as $element)
-      <p>1</p>
-    @endforeach
+
+  <div class="col-md-9">
+    @include('admin.gestion_cartera.list') 
   </div>
 </div>
 

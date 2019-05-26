@@ -25,40 +25,40 @@ trait StructTrait{
             'puntoId'   => '',
             'punto'     => '',
             'carteraTotal$' => 0,
-            'carteraTotal#' => 0,
+            'carteraTotalNo' => 0,
             'alDia'  => [
                 'cartera$' => 0,
-                'cartera#' => 0,
+                'carteraNo' => 0,
                 'indicador' => 0
             ],
             'ideal'  => [
                 'cartera$' => 0,
-                'cartera#' => 0,
+                'carteraNo' => 0,
                 'indicador' => 0
             ],
             'alerta'  => [
                 'cartera$' => 0,
-                'cartera#' => 0,
+                'carteraNo' => 0,
                 'indicador' => 0
             ],
             'critica' => [
                 'cartera$' => 0,
-                'cartera#' => 0,
+                'carteraNo' => 0,
                 'indicador' => 0
             ],
             'prejuridico' => [
                 'cartera$' => 0,
-                'cartera#' => 0,
+                'carteraNo' => 0,
                 'indicador' => 0
             ],
             'castigada' => [
                 'cartera$' => 0,
-                'cartera#' => 0,
+                'carteraNo' => 0,
                 'indicador' => 0
             ],
             'juridicoSinCastigar' => [
                 'cartera$' => 0,
-                'cartera#' => 0,
+                'carteraNo' => 0,
                 'indicador' => 0 
             ]
         ];
@@ -83,7 +83,7 @@ trait StructTrait{
     {
         $puntos = DB::table('puntos')
             ->groupBy('nombre')
-            ->orderBy('nombre','asc')
+            ->orderBy('nombre','ASC')
             ->get();
 
         //asignacion de carteras a c/u de las estructuras

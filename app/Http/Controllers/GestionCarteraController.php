@@ -31,7 +31,7 @@ class GestionCarteraController extends Controller
     }
 
     public function getCartera($carteraId)
-    {      
+    {     
         try {     
             $cartera = Cartera::find($carteraId);
 

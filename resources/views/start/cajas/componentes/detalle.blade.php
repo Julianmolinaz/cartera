@@ -19,22 +19,22 @@
 			       	<table class="table table-striped">
 			       		<thead>
 
-							<tr>
-								<th>Id</th>
-								<th>Cliente</th>
-								<th>Centro de costos</th>
-								<th>Documento</th>
-							</tr>
-			       		</thead>
-			       		<tbody>
-							<tr v-for="precredito in dat.precreditos">
-								<td>@{{ precredito.id }}</td>
-								<td>@{{ precredito.cliente }}</td>
-								<td>@{{ precredito.vlr_fin }}</td>
-								<td>@{{ precredito.documento }}</td>
-							</tr>
-			       		</tbody>
-					</table>
+									<tr>
+										<th>Id</th>
+										<th>Cliente</th>
+										<th>Centro de costos</th>
+										<th>Documento</th>
+									</tr>
+										</thead>
+										<tbody>
+									<tr v-for="precredito in dat.precreditos">
+										<td>@{{ precredito.id }}</td>
+										<td>@{{ precredito.cliente }}</td>
+										<td>@{{ precredito.vlr_fin }}</td>
+										<td>@{{ precredito.documento }}</td>
+									</tr>
+										</tbody>
+							</table>
 			      </div>
 			    </div>
 			  </div>
@@ -58,20 +58,20 @@
 			       	<table class="table table-striped">
 			       		<thead>
 
-							<tr>
-								<th>Crédito</th>
-								<th>Agenda</th>
-								<th>Observaciones</th>
-							</tr>
-			       		</thead>
-			       		<tbody>
-							<tr v-for="call in dat.calls">
-								<td>@{{ call.credito_id }}</td>
-								<td>@{{ call.Agenda }}</td>
-								<td>@{{ call.observaciones }}</td>
-							</tr>
-			       		</tbody>
-					</table>
+									<tr>
+										<th>Crédito</th>
+										<th>Agenda</th>
+										<th>Observaciones</th>
+									</tr>
+										</thead>
+										<tbody>
+									<tr v-for="call in dat.calls">
+										<td>@{{ call.credito_id }}</td>
+										<td>@{{ call.Agenda }}</td>
+										<td>@{{ call.observaciones }}</td>
+									</tr>
+								</tbody>
+							</table>
 
 
 			      </div>
