@@ -9,6 +9,7 @@ use App\Traits\Cartera\ReportCarteraTrait;
 use App\Traits\Cartera\StructTrait;
 use App\Http\Requests;
 use App\Cartera;
+use Filter;
 use DB;
 
 class GestionCarteraController extends Controller
@@ -27,11 +28,20 @@ class GestionCarteraController extends Controller
 
     public function index()
     {
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador']) ){
+            return Filter::out();
+        } 
         return view('admin.gestion_cartera.index');
     }
 
     public function getCartera($carteraId)
-    {     
+    {  
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador']) ){
+            return Filter::outJson();
+        }  
+          
         try {     
             $cartera = Cartera::find($carteraId);
 
