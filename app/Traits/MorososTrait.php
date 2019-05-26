@@ -20,8 +20,8 @@ trait MorososTrait
           
             if($sanciones > 10){
                 $temp = ['telefono' => $credito->telefono, 
-                         'mensaje'  => "Querido cliente $cliente, INVERSIONES GORA SAS le informa que su crédito presenta una mora de $sanciones dias, lo invitamos a que pueda normalizar su obligación. Cualquier inquietud comunicarse al Tel: 3104450956 o visitenos a www.inversionesgora.com"
-                        ];
+		'mensaje'  => "Estimado $cliente, INVERSIONES GORA SAS informa que su crédito presenta mora de $sanciones días, lo invitamos a normalizar su obligación, recuerde que puede pagar en la cta de ahorros Colpatria o vía Baloto #6962014925. Inquietudes 3104450956, 3222081400. www.financiamossoat.com"	                
+        ];
 
                 array_push($array_creditos,$temp);
             }
