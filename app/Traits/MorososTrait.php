@@ -20,7 +20,7 @@ trait MorososTrait
           
             if($sanciones > 10){
                 $temp = ['telefono' => $credito->telefono, 
-                         'mensaje'  => "Querido cliente $cliente, INVERSIONES GORA SAS le informa que su crédito presenta una mora de $sanciones dias, lo invitamos a que pueda normalizar su obligación. Cualquier inquietud comunicarse al Tel: 3104450956 o visitenos a www.inversionesgora.com"
+                         'mensaje'  => "Estimado $cliente, INVERSIONES GORA SAS informa que su crédito presenta mora de $sanciones dias, lo invitamos a normalizar su obligación, recuerde que puede pagar en la cta de ahorros Colpatria o via Baloto 6962014925. Inquietudes 3104450956, 3222081400. www.financiamossoat.com"
                         ];
 
                 array_push($array_creditos,$temp);
@@ -89,5 +89,30 @@ trait MorososTrait
         }
 
         return $tipo_moroso;
+    }
+
+    /**
+     * transforma un tipo de mora generado por el metodo 
+     * tipoMorosoTr() en un iten de una sola frace para el procesamiento
+     * de reportes
+     * @recibe un $tipoMora ej: 'Morosos ideales' => 'ideal'
+     */
+
+    public function translateTypeMoraTr($tipoMora)
+    {
+        switch ($tipoMora) {
+            case 'Morosos ideales':
+                return 'ideal';
+                break;
+            case 'Morosos alerta':
+                return 'alerta';
+                break;
+            case 'Morosos crìticos':
+                return 'critica';
+                break;                
+            default:
+                return 'alDia';
+                break;
+        }
     }
 }

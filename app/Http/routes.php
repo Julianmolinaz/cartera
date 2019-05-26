@@ -255,8 +255,6 @@ Route::get('call/exportar/soat',[
 	'as'	=> 'call.exportar.soat'
 	]);
 
-
-
 //FACTURASFACTURASFACTURASFACTURASFACTURASFACTURASFACTURASFACTURASFACTURASFACTURASFACTURAS
 
 //FACTURAS LISTAR
@@ -342,8 +340,6 @@ Route::get('start/documentos/{documento_id}/destroy',
 	  'as' => 'start.documentos.destroy']);
  
 
-
-
 //PRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOS
 
 
@@ -414,6 +410,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 
 });
 
+//GESTION DE CARTERA
+
+Route::get('admin/gestion_cartera/index',[
+	'uses'	=> 'GestionCarteraController@index',
+	'as'    => 'admin.gestion_cartera.index'
+]);
+
+Route::get('admin/gestion_cartera/getCartera/{carteraId}',[
+	'uses'	=> 'GestionCarteraController@getCartera',
+	'as'    => 'admin.gestion_cartera.getCartera'
+]);
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])
 	->middleware('reporte_listar');

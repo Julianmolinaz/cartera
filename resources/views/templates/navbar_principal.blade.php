@@ -75,6 +75,7 @@
             
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.reportes.index')}}">Reportes &nbsp;<i class="fas fa-chart-line"></i></a></li>
+            <li><a href="{{route('admin.gestion_cartera.index')}}">Cartera&nbsp;<i class="fa fa-thermometer-empty"></i></a></li>
             <li><a href="{{route('admin.reporte.financiero')}}">Financiero &nbsp;<i class="glyphicon glyphicon-lock"></i></a></li>
 
             <li role="separator" class="divider"></li>
