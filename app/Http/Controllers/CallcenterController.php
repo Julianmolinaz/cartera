@@ -417,13 +417,18 @@ class CallcenterController extends Controller
                     $header = [
                         'cartera',
                         'credito_id',
+                        'fecha_apertura',
+                        'cliente',
+                        'documento',
                         'municipio',
                         'departamento',
                         'estado',
-                        'sanciones',
+                        'saldo deuda',
                         'tipo moroso',
-                        'documento',
-                        'fecha_pago',
+                        'sanciones que debe',
+                        'sanciones pagadas',
+ 			'total sanciones',
+                        'fecha próximo pago',
                         'fecha de agenda',
                         'funcionario ultima llamada',
                         'fecha ultima llamada',
@@ -435,24 +440,36 @@ class CallcenterController extends Controller
                     foreach($creditos as $credito) {
             
                         $temp = [
-                            'cartera'            =>  $credito->cartera,
-                            'credito_id'         =>  $credito->id,
-                            'municipio'          =>  $credito->municipio,
-                            'departamento'       =>  $credito->depto,
-                            'estado'             =>  $credito->estado,                        
-                            'sanciones'          =>  $credito->sanciones_debe,
-                            'tipo_moroso'        =>  $this->tipoMorosoTr($credito),
-                            'doc'                =>  $credito->num_doc,
-                            'fecha_pago'         =>  $credito->fecha_pago,
-                            'agenda'             =>  $credito->agenda,
-                            'funcionario'        =>  $credito->funcionario,
-                            'fecha_llamada'      =>  $credito->fecha_llamada,
+                            'cartera'            => $credito->cartera,
+                            'credito_id'         => $credito->id,
+                            'fecha_apertura'     => $this->dmY($credito->apertura),
+                            'cliente'            => $credito->cliente,
+                            'documento'          => $credito->num_doc,
+                            'municipio'          => $credito->municipio,
+                            'departamento'       => $credito->depto,
+                            'estado'             => $credito->estado,
+                            'saldo'              => (float)$credito->saldo,  
+                            'tipo_moroso'        => $this->tipoMorosoTr($credito),
+                            'sanciones_debe'     => (int)$credito->sanciones_debe,
+                            'sanciones_pagadas'  => (int)$credito->sanciones_ok,
+                            'total_sanciones'    => (int)$credito->sanciones_debe + 
+                                                    (int)$credito->sanciones_ok,
+                            'fecha_pago'         => $this->dmY($credito->fecha_pago),
+                            'agenda'             => $this->dmY($credito->agenda),
+                            'funcionario'        => $credito->funcionario,
+                            'fecha_llamada'      => $credito->fecha_llamada,
                             'funcionario_gestion'=> $credito->gestion
                             ];
 
-                    array_push($array_creditos,$temp);
+                        array_push($array_creditos,$temp);
                     }
-     
+
+                    // dd($array_creditos);
+
+                $sheet->cells('A1:R1', function ($cells) {
+                    $cells->setBackground('#CCCCCC');
+                });
+
                 $sheet->fromArray($array_creditos,null,'A1',false,false);
                 });
             })->download('xls');
@@ -479,6 +496,27 @@ class CallcenterController extends Controller
         return view('start.callcenter.miscall')
             ->with('calls', $calls)
             ->with('total',$total);
+    }
+
+    /**
+     * convierte fecha en formato yyyy-mm-dd hh:mm:ss
+     * a dd-mm-yyyy ejemplo: 2019-05-24 10:30:12 a 
+     * 24-05-2019
+     */
+
+    public function dmY($date)
+    {
+        if ($date) {
+            $time = '';
+            $day = substr($date, 8, 2);
+            $month = substr($date, 5, 2);
+            $year = substr($date, 0, 4);
+    
+            return $day.'-'.$month.'-'.$year.$time;
+        }
+        else {
+            return '';
+        }
     }
 
     public function soat()
