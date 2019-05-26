@@ -417,10 +417,8 @@ Route::get('admin/gestion_cartera/index',[
 	'as'    => 'admin.gestion_cartera.index'
 ]);
 
-Route::get('admin/gestion_cartera/getCartera/{carteraId}',[
-	'uses'	=> 'GestionCarteraController@getCartera',
-	'as'    => 'admin.gestion_cartera.getCartera'
-]);
+Route::get('admin/gestion_cartera/getCartera/{carteraId}','GestionCarteraController@getCartera');
+Route::get('admin/gestion_cartera/getCarteras','CarteraController@getCarteras');
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])
 	->middleware('reporte_listar');
