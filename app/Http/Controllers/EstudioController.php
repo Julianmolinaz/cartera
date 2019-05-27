@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\User;
-use DB;
-use Auth;
-use App\Estudio;
 use App\EstDatacredito;
-use App\EstLaboral;
 use App\EstReferencias;
-use App\EstVivienda;
 use App\EstReferencia;
+use App\EstVivienda;
+use App\EstLaboral;
+use App\Estudio;
+use App\User;
+use Auth;
+use DB;
 
 
 class EstudioController extends Controller

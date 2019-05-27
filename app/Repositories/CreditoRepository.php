@@ -138,7 +138,7 @@ class CreditoRepository{
 
     public function callActivePunto()
     {
-        return DB::table('creditos')
+           return DB::table('creditos')
             ->join('precreditos','creditos.precredito_id','=','precreditos.id')
             ->join('carteras','precreditos.cartera_id','=','carteras.id')
             ->join('users','precreditos.funcionario_id','=','users.id')
@@ -156,9 +156,11 @@ class CreditoRepository{
                     'municipios.nombre as municipio',
                     'municipios.departamento as depto',
                     'creditos.estado as estado',
+                    'creditos.saldo as saldo',
                     'creditos.sanciones_debe as sanciones_debe',
                     'creditos.sanciones_ok as sanciones_ok',
                     'creditos.sanciones_exoneradas as sanciones_exoneradas',
+                    'creditos.created_at as apertura',
                     'clientes.nombre as cliente',
                     'clientes.num_doc as num_doc',
                     'fecha_cobros.fecha_pago as fecha_pago',
