@@ -25,6 +25,7 @@ trait ReportCarteraTrait{
             foreach(['alDia','ideal','alerta','critica','prejuridico','castigada','juridicoSinCastigar'] as $status) {
                 $this->struct[$status]['cartera$'] += $this->report[$i][$status]['cartera$'];
                 $this->struct[$status]['carteraNo'] += $this->report[$i][$status]['carteraNo'];
+                //$this->sctruc[$status]['indicador'] = round(($this->report[$i]['alDia']['cartera$'] / $carteraTotal) * 100, 2);
         
             }
         }
@@ -43,12 +44,12 @@ trait ReportCarteraTrait{
 
                 $carteraTotal = $this->report[$i]['carteraTotal$'];
 
-                $this->report[$i]['alDia']['indicador'] = round($this->report[$i]['alDia']['cartera$'] / $carteraTotal, 2);
-                $this->report[$i]['ideal']['indicador'] = round($this->report[$i]['ideal']['cartera$'] / $carteraTotal, 2);
-                $this->report[$i]['alerta']['indicador'] = round($this->report[$i]['alerta']['cartera$']  / $carteraTotal, 2);
-                $this->report[$i]['critica']['indicador'] = round($this->report[$i]['critica']['cartera$'] / $carteraTotal, 2);
-                $this->report[$i]['prejuridico']['indicador'] = round($this->report[$i]['prejuridico']['cartera$'] / $carteraTotal, 2);
-                $this->report[$i]['castigada']['indicador'] = round($this->report[$i]['castigada']['cartera$'] / $carteraTotal, 2);
+                $this->report[$i]['alDia']['indicador'] = round(($this->report[$i]['alDia']['cartera$'] / $carteraTotal) * 100, 2);
+                $this->report[$i]['ideal']['indicador'] = round(($this->report[$i]['ideal']['cartera$'] / $carteraTotal) * 100, 2);
+                $this->report[$i]['alerta']['indicador'] = round(($this->report[$i]['alerta']['cartera$']  / $carteraTotal) * 100, 2);
+                $this->report[$i]['critica']['indicador'] = round(($this->report[$i]['critica']['cartera$'] / $carteraTotal) * 100, 2);
+                $this->report[$i]['prejuridico']['indicador'] = round(($this->report[$i]['prejuridico']['cartera$'] / $carteraTotal) * 100, 2);
+                $this->report[$i]['castigada']['indicador'] = round(($this->report[$i]['castigada']['cartera$'] / $carteraTotal) * 100, 2);
             }          
         }
     }
