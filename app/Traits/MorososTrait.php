@@ -82,7 +82,7 @@ trait MorososTrait
             $tipo_moroso = 'Morosos alerta';
         }
         elseif ($sanciones > 90) {
-            $tipo_moroso = 'Morosos crìticos';
+            $tipo_moroso = 'Morosos criticos';
         }
         else {
             $tipo_moroso = 'No moroso';
@@ -107,7 +107,7 @@ trait MorososTrait
             case 'Morosos alerta':
                 return 'alerta';
                 break;
-            case 'Morosos crìticos':
+            case 'Morosos criticos':
                 return 'critica';
                 break;                
             default:

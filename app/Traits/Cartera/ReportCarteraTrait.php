@@ -15,19 +15,35 @@ trait ReportCarteraTrait{
     {
         $this->getStructTr();
         $this->struct['puntoId'] = '';
-        $this->struct['punto']   = '';
+        $this->struct['punto']   = 'Gran total';
+        $array_status = ['alDia','ideal','alerta','critica','prejuridico','castigada','juridicoSinCastigar'];
 
         for ($i=0; $i < count($this->report); $i++) { 
 
             $this->struct['carteraTotal$'] += $this->report[$i]['carteraTotal$'];
             $this->struct['carteraTotalNo'] += $this->report[$i]['carteraTotalNo'];
 
-            foreach(['alDia','ideal','alerta','critica','prejuridico','castigada','juridicoSinCastigar'] as $status) {
+            foreach($array_status as $status) {
                 $this->struct[$status]['cartera$'] += $this->report[$i][$status]['cartera$'];
                 $this->struct[$status]['carteraNo'] += $this->report[$i][$status]['carteraNo'];
-                //$this->sctruc[$status]['indicador'] = round(($this->report[$i]['alDia']['cartera$'] / $carteraTotal) * 100, 2);
-        
             }
+
+            foreach($array_status as $status) {
+                $this->struct[$status]['cartera$'] = round($this->struct[$status]['cartera$'],0);
+                $this->struct[$status]['carteraNo'] = round($this->struct[$status]['carteraNo'],0);
+            }
+
+            $carteraTotal = $this->struct['carteraTotal$'];
+
+            if($carteraTotal > 0){
+                $this->struct['alDia']['indicador'] = round(($this->struct['alDia']['cartera$'] / $carteraTotal) * 100, 2);
+                $this->struct['ideal']['indicador'] = round(($this->struct['ideal']['cartera$'] / $carteraTotal) * 100, 2);
+                $this->struct['alerta']['indicador'] = round(($this->struct['alerta']['cartera$']  / $carteraTotal) * 100, 2);
+                $this->struct['critica']['indicador'] = round(($this->struct['critica']['cartera$'] / $carteraTotal) * 100, 2);
+                $this->struct['prejuridico']['indicador'] = round(($this->struct['prejuridico']['cartera$'] / $carteraTotal) * 100, 2);
+                $this->struct['castigada']['indicador'] = round(($this->struct['castigada']['cartera$'] / $carteraTotal) * 100, 2);
+            }
+
         }
 
         array_push($this->report, $this->struct);
@@ -74,7 +90,7 @@ trait ReportCarteraTrait{
                         $this->report[$i]['ideal']  ['carteraNo'] +
                         $this->report[$i]['alerta'] ['carteraNo'] +
                         $this->report[$i]['critica']['carteraNo'] +
-                        $this->report[$i]['prejuridico']['carteraNo']);            
+                        $this->report[$i]['prejuridico']['carteraNo'],0);            
         }
     }
 
