@@ -7,7 +7,7 @@
 
         <table class="table table-striped" id="table" >
 
-            <tr v-for="punto in puntos" class="tbl_min" v-if="punto.carteraTotal$ > 0">
+            <tr v-for="punto in puntos" class="tbl_min" v-if="punto.carteraTotal$ > 0 || punto.castigada.cartera$ > 0">
                 <td v-text="punto.punto"></td>
                 <td>
                     <span>Al dia</span><br>
