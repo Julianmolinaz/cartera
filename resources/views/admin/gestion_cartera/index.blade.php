@@ -9,7 +9,7 @@
     <div class="thumbnail">
       <img src="{{ asset('images/billetera.jpg') }}" style="height:215px;width:100%;">
       <div class="caption">
-        <h3>Reporte Cartera por carteras</h3>
+        <h3>Reporte por carteras</h3>
         <p>
           Reporte por cartera discriminado por c/u de los puntos (sucursales).
           En el reporte se encontrarán tres símbolos : 
@@ -17,7 +17,7 @@
           <ul>
             <li>$: cartera en pesos : <span class="text-muted">(Al día + Mora + Prejurídico)</span></li>
             <li>#: cantidad de creditos: <span class="text-muted">∑ créditos</span></li>
-            <li>%: indicador del criterio: 
+            <li>%: indicador: 
               <small><span class="text-muted">(Total Criterio / Total Cartera) * 100 </span></small></li>
           </ul>
         </p>
@@ -30,15 +30,15 @@
     <div class="thumbnail">
       <img src="{{ asset('images/sucursales.jpg') }}" style="height:215px;width:100%;">
       <div class="caption">
-        <h3>Reporte Cartera Total por puntos</h3>
+        <h3>Reporte total por puntos</h3>
         <p>
-          Reporte por cartera consolidado y discriminado por puntos (sucursales).
+          Reporte consolidado y discriminado por puntos (sucursales).
           En el reporte se encontrarán tres símbolos : 
           <br>
           <ul>
             <li>$: cartera en pesos : <span class="text-muted">(Al día + Mora + Prejurídico)</span></li>
             <li>#: cantidad de creditos: <span class="text-muted">∑ créditos</span></li>
-            <li>%: indicador del criterio: 
+            <li>%: indicador: 
               <small><span class="text-muted">(Total Criterio / Total Cartera) * 100 </span></small></li>
           </ul>
         </p>
