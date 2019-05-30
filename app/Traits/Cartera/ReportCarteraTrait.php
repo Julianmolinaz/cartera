@@ -15,7 +15,7 @@ trait ReportCarteraTrait{
     {
         $this->getStructTr();
         $this->struct['puntoId'] = '';
-        $this->struct['punto']   = 'Gran total';
+        $this->struct['punto']   = 'GRAN TOTAL';
         $array_status = ['alDia','ideal','alerta','critica','prejuridico','castigada','juridicoSinCastigar'];
 
         for ($i=0; $i < count($this->report); $i++) { 
@@ -41,7 +41,9 @@ trait ReportCarteraTrait{
                 $this->struct['alerta']['indicador'] = round(($this->struct['alerta']['cartera$']  / $carteraTotal) * 100, 2);
                 $this->struct['critica']['indicador'] = round(($this->struct['critica']['cartera$'] / $carteraTotal) * 100, 2);
                 $this->struct['prejuridico']['indicador'] = round(($this->struct['prejuridico']['cartera$'] / $carteraTotal) * 100, 2);
-                $this->struct['castigada']['indicador'] = round(($this->struct['castigada']['cartera$'] / $carteraTotal) * 100, 2);
+                $this->struct['castigada']['indicador'] = round((
+                    $this->struct['castigada']['cartera$'] / ($this->struct['castigada']['cartera$'] + $carteraTotal)
+                    ) * 100, 2);
             }
 
         }

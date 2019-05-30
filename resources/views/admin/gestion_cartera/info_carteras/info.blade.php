@@ -6,10 +6,12 @@
             <option disabled selected>- -</option>
             <option :value="cartera" v-for="cartera in carteras">@{{ cartera.nombre }}</option>
         </select>
+        <span id="helpBlock" class="help-block">Seleccione la cartera a consultar.</span>
     </div>
 
     <div class="form-group">
         <button class="btn btn-sm btn-primary" @click="generar">Generar</button>
+        <a href="{{route('admin.gestion_cartera.index')}}" class="btn btn-default" role="button">Volver</a></p>
     </div>
 
 </div>
