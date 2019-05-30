@@ -78,3 +78,8 @@ input[type=number] {
 .top-min {
     margin-bottom: 4px;
 }
+
+.resaltar {
+    text-decoration: underline;
+    font-weight: bold;
+}

@@ -26,6 +26,11 @@ class GestionCarteraController extends Controller
         $this->struct = $this->getStructTr();
     }
 
+    /**
+     * Muestra la vista principal de los
+     * reportes de cartera
+     */
+
     public function index()
     {
         //MIDDLEWARE
@@ -33,6 +38,16 @@ class GestionCarteraController extends Controller
             return Filter::out();
         } 
         return view('admin.gestion_cartera.index');
+    }
+
+    /**
+     * Muestra el reporte de cartera con la opcion de 
+     * seleccionar la cartera
+     */
+
+    public function getInfoCarteras()
+    {
+        return view('admin.gestion_cartera.info_carteras.index');
     }
 
     public function getCartera($carteraId)
@@ -84,7 +99,36 @@ class GestionCarteraController extends Controller
         $this->generarIndicadoresTr();
 
         $this->totalizarTodaLaCarteraTr();
+    }
 
+
+    public function getPuntos()
+    {
+        $this->setPuntosStructTr();
+
+        $creditos = DB::table('creditos')
+            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+            ->join('users','precreditos.user_create_id','=','users.id')
+            ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+            ->select('creditos.*',
+                        'precreditos.*',
+                        'creditos.id as credito_id',
+                        'precreditos.id as precredito_id',
+                        'users.punto_id as punto_id')
+            ->get();
+
+        foreach($creditos as $credito){
+            $this->agregarSaldoTr($credito);
+        }
+
+        $this->totalizarPorPuntoTr();
+
+        $this->generarIndicadoresTr();
+
+        $this->totalizarTodaLaCarteraTr();
+
+        return view('admin.gestion_cartera.info_puntos.index')
+            ->with('report',$this->report);
     }
 
 
