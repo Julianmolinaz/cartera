@@ -104,6 +104,11 @@ class GestionCarteraController extends Controller
 
     public function getPuntos()
     {
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador']) ){
+            return Filter::out();
+        }  
+
         $this->setPuntosStructTr();
 
         $creditos = DB::table('creditos')
