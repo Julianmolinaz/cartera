@@ -84,11 +84,11 @@
 
                 axios.post('egresos',{ egreso: self.egreso })
                     .then(function(res){
-                        console.log('respuesta store ', res.data)
                         if(res.data.error){
                             alert(res.data.message)
                         }
                         else {
+                            alert(res.data.message)
                             self.reset_egreso()
                             Bus.$emit('get_egresos')
                         }

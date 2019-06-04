@@ -128,7 +128,8 @@ class EgresoController extends Controller
 
             DB::commit();
 
-            $res = ['error' => false, 'dat' => $egreso, 'message'=>'egreso creado exitosamente !!!'];
+            $res = ['error' => false, 'dat' => $egreso, 
+            'message'=>'egreso creado exitosamente !!!'];
             return response()->json($res);
 
         } catch(\Exception $e){
@@ -229,7 +230,7 @@ class EgresoController extends Controller
     public function destroy($id)
     {
         //MIDDLEWARE
-        if ( Filter::in(['Administrador','Asesor','Asesor VIP','Cartera']) ){
+        if ( Filter::in(['Administrador']) ){
             return Filter::out();
         } 
 
@@ -439,7 +440,10 @@ class EgresoController extends Controller
 
     public function report()
     {
-
+        //MIDDLEWARE
+        if ( Filter::in(['Administrador']) ){
+            return Filter::out();
+        } 
         $egresos = DB::table('egresos')
             ->leftJoin('bancos','egresos.banco_id','=','bancos.id')
             ->leftJoin('proveedores','egresos.proveedor_id','=','proveedores.nombre')
