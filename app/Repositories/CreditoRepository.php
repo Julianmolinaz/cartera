@@ -111,8 +111,8 @@ class CreditoRepository{
             ->join('municipios','puntos.municipio_id','=','municipios.id')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
             ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
-            ->join('llamadas','creditos.last_llamada_id','=','llamadas.id')
-            ->join('users as funcionario','llamadas.user_create_id','=','funcionario.id')
+            ->leftJoin('llamadas','creditos.last_llamada_id','=','llamadas.id')
+            ->leftJoin('users as funcionario','llamadas.user_create_id','=','funcionario.id')
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
             ->select(
                     'carteras.nombre as cartera',
@@ -146,8 +146,8 @@ class CreditoRepository{
             ->join('municipios','puntos.municipio_id','=','municipios.id')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
             ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
-            ->join('llamadas','creditos.last_llamada_id','=','llamadas.id')
-            ->join('users as funcionario','llamadas.user_create_id','=','funcionario.id')
+            ->leftJoin('llamadas','creditos.last_llamada_id','=','llamadas.id')
+            ->leftJoin('users as funcionario','llamadas.user_create_id','=','funcionario.id')
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
             ->where('puntos.id', Auth::user()->punto_id)
             ->select(
