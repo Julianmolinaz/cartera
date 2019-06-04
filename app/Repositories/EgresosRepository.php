@@ -67,6 +67,7 @@ class EgresosRepository
             ->join('puntos','egresos.punto_id','=','puntos.id')
             ->leftJoin('proveedores','egresos.proveedor_id','=','proveedores.id')
             ->where('egresos.comprobante_egreso','like','%'.$string.'%')
+            ->orWhere('proveedores.nombre','like','%'.$string.'%')
             ->orWhere('egresos.fecha','like','%'.$string.'%')
             ->orWhere('egresos.concepto','like','%'.$string.'%')
             ->orWhere('puntos.nombre','like','%'.$string.'%')

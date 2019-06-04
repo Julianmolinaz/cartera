@@ -19,7 +19,7 @@
           
          </p>
 
-         <table id="datatable" data-order='[[ 6, "desc" ]]' class="table table-striped table-bordered">
+         <table id="datatable" data-order='[[ 7, "desc" ]]' class="table table-striped table-bordered td-small">
           <thead>
             <tr>
               <th>    #         </th>
@@ -29,6 +29,8 @@
               <th>    Estado    </th>
               <th>    Rol       </th>
               <th>    Email     </th>
+              <th>    Banco     </th>
+              <th>    Num cuenta</th>
               <th style="display:none;">    Actualizacion  </th>
               <th>    Acción    </th>
 
@@ -46,6 +48,8 @@
               <td> {{ $user->estado}}   </td>
               <td> {{ $user->rol   }}   </td>
               <td> {{ $user->email }}   </td>
+              <td> {{ ($user->banco) ? $user->banco->nombre : '' }}   </td>
+              <td> {{ $user->num_cuenta }}   </td>
               <td style="display:none;"> {{$user->updated_at}}</td>
 
               <td> 

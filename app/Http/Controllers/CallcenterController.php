@@ -427,7 +427,7 @@ class CallcenterController extends Controller
                         'tipo moroso',
                         'sanciones que debe',
                         'sanciones pagadas',
-                        'total sanciones',
+ 			'total sanciones',
                         'fecha próximo pago',
                         'fecha de agenda',
                         'funcionario ultima llamada',

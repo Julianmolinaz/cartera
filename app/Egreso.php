@@ -11,9 +11,9 @@ class Egreso extends Model implements Auditable
     
     protected $table = 'egresos';
     protected $fillable = [
-        'fecha','comprobante_egreso','concepto','tipo','banco','num_consignacion',
+        'fecha','comprobante_egreso','concepto','tipo','banco_id','num_consignacion',
         'valor','user_create_id','user_update_id','observaciones', 'cartera_id', 
-        'punto_id','proveedor_id'
+        'punto_id','proveedor_id','user_nomina_id'
     ];
 
 
@@ -35,5 +35,13 @@ class Egreso extends Model implements Auditable
 
     public function proveedor(){
         return $this->hasOne('App\Proveedor','id','proveedor_id');
+    }
+
+    public function banco(){
+        return $this->hasOne('App\Banco','id','banco_id');
+    }
+
+    public function user_nomina(){
+        return $this->hasOne('App\User','id','user_nomina');
     }
 }

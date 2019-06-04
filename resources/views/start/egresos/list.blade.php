@@ -4,7 +4,7 @@
 
         <h3 style="margin:4px 4px;display:inline-block">
             <span class="glyphicon glyphicon-pawn"></span>
-            Egresos
+            Egresos <button class="btn btn-default btn-xs" @click="exportar()">Exportar</button>
         </h3>
         <div  style="display:inline-block;float:right;margin-top:10px">
             <button class="btn btn-default btn-xs" @click="search()">Buscar</button>
@@ -137,6 +137,9 @@ var list_egresos = new Vue({
                         self.get_egresos()
                     }
                 })
+        },
+        exportar(){
+            window.open('/start/egresos_report', '_blank');
         }
     },
     computed:{

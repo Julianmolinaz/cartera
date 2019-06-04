@@ -49,11 +49,12 @@
      var route = "{{url('admin/puntos')}}/"+punto_id+"/edit";
      var route2 = "{{url('admin/municipios/cargar')}}";
      $.get(route,function(data){
+       console.log('data: ',data);
        $('#id').val(data.punto.id);
        $('#_nombre').val(data.punto.nombre);
        $('#_direccion').val(data.punto.direccion);
        $('#_descripcion').val(data.punto.descripcion);
-
+       $('#_prefijo').val(data.punto.prefijo);
        $('#estado').empty();
 
        if(data.punto.estado == 'Activo'){

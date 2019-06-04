@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\User;
 use App\Punto;
+use App\User;
+use App\Banco;
 
 class UserController extends Controller
 {
@@ -23,9 +24,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('id','<>','1')->get();
+        $users = User::where('id','<>','1')
+            ->orderBy('updated_at','DESC')
+            ->get();
 
-        //dd($users[0]);
         return view('admin.users.index')
             ->with('users',$users);
             
@@ -38,18 +40,18 @@ class UserController extends Controller
      */
     public function create()
     {
-
         $roles = getEnumValues('users', 'rol');
-
+        $bancos = Banco::orderBy('nombre')->get();
 
         $puntos = Punto::where('id','>',0)
-                    ->where('estado','Activo')
-                    ->orderBy('nombre')->get();
-
+                ->where('estado','Activo')
+                ->orderBy('nombre')
+                ->get();
 
             return view('admin.users.create')
-                ->with('roles',$roles)
-                ->with('puntos',$puntos);
+                ->with('bancos',$bancos)
+                ->with('puntos',$puntos)
+                ->with('roles',$roles);
     }
 
     /**
@@ -114,9 +116,11 @@ class UserController extends Controller
                     ->where('estado','Activo')
                     ->orderBy('nombre')
                     ->get();
+        $bancos = Banco::orderBy('nombre')->get();
 
         return view('admin.users.edit')
             ->with('puntos',$puntos)
+            ->with('bancos',$bancos)
             ->with('user',$user)
             ->with('roles',$roles);
     }
@@ -149,21 +153,16 @@ class UserController extends Controller
         $this->validate($request,$rules_user,$rules_message); 
 
         $user = User::find($id);
+        $user->name     = strtoupper($request->input('name'));
+        $user->estado   = $request->input('estado');
+        $user->rol      = $request->input('rol');
+        $user->email    = $request->input('email');
+        $user->punto_id = $request->input('punto_id');
+        $user->banco_id = $request->input('banco_id');
+        $user->num_cuenta = $request->input('num_cuenta');
 
-
-        if($request->input('password') != $user->password ){
-            $user->name     = strtoupper($request->input('name'));
-            $user->estado   = $request->input('estado');
-            $user->rol      = $request->input('rol');
-            $user->email    = $request->input('email');
-            $user->punto_id = $request->input('punto_id');
+        if($request->input('password') != $user->password ) {
             $user->password = bcrypt($request->password); 
-        } else{
-            $user->name     = strtoupper($request->input('name'));
-            $user->estado   = $request->input('estado');
-            $user->rol      = $request->input('rol');
-            $user->email    = $request->input('email');
-            $user->punto_id = $request->input('punto_id');
         }
 
         $user->save();
@@ -185,4 +184,21 @@ class UserController extends Controller
         flash()->error('El usuario '.$user->name. ' se eliminó éxitosamente!');
         return redirect()->route('admin.users.index');
     }
+
+    public function getUsers()
+    {
+        try {
+            $users = User::where('estado','Activo')
+                        ->with('banco')
+                        ->orderBy('name')
+                        ->get();
+    
+            $res = ['error' => false, 'dat' => $users];
+        } catch (\Exception $e) {
+            $res = ['error' => true, 'message' => $e->getMessage()];
+        }
+
+        return response()->json($res);
+
+    }   
 }

@@ -173,12 +173,7 @@
     },
     /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
     created: function(){
-        if(this.punto.id === 1 || this.punto.id === 8 || this.punto.id === 23 || this.punto.id === 5
-           || this.punto.id === 10 || this.punto.id === 30 || this.punto.id === 9 
-           || this.punto.id === 29 || this.punto.id === 11 || this.punto.id === 28
-           || this.punto.id === 27 || this.punto.id === 26){
           this.punto_auto = true;
-        }
     },//.created
     /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
     mounted: function(){

@@ -17,7 +17,7 @@ class User extends Authenticatable  implements Auditable, UserResolver
      * @var array
      */
     protected $fillable = [
-        'name', 'estado' , 'rol' , 'email', 'password','punto_id', 'banco', 'num_cuenta'
+        'name', 'estado' , 'rol' , 'email', 'password','punto_id', 'banco_id', 'num_cuenta'
     ];
 
     public function cliente_create(){
@@ -68,6 +68,11 @@ class User extends Authenticatable  implements Auditable, UserResolver
         return $this->hasMany('App\Llamada','user_create_id');
     }
 
+    public function banco()
+    {
+        return $this->hasOne('App\Banco', 'id','banco_id');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -81,5 +86,6 @@ class User extends Authenticatable  implements Auditable, UserResolver
     {
         return Auth::check() ? Auth::user()->getAuthIdentifier() : null;
     }
+    
 
 }

@@ -43,12 +43,19 @@
           </div>         
 
           <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <label for="">Prefijo:</label>
+              <input type="text" class="form-control" id="_prefijo" name="_prefijo">
+            </div>
+          </div>
+
+
+          <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Descripción :</label>
               <textarea class="form-control" rows="3" id="_descripcion" name="_descripcion"></textarea>
             </div>
           </div>  
-
 
           <input type="hidden" name="id" id="id"/>
           <input type="hidden" name="_token" id="token_" value="{{{ csrf_token() }}}" />
@@ -76,6 +83,7 @@
       var municipio_id= $('#_municipio_id').val();
       var estado      = $('#estado').val();
       var descripcion = $('#_descripcion').val();
+      var prefijo     = $('#_prefijo').val();
       var route       = "{{url('admin/puntos')}}/"+id;
       var token       = $('#token_').val();
 
@@ -90,6 +98,7 @@
                 direccion   :direccion,
                 municipio_id:municipio_id,
                 estado      :estado,
+                prefijo     :prefijo,
                 descripcion :descripcion},
           success:function(res){
             Cargar();

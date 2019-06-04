@@ -10,13 +10,13 @@
   <div class="col-md-4 col-sm-4 col-xs-12">
 
     <div class="panel panel-primary">
-      <div class="panel-heading">Crear Producto</div>
+      <div class="panel-heading">Crear Usuarios</div>
       <div class="panel-body">
 
 
         <form class="form-horizontal form-label-left" action="{{route('admin.users.store')}}" method="POST" autocomplete="off">        
 
-          <!-- NOMBRE**************************************************************************-->
+          <!-- NOMBRE **************************************************************************-->
           <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Nombre *:</label>
@@ -35,7 +35,7 @@
               @endforeach
             </select>
             </div>
-          </div>  
+          </div>           
 
           <div class="form-group">
           <div class="col-md-12 col-sm-12 col-xs-12">
@@ -49,11 +49,12 @@
             </div>
           </div>  
 
-            <!-- EMAIL**************************************************************************-->
+            <!-- EMAIL **************************************************************************-->
           <div class="form-group">            
             <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Email *: </label>
-              <input type="email" class="form-control" placeholder="ingrese email" id="email" name="email" value="{{old('email')}}" required>
+              <input type="email" class="form-control" placeholder="ingrese email" id="email" name="email" value="{{old('email')}}" 
+                  autocomplete="off" required>
 
             </div>
           </div>  
@@ -61,11 +62,35 @@
           <div class="form-group">            
             <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Contraseña *: </label>
-              <input type="password" class="form-control" placeholder="ingrese contraseña" id="password" name="password" value="{{old('password')}}" required>
+              <input type="password" class="form-control" placeholder="ingrese contraseña" id="password" 
+                    name="password" value="{{old('password')}}" autocomplete="off" required>
 
             </div>
           </div>  
 
+          <div class="form-group">
+            <!-- BANCO *****************************************************-->            
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <label>Banco :</label>
+            <select class="form-control" placeholder="banco cuenta de nómina" name="banco_id" id="banco_id">
+              <option value="" disabled selected hidden="rol">- -</option>
+                  @foreach($bancos as $banco)
+                    <option id="banco_id" name="banco_id" value="{{ $banco->id }}" 
+                      {{ (old("banco_id") == $banco->id ? "selected":"") }}>{{  $banco->nombre }}</option>
+                  @endforeach
+            </select>
+            </div>
+          </div> 
+
+            <!-- NUMERO DE CUENTA **************************************************************************-->
+          <div class="form-group">            
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <label for="">Número de cuenta: </label>
+              <input type="text" class="form-control" placeholder="número de cuenta nómina" 
+                id="num_cuenta" name="num_cuenta" value="{{old('num_cuenta')}}">
+
+            </div>
+          </div>  
 
          <!-- BOTONES **************************************************************************-->
 

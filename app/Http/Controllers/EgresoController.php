@@ -11,8 +11,10 @@ use App\Proveedor;
 use App\Cartera;
 use App\Egreso;
 use App\Punto;
+use App\Banco;
 use App\User;
 use Filter;
+use Excel;
 use Auth;
 use DB;
 
@@ -278,7 +280,7 @@ class EgresoController extends Controller
     public function get_data()
     {
         try {
-            $bancos = getEnumValues('facturas', 'banco');
+            $bancos = Banco::where('estado','Activo')->orderBy('nombre')->get();
             $proveedores   = Proveedor::where('estado','Activo')->orderBy('nombre')->get();
             $puntos = Punto::where('estado','Activo')->orderBy('nombre')->get();
             $auth = Auth::user();
@@ -433,5 +435,68 @@ class EgresoController extends Controller
 
         
         dd($solicitudes);
+    }
+
+    public function report()
+    {
+
+        $egresos = DB::table('egresos')
+            ->leftJoin('bancos','egresos.banco_id','=','bancos.id')
+            ->leftJoin('proveedores','egresos.proveedor_id','=','proveedores.nombre')
+            ->join('users as user_create','egresos.user_create_id','=','user_create.id')
+            ->join('carteras','egresos.cartera_id','=','carteras.id')
+            ->join('puntos','egresos.punto_id','=','puntos.id')
+            ->leftJoin('users as user_nomina','egresos.user_nomina_id','=','user_nomina.id')
+            ->select('egresos.*',
+                     'bancos.nombre as banco',
+                     'user_create.name as user_create',
+                     'carteras.nombre as cartera',
+                     'puntos.nombre as punto',
+                     'proveedores.nombre as proveedor',
+                     'user_nomina.name as user_nomina')
+            ->get();
+        
+        // Egreso::where('created_at','like','2019%')->get();
+
+        $array_egresos  = [];
+
+        $header = [
+                'fecha'              ,'comprobante_egreso',
+                'concepto'           ,'tipo',
+                'banco'              ,'num_consignacion',
+                'valor'              ,'creó',
+                'observaciones'      ,'cartera',       
+                'punto'              ,'proveedor',     
+                'funcionario nomina'   
+        ];
+
+        array_push($array_egresos, $header);
+
+        foreach($egresos as $egreso){
+
+            $temp = [
+                'fecha'         => $egreso->fecha,
+                'comprobante_egreso' => $egreso->comprobante_egreso,
+                'concepto'      => $egreso->concepto,
+                'tipo'          => $egreso->tipo,
+                'banco'         => $egreso->banco,
+                'num_consignacion'  =>  $egreso->num_consignacion,
+                'valor'         => $egreso->valor,
+                'user_create'   => $egreso->user_create,
+                'observaciones' => $egreso->observaciones,
+                'cartera'       => $egreso->cartera,
+                'punto'         => $egreso->punto,
+                'proveedor'     => $egreso->proveedor,
+                'user_nomina'   => $egreso->user_nomina
+            ];
+
+            array_push($array_egresos, $temp);
+        }
+
+        Excel::create('report',function($excel) use($array_egresos){
+            $excel->sheet('Sheetname',function($sheet)use($array_egresos){
+                $sheet->fromArray($array_egresos,null,'A1',false,false);
+            });
+        })->download('xls');
     }
 }
