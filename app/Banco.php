@@ -11,4 +11,9 @@ class Banco extends Model
     protected $fillable = [
         'nombre','estado'
     ];
+
+    public function users()
+    {
+        return $this->hasMany('App\User','banco_id','id');
+    }
 }

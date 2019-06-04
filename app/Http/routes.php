@@ -66,29 +66,26 @@ Route::get('financiero',
 	['uses' =>'FinancieroController@index','as'=>'admin.reporte.financiero'])
 	->middleware('admin');
 
-// CLIENTESCLIENTESCLIENTESCLIENTESCLIENTESCLIENTESCLIENTES
-
-//CLIENTES LISTAR
+/*
+|--------------------------------------------------------------------------
+| Clientes
+|--------------------------------------------------------------------------
+*/
 Route::get('start/clientes',
 	['uses' => 'ClienteController@index','as'=> 'start.clientes.index'])->middleware('clientes_listar');
 
-//CLIENTE GUARDAR
 Route::post('start/clientes',
 	['uses' => 'ClienteController@store','as'=> 'start.clientes.store'	])->middleware('clientes_guardar');
 
-//CLIENTE CREAR
 Route::get('start/clientes/create',
 	['uses' 	=> 'ClienteController@create','as'=> 'start.clientes.create'])->middleware('clientes_crear');
 
-//CLIENTE VER
 Route::get('start/clientes/{cliente}',
 	['uses' => 'ClienteController@show','as'=> 'start.clientes.show'])->middleware('clientes_ver');
 
-//CLIENTE EDITAR
 Route::get('start/clientes/{cliente}/edit',
 	['uses' => 'ClienteController@edit','as'=> 'start.clientes.edit'])->middleware('clientes_editar');
 
-//CLIENTE ACTUALIZAR
 Route::put('start/clientes/{cliente}',
 	['uses' => 'ClienteController@update','as'=> 'start.clientes.update'])->middleware('clientes_actualizar');
 
@@ -136,52 +133,50 @@ Route::put('start/estudios/{estudio}',
 
 
 
-//CREDITOSCREDITOSCREDITOSCREDITOSCREDITOSCREDITOSCREDITOSCREDITOSCREDITOSCREDITOS
+/*
+|--------------------------------------------------------------------------
+| Creditos
+|--------------------------------------------------------------------------
+*/
 
-//CREDITOS LISTAR
+
 Route::get('start/creditos',
 	['uses' => 'CreditoController@index','as'=> 'start.creditos.index'])->middleware('creditos_listar');
 
-// //CREDITOS CREAR
+
 // Route::get('start/creditos/create',
 // 	['uses' 	=> 'CreditoController@create','as'=> 'start.creditos.create'])->middleware('creditos_crear');
 
-//CREDITOS ACTUALIZAR
 Route::put('start/creditos/{credito}',
 	['uses' => 'CreditoController@update','as'=> 'start.creditos.update'])->middleware('creditos_actualizar');
 
-//CREDITOS EDITAR
 Route::get('start/creditos/{credito}/edit',
 	['uses' => 'CreditoController@edit','as'=> 'start.creditos.edit'])->middleware('creditos_editar');
 
-
-//CREDITOS CREAR
 Route::get('start/creditos/create/{id}',[
 	'uses' => 'CreditoController@create',
 	'as'   => 'start.creditos.create'
 	])->middleware('creditos_crear');
 
-//CREDITOS  REFINANCIAR
 Route::get('start/creditos/{id}/refinanciar',[
 	'uses' => 'CreditoController@refinanciar',
 	'as'   => 'start.creditos.refinanciar'
 ])->middleware('refinanciacion');;
 
-//CREAR REFINANCIACION
 Route::post('start/creditos/crear_refinanciacion',[
 	'uses' => 'CreditoController@crear_refinanciacion',
 	'as'   => 'start/creditos/crear_refinanciacion'
 	])->middleware('refinanciacion');;
-//LISTAR CREDITOS CANCELADOS
+
 Route::get('start/creditos/cancelados',[
 	'uses' => 'CreditoController@cancelados',
 	'as'   => 'start.creditos.cancelados'	
 ])->middleware('refinanciacion');;
-//EXPORTAR TODOS LOS CREDITOS
+
 Route::get('start/creditos/exportar_todo',[
 	'uses'	=> 'CreditoController@ExportarTodo',
 	'as'	=> 'start.creditos.exportar_todo'
-	])->middleware('refinanciacion');;
+	])->middleware('refinanciacion');
 
 //CONYUGES
 
@@ -389,7 +384,10 @@ Route::get('wiki/{opcion}',[
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 
+	// USERS
+	Route::get('users/get_users','UserController@getUsers');
 	Route::resource('users','UserController');
+
 	Route::resource('variables','VariableController',['only' =>['index','update']]);
 	Route::resource('carteras','CarteraController');
 	Route::resource('productos','ProductoController');
@@ -409,6 +407,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::resource('proveedores','ProveedorController');
 
 });
+
+/*
+|--------------------------------------------------------------------------
+| Estado Cuenta
+|--------------------------------------------------------------------------
+*/
+
+Route::get('admin/estado_cuenta/{credito_id}',[
+	'uses' => 'EstadoCuentaController@getEstadoCuenta',
+	'as'   => 'admin.get_estado_cuenta'	
+]);
 
 //GESTION DE CARTERA
 
@@ -452,13 +461,14 @@ Route::get('admin/marcar-cancelados/{tipo_reporte}',
 
 
 //EGRESOS
-
+Route::get('start/egresos_report','EgresoController@report');
 Route::get('start/egresos/get_info','EgresoController@get_info');
 Route::get('start/egresos/solicitudes','EgresoController@get_solicitudes');
 Route::get('start/egresos/search/{string?}','EgresoController@search');
 Route::get('start/egresos/get_data','EgresoController@get_data');
 Route::get('start/egresos/get_egresos','EgresoController@get_egresos');
 Route::resource('start/egresos','EgresoController');
+
 Route::get('start/egresos/{id}/destroy','EgresoController@destroy')->middleware('admin');
 
 //ELIMINAR

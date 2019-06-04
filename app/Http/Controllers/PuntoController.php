@@ -73,6 +73,7 @@ class PuntoController extends Controller
                 $punto->nombre = strtoupper($request->input('nombre'));
                 $punto->direccion = strtoupper($request->input('direccion'));
                 $punto->descripcion = strtoupper($request->input('descripcion'));
+                $punto->prefijo = $request->input('prefijo');
                 $punto->municipio_id = $request->input('municipio_id');
                 $punto->save();
                 DB::commit();
@@ -125,7 +126,6 @@ class PuntoController extends Controller
         try{
             $this->validate($request,
             ['nombre' => 'required|unique:puntos,nombre,'.$id,'direccion' => 'required']);  
-        
 
             $punto              = Punto::find($id);
             $punto->id          = $request->input('id');
@@ -133,6 +133,7 @@ class PuntoController extends Controller
             $punto->direccion   = strtoupper($request->input('direccion'));
             $punto->municipio_id=$request->input('municipio_id');
             $punto->descripcion = strtoupper($request->input('descripcion'));
+            $punto->prefijo     = $request->input('prefijo');
             $punto->estado      = $request->input('estado'); 
             $punto->save();
 

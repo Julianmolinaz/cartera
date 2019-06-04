@@ -71,7 +71,8 @@
             <!-- EMAIL**************************************************************************-->
             <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Email *: </label>
-              <input type="email" class="form-control" placeholder="ingrese email" id="email" name="email" value="{{$user->email}}" required>
+              <input type="email" class="form-control" placeholder="ingrese email" id="email" name="email" 
+                    value="{{$user->email}}" autocomplete="off" required>
 
             </div>
           </div>
@@ -82,6 +83,31 @@
               <input type="password" class="form-control" placeholder="ingrese contraseña" id="password" name="password" value="{{$user->password}}" required>
             </div>
           </div>  
+
+          <div class="form-group">
+            <!-- BANCO *****************************************************-->            
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <label>Banco :</label>
+            <select class="form-control" placeholder="banco cuenta de nómina" name="banco_id" id="banco_id">
+              <option value="" disabled selected hidden="rol">- -</option>
+                  @foreach($bancos as $banco)
+                    <option id="banco_id" name="banco_id" value="{{ $banco->id }}" 
+                      {{ ($banco->id == $user->banco_id) ? "selected":"" }}>{{  $banco->nombre }}</option>
+                  @endforeach
+            </select>
+            </div>
+          </div> 
+
+            <!-- NUMERO DE CUENTA **************************************************************************-->
+          <div class="form-group">            
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <label for="">Número de cuenta: </label>
+              <input type="text" class="form-control" placeholder="número de cuenta nómina" 
+                id="num_cuenta" name="num_cuenta" value="{{$user->num_cuenta}}">
+
+            </div>
+          </div>  
+
 
          <!-- BOTONES **************************************************************************-->
 

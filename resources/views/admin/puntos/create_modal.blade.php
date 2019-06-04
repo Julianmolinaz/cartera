@@ -34,6 +34,13 @@
           </div>
 
           <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <label for="">Prefijo *:</label>
+              <input type="text" class="form-control" id="prefijo">
+            </div>
+          </div>
+
+          <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Descripción :</label>
               <textarea class="form-control" rows="3" id="descripcion" name="descripcion" placeholder='Escriba la descripción del punto' autocomplete="off"></textarea>
@@ -61,13 +68,15 @@
 
 
 <script>
-  $('#btn_crear_punto').click(function(){ 
-    
+
+  $('#btn_crear_punto').click(function()
+  { 
     var nombre        = $('#nombre').val();
     var direccion     = $('#direccion').val();
     var descripcion   = $('#descripcion').val();
     var municipio_id  = $('#municipio_id').val(); 
     var route         = "{{url('admin/puntos')}}";
+    var prefijo       = $('#prefijo').val();
     var token         = $("#token").val();
 
     $.ajax({
@@ -75,7 +84,13 @@
       headers: {'X-CSRF-TOKEN': token},
       type: 'POST',
       dataType: 'json',
-      data: {nombre:nombre,direccion:direccion,descripcion:descripcion,municipio_id:municipio_id},
+      data: {
+          nombre      : nombre,
+          direccion   : direccion,
+          descripcion : descripcion,
+          municipio_id:municipio_id,
+          prefijo     : prefijo
+        },
         success:function(data){
           
           if(data.res == true){

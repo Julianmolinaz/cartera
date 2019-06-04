@@ -101,6 +101,10 @@ class GestionCarteraController extends Controller
         $this->totalizarTodaLaCarteraTr();
     }
 
+    /**
+     * @return el reporte consolidado de cartera
+     * descriminado por punto y con un gran total
+     */
 
     public function getPuntos()
     {
@@ -134,6 +138,5 @@ class GestionCarteraController extends Controller
         return view('admin.gestion_cartera.info_puntos.index')
             ->with('report',$this->report);
     }
-
 
 }

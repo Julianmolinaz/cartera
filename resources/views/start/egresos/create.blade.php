@@ -68,6 +68,23 @@
         </div>  -->
     </div>
 
+    <!-- FUNCIONARIO NOMINA -->
+
+    <div class="row" style="margin: 10px 4px;" v-if="show_users">
+        <div class="col-md-12 col-sm-12 col-xs-12 min">
+            <label for="">Funcionarios</label> 
+            <select class="form-control input-small" v-model="egreso.user" v-on:change="asignar_cuenta()">
+                <option readonly="readonly" selected="selected">- -</option> 
+                <option :value="user" v-for="user in users">@{{ user.name }}</option> 
+            </select>
+            <span class="help-block" v-if="egreso.user.banco"
+                style="font-size:11px;">Cuenta #: @{{ egreso.user.num_cuenta }}, Ent. Financiera: @{{ egreso.user.banco.nombre }}</span>
+            <span class="help-block" v-else
+                style="font-size:11px;">Sin cuenta de nómina</span>
+        </div>
+    </div>
+
+    <!-- VALOR DEL EGRESO -->
     <div class="row" style="margin: 10px 4px;">
         <div id="div_monto" class="col-md-6 col-sm-6 col-xs-12 min">
             <label for="">Valor *:</label> 
@@ -82,12 +99,13 @@
             </select>
         </div>
     </div>
-    <div class="row" style="margin: 10px 4px;" v-if="show_bancos">
+
+    <div class="row" style="margin: 10px 4px;" v-show="show_bancos">
         <div class="col-md-6 col-sm-6 col-xs-12 min">
             <label>Banco *:</label> 
-            <select id="tipo" class="form-control input-small" v-model="egreso.banco">
-                <option value="" readonly="readonly" selected="selected" hidden="hidden">- -</option> 
-                <option :value="banco" v-for="banco in dat.bancos">@{{ banco }}</option> 
+            <select id="banco_id" class="form-control input-small" v-model="egreso.banco_id">
+                <option selected>- -</option> 
+                <option :value="banco.id" v-for="banco in dat.bancos">@{{ banco.nombre }}</option> 
             </select>
         </div> 
         <div class="col-md-6 col-sm-6 col-xs-12 min">
@@ -113,131 +131,4 @@
 
 </div>
 
-<script>
-    var Bus = new Vue()
-    var create_egreso = new Vue({
-        el:"#create_egreso",
-        data:{
-            egreso:{
-                concepto     : '',
-                banco        : '',
-                proveedor_id : null,
-                tipo         : '',
-                valor        : '',
-                fecha        : '',
-                num_consignacion: '',
-                punto_id     : '',
-                cartera_id   : 6
-            },
-            dat:{
-                providers : '',
-                bancos    : '',
-                conceptos : '',
-                puntos    : '',
-                auth      : ''
-            },
-            show_providers : false, //true muestra el listado de proveedores
-            show_bancos    : false
-        },
-        methods:{
-            get_data(){
-                var self = this
-                axios.get('/start/egresos/get_data')
-                    .then(function(res){
-                        console.log('get data: ',res.data)
-                        if(res.data.error){
-                            alert(res.data.message)
-                        } else {
-                            self.dat = res.data.dat
-                            self.egreso.punto_id = res.data.dat.auth.punto_id
-                            self.egreso.fecha = res.data.dat.now
-                        }
-                    })
-            },//.get_data()
-            validate_concept(){
-                if(this.egreso.concepto == "Pago a proveedores") {
-                    this.show_providers = true
-                }
-                else {
-                    this.show_providers = false
-                }
-            },//.validate_concept()
-            validate_type(){
-                if(this.egreso.tipo == 'Consignacion'){
-                    this.show_bancos = true
-                }
-                else {
-                    this.show_bancos = false
-                }
-            },//.validate_type()
-            create(){
-                var self = this
-
-                if(!this.validate_egreso()){return false;}
-
-                axios.post('egresos',{ egreso: self.egreso })
-                    .then(function(res){
-                        console.log('respuesta store ', res.data)
-                        if(res.data.error){
-                            alert(res.data.message)
-                        }
-                        else {
-                            self.reset_egreso()
-                            Bus.$emit('get_egresos')
-                        }
-                    })
-            },//.create()
-            reset_egreso(){
-                this.egreso.concepto     = ''; this.egreso.banco        = '';
-                this.egreso.proveedor_id=null; this.egreso.tipo         = '';
-                this.egreso.valor        = ''; this.egreso.fecha        = '';
-                this.egreso.num_consignacion= ''; this.egreso.observaciones = '';
-            },
-            validate_egreso() {
-                var error = ''
-                if(this.egreso.fecha == ''){ error += 'La fecha es requerida \n'; }
-
-                if(this.egreso.concepto == ''){ 
-                    error += 'El concepto es requerido \n'; 
-                }
-                else if(this.egreso.concepto == 'Pago a proveedores') {
-                 
-                    if(this.egreso.proveedor_id == ''){
-                        error += 'El proveedor es requerido \n'
-                    }
-                }
-
-                if(this.egreso.valor == ''){ error += 'El valor es requerido \n'; }
-
-                if(this.egreso.tipo == ''){ 
-                    error += 'El tipo de pago es requerido \n'; 
-                }
-                else if(this.egreso.tipo == 'Consignacion'){
-                    if(this.egreso.banco == ''){
-                        error += 'El banco es requerido \n'
-                    }
-                    if(this.egreso.num_consignacion == ''){
-                        error += 'El número de consignación es requerido \n'
-                    }
-                }
-
-                if(error != ''){
-                    alert('CORRIJA LOS SIGUIENTES ERRORES \n\n' + error)
-                    return false
-                } else {
-                    return true
-                }
-
-            },//.validate_egreso
-            add_solicitudes(){
-                
-                $('#solicitudes_modal').modal('show')
-            },//.add_solicitudes
-
-            
-        },
-        created(){
-            this.get_data()
-        }
-    })
-</script>
+@include('start.egresos.create_js')

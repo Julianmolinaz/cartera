@@ -17,8 +17,6 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-     
-
 
         <li class="">
             <a href="https://www.youtube.com/playlist?list=PLsemkTJmzpHvDs6ha0BMZ9ECkeO8GfKtx" target="_blank" 
@@ -80,9 +78,10 @@
 
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.carteras.index')}}">Carteras</a></li> 
-            <li><a href="{{route('admin.puntos.index')}}">Puntos</a></li>   
             <li><a href="{{route('admin.users.index')}}">Usuarios</a></li>
-                      
+            <li role="separator" class="divider"></li>          
+            <li><a href="{{route('admin.puntos.index')}}">Puntos</a></li> 
+            <li><a href="#">Zonas</a></li>                         
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.productos.index')}}">Productos</a></li>
             <li><a href="{{route('admin.variables.index')}}">Variables &nbsp;<i class="fas fa-cogs"></i></a></li>

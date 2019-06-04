@@ -21,7 +21,7 @@ class Access
     public static function out()
     {
         flash()->error('No puede acceder');
-        return back();
+        return view('errors.403');
     }
 
     public static function outJson()

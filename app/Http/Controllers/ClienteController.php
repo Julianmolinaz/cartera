@@ -36,7 +36,6 @@ class ClienteController extends Controller
      */
     public function index()
     {         
- 
         $clientes_qwery = 
         DB::table('clientes')
             ->join('codeudores','clientes.codeudor_id','=','codeudores.id')

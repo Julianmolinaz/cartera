@@ -15,6 +15,14 @@ class Punto extends Model implements Auditable
     	'nombre', 'estado', 'prefijo','increment',
     	'direccion', 'telefono', 'descripcion','municipio_id'];
     
+    public function setPrefijoAttribute($value){
+    	$this->attributes['prefijo'] = strtoupper($value);
+    }
+
+    public function setNombreAttribute($value){
+    	$this->attributes['nombre'] = strtoupper($value);
+    }
+
     public function municipio(){
     	return $this->hasOne('App\Municipio','id','municipio_id');
     }
