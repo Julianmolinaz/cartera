@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\EstDatacredito;
 use App\EstReferencias;
+use App\Http\Requests;
 use App\EstReferencia;
 use App\EstVivienda;
 use App\EstLaboral;
 use App\Estudio;
+use App\Cliente;
 use App\User;
 use Auth;
 use DB;
@@ -42,12 +43,19 @@ class EstudioController extends Controller
         * errores en la vista start.clientes.show
         */
 
+
         if ($objeto == 'codeudor' && $id_codeudor == 100){
             flash()->error('El Codeudor no existe');
             return redirect()->route('start.clientes.show',$id_cliente);
         }
 
+        if( !$this->validarPagoPorEstudio($id_cliente) ){
+            flash()->success('Se requiere el pago del estudio de credito =(');
+            return redirect()->route('start.clientes.show',$id_cliente);
+        }
+
         if($objeto == 'codeudor'){
+
             $existe = DB::table('estudios')
                     ->where('codeudor_id',$id_codeudor)
                     ->count();   
@@ -61,6 +69,7 @@ class EstudioController extends Controller
             }
         }
         else{
+
             $existe = DB::table('estudios')
                     ->where('cliente_id',$id_cliente)
                     ->count();
@@ -107,6 +116,36 @@ class EstudioController extends Controller
                 ->with('viviendas',EstVivienda::all());
         }
   
+    }
+
+    /**
+     * @input id del cliente 
+     * retorna true si el cliente no tiene que hacer pago de estudio de crèdito
+     * false si no ha hecho pago de estudio y debe hacerlo
+     */
+
+    public function validarPagoPorEstudio($cliente_id)
+    {
+ 
+        $cliente     = Cliente::find($cliente_id);
+        $precreditos = $cliente->precreditos;
+        $respuesta   = true;
+        if ( count($precreditos) == 1 ) {
+            $precredito = $precreditos->first();
+            
+            if ( $precredito->estudio == 'Tipico' || $precredito->estudio == 'Domicilio') {
+                
+                $respuesta = false;
+                foreach($precredito->pagos as $pago){
+                    if( $pago->concepto->nombre == 'Estudio tipico'  || $pago->concepto->nombre == 'Estudio domicilio' ) {
+                        $respuesta = true;
+                    }
+                }
+            }
+
+            return $respuesta;
+        }  
+        return true;      
     }
 
     /**
