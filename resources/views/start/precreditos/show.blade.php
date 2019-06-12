@@ -30,8 +30,9 @@
           </button>
         </a>
       @elseif(!$precredito->credito)
-        <a href="{{route('start.creditos.create',$precredito->id)}}">
-            <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" 
+        <div id="crear_credito">
+        <a href="#" @click="setMes('{{$precredito->id}}')">
+            <button type="button" id="btn_crear_credito" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" 
                 title="Para crear un crédito la solicitud debe haber sido aprobada">
               Crear Credito
             </button>
@@ -39,6 +40,33 @@
           <a href="{{route('start.fact_precreditos.create',$precredito->id)}}" class = 'btn btn-default btn-xs'>
             <span class = "glyphicon glyphicon-lamp" data-toggle="tooltip" data-placement="top" title="Iniciales y estudios"></span>
           </a>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="mes">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <select class="form-control" v-model="mes">
+                    <option selected disabled>--</option>
+                    <option :value="mes" v-for="mes in 
+                      ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']">
+                        @{{ mes }}
+                      </option>
+                  </select>
+                  <p class="help-block">Digite el mes al que corresponde el crédito.</p>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" @click="crearCredito()">Crear Crédito</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->          
+
+
+        </div>  
       @endif  
       </div>
 
@@ -206,13 +234,19 @@
           <th scope="row">Estado </th>
           <td> {{$precredito->credito->estado}}</td>
         </tr>
+        @if($precredito->credito->mes)
+        <tr>  
+          <th scope="row">Mes de referencia </th>
+          <td> <span class="label label-primary">{{$precredito->credito->mes}}</span></td>
+        </tr> 
+        @endif       
         <tr>  
           <th scope="row">Fecha de aprobacion </th>
           <td> {{$precredito->credito->created_at}}</td>
         </tr>
         <tr>  
           <th scope="row">Fecha límite de pago </th>
-          <td> {{$precredito->credito->fecha_pago->fecha_pago}}</td>
+          <td style="color:red;"> {{$precredito->credito->fecha_pago->fecha_pago}}</td>
         </tr>        
         <tr>  
           <th scope="row">Valor Total Crédito </th>
@@ -476,6 +510,32 @@
 @include('templates.main2')
 
 <script>
+
+  var crear_credito = new Vue({
+    el: '#crear_credito',
+    data: {
+      precredito_id : '',
+      mes : ''
+    },
+    methods:{
+      setMes(precredito_id){
+        this.precredito_id = precredito_id
+        $('#mes').modal('show')
+      },
+      crearCredito(){
+        if(this.mes) {
+          var route = '/start/creditos/create/'+this.precredito_id+'/'+this.mes;
+          $('#mes').modal('toggle')
+          window.open(route, "_self")
+        } else {
+          alert('Seleccione un mes por favor ...')
+        }
+      }
+    },
+    created(){
+
+    }
+  })
 
   const element = new Vue({
     el:  '#element',

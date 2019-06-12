@@ -153,7 +153,7 @@ Route::put('start/creditos/{credito}',
 Route::get('start/creditos/{credito}/edit',
 	['uses' => 'CreditoController@edit','as'=> 'start.creditos.edit'])->middleware('creditos_editar');
 
-Route::get('start/creditos/create/{id}',[
+Route::get('start/creditos/create/{id}/{mes}',[
 	'uses' => 'CreditoController@create',
 	'as'   => 'start.creditos.create'
 	])->middleware('creditos_crear');

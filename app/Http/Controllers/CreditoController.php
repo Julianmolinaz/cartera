@@ -169,7 +169,7 @@ class CreditoController extends Controller
     | 
     */
 
-    public function create($id)
+    public function create($id, $mes)
     {
        $precredito = Precredito::find($id);
 
@@ -206,7 +206,7 @@ class CreditoController extends Controller
              $credito = new Credito();
              $credito->precredito_id    = $precredito->id;
              $credito->cuotas_faltantes = $precredito->cuotas;
-
+             $credito->mes = $mes;
              $credito->estado         = 'Al dia';
              $credito->valor_credito  = $precredito->cuotas * $precredito->vlr_cuota;
              $credito->saldo          = $credito->valor_credito;
