@@ -29,6 +29,7 @@
               <th>  Crédito Padre</th>
               <th>  Cuotas        </th>
               <th>  Valor Cuota   </th> 
+              <th>  Pago hasta    </th>
               <th>  Centro de Costos</th>              
               <th>  Valor Crédito </th>
               <th>  Saldo         </th>
@@ -36,7 +37,7 @@
               <th>  Create     </th>
            </tr>
           </thead>
-          <tbody style="font-size:12px">
+          <tbody style="font-size:10px">
             @foreach($creditos as $credito)
               <tr>
                 <td>{{$fila++}}</td>
@@ -51,6 +52,7 @@
                 <td>{{$credito->credito_refinanciado_id}}</td>
                 <td align="right">{{ $credito->cuotas}}</td>       
                 <td align="right">{{ number_format($credito->vlr_cuota,0,",",".")}}</td>
+                <td>{{ $credito->fecha_pago }}</td>
                 <td align="right">{{ number_format($credito->vlr_fin,0,",",".")}}</td>
                 <td align="right">{{ number_format($credito->vlr_credito,0,",",".")}}</td>
                 <td align="right">{{ number_format($credito->saldo,0,",",".")}}</td>
@@ -70,6 +72,7 @@
                 <td></td>
                 <td></td>
                 <td></td> 
+                <td></td>
                 <td></td>
                 <td></td>
                 <td align="right"><b>{{number_format($total_vlr_fin,0,",",".")}}</b></td>                

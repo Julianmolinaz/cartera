@@ -52,8 +52,7 @@ class EstudioController extends Controller
         $cliente = Cliente::find($id_cliente);
         // Valida el pago de estudio 
 
-        //7686
-        if( !$this->validarPagoPorEstudio($id_cliente) && $cliente->id > 7000){
+        if( !$this->validarPagoPorEstudio($id_cliente) && $cliente->id > 7686){
             flash()->success('Se requiere el pago del estudio de credito =(');
             return redirect()->route('start.clientes.show',$id_cliente);
         }
