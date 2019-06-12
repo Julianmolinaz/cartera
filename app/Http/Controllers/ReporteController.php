@@ -331,7 +331,7 @@ class ReporteController extends Controller
         //DATACREDITODATACREDITODATACREDITODATACREDITODATACREDITODATACREDITO
 
         else if($request->input('tipo_reporte') == 'datacredito' ){
-            $corte               = Carbon::now();
+            $corte = Carbon::now();
             $corte->subMonth()->modify('last day of this month');
 
             $report_datacredito  =  reporte_datacredito($corte); // array con el reporte    

@@ -26,7 +26,7 @@ use Auth;
 use DB;
 
 
-function reporte_datacredito($f_corte)
+function reporte_datacredito($f_corte, $data_asis = null)
 {   
     $now            = Carbon::now();
     $punto          = Punto::find(1);
@@ -56,6 +56,10 @@ function reporte_datacredito($f_corte)
         $str_control_ini = implode($registro_de_control);
 
         array_push($info_clientes_array,$registro_de_control);
+
+        if($data_asis[0]){
+            array_push($info_clientes_array, $data_asis[0]);
+        }
 
 
         // REGISTRO CON INFORMACIÓN DE CLLIENTES

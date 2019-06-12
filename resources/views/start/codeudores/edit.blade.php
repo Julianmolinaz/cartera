@@ -285,7 +285,7 @@
 
         <center>
           <a href="javascript:window.history.back();"><button type="button" class="btn btn-primary">Volver</button></a>
-          <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
+          <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Guardar Cambios&nbsp;&nbsp;</button>
         </center>  
 
               </div>
