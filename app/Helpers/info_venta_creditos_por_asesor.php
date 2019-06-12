@@ -38,6 +38,7 @@ function reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 ){
     ->join('carteras','precreditos.cartera_id','=','carteras.id')
     ->join('productos','precreditos.producto_id','=','productos.id')
     ->join('users','precreditos.funcionario_id','=','users.id')
+    ->leftJoin('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
     ->where([['creditos.estado','<>','Refinanciacion']])
     ->whereBetween('creditos.created_at',[$ini,$fin])
     ->select(
@@ -58,6 +59,7 @@ function reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 ){
         'precreditos.periodo as periodo',
         'productos.nombre as producto',
         'users.name as funcionario', 
+        'fecha_cobros.fecha_pago as fecha_pago',
         DB::raw('precreditos.vlr_cuota * precreditos.cuotas as vlr_credito'))
     ->get();
 

@@ -36,6 +36,7 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
     ->join('clientes','precreditos.cliente_id','=','clientes.id')
     ->join('carteras','precreditos.cartera_id','=','carteras.id')
     ->join('productos','precreditos.producto_id','=','productos.id')
+    ->leftJoin('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
     ->where([['creditos.estado','<>','Refinanciacion']]) // Cancelado por refinanciacion
     ->whereBetween('creditos.created_at',[$ini,$fin])
     ->select(
@@ -55,6 +56,7 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
         'creditos.rendimiento as rendimiento',
         'precreditos.periodo as periodo',
         'productos.nombre as producto',
+        'fecha_cobros.fecha_pago as fecha_pago',
         DB::raw('precreditos.vlr_cuota * precreditos.cuotas as vlr_credito'))
     ->get();
 
