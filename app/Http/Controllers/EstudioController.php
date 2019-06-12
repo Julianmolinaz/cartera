@@ -10,6 +10,7 @@ use App\EstReferencia;
 use App\EstVivienda;
 use App\EstLaboral;
 use App\Estudio;
+use Carbon\Carbon;
 use App\Cliente;
 use App\User;
 use Auth;
@@ -43,29 +44,29 @@ class EstudioController extends Controller
         * errores en la vista start.clientes.show
         */
 
-
         if ($objeto == 'codeudor' && $id_codeudor == 100){
             flash()->error('El Codeudor no existe');
             return redirect()->route('start.clientes.show',$id_cliente);
         }
 
-        if( !$this->validarPagoPorEstudio($id_cliente) ){
+        $cliente = Cliente::find($id_cliente);
+        // Valida el pago de estudio 
+
+        //7686
+        if( !$this->validarPagoPorEstudio($id_cliente) && $cliente->id > 7000){
             flash()->success('Se requiere el pago del estudio de credito =(');
             return redirect()->route('start.clientes.show',$id_cliente);
         }
 
         if($objeto == 'codeudor'){
-
             $existe = DB::table('estudios')
                     ->where('codeudor_id',$id_codeudor)
                     ->count();   
-             if($existe){
-              $estudio = Estudio::where('codeudor_id','=',$id_codeudor)->get();  
-              $ir = 'editar';
-            }
-            else{
-             $ir = 'crear';
-
+            if($existe){
+                $estudio = Estudio::where('codeudor_id','=',$id_codeudor)->get();  
+                $ir = 'editar';
+            } else {
+                $ir = 'crear';
             }
         }
         else{
