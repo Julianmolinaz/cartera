@@ -164,6 +164,7 @@ class CreditoRepository{
                     'creditos.sanciones_exoneradas as sanciones_exoneradas',
                     'creditos.created_at as apertura',
                     'clientes.nombre as cliente',
+                    'clientes.movil as movil',
                     'clientes.num_doc as num_doc',
                     'fecha_cobros.fecha_pago as fecha_pago',
                     'llamadas.agenda as agenda',

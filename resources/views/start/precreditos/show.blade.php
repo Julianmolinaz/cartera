@@ -223,6 +223,7 @@
          title="Llamar">
         <span class = "glyphicon glyphicon-phone-alt"></span>
       </a>
+      @endif    
       @if(Auth::user()->rol == 'Administrador')
       <a href="{{route('admin.get_estado_cuenta',$precredito->credito->id)}}"
          class = 'btn btn-default btn-xs'
@@ -232,7 +233,6 @@
         <span><i class="fab fa-laravel"></i></span>
       </a>
       @endif
-      @endif    
     </div>
     @include('flash::message')
 

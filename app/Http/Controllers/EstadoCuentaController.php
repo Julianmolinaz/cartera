@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Variable;
 use App\Credito;
+use Carbon\Carbon;
 use PDF;
+use DB;
 
 class EstadoCuentaController extends Controller
 {
     public $report;
     public $struct;
+    public $credito;
+    public $sanciones;
 
     public function __construct()
     {
@@ -29,6 +33,7 @@ class EstadoCuentaController extends Controller
             'num_cts'       => '',
             'dias_de_pago'  => '',
             'vlr_credito'   => '',
+            'saldo_total'   => '',
             'pagos'         => [],
             'total_abonos$'       => 0,
             'total_sanciones$'    => 0,
@@ -41,22 +46,30 @@ class EstadoCuentaController extends Controller
 
     public function getEstadoCuenta($credito_id)
     {
-        $credito = Credito::find($credito_id);
+        $this->credito = Credito::find($credito_id);
 
-        $this->setInfoGeneral($credito);
-
-        $this->struct['vlr_credito'] = $credito->valor_credito;
+        // se cargan los datos generales de la obligación
+        $this->setInfoGeneral();
+        $this->struct['vlr_credito'] = $this->credito->valor_credito;
         
-        $this->getPagos($credito);
+        // se cargan todos los pagos realizados hasta la fecha
+        $this->getPagos();
+
+        //se traen las sanciones de la obligacion
+        $this->sanciones = DB::table('sanciones')->where('credito_id',$credito_id)->get();
+
+        //inicialización del saldo total
+        $this->struct['saldo_total'] = $this->credito->valor_credito;
+        
+        $this->getSaldos();
 
         return view('admin.estado_de_cuenta.index')
             ->with('cuenta', $this->struct);
     }
 
-    public function getPagos($credito)
+    public function getPagos()
     {
-        $facturas = $credito->facturas;
-        $total_a_pagar = $credito->valor_credito;
+        $facturas = $this->credito->facturas;
         $array_facturas = [];
 
         foreach( $facturas as $factura) {
@@ -65,41 +78,96 @@ class EstadoCuentaController extends Controller
             $temp = [
                 'fecha'         => $factura->fecha,
                 'num_fact'      => $factura->num_fact,
+                'factura_total' => $factura->total,
                 'abonos$'       => $pagos['abono_cuota'],
                 'sanciones$'    => $pagos['abono_sanciones'],
                 'sancionesNo'   => $pagos['num_sanciones'],
                 'prejuridico$'  => $pagos['abono_prejuridico'],
                 'juridico$'     => $pagos['abono_juridico'],
-                'factura_total' => $factura->total,
+                'created_at'    => $factura->created_at,
                 'total_a_pagar' => $total_a_pagar,
                 'saldo'         => $total_a_pagar - $factura->total
             ];
             
             $total_a_pagar = $total_a_pagar - $factura->total;
-
+            
             $this->struct['total_facturas'] += $factura->total;
-
+            
             array_push($array_facturas, $temp);
 
         }
 
         $this->struct['pagos'] = $array_facturas;
-    }   
-
-    public function setInfoGeneral($credito) 
+    }
+    
+    public function getSaldos()
     {
-        $this->struct['tipo_doc'] = $credito->precredito->cliente->tipo_doc;
-        $this->struct['num_doc'] = $credito->precredito->cliente->num_doc; 
-        $this->struct['nombre'] = $credito->precredito->cliente->nombre;
-        $this->struct['fecha_creacion'] = $credito->created_at;
-        $this->struct['referencia'] = $credito->id;
-        $this->struct['periodo'] = $credito->precredito->periodo;
-        $this->struct['vlr_cuota'] = $credito->precredito->vlr_cuota;
-        $this->struct['num_cts']   = $credito->precredito->cuotas;
+        $ini = new Carbon($this->credito->created_at);
+        $ini = $ini->startOfDay();
+
+
+        if ( ($this->struct['pagos']) > 0) {
+            
+            $this->struct['pagos'][0]['total_a_pagar'] = $this->credito->valor_credito;
+
+            foreach($this->struct['pagos'] as $pago){
+                $fin = new Carbon($pago['created_at']);
+                $fin = $fin->endOfDay();
+
+                // obtiene las sanciones entre el rango del los pagos
+                $sanciones = $this->getSanciones($ini, $fin);
+                $pre_juridicos = $this->getPrejuridicos($ini, $fin);
+                $ini = $fin;
+            }
+
+            $fin = Carbon::now()->endOfDay();
+
+            $sanciones = $this->getSanciones($ini, $fin);
+            
+        }
+    }
+
+    public function getSanciones($ini, $fin)
+    {
+        $sum_sanciones = 0;
+        $count_sanciones = 0;
+
+        foreach($this->sanciones as $sancion) {
+
+            if( $sancion->estado == 'Debe' || $sancion->estado == 'Ok' ) {
+                $created = new Carbon($sancion->created_at);
+
+                if ($created->gt($ini) && $created->lte($fin)) {
+                    $count_sanciones ++;
+                    $sum_sanciones += $sancion->valor;
+                }
+            }
+        }
+        
+        $this->struct['total_sanciones$']   += $sum_sanciones;
+        $this->struct['total_sancionesNo']  += $count_sanciones;
+    
+        return [
+            'sum_sanciones' => $sum_sanciones,
+            'count_sanciones' => $count_sanciones
+        ];
+
+    }
+
+    public function setInfoGeneral() 
+    {
+        $this->struct['tipo_doc'] = $this->credito->precredito->cliente->tipo_doc;
+        $this->struct['num_doc'] = $this->credito->precredito->cliente->num_doc; 
+        $this->struct['nombre'] = $this->credito->precredito->cliente->nombre;
+        $this->struct['fecha_creacion'] = $this->credito->created_at;
+        $this->struct['referencia'] = $this->credito->id;
+        $this->struct['periodo'] = $this->credito->precredito->periodo;
+        $this->struct['vlr_cuota'] = $this->credito->precredito->vlr_cuota;
+        $this->struct['num_cts']   = $this->credito->precredito->cuotas;
         $this->struct['dias_de_pago'] =
-            ( $credito->precredito->s_fecha) ? 
-              $credito->precredito->p_fecha.'-'.$credito->precredito->s_fecha 
-            : $credito->precredito->p_fecha;        
+            ( $this->credito->precredito->s_fecha) ? 
+              $this->credito->precredito->p_fecha.'-'.$this->credito->precredito->s_fecha 
+            : $this->credito->precredito->p_fecha;        
     }
 
     public function getAbonosPorConcepto($factura)
@@ -167,7 +235,5 @@ class EstadoCuentaController extends Controller
         $this->struct['vlr_credito'] = $credito->valor_credito;
         
         $this->getPagos($credito);
-
-
     }
 }
