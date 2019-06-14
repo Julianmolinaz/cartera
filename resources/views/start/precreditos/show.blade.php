@@ -223,11 +223,18 @@
          title="Llamar">
         <span class = "glyphicon glyphicon-phone-alt"></span>
       </a>
+      @if(Auth::user()->rol == 'Administrador')
+      <a href="{{route('admin.get_estado_cuenta',$precredito->credito->id)}}"
+         class = 'btn btn-default btn-xs'
+         data-toggle="tooltip" 
+         data-placement="top" 
+         title="Estado de cuenta">
+        <span><i class="fab fa-laravel"></i></span>
+      </a>
+      @endif
       @endif    
     </div>
     @include('flash::message')
-
-
 
       <table class="table" style="font-size:12px">
         <tr>  

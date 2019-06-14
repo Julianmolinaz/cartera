@@ -175,8 +175,8 @@ function total_pagos_credito($credito)
 	{
 		$pagos_refinanciacion = calculadora_pagos_credito($credito->refinanciado);
 
-		$pagos['total_pagos_credito'] 				      += $pagos_refinanciacion['total_pagos_credito'];
-		$pagos['total_pagos_prejuridico_credito'] 	+= $pagos_refinanciacion['total_pagos_prejuridico_credito'];
+		$pagos['total_pagos_credito'] 				  += $pagos_refinanciacion['total_pagos_credito'];
+		$pagos['total_pagos_prejuridico_credito'] 	  += $pagos_refinanciacion['total_pagos_prejuridico_credito'];
 		$pagos['total_pagos_juridico_credito'] 		  += $pagos_refinanciacion['total_pagos_juridico_credito'];
 		$pagos['total_pagos_sanciones_credito'] 	  += $pagos_refinanciacion['total_pagos_sanciones_credito'];
 

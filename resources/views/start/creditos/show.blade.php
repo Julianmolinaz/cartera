@@ -100,8 +100,6 @@
                 </tr>
               </table>
               <center>
-
-
                 <a href="javascript:window.history.back();">
                 <button type="button" class="btn btn-primary">Volver</button></a>
 
