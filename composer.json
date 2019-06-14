@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
+        "barryvdh/laravel-dompdf": "^0.8.2",
         "laravel/framework": "5.2.*",
         "laravelcollective/annotations": "^5.2.0",
         "laravelcollective/html": "^5.2.0",
@@ -49,7 +50,8 @@
             "app/Helpers/no_incluidos.php",
             "app/Helpers/funciones_datacredito.php",
             "app/Helpers/middleware.php",
-            "app/Helpers/caja_helper.php"
+            "app/Helpers/caja_helper.php",
+            "app/Helpers/filters.php"
         ]
     },
     "autoload-dev": {

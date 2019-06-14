@@ -419,6 +419,7 @@ Route::get('admin/estado_cuenta/{credito_id}',[
 	'as'   => 'admin.get_estado_cuenta'	
 ]);
 
+
 //GESTION DE CARTERA
 
 Route::get('admin/gestion_cartera/index',[
