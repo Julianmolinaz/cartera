@@ -223,7 +223,7 @@
          title="Llamar">
         <span class = "glyphicon glyphicon-phone-alt"></span>
       </a>
-      @endif
+      @endif    
       @if(Auth::user()->rol == 'Administrador')
       <a href="{{route('admin.get_estado_cuenta',$precredito->credito->id)}}"
          class = 'btn btn-default btn-xs'

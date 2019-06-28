@@ -413,12 +413,12 @@ class CallcenterController extends Controller
                     } else {
                         $creditos = $this->creditos->callActivePunto();
                     }
-
                     $header = [
                         'cartera',
                         'credito_id',
                         'fecha_apertura',
                         'cliente',
+                        'celular',
                         'documento',
                         'municipio',
                         'departamento',
@@ -445,6 +445,7 @@ class CallcenterController extends Controller
                             'credito_id'         => $credito->id,
                             'fecha_apertura'     => $this->dmY($credito->apertura),
                             'cliente'            => $credito->cliente,
+                            'celular'            => $credito->movil,
                             'documento'          => $credito->num_doc,
                             'municipio'          => $credito->municipio,
                             'departamento'       => $credito->depto,
