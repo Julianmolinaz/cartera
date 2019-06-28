@@ -5,7 +5,7 @@
 <div class="col-md-8 col-md-offset-2">
   <div class="panel panel-default">
     <div class="panel-heading" style="background-color:gray;color:white">
-      <h3 class="panel-title">Estado de Cuenta</h3>
+      <h3 class="panel-title">Estado de Cuenta / {{$now}}</h3>
     </div>
     <div class="panel-body">
       
@@ -32,12 +32,12 @@
               </tr>
               <tr>
                   <td colspan="2">{{ $data['credito']['fecha_apertura'] }}</td>
-                  <td colspan="2">{{ $data['credito']['id'] }}</td>
-                  <td colspan="2">{{ $data['credito']['periodo'] }}</td>
-                  <td>{{ miles($data['credito']['vlr_cta']) }}</td>
-                  <td>{{ $data['credito']['num_cts'] }}</td>
-                  <td></td>
-                  <td>{{ miles($data['credito']['vlr_credito']) }}</td>
+                  <td colspan="2" align="right">{{ $data['credito']['id'] }}</td>
+                  <td colspan="2" align="right">{{ $data['credito']['periodo'] }}</td>
+                  <td align="right">${{ miles($data['credito']['vlr_cta']) }}</td>
+                  <td align="right"s>{{ $data['credito']['num_cts'] }}</td>
+                  <td align="right">{{ $data['credito']['dias_pago'] }}</td>
+                  <td align="right">${{ miles($data['credito']['vlr_credito']) }}</td>
               </tr>
       </table>
 
@@ -82,7 +82,8 @@
             @endfor
           </tr> 
           @else
-          <th colspan="5">Total pagos</th>
+          <tr style="background-color:gray;color:white">
+            <th colspan="5">Total pagos</th>
             <td></td>
             <td align="right">${{ miles($data['totales']['total_sanciones']) }}</td>
             <td align="right">${{ miles($data['totales']['total_cuota']) }}</td>
@@ -107,8 +108,10 @@
           <tr>
       </table>
 
-      <button class="btn btn-default" style="background:gray;color:white;color-border:gray;border-radius:0px;border-color: #808080;">PDF A4</button>
-      <button class="btn btn-default" style="background:gray;color:white;color-border:gray;border-radius:0px;border-color: #808080;">PDF 58 mm</button>
+      <button class="btn btn-default" 
+        style="background:gray;color:white;color-border:gray;border-radius:0px;border-color: #808080;">PDF A4</button>
+      <button class="btn btn-default" 
+        style="background:gray;color:white;color-border:gray;border-radius:0px;border-color: #808080;">PDF 58 mm</button>
     </div>
   </div>
 

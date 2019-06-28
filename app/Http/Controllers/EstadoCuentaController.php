@@ -84,6 +84,11 @@ class EstadoCuentaController extends Controller
 
     public function setDatosGenerales()
     {
+        $segunda_fecha = '';
+        if($this->credito->precredito->s_fecha){
+            $segunda_fecha = '-'.$this->credito->precredito->s_fecha;
+        }
+
         $this->struct['cliente']['nombre']      = $this->credito->precredito->cliente->nombre;
         $this->struct['cliente']['doc_type']    = $this->credito->precredito->cliente->tipo_doc;
         $this->struct['cliente']['num_doc']     = $this->credito->precredito->cliente->num_doc;
@@ -91,7 +96,7 @@ class EstadoCuentaController extends Controller
         $this->struct['credito']['periodo']     = $this->credito->precredito->periodo;
         $this->struct['credito']['vlr_cta']     = $this->credito->precredito->vlr_cuota;
         $this->struct['credito']['num_cts']     = $this->credito->precredito->cuotas;
-        $this->struct['credito']['dias_pago']   = $this->credito->precredito->p_fecha;
+        $this->struct['credito']['dias_pago']   = $this->credito->precredito->p_fecha.''.$segunda_fecha;
         $this->struct['credito']['vlr_credito'] = $this->credito->valor_credito;
         $this->struct['credito']['fecha_apertura'] = $this->credito->created_at;
     }
