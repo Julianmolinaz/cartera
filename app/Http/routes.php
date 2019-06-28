@@ -501,11 +501,7 @@ Route::get('admin/carteras/{id}/destroy',[
 	'as'	=> 'admin.carteras.destroy'
 	])->middleware(['auth', 'admin']);
 
-
-
 Route::resource('log','LogController');
-
-
 
 Route::get('logout',[
 	'uses'	=> 'LogController@logout',
@@ -522,7 +518,6 @@ Route::get('start/inicio/buscar/{string}',[
 	'uses' 	=> 'InicioController@buscar',
 	'as'	=> 'start.inicio.buscar'
 ]);
-
 
 Route::post('admin/multas/concepto','MultaController@concepto')->middleware(['auth', 'admin']);
 Route::post('start/pagos/insert_pago','PagoController@insertar_pago');

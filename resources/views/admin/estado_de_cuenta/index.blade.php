@@ -17,9 +17,9 @@
                   <th colspan="3">Documento</th>
               </tr>
               <tr>
-                  <td colspan="6">{{ $cuenta['nombre'] }}</td>
-                  <td>{{ $cuenta['tipo_doc'] }}</td>
-                  <td colspan="3">{{ $cuenta['num_doc'] }}</td>
+                  <td colspan="6">{{ $data['cliente']['nombre'] }}</td>
+                  <td>{{ $data['cliente']['doc_type'] }}</td>
+                  <td colspan="3">{{ $data['cliente']['num_doc'] }}</td>
               </tr>
               <tr style="background:gray; color:white;">
                   <th colspan="2">Fecha del Crédito</th>
@@ -31,57 +31,80 @@
                   <th>Valor del Crédito</th>
               </tr>
               <tr>
-                  <td colspan="2">{{ $cuenta['fecha_creacion'] }}</td>
-                  <td colspan="2">{{ $cuenta['referencia'] }}</td>
-                  <td colspan="2">{{ $cuenta['periodo'] }}</td>
-                  <td>{{ miles($cuenta['vlr_cuota']) }}</td>
-                  <td>{{ $cuenta['num_cts'] }}</td>
-                  <td>{{ $cuenta['dias_de_pago'] }}</td>
-                  <td>{{ miles($cuenta['vlr_credito']) }}</td>
+                  <td colspan="2">{{ $data['credito']['fecha_apertura'] }}</td>
+                  <td colspan="2">{{ $data['credito']['id'] }}</td>
+                  <td colspan="2">{{ $data['credito']['periodo'] }}</td>
+                  <td>{{ miles($data['credito']['vlr_cta']) }}</td>
+                  <td>{{ $data['credito']['num_cts'] }}</td>
+                  <td></td>
+                  <td>{{ miles($data['credito']['vlr_credito']) }}</td>
               </tr>
       </table>
+
+
       <table class="table table-bordered" style="font-size:10px;">
           <!-- PAGOS -->
           <tr style="background:gray; color:white;">
-              <th>Fecha de pago</th>
+              <th>Fecha</th>
               <th>Factura</th>
-              <th>Abonos</th>
-              <th>Días de atrazo</th>
+              <th>Valor Factura</th>  
+              <th>Total a Pagar</th> 
+              <th>Saldo</th>
+              <th>Días mora</th>
               <th>Mora</th>
+              <th>Abonos Cuota</th>
+              <th>Abonos Cuota Parcial</th>
               <th>Prejuridico</th>
               <th>Juridico</th>
-              <th>Valor Factura</th>
-              <th>Total a Pagar</th>
-              <th>Saldo</th>
           </tr>
-          @foreach($cuenta['pagos'] as $pago)
-          <tr>
-              <td>{{ $pago['fecha'] }}</td>
-              <td align="right">{{ $pago['num_fact'] }}</td>
-              <td align="right">{{ miles($pago['abonos$']) }}</td>
-              <td align="right">{{ $pago['sancionesNo'] }}</td>
-              <td align="right">{{ miles($pago['sanciones$']) }}</td>
-              <td align="right">{{ miles($pago['prejuridico$']) }}</td>
-              <td align="right">{{ miles($pago['juridico$']) }}</td>
-              <td align="right">{{ miles($pago['factura_total']) }}</td>
-              <td align="right">{{ miles($pago['total_a_pagar']) }}</td>
-              <td align="right">{{ miles($pago['saldo']) }}</td>
-          </tr>
-          @endforeach
-    
         <!-- TOTALES -->
-         <tr>
-            <td style="background:gray; color:white;" colspan="2">TOTALES</td>
-            <td style="background:gray; color:white;" align="right">{{ miles($cuenta['total_abonos$']) }}</td>
-            <td style="background:gray; color:white;" align="right">{{ miles($cuenta['total_sancionesNo']) }}</td>
-            <td style="background:gray; color:white;" align="right">{{ miles($cuenta['total_sanciones$'])}}</td>
-            <td style="background:gray; color:white;" align="right">{{ miles($cuenta['total_prejuridico$'])
-            }}</td>
-            <td style="background:gray; color:white;" align="right">{{ miles($cuenta['total_juridico$'])}}</td>
-            <td style="background:gray; color:white;" align="right">{{ miles($cuenta['total_facturas'])}}</td>
-            <td style="background:gray; color:white;"></td>
-            <td style="background:gray; color:white;"></td>
-          </tr>
+        @foreach($data['items'] as $item)
+          @if(isset($item['factura']))
+          <tr>
+            <th rowspan="{{count($item['factura']['pagos'])}}" align="right">{{ $item['factura']['fecha'] }}</th>
+            <th rowspan="{{count($item['factura']['pagos'])}}" align="right">{{ $item['factura']['num'] }}</th>
+            <td rowspan="{{count($item['factura']['pagos'])}}" align="right">${{ miles($item['factura']['valor']) }}</td>
+            <td rowspan="{{count($item['factura']['pagos'])}}" align="right">${{ miles($item['estado']['total_pagar']) }}</td>
+            <td rowspan="{{count($item['factura']['pagos'])}}" align="right">${{ miles($item['estado']['saldo']) }}</td>  
+            @for($i = 0;  $i < count($item['factura']['pagos']); $i++)
+              @if($i > 0)
+              <tr>
+              @endif
+                <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Mora') ? $item['estado']['num_sanciones'] : ''}}</td>
+                <td align="right" style="min-width:70px;">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Mora') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>
+                <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Cuota') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>
+                <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Cuota Parcial') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>
+                <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Prejuridico') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>
+                <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Prejuridico') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>     
+              @if($i > 0)
+              </tr>
+              @endif
+            @endfor
+          </tr> 
+          @else
+          <th colspan="5">Total pagos</th>
+            <td></td>
+            <td align="right">${{ miles($data['totales']['total_sanciones']) }}</td>
+            <td align="right">${{ miles($data['totales']['total_cuota']) }}</td>
+            <td align="right">${{ miles($data['totales']['total_cuota_parcial']) }}</td>
+            <td align="right">${{ miles($data['totales']['total_prejuridico']) }}</td>
+            <td align="right">${{ miles($data['totales']['total_juridico']) }}</td>
+          </tr> 
+          <tr>
+            <th colspan="3">Estado actual cuenta: {{ $now }}</th>
+            <td align="right">${{ miles($item['estado']['total_pagar']) }}</td>
+            <td align="right">${{ miles($item['estado']['saldo']) }}</td>
+            <td align="right">{{ miles($item['estado']['num_sanciones']) }}</td>
+            <td align="right">${{ miles($item['estado']['valor_sanciones']) }}</td>
+            <td></td>
+            <td></td>
+            <td align="right">${{ miles($item['estado']['prejuridicos']) }}</td>
+            <td align="right">${{ miles($item['estado']['juridicos']) }}</td>
+          </tr>  
+          @endif
+
+        @endforeach
+          <tr>
       </table>
 
       <button class="btn btn-default" style="background:gray;color:white;color-border:gray;border-radius:0px;border-color: #808080;">PDF A4</button>
