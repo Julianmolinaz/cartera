@@ -414,6 +414,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 |--------------------------------------------------------------------------
 */
 
+Route::get('admin/estado_cuenta/PDF/{credito_id}',[
+	'uses' => 'EstadoCuentaController@getPDF',
+	'as'   => 'admin.estado_cuenta.PDF'
+]);
+
 Route::get('admin/estado_cuenta/{credito_id}',[
 	'uses' => 'EstadoCuentaController@getEstadoCuenta',
 	'as'   => 'admin.get_estado_cuenta'	

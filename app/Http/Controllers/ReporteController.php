@@ -92,12 +92,13 @@ class ReporteController extends Controller
 
     public function store(Request $request)
     {
-
-        $fecha_1 = substr($request->daterange,0,10);
-        $fecha_2 = substr($request->daterange,13,22);
-        $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
-        $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
-        $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
+        if ($request->daterange) {
+            $fecha_1 = substr($request->daterange,0,10);
+            $fecha_2 = substr($request->daterange,13,22);
+            $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
+            $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
+            $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
+        }
 
         //validación de los datos
 
