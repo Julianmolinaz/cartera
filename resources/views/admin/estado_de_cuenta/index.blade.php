@@ -9,7 +9,7 @@
     </div>
     <div class="panel-body">
       
-      <table class="table table-bordered" style="font-size:10px;">
+      <table class="table table-bordered" style="font-size:10px;" id="info">
 
               <tr style="background:gray; color:white;">
                   <th colspan="6">Cliente</th>
@@ -41,8 +41,7 @@
               </tr>
       </table>
 
-
-      <table class="table table-bordered" style="font-size:10px;">
+      <table class="table table-bordered" style="font-size:10px;" id="estado">
           <!-- PAGOS -->
           <tr style="background:gray; color:white;">
               <th>Fecha</th>
@@ -107,16 +106,38 @@
         @endforeach
           <tr>
       </table>
+      
+      <a class="btn btn-default" 
+        href="{{ route('admin.estado_cuenta.PDF', $data['credito']['id']) }}" target="_blank"
+        style="background:gray;
+               color:white;
+               color-border:gray;
+               border-radius:0px;
+               border-color: #808080;">
+        PDF A4
+      </a>
 
       <button class="btn btn-default" 
-        style="background:gray;color:white;color-border:gray;border-radius:0px;border-color: #808080;">PDF A4</button>
-      <button class="btn btn-default" 
-        style="background:gray;color:white;color-border:gray;border-radius:0px;border-color: #808080;">PDF 58 mm</button>
+        style="background:gray;
+               color:white;
+               color-border:gray;
+               border-radius:0px;
+               border-color: #808080;">
+        PDF 58 mm
+      </button>
     </div>
   </div>
 
 </div>
 
+<script>
+  $('#btn_exc_detalle').click(function(){
+    $('#info').table2excel({
+      name: 'Reporte',
+      filename: "info.xls"
+    });
+  });
+</script>
 
 @endsection
 @include('templates.main2')

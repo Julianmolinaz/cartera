@@ -326,12 +326,12 @@ class CallcenterController extends Controller
     |
     */  
 
-    public function call_create(Request $request){
-        
+    public function call_create(Request $request)
+    {
+        \Log::info($request->all());
        DB::beginTransaction();
 
        try{
-
             $credito = Credito::find($request->credito_id);
 
             $llamada = new Llamada();
@@ -345,7 +345,8 @@ class CallcenterController extends Controller
                 $llamada->agenda = inv_fech($request->agenda);
             }
             
-            $llamada->observaciones = $request->observaciones;
+            $llamada->efectiva       = $request->efectiva;
+            $llamada->observaciones  = $request->observaciones;
             $llamada->user_create_id = Auth::user()->id;
             $llamada->user_update_id = Auth::user()->id;
             $llamada->save();

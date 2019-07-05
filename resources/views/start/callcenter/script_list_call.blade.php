@@ -35,7 +35,8 @@ function Mostrar(id){
 
 }
 
-function Aceptar(){
+function Aceptar()
+{
 
   //VALIDACIÓN DE CAMPO CRITERIO Y OBSERVACIONES REQUERIDOS
 
@@ -51,9 +52,10 @@ function Aceptar(){
   else{
     var agenda      = $('#agenda').val();
   }
-
+  var efectiva      = $('input:radio[name=efectiva]:checked').val();
   var criterio_id   = $('#criterio').val();
   var observaciones = $('#observaciones').val();
+
   var route         = "{{url('call/call_create')}}";
   var token         = $("#token").val();
 
@@ -64,7 +66,13 @@ function Aceptar(){
       headers: {'X-CSRF-TOKEN': token},
       type: 'POST',
       dataType: 'json',
-      data: {credito_id: credito_id, criterio_id: criterio_id, observaciones: observaciones, agenda:agenda },
+      data: {
+        efectiva  : efectiva,
+        credito_id: credito_id, 
+        criterio_id: criterio_id, 
+        observaciones: observaciones, 
+        agenda:agenda 
+        },
       success: function(){
         $("#myModal").modal('toggle');
         $("#msj-success").fadeIn();

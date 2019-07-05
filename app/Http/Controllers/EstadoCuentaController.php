@@ -21,6 +21,33 @@ class EstadoCuentaController extends Controller
         $this->middleware('auth');
     }
 
+    public function getPDF($credito_id)
+    {
+        // cargar credito
+        $this->credito = Credito::find($credito_id);
+
+        // cargar datos
+
+        $this->cargarDatosGenerales();
+
+        //generar historial
+
+        $this->cargarHistorico();
+        $now = Carbon::now();
+
+        $data = $this->struct;
+        $now = $now->toDateString();
+
+        $view = \View::make('admin.estado_de_cuenta.index', compact('data','now'))
+            ->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('report.pdf');
+
+        
+
+    }
+
     public function getEstadoCuenta($credito_id)
     {
         // cargar credito
@@ -35,7 +62,7 @@ class EstadoCuentaController extends Controller
         $this->cargarHistorico();
         $now = Carbon::now();
 
-        //dd($this->struct);
+        //  dd($this->struct);
 
         return view('admin.estado_de_cuenta.index')
             ->with('data', $this->struct)

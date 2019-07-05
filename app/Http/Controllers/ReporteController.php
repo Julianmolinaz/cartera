@@ -92,12 +92,13 @@ class ReporteController extends Controller
 
     public function store(Request $request)
     {
-
-        $fecha_1 = substr($request->daterange,0,10);
-        $fecha_2 = substr($request->daterange,13,22);
-        $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
-        $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
-        $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
+        if ($request->daterange) {
+            $fecha_1 = substr($request->daterange,0,10);
+            $fecha_2 = substr($request->daterange,13,22);
+            $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
+            $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
+            $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
+        }
 
         //validación de los datos
 
@@ -232,21 +233,62 @@ class ReporteController extends Controller
 
             $llamadas = Llamada::whereBetween('created_at',[$ini,$fin])->get();
 
-            $sumatoria = 
+            $calls = 
             DB::table('llamadas')
                 ->join('users','llamadas.user_create_id','=','users.id')
-                ->select(DB::raw('count(*) as num_llamadas, users.name as nombre'))
+                ->select('llamadas.*','users.name as user')
                 ->whereBetween('llamadas.created_at',[$ini,$fin])
-                ->groupBy('user_create_id')
                 ->get();
 
-            $total = Llamada::whereBetween('created_at',[$ini,$fin])->count();            
-            
+
+            $collection = collect($calls);
+            $grouped = $collection->groupBy('user');
+            $array_calls = [];
+            $totales = [
+                'num_llamadas' => 0,
+                'efectivas' => 0,
+                'no_efectivas' => 0,
+                'efectivas_null' => 0 
+            ];
+ 
+            foreach ($grouped as $key => $element) {
+                $temp = [
+                    'user' => $key,
+                    'num_llamadas' => 0,
+                    'efectivas' => 0,
+                    'no_efectivas' => 0,
+                    'efectivas_null' => 0
+                ];
+
+                foreach ($element as $e) {
+                    $totales['num_llamadas'] ++;
+                    $temp['num_llamadas'] ++;
+
+                    if($e->efectiva == '1'){
+
+                        $temp['efectivas'] ++;
+                        $totales['efectivas'] ++;
+
+                    } else if($e->efectiva == '0') {
+
+                        $temp['no_efectivas'] ++;
+                        $totales['no_efectivas'] ++;
+
+                    } else {
+
+                        $temp['efectivas_null'] ++;
+                        $totales['efectivas_null'] ++;
+                    }
+                }
+
+                array_push($array_calls, $temp);
+            }          
+
             return view('admin.reportes.callcenter')
+                ->with('array_calls',$array_calls)
                 ->with('llamadas',$llamadas)
                 ->with('rango',$rango)
-                ->with('sumatoria',$sumatoria)
-                ->with('total',$total);
+                ->with('totales',$totales);
         }
 
         //GENERALPORCARTERASGENERALPORCARTERASGENERALPORCARTERASGENERALPORCARTERASGENERALPORCARTERAS

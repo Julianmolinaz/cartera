@@ -50,7 +50,16 @@
             </div>
             <!-- VLR_FIN **************************************************************************-->
             <div class="form-group">
-            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="col-md-3 col-sm-3 col-xs-12">
+                <label for="">Ref Mes *: </label>
+                <select class="form-control input-sm" name="mes" id="mes">
+                @foreach(['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'] as $mes)
+                  <option value="{{ $mes }}" {{ $credito->mes == $mes ? "selected" : '' }}>{{ $mes }}</option>
+                @endforeach
+                </select>
+              </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
               <label for="">Centro de Costos *: </label>
               <input type="text" class="form-control input-sm" placeholder="ingrese monto solicitado" id="vlr_fin" name="vlr_fin" value="{{$credito->precredito->vlr_fin}}" >
             </div>

@@ -16,7 +16,7 @@ class DataAsisController extends Controller
     public $report_all;
     public $now;
     public $f_corte;
-    public $tope = 90;
+    public $tope = 30;
 
     public function __construct()
     {
@@ -62,7 +62,9 @@ class DataAsisController extends Controller
     {
 
         foreach( $this->data as $d ){
-            
+
+            $contrato = $this->contrato($d);
+
             $this->content[] = [
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($d->tipo_doc),1,'right'),
                 '2.2-numero_identificacion' => cast_number($d->num_doc,11,'right'),
@@ -75,7 +77,7 @@ class DataAsisController extends Controller
                 '2.9-tipo_obligacion'       => '1',
                 '2.10-subcidio_hipotecario' => '0',
                 '2.11-fecha_subcidio'       => '00000000',
-                '2.12-termino_contrato'     => '1',//contrato definido
+                '2.12-termino_contrato'     => $contrato['termino_contrato'],//contrato definido
                 '2.13-forma_pago'           => forma_pago($d->estado),
                 '2.14-periodicidad_pago'    => '1',
                 '2.15-novedad'              => cast_number($this->get_novedad($d->fecha_pago,$d->estado),2,'right'),
@@ -100,11 +102,11 @@ class DataAsisController extends Controller
                 '2.34-valor_disponible'     => cast_number('',11, 'right'),// N/A
                 '2.35-vlr_cuota_mensual'    => cast_number((int)$d->vlr_cuota,11, 'right'),
                 '2.36-vlr_saldo_mora'       => cast_number($this->saldoMora($d)['saldo_mora'],11,'right'),
-                '2.37-total_cuotas'         => '012',
+                '2.37-total_cuotas'         => $contrato['total_cuotas'],
                 '2.38-cuotas_canceladas'    => $this->cuotasCanceladas($d),
                 '2.39-cuotas_mora'          => cast_number($this->saldoMora($d)['cts_mora'], 3,'right'),
-                '2.40-clausula_permanencia' => '012', // variable
-                '2.41-fecha_clausula_perman'=> $this->fecha_clausula_permanencia($d->f_apertura), // variable
+                '2.40-clausula_permanencia' => $contrato['clausula_permanencia'], // variable
+                '2.41-fecha_clausula_perman'=> $contrato['f_clausula_permanencia'], // variable
                 '2.42-fecha_limite_pago'    => fecha_Ymd(inv_fech($d->fecha_pago)),
                 '2.43-fecha_pago'           => fecha_Ymd(inv_fech($d->fecha_ultimo_pago)),
                 '2.44-oficina_radicacion'   => cast_string('ASISTIMOTOS IBAGUE',30),
@@ -132,9 +134,46 @@ class DataAsisController extends Controller
                 '2.66-espacio_blanco'       => cast_string('',18)
             ];
         }
-        //dd($this->content[50]);
-        
+        // dd($this->content[0]);
     }//get_estructura
+
+
+    /**
+     * Muestra los datos 2.12, 2.37, 2.40, 2.41 en el reporte
+     * @param  recibe $data (afiliacion)
+     * @return array con : clausula_permanencia, termino_contrato,
+     * f_clausula_permanencia,total_cuotas
+     */
+
+    public function contrato($data)
+    {   
+        $ph = $data->fecha_pago;
+        $fc = $this->f_corte;
+        $ff = $this->fecha_clausula_permanencia($data->f_apertura);
+        $fi = new Carbon($data->f_apertura);
+
+        $dat = [
+            'clausula_permanencia' => 0,
+            'termino_contrato' => 0,
+            'f_clausula_permanencia' => 0,
+            'total_cuotas' => 0
+        ];
+
+        if( $ph->between($fi,$ff)) {
+            $dat['clausula_permanencia'] = '012';
+            $dat['termino_contrato'] = '1';
+            $dat['f_clausula_permanencia'] = 
+                fecha_Ymd($this->fecha_clausula_permanencia($data->f_apertura));
+            $dat['total_cuotas'] = '012';
+        } else {
+            $dat['clausula_permanencia'] = '000';
+            $dat['termino_contrato'] = '2';
+            $dat['f_clausula_permanencia'] = '00000000';
+            $dat['total_cuotas'] = '000';
+        }
+
+        return $dat;
+    }
 
     public function vencimiento($f_apertura){
         $fecha = new Carbon($f_apertura);
@@ -287,7 +326,7 @@ class DataAsisController extends Controller
     {
         $fecha_apertura = new Carbon($f_apertura);
 
-        return $fecha_apertura->addYear()->subDay()->format('Ymd');
+        return $fecha_apertura->addYear()->subDay();
     }
 
     function saldo_deuda($credito)
