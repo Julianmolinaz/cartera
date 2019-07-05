@@ -2,10 +2,10 @@
 @section('contenido')
 
 <form action="{{ route('data.data_asis') }}" method="POST" enctype="multipart/form-data">
-    Select image to upload:
+    Seleccione archivo a subir:
     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
     <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit">
+    <input type="submit" value="Cargar archivo Asistimotos" name="submit">
 </form>
 
 

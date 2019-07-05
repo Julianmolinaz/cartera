@@ -24,7 +24,7 @@
               <th>  Credito Id   </th>
               <th>  Cliente      </th>
               <th>  Motivo        </th>
-              
+              <th>  Efectiva      </th>
               <th>  Descripcion   </th>
               <th>  Fecha         </th>
             </tr>
@@ -38,6 +38,14 @@
                 <td>{{$llamada->credito_id}}</td>
                 <td>{{$llamada->credito->precredito->cliente->nombre}}</td>
                 <td>{{$llamada->criterio->criterio}}</td>
+                @if($llamada->efectiva == '1')
+                <td>Si</td>
+                @elseif($llamada->efectiva == '0')
+                <td>No</td>
+                @else
+                <td>Null</td>
+                @endif
+
                 <td>{{$llamada->observaciones}}</td>
                 <td>{{$llamada->created_at}}</td>
                 
@@ -66,19 +74,25 @@
           <thead>
             <tr style="background-color:#FFC300;">
              <th>Funcionario</th>
-             <th>Número de llamadas</th>             
+             <th>Número de llamadas</th>  
+             <th>Efectivas</th>
+             <th>No efectivas</th>           
             </tr>
           </thead>
           <tbody>
-            @foreach($sumatoria as $sum)
+            @foreach($array_calls as $call)
               <tr>
-               <td>{{$sum->nombre}}</td>
-               <td>{{$sum->num_llamadas}}</td>
+               <td>{{$call['user']}}</td>
+               <td>{{$call['num_llamadas']}}</td>
+               <td>{{$call['efectivas']}}</td>
+               <td>{{$call['no_efectivas']}}</td>
               </tr>
             @endforeach 
               <tr>
                 <td><b>Total</b></td>
-                <td>{{$total}}</td>
+                <td>{{$totales['num_llamadas']}}</td>
+                <td>{{$totales['efectivas']}}</td>
+                <td>{{$totales['no_efectivas']}}</td>
               </tr>      
           </tbody>
         </table>

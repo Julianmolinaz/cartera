@@ -19,7 +19,6 @@ use App\Traits\MensajeTrait;
 
 class PrecreditoController extends Controller
 {
-
     use MensajeTrait;
 
     public function __construct()
@@ -354,7 +353,6 @@ class PrecreditoController extends Controller
 
     public function update(Request $request, $id)
     {
-     
       // valida que p_fecha sea menor que s_fecha
 
       $ini = $request->input('p_fecha')+1;

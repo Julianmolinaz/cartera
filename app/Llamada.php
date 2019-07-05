@@ -10,7 +10,7 @@ class Llamada extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     
     protected $table = 'llamadas';
-    protected $fillable = ['credito_id','criterio_id', 'agenda' , 
+    protected $fillable = ['credito_id','criterio_id', 'agenda' , 'efectiva', 
     'observaciones','user_create_id','user_update_id'];
 
     public function credito(){

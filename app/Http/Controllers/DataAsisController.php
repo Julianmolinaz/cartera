@@ -134,9 +134,16 @@ class DataAsisController extends Controller
                 '2.66-espacio_blanco'       => cast_string('',18)
             ];
         }
-        dd($this->content[0]);
-        
+        // dd($this->content[0]);
     }//get_estructura
+
+
+    /**
+     * Muestra los datos 2.12, 2.37, 2.40, 2.41 en el reporte
+     * @param  recibe $data (afiliacion)
+     * @return array con : clausula_permanencia, termino_contrato,
+     * f_clausula_permanencia,total_cuotas
+     */
 
     public function contrato($data)
     {   
@@ -155,7 +162,8 @@ class DataAsisController extends Controller
         if( $ph->between($fi,$ff)) {
             $dat['clausula_permanencia'] = '012';
             $dat['termino_contrato'] = '1';
-            $dat['f_clausula_permanencia'] = fecha_Ymd($this->fecha_clausula_permanencia($data->f_apertura));
+            $dat['f_clausula_permanencia'] = 
+                fecha_Ymd($this->fecha_clausula_permanencia($data->f_apertura));
             $dat['total_cuotas'] = '012';
         } else {
             $dat['clausula_permanencia'] = '000';

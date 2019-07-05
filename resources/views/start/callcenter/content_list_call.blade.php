@@ -286,6 +286,22 @@
                   <div class="panel-body">
 
                     <div class="form-group">
+                      <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="radio">
+                          <label style="margin-right:10px;">
+                            <input type="radio" name="efectiva" id="optionsRadios1" value="1">
+                            Efectiva
+                          </label>
+
+                          <label>
+                            <input type="radio" name="efectiva" id="optionsRadios2" value="0" checked>
+                            No efectiva
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
                       <div class="col-md-8 col-sm-8 col-xs-12">
                         <label>Motivo de la llamada *:</label>
                         <select class="form-control input-sm" name="criterio" id="criterio">

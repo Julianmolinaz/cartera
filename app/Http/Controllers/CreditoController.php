@@ -458,7 +458,7 @@ class CreditoController extends Controller
 
           // valida y crea registro si se castiga cartera
           $anterior  = $credito->castigada;
-
+          $credito->mes               = $request->input('mes');
           $credito->cuotas_faltantes  = $request->input('cuotas_faltantes');
           $credito->saldo             = $request->input('saldo');
           $credito->saldo_favor       = $request->input('saldo_favor');
@@ -678,16 +678,19 @@ class CreditoController extends Controller
                 ->with('credito_id',$id); 
     }
 
-    function crear_refinanciacion(Request $request){
-      {
+    function crear_refinanciacion(Request $request)
+    {
         $ini = $request->input('p_fecha')+1;
         $fin = $request->input('s_fecha')-1;
         if($request->input('s_fecha') == ""){
           $fin = 30;
         }
-        if($request->input('periodo') == 'Quincenal'){
+        if ($request->input('periodo') == 'Quincenal') {
           $s_fecha_quincena = 'required|integer|between:'.$ini.',30';
-        }else {$s_fecha_quincena = 'between:0,30'; }
+        }
+        else {
+          $s_fecha_quincena = 'between:0,30'; 
+        }
   
           $rules_fijos = array(
               'num_fact'    => 'required|unique:precreditos',
@@ -814,4 +817,4 @@ class CreditoController extends Controller
   
     }
 }
-}
+
