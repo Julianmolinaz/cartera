@@ -75,7 +75,7 @@
                 <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Cuota') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>
                 <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Cuota Parcial') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>
                 <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Prejuridico') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>
-                <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Prejuridico') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>     
+                <td align="right">{{ ($item['factura']['pagos'][$i]['concepto'] == 'Juridico') ? '$ '.miles($item['factura']['pagos'][$i]['valor']) :'' }}</td>     
               @if($i > 0)
               </tr>
               @endif
