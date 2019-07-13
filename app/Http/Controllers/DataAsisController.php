@@ -91,24 +91,24 @@ class DataAsisController extends Controller
                 '2.23-fecha_adjetivo'       => '00000000',
                 '2.24-clase_tarjeta'        => '0',
                 '2.25-franquicia'           => '0',
-                '2.26-nombre_marca_privada' => '000000000000000000000000000000',// N/A
+                '2.26-nombre_marca_privada' => cast_string('',30),// N/A
                 '2.27-tipo_moneda'          => '1',
                 '2.28-tipo_garantia'        => '2',
-                '2.29-calificacion'         => '00',// N/A
-                '2.30-prob_incumplimiento'  => '000',
+                '2.29-calificacion'         => cast_string('',2),// N/A
+                '2.30-prob_incumplimiento'  => cast_number('',3,'right'), // N/A
                 '2.31-edad_mora'            => cast_number($this->get_dias_mora($d->fecha_pago),3, 'right'),
                 '2.32-valor_inicial'        => cast_number('',11, 'right'),// N/A
-                '2.33-saldo_deuda'          => '',//?????
+                '2.33-saldo_deuda'          => cast_number($this->saldoDeuda($d),11 ,'right'),
                 '2.34-valor_disponible'     => cast_number('',11, 'right'),// N/A
                 '2.35-vlr_cuota_mensual'    => cast_number((int)$d->vlr_cuota,11, 'right'),
                 '2.36-vlr_saldo_mora'       => cast_number($this->saldoMora($d)['saldo_mora'],11,'right'),
-                '2.37-total_cuotas'         => $contrato['total_cuotas'],
-                '2.38-cuotas_canceladas'    => $this->cuotasCanceladas($d),
+                '2.37-total_cuotas'         => cast_number($contrato['total_cuotas'], 3, 'right'),
+                '2.38-cuotas_canceladas'    => cast_number($this->cuotasCanceladas($d), 3, 'right'),
                 '2.39-cuotas_mora'          => cast_number($this->saldoMora($d)['cts_mora'], 3,'right'),
-                '2.40-clausula_permanencia' => $contrato['clausula_permanencia'], // variable
+                '2.40-clausula_permanencia' => cast_number($contrato['clausula_permanencia'],3,'right'), // variable
                 '2.41-fecha_clausula_perman'=> $contrato['f_clausula_permanencia'], // variable
                 '2.42-fecha_limite_pago'    => fecha_Ymd(inv_fech($d->fecha_pago)),
-                '2.43-fecha_pago'           => fecha_Ymd(inv_fech($d->fecha_ultimo_pago)),
+                '2.43-fecha_pago'           => cast_number(fecha_Ymd(inv_fech($d->fecha_ultimo_pago)),8,'right'),
                 '2.44-oficina_radicacion'   => cast_string('ASISTIMOTOS IBAGUE',30),
                 '2.45-ciudad_radicacion'    => cast_string('IBAGUE',20), // variable
                 '2.46-codigo_dane_radica'   => cast_number(001,8,'right'),
@@ -134,9 +134,20 @@ class DataAsisController extends Controller
                 '2.66-espacio_blanco'       => cast_string('',18)
             ];
         }
-        // dd($this->content[0]);
+        // dd($this->content); 
     }//get_estructura
 
+
+
+    public function saldoDeuda($data)
+    {
+        if ($this->entreContrato($data)) {
+            $cts_canceladas = $this->cuotasCanceladas($data);
+            return (12 - $cts_canceladas) * $data->vlr_cuota;
+        } else {
+            return $this->saldoMora($data)['saldo_mora'];
+        }
+    }
 
     /**
      * Muestra los datos 2.12, 2.37, 2.40, 2.41 en el reporte
@@ -145,34 +156,43 @@ class DataAsisController extends Controller
      * f_clausula_permanencia,total_cuotas
      */
 
-    public function contrato($data)
-    {   
+    public function entreContrato($data)
+    {
         $ph = $data->fecha_pago;
         $fc = $this->f_corte;
         $ff = $this->fecha_clausula_permanencia($data->f_apertura);
         $fi = new Carbon($data->f_apertura);
 
-        $dat = [
-            'clausula_permanencia' => 0,
-            'termino_contrato' => 0,
-            'f_clausula_permanencia' => 0,
-            'total_cuotas' => 0
-        ];
+        return $ph->between($fi,$ff);
+    }
 
-        if( $ph->between($fi,$ff)) {
-            $dat['clausula_permanencia'] = '012';
-            $dat['termino_contrato'] = '1';
-            $dat['f_clausula_permanencia'] = 
-                fecha_Ymd($this->fecha_clausula_permanencia($data->f_apertura));
-            $dat['total_cuotas'] = '012';
-        } else {
-            $dat['clausula_permanencia'] = '000';
-            $dat['termino_contrato'] = '2';
-            $dat['f_clausula_permanencia'] = '00000000';
-            $dat['total_cuotas'] = '000';
+    public function contrato($data)
+    {  
+        try{
+            $dat = [
+                'clausula_permanencia'  => 0,
+                'termino_contrato'      => 0,
+                'f_clausula_permanencia'=> 0,
+                'total_cuotas'          => 0
+            ];
+    
+            if( $this->entreContrato($data) ) {
+                $dat['clausula_permanencia']   = '012';
+                $dat['termino_contrato']       = '1';
+                $dat['f_clausula_permanencia'] = 
+                    fecha_Ymd(inv_fech($this->fecha_clausula_permanencia($data->f_apertura)));
+                $dat['total_cuotas'] = '012';
+            } else {
+                $dat['clausula_permanencia']   = '000';
+                $dat['termino_contrato']       = '2';
+                $dat['f_clausula_permanencia'] = '00000000';
+                $dat['total_cuotas']           = '000';
+            }
+    
+            return $dat;
+        } catch(\Exception $e) {
+            dd($e);
         }
-
-        return $dat;
     }
 
     public function vencimiento($f_apertura){
@@ -186,7 +206,13 @@ class DataAsisController extends Controller
         $pago_hasta = new Carbon($pago_hasta);
 
         if($pago_hasta->lessThan($this->f_corte)){
-            return $this->f_corte->diffInDays($pago_hasta);
+            $mora = $this->f_corte->diffInDays($pago_hasta);
+
+            if($mora > 999){
+                return 999;
+            } else {
+                return $mora;
+            }
         }
 
         return 0;
@@ -216,32 +242,27 @@ class DataAsisController extends Controller
         $dias_mora  = $this->get_dias_mora($pago_hasta);
         $novedad    = '';
 
-        if($estado == 'Activo' || ($estado == 'Mora' && $dias_mora < 30) )
+        if($estado == 'Activo' || (  ($estado == 'Mora' || $estado == 'Castigada')  && $dias_mora < $this->tope) ) 
         {
             $novedad = '01'; // al día
         }
-        if( $estado == 'Mora' && $dias_mora >= 30 )
+        else if ( ($estado == 'Mora' || $estado == 'Castigada')  && $dias_mora >= $this->tope )
         {   
-  
-            if($dias_mora >= 30 && $dias_mora <= 59){
+            if ($dias_mora >= 30 && $dias_mora <= 59) {
                 $novedad = '06'; // mora 30 dias
             }
-            else if($dias_mora >= 60 && $dias_mora <= 89){
+            else if ($dias_mora >= 60 && $dias_mora <= 89) {
                 $novedad = '07'; // mora 60 dias
-    
             }
-            else if($dias_mora >= 90 && $dias_mora <= 119){
+            else if ($dias_mora >= 90 && $dias_mora <= 119) {
                 $novedad = '08'; //mora 90 dias
-    
             }
-            else if($dias_mora >= 120){
+            else if ($dias_mora >= 120) {
                 $novedad = '09'; //mora 120 dias
-    
             }
         }
-        if( $estado == 'Retirado'){
+        else if( $estado == 'Retirado'){
             $novedad = '05';
-
         }
 
         return $novedad;
@@ -265,10 +286,10 @@ class DataAsisController extends Controller
         $moras = $this->get_dias_mora($afiliacion->fecha_pago);
 
         if( $afiliacion->estado == 'Activo' || $afiliacion->estado == 'Suspendido'
-            || ($afiliacion->estado == 'Mora' &&  $moras < 90)){
+            || (( $afiliacion->estado == 'Mora' || $afiliacion->estado == 'Castigada' ) &&  $moras < $this->tope)){
             $estado = '01'; // Al día
         }
-        if( $afiliacion->estado == 'Mora' && $moras >= 90){
+        if( ( $afiliacion->estado == 'Mora' || $afiliacion->estado == 'Castigada' ) && $moras >= $this->tope){
             $estado = '02'; // En mora
         }
         if($afiliacion->estado == 'Retirado' || $afiliacion->estado == 'Finalizado'){

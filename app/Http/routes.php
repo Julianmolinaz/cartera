@@ -513,6 +513,13 @@ Route::get('logout',[
 	'as'	=> 'logout'
 	]);
 
+//ZONAS
+
+Route::get('admin/zonas',['uses'  => 'ZonaController@index','as'=> 'admin.zonas']);
+Route::post('admin/zonas','ZonaController@store');
+Route::get('admin/getZonas','ZonaController@getZonas');
+
+
 //INICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIO
 
 Route::get('start/inicio/index',[

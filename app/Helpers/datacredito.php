@@ -57,11 +57,6 @@ function reporte_datacredito($f_corte, $data_asis = null)
 
         array_push($info_clientes_array,$registro_de_control);
 
-        if($data_asis[0]){
-            array_push($info_clientes_array, $data_asis[0]);
-        }
-
-
         // REGISTRO CON INFORMACIÓN DE CLLIENTES
 
         foreach( $ids as $id ){
@@ -220,7 +215,14 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 len_line($registro_info_codeudor);
             }
         }// .foreach
-        //dd($info_clientes_array);
+        //dd(count($info_clientes_array));
+
+        if($data_asis){
+            foreach($data_asis as $element)
+            array_push($info_clientes_array, $element);
+        }
+
+        
     }
     catch(\Exception $e){
         dd($e);

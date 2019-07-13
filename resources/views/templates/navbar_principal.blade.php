@@ -81,7 +81,7 @@
             <li><a href="{{route('admin.users.index')}}">Usuarios</a></li>
             <li role="separator" class="divider"></li>          
             <li><a href="{{route('admin.puntos.index')}}">Puntos</a></li> 
-            <li><a href="#">Zonas</a></li>                         
+            <li><a href="{{route('admin.zonas')}}">Zonas</a></li>                         
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.productos.index')}}">Productos</a></li>
             <li><a href="{{route('admin.variables.index')}}">Variables &nbsp;<i class="fas fa-cogs"></i></a></li>
