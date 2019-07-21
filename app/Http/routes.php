@@ -513,6 +513,14 @@ Route::get('logout',[
 	'as'	=> 'logout'
 	]);
 
+//ZONAS
+
+Route::get('admin/zonas',['uses'  => 'ZonaController@index','as'=> 'admin.zonas']);
+Route::post('admin/zonas','ZonaController@store');
+Route::put('admin/zonas/{zona_id}','ZonaController@update');
+Route::get('admin/getZonas','ZonaController@getZonas');
+
+
 //INICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIOINICIO
 
 Route::get('start/inicio/index',[
@@ -584,6 +592,18 @@ Route::post('start/anular_precred_pagos',[
 	'as' => 'start.precred_pagos.anular'
 ])->middleware(['auth', 'admin']);
 
+// ANOTACIONES
+
+Route::get('admin/anotaciones/{credito_id}',['uses' => 'AnotacionController@index','as' => 'admin.anotaciones.index']);
+Route::post('admin/anotaciones','AnotacionController@store');
+Route::put('admin/anotaciones/{anotacion_id}','AnotacionController@update');
+Route::get('admin/anotaciones/{proceso_id}/list','AnotacionController@list');
+
+
+// PROCESOS
+
+Route::post('admin/procesos','ProcesoController@store');
+Route::put('admin/procesos/{proceso_id}','ProcesoController@update');
 
 Route::get('123', function(){
 	$m  = DB::table('municipios')->get();
@@ -623,3 +643,4 @@ Route::get('123', function(){
 	}
 
 });
+

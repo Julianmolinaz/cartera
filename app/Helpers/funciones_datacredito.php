@@ -199,7 +199,7 @@ use DB;
             if(strlen($array['2.65-detalle_garantia'])     <> 1){ $aud .=  '2.65-detalle_garantia' ;}
             if(strlen($array['2.66-espacio_blanco'])       <>18){ $aud .=  '2.66-espacio_blanco' ;}
         
-            dd('error de tamaño linea del crédito =:::=> '.$credito.'****'.$aud);
+            //dd('error de tamaño linea del crédito =:::=> '.$credito.'****'.$aud);
         }
 
     }
@@ -431,10 +431,10 @@ function cast_string($string, $len)
     if($string === 'NULL'){
         $string = '';
     } 
-    while(strlen($string) < $len){
+    while(mb_strlen($string) < $len){
         $string = $string.' ';
     }
-    if( strlen($string) > $len ){
+    if( mb_strlen($string) > $len ){
         return substr($string,0,$len);
     }
     else{
@@ -735,7 +735,13 @@ function saldo_deuda_capital($credito, $corte)
         }
     }
 
-    return (int)($credito->precredito->vlr_fin - $sum_pagos) ;
+    $deuda =  (int)($credito->precredito->vlr_fin - $sum_pagos) ;
+
+    if($deuda > 999){
+        return 999;
+    } else {
+        return $deuda;
+    }
 }
 
 function fecha_pago($credito){
