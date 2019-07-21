@@ -445,7 +445,7 @@ class CallcenterController extends Controller
                         $temp = [
                             'cartera'            => $credito->cartera,
                             'credito_id'         => $credito->id,
-                            'fecha_apertura'     => $this->dmY($credito->apertura),
+                            'fecha_apertura'     => ddmmyyyySlash($credito->apertura),
                             'cliente'            => $credito->cliente,
                             'celular'            => $credito->movil,
                             'documento'          => $credito->num_doc,

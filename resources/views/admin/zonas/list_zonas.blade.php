@@ -6,7 +6,13 @@
         </div>
 
         <a href="#" class="list-group-item" 
-           v-for="zona in zonas">@{{ zona.nombre }}</a>
+           v-for="zona in zonas">
+           <span>@{{ zona.nombre }}</span>
+            <a href="javascript:void(0);" class='btn btn-default btn-xs pull-right' 
+               @click="edit(zona)">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>  
+           </a>
     </div>
 
 </script>
@@ -32,6 +38,9 @@
                             self.zonas = res.data.dat
                         }
                     })
+            },
+            edit(zona){
+                Bus.$emit('editZona', zona)
             }
         },
         created(){

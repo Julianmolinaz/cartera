@@ -12,6 +12,12 @@ use DB;
 
 class ZonaController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view('admin.zonas.index');
@@ -43,6 +49,36 @@ class ZonaController extends Controller
             ]);
         }
         return response()->json($request->all());
+    }
+
+
+    public function update(Request $request, $zona_id)
+    {
+        return response()->json($request->all());
+        try {
+            $validator = Validator::make($request->all(),[
+                'nombre' => 'required|unique:zonas,nombre,'.$zona_id
+            ]);
+            if ( $validator->fails() ) {
+                $res = ['error' => true, 'message' => $validator];
+                return response()->json($res);
+            }
+            $zona = Zona::find($zona_id);
+            $zona->fill($request->all() );
+            $zona->user_update_id = Auth::user()->id;
+            $zona->save();
+
+            return response()->json([
+                'error' => false,
+                'message' => 'Se editó el registro exitosamente !!!'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
     public function getZonas()

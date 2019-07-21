@@ -86,6 +86,11 @@ class User extends Authenticatable  implements Auditable, UserResolver
     {
         return Auth::check() ? Auth::user()->getAuthIdentifier() : null;
     }
+
+    public function anotaciones()
+    {
+        return $this->hasMany('App\Anotacion','id','user_create_id');
+    }
     
 
 }
