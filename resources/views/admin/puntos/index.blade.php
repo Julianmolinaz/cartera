@@ -4,8 +4,7 @@
 
 
 <div class="row">
-  <div class="col-md-3"></div>
-  <div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="panel panel-default">
       <div class="panel-heading"><b>Puntos de pago</b>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

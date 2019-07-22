@@ -22,8 +22,7 @@
                     <input type="date" class="form-control" v-model="proceso.fecha_radicado" :readonly="status == 'consulta'">
                 </div>                        
 
-                <button type="submit" class="btn btn-primary" @click="onSubmit()" v-if="status == 'crear'">
-                    <i class="far fa-save"></i> Guardar
+                <button type="submit" class="btn btn-primary" @click="onSubmit()" v-if="status == 'crear'"> Guardar
                 </button>
                 <button type="submit" class="btn btn-primary" @click="onSubmit()" v-if="status == 'editar'">Guardar Cambios</button>
                 <button class="btn btn-primary" @click="status = 'editar'" v-if="status == 'consulta'">Editar el Proceso</button>
@@ -42,9 +41,9 @@
                 status : 'crear',
                 credito : {!! $credito !!},
                 proceso : {
-                    id : '',
-                    juzgado : '',
-                    radicado : '',
+                    id         : '',
+                    juzgado    : '',
+                    radicado   : '',
                     fecha_radicado : '',
                     credito_id : {!! $credito->id !!},
                     cliente_id : {!! $credito->precredito->cliente->id !!}
@@ -53,10 +52,14 @@
         },
         methods: {
             onSubmit(){
-                if(this.status == 'crear')
-                    this.store()
-                else if(this.status == 'editar')
-                    this.update()
+                if(this.proceso.fecha_radicado){
+                    if(this.status == 'crear')
+                        this.store()
+                    else if(this.status == 'editar')
+                        this.update()
+                } else {
+                    alert('Se requiere por lo menos la fecha de radicación')
+                }
             },
             store(){
 

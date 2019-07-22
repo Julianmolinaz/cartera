@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="anotacion in anotaciones">
+                <tr v-for="anotacion in anotaciones2">
                     <td v-text="anotacion.asunto"></td>
                     <td v-text="anotacion.created_at"></td>
                     <td>
@@ -34,15 +34,15 @@
         <nav aria-label="Page navigation" v-if="pag.paginas > 0">
             <ul class="pagination">
                 <li>
-                <a href="#" aria-label="Previous">
+                <a href="#" aria-label="Previous" @click="actionPaginate('previus')">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
                 </li>
-                <li v-for="(pagina, index) in pag.paginas">
-                    <a href="#" v-text="index + 1"></a>
+                <li v-for="(pagina, index) in pag.paginas" :class="{active: (index + 1 == pag.pagina_actual)}">
+                    <a href="#" v-text="index + 1" @click="actionPaginate(index + 1)"></a>
                 </li>
                 <li>
-                <a href="#" aria-label="Next">
+                <a href="#" aria-label="Next" @click="actionPaginate('next')">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
                 </li>
@@ -60,11 +60,13 @@
         data(){
             return {
                 credito : {!! $credito !!},
-                anotaciones : [],
+                anotaciones2 : [],
+                anotaciones  : [],
                 pag : {
-                    num_regi_pag :5,
+                    num_regi_pag :10,
                     paginas : 0,
-                    registros : 0
+                    registros : 0,
+                    pagina_actual : 1
                 }
             }
         },
@@ -72,6 +74,8 @@
             async getAnotaciones(){
 
                 var self = this
+
+                this.actionPaginate(1)
 
                 if(this.credito.proceso){
                     let res = await axios.get('/admin/anotaciones/'+this.credito.proceso.id+'/list')
@@ -94,6 +98,39 @@
             paginacion(){
                 this.pag.registros = this.anotaciones.length
                 this.pag.paginas = Math.ceil(this.pag.registros/this.pag.num_regi_pag)
+
+                var x = this.pag.pagina_actual * this.pag.num_regi_pag
+                var ini = x - this.pag.num_regi_pag
+                var fin = x
+                this.anotaciones2 = this.anotaciones.slice(ini, fin) 
+            },
+            actionPaginate(action){
+                if(action == 'next'){
+
+                    
+                    if(this.pag.pagina_actual + 1 <= this.pag.paginas){
+                        this.pag.pagina_actual ++
+                        var x =  this.pag.pagina_actual * this.pag.num_regi_pag
+                        var ini = x - this.pag.num_regi_pag
+                        var fin = x
+                        this.anotaciones2 = this.anotaciones.slice(ini, fin) 
+                    }
+                } else if(action == 'previus'){
+                    
+                    if(this.pag.pagina_actual - 1 >= 1){
+                        this.pag.pagina_actual --
+                        var x =  this.pag.pagina_actual * this.pag.num_regi_pag
+                        var ini = x - this.pag.num_regi_pag
+                        var fin = x
+                        this.anotaciones2 = this.anotaciones.slice(ini, fin) 
+                    } 
+                } else {
+                    this.pag.pagina_actual = action
+                    var x =  this.pag.pagina_actual * this.pag.num_regi_pag
+                    var ini = x - this.pag.num_regi_pag
+                    var fin = x
+                    this.anotaciones2 = this.anotaciones.slice(ini, fin) 
+                }
             }
         },  
         created(){

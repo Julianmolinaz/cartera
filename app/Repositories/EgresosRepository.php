@@ -16,7 +16,7 @@ class EgresosRepository
     public function get_egresos_general_por_conceptos($ini,$fin)
     {
         return DB::table('egresos')
-            ->whereBetween('created_at',[$ini,$fin])
+            ->whereBetween('fecha',[$ini,$fin])
             ->select('concepto',DB::raw('SUM(valor) as valor'))
             ->groupBy('concepto')
             ->get();
@@ -27,7 +27,7 @@ class EgresosRepository
     {
         return DB::table('egresos')
             ->where('punto_id',$sucursal_id)
-            ->whereBetween('created_at',[$ini,$fin])
+            ->whereBetween('fecha',[$ini,$fin])
             ->select('concepto',DB::raw('SUM(valor) as valor'))
             ->groupBy('concepto')
             ->get();
@@ -39,7 +39,7 @@ class EgresosRepository
         return  DB::table('egresos')
         ->join('users','egresos.user_create_id','=','users.id')
         ->join('puntos','users.punto_id','=','puntos.id')
-        ->whereBetween('egresos.created_at',[$ini,$fin])
+        ->whereBetween('egresos.fecha',[$ini,$fin])
         ->get();
     }
 
@@ -48,7 +48,7 @@ class EgresosRepository
         return  DB::table('egresos')
         ->join('users','egresos.user_create_id','=','users.id')
         ->join('puntos','users.punto_id','=','puntos.id')
-        ->whereBetween('egresos.created_at',[$ini,$fin])
+        ->whereBetween('egresos.fecha',[$ini,$fin])
         ->sum('egresos.valor');
     }
 
@@ -56,7 +56,7 @@ class EgresosRepository
     {
         return  DB::table('egresos')
             ->where('punto_id',$punto_id)
-            ->whereBetween('created_at',[$ini,$fin])
+            ->whereBetween('fecha',[$ini,$fin])
             ->sum('valor');
     }
 

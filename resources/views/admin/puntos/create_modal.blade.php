@@ -12,6 +12,18 @@
         <form class="form-horizontal form-label-left" action="" method="POST">
 
           <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <label for="">Zona *:</label>
+              <select class="form-control" id="zona_id">
+                <option disabled selected>- -</option>
+                @foreach($zonas as $zona)
+                  <option value="{{$zona->id}}">{{ $zona->nombre }}</option>
+                @endforeach
+              </select>
+            </div>      
+          </div>
+
+          <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Nombre *:</label>
               <input type="text" class="form-control" placeholder="ingrese el nombre del punto" id="nombre" name="nombre" >
@@ -71,6 +83,7 @@
 
   $('#btn_crear_punto').click(function()
   { 
+    var zona_id       = $('#zona_id').val(); 
     var nombre        = $('#nombre').val();
     var direccion     = $('#direccion').val();
     var descripcion   = $('#descripcion').val();
@@ -85,6 +98,7 @@
       type: 'POST',
       dataType: 'json',
       data: {
+          zona_id     : zona_id,
           nombre      : nombre,
           direccion   : direccion,
           descripcion : descripcion,
@@ -126,7 +140,8 @@
         alert('ERROR');
       }
       else{
-        $.each(res.data, function(index,municipio){
+       
+        $.each(res.data.municipios, function(index,municipio){
           $('#municipio_id').append(
             "<option value='"+municipio.id+"'>"+municipio.nombre+' ('+municipio.departamento+" )</option>"
             );

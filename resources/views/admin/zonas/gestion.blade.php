@@ -22,7 +22,6 @@
                     v-else>
                 Guardar Cambios</button>
         </form>    
-        @{{ $data }}
     </div>
 </script>
 
@@ -79,10 +78,10 @@
                 axios.put(ruta, this.zona)
                     .then( res => {
                         console.log({res});
-                        // if(!res.data.error){
-                        //     Bus.$emit('getZonas')
-                        //     self.reset()
-                        // }
+                        if(!res.data.error){
+                            Bus.$emit('getZonas')
+                            self.reset()
+                        }
                     }) 
             },
             reset(){

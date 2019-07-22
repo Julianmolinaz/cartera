@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Punto;  
 use App\Municipio;
+use App\Zona;
 use DB;
 
 class PuntoController extends Controller
@@ -19,7 +20,9 @@ class PuntoController extends Controller
      */
     public function index()
     {
-        return view('admin.puntos.index');
+        $zonas = Zona::all();
+        return view('admin.puntos.index')
+            ->with('zonas',$zonas);
     }
 
     /**
@@ -30,11 +33,10 @@ class PuntoController extends Controller
     public function listall()
     {
 
-        $puntos = Punto::where('id','>',0)->orderBy('updated_at','desc')->paginate(6);
+        $puntos = Punto::where('id','>',0)->orderBy('updated_at','desc')->paginate(30);
         $estados = getEnumValues('puntos', 'estado');
         $municipios = Municipio::all();
 
-        
         return view('admin.puntos.list_puntos')
             ->with('puntos',$puntos)
             ->with('estados',$estados)
@@ -70,6 +72,7 @@ class PuntoController extends Controller
                      'municipio_id' => 'required']);
                 
                 $punto = new Punto();
+                $punto->zona_id = $request->zona_id;
                 $punto->nombre = strtoupper($request->input('nombre'));
                 $punto->direccion = strtoupper($request->input('direccion'));
                 $punto->descripcion = strtoupper($request->input('descripcion'));
@@ -109,8 +112,13 @@ class PuntoController extends Controller
     {
         $punto      = Punto::find($id);
         $estados    = getEnumValues('puntos','estado');
+        $zonas      = Zona::orderBy('nombre')->get();
 
-        return response()->json(['punto' => $punto, 'estados' => $estados]);
+        return response()->json([
+            'punto' => $punto, 
+            'estados' => $estados,
+            'zonas' => $zonas
+            ]);
     }
 
     /**
@@ -180,9 +188,13 @@ class PuntoController extends Controller
         
         try{
             $municipios = Municipio::where('id','<>',100)->get();
+            $zonas = Zona::orderBy('nombre')->get();
             $respuesta = [
                 'error' => FALSE,
-                'data'  => $municipios
+                'data'  => [
+                    'municipios' => $municipios,
+                    'zonas' => $zonas
+                ]
             ];
             return response()->json($respuesta);
         }

@@ -1,4 +1,4 @@
-@section('title','multas')
+@section('title','anotaciones')
 
 @section('contenido')
 <div id="anotaciones">
