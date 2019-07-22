@@ -13,6 +13,16 @@
 
           <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
+              <label for="">Zona *:</label>
+              <select class="form-control" id="_zona_id">
+
+              </select>
+            </div>      
+          </div>
+
+
+          <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Nombre *:</label>
               <input type="text" class="form-control" id="_nombre" name="_nombre">
             </div>
@@ -76,8 +86,8 @@
 
    $('#actualizar').click(function(){ 
 
-
       var id          = $('#id').val();
+      var zona_id     = $('#zona_id').val();
       var nombre      = $('#_nombre').val();
       var direccion   = $('#_direccion').val();
       var municipio_id= $('#_municipio_id').val();
@@ -94,6 +104,7 @@
         type: 'PUT',
         dataType: 'json',
         data: { id          :id,
+                zona_id     :zona_id,
                 nombre      :nombre,
                 direccion   :direccion,
                 municipio_id:municipio_id,

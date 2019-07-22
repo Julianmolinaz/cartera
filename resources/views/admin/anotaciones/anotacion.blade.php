@@ -17,13 +17,13 @@
                         <textarea class="form-control" cols="30" rows="6" v-model="anotacion.descripcion" 
                             :readonly="status == 'consulta'"></textarea>
                     </div>
-                    <div class="checkbox">
+                    <div class="checkbox" v-if="false">
                         <label>
                             <input type="checkbox" v-model="anotacion.notificar" :checked="anotacion.recordatorio"
                                 :readonly="status == 'consulta'"> Notificar
                         </label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" v-if="false">
                         <label>Fecha *</label>
                         <input type="date" class="form-control" v-model="anotacion.recordatorio"
                             :readonly="status == 'consulta'">
@@ -52,8 +52,8 @@
                     notificar : false,
                     recordatorio : '',
                     proceso_id : '',
-                    user_create_id: '',
-                    user_update_id: '',
+                    user_create_id : '',
+                    user_update_id : '',
                     created_at : '',
                     updated_at : ''
                 }

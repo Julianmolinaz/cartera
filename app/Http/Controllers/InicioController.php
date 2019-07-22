@@ -116,7 +116,52 @@ class InicioController extends Controller
                 }
             }
         }
+        else if(substr($string,0,1) == ":"){
+            $string = substr($string,1);
 
+            $clientes = DB::table('clientes')
+                ->where('movil','like','%'.$string.'%')
+                ->orWhere('fijo','like','%'.$string.'%')
+                ->get();
+
+            $codeudores = DB::table('codeudores')
+                ->where('movilc','like','%'.$string.'%')
+                ->orWhere('fijoc','like','%'.$string.'%')
+                ->get();
+
+            if(count($clientes) > 0){
+                foreach($clientes as $cliente){  
+                    $respuesta .=   "<p><strong>Cliente: </strong>".
+                                    "<a href=".route('start.clientes.show',$cliente->id).">".
+                                    $cliente->nombre." - ".
+                                    $cliente->tipo_doc.": ".
+                                    $cliente->num_doc." - ".
+                                    "Movil: ".$cliente->movil.
+                                    " - Fijo: ".$cliente->fijo."</p></a>";  
+                }   
+            }
+
+            if(count($codeudores) > 0){
+                foreach($codeudores as $codeudor){  
+                    $clientes = Cliente::where('codeudor_id',$codeudor->id)->get();
+                    
+                    foreach($clientes as $cliente){
+                        $cliente = Cliente::find($cliente->id);
+                        $respuesta .= "<p><strong>Codeudor: </strong>".
+                                        "<a href=".route('start.clientes.show',$cliente->id).">".
+                                        $cliente->codeudor->nombrec." - ".
+                                        $cliente->codeudor->tipo_docc.": ".
+                                        $cliente->codeudor->num_docc." sirve de codeudor al cliente: ".
+                                        $cliente->nombre." - ".
+                                        $cliente->tipo_doc.": ".
+                                        $cliente->num_doc." - ".
+                                        "Movil: ".$cliente->codeudor->movilc.
+                                        " - Fijo: ".$cliente->codeudor->fijoc."</p></a>";  
+                    }
+                }
+            }
+
+        }
         else if(substr($string,0,1) == "+"){
             $string = substr($string,1);
 

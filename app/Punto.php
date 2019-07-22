@@ -12,7 +12,7 @@ class Punto extends Model implements Auditable
     protected $table = 'puntos';
 
     protected $fillable = [
-    	'nombre', 'estado', 'prefijo','increment',
+    	'nombre', 'estado', 'prefijo','increment','zona_id',
     	'direccion', 'telefono', 'descripcion','municipio_id'];
     
     public function setPrefijoAttribute($value){
@@ -25,6 +25,10 @@ class Punto extends Model implements Auditable
 
     public function municipio(){
     	return $this->hasOne('App\Municipio','id','municipio_id');
+    }
+
+    public function zona(){
+        return $this->hasOne('App\Zona','id','zona_id');
     }
 
 }

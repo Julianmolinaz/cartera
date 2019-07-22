@@ -5,6 +5,7 @@
   <thead>
     <tr>
       <th>    Punto Id    </th>
+      <th>    Zona        </th>
       <th>    Nombre    	</th>
       <th>    Dirección   </th>
       <th>    Municipio   </th>
@@ -17,6 +18,7 @@
     @foreach($puntos as $punto)
       <tr>
         <td>{{$punto->id}}          </td>
+        <td>{{($punto->zona) ? $punto->zona->nombre : ''}}</td>
         <td>{{$punto->nombre}}      </td>
         <td>{{$punto->direccion}}   </td>
         <td>{{$punto->municipio->nombre}}</td>
@@ -48,14 +50,25 @@
  function Mostrar(punto_id){
      var route = "{{url('admin/puntos')}}/"+punto_id+"/edit";
      var route2 = "{{url('admin/municipios/cargar')}}";
+
      $.get(route,function(data){
-       console.log('data: ',data);
+
        $('#id').val(data.punto.id);
        $('#_nombre').val(data.punto.nombre);
        $('#_direccion').val(data.punto.direccion);
        $('#_descripcion').val(data.punto.descripcion);
        $('#_prefijo').val(data.punto.prefijo);
        $('#estado').empty();
+       $('#_zona_id').empty();
+
+       $('#_zona_id').append("<option selected disabled'>- -</option>");
+       $.each(data.zonas, function(index, zona){
+         if(data.punto.zona_id == zona.id){
+           $('#_zona_id').append("<option selected value='"+zona.id+"'>"+zona.nombre+"</option>");
+         } else {
+           $('#_zona_id').append("<option value='"+zona.id+"'>"+zona.nombre+"</option>");
+         }
+       });
 
        if(data.punto.estado == 'Activo'){
          $('#estado').append('<option value="Activo" selected>Activo</option>');
@@ -69,7 +82,7 @@
 
        $.get(route2, function(res){
         if(!res.error){
-          $.each(res.data, function(index,municipio){
+          $.each(res.data.municipios, function(index,municipio){
             if(municipio.id == data.punto.municipio_id){
               $('#_municipio_id').append(
                 "<option selected value='"+municipio.id+"'>"+municipio.nombre+" ("+municipio.departamento+" )</option>"

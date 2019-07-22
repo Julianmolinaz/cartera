@@ -644,3 +644,5 @@ Route::get('123', function(){
 
 });
 
+Route::get('pruebas','PruebaController@invertirFecha');
+
