@@ -72,11 +72,12 @@ class PuntoController extends Controller
                      'municipio_id' => 'required']);
                 
                 $punto = new Punto();
-                $punto->zona_id = $request->zona_id;
-                $punto->nombre = strtoupper($request->input('nombre'));
-                $punto->direccion = strtoupper($request->input('direccion'));
+                $punto->telefono    = $request->telefono;
+                $punto->zona_id     = $request->zona_id;
+                $punto->nombre      = strtoupper($request->input('nombre'));
+                $punto->direccion   = strtoupper($request->input('direccion'));
                 $punto->descripcion = strtoupper($request->input('descripcion'));
-                $punto->prefijo = $request->input('prefijo');
+                $punto->prefijo     = $request->input('prefijo');
                 $punto->municipio_id = $request->input('municipio_id');
                 $punto->save();
                 DB::commit();
@@ -136,6 +137,8 @@ class PuntoController extends Controller
             ['nombre' => 'required|unique:puntos,nombre,'.$id,'direccion' => 'required']);  
 
             $punto              = Punto::find($id);
+            $punto->zona_id     = $request->zona_id;
+            $punto->telefono    = $request->telefono;
             $punto->id          = $request->input('id');
             $punto->nombre      = strtoupper($request->input('nombre'));
             $punto->direccion   = strtoupper($request->input('direccion'));

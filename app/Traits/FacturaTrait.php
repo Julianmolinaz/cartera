@@ -111,7 +111,7 @@ trait FacturaTrait
 					</div>	
 					<br>
 					<div id="factura" class="contenido">
-						<h4>Factura # '. $factura->num_fact .'<br>
+						<h4>Recibo # '. $factura->num_fact .'<br>
 						Crédito: '. $factura->credito->id .'</h4><br>
 						PAGOS:<br>'.
 						$str_pagos.

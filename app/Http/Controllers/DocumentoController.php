@@ -26,6 +26,9 @@ class DocumentoController extends Controller
         flash()->success('Se guardó el documento exitosamente!!!');
         if($objeto_relacionado == 'cliente'){
             return redirect()->route('start.clientes.show',$request->cliente_id);
+        } 
+        else if($objeto_relacionado == 'inicio') {
+            return redirect()->route('start.clientes.upload_document',$request->cliente_id);
         }
     }
 
@@ -41,7 +44,7 @@ class DocumentoController extends Controller
         return response()->file($file); 
     }
 
-    public function destroy($documento_id)
+    public function destroy($documento_id, $inicio = null)
     {
         try{
             $doc = Documento::find($documento_id);
@@ -57,8 +60,13 @@ class DocumentoController extends Controller
             //unlink($ruta);
             
             flash()->success("El documento $nombre se eliminó Exitosamente!");
-            return redirect()->route('start.clientes.show', $cliente->id);
 
+            if($inicio){
+                return redirect()->route('start.clientes.upload_document',$cliente->id);
+            } else {
+                return redirect()->route('start.clientes.show', $cliente->id);
+            }
+            
         } catch(\Exception $e) {
             dd($e->getMessage());
         }

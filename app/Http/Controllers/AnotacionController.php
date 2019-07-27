@@ -57,7 +57,7 @@ class AnotacionController extends Controller
         try {
             $anotacion = new Anotacion();
             $anotacion->fill( $request->all() );
-
+    
             if($request->notificar){
                 $anotacion->notificado = 'Espera';
             } else {

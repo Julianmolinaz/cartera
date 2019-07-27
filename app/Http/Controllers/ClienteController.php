@@ -251,11 +251,9 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-
         DB::beginTransaction();
 
         try{
-
             $cliente = Cliente::find($id);
 
             if($cliente->estudio){
@@ -283,4 +281,12 @@ class ClienteController extends Controller
         }
 
     }//.destroy
+
+    public function uploadDocument($cliente_id)
+    {
+        $cliente = Cliente::find($cliente_id);
+
+        return view('start.clientes.upload.create')
+            ->with('cliente',$cliente);
+    }
 }

@@ -7,6 +7,7 @@
       <th>    Punto Id    </th>
       <th>    Zona        </th>
       <th>    Nombre    	</th>
+      <th>    Teléfono    </th>
       <th>    Dirección   </th>
       <th>    Municipio   </th>
       <th>    Estado      </th>
@@ -17,13 +18,14 @@
   <tbody>
     @foreach($puntos as $punto)
       <tr>
-        <td>{{$punto->id}}          </td>
-        <td>{{($punto->zona) ? $punto->zona->nombre : ''}}</td>
-        <td>{{$punto->nombre}}      </td>
-        <td>{{$punto->direccion}}   </td>
-        <td>{{$punto->municipio->nombre}}</td>
-        <td>{{$punto->estado}}      </td>
-        <td>{{$punto->descripcion}} </td>
+        <td>    {{ $punto->id}}   </td>
+        <td>    {{ ($punto->zona) ? $punto->zona->nombre : ''}}</td>
+        <td>    {{ $punto->nombre}}      </td>
+        <td>    {{ $punto->telefono }}</td>
+        <td>    {{ $punto->direccion}}   </td>
+        <td>    {{ $punto->municipio->nombre}}</td>
+        <td>    {{ $punto->estado}}      </td>
+        <td>    {{ $punto->descripcion}} </td>
         <td>
 
           <a href="#" class = 'btn btn-default btn-xs' data-toggle='modal' data-target='#myModalEditPunto' OnClick="Mostrar({{$punto->id}});" title="Editar">
@@ -54,6 +56,7 @@
      $.get(route,function(data){
 
        $('#id').val(data.punto.id);
+       $('#_telefono').val(data.punto.telefono);
        $('#_nombre').val(data.punto.nombre);
        $('#_direccion').val(data.punto.direccion);
        $('#_descripcion').val(data.punto.descripcion);

@@ -94,10 +94,29 @@ Route::get('start/clientes/{id}/consultar_codeudor',[
 	'as'	=> 'start.clientes.consulta_codeudor'
 	]);
 
+Route::get('start/clientes/{cliente_id}/upload',[
+	'uses'  => 'ClienteController@uploadDocument',
+	'as'    => 'start.clientes.upload_document'
+]);
+
 //CLIENTE BORRAR
 
 Route::get('start/clientes/{id}/destroy',
 	['uses'	=> 'ClienteController@destroy','as'	=> 'start.clientes.destroy'])->middleware('clientes_borrar');
+
+//DOCUMENTOS
+Route::put('start/documentos/{objeto_relacionado}',
+	['uses' => 'DocumentoController@set_documento',
+	 'as' => 'start.documentos.upload']);
+	
+Route::get('start/documentos/{documento_id}/get/{nombre}',
+	['uses' => 'DocumentoController@get_documento',
+	 'as' => 'start.documentos.get_documento']);
+
+Route::get('start/documentos/{documento_id}/destroy/{inicio?}',
+	 ['uses' => 'DocumentoController@destroy',
+	  'as' => 'start.documentos.destroy']);
+ 
 
 //ESTUDIOS
 
@@ -320,20 +339,6 @@ Route::get('start/pagos/create',
 
 Route::get('start/pagos/hay_creditos/{doc}','PagoController@hay_creditos');
 
-
-//DOCUMENTOS
-Route::put('start/documentos/{objeto_relacionado}',
-	['uses' => 'DocumentoController@set_documento',
-	 'as' => 'start.documentos.upload']);
-	
-Route::get('start/documentos/{documento_id}/get/{nombre}',
-	['uses' => 'DocumentoController@get_documento',
-	 'as' => 'start.documentos.get_documento']);
-
-Route::get('start/documentos/{documento_id}/destroy',
-	 ['uses' => 'DocumentoController@destroy',
-	  'as' => 'start.documentos.destroy']);
- 
 
 //PRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOSPRECREDITOS
 

@@ -152,8 +152,6 @@
     else {
       contenedor -= parseInt(valor);
     }
-
-    console.log('contenedor ',contenedor);
     
     var progress = 100 * contenedor / sumatoria_egresos
 

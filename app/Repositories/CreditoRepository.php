@@ -128,6 +128,7 @@ class CreditoRepository{
                     'creditos.created_at as apertura',
                     'clientes.nombre as cliente',
                     'clientes.num_doc as num_doc',
+                     'clientes.movil as movil',
                     'fecha_cobros.fecha_pago as fecha_pago',
                     'llamadas.agenda as agenda',
                     'funcionario.name as funcionario',

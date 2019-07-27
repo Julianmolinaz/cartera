@@ -15,6 +15,10 @@ function drawMultSeries() {
           'Pesos', { role: 'style' }, {role: 'annotation'} 
           ],
         [
+          'Iniciales', {!! $info['iniciales'] !!}, 'color:#d2d2d2',
+          '{{ number_format($info["iniciales"],0, ",",".") }}' 
+        ],
+        [
           'V. financiar', {!! $info['vlr_fin_total'] !!}, 'color: #d20962',
             '{{ number_format($info["vlr_fin_total"],0, ",",".") }}' 
           ],

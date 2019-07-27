@@ -31,6 +31,12 @@
           </div>
           <div class="form-group">
               <div class="col-md-12 col-sm-12 col-xs-12">
+              <label for="">Teléfono *:</label>
+              <input type="text" class="form-control" placeholder="ingrese el teléfono del punto" id="telefono" name="telefono" >
+            </div>
+          </div>          
+          <div class="form-group">
+              <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Dirección *:</label>
               <input type="text" class="form-control" placeholder="ingrese la direcciòn del punto" id="direccion" name="direccion" >
             </div>
@@ -84,6 +90,7 @@
   $('#btn_crear_punto').click(function()
   { 
     var zona_id       = $('#zona_id').val(); 
+    var telefono      = $('#telefono').val();
     var nombre        = $('#nombre').val();
     var direccion     = $('#direccion').val();
     var descripcion   = $('#descripcion').val();
@@ -99,6 +106,7 @@
       dataType: 'json',
       data: {
           zona_id     : zona_id,
+          telefono    : telefono,
           nombre      : nombre,
           direccion   : direccion,
           descripcion : descripcion,
