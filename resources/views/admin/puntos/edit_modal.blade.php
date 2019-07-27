@@ -30,6 +30,13 @@
 
           <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
+              <label for="">Teléfono *:</label>
+              <input type="text" class="form-control" id="_telefono" name="_telefono">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Dirección *:</label>
               <input type="text" class="form-control" id="_direccion" name="_direccion">
             </div>
@@ -76,7 +83,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="actualizar">Guardar Cambio</button>
+        <button type="button" class="btn btn-primary" id="actualizar">Guardar Cambios</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -87,7 +94,8 @@
    $('#actualizar').click(function(){ 
 
       var id          = $('#id').val();
-      var zona_id     = $('#zona_id').val();
+      var telefono    = $('#_telefono').val();
+      var zona_id     = $('#_zona_id').val();
       var nombre      = $('#_nombre').val();
       var direccion   = $('#_direccion').val();
       var municipio_id= $('#_municipio_id').val();
@@ -97,13 +105,13 @@
       var route       = "{{url('admin/puntos')}}/"+id;
       var token       = $('#token_').val();
 
-          
       $.ajax({
         url: route,
         headers: {'X-CSRF-TOKEN': token},
         type: 'PUT',
         dataType: 'json',
         data: { id          :id,
+                telefono    :telefono,
                 zona_id     :zona_id,
                 nombre      :nombre,
                 direccion   :direccion,
@@ -112,7 +120,8 @@
                 prefijo     :prefijo,
                 descripcion :descripcion},
           success:function(res){
-            Cargar();
+            console.log({res});
+		Cargar();
             $('#mensaje').text(res.mensaje);
             $('#msj-success').fadeIn();
             $('#myModalEditPunto').modal('toggle');

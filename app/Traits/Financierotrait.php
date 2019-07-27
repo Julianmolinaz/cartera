@@ -59,13 +59,14 @@ trait Financierotrait
       // EGRESOS
 
       $total_egresos  = $this->egresos_repo->get_sum_egresos($ini, $fin);
-      $info = $this->reporte_financiero($creditos);
+      $info           = $this->reporte_financiero($creditos);
+      $iniciales       = $this->egresos_repo->iniciales($ini, $fin);
 
       return array(
         'total_egresos'         => $total_egresos, 
-        'egresos_por_concepto'  => 
-            $this->egresos_repo->get_egresos_general_por_conceptos($ini,$fin),
-        'info' => $info
+        'egresos_por_concepto'  => $this->egresos_repo->get_egresos_general_por_conceptos($ini,$fin),
+        'info' => $info,
+        'iniciales' => $iniciales
       );
   }
 
@@ -114,6 +115,7 @@ trait Financierotrait
   function reporte_financiero($creditos)
    {
         $vlr_fin_total 					          = 0; //sumatoria del valor a financiar 
+        $iniciales                        = 0; //sumatoria cuotas iniciales 
         $vlr_a_recaudar 					        = 0; //sumatoria del valor total del crédito (incluye intereses)
         $vlr_recaudado_en_cuotas 			    = 0; //sumatoria del recaudo en cuotas (incluye refinanciados)
         $vlr_recaudado_en_sanciones 		  = 0; //sumatorio del recaudo por sanciones (incluye refinanciados)
@@ -156,7 +158,7 @@ trait Financierotrait
 
         foreach($creditos as $credito)
         {
-
+          $iniciales      += $credito->precredito->cuota_inicial;
         	$vlr_fin_total	+= $credito->precredito->vlr_fin;
         	$vlr_a_recaudar += $credito->valor_credito;
           $total_saldo    += $credito->saldo;
@@ -193,7 +195,7 @@ trait Financierotrait
       		$total_listados['vlr_recaudado_juridico']		 +=  $pagos_credito['total_pagos_juridico_credito'];
       		$total_listados['vlr_recaudado_en_sanciones']+=  $pagos_credito['total_pagos_sanciones_credito'];
 
-       /* 	array_push($data_creditos,$temp);*/
+        /* 	array_push($data_creditos,$temp);*/
 
         }//.foreach
 
@@ -213,8 +215,9 @@ trait Financierotrait
         
         $data = [
         	'num_creditos'				                   => $num_creditos,
-        	'vlr_fin_total' 			                   => $vlr_fin_total,
-        	'vlr_a_recaudar'			                   => $vlr_a_recaudar,
+          'vlr_fin_total' 			                   => $vlr_fin_total,
+          'iniciales'                              => $iniciales,
+        	'vlr_a_recaudar'			                   => $vlr_a_recaudar + $iniciales,
         	'ingreso_esperado'			                 => $ingreso_esperado,
         	'vlr_recaudado_en_cuotas' 	             => $vlr_recaudado_en_cuotas,
         	'vlr_recaudado_en_sanciones'             => $vlr_recaudado_en_sanciones,

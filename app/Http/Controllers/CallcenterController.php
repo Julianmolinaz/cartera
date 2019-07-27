@@ -440,7 +440,7 @@ class CallcenterController extends Controller
                     array_push($array_creditos,$header);
 
                     foreach($creditos as $credito) {
-            
+
                         $temp = [
                             'cartera'            => $credito->cartera,
                             'credito_id'         => $credito->id,

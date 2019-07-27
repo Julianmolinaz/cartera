@@ -48,7 +48,8 @@ class InicioController extends Controller
                                     $credito->precredito->cliente->nombre." - ".
                                     $credito->precredito->cliente->tipo_doc.": ".
                                     $credito->precredito->cliente->num_doc.", ver factura: ".
-                                    $credito->precredito->num_fact." </a>".
+                                    $credito->precredito->num_fact." </a>
+                                     <a href=".route('start.clientes.upload_document',$credito->precredito->cliente->id).">Cargar documento</a></p>".
                                     "<a href=".route('call.index_unique',$credito->id).">Llamar</a><br>";
                 }
             }
@@ -62,7 +63,8 @@ class InicioController extends Controller
                                     $precredito->cliente->nombre." - ".
                                     $precredito->cliente->tipo_doc.": ".
                                     $precredito->cliente->num_doc.", ver factura: ".
-                                    $precredito->num_fact."</p></a>";
+                                    $precredito->num_fact."</a>
+                                     <a href=".route('start.clientes.upload_document',$precredito->cliente->id).">Cargar documento</a></p>";
                 }
             }
         }
@@ -175,7 +177,8 @@ class InicioController extends Controller
                                     $cliente->placa." : ".
                                     $cliente->nombre." - ".
                                     $cliente->tipo_doc.": ".
-                                    $cliente->num_doc." </p></a>";  
+                                    $cliente->num_doc." </a>
+                                     <a href=".route('start.clientes.upload_document',$cliente->id).">Cargar documento</a></p>";  
                 }   
             }
             if(count($codeudores) > 0){
@@ -189,7 +192,8 @@ class InicioController extends Controller
                                         $cliente->codeudor->placac." : ".
                                         $cliente->codeudor->nombrec." - ".
                                         $cliente->codeudor->tipo_docc.": ".
-                                        $cliente->codeudor->num_docc." </p></a>";  
+                                        $cliente->codeudor->num_docc."</a>
+                                         <a href=".route('start.clientes.upload_document',$cliente->id).">Cargar documento</a></p>";  
                     }
                 }
             }
@@ -206,7 +210,8 @@ class InicioController extends Controller
                                     "<a href=".route('start.clientes.show',$cliente->id).">".
                                     $cliente->nombre." - ".
                                     $cliente->tipo_doc.": ".
-                                    $cliente->num_doc."</p></a>";  
+                                    $cliente->num_doc."</a>
+                                    <a href=".route('start.clientes.upload_document',$cliente->id).">Cargar documento</a></p>";  
                 }   
             }
             if(count($doc_clientes) > 0){
@@ -215,7 +220,8 @@ class InicioController extends Controller
                                     "<a href=".route('start.clientes.show',$cliente->id).">".
                                     $cliente->nombre." - ".
                                     $cliente->tipo_doc.": ".
-                                    $cliente->num_doc."</p></a>";  
+                                    $cliente->num_doc."</a>
+                                     <a href=".route('start.clientes.upload_document',$cliente->id).">Cargar documento</a></p>";  
                 }
             }
             if(count($nombre_codeudores) > 0){
@@ -231,7 +237,8 @@ class InicioController extends Controller
                                         $cliente->codeudor->num_docc." sirve de codeudor al cliente: ".
                                         $cliente->nombre." - ".
                                         $cliente->tipo_doc.": ".
-                                        $cliente->num_doc."</p></a>";  
+                                        $cliente->num_doc."</a>
+                                         <a href=".route('start.clientes.upload_document',$cliente->id).">Cargar documento</a></p>";  
                     }
                 }
             }
@@ -248,7 +255,8 @@ class InicioController extends Controller
                                         $cliente->codeudor->num_docc." sirve de codeudor al cliente: ".
                                         $cliente->nombre." - ".
                                         $cliente->tipo_doc.": ".
-                                        $cliente->num_doc."</p></a>";  
+                                        $cliente->num_doc."</a>
+                                         <a href=".route('start.clientes.upload_document',$cliente->id).">Cargar documento</a></p>";  
                     }    
                 }
             }

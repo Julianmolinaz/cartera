@@ -51,6 +51,7 @@ class FinancieroController extends Controller
             ->with('info', $data['info'])
             ->with('total_egresos', $data['total_egresos'])
             ->with('egresos_por_concepto', $data['egresos_por_concepto'])
+            ->with('iniciales',$data['iniciales'])
             ->with('sucursal',null);
     }
 

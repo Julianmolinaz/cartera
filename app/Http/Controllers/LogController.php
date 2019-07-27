@@ -45,7 +45,7 @@ class LogController extends Controller
             'estado' => 'Activo',
             ])) {
 
-            return redirect()->route('start.pagos.inicio');
+            return redirect()->route('start.inicio.index');
         }
         flash()->error('Datos incorrectos');
         return redirect()->route('log.index');

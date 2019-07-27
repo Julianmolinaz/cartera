@@ -31,7 +31,7 @@ trait DocumentoTrait
         } else if($objeto_relacionado == 'precredito') {
             $obj = 'precredito_id';
             $value = $request->precredito_id;
-        } else if($objeto_relacionado == 'cliente') {
+        } else if($objeto_relacionado == 'cliente' || $objeto_relacionado == 'inicio') {
             $obj = 'cliente_id';
             $value = $request->cliente_id;
         }

@@ -60,6 +60,13 @@ class EgresosRepository
             ->sum('valor');
     }
 
+    public function iniciales($ini, $fin)
+    {   
+        return DB::table('creditos')
+            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+            ->sum('precreditos.cuota_inicial');
+    }
+
     public function filter($string, $paginate)
     {
         $ids = DB::table('egresos')
