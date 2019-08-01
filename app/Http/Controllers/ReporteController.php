@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\VentaController;
 use App\Repositories\EgresosRepository;
 use App\Traits\InformeCarteraTrait;
+use App\Traits\IngresoEsperadoTrait;
 use App\Traits\Financierotrait;
 use App\Traits\MorososTrait;
 use App\Traits\EgresoTrait;
@@ -34,11 +35,8 @@ class ReporteController extends Controller
     private $fecha_2;
     public $egresos_repo;
     public $egresos;
-    use ReporteTrait;
-    use Financierotrait;
-    use EgresoTrait;
-    use MorososTrait;
-    use InformeCarteraTrait;
+    use ReporteTrait, Financierotrait;
+    use EgresoTrait, MorososTrait, InformeCarteraTrait, IngresoEsperadoTrait;
 
     public function __construct(EgresosRepository $egresos_repo)
     {
@@ -483,6 +481,15 @@ class ReporteController extends Controller
       else if ($request->input('tipo_reporte') == 'informe_cartera') {
         $this->informeCarteraTr(); //ver InformeCarteraTrait
       }
+
+    /**
+     *  Informe Ingreso Esperado
+     */
+
+    else if ($request->input('tipo_reporte') == 'ingreso_esperado') {
+        return $this->ingresoNominalTr($ini, $fin);
+    }
+      
 }
 
     public function get_cashes_report($date)
