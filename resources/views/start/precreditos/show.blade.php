@@ -143,9 +143,9 @@
             <th scope="row">Fecha</th>
             <td> {{$precredito->updated_at}}</td>
           </tr>
-          <tr>
-            <th scope="row">Observaciones</th>
-            <td colspan="3"> {{$precredito->observaciones}}</td>
+          <tr style="background:#58aee01f;">
+            <th scope="row" style="font-size:18px;color:#d9534f;">Observaciones:</th>
+            <td colspan="3" style="font-style:italic;"> {{$precredito->observaciones}}</td>
           </tr>
 
         </table>
