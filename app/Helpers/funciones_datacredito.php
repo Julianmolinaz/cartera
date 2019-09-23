@@ -121,6 +121,7 @@ use DB;
 
     function len_line($array)
     {
+        set_time_limit(0);
         $c = 0;
         $aud = '';
         
@@ -431,10 +432,11 @@ function cast_string($string, $len)
     if($string === 'NULL'){
         $string = '';
     } 
-    while(mb_strlen($string) < $len){
+    //mb_strlen para contar carcateres como ~ y ' 
+    while(strlen($string) < $len){
         $string = $string.' ';
     }
-    if( mb_strlen($string) > $len ){
+    if( strlen($string) > $len ){
         return substr($string,0,$len);
     }
     else{
@@ -737,8 +739,8 @@ function saldo_deuda_capital($credito, $corte)
 
     $deuda =  (int)($credito->precredito->vlr_fin - $sum_pagos) ;
 
-    if($deuda > 999){
-        return 999;
+    if($deuda < 0){
+        return 0;
     } else {
         return $deuda;
     }

@@ -46,6 +46,11 @@ Route::get('repor-financiero/comparativo-anual/{year}',[
 	'as'	=> 'reporte.financiero.comparativo'
 ])->middleware('admin');
 
+Route::post('repor-financiero/detalle',[
+	'uses'  => 'FinancieroController@detalle',
+	'as'    => 'reporte.financiero.detalle'
+]);
+
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
 Route::get('start/simulador',[
@@ -172,7 +177,7 @@ Route::put('start/creditos/{credito}',
 Route::get('start/creditos/{credito}/edit',
 	['uses' => 'CreditoController@edit','as'=> 'start.creditos.edit'])->middleware('creditos_editar');
 
-Route::get('start/creditos/create/{id}/{mes}',[
+Route::get('start/creditos/create/{id}/{mes}/{anio}',[
 	'uses' => 'CreditoController@create',
 	'as'   => 'start.creditos.create'
 	])->middleware('creditos_crear');
@@ -395,6 +400,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 
 	Route::resource('variables','VariableController',['only' =>['index','update']]);
 	Route::resource('carteras','CarteraController');
+	Route::resource('negocios','NegocioController');
+	Route::get('negocios/{id}/destroy','NegocioController@destroy')->name('admin.negocios.destroy');
 	Route::resource('productos','ProductoController');
 	Route::resource('sanciones','SancionController');
 	Route::resource('multas','MultaController');
@@ -445,7 +452,11 @@ Route::get('admin/gestion_cartera/getCarteras','CarteraController@getCarteras');
 Route::get('admin/gestion_cartera/get_info_carteras',[
 	'uses' => 'GestionCarteraController@getInfoCarteras',
 	'as'   => 'admin.info_carteras' ]);
-
+Route::get('admin/gestion_cartera/flujo_de_caja',[
+	'uses' => 'FlujocajaController@index',
+	'as'   => 'admin.info_cartera.flujo_de_caja']);	
+Route::get('admin/gestion_cartera/data_flujo_de_caja','FlujocajaController@getDataFlujo');
+Route::post('admin/gestion_cartera/get_flujo_de_caja','FlujocajaController@getFlujoDeCaja');
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])
 	->middleware('reporte_listar');
@@ -651,4 +662,6 @@ Route::get('123', function(){
 });
 
 Route::get('pruebas','PruebaController@invertirFecha');
+Route::get('pruebas/log','PruebaController@log');
+
 

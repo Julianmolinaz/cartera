@@ -176,4 +176,24 @@ class CreditoRepository{
             ->get();
     }
 
+    public function activos($ids_carteras, $fecha)
+    {
+        return DB::table('creditos')
+            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id','=','carteras.id')
+            ->select('precreditos.vlr_cuota as cuota',
+                     'precreditos.p_fecha as p_fecha',
+                     'precreditos.s_fecha as s_fecha',
+                     'precreditos.periodo as periodo',
+                     'creditos.estado as estado',
+                     'creditos.id as id',
+                     'creditos.cuotas_faltantes as cts_faltantes',
+                     'creditos.sanciones_debe as sanciones')
+                     
+            ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+            ->whereIn('carteras.id',$ids_carteras)
+            ->where('creditos.created_at','<=',$fecha)
+            ->get();
+    }
+
 }

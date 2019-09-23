@@ -9,43 +9,20 @@
     <div class="panel panel-primary">
 
       <div class="panel-heading">Financiero Operativo {{ ($sucursal) ? $sucursal :'' }}
-        
       </div>
         <div class="panel-body">
           <div class="row">
-            <div class="col-xs-2  col-md-2">
-              <div class="thumbnail">
-                  <ul class="list-group">
-                    <li class="list-group-item">
-                      <span class="badge"><small>{{$rango['ini'].' - '.$rango['fin']}}</small></span>
-                      .
-                    </li>
-                    <li class="list-group-item" style="padding: 3px 15px;">
-                      <span class="badge">{{ $info['num_creditos'] }}</span>
-                      # cdts: 
-                    </li> 
-                    <li class="list-group-item" style="padding: 3px 15px;">
-                      <span class="badge">
-                        ${{  number_format($info['vlr_fin_total'] / $info['num_creditos'] ,0,'.','.') }}
-                      </span>
-                      % Cost
-                    </li>  
-                    <li class="list-group-item" style="padding: 3px 15px;">
-                      <span class="badge">
-                        ${{  number_format($info['vlr_a_recaudar'] / $info['num_creditos'] ,0,'.','.') }}
-                      </span>
-                      % x negocio
-                    </li>
-                    <li class="list-group-item" style="padding: 3px 15px;">
-                      <span class="badge">
-                        ${{  number_format($info['ingreso_esperado'] / $info['num_creditos'] ,0,'.','.') }}
-                      </span>
-                       % Margen bruto                    
-                     </li>                              
-                  </ul>
-              </div>
+            <div class="col-xs-12  col-md-12">
+              <ol class="breadcrumb">
+                <li>Rango: {{$rango['ini'].' - '.$rango['fin']}}</li>
+                <li>Créditos: {{ $info['num_creditos'] }}</li>
+                <li>Prom. Costo: ${{  number_format($info['vlr_fin_total'] / $info['num_creditos'] ,0,'.','.') }}</li>
+                <li>Prom. negocio: ${{  number_format($info['vlr_a_recaudar'] / $info['num_creditos'] ,0,'.','.') }}</li>
+                <li>Margen bruto:  ${{  number_format($info['ingreso_esperado'] / $info['num_creditos'] ,0,'.','.') }}</li>
+                <li>Num. estudios: {{  number_format($estudios['num'],0,'.','.') }}</li>
+              </ol>
             </div>
-            <div class="col-xs-10 col-md-10">
+            <div class="col-xs-12 col-md-12">
               <a href="#" class="thumbnail">
                 <div id="chart_div"></div>
               </a>
@@ -56,6 +33,21 @@
             <div class="col-xs-4 col-md-4">
               <div href="#" class="thumbnail">
                 <div id="piechart"></div>
+                <a href="javascript:void(0);" 
+                   onclick="getDetalle('0-1 Pago')"
+                   class="btn btn-default btn-xs">
+                   0 - 1 Pago
+                </a>
+                <a href="javascript:void(0);" 
+                   onclick="getDetalle('Promedio')"
+                   class="btn btn-default btn-xs">
+                   Promedio
+                </a>
+                <a href="javascript:void(0);" 
+                   class="btn btn-default btn-xs"
+                   onclick="getDetalle('Ideales')">
+                   Ideales
+                </a>                                
               </div>
             </div>
             <div class="col-xs-4 col-md-4">
@@ -106,6 +98,10 @@
                 </div>
               </div>
               <div class="col-xs-6 col-md-6">
+                <form>
+                  <input type="hidden" name="_token" id="token" value="{{{ csrf_token() }}}" />
+                </form>
+
                 <div href="#" class="thumbnail" style="padding: 50px 20px;"> 
 
                       <h1>Total Egresos</h1>
@@ -139,6 +135,7 @@
 <script>
   var total_egresos;
   var contenedor    = 0;
+  var token = $('#token').val();
 
   var sumatoria_egresos = parseInt("{{ $total_egresos }}");
 
@@ -154,14 +151,8 @@
     }
     
     var progress = 100 * contenedor / sumatoria_egresos
-
     interval(progress);
-
     total_egresos = miles(contenedor);
-
-    console.log(total_egresos);
-    
-    
     $('#total_egresos').text('$ '+total_egresos);
   }
 
@@ -174,14 +165,12 @@
       .css("width", current_progress + "%")
       .attr("aria-valuenow", current_progress)
       .text(current_progress + "% Complete");
-
     };
 
   function miles(numero) {
 
     var str = numero.toString();
-    
-
+  
     var resultado = "";
     // Ponemos un punto cada 3 caracteres
     for (var j, i = str.length - 1, j = 0; i >= 0; i--, j++)
@@ -189,6 +178,53 @@
 
     return resultado;
 
+  }
+
+  function getDetalle(tipo){
+    var data = [];
+
+    if(tipo == '0-1 Pago'){
+      data = {!! json_encode($info['detallePorTipoDeCliente']['01pago']) !!};
+    } else if(tipo == 'Promedio'){
+      data = {!! json_encode($info['detallePorTipoDeCliente']['promedio']) !!};
+    } else if(tipo == 'Ideales'){
+      data = {!! json_encode($info['detallePorTipoDeCliente']['ideales']) !!};
+    }
+
+    data = JSON.stringify(data);
+
+    var mapForm = document.createElement("form");
+    mapForm.target = "Map";
+    mapForm.method = "POST"; // or "post" if appropriate
+    mapForm.action = "{{ route('reporte.financiero.detalle') }}";
+
+    var mapInput = document.createElement("input");
+    mapInput.type = "text";
+    mapInput.name = "data";
+    mapInput.value = data;
+    mapForm.appendChild(mapInput);
+
+    var mapInput2 = document.createElement("input");
+    mapInput2.type = "text";
+    mapInput2.name = "tipo";
+    mapInput2.value = tipo;
+    mapForm.appendChild(mapInput2);
+
+    var mapInput3 = document.createElement("input");
+    mapInput3.type = "hidden";
+    mapInput3.name = "_token";
+    mapInput3.value = "{{ csrf_token() }}";
+    mapForm.appendChild(mapInput3);
+
+    document.body.appendChild(mapForm);
+
+    map = window.open("", "Map", "status=0,title=0,height=600,width=800,scrollbars=1");
+
+    if (map) {
+        mapForm.submit();
+    } else {
+        alert('You must allow popups for this map to work.');
+    }
   }
 
 </script>

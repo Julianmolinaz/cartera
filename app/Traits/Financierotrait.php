@@ -51,22 +51,42 @@ trait Financierotrait
 
   function financiero($ini,$fin)
   {
-      $creditos = Credito::
-        where('credito_refinanciado_id',null)
-        ->whereBetween('created_at',[$ini, $fin])
+    $negocio      = \App\Negocio::find(18);
+	  $ids_carteras = collect($negocio->carteras)->pluck('id');
+
+	  $creditos = \DB::table('creditos')
+		  ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+		  ->join('carteras','precreditos.cartera_id','=','carteras.id')
+		  ->select('creditos.id as id')
+		  ->whereIn('carteras.id',$ids_carteras)
+		  ->where('creditos.credito_refinanciado_id',null)
+		  ->whereBetween('creditos.created_at',[$ini,$fin])
+      ->get();
+
+      $creditos = Credito::whereIn('id',collect($creditos)->pluck('id'))->get();
+
+      $estudios = DB::table('precred_pagos')
+        ->join('precreditos','precred_pagos.precredito_id','=','precreditos.id')
+        ->whereBetween('precreditos.created_at',[$ini, $fin])
+        ->whereIn('precred_pagos.concepto_id',[1,3])
         ->get();
-              
+      
+      $collection_estudios = collect($estudios);
+      $num_estudios = $collection_estudios->count();
+      $sum_estudios = $collection_estudios->sum('subtotal');
+
       // EGRESOS
 
       $total_egresos  = $this->egresos_repo->get_sum_egresos($ini, $fin);
       $info           = $this->reporte_financiero($creditos);
-      $iniciales       = $this->egresos_repo->iniciales($ini, $fin);
+      $iniciales      = $this->egresos_repo->iniciales($ini, $fin);
 
       return array(
         'total_egresos'         => $total_egresos, 
         'egresos_por_concepto'  => $this->egresos_repo->get_egresos_general_por_conceptos($ini,$fin),
-        'info' => $info,
-        'iniciales' => $iniciales
+        'info'                  => $info,
+        'iniciales'             => $iniciales,
+        'estudios'              => ['num' => $num_estudios, 'sum' => $sum_estudios]
       );
   }
 
@@ -92,6 +112,18 @@ trait Financierotrait
       ->where('puntos.id','=',$sucursal_id)
       ->whereBetween('creditos.created_at',[$ini,$fin])
       ->get();
+
+    $collection_estudios = DB::table('pagos')
+      ->join('precreditos','precred_pagos.precredito_id','=','precreditos.id')
+      ->join('users','precreditos.user_create_id','=','users.id')
+      ->join('puntos','users.punto_id','=','puntos.id')
+      ->where('puntos.id','=',$sucursal_id)
+      ->whereBetween('precreditos.created_at',[$ini,$fin])
+      ->get();  
+
+    $collection_estudios = collect($estudios);
+    $num_estudios = $collection_estudios->count();
+    $sum_estudios = $collection_estudios->sum('subtotal');
 
     foreach($creditos as $credito){
       array_push($array, $credito->id);
@@ -121,8 +153,11 @@ trait Financierotrait
         $vlr_recaudado_en_sanciones 		  = 0; //sumatorio del recaudo por sanciones (incluye refinanciados)
         $vlr_recaudado_prejuridico 		    = 0; //sumatorio del recaudo prejuridico (incluye refinanciados)
         $vlr_recaudado_juridico 			    = 0; //sumatorio del recaudo juridico (incluye refinanciados)
+        $vlr_recaudo_iniciales            = 0; //sumatoria de las cuotas iniciales recaudadas
+        $cont_inicial                     = 0; //contador del numero de cuotas inicialespagadas
+        $vlr_recaudo_estudios             = 0; //sumatoria del recaudo por estudios de crédito
+        $cont_estudio                     = 0; //contador del numero de estudios pagados
         $creditos_ideales             	  = 0; //cantidad de créditos que su recaudo en cuotas es >= al valor a financiar
-
         $creditos_0_1_pago            	  = 0; //cantidad de créditos que su recaudo en cuotas es >= al 20 % del valor del credito
         $creditos_promedio            	  = 0; //cantidad de créditos que su recaudo en cuotas es > al 20 % del valor del credito y < que el 100 % del valor a financiar
         $pago_menos_costo             	  = 0; //resta del valor recaudado en cuotas de todos los creditos y el valor total a financiar de los creditos
@@ -140,8 +175,8 @@ trait Financierotrait
         $total_saldo                      = 0; // total de los saldos de los creditos
         $data_creditos                    = array();  // información de creditos que se mostrará en la vista
         $limite_0_1_pago                  = 0.2;
-
-        $num_creditos	= count($creditos);
+        $creditosPorTipoDeUsuario         = [ '01pago' => [], 'promedio' => [], 'ideales'  => [] ];
+        $num_creditos	                    = count($creditos);
 
         if($num_creditos <= 0){
           return '0 creditos';
@@ -153,7 +188,7 @@ trait Financierotrait
     			'vlr_recaudado_en_cuotas' 	=> 0,
     			'vlr_recaudado_prejuridico' => 0,
     			'vlr_recaudado_juridico'    => 0,
-    			'vlr_recaudado_en_sanciones'=> 0
+          'vlr_recaudado_en_sanciones'=> 0,
         ]; 
 
         foreach($creditos as $credito)
@@ -163,8 +198,13 @@ trait Financierotrait
         	$vlr_a_recaudar += $credito->valor_credito;
           $total_saldo    += $credito->saldo;
 
-        	$pagos_credito = $this->total_pagos_credito($credito);
+          $pagos = $this->total_pagos_credito($credito);
+          $pagos_credito = $pagos['pagos_credito'];
+          $inicial = $pagos['inicial'];
 
+          if($inicial ){ $cont_inicial ++; }
+         
+          $vlr_recaudo_iniciales        += $inicial;
       		$vlr_recaudado_en_cuotas 			+= $pagos_credito['total_pagos_credito'];
       		$vlr_recaudado_prejuridico    += $pagos_credito['total_pagos_prejuridico_credito'];
       		$vlr_recaudado_juridico       += $pagos_credito['total_pagos_juridico_credito'];
@@ -173,21 +213,26 @@ trait Financierotrait
         //FALTA TIPIFICAR
     		//CREDITOS IDEALES
 
-          //TIPOS DE CREDITO
+        //TIPOS DE CREDITO
 
       		if($pagos_credito['total_pagos_credito'] >= $credito->precredito->vlr_fin){	
-            $creditos_ideales ++;	} //IDEALES
+            $creditos_ideales ++;	
+            array_push($creditosPorTipoDeUsuario['ideales'],$credito->id);
+          } //IDEALES
 
-      		elseif($pagos_credito['total_pagos_credito'] <= ($credito->precredito->vlr_fin * $limite_0_1_pago)){ //0-1-PAGO
+          elseif($pagos_credito['total_pagos_credito'] <= ($credito->precredito->vlr_fin * $limite_0_1_pago)){ //0-1-PAGO
       			$creditos_0_1_pago ++;
-      			$total_debe_vlr_fin_creditos_0_1_pago += $credito->precredito->vlr_fin - $pagos_credito['total_pagos_credito'];	}        	
+            $total_debe_vlr_fin_creditos_0_1_pago += $credito->precredito->vlr_fin - $pagos_credito['total_pagos_credito'];	
+            array_push($creditosPorTipoDeUsuario['01pago'],$credito->id);
+          }        	
 
       		elseif($pagos_credito['total_pagos_credito'] > ($credito->precredito->vlr_fin * $limite_0_1_pago)  //PROMEDIO
       	       && ($pagos_credito['total_pagos_credito'] < $credito->precredito->vlr_fin)){
       			$creditos_promedio ++;
-      			$total_debe_vlr_fin_creditos_promedio += $credito->precredito->vlr_fin - $pagos_credito['total_pagos_credito'];	}
+            $total_debe_vlr_fin_creditos_promedio += $credito->precredito->vlr_fin - $pagos_credito['total_pagos_credito'];	
+            array_push($creditosPorTipoDeUsuario['promedio'],$credito->id);
+          }
 
-       
       		$total_listados['vlr_a_recaudar']				     +=  $credito->valor_credito;
       		$total_listados['vlr_financiado']				     +=  $credito->precredito->vlr_fin;
       		$total_listados['vlr_recaudado_en_cuotas']	 +=  $pagos_credito['total_pagos_credito'];
@@ -222,7 +267,11 @@ trait Financierotrait
         	'vlr_recaudado_en_cuotas' 	             => $vlr_recaudado_en_cuotas,
         	'vlr_recaudado_en_sanciones'             => $vlr_recaudado_en_sanciones,
         	'vlr_recaudado_prejuridico'              => $vlr_recaudado_prejuridico,
-        	'vlr_recaudado_juridico'                 => $vlr_recaudado_juridico,
+          'vlr_recaudado_juridico'                 => $vlr_recaudado_juridico,
+          'vlr_recaudo_iniciales'                  => $vlr_recaudo_iniciales,
+          'cont_inicial'                           => $cont_inicial,
+          'cont_estudio'                           => $cont_estudio,
+          'vlr_recaudo_estudios'                   => $vlr_recaudo_estudios,
         	'creditos_ideales'   	                   => $creditos_ideales,
         	'creditos_0_1_pago'			                 => $creditos_0_1_pago,
         	'creditos_promedio'			                 => $creditos_promedio,
@@ -236,9 +285,10 @@ trait Financierotrait
         	'total_debe_vlr_fin_creditos_promedio'   => $total_debe_vlr_fin_creditos_promedio,
         	'total_costo_cartera'		                 => $total_costo_cartera,
         	'total_listados'                         => $total_listados,
-        	//'creditos'					                     => $data_creditos,
+        	//'creditos'					                   => $data_creditos,
           'saldo_menos_cartera'                    => $saldo_menos_cartera,
-          'total_pendiente_para_cubrir_vlr_a_recaudar' => $total_pendiente_para_cubrir_vlr_a_recaudar
+          'total_pendiente_para_cubrir_vlr_a_recaudar' => $total_pendiente_para_cubrir_vlr_a_recaudar,
+          'detallePorTipoDeCliente'                => $creditosPorTipoDeUsuario
         ];
 
         return $data;
@@ -258,20 +308,25 @@ trait Financierotrait
 
   function total_pagos_credito($credito)
   {
-  	$pagos = $this->calculadora_pagos_credito($credito);
+  	$pagos_credito = $this->calculadora_pagos_credito($credito);
+    
+    $inicial = $this->calcular_iniciales($credito);
 
   	if($credito->refinanciacion == 'Si')
   	{
   		$pagos_refinanciacion = $this->calculadora_pagos_credito($credito->refinanciado);
 
-  		$pagos['total_pagos_credito'] 				      += $pagos_refinanciacion['total_pagos_credito'];
-  		$pagos['total_pagos_prejuridico_credito'] 	+= $pagos_refinanciacion['total_pagos_prejuridico_credito'];
-  		$pagos['total_pagos_juridico_credito'] 		  += $pagos_refinanciacion['total_pagos_juridico_credito'];
-  		$pagos['total_pagos_sanciones_credito'] 	  += $pagos_refinanciacion['total_pagos_sanciones_credito'];
+  		$pagos_credito['total_pagos_credito'] 				      += $pagos_refinanciacion['total_pagos_credito'];
+  		$pagos_credito['total_pagos_prejuridico_credito'] 	+= $pagos_refinanciacion['total_pagos_prejuridico_credito'];
+  		$pagos_credito['total_pagos_juridico_credito'] 		  += $pagos_refinanciacion['total_pagos_juridico_credito'];
+  		$pagos_credito['total_pagos_sanciones_credito'] 	  += $pagos_refinanciacion['total_pagos_sanciones_credito'];
 
   	}
 
-  	return $pagos;
+  	return [
+      'pagos_credito' => $pagos_credito,
+      'inicial' => $inicial
+    ];
   }
 
   function calculadora_pagos_credito($credito)
@@ -315,6 +370,31 @@ trait Financierotrait
     		'total_pagos_sanciones_credito'   => $total_pagos_sanciones_credito
     	];
   }
+
+  /**
+   * Calcula pagos a solicitud por concepto de inicial y estudio
+   * @param obj $credito
+   */
+
+  function calcular_iniciales($credito)
+	{
+    $pagos = $credito->precredito->pagos;
+    $inicial = 0;
+
+		if($pagos){
+
+      foreach($pagos as $pago){
+
+        //cuota inicial
+        if($pago->concepto_id == 2){
+          $inicial = $pago->subtotal;
+        }
+      }
+    }//.if
+
+    return $inicial;
+	}
+
 
   	function seleccion_datos_credito($credito)
   	{

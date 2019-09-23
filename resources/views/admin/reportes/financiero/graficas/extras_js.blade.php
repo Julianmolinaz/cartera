@@ -10,7 +10,9 @@ function drawMultSeries() {
         ['Prejurídico',{!! $info['vlr_recaudado_prejuridico'] !!}, 'color: #FF4000',
           "{{number_format($info['vlr_recaudado_prejuridico'] ,0, ",",".") }}"],
         ['Jurídico', {!! $info['vlr_recaudado_juridico'] !!}, 'color: #01DF01',
-          "{{number_format($info['vlr_recaudado_juridico'] ,0, ",",".") }}"]
+          "{{number_format($info['vlr_recaudado_juridico'] ,0, ",",".") }}"],
+        ['Estudios', {!! $estudios['sum'] !!}, 'color: #827717',
+          "{{number_format($estudios['sum'] ,0, ",",".") }}"]
       ]);
 
 

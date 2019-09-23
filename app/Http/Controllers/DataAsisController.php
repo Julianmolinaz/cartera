@@ -36,6 +36,8 @@ class DataAsisController extends Controller
 
         $this->validate($request, ['fileToUpload'=>'required']);
 
+        //dd($request->all());
+
         if( $request->hasFile('fileToUpload') ) 
         {
             $extension = File::extension($request->fileToUpload->getClientOriginalName());
@@ -60,12 +62,11 @@ class DataAsisController extends Controller
 
     public function get_estructura()
     {
-
         foreach( $this->data as $d ){
 
             $contrato = $this->contrato($d);
 
-            $this->content[] = [
+            $register = [
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($d->tipo_doc),1,'right'),
                 '2.2-numero_identificacion' => cast_number($d->num_doc,11,'right'),
                 '2.3-numero_obligacion'     => cast_number('9990000000'.$d->afil_id,18,'right'),
@@ -133,8 +134,12 @@ class DataAsisController extends Controller
                 '2.65-detalle_garantia'     => cast_string('',1),
                 '2.66-espacio_blanco'       => cast_string('',18)
             ];
+
+            len_line($register);
+
+            $this->content[] = $register;
         }
-        // dd($this->content); 
+        //dd($this->content); 
     }//get_estructura
 
 

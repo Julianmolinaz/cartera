@@ -81,7 +81,7 @@ function saluda(){
   echo "<br/>";
 }
 
-//funcion que covierte los valores enum de una columna en un array 
+//// function that converts the enum values of a column into an array
 function getEnumValues($table, $column)
 {
   $type = DB::select( DB::raw("SHOW COLUMNS FROM $table WHERE Field = '$column'") )[0]->Type;
