@@ -444,7 +444,7 @@ class CallcenterController extends Controller
                         $temp = [
                             'cartera'            => $credito->cartera,
                             'credito_id'         => $credito->id,
-                            'fecha_apertura'     => ddmmyyyySlash($credito->apertura),
+                            'fecha_apertura'     => $this->ddmmyyyySlash($credito->apertura),
                             'cliente'            => $credito->cliente,
                             'celular'            => $credito->movil,
                             'documento'          => $credito->num_doc,
@@ -484,6 +484,30 @@ class CallcenterController extends Controller
             echo 'Error<br>*<br>*<br>*<br>*<br>';
             dd($e);
         }    
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ExportarTodo
+    |--------------------------------------------------------------------------
+    | 
+    | * Convierte fecha al formato mm/dd/yyyy
+    | * recibe una string fecha
+    |
+    */  
+
+    /**
+     * Convierte fecha al formato mm/dd/yyyy
+     * recibe una string fecha
+     */
+
+    public function ddmmyyyySlash($value)
+    {
+        $fecha = new Carbon($value);
+        $fecha = $fecha->format('m/d/Y');
+
+        return $fecha;
     }
 
     public function misCall(){

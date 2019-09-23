@@ -22,6 +22,7 @@ trait ReporteTrait
                array('value' => 'general_por_users', 'vista' => 'General por Funcionarios'), 
                array('value' => 'historial_ventas','vista' => 'Historial venta de creditos'),
                array('value' => 'informe_cartera','vista' => 'Informe Cartera'),
+               array('value' => 'ingreso_esperado','vista' => 'Ingreso esperado','definicion' => 'Ingreso esperado nominal por rango de fecha'),
                array('value' => 'morosos','vista' => 'Morosos'),
                array('value' => 'procredito','vista' => 'Reporte Procredito'),
                array('value' => 'datacredito','vista' => 'Reporte Datacredito'),

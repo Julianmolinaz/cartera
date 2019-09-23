@@ -78,10 +78,10 @@ trait MorososTrait
         if ($sanciones > 0 && $sanciones <= 30) {
             $tipo_moroso = 'Morosos ideales';
         }
-        elseif ($sanciones > 30 && $sanciones <= 90) {
+        elseif ($sanciones > 30 && $sanciones <= 75) {
             $tipo_moroso = 'Morosos alerta';
         }
-        elseif ($sanciones > 90) {
+        elseif ($sanciones > 75) {
             $tipo_moroso = 'Morosos criticos';
         }
         else {

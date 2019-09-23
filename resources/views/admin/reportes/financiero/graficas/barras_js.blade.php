@@ -31,6 +31,10 @@ function drawMultSeries() {
           '{{ number_format($info['vlr_a_recaudar'],0, ",",".") }}'
           ],
         [
+          'Rec. Iniciales',{!! $info['vlr_recaudo_iniciales'] !!}, 'color: #d2d2d2',
+          '{{ number_format($info['vlr_recaudo_iniciales'],0, ",",".") }}'
+          ],  
+        [
           'Rec. cuotas', {!! $info['vlr_recaudado_en_cuotas'] !!}, 'color: #00a78e',
           '{{ number_format( $info['vlr_recaudado_en_cuotas'],0, ",",".") }}'
           ],

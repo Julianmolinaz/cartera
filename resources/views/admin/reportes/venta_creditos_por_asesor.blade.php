@@ -34,13 +34,14 @@
               <th>  Valor Cuota               </th> 
               <th>  Pago hasta                </th>
               <th>  Centro de Costos          </th>              
-              <th>  Valor Crédito             </th>
+              <th>  Valor Crédito             </th> 
+              <th>  Inicial                   </th>
               <th>  Saldo                     </th>
               <th>  # Factura                 </th> 
               <th>  Create                    </th>
            </tr>
           </thead>
-          <tbody style="font-size:10px">
+          <tbody style="font-size:8px">
             @foreach($creditos as $credito)
               <tr>
                 <td>  {{$fila++}}             </td>
@@ -58,6 +59,7 @@
                 <td>{{ $credito->fecha_pago }}</td>
                 <td align="right">{{ number_format($credito->vlr_fin,0,",",".")}}     </td>
                 <td align="right">{{ number_format($credito->vlr_credito,0,",",".")}} </td>
+                <td align="right">{{ number_format($credito->cuota_inicial,0,",",".")}}     </td>
                 <td align="right">{{ number_format($credito->saldo,0,",",".")}}       </td>
                 <td><small>{{$credito->factura}}</small></td>
 
@@ -75,6 +77,7 @@
                 <td></td> 
                 <td></td> 
                 <td></td> 
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

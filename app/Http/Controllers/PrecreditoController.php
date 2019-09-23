@@ -4,18 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Traits\MensajeTrait;
 use App\Http\Requests;
-use App\Cliente;
-use App\User;
-use App\Producto;
 use App\Precredito;
+use Carbon\Carbon;
 use App\Variable;
+use App\Producto;
+use App\Cliente;
 use App\Cartera;
 use App\Credito;
-use DB;
-use Auth;
 use App\Extra;
-use App\Traits\MensajeTrait;
+use App\User;
+use Auth;
+use DB;
 
 class PrecreditoController extends Controller
 {
@@ -181,6 +182,12 @@ class PrecreditoController extends Controller
 
         ($precredito->credito) ?  $total_pagos = sum_pagos($credito[0]) : $total_pagos = 0;
 
+        //calcular años para formulario de referncia al crear crédito
+
+        $anio = Carbon::now()->year;
+
+        $anios = [$anio - 1, $anio, $anio +1];
+
         /******************** JURIDICO **************************/
         /* se valida la existencia de sanciones Juridicas en la tabla extras, si existen se valida que haya abonos en
         la tabla pagos en los casos de que no existan se generan los respectivos valores */
@@ -278,7 +285,8 @@ class PrecreditoController extends Controller
             ->with('parciales',$total_parciales)
             ->with('sanciones',$sum_sanciones)
             ->with('total_pagos',$total_pagos)
-            ->with('hijo',$hijo);
+            ->with('hijo',$hijo)
+            ->with('anios',$anios);
 
 
     }
@@ -288,9 +296,7 @@ class PrecreditoController extends Controller
     // la variable $id es el id del cliente
     public function show($id)
     {
-
-
-//validar que un cliente no tenga mas precréditos o créditos en proceso
+      //validar que un cliente no tenga mas precréditos o créditos en proceso
 
         $solicitudes_pendientes =
         DB::table('precreditos')
@@ -318,13 +324,14 @@ class PrecreditoController extends Controller
             $productos = Producto::all()->sortBy('nombre');
             $carteras = Cartera::where('estado','Activo')->get();
             $variables = Variable::find(1);
+            $now = Carbon::now();
 
             return view('start.precreditos.create')
-            ->with('users',$users)
-            ->with('cliente',$cliente)
-            ->with('productos',$productos)
-            ->with('variables',$variables)
-            ->with('carteras',$carteras);
+              ->with('users',$users)
+              ->with('cliente',$cliente)
+              ->with('productos',$productos)
+              ->with('variables',$variables)
+              ->with('carteras',$carteras);
         }
         else{
             flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');

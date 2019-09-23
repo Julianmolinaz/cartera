@@ -29,7 +29,6 @@ class CreditoController extends Controller
     public function __construct(CreditoRepository $creditos){
       $this->creditos = $creditos;
       $this->middleware('auth');
-
     }
 
     /*
@@ -103,7 +102,6 @@ class CreditoController extends Controller
 
     public function cancelados()
     {        
-
         $creditos = 
         DB::table('creditos')
             ->join('precreditos','creditos.precredito_id',  '=',  'precreditos.id')
@@ -169,8 +167,9 @@ class CreditoController extends Controller
     | 
     */
 
-    public function create($id, $mes)
+    public function create($id, $mes, $anio)
     {
+
        $precredito = Precredito::find($id);
 
        //validacion del pago de estudio de crédito
@@ -207,6 +206,7 @@ class CreditoController extends Controller
              $credito->precredito_id    = $precredito->id;
              $credito->cuotas_faltantes = $precredito->cuotas;
              $credito->mes = $mes;
+             $credito->anio = $anio;
              $credito->estado         = 'Al dia';
              $credito->valor_credito  = $precredito->cuotas * $precredito->vlr_cuota;
              $credito->saldo          = $credito->valor_credito;

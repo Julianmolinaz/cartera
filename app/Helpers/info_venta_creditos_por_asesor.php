@@ -53,6 +53,7 @@ function reporte_venta_creditos_por_asesor( $fecha_1, $fecha_2 ){
         'precreditos.cuotas as cuotas',
         'precreditos.vlr_cuota as vlr_cuota',
         'precreditos.num_fact as factura',
+        'precreditos.cuota_inicial as cuota_inicial',
         'carteras.nombre as cartera',
         'creditos.created_at as created_at',
         'creditos.rendimiento as rendimiento',

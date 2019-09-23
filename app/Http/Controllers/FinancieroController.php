@@ -3,25 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\EgresosRepository;
+use App\Traits\DetalleClientesTrait;
 use App\Traits\Financierotrait;
 use Illuminate\Http\Request;
 use App\Traits\EgresoTrait;
 use App\Http\Requests;
 use Carbon\Carbon;
+use App\Credito;
 use App\Punto;
+use Excel;
 
 class FinancieroController extends Controller
 {
-    use Financierotrait;
-    use EgresoTrait;
-    
+    use Financierotrait, EgresoTrait, DetalleClientesTrait;
+
     public function __construct(EgresosRepository $egresos_repo)
     {
         $this->middleware('auth');
         $this->egresos_repo = $egresos_repo;
     }
 
-    public function index(){
+    public function index()
+    {
         $sucursales = Punto::orderBy('nombre')->get();
         $anios = array();
         $now = Carbon::now();
@@ -37,22 +40,28 @@ class FinancieroController extends Controller
 
     public function general($rango)
     {
-        $f = $this->generar_fechas($rango);
-      
-        $data = $this->financiero($f['ini'], $f['fin']);
+        try{
+            $f = $this->generar_fechas($rango);
+          
+            $data = $this->financiero($f['ini'], $f['fin']);
 
-        if($data['info'] == '0 creditos') {
-            flash()->error('No hay créditos en este periodo');
-            return redirect()->route('reporte.financiero');
+            if($data['info'] == '0 creditos') {
+                flash()->error('No hay créditos en este periodo');
+                return redirect()->route('reporte.financiero');
+            }
+    
+            return view('admin.reportes.financiero.financiero_operativo')
+                ->with('rango',$f['rango'])
+                ->with('info', $data['info'])
+                ->with('total_egresos', $data['total_egresos'])
+                ->with('egresos_por_concepto', $data['egresos_por_concepto'])
+                ->with('iniciales',$data['iniciales'])
+                ->with('estudios', $data['estudios'])
+                ->with('sucursal',null);
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
-
-        return view('admin.reportes.financiero.financiero_operativo')
-            ->with('rango',$f['rango'])
-            ->with('info', $data['info'])
-            ->with('total_egresos', $data['total_egresos'])
-            ->with('egresos_por_concepto', $data['egresos_por_concepto'])
-            ->with('iniciales',$data['iniciales'])
-            ->with('sucursal',null);
     }
 
 
@@ -136,8 +145,7 @@ class FinancieroController extends Controller
 
             foreach ($sucursales as $sucursal) 
             {
-                $res = $this->financiero_por_sucursales($quart['ini'], $quart['fin'], $sucursal->id);
-; 
+                $res = $this->financiero_por_sucursales($quart['ini'], $quart['fin'], $sucursal->id); 
 
                 if($res == "0 creditos"){
                     // flash()->error('No hay creditos en el rango');
@@ -170,6 +178,65 @@ class FinancieroController extends Controller
         return view('admin.reportes.financiero.sucursales.comparativa_tipos')
             ->with('quarts',$trimestres)
             ->with('year',$year);
+
+    }
+
+    public function detalle(Request $request)
+    {
+        $fecha              = Carbon::now()->toDateTimeString();
+        $ids                = explode( ',', str_replace(']', "",str_replace('[', "", $request->data)) );
+        $creditos           = Credito::find($ids);
+        $arreglo_creditos   = [];
+
+        $header = [
+            'credito',
+            'creado',
+            'cliente',
+            'documento',
+            'celular',
+            'telefono',
+            'tipo_actividad',
+            'ocupacion',
+            'empresa',
+            'numero_creditos',
+            'producto',
+            'vlr_financiar',
+            'periodo',
+            'plazo',
+            'punto'
+        ];
+
+        array_push($arreglo_creditos, $header);
+
+        foreach ($creditos as $credito) {
+            $temp = [
+                'credito'   => $credito->id,
+                'crecion'   => $credito->created_at,
+                'cliente'   => $credito->precredito->cliente->nombre,
+                'documento' => $credito->precredito->cliente->num_doc,
+                'celular'   => $credito->precredito->cliente->movil,
+                'telefono'  => $credito->precredito->cliente->telefono,
+                'tipo_actividad' => $credito->precredito->cliente->tipo_actividad,
+                'cupacion'  => $credito->precredito->cliente->ocupacion,
+                'empresa'   => $credito->precredito->cliente->empresa,
+                'num_creditos' => $credito->precredito->cliente->numero_de_creditos,
+                'producto'  => $credito->precredito->producto->nombre,
+                'vlr_fin'   => $credito->precredito->vlr_fin,
+                'periodo'   => $credito->precredito->periodo,   
+                'plazo'     => $credito->precredito->cuotas,
+                'punto'     => $credito->precredito->user_create->punto->nombre
+            ];
+
+            array_push($arreglo_creditos, $temp);
+        }
+
+        Excel::create($request->tipo.'-'.$fecha,function($excel) use ($arreglo_creditos){
+            
+            $excel->sheet('Sheetname',function($sheet) use ($arreglo_creditos){       
+                
+            $sheet->fromArray($arreglo_creditos,null,'A1',false,false);
+            });
+        })->download('xls');
 
     }
 }

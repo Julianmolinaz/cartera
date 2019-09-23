@@ -48,7 +48,7 @@
                    </select>
                  </div>  
             </div>
-            <!-- VLR_FIN **************************************************************************-->
+            <!-- MES REF **************************************************************************-->
             <div class="form-group">
               <div class="col-md-3 col-sm-3 col-xs-12">
                 <label for="">Ref Mes *: </label>
@@ -234,7 +234,7 @@
           <div class="form-group">  
             <div class="col-md-6 col-sm-6 col-xs-12">
               <label>Observaciones</label>
-              <textarea class="form-control input-sm" rows="3" id="observaciones" name="observaciones" placeholder='Escriba la descripción de la modalidad' autocomplete="on"  value="{{$credito->precredito->observaciones}}">{{$credito->precredito->observaciones}}</textarea>
+              <textarea class="form-control input-sm" rows="3" id="observaciones" name="observaciones" placeholder='Descripción, observaciones o recordatorios' autocomplete="on"  value="{{$credito->precredito->observaciones}}">{{$credito->precredito->observaciones}}</textarea>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <label>Recordatorio Pago</label>

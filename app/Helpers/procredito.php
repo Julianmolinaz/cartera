@@ -707,7 +707,11 @@ function reporte_procredito(){
             return '0';
         }
         else{
-            return $dias;
+            if($dias >= 1000){
+                return 999;
+            } else {
+                return $dias;
+            }
         }     
     }
 

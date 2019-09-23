@@ -18,44 +18,46 @@
           <thead>
             <tr style="background-color:#FFC300;">
               <th>#</th>
-              <th>  Cartera       </th>
+              <th>  Cartera           </th>
               <th>  <small>Credito Id</small></th>
-              <th>  Castigada?    </th>
-              <th>  Cliente       </th>
-              <th>  Documento     </th>
-              <th>  Producto      </th>
-              <th>  Periodo       </th>
-              <th>  Refinanciado  </th>
-              <th>  Crédito Padre</th>
-              <th>  Cuotas        </th>
-              <th>  Valor Cuota   </th> 
-              <th>  Pago hasta    </th>
-              <th>  Centro de Costos</th>              
-              <th>  Valor Crédito </th>
-              <th>  Saldo         </th>
-              <th>  # Factura     </th> 
-              <th>  Create     </th>
+              <th>  Castigada?        </th>
+              <th>  Cliente           </th>
+              <th>  Documento         </th>
+              <th>  Producto          </th>
+              <th>  Periodo           </th>
+              <th>  Refinanciado      </th>
+              <th>  Crédito Padre     </th>
+              <th>  Cuotas            </th>
+              <th>  Valor Cuota       </th> 
+              <th>  Pago hasta        </th>
+              <th>  Centro de Costos  </th>              
+              <th>  Valor Crédito     </th>
+              <th>  Cuota inicial     </th>
+              <th>  Saldo             </th>
+              <th>  # Factura         </th> 
+              <th>  Create            </th>
            </tr>
           </thead>
-          <tbody style="font-size:10px">
+          <tbody style="font-size:8px">
             @foreach($creditos as $credito)
               <tr>
-                <td>{{$fila++}}</td>
-                <td>{{$credito->cartera}}</td>
-                <td>{{$credito->id}}</td>
-                <td>{{$credito->castigada}}</td>
-                <td>{{$credito->cliente}}</td>
-                <td>{{$credito->documento}}</td>
-                <td>{{$credito->producto}}</td>
-                <td>{{$credito->periodo}} </td>
+                <td>{{$fila++}}             </td>
+                <td>{{$credito->cartera}}   </td>
+                <td>{{$credito->id}}        </td>
+                <td>{{$credito->castigada}} </td>
+                <td>{{$credito->cliente}}   </td>
+                <td>{{$credito->documento}} </td>
+                <td>{{$credito->producto}}  </td>
+                <td>{{$credito->periodo}}   </td>
                 <td>{{$credito->refinanciado}}</td>
-                <td>{{$credito->credito_refinanciado_id}}</td>
-                <td align="right">{{ $credito->cuotas}}</td>       
-                <td align="right">{{ number_format($credito->vlr_cuota,0,",",".")}}</td>
+                <td>{{$credito->credito_refinanciado_id}} </td>
+                <td align="right">{{ $credito->cuotas}}   </td>       
+                <td align="right">{{ number_format($credito->vlr_cuota,0,",",".")}}     </td>
                 <td>{{ $credito->fecha_pago }}</td>
-                <td align="right">{{ number_format($credito->vlr_fin,0,",",".")}}</td>
-                <td align="right">{{ number_format($credito->vlr_credito,0,",",".")}}</td>
-                <td align="right">{{ number_format($credito->saldo,0,",",".")}}</td>
+                <td align="right">{{ number_format($credito->vlr_fin,0,",",".")}}       </td>
+                <td align="right">{{ number_format($credito->vlr_credito,0,",",".")}}   </td>
+                <td align="right">{{ number_format($credito->cuota_inicial,0,",",".")}} </td>
+                <td align="right">{{ number_format($credito->saldo,0,",",".")}}         </td>
                 <td><small>{{$credito->factura}}</small></td>
 
                 <td>{{$credito->created_at}}</td>
@@ -68,6 +70,7 @@
                 <td></td>
                 <td><b>Totales :</b></td>
                  <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

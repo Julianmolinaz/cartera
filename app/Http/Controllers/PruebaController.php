@@ -5,14 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Traits\LogTrait;
 
 use App\Egreso;
+use Excel;
 use DB;
 
 class PruebaController extends Controller
 {
-    public function invertirFecha(){
+    use LogTrait;
 
+    public function log()
+    {
+        return $this->logFacturaTr();
+    }
+
+
+    public function invertirFecha()
+    {
         DB::beginTransaction();
         try {
 

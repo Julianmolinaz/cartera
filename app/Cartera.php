@@ -15,7 +15,6 @@ class Cartera extends Model implements Auditable
     	'nombre', 'estado'
     ];
 
-
     public function setNombreAttribute($value){
     	$this->attributes['nombre'] = strtoupper($value);
     }
@@ -24,5 +23,8 @@ class Cartera extends Model implements Auditable
         return $this->belongsTo('App\Precredito');
     }
 
+    public function negocios(){
+        return $this->belongsToMany('App\Negocio');
+    }
 
 }

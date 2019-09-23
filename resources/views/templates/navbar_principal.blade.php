@@ -77,6 +77,7 @@
             <li><a href="{{route('admin.reporte.financiero')}}">Financiero &nbsp;<i class="glyphicon glyphicon-lock"></i></a></li>
 
             <li role="separator" class="divider"></li>
+            <li><a href="{{route('admin.negocios.index')}}">Negocios</a></li> 
             <li><a href="{{route('admin.carteras.index')}}">Carteras</a></li> 
             <li><a href="{{route('admin.users.index')}}">Usuarios</a></li>
             <li role="separator" class="divider"></li>          
