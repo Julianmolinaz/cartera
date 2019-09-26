@@ -19,7 +19,8 @@ class FlujocajaController extends Controller
     protected $sumatoria_minima;
     protected $sumatoria_media;
     protected $sumatoria_maxima;
-    protected $fecha;
+    protected $fecha_final;
+    protected $fecha_inicial;
     protected $sanciones;
 
     public function __construct(CreditoRepository $creditos)
@@ -63,15 +64,16 @@ class FlujocajaController extends Controller
     public function getFlujoDeCaja(Request $request)
     {
         try {
+            $this->fecha_inicial = new Carbon($request->fecha_inicial);
+            $this->fecha_final   = new Carbon($request->fecha_final);
 
-            $this->fecha = new Carbon($request->fecha);
             $ids_carteras = $this->getCarterasChecked($request->carteras);
 
-            $creditos = $this->credRepo->activos($ids_carteras, $this->fecha);
-     
-            \Log::info($creditos);
+            $creditos = $this->credRepo->activos($ids_carteras, $this->fecha_inicial, $this->fecha_final);
+//*** */
             foreach ( $creditos as $credito) {
-                $this->calcularRecaudo($credito);
+                $this->credito = $credito;
+                $this->calcularRecaudo();
             }
 
             return response()->json([
@@ -92,54 +94,55 @@ class FlujocajaController extends Controller
         }
     }
 
-    public function calcularRecaudo($credito)
+    public function calcularRecaudo()
     {
-
         try{
-            $jocker = true;
-            $cts_faltantes = $credito->cts_faltantes;
-            $orden = false;
-            $now = Carbon::now();
-            $day = '';
-            $modelo = 1;
-            $contador = 1;
-            $month = $now->month;
-            $year = $now->year;
-            $date = Carbon::create($year, $month, $credito->p_fecha,23, 59, 00);
+            $jocker     = true; // false cuando la fecha este fuera del rango
+            $cts_faltantes  = $this->credito->cts_faltantes; // cuotas faltantes del credito
+            $orden      = false; // true para primera fecha, false para segunda fecha (N/A para pago mensual)
+            $day        = ''; // toma el valor del día de pago
+            $modelo     = 1; // impar para cambio de mes
+            $contador   = 1; 
+            $now        = Carbon::now(); 
+            $date       = new Carbon($this->credito->proxima_f_pago);
 
-            $this->sanciones += $credito->sanciones * Variable::find(1)->vlr_dia_sancion;
+            $this->sanciones += $this->credito->sanciones * Variable::find(1)->vlr_dia_sancion;
 
-            while ($cts_faltantes > 0 && $jocker) {
+            if ($date->day == $this->credito->p_fecha && $this->credito->periodo == 'Quincenal') {
+                $orden = false;
+            } else {
+                $orden = true;
+                $contador = 2;
+            }
 
-                if ($credito->periodo == 'Quincenal') {
+            while ($cts_faltantes > 0 && $jocker && $contador < 1000) 
+            {
+                if ($this->credito->periodo == 'Quincenal') {
                     $orden = ! $orden;
                     $modelo = 2;
                 } else {
                     $orden = true;
+                    $modelo = 1;
                 }
 
-                if ($orden) {
-                    $day = $credito->p_fecha;
-                } else {
-                    $day = $credito->s_fecha;
-                }
+                $day = $this->generar_dia($orden, $date);
+
                 $date->day($day);
 
                 \Log::info($date);
 
-                if ($date->gte($now) && $date->lte($this->fecha)) {
-                    if ($credito->estado == 'Al dia') {
-                        $this->sumatoria_minima += $credito->cuota;
-                    } else if($credito->estado == 'Mora') {
-                        $this->sumatoria_media += $credito->cuota;
+                if ( $date->gte($now) ) {
+                    if ( $date->lt($this->fecha_inicial) ) {
+                        $cts_faltantes --;
+                    } else {
+                        if ( $date->lte($this->fecha_final) ){
+                            $this->sumar();
+                            $cts_faltantes --;
+                        } else {
+                            $jocker = false;
+                        }
                     }
-                    else {
-                        $this->sumatoria_maxima += $credito->cuota;
-                    }
-                    $cts_faltantes --;
-                } else if($date->gt($this->fecha)){
-                    $jocker = false;
-                }  
+                } 
 
                 if (! ($contador % $modelo) ) {
                     $date->addMonth(1);
@@ -168,5 +171,31 @@ class FlujocajaController extends Controller
         }
         
         return $ids;
+    }
+
+    public function sumar()
+    {
+        if ($this->credito->estado == 'Al dia') {
+            $this->sumatoria_minima += $this->credito->cuota;
+        } else if($this->credito->estado == 'Mora') {
+            $this->sumatoria_media += $this->credito->cuota;
+        } else {
+            $this->sumatoria_maxima += $this->credito->cuota;
+        }
+    }
+
+    public function generar_dia($orden, $date)
+    {
+        $day = '';
+        if ($orden) {
+            $day = $this->credito->p_fecha;
+        } else {
+            $day = $this->credito->s_fecha;
+        }
+        if ($date->month == 2 && ($day == 29 || $day == 30)){
+            $day = 28;
+        } 
+
+        return $day;
     }
 }
