@@ -92,8 +92,8 @@
             submit() {
                 var self = this
 
-                if (!this.fecha) {
-                    alert('Se requiere la fecha');
+                if (!(this.fecha_inicial || this.fecha_final)) {
+                    alert('Se requiere la \"Fecha inicial\" y la \"Fecha final\" ');
                     return false;
                 }
 
@@ -102,8 +102,6 @@
                     fecha_inicial: this.fecha_inicial,
                     fecha_final: this.fecha_final
                 }).then(res => {
-                    console.log(res.data.dat);
-
                     if (res.data.success) {
                         self.recaudo = res.data.dat
                     } else {
