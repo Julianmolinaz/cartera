@@ -186,7 +186,7 @@ class PrecreditoController extends Controller
 
         $anio = Carbon::now()->year;
 
-        $anios = [$anio - 1, $anio, $anio +1];
+        $anios = [$anio - 1, $anio];
 
         /******************** JURIDICO **************************/
         /* se valida la existencia de sanciones Juridicas en la tabla extras, si existen se valida que haya abonos en
