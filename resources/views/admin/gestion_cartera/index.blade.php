@@ -51,17 +51,14 @@
 
     <div class="col-sm-12 col-md-4">
       <div class="thumbnail">
-        <img src="{{ asset('images/sucursales.jpg') }}" style="height:215px;width:100%;">
+        <img src="{{ asset('images/recaudo.jpg') }}" style="height:215px;width:100%;">
         <div class="caption">
           <h3>Flujo de caja</h3>
           <p>
             Reporte del recaudo total esperado hasta una fecha definida 
             <br>
             <ul>
-              <li>$: cartera en pesos : <span class="text-muted">(Al día + Mora + Prejurídico)</span></li>
-              <li>#: cantidad de creditos: <span class="text-muted">∑ créditos</span></li>
-              <li>%: indicador: 
-                <small><span class="text-muted">(Total Criterio / Total Cartera) * 100 </span></small></li>
+              <li>Seleccione un rango de fechas y escoja un negocio o cartera específica para calcular el flujo de caja.</li>
             </ul>
           </p>
           <p><a href="{{ route('admin.info_cartera.flujo_de_caja') }}" class="btn btn-primary" role="button">Ver informe</a> 

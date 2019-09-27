@@ -52,23 +52,14 @@ class CreditoController extends Controller
           ->join('fecha_cobros','creditos.id',            '=',  'fecha_cobros.credito_id')
           ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
           ->select(DB::raw('
-              creditos.id         as id,
-              creditos.created_at as created_at,
-              creditos.updated_at as updated_at,
-              creditos.estado     as estado,
-              precreditos.fecha   as precredito_fecha,
-              carteras.nombre     as cartera,
-              clientes.id         as cliente_id,
-              clientes.nombre     as cliente,
-              clientes.num_doc    as doc,
-              precreditos.periodo as periodo,
-              creditos.saldo      as saldo,
-              users.name          as user_create,
-              precreditos.id      as precredito_id,
-              precreditos.fecha   as fecha,
-              fecha_cobros.fecha_pago as fecha_pago,
-              null                as sanciones
-          '))
+              creditos.id         as id,               creditos.created_at as created_at,
+              creditos.updated_at as updated_at,       creditos.estado     as estado,
+              precreditos.fecha   as precredito_fecha, carteras.nombre     as cartera,
+              clientes.id         as cliente_id,       clientes.nombre     as cliente,
+              clientes.num_doc    as doc,              precreditos.periodo as periodo,
+              creditos.saldo      as saldo,            users.name          as user_create,
+              precreditos.id      as precredito_id,    precreditos.fecha   as fecha,
+              fecha_cobros.fecha_pago as fecha_pago,   null                as sanciones'))
           ->orderBy('creditos.updated_at','desc')
           ->paginate(100);
           
@@ -111,32 +102,19 @@ class CreditoController extends Controller
             ->join('fecha_cobros','creditos.id',            '=',  'fecha_cobros.credito_id')
             ->whereIn('creditos.estado',['Cancelado','Cancelado por refinanciacion'])
             ->select(DB::raw('
-                creditos.id                       as id,
-                creditos.created_at               as created_at,
-                creditos.refinanciacion           as refinanciado,
-                creditos.credito_refinanciado_id  as padre,
-                creditos.cuotas_faltantes         as cuotas_faltantes,
-                precreditos.observaciones         as observaciones,
-                precreditos.p_fecha               as p_fecha,
-                precreditos.s_fecha               as s_fecha,
-                creditos.updated_at               as updated_at,
-                creditos.estado                   as estado,
-                precreditos.cuotas                as cuotas,
-                precreditos.vlr_cuota             as vlr_cuota,
-                precreditos.fecha                 as precredito_fecha,
-                carteras.nombre                   as cartera,
-                clientes.id                       as cliente_id,
-                clientes.nombre                   as cliente,
-                clientes.num_doc                  as doc,
-                precreditos.periodo               as periodo,
-                creditos.saldo                    as saldo,
-                users.name                        as user_create,
-                precreditos.id                    as precredito_id,
-                precreditos.fecha                 as fecha,
-                fecha_cobros.fecha_pago           as fecha_pago,
-                creditos.created_at               as created_at,
-                null                              as sanciones
-            '))
+                creditos.id                       as id,               creditos.created_at               as created_at,
+                creditos.refinanciacion           as refinanciado,     creditos.credito_refinanciado_id  as padre,
+                creditos.cuotas_faltantes         as cuotas_faltantes, precreditos.observaciones         as observaciones,
+                precreditos.p_fecha               as p_fecha,          precreditos.s_fecha               as s_fecha,
+                creditos.updated_at               as updated_at,       creditos.estado                   as estado,
+                precreditos.cuotas                as cuotas,           precreditos.vlr_cuota             as vlr_cuota,
+                precreditos.fecha                 as precredito_fecha, carteras.nombre                   as cartera,
+                clientes.id                       as cliente_id,       clientes.nombre                   as cliente,
+                clientes.num_doc                  as doc,              precreditos.periodo               as periodo,
+                creditos.saldo                    as saldo,            users.name                        as user_create,
+                precreditos.id                    as precredito_id,    precreditos.fecha                 as fecha,
+                fecha_cobros.fecha_pago           as fecha_pago,       creditos.created_at               as created_at,
+                null                              as sanciones'))
             ->orderBy('creditos.updated_at','desc')
             ->paginate(100);
             
@@ -205,7 +183,7 @@ class CreditoController extends Controller
              $credito = new Credito();
              $credito->precredito_id    = $precredito->id;
              $credito->cuotas_faltantes = $precredito->cuotas;
-             $credito->mes = $mes;
+             $credito->mes  = $mes;
              $credito->anio = $anio;
              $credito->estado         = 'Al dia';
              $credito->valor_credito  = $precredito->cuotas * $precredito->vlr_cuota;
@@ -256,7 +234,7 @@ class CreditoController extends Controller
 
             DB::rollback();
 
-            flash()->error('Ocurrió un error');
+            flash()->error($e->getMessage());
             return redirect()->route('start.precreditos.ver',$precredito->id);
           }
         }
@@ -552,12 +530,12 @@ class CreditoController extends Controller
       else{ // cuando no hay cambio en castigada solo se actulizan los datos necesarios
         
         DB::table('castigadas')
-                    ->where('credito_id',$credito->id)
-                    ->update(['fecha_limite'  => $credito->fecha_pago->fecha_pago,
-                              'saldo'         => $credito->saldo,
-                              'user_update_id'=> Auth::user()->id,
-                              ]);
-      }
+          ->where('credito_id',$credito->id)
+          ->update(['fecha_limite'  => $credito->fecha_pago->fecha_pago,
+                    'saldo'         => $credito->saldo,
+                    'user_update_id'=> Auth::user()->id,
+                    ]);
+}
 
     }
 
@@ -590,64 +568,48 @@ class CreditoController extends Controller
                         'valor_credito','periodo','cuotas','p_fecha', 's_fecha','inicial',
                         'funcionario', 'observaciones','castigada','refinanciacion','credito_padre',
                         'pago_hasta','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido',
-                        'documento'    
-                    ];
+                        'documento'];
+
             array_push($array_creditos,$header);
 
             foreach($creditos as $credito){
-              $sanciones = 
-                DB::table('sanciones')
+              $sanciones = DB::table('sanciones')
                   ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
                   ->count();
 
-              if($sanciones > 0 && $sanciones <= 30){
+              if ($sanciones > 0 && $sanciones <= 30) {
                 $tipo_moroso = 'Morosos ideales';
               }
-              elseif($sanciones > 30 && $sanciones <= 90){
+              elseif ($sanciones > 30 && $sanciones <= 90) {
                   $tipo_moroso = 'Morosos alerta';
               }
-              elseif($sanciones > 90){
+              elseif ($sanciones > 90) {
                   $tipo_moroso = 'Morosos crìticos';
               }
-              else{
+              else {
                   $tipo_moroso = 'No moroso';
               }
 
               $temp = [
-                'id'                => $credito->id,
-                'cartera'           => $credito->cartera,
-                'producto'          => $credito->producto,
-                'fecha_aprobacion'  => $credito->fecha_aprobacion,
-                'estado'            => $credito->estado,
-                'sanciones'         => $sanciones,
-                'tipo de mora'      => $tipo_moroso,  
-                'cuotas_faltantes'  => $credito->cuotas_faltantes,
-                'centro_costo'      => $credito->centro_costo,
-                'valor_credito'     => $credito->valor_credito,
-                'periodo'           => $credito->periodo,
-                'cuotas'            => $credito->cuotas,
-                'p_fecha'           => $credito->p_fecha,
-                's_fecha'           => $credito->s_fecha,
-                'inicial'           => $credito->inicial,
-                'funcionario'       => $credito->funcionario,
-                'observaciones'     => $credito->observaciones,
-                'castigada'         => $credito->castigada,
-                'refinanciacion'    => $credito->refinanciacion,
-                'credito_padre'     => $credito->credito_padre,
-                'pago_hasta'        => $credito->pago_hasta,
-                'primer_nombre'     => $credito->primer_nombre,
-                'segundo_nombre'    => $credito->segundo_nombre,
-                'primer_apellido'   => $credito->primer_apellido,
-                'segundo_apellido'  => $credito->segundo_apellido,
-                'documento'         => $credito->documento
+                'id'                => $credito->id,                'cartera'           => $credito->cartera,
+                'producto'          => $credito->producto,          'fecha_aprobacion'  => $credito->fecha_aprobacion,
+                'estado'            => $credito->estado,            'sanciones'         => $sanciones,
+                'tipo de mora'      => $tipo_moroso,                'cuotas_faltantes'  => $credito->cuotas_faltantes,
+                'centro_costo'      => $credito->centro_costo,      'valor_credito'     => $credito->valor_credito,
+                'periodo'           => $credito->periodo,           'cuotas'            => $credito->cuotas,
+                'p_fecha'           => $credito->p_fecha,           's_fecha'           => $credito->s_fecha,
+                'inicial'           => $credito->inicial,           'funcionario'       => $credito->funcionario,
+                'observaciones'     => $credito->observaciones,     'castigada'         => $credito->castigada,
+                'refinanciacion'    => $credito->refinanciacion,    'credito_padre'     => $credito->credito_padre,
+                'pago_hasta'        => $credito->pago_hasta,        'primer_nombre'     => $credito->primer_nombre,
+                'segundo_nombre'    => $credito->segundo_nombre,    'primer_apellido'   => $credito->primer_apellido,
+                'segundo_apellido'  => $credito->segundo_apellido,  'documento'         => $credito->documento
               ];
-
 
               array_push($array_creditos, $temp);
           }  
-
-
-            $sheet->fromArray($array_creditos,null,'A1',false,false);
+          
+          $sheet->fromArray($array_creditos,null,'A1',false,false);
           });
       })->download('xls');
 
@@ -659,10 +621,8 @@ class CreditoController extends Controller
     }
 
 
-
-
-    function refinanciar($id){
-
+    function refinanciar($id)
+    {
       $credito    = Credito::find($id);
       $users      = User::all()->sortBy('name');
       $productos  = Producto::all()->sortBy('nombre');

@@ -1,6 +1,4 @@
-@section('title','carteras')
-
-@section('contenido')
+@section('title','carteras') @section('contenido')
 
 
 <div class="container" id="flujo-template">
@@ -13,12 +11,21 @@
             <h3 class="panel-title">Flujo de Caja</h3>
         </div>
         <div class="panel-body">
-            
+
             <div class="col-md-4 col-xs-12">
                 <div class="for-group">
-                    <label>Fecha</label>
-                    <input type="date" class="form-control" v-model="fecha">
-                     <small class="help-block">Seleccione la fecha hasta donde quiere calcular el recaudo.</small>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Fecha inicial</label>
+                            <input type="date" class="form-control" v-model="fecha_inicial">
+                            <small class="help-block">Seleccione la fecha inicial calcular el recaudo.</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Fecha final</label>
+                            <input type="date" class="form-control" v-model="fecha_final">
+                            <small class="help-block">Seleccione la fecha final calcular el recaudo.</small>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -68,65 +75,65 @@
 </script>
 
 <script>
-    Vue.component('flujo-component',{
-        template:'#template',
-        data(){
+    Vue.component('flujo-component', {
+        template: '#template',
+        data() {
             return {
-                carteras : [],
-                carteras_negocio : [],
-                negocios : [],
-                checked  : false,
-                fecha    : '',
-                recaudo  : []
+                carteras:  [],
+                carteras_negocio: [],
+                negocios: [],
+                checked: false,
+                fecha_inicial: '',
+                fecha_final: '',
+                recaudo: []
             }
         },
-        methods:{
-            submit(){
+        methods: {
+            submit() {
                 var self = this
 
-                if ( ! this.fecha ) {
-                    alert('Se requiere la fecha');
+                if (!(this.fecha_inicial || this.fecha_final)) {
+                    alert('Se requiere la \"Fecha inicial\" y la \"Fecha final\" ');
                     return false;
                 }
 
-                axios.post('/admin/gestion_cartera/get_flujo_de_caja',{
-                    carteras : this.carteras,
-                    fecha    : this.fecha
-                }).then ( res => {
-                    console.log(res.data.dat);
-                    
-                    if(res.data.success){
-                        self.recaudo = res.data.dat                       
+                axios.post('/admin/gestion_cartera/get_flujo_de_caja', {
+                    carteras: this.carteras,
+                    fecha_inicial: this.fecha_inicial,
+                    fecha_final: this.fecha_final
+                }).then(res => {
+                    if (res.data.success) {
+                        self.recaudo = res.data.dat
                     } else {
                         alert(res.data.message)
                     }
                 })
             },
-            getData(){
+            getData() {
                 var self = this
                 axios.get('/admin/gestion_cartera/data_flujo_de_caja')
-                    .then( res => {
-                        if(res.data.success){
+                    .then(res => {
+                        if (res.data.success) {
                             self.carteras = res.data.dat.carteras
                             self.negocios = res.data.dat.negocios
                         }
                     });
             },
-            selectedCarteras(){
+            selectedCarteras() {
                 var self = this
-                this.carteras.forEach( cartera => {
+                this.carteras.forEach(cartera => {
                     cartera.checked = false
-                    self.carteras_negocio.forEach( cartera_negocio => {
-                        if(cartera.id == cartera_negocio.id){
+                    self.carteras_negocio.forEach(cartera_negocio => {
+                        if (cartera.id == cartera_negocio.id) {
                             cartera.checked = true
                         }
                     });
-                })            
+                })
             },
-            checkedAll(){
+            checkedAll() {
                 var self = this
-                this.checked = ! this.checked 
-                this.carteras.forEach( cartera => {
+                this.checked = !this.checked
+                this.carteras.forEach(cartera => {
                     cartera.checked = self.checked
                 })
             }
@@ -137,25 +144,21 @@
                 var resultado = "";
                 // Ponemos un punto cada 3 caracteres
                 for (var j, i = str.length - 1, j = 0; i >= 0; i--, j++)
-                    resultado = str.charAt(i) + ((j > 0) && (j % 3 == 0)? ".": "") + resultado;
+                    resultado = str.charAt(i) + ((j > 0) && (j % 3 == 0) ? "." : "") + resultado;
                 return resultado;
-            }  
+            }
         },
-        created(){
+        created() {
             this.getData();
         }
     })
-
 </script>
 
 <script>
-
     new Vue({
-        el:'#flujo-template'
+        el: '#flujo-template'
     });
 </script>
 
 
-@endsection
-
-@include('templates.main2')
+@endsection @include('templates.main2')
