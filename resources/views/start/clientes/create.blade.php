@@ -54,11 +54,11 @@
                                 <label class="txt-small">Tipo de documento *:</label>
                                 <select class="form-control" id="tipo_doc" name="tipo_doc">
 
-                      <option value="" disabled selected hidden=""></option>
-                      @foreach($tipos_documento as $tipo_doc)
-                        <option value="{{$tipo_doc}}" {{ (old("tipo_doc") == $tipo_doc ? "selected":"") }}>{{$tipo_doc}}</option>
-                      @endforeach
-                    </select>
+                                <option value="" disabled selected hidden=""></option>
+                                @foreach($tipos_documento as $tipo_doc)
+                                    <option value="{{$tipo_doc}}" {{ (old("tipo_doc") == $tipo_doc ? "selected":"") }}>{{$tipo_doc}}</option>
+                                @endforeach
+                                </select>
 
                             </div>
 
@@ -76,8 +76,6 @@
                         <br>
                         <label class="title-section">Datos de ubicación</label>
                         <hr class="linea">
-
-
 
                         <!-- DIRECCION -->
                         <div class="form-group">
@@ -114,7 +112,6 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <label class="txt-small">Telefono : </label>
                                 <input type="tel" class="form-control" placeholder="ingrese # teléfono" id="fijo" name="fijo" value="{{old('fijo')}}">
-
                             </div>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -128,7 +125,6 @@
                         <label class="title-section">Datos laborales</label>
                         <hr class="linea">
 
-
                         <!-- OCUPACION **************************************************************************-->
 
                         <div class="form-group">
@@ -141,11 +137,11 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <label class="txt-small">Tipo de actividad *: </label>
                                 <select class="form-control" name="tipo_actividad" id="tipo_actividad">
-          <option value="" disabled selected hidden="">- -</option>
-              @foreach($tipo_actividades as $tipo_actividad)
-                  <option value="{{$tipo_actividad}}" {{ (old("tipo_actividad") == $tipo_actividad ? "selected":"") }}>{{$tipo_actividad}}</option>
-          @endforeach
-        </select>
+                                <option value="" disabled selected hidden="">- -</option>
+                                    @foreach($tipo_actividades as $tipo_actividad)
+                                        <option value="{{$tipo_actividad}}" {{ (old("tipo_actividad") == $tipo_actividad ? "selected":"") }}>{{$tipo_actividad}}</option>
+                                @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
