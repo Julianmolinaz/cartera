@@ -616,6 +616,10 @@ Route::post('admin/anotaciones','AnotacionController@store');
 Route::put('admin/anotaciones/{anotacion_id}','AnotacionController@update');
 Route::get('admin/anotaciones/{proceso_id}/list','AnotacionController@list');
 
+// MUNICIPIOS
+
+Route::get('municipios/index','MunicipioController@index');
+
 
 // PROCESOS
 

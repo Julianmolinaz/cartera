@@ -15,7 +15,7 @@ class ConsultaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth',['except' => ['cuenta']]);
     }
     
     public function cuenta($cedula)
@@ -23,9 +23,7 @@ class ConsultaController extends Controller
         $cliente = Cliente::where('num_doc',$cedula)->get();
         
         if(count($cliente) > 0){ // si existe el cliente
-
             return $this->consultar_cliente($cliente[0]);
-            
         }
         else{
             //codeudor
@@ -33,7 +31,6 @@ class ConsultaController extends Controller
 
             if(count($codeudor) > 0){
                 return $this->consultar_codeudor($codeudor[0]);
-                
             }
             else{
                 //si no es codeudor
