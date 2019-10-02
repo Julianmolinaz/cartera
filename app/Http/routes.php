@@ -665,6 +665,12 @@ Route::get('123', function(){
 
 });
 
+// CONTABILIDAD
+
+Route::get('contabilidad',function(){
+	return view('contabilidad.index');
+})->name('contabilidad.index');
+
 Route::get('pruebas','PruebaController@invertirFecha');
 Route::get('pruebas/log','PruebaController@log');
 
