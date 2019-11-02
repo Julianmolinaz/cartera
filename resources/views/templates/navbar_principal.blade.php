@@ -70,7 +70,6 @@
 
             <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
             <li><a href="{{route('admin.multas.index')}}">Multas</a></li>
-            
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.reportes.index')}}">Reportes &nbsp;<i class="fas fa-chart-line"></i></a></li>
             <li><a href="{{route('admin.gestion_cartera.index')}}">Informes Cartera&nbsp;<i class="fa fa-thermometer-empty"></i></a></li>
@@ -87,8 +86,8 @@
             <li><a href="{{route('admin.productos.index')}}">Productos</a></li>
             <li><a href="{{route('admin.variables.index')}}">Variables &nbsp;<i class="fas fa-cogs"></i></a></li>
             <li><a href="{{route('admin.criteriocall.index')}}">Criterios de llamada</a></li>
-            <li><a href=""></a></li> 
-
+            <li role="separator" class="divider"></li>
+            <li><a href="{{route('contabilidad.index')}}" target="_blanck">Contabilidad</a></li>
           </ul>
         </li> 
 

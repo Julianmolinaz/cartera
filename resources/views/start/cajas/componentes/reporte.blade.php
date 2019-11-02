@@ -10,6 +10,8 @@
 			          <label class="control-label" for="inputSuccess2">
 			          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 			          @{{ (info.punto) ? info.punto.nombre : '' }}@{{' '+info.date}}</label>
+					  <br>
+					  <label>Ventas mes: @{{ventas}}</label>
 			        </div>
 			      </li>
 			      <li class="list-group-item">
@@ -35,7 +37,7 @@
 			          <h4>Reporte Caja </h4>
 			        </center>
 			      </li>
-						<li class="list-group-item">
+				  <li class="list-group-item">
 			        <span class="badge">@{{ info.num_anuladas }}</span>
 			        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			        Anuladas
@@ -74,7 +76,9 @@
 			          <span class="badge">@{{ info.total_caja }}</span>
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			          Total caja
-			        </li>
+					</li>
+					
+					@{{date}}
 
 			    </ul>
 			</div>
@@ -82,7 +86,8 @@
 		data(){
 			return {
 				date: '',
-				info: ''
+				info: '',
+				ventas: 0
 			}
 		},
 		methods: {
@@ -95,7 +100,22 @@
 						console.log(res)
 						if (! res.error) {
 							self.info = res.data.dat
+							self.getVentasMes();
 							Bus.$emit('get_dat', res.data.dat)
+						} else {
+							alert(res.data.message)
+						}
+					})
+			}, 
+			getVentasMes() {
+				var self = this
+				var route = "/start/ventas_mes/report/" + this.date
+
+				axios.get(route).then(
+					function (res) {
+						console.log(res)
+						if (! res.error) {
+							self.ventas = res.data.ventas
 						} else {
 							alert(res.data.message)
 						}
@@ -105,6 +125,7 @@
 		created() {
 			this.date = moment().format('YYYY-MM-DD')
 			this.get_cash_report()
+			this.getVentasMes()
 		}
 
 	})

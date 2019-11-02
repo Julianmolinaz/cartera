@@ -27,7 +27,7 @@ use DB;
 
 
 function reporte_datacredito($f_corte, $data_asis = null)
-{   
+{  
     $now            = Carbon::now();
     $punto          = Punto::find(1);
     $ids            = generar_listado_creditos($f_corte);
@@ -57,15 +57,15 @@ function reporte_datacredito($f_corte, $data_asis = null)
 
         array_push($info_clientes_array,$registro_de_control);
 
-        // REGISTRO CON INFORMACIÓN DE CLLIENTES
+        // REGISTRO CON INFORMACIÓN DE CLIENTES
 
-        foreach( $ids as $id ){
+        foreach( $ids as $id )
+        {
             set_time_limit(0);
 
             $credito = Credito::find($id);
 
-
-            $registro_info_clientes = array(
+            $registro_info_clientes = array (
 
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->tipo_doc, $credito),1,'right'),
                 '2.2-numero_identificacion' => cast_number($credito->precredito->cliente->num_doc,11,'right'),
@@ -211,18 +211,15 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.66-espacio_blanco'       => cast_string('',18)
             );
         
-                array_push($info_clientes_array,$registro_info_codeudor);
+                array_push($info_clientes_array, $registro_info_codeudor);
                 len_line($registro_info_codeudor);
             }
         }// .foreach
-        //dd(count($info_clientes_array));
-
-        if($data_asis){
+        
+        if ($data_asis) {
             foreach($data_asis as $element)
             array_push($info_clientes_array, $element);
-        }
-
-        
+        }        
     }
     catch(\Exception $e){
         dd($e);
