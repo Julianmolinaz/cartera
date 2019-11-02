@@ -13,11 +13,13 @@
 </head>
 
 <body>
+    @include('contabilidad.templates.navbar')
 
+    @yield('contenido','Ingrese contenido')
 
-@include('contabilidad.templates.js')    
+    @include('contabilidad.templates.js')    
 
-@yield('js')
+    @yield('js')
 
 </body>
 

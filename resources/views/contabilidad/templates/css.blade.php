@@ -1,2 +1,3 @@
+
 <!-- Bootstrap -->
-<link href="bootstrap.min.css" rel="stylesheet">
+<link href="{{asset('bootstrap_superhero/bootstrap.min.css')}}" rel="stylesheet">

@@ -33,11 +33,18 @@ class FlujocajaController extends Controller
       $this->sanciones = 0.0;
     }
 
+    /**
+     * Carga vista inicial
+     */
 
     public function index()
     {
         return view('admin.gestion_cartera.flujo_de_caja.index');
     }
+
+    /**
+     * Carga la data necesario
+     */
 
     public function getDataFlujo()
     {
@@ -61,6 +68,10 @@ class FlujocajaController extends Controller
         ]);
     }
 
+    /**
+     * Metodo principal que permite predecir el flujo de caja
+     */
+
     public function getFlujoDeCaja(Request $request)
     {
         try {
@@ -70,7 +81,6 @@ class FlujocajaController extends Controller
             $ids_carteras = $this->getCarterasChecked($request->carteras);
 
             $creditos = $this->credRepo->activos($ids_carteras, $this->fecha_inicial, $this->fecha_final);
-//*** */
             foreach ( $creditos as $credito) {
                 $this->credito = $credito;
                 $this->calcularRecaudo();
@@ -129,8 +139,6 @@ class FlujocajaController extends Controller
 
                 $date->day($day);
 
-                \Log::info($date);
-
                 if ( $date->gte($now) ) {
                     if ( $date->lt($this->fecha_inicial) ) {
                         $cts_faltantes --;
@@ -176,10 +184,15 @@ class FlujocajaController extends Controller
     public function sumar()
     {
         if ($this->credito->estado == 'Al dia') {
+
             $this->sumatoria_minima += $this->credito->cuota;
-        } else if($this->credito->estado == 'Mora') {
+        } 
+        else if($this->credito->estado == 'Mora') {
+            
             $this->sumatoria_media += $this->credito->cuota;
-        } else {
+        } 
+        else {
+            
             $this->sumatoria_maxima += $this->credito->cuota;
         }
     }
@@ -187,9 +200,11 @@ class FlujocajaController extends Controller
     public function generar_dia($orden, $date)
     {
         $day = '';
+        
         if ($orden) {
             $day = $this->credito->p_fecha;
-        } else {
+        } 
+        else {
             $day = $this->credito->s_fecha;
         }
         if ($date->month == 2 && ($day == 29 || $day == 30)){

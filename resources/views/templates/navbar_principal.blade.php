@@ -87,7 +87,7 @@
             <li><a href="{{route('admin.variables.index')}}">Variables &nbsp;<i class="fas fa-cogs"></i></a></li>
             <li><a href="{{route('admin.criteriocall.index')}}">Criterios de llamada</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="{{route('admin.criteriocall.index')}}">Contabilidad</a></li>
+            <li><a href="{{route('contabilidad.index')}}" target="_blanck">Contabilidad</a></li>
           </ul>
         </li> 
 

@@ -20,7 +20,7 @@
                 <div class="dropdown-menu" aria-labelledby="themes">
                     <a class="dropdown-item" href="">PUC</a>
                     <a class="dropdown-item" href="#">Terceros</a>
-                    <a class="dropdown-item" href="#">Centros de Constos</a>
+                    <a class="dropdown-item" href="#">Centros de Costos</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
