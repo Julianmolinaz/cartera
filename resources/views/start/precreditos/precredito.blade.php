@@ -52,3 +52,5 @@
     </div>
 </div>
 @endif
+
+@include('start.precreditos.js')

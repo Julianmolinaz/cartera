@@ -2,8 +2,6 @@
 
 @section('contenido')
 
-<div class="row">
-
     <!-- Información solicitud -->
 
     <div class="col-md-6 col-md-offset-1">
@@ -37,5 +35,3 @@
 
 @endsection
 @include('templates.main2')
-
-@include('start.precreditos.js')

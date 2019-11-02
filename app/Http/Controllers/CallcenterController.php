@@ -414,7 +414,6 @@ class CallcenterController extends Controller
                     } else {
                         $creditos = $this->creditos->callActivePunto();
                     }
-
                     $header = [
                         'cartera',
                         'credito_id',
