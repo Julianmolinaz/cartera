@@ -7,12 +7,28 @@
 			     <li class="list-group-item">
 
 			        <div class="form-group has-info has-feedback"  style="margin-bottom:0px;">
-			          <label class="control-label" for="inputSuccess2">
-			          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-			          @{{ (info.punto) ? info.punto.nombre : '' }}@{{' '+info.date}}</label>
-					  <br>
-					  <label>Ventas mes: @{{ventas}}</label>
-			        </div>
+			                               <center>
+                            <label class="control-label" for="inputSuccess2">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                            @{{ (info.punto) ? info.punto.nombre : '' }}@{{' '+info.date}}</label>
+                            <br>
+                        
+                            <img src="/iconosFree/snail.svg"  width="80" v-if="ventas == 0">
+                            <img src="/iconosFree/turtle.svg" width="80" v-else-if="ventas > 0 && ventas <= 4000000">
+                            <img src="/iconosFree/pig.svg"  width="80" v-else-if="ventas > 4000000 && ventas <= 8000000">
+                            <img src="/iconosFree/seal.svg"  width="80" v-else-if="ventas > 8000000 && ventas <= 12000000">
+                            <img src="/iconosFree/ladybug.svg" width="80" v-else-if="ventas > 12000000 && ventas <= 16000000">
+                            <img src="/iconosFree/penguin.svg" width="80" v-else-if="ventas > 16000000 && ventas <= 18000000">
+                            <img src="/iconosFree/elephant.svg" width="80" v-else-if="ventas > 18000000 && ventas <= 20000000">
+                            <img src="/iconosFree/bat.svg" width="80" v-else-if="ventas > 20000000 && ventas <= 24000000">
+                            <img src="/iconosFree/fox.svg" width="80" v-else-if="ventas > 24000000 && ventas <= 28000000">
+                            <img src="/iconosFree/oul.svg" width="80" v-else-if="ventas > 28000000 && ventas < 30000000">
+                            <img src="/iconosFree/whale.svg" width="80" v-else>
+                            <br>
+                            <label>Ventas mes: @{{ventas}}</label>
+                            <br>
+                        </center>
+				</div>
 			      </li>
 			      <li class="list-group-item">
 

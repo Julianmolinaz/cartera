@@ -6,6 +6,7 @@
     el:'#main',
     /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
     data:{
+      user   : {!! json_encode($user) !!},
       punto   : {!! json_encode($punto) !!},
       punto_auto    : false,//permite ver el boton generador del autoincremento
       general : {//objeto que se envia al servidor para crear la factura

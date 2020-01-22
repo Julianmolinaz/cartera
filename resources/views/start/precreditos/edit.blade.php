@@ -25,7 +25,8 @@
           <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Aprobado *: </label>
-              <select class="form-control" placeholder="primera fecha" name="aprobado" id="aprobado" >
+              <select class="form-control" placeholder="primera fecha" name="aprobado" id="aprobado" 
+		{{ (Auth::user()->rol != 'Administrador') ? 'disabled' : ''}}>
               <option value="" readonly selected hidden="aprobado">{{old('aprobado')}}</option>
               @foreach(['Si','No','En estudio','Desistio'] as $key => $tipo)
               <option id="aprobado" name="aprobado" value="{{ $tipo }}" {{ $precredito->aprobado == $tipo ? "selected":"" }}>{{  $tipo }}</option>

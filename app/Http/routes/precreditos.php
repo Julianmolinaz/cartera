@@ -16,7 +16,7 @@ Route::get('start/precreditos/{cliente}',[
 Route::get('start/precreditos/{cliente}/edit',[
     'uses'  => 'PrecreditoController@edit',
     'as'    => 'start.precreditos.edit'
-])->middleware('precreditos_editar');
+]);
 
 //PRECREDITOS ACTUALIZAR
 Route::put('start/precreditos/{cliente}',[
