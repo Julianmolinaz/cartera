@@ -25,12 +25,12 @@ class FlujocajaController extends Controller
 
     public function __construct(CreditoRepository $creditos)
     {
-      $this->credRepo = $creditos;
-      $this->middleware('auth');
-      $this->sumatoria_minima = 0.0;
-      $this->sumatoria_media  = 0.0;
-      $this->sumatoria_maxima = 0.0;
-      $this->sanciones = 0.0;
+        $this->credRepo = $creditos;
+        $this->middleware('auth');
+        $this->sumatoria_minima = 0.0;
+        $this->sumatoria_media  = 0.0;
+        $this->sumatoria_maxima = 0.0;
+        $this->sanciones = 0.0;
     }
 
 
@@ -41,6 +41,7 @@ class FlujocajaController extends Controller
 
     public function getDataFlujo()
     {
+
         $negocios = Negocio::all();
         $negocios->map( function($negocio){
             $negocio->carteras;
@@ -70,7 +71,7 @@ class FlujocajaController extends Controller
             $ids_carteras = $this->getCarterasChecked($request->carteras);
 
             $creditos = $this->credRepo->activos($ids_carteras, $this->fecha_inicial, $this->fecha_final);
-//*** */
+
             foreach ( $creditos as $credito) {
                 $this->credito = $credito;
                 $this->calcularRecaudo();
@@ -128,8 +129,6 @@ class FlujocajaController extends Controller
                 $day = $this->generar_dia($orden, $date);
 
                 $date->day($day);
-
-                \Log::info($date);
 
                 if ( $date->gte($now) ) {
                     if ( $date->lt($this->fecha_inicial) ) {

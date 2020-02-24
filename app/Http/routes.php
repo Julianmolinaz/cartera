@@ -2,6 +2,12 @@
 use App\Cliente;
 use App\Codeudor;
 
+
+require __DIR__ . '/List_routes/pagos.php';
+require __DIR__ . '/List_routes/variables.php';
+require __DIR__ . '/List_routes/carteras.php';
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -397,8 +403,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	// USERS
 	Route::get('users/get_users','UserController@getUsers');
 	Route::resource('users','UserController');
-
-	Route::resource('variables','VariableController',['only' =>['index','update']]);
+	
 	Route::resource('carteras','CarteraController');
 	Route::resource('negocios','NegocioController');
 	Route::get('negocios/{id}/destroy','NegocioController@destroy')->name('admin.negocios.destroy');
@@ -408,8 +413,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::resource('criteriocall','CriteriocallController');
   	Route::resource('anuladas','AnuladaController');
   	Route::resource('puntos','PuntoController');	
-
-    Route::get('get-mensajes','VariableController@get_mensajes');
 	  
 	Route::post('data-asis',['uses' =>'DataAsisController@upload_excel','as' => 'data.data_asis']);
 
@@ -439,24 +442,6 @@ Route::get('admin/estado_cuenta/{credito_id}',[
 
 //GESTION DE CARTERA
 
-Route::get('admin/gestion_cartera/index',[
-	'uses'	=> 'GestionCarteraController@index',
-	'as'    => 'admin.gestion_cartera.index'
-]);
-
-Route::get('admin/gestion_cartera/getCartera/{carteraId}','GestionCarteraController@getCartera');
-Route::get('admin/gestion_cartera/get_info_puntos',[
-	'uses' => 'GestionCarteraController@getPuntos',
-    'as'   => 'admin.info_cartera_puntos']);
-Route::get('admin/gestion_cartera/getCarteras','CarteraController@getCarteras');
-Route::get('admin/gestion_cartera/get_info_carteras',[
-	'uses' => 'GestionCarteraController@getInfoCarteras',
-	'as'   => 'admin.info_carteras' ]);
-Route::get('admin/gestion_cartera/flujo_de_caja',[
-	'uses' => 'FlujocajaController@index',
-	'as'   => 'admin.info_cartera.flujo_de_caja']);	
-Route::get('admin/gestion_cartera/data_flujo_de_caja','FlujocajaController@getDataFlujo');
-Route::post('admin/gestion_cartera/get_flujo_de_caja','FlujocajaController@getFlujoDeCaja');
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])
 	->middleware('reporte_listar');

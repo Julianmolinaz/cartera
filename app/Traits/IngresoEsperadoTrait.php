@@ -7,7 +7,7 @@ trait IngresoEsperadoTrait
     public function ingresoNominalTr($ini, $fin) 
     {
         
-        // cargar creditos con fecha de pago menor o igual a la fehca final
+        // cargar creditos con fecha de pago menor o igual a la fecha final
         
         $creditos = $this->creditosIngresoEsperadoTr($ini, $fin);
 

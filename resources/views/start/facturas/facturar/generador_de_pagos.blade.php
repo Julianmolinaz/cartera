@@ -14,7 +14,7 @@
                <!-- num_factura *****-->
                 <div class="col-md-2 col-sm-2 col-xs-12">
                   <label># Factura:</label>
-                  <input class="form-control input-small" type="number" id="num_factura" placeholder="#" 
+                  <input class="form-control input-small" type="text" id="num_factura" placeholder="#" 
                     v-model="general.num_fact" :readonly="general.auto">
                 </div>
 
@@ -28,7 +28,8 @@
                <!-- monto *****-->
                 <div class="col-md-3 col-sm-3 col-xs-12" id="div_monto">
                   <label for="">Monto:</label>
-                  <input type="number" class="form-control input-small" placeholder="$" name="monto" id="monto" v-model="general.monto">
+                  <input type="number" class="form-control input-small" placeholder="$" 
+                    name="monto" id="monto" v-model="general.monto">
                 </div>
 
                 <div class="col-md-3 col-sm-3 col-xs-12">

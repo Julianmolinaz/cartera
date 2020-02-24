@@ -25,9 +25,11 @@ class VariableController extends Controller
     public function index()
     {
         $variables = Variable::find(1);
+        $carteras = \DB::table('carteras')->orderBy('nombre')->get();
        
         return view('admin.variables.index')
-            ->with('variables',$variables);
+            ->with('variables',$variables)
+            ->with('carteras',$carteras);
             
     }
 
@@ -113,5 +115,26 @@ class VariableController extends Controller
 
             return response()->json($res);
         }
+    }
+
+    public function setPorcentajePagoParcial(Request $rq)
+    {
+
+        // \Log::emergency($rq->all());
+        $carteras = $rq->carteras;
+
+
+        foreach ($carteras as $cartera) {
+            $cartera_ = \App\Cartera::find($cartera['id']);
+            $cartera_->fill($cartera);
+
+            \Log::notice($cartera);
+            $cartera_->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Porcentaje de pagos modificados'
+        ]);
     }
 }

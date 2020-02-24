@@ -9,12 +9,20 @@
         </div>
 
         <div class="modal-body">
+
+            <div class="col-md-12 form-group">
+            
+                <select class="form-control" v-model="general.banco">
+                    @foreach($bancos as $banco)
+                        <option value="{{$banco}}">{{ $banco }}</option>
+                    @endforeach
+                </select>
+            </div>
         
-            <select class="form-control" v-model="general.banco">
-                @foreach($bancos as $banco)
-                    <option value="{{$banco}}">{{ $banco }}</option>
-                @endforeach
-            </select>
+            <div class="col-md-12 form-group">
+                <label>Número de consignación</label>
+                <input type="text" class="form-control" v-model="general.num_consignacion">
+            </div>
         </div>
 
         <div class="modal-footer">
