@@ -18,6 +18,7 @@
         auto        : false, // activa o desactiva el btn Consecutivo Auto 
         pagos       : [],  //listado de pagos
         banco       : '', //banco por donde se hace la consignacion
+        num_consignacion: ''
       },
       bandera     : 0,  // se pone en uno cuando se hace el pago
       credito     : {!! json_encode($credito) !!}, //objeto crédito
@@ -52,7 +53,6 @@
         var self  = this;
         
         axios.post("{{url('start/facturas/abonos')}}",this.general).then(function(res){ //el servidor distribuye el pago
-          console.log(res);
           if (!res.data.error){ 
             self.general.pagos = res.data.data; 
             self.mover_fecha   = res.data.cta_parcial_sin_movimiento_de_fecha;
@@ -69,7 +69,7 @@
         this.general.pagos.filter(function(pago){
           if(pago.marcado){
             if(pago.subtotal < ( self.credito.precredito.vlr_cuota * 0.6) ){
-              self.message2 = 'Recuerde que la cuota parcial resaltada esta por debajo del valor normal permitido, seleccione el recuadro a la izquierda para no mover la fecha';
+              self.message2 = 'Recuerde que la cuota parcial resaltada esta por debajo del valor normal permitido, por lo tanto la fecha no será modificada. Gracias.';
             }
           }
         })

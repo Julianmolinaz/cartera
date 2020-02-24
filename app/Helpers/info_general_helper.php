@@ -57,6 +57,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.num_fact as num_fact, 
                       sum(pagos.abono) as cuotas,
                       facturas.fecha   as fecha,
+                      facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,
                       facturas.created_at as created_at              
@@ -80,6 +81,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.num_fact as num_fact, 
                       sum(pagos.abono) as sanciones,
                       facturas.fecha   as fecha,
+                      facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,
                       facturas.created_at as created_at                           
@@ -104,6 +106,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.num_fact as num_fact, 
                       sum(pagos.abono) as juridico,
                       facturas.fecha   as fecha,
+                      facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,
                       facturas.created_at as created_at                             
@@ -127,6 +130,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.num_fact as num_fact, 
                       sum(pagos.abono) as prejuridico,
                       facturas.fecha   as fecha,
+                      facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,
                       facturas.created_at as created_at                             
@@ -150,6 +154,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.num_fact as num_fact, 
                       sum(pagos.abono) as saldo_favor,
                       facturas.fecha   as fecha,
+                      facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,                            
                       facturas.created_at as created_at                             

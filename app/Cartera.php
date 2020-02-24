@@ -12,7 +12,7 @@ class Cartera extends Model implements Auditable
     protected $table = 'carteras';
 
     protected $fillable = [
-    	'nombre', 'estado'
+    	'nombre', 'estado', 'porcentaje_pago_parcial'
     ];
 
     public function setNombreAttribute($value){

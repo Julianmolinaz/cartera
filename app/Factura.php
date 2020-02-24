@@ -39,7 +39,7 @@ class Factura extends Model implements Auditable
     //MUTATORS
 
     public function setNumfactAttribute($value){
-	$this->attributes['num_fact'] = strtoupper($value);
+        $this->attributes['num_fact'] = strtoupper($value);
     }
 
 }

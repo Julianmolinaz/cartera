@@ -28,7 +28,8 @@
                <!-- monto *****-->
                 <div class="col-md-3 col-sm-3 col-xs-12" id="div_monto">
                   <label for="">Monto:</label>
-                  <input type="number" class="form-control input-small" placeholder="$" name="monto" id="monto" v-model="general.monto">
+                  <input type="number" class="form-control input-small" placeholder="$" 
+                    name="monto" id="monto" v-model="general.monto">
                 </div>
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
