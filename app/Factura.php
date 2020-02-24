@@ -36,4 +36,10 @@ class Factura extends Model implements Auditable
         return $this->hasMany('App\OtrosPagos');
     }
 
+    //MUTATORS
+
+    public function setNumfactAttribute($value){
+	$this->attributes['num_fact'] = strtoupper($value);
+    }
+
 }

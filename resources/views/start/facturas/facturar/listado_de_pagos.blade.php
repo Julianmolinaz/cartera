@@ -21,7 +21,7 @@
                   <tbody>
                     <tr v-for="(pago, index) in general.pagos" style="font-size: 10px;"
                         :class="{ danger : pago.marcado  }">
-                      <td class="td-small">  
+                      <td class="td-small" v-if="mover_fecha != ''">  
                         <div class="checkbox" v-if="pago.marcado" style="margin:0px;">
                            <label>
                             <input type="checkbox" @click="mover_fecha_parcial(index)">
