@@ -68,6 +68,26 @@ class InicioController extends Controller
                 }
             }
         }
+        else if(substr($string,0,2) == "u "){
+
+            $string = substr($string,2);
+            
+            $users = DB::table('users')
+                ->join('puntos','users.punto_id','=','puntos.id')
+                ->select('users.id as id', 'users.name as name', 'puntos.nombre as punto')
+                ->where('users.name','like','%'.$string.'%')
+                ->get();
+
+            if(count($users) > 0){
+                foreach($users as $user){  
+                    $respuesta .=   "<p><strong>Usuario del sistema: </strong>".
+                                    "<a href=".route('admin.users.edit',$user->id).">".
+                                    $user->name."- Punto: ".$user->punto."</p></a>";  
+                }   
+            }
+            
+
+        }
         else if(substr($string,0,1) == "*"){
             $string = substr($string,1);
 

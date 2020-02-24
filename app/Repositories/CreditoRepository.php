@@ -191,9 +191,8 @@ class CreditoRepository{
                      'creditos.cuotas_faltantes as cts_faltantes',
                      'creditos.sanciones_debe as sanciones',
                      'fecha_cobros.fecha_pago as proxima_f_pago')
-            ->where('creditos.id',8545)
-            // ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
-            // ->whereIn('carteras.id',$ids_carteras)
+            ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+            ->whereIn('carteras.id',$ids_carteras)
             ->get();
     }
 

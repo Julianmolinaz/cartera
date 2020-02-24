@@ -1,7 +1,6 @@
 <?php
-use App\Cliente;
-use App\Codeudor;
 
+<<<<<<< HEAD
 
 require __DIR__ . '/List_routes/pagos.php';
 require __DIR__ . '/List_routes/variables.php';
@@ -18,45 +17,30 @@ require __DIR__ . '/List_routes/carteras.php';
 | and give it the controller to call when that URI is requested.
 |
 */
+=======
+require __DIR__ . '/routes/general.php';
+>>>>>>> 4fc9f1d
 
-Route::get('/', function () {
-    return view('welcome');
-});
+require __DIR__ . '/routes/simulador.php';
 
-Route::get('set-sanciones','GeneradorController@set');
+require __DIR__ . '/routes/financiero.php';
 
-Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVentas')
-	->middleware('admin');
+require __DIR__ . '/routes/clientes.php';
 
-Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
-	->middleware('admin');
+require __DIR__ . '/routes/callcenter.php';
 
-//FINANCIERO
+require __DIR__ . '/routes/contabilidad.php';
 
-Route::get('repor-financiero',[
-	'uses' => 'FinancieroController@index',
-	'as'   => 'reporte.financiero'
-])->middleware('admin');
+require __DIR__ . '/routes/creditos.php';
 
-Route::get('repor-financiero/general/{rango}',[
-	'uses' => 'FinancieroController@general',
-	'as'   => 'reporte.financiero.general'
-])->middleware('admin');
+require __DIR__ . '/routes/precreditos.php';
 
-Route::get('repor-financiero/sucursales/{rango}/{sucursal_id}',
-		'FinancieroController@financiero_sucursales')
-	->middleware('admin');
+require __DIR__ . '/routes/estudios.php';
 
-Route::get('repor-financiero/comparativo-anual/{year}',[
-	'uses' 	=> 'FinancieroController@financiero_comparativo',
-	'as'	=> 'reporte.financiero.comparativo'
-])->middleware('admin');
+require __DIR__ . '/routes/pagos_creditos.php';
 
-Route::post('repor-financiero/detalle',[
-	'uses'  => 'FinancieroController@detalle',
-	'as'    => 'reporte.financiero.detalle'
-]);
 
+<<<<<<< HEAD
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
 Route::get('start/simulador',[
@@ -652,5 +636,34 @@ Route::get('123', function(){
 
 Route::get('pruebas','PruebaController@invertirFecha');
 Route::get('pruebas/log','PruebaController@log');
+=======
+Route::get('ventasMes/{user_id}/{date}', function($user_id, $date){
+    
+    $date = new \Carbon\Carbon($date);
+    $month = $date->month;
+    $mes = '';
+>>>>>>> 4fc9f1d
 
+    switch ($month) {
+        case '1': $mes = 'Enero'; break;
+        case '2': $mes = 'Febrero'; break;
+        case '3': $mes = 'Marzo'; break;
+        case '4': $mes = 'Abril'; break;
+        case '5': $mes = 'Mayo'; break;
+        case '6': $mes = 'Junio'; break;
+        case '7': $mes = 'Julio'; break;
+        case '8': $mes = 'Agosto'; break;
+        case '9': $mes = 'Septiembre'; break;
+        case '10': $mes = 'Octubre'; break;
+        case '11': $mes = 'Noviembre'; break;
+        case '12': $mes = 'Diciembre'; break;
+    }
 
+    return \DB::table('creditos')
+        ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+        ->join('users','precreditos.user_create_id','=','users.id')
+        ->where('users.id',$user_id)
+        ->where('creditos.mes', $mes)
+        ->where('creditos.anio', $date->year)
+        ->sum('precreditos.vlr_fin');
+});

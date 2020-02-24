@@ -37,5 +37,13 @@ class CajaController extends Controller
         return response()->json($res);
     }
 
+    public function ventas_mes($date)
+    {
+        $res = [ 'error'  => false, 
+            'ventas' => ventasMesHp( new Carbon($date), Auth::user()->id )];
+            
+        return response()->json($res);
+    }
+
    
 }
