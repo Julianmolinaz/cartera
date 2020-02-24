@@ -1,25 +1,11 @@
 <?php
 
-<<<<<<< HEAD
 
 require __DIR__ . '/List_routes/pagos.php';
 require __DIR__ . '/List_routes/variables.php';
 require __DIR__ . '/List_routes/carteras.php';
 
-
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-=======
 require __DIR__ . '/routes/general.php';
->>>>>>> 4fc9f1d
 
 require __DIR__ . '/routes/simulador.php';
 
