@@ -26,7 +26,6 @@ require __DIR__ . '/routes/estudios.php';
 require __DIR__ . '/routes/pagos_creditos.php';
 
 
-<<<<<<< HEAD
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
 Route::get('start/simulador',[
@@ -622,13 +621,11 @@ Route::get('123', function(){
 
 Route::get('pruebas','PruebaController@invertirFecha');
 Route::get('pruebas/log','PruebaController@log');
-=======
 Route::get('ventasMes/{user_id}/{date}', function($user_id, $date){
     
     $date = new \Carbon\Carbon($date);
     $month = $date->month;
     $mes = '';
->>>>>>> 4fc9f1d
 
     switch ($month) {
         case '1': $mes = 'Enero'; break;
