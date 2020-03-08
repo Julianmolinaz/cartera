@@ -527,7 +527,7 @@ trait ClientesClass
             'movil'                     => 'required|max:20|alpha_num',
             'ocupacion'                 => 'required',
             'tipo_actividad'            => 'required',
-            'email'                     => 'max:60'
+            'email'                     => 'required|max:60'
             );
     }
 

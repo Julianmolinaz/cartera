@@ -294,7 +294,7 @@ class PrecreditoController extends Controller
 
     //la funcion show se utilizo para abrir el formulario de creacion del precredito o solicitud
     // la variable $id es el id del cliente
-    public function show($id)
+    public function show($cliente_id)
     {
       //validar que un cliente no tenga mas precréditos o créditos en proceso
 
@@ -302,7 +302,7 @@ class PrecreditoController extends Controller
         DB::table('precreditos')
         ->join('clientes','precreditos.cliente_id','=','clientes.id')
         ->where([
-            ['clientes.id','=',$id],
+            ['clientes.id','=',$cliente_id],
             ['precreditos.aprobado','=','En estudio']])
         ->count();
 
@@ -311,27 +311,34 @@ class PrecreditoController extends Controller
         DB::table('creditos')
          ->join('precreditos','creditos.precredito_id','=','precreditos.id')
          ->join('clientes','precreditos.cliente_id','=','clientes.id')
-         ->where([['clientes.id','=',$id]])
+         ->where([['clientes.id','=',$cliente_id]])
          ->whereIn('Estado',['Al dia','Mora','Prejuridico','Juridico'])
          ->count();
 
 
-        $cliente = Cliente::find($id);
+        $cliente = Cliente::find($cliente_id);
 
         if($creditos_vigentes == 0 && $solicitudes_pendientes == 0){
 
             $users = User::all()->sortBy('name');
-            $productos = Producto::all()->sortBy('nombre');
-            $carteras = Cartera::where('estado','Activo')->get();
+            $productos = Producto::orderBy('nombre','DESC')->get();
+            $carteras = Cartera::where('estado','Activo')->orderBy('nombre')->get();
             $variables = Variable::find(1);
             $now = Carbon::now();
+            $estados_aprobacion = getEnumValues('precreditos', 'aprobado');
+            $arr_periodos = getEnumValues('precreditos','periodo');
+            $arr_estudios = getEnumValues('precreditos','estudio');
 
             return view('start.precreditos.create')
               ->with('users',$users)
               ->with('cliente',$cliente)
               ->with('productos',$productos)
               ->with('variables',$variables)
-              ->with('carteras',$carteras);
+              ->with('carteras',$carteras)
+              ->with('estado','creacion')
+              ->with('arr_periodos',$arr_periodos)
+              ->with('arr_estudios',$arr_estudios)
+              ->with('estados_aprobacion',$estados_aprobacion);
         }
         else{
             flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');
