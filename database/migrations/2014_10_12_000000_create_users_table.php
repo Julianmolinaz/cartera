@@ -13,17 +13,20 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->enum('estado',['Activo','Inactivo'])->default('Activo');
-            $table->enum('rol',['Administrador','Asesor','Cartera','Recaudador','Call', 'Call VIP']);
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->integer('punto_id')->unsigned();
+            $table->increments('id');           
+		    $table->string('name', 255);
+		    $table->enum('estado', ['Activo', 'Inactivo'])->default('Activo');
+		    $table->enum('rol', ['Administrador', 'Asesor', 'Asesor VIP', 'Cartera', 'Recaudador', 'Call']);
+		    $table->string('email')->unique();
+		    $table->string('password');
+		    $table->integer('punto_id')->unsigned();
             $table->rememberToken();
+		    $table->integer('banco_id')->unsigned();
+		
             $table->timestamps();
-
+            
             $table->foreign('punto_id')->references('id')->on('puntos');
+		
         });
     }
 

@@ -22,7 +22,7 @@
                 <div class="col-md-4 col-sm-4 col-xs-12">
                       <label>Fecha:</label>
                         <input type="date" class="form-control input-small" id="fecha_factura" 
-                            v-model="general.fecha" :readonly="general.auto">
+                            v-model="general.fecha" :readonly="general.auto && user.rol != 'Administrador'">
                       </div>
 
                <!-- monto *****-->

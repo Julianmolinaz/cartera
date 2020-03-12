@@ -243,7 +243,6 @@ use DB;
 		try {
 			$month = $date->month;
 			$anio  = $date->year;
-
 			$mes = '';
 
 			switch ($month) {
@@ -260,8 +259,6 @@ use DB;
 				case '11': $mes = 'Noviembre'; break;
 				case '12': $mes = 'Diciembre'; break;
 			}
-			\Log::info($anio);
-			\Log::info($mes);
 
 			$res =  \DB::table('creditos')
 				->join('precreditos','creditos.precredito_id','=','precreditos.id')
@@ -269,11 +266,11 @@ use DB;
 				->where('creditos.anio', $anio)
 				->where('creditos.mes', $mes)
 				->where('users.id',$user_id)
-				->where( function($query){
-					$query->whereNotIn('creditos.mes',
-						['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre'])
-						->where('creditos.anio','2019');
-					})
+			//	->where( function($query){
+			//	      $query->whereNotIn('creditos.mes',
+			//			['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre'])
+			//			->where('creditos.anio','2019');
+			//		})
 				->sum('precreditos.vlr_fin');
 
 

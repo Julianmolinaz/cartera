@@ -166,19 +166,20 @@ class FacturaController extends Controller
 //      dd($credito);
 
       return view('start.facturas.create')
-        ->with('credito',$credito)
-        ->with('sum_sanciones',$sum_sanciones)
-        ->with('ultimo_pago',$ultimo_pago)
-        ->with('pagos',$pagos)
-        ->with('variables',$variables[0])
-        ->with('pago_juridico',$pago_juridico)
-        ->with('pago_prejuridico',$pago_prejuridico)
-        ->with('total_parciales',$total_parciales)
-        ->with('tipo_pago',$tipo_pago)
-        ->with('total_pagos',$total_pagos)
-        ->with('punto',$punto)
-        ->with('bancos',$bancos);
-    }
+   	->with('pago_prejuridico',$pago_prejuridico)
+     	->with('total_parciales',$total_parciales)
+      	->with('pago_juridico',$pago_juridico)
+     	->with('sum_sanciones',$sum_sanciones)
+      	->with('ultimo_pago',$ultimo_pago)
+      	->with('total_pagos',$total_pagos)
+      	->with('variables',$variables[0])
+      	->with('tipo_pago',$tipo_pago)
+      	->with('user',Auth::user())
+      	->with('credito',$credito)
+      	->with('bancos',$bancos)
+      	->with('punto',$punto)
+      	->with('pagos',$pagos);
+     }
 
 
     public function generate_auto()
@@ -217,9 +218,13 @@ class FacturaController extends Controller
         $bandera    = 0;
 
         if( $request->auto ){ // validacion de consecutivo automático
-          $date_time = Carbon::now(); //SE GENERA LA FECHA ACTUAL
 
-          //SE GENERA EL CONSECUTIVO
+         if(!$request->fecha){
+              $date_time = Carbon::now(); //SE GENERA LA FECHA ACTUAL
+          } else {
+              $date_time = new Carbon($request->fecha);
+          } //SE GENERA EL CONSECUTIVO
+
           $punto        = Punto::find(Auth::user()->punto_id); 
           $prefijo      = $punto->prefijo;
           $consecutivo  = $punto->increment + 1;

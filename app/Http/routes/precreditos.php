@@ -10,16 +10,16 @@ Route::get('start/precreditos',[
 Route::get('start/precreditos/{cliente}',[
     'uses'  => 'PrecreditoController@show',
     'as'    => 'start.precreditos.show'
-])->middleware('precreditos_crear');
+]);
 
 //PRECREDITOS EDITAR
-Route::get('start/precreditos/{cliente}/edit',[
+Route::get('start/precreditos/{precredito_id}/edit',[
     'uses'  => 'PrecreditoController@edit',
     'as'    => 'start.precreditos.edit'
-])->middleware('precreditos_editar');
+]);
 
 //PRECREDITOS ACTUALIZAR
-Route::put('start/precreditos/{cliente}',[
+Route::put('start/precreditos/{precredito_id}',[
     'uses'  => 'PrecreditoController@update',
     'as'    => 'start.precreditos.update'
 ]);
@@ -34,4 +34,4 @@ Route::post('start/precreditos',[
 Route::get('start/precreditos/{id}/ver',[
     'uses'  	=> 'PrecreditoController@ver',
     'as'    => 'start.precreditos.ver'
-])->middleware('precreditos_ver');
+]);

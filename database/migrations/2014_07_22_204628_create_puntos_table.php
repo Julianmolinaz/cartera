@@ -14,17 +14,20 @@ class CreatePuntosTable extends Migration
     {
         Schema::create('puntos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
-            $table->string('prefijo')->nullable();
-            $table->integer('increment')->default(0);
-            $table->enum('estado',['Activo','Inactivo'])->default('Activo');
-            $table->string('direccion')->nullable();
-            $table->string('telefono')->nullable();
-            $table->text('descripcion')->nullable();
-            $table->integer('municipio_id')->unsigned()->nullable();
+		    $table->integer('zona_id')->nullable();
+		    $table->string('nombre', 255);
+		    $table->string('prefijo', 3)->nullable();
+		    $table->integer('increment')->nullable();
+		    $table->enum('estado', ['Activo', 'Inactivo'])->default('Activo');
+		    $table->string('direccion', 255)->nullable();
+		    $table->string('telefono', 255)->nullable();
+		    $table->text('descripcion');
+		    $table->integer('municipio_id')->unsigned()->nullable();
+
             $table->timestamps();
 
             $table->foreign('municipio_id')->references('id')->on('municipios');
+
         });
     }
 

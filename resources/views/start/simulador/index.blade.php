@@ -19,12 +19,14 @@
 						
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<input type="number" class="form-control" id="monto" autocomplete="off" autofocus="on" placeholder="Ingrese valor" required>
+						<span class="help-block" id="monto_formateado"></span>
 						</div>
 					</div>
 					<div class="form-group">
 						
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<input type="number" class="form-control" id="meses"  autocomplete="off" placeholder="Ingrese el número de meses" min="{{$variables->meses_min}}" max="{{$variables->meses_max}}" step="1">
+							<span class="help-block" id="numero_de_meses" style="margin-left:3px;"></span>
 						</div>
 					</div>
 					<div class="form-group">

@@ -309,25 +309,37 @@ class CreditoController extends Controller
     {  
       
       $credito        = Credito::find($id);
-      $productos      = Producto::all();
-      $variables      = Variable::find(1);
-      $users          = User::all();
-      $carteras       = Cartera::all();
+      $precredito     = $credito->precredito;
+
       $f              = FechaCobro::where('credito_id',$id)->get()[0]->fecha_pago;
       $fecha_de_pago  = formatoFecha(dia($f), mes($f), ano($f));
-      $estados_credito= getEnumValues('creditos', 'estado');
-      unset($estados_credito['Cancelado por refinanciacion']);
-      $calificaciones = getEnumValues('clientes', 'calificacion'); 
 
-      return view('start.creditos.edit')
-        ->with('credito',$credito)
-        ->with('productos',$productos)
-        ->with('variables',$variables)
-        ->with('users',$users)
-        ->with('carteras',$carteras)
-        ->with('estados_credito',$estados_credito)
-        ->with('fecha_de_pago',$fecha_de_pago)
-        ->with('calificaciones',$calificaciones);
+      $estados_credito = getEnumValues('creditos', 'estado');
+      unset($estados_credito['Cancelado por refinanciacion']);
+
+      $precredito->fecha = inv_fech2($precredito->fecha);
+
+      $ref_productos     = (isset($precredito->ref_productos)) ? $precredito->ref_productos: '';
+
+      $estado = 'edicion_credito';
+
+      return view('start.precreditos.create')
+      ->with('credito', $credito)
+      ->with('carteras',Cartera::where('estado','Activo')->orderBy('nombre')->get())
+      ->with('estados_aprobacion',getEnumValues('precreditos', 'aprobado'))
+      ->with('calificaciones',getEnumValues('clientes', 'calificacion'))
+      ->with('estados_credito',$estados_credito)
+      ->with('productos',Producto::orderBy('nombre','DESC')->get())
+      ->with('arr_periodos',getEnumValues('precreditos','periodo'))
+      ->with('arr_estudios',getEnumValues('precreditos','estudio'))
+      ->with('fecha_de_pago',$fecha_de_pago)
+      ->with('arr_productos', $ref_productos)
+      ->with('cliente',$precredito->cliente)
+      ->with('variables',Variable::find(1))
+      ->with('precredito',$precredito)
+      ->with('user',\Auth::user())
+      ->with('estado',$estado)
+      ->with('now',Carbon::now());
     }
 
     /*

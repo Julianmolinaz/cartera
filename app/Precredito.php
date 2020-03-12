@@ -14,7 +14,7 @@ class Precredito extends Model implements Auditable
     protected $fillable = [
         'num_fact' , 'fecha' , 'cartera_id' , 'funcionario_id' , 'cliente_id' , 
         'producto_id' , 'vlr_fin' , 'periodo' , 'meses' , 'cuotas' , 'vlr_cuota' , 
-        'p_fecha' , 's_fecha' ,  'estudio' , 'cobro_estudio' , 'cuota_inicial' , 
+        'p_fecha' , 's_fecha' ,  'estudio' , 'cuota_inicial' , 
         'aprobado' , 'observaciones' , 'user_create_id' , 'user_update_id',
     ];
 
@@ -59,5 +59,9 @@ class Precredito extends Model implements Auditable
 
     public function pagos() {
         return $this->hasMany('App\PrecreditoPago','precredito_id','id');
+    }
+
+    public function ref_productos() {
+        return $this->hasMany('App\RefProducto','precredito_id','id');
     }
 }

@@ -16,6 +16,8 @@ class CreateCarterasTable extends Migration
             $table->increments('id');
             $table->string('nombre')->unique();
             $table->enum('estado',['Activo','Inactivo'])->default('Activo');
+            $table->decimal('porcentaje_pago_parcial')->default('0');
+            
             $table->timestamps();
         });
     }

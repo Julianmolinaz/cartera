@@ -15,9 +15,9 @@
          <i class="fab fa-fly"></i>
         Estudio 
         @if($id_codeudor == 0)
-          cliente
+          cliente <span style="font-size:11px;">{{$cliente->nombre}}</span>
         @else
-          codeudor
+          codeudor <span style="font-size:11px;">{{$cliente->codeudor->nombrec}}</span>
         @endif
        </h3></div>
         <div class="panel-body">
@@ -152,9 +152,9 @@
             <i class="fas fa-users"></i>
               Referencias 
               @if($id_codeudor == 0)
-                cliente
+                cliente <span style="font-size:11px;">{{$cliente->nombre}}</span>
               @else
-                codeudor
+                codeudor <span style="font-size:11px;">{{$cliente->codeudor->nombrec}}</span>
               @endif
             </h3>
           </div>

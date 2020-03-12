@@ -89,6 +89,7 @@ class EstudioController extends Controller
         if($ir == 'editar'){
 
             return view('start.estudios.edit')
+		->with('cliente',$cliente)
                 ->with('objeto',$objeto)
                 ->with('id_cliente',$id_cliente)
                 ->with('id_codeudor',$id_codeudor)
@@ -106,6 +107,7 @@ class EstudioController extends Controller
             $users = User::all()->sortBy('name');
             
             return view('start.estudios.create')
+		->with('cliente',$cliente)
                 ->with('objeto',$objeto)
                 ->with('id_cliente',$id_cliente)
                 ->with('id_codeudor',$id_codeudor)
