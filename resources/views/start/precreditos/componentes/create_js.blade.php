@@ -1,5 +1,3 @@
-
-
 <script src="/js/interfaces/filters.js"></script>
 <script src="/js/interfaces/solicitud.js"></script>
 <script src="/js/interfaces/producto.js"></script>
@@ -26,6 +24,9 @@
       arr_estudios      : {!! json_encode($arr_estudios) !!},  
       arr_periodos      : {!! json_encode($arr_periodos) !!},
       rol_permitido     : 'Administrador',
+      credito           : {!! json_encode($credito) !!},
+      estados_credito   : {!! json_encode($estados_credito) !!},
+      fecha_pago        : {!! json_encode($fecha_pago) !!},
       topes: {
         p_fecha_ini: '',
         s_fecha_ini: '',
@@ -56,6 +57,8 @@
             break;
           default:
             break;
+
+          this.solicitud.productos = this.arr_productos;
         }
 
         this.solicitud.productos = this.arr_productos;
@@ -100,6 +103,8 @@
           this.sendPorCreacionDeSolicitud();
         } else if ( this.estado == 'edicion_solicitud') {
           this.sendPorEdicionDeSolicitud();
+        } else if (this.estado == 'edicion_credito') {
+          this.sendPorEdicionDeCredito();
         }
       },
       sendPorCreacionDeSolicitud() {
@@ -116,8 +121,6 @@
       },
       sendPorEdicionDeSolicitud() {
 
-        this.solicitud.productos = this.arr_productos;
-
         axios.put('/start/precreditos/'+this.solicitud.id,this.solicitud)
           .then( res => {
             if (res.data.error) {
@@ -126,6 +129,30 @@
             } else {
               alert(res.data.message);
               window.open("{{url('/start/precreditos')}}/"+ res.data.dat.id +"/ver");
+            }
+
+
+          })
+      },
+      sendPorEdicionDeCredito() {
+        
+        var data = {
+          'solicitud' : this.solicitud,
+          'credito'   : this.credito,
+          'fecha_pago': this.fecha_pago
+        };
+        
+        console.log(data);
+        axios.put('/start/creditos/'+this.credito.id,data)
+          .then( res => {
+
+
+            if (res.data.error) {
+              alert(res.data.message);
+              console.log(res.data.dat);
+            } else {
+              alert(res.data.message);
+              //window.open("{{url('/start/precreditos')}}/"+ res.data.dat.id +"/ver");
             }
 
 
@@ -145,12 +172,14 @@
       if (this.estado == 'creacion') {
         this.solicitud.aprobado = 'En estudio';
       }
-      else if (this.estado == 'edicion_solicitud') {
+      else if (this.estado == 'edicion_solicitud' || this.estado == 'edicion_credito') {
         let precredito = {!! json_encode($precredito) !!};
         this.solicitud =  precredito;
         this.arr_productos = {!! json_encode($arr_productos) !!}
         this.changePeriodo();
       }
+
+      
 
     }
   });

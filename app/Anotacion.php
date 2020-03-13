@@ -9,8 +9,14 @@ class Anotacion extends Model
     protected $table = 'anotaciones';
 
     protected $fillable = [
-        'proceso_id','fecha_anotacion','asunto','descripcion','recordatorio',
-        'notificado','user_create_id','user_update_id',
+        'proceso_id',
+        'fecha_anotacion',
+        'asunto',
+        'descripcion',
+        'recordatorio',
+        'notificado',
+        'user_create_id',
+        'user_update_id'
     ];
 
     public function proceso(){

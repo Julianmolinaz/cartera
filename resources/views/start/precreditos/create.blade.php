@@ -7,8 +7,9 @@
   <div class="col-md-12">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <span v-if="estado=='creacion'">Crear Solicitud de Crédito</span>
-        <span v-else>Editar Solicitud de Crédito @{{solicitud.id}}</span>
+        <span v-if="estado=='creacion'" v-text="'Crear Solicitud de Crédito'"></span>
+        <span v-if="estado=='edicion_solicitud'" v-text="'Editar Solicitud de Crédito' + solicitud.id"></span>
+        <span v-if="estado=='edicion_credito'" v-text="'Editar Crédito '+credito.id"></span>
         <small>-- {{$cliente->nombre.' -- '.$cliente->num_doc}}</small>
         <a href="{{ route('start.precreditos.edit',$precredito->id) }}" class="btn btn-default btn-sm" style="float:right; margin-top:-4px;">Refrescar</a>
       </div>
@@ -26,7 +27,14 @@
             <!-- CONDICIONES DEL NEGOCIO  -->
 
             <div class="col-md-6">
-              @include('start.precreditos.componentes.condiciones')
+              <div class="row">
+                <div class="col-md-12">
+                  @include('start.precreditos.componentes.condiciones')
+                </div>
+                <div class="col-md-12">
+                  @include('start.precreditos.componentes.info_credito')
+                </div>
+              </div>
             </div>
 
             <div class="row">
@@ -36,12 +44,10 @@
                 <center>
                 <a href="javascript:window.history.back();"><button type="button" class="btn btn-default">Volver</button></a>
 
-                  <button type="submit" class="btn btn-primary" v-if="estado=='creacion'">
+                  <button type="submit" class="btn btn-primary">
                     Guardar Solicitud
                   </button>
-                  <button type="submit" class="btn btn-primary" v-else>
-                    Guardar Cambios
-                  </button>
+
                 </center>
 
               </div>

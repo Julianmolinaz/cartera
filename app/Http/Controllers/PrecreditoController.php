@@ -114,6 +114,7 @@ class PrecreditoController extends Controller
       $precredito->fecha = inv_fech2($precredito->fecha);
 
       $ref_productos = (isset($precredito->ref_productos)) ? $precredito->ref_productos: '';
+      
       if (isset($precredito->credito )) {
         $estado = 'edicion_credito';
       } else {
@@ -127,11 +128,14 @@ class PrecreditoController extends Controller
       ->with('arr_periodos',getEnumValues('precreditos','periodo'))
       ->with('arr_estudios',getEnumValues('precreditos','estudio'))
       ->with('arr_productos', $ref_productos)
+      ->with('fecha_de_pago','')
       ->with('cliente',$precredito->cliente)
       ->with('variables',Variable::find(1))
       ->with('precredito',$precredito)
+      ->with('estados_credito','')
       ->with('user',\Auth::user())
       ->with('estado',$estado)
+      ->with('credito','')
       ->with('now',Carbon::now());
 
     }
