@@ -60,7 +60,7 @@
                 <input  type="text" 
                         class="form-control input-sm" 
                         v-model="solicitud.cuotas" 
-                        :disabled="estado != 'edicion_credito'">
+                        :disabled="estado != 'creacion' || solicitud.periodo == 'Mensual'">
             </div>
             <div class="col-md-6">
                 <label>Valor cuota *:</label>

@@ -31,7 +31,7 @@
                 <div class="col-md-12">
                   @include('start.precreditos.componentes.condiciones')
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12" v-if="estado=='edicion_credito'">
                   @include('start.precreditos.componentes.info_credito')
                 </div>
               </div>

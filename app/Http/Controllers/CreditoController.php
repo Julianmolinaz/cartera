@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Repositories\CreditoRepository;
+use App\Traits\Creditos\CreditoUpdateTrait;
+use App\Traits\Solicitudes\SolicitudUpdateTrait;
 use App\Http\Requests;
 use App\Traits\MensajeTrait;
 use App\Precredito;
@@ -25,6 +27,8 @@ class CreditoController extends Controller
 {
     protected $creditos;
     use MensajeTrait;
+    use CreditoUpdateTrait;
+    use SolicitudUpdateTrait;
 
     public function __construct(CreditoRepository $creditos){
       $this->creditos = $creditos;
@@ -353,121 +357,65 @@ class CreditoController extends Controller
     */
 
     public function update(Request $request, $id)
+    // public function update()
     {
+      $changes = 0;
+      // $rq = $this->data();
+      $rq = $request->all();
 
-      \Log::info($request->all());
+      // $validator = $this->validateCreditoUpdateTr($rq); // UpdateCreditoTrait.php
 
-      // valida que p_fecha sea menor que s_fecha
+      DB::beginTransaction();
 
-      // $ini = $request->input('p_fecha')+1;
-      // if($request->input('s_fecha')){
-      //   $fin = $request->input('s_fecha')-1;
-      // }
-      
+      try {
 
-      // if($request->input('s_fecha') == "" || $request->input('periodo') == 'Mensual'){
-      //   $fin = 30;
-      // }
-      // if($request->input('periodo') == 'Quincenal'){
-      //   $rule_s_fecha_quincena = 'required|integer|between:'.$ini.',30';
-      // }
-      // else {
-      //   $rule_s_fecha_quincena = 'between:0,30';
-      // }
-
-      // // reglas de validacion del formulario
-      //   if($request->input('periodo') == 'Quincenal'){
-      //       $this->validate($request, ['s_fecha' => 'required'],
-      //                                 ['s_fecha.required' => 'La Fecha 2 es requerida.']);
-      //   }  
-
-      //   $rules_fijos = array(
-      //       'num_fact'      => 'required|unique:precreditos,num_fact,'. Credito::find($id)->precredito->id,
-      //       'fecha'         => 'required',
-      //       'vlr_fin'       => 'required',
-      //       'producto_id'   => 'required',
-      //       'periodo'       => 'required',
-      //       'meses'         => 'required',
-      //       'vlr_cuota'     => 'required',
-      //       'p_fecha'       => 'required|integer|between:1,'.$fin,
-      //       's_fecha'       => $rule_s_fecha_quincena,
-      //       'funcionario_id'=> 'required',
-      //       'fecha_pago'    => 'required',
-      //       );
+        $dat         = $this->saveSolicitudUpdate($rq['solicitud']); // SolicitudUpdateTrait.php
+        $changes    += $dat->changes;
+        $solicitud   = $dat->solicitud;
+        $cliente     = $solicitud->cliente;
         
-      //   // mensajes de error del formulario
-      //   $message_fijos = array(
-      //       'num_fact.required'      => 'El Número de Factura es requerido',
-      //       'num_fact.unique'        => 'EL Número de factura ya existe',
-      //       'fecha.required'         => 'La Fecha de afiliación es requerida',
-      //       'vlr_fin.required'       => 'El Centro de Costos es requerido',   
-      //       'producto_id.required'   => 'El Producto es requerido',
-      //       'periodo.required'       => 'El Periodo es requerido',
-      //       'meses.required'         => 'El # de Meses es requerido',
-      //       'vlr_cuota.required'     => 'El Valor de la Cuota es requerido',
-      //       'p_fecha.required'       => 'La Fecha 1 es requerida',
-      //       'p_fecha.between'        => 'La Fecha 1 debe ser menor que la Fecha 2',
-      //       's_fecha.between'        => 'La Fecha 2 debe ser mayor que la Fecha 1', 
-      //       'funcionario_id.required'=> 'El Funcionario es requerido',
-      //       'fecha_pago.required' => 'La Fecha de Pago es requerida',
-      //       );
+        $changes    += $this->saveProductosUpdateTr($rq['solicitud']['productos']); // SolicitudUpdateTrait.php
+
+        $dat_credito = $this->saveCreditoUpdateTr($rq['credito'], $changes);
+
+        $dat_fecha_pago  = $this->saveFechaPagoUpdateTr($rq['fecha_pago'], $dat_credito['credito'], $changes);
         
-      //   //validacion
+        $credito = Credito::find($dat_credito['credito']['id']);
 
-      //   $this->validate($request,$rules_fijos,$message_fijos);
+        $this->castigar($credito,$rq['credito']['castigada'],$dat_credito['anterior']);
 
-      //   //si el periodo es quincenal se validan las dos fechas de pago mensual
+        if ($changes == 0) {
+          return response()->json([
+            'error' => true,
+            'message' => 'Ningun cambio en registro'
+          ]);
+        }
+
+        DB::commit();
+
+        return response()->json([
+          'error' => false,
+          'message' => 'Se guardaron los cambios exitosamente',
+          'dat' => $solicitud['id']
+        ]);
+
+
+      } catch (\Exception $e) {
+
+        DB::rollback();
+
+        return response()->json([
+          'error'   => true,
+          'message' => 'Ocurrió un error, intentelo nuevamente: '+$e->getMessage(),
+          'dat'     => $e
+        ]);
+      } 
 
       //   DB::beginTransaction();
 
       //   try{
 
-      //     if($request->input('periodo') == 'Mensual'){ $s_fecha = '';}
-      //     else{ $s_fecha = $request->input('s_fecha');}
 
-      //     $credito    = Credito::find($id);
-      //     $estado_anterior_credito   = $credito->estado; // se guarda el estado anterior del credito
-      //     $precredito = Precredito::find($credito->precredito->id);
-      //     $cliente    = Cliente::find($credito->precredito->cliente_id);
-
-      //     $precredito->num_fact       = $request->input('num_fact');
-      //     $precredito->fecha          = $request->input('fecha');
-      //     $precredito->cartera_id     = $request->input('cartera_id');
-      //     $precredito->funcionario_id = $request->input('funcionario_id');
-      //     $precredito->producto_id    = $request->input('producto_id');
-      //     $precredito->vlr_fin        = $request->input('vlr_fin');
-      //     $precredito->periodo        = $request->input('periodo');
-      //     $precredito->meses          = $request->input('meses');
-      //     $precredito->cuotas         = $request->input('cuotas');
-      //     $precredito->vlr_cuota      = $request->input('vlr_cuota');
-      //     $precredito->p_fecha        = $request->input('p_fecha');
-      //     $precredito->s_fecha        = $s_fecha;         
-      //     $precredito->estudio        = $request->input('estudio');
-      //     $precredito->cuota_inicial  = $request->input('cuota_inicial');
-      //     $precredito->aprobado       = $request->input('aprobado');
-      //     $precredito->observaciones  = $request->input('observaciones');
-      //     $precredito->user_update_id = Auth::user()->id;
-      //     $precredito->save();
-
-      //     // valida y crea registro si se castiga cartera
-      //     $anterior  = $credito->castigada;
-      //     $credito->mes               = $request->input('mes');
-      //     $credito->cuotas_faltantes  = $request->input('cuotas_faltantes');
-      //     $credito->saldo             = $request->input('saldo');
-      //     $credito->saldo_favor       = $request->input('saldo_favor');
-      //     $credito->estado            = $request->input('estado_credito');
-      //     $credito->rendimiento       = $request->input('rendimiento');
-      //     $credito->valor_credito     = $request->input('valor_credito');
-      //     $credito->castigada         = $request->input('castigada');
-      //     $credito->recordatorio      = $request->input('recordatorio');
-      //     $credito->user_update_id    = Auth::user()->id;
-      //     $credito->save();
-
-      //     $fecha_pago                 = FechaCobro::where('credito_id',$credito->id)->get()[0];
-      //     $fecha_pago->fecha_pago     = inv_fech($request->input('fecha_pago'));
-      //     $fecha_pago->save();
-
-      //     $this->castigar($credito,$request->input('castigada'),$anterior);
 
       //     // calificación del cliente 
 
@@ -522,12 +470,10 @@ class CreditoController extends Controller
     |
     */
 
-    private function castigar($credito, $castigada_in, $anterior){ 
-
+    private function castigar($credito, $castigada_in, $anterior)
+    { 
       if($anterior <> $castigada_in){
-
         if($castigada_in == 'Si'){
-
           $castigada                  = new Castigada();
           $castigada->credito_id      = $credito->id;
           $castigada->fecha_limite    = $credito->fecha_pago->fecha_pago;
@@ -790,6 +736,277 @@ class CreditoController extends Controller
               return redirect()->route('start.precreditos.ver',$precredito->id);
           }
   
+    }
+
+    public function data() {
+      return array (
+        'solicitud' => 
+        array (
+          'id' => 15836,
+          'num_fact' => '8887777888777',
+          'fecha' => '2020-01-01',
+          'cartera_id' => 24,
+          'funcionario_id' => 2,
+          'cliente_id' => 12579,
+          'producto_id' => 3,
+          'vlr_fin' => 600000,
+          'periodo' => 'Quincenal',
+          'meses' => 4,
+          'cuotas' => 8,
+          'vlr_cuota' => 100000,
+          'p_fecha' => '15',
+          's_fecha' => '30',
+          'estudio' => 'Tipico',
+          'cuota_inicial' => 0,
+          'aprobado' => 'Si',
+          'observaciones' => 'descripciones',
+          'user_create_id' => 2,
+          'user_update_id' => 2,
+          'created_at' => '2020-03-11 15:05:53',
+          'updated_at' => '2020-03-12 17:38:53',
+          'ref_productos' => 
+          array (
+            0 => 
+            array (
+              'id' => 11,
+              'nombre' => 'SOAT',
+              'estado' => 'En proceso',
+              'fecha_exp' => '2020-03-13',
+              'precredito_id' => 15836,
+              'costo' => 200000,
+              'iva' => 22222,
+              'num_fact' => '31313',
+              'proveedor_id' => 1,
+              'producto_id' => 3,
+              'extra' => NULL,
+              'observaciones' => '',
+              'created_by' => 2,
+              'updated_by' => 2,
+              'created_at' => '2020-03-11 20:26:48',
+              'updated_at' => '2020-03-11 20:26:48',
+            ),
+            1 => 
+            array (
+              'id' => 12,
+              'nombre' => 'RTM',
+              'estado' => 'En proceso',
+              'fecha_exp' => '2020-03-18',
+              'precredito_id' => 15836,
+              'costo' => 126555,
+              'iva' => 12001,
+              'num_fact' => '576564',
+              'proveedor_id' => 1,
+              'producto_id' => 3,
+              'extra' => NULL,
+              'observaciones' => '',
+              'created_by' => 2,
+              'updated_by' => 2,
+              'created_at' => '2020-03-11 20:27:07',
+              'updated_at' => '2020-03-11 20:27:07',
+            ),
+          ),
+          'cliente' => 
+          array (
+            'id' => 12579,
+            'nombre' => 'Pablo Adrian Gonzalez Salazar',
+            'primer_nombre' => 'Pablo',
+            'segundo_nombre' => 'Adrian',
+            'primer_apellido' => 'Gonzalez',
+            'segundo_apellido' => 'Salazar',
+            'tipo_doc' => 'Cedula Ciudadanía',
+            'num_doc' => '987654321',
+            'fecha_nacimiento' => '25-01-1982',
+            'direccion' => 'CR AAAA',
+            'barrio' => 'Centro',
+            'municipio_id' => 1,
+            'movil' => '3207809668',
+            'fijo' => '3213213212',
+            'email' => 'etereosum@gmail.com',
+            'placa' => '',
+            'ocupacion' => 'Ingeniero',
+            'empresa' => 'Freelancer',
+            'tipo_actividad' => 'Independiente',
+            'codeudor_id' => NULL,
+            'numero_de_creditos' => 1,
+            'user_create_id' => 2,
+            'user_update_id' => 2,
+            'calificacion' => NULL,
+            'created_at' => '2020-01-07 18:24:18',
+            'updated_at' => '2020-03-12 17:39:06',
+            'dir_empresa' => 'Dirección',
+            'tel_empresa' => '333333',
+            'conyuge_id' => NULL,
+          ),
+          'productos' => 
+          array (
+            0 => 
+            array (
+              'id' => 11,
+              'nombre' => 'SOAT',
+              'estado' => 'En proceso',
+              'fecha_exp' => '2020-03-13',
+              'precredito_id' => 15836,
+              'costo' => 200000,
+              'iva' => 22222,
+              'num_fact' => '31313',
+              'proveedor_id' => 1,
+              'producto_id' => 3,
+              'extra' => NULL,
+              'observaciones' => '',
+              'created_by' => 2,
+              'updated_by' => 2,
+              'created_at' => '2020-03-11 20:26:48',
+              'updated_at' => '2020-03-11 20:26:48',
+            ),
+            1 => 
+            array (
+              'id' => 12,
+              'nombre' => 'RTM',
+              'estado' => 'En proceso',
+              'fecha_exp' => '2020-03-18',
+              'precredito_id' => 15836,
+              'costo' => '222222',
+              'iva' => '22222',
+              'num_fact' => '222222',
+              'proveedor_id' => 1,
+              'producto_id' => 3,
+              'extra' => NULL,
+              'observaciones' => '',
+              'created_by' => 2,
+              'updated_by' => 2,
+              'created_at' => '2020-03-11 20:27:07',
+              'updated_at' => '2020-03-11 20:27:07',
+            ),
+          ),
+        ),
+        'credito' => 
+        array (
+          'id' => 11929,
+          'precredito_id' => 15836,
+          'cuotas_faltantes' => 8,
+          'saldo' => 800000,
+          'saldo_favor' => NULL,
+          'estado' => 'Al dia',
+          'rendimiento' => 200000,
+          'valor_credito' => 800000,
+          'castigada' => 'Si',
+          'refinanciacion' => 'No',
+          'end_procredito' => 0,
+          'end_datacredito' => 0,
+          'user_create_id' => 2,
+          'user_update_id' => 2,
+          'created_at' => '2020-03-12 17:39:06',
+          'updated_at' => '2020-03-12 17:39:06',
+          'credito_refinanciado_id' => NULL,
+          'last_llamada_id' => NULL,
+          'recordatorio' => NULL,
+          'sanciones_debe' => 0,
+          'sanciones_ok' => 0,
+          'sanciones_exoneradas' => 0,
+          'mes' => 'Marzo',
+          'anio' => 2020,
+          'permitir_mover_fecha' => 0,
+          'precredito' => 
+          array (
+            'id' => 15836,
+            'num_fact' => '8887777888777',
+            'fecha' => '2020-01-01',
+            'cartera_id' => 24,
+            'funcionario_id' => 2,
+            'cliente_id' => 12579,
+            'producto_id' => 3,
+            'vlr_fin' => 600000,
+            'periodo' => 'Quincenal',
+            'meses' => 4,
+            'cuotas' => 8,
+            'vlr_cuota' => 100000,
+            'p_fecha' => '15',
+            's_fecha' => '30',
+            'estudio' => 'Tipico',
+            'cuota_inicial' => 0,
+            'aprobado' => 'Si',
+            'observaciones' => 'descripciones',
+            'user_create_id' => 2,
+            'user_update_id' => 2,
+            'created_at' => '2020-03-11 15:05:53',
+            'updated_at' => '2020-03-12 17:38:53',
+            'ref_productos' => 
+            array (
+              0 => 
+              array (
+                'id' => 11,
+                'nombre' => 'SOAT',
+                'estado' => 'En proceso',
+                'fecha_exp' => '2020-03-13',
+                'precredito_id' => 15836,
+                'costo' => 200000,
+                'iva' => 22222,
+                'num_fact' => '31313',
+                'proveedor_id' => 1,
+                'producto_id' => 3,
+                'extra' => NULL,
+                'observaciones' => '',
+                'created_by' => 2,
+                'updated_by' => 2,
+                'created_at' => '2020-03-11 20:26:48',
+                'updated_at' => '2020-03-11 20:26:48',
+              ),
+              1 => 
+              array (
+                'id' => 12,
+                'nombre' => 'RTM',
+                'estado' => 'En proceso',
+                'fecha_exp' => '2020-03-18',
+                'precredito_id' => 15836,
+                'costo' => 126555,
+                'iva' => 12001,
+                'num_fact' => '576564',
+                'proveedor_id' => 1,
+                'producto_id' => 3,
+                'extra' => NULL,
+                'observaciones' => '',
+                'created_by' => 2,
+                'updated_by' => 2,
+                'created_at' => '2020-03-11 20:27:07',
+                'updated_at' => '2020-03-11 20:27:07',
+              ),
+            ),
+            'cliente' => 
+            array (
+              'id' => 12579,
+              'nombre' => 'Pablo Adrian Gonzalez Salazar',
+              'primer_nombre' => 'Pablo',
+              'segundo_nombre' => 'Adrian',
+              'primer_apellido' => 'Gonzalez',
+              'segundo_apellido' => 'Salazar',
+              'tipo_doc' => 'Cedula Ciudadanía',
+              'num_doc' => '987654321',
+              'fecha_nacimiento' => '25-01-1982',
+              'direccion' => 'CR AAAA',
+              'barrio' => 'Centro',
+              'municipio_id' => 1,
+              'movil' => '3207809668',
+              'fijo' => '3213213212',
+              'email' => 'etereosum@gmail.com',
+              'placa' => '',
+              'ocupacion' => 'Ingeniero',
+              'empresa' => 'Freelancer',
+              'tipo_actividad' => 'Independiente',
+              'codeudor_id' => NULL,
+              'numero_de_creditos' => 1,
+              'user_create_id' => 2,
+              'user_update_id' => 2,
+              'calificacion' => NULL,
+              'created_at' => '2020-01-07 18:24:18',
+              'updated_at' => '2020-03-12 17:39:06',
+              'dir_empresa' => 'Dirección',
+              'tel_empresa' => '333333',
+              'conyuge_id' => NULL,
+            ),
+          ),
+        ),
+        'fecha_pago' => '2020-01-16',
+      );  
     }
 }
 

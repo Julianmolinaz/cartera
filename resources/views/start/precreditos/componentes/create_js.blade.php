@@ -18,7 +18,6 @@
       productos         : {!! json_encode($productos) !!},
       estado            : {!! json_encode($estado) !!},
       estados_aprobacion: {!! json_encode($estados_aprobacion) !!},
-      arr_productos     : [], // se agregan los productos: SOAT y/o RTM
       solicitud         : new Solicitud(),
       temp              : '', // producto temporal
       arr_estudios      : {!! json_encode($arr_estudios) !!},  
@@ -42,26 +41,21 @@
         console.log(this.temp);
 
         this.solicitud.productos = [];
-        this.arr_productos = [];
 
         switch (this.temp.id) {
           case 1:
-            this.arr_productos.push(new Producto(this.temp.id,this.temp.nombre));
+            this.productos.push(new Producto(this.temp.id,this.temp.nombre));
             break;
           case 2:
-            this.arr_productos.push(new Producto(this.temp.id,this.temp.nombre));
+            this.productos.push(new Producto(this.temp.id,this.temp.nombre));
             break;
           case 3:
-            this.arr_productos.push(new Producto(this.temp.id,'SOAT'));
-            this.arr_productos.push(new Producto(this.temp.id,'RTM'));
+            this.productos.push(new Producto(this.temp.id,'SOAT'));
+            this.productos.push(new Producto(this.temp.id,'RTM'));
             break;
           default:
             break;
-
-          this.solicitud.productos = this.arr_productos;
         }
-
-        this.solicitud.productos = this.arr_productos;
       },
       changePeriodo(){
         if (this.solicitud.meses){
@@ -76,6 +70,7 @@
           this.topes.s_fecha_ini = 16;
           this.topes.s_fecha_fin = 30;
         } else {
+          this.solicitud.s_fecha = '';
           this.topes.p_fecha_fin = 30;
         }
       },
@@ -146,13 +141,12 @@
         axios.put('/start/creditos/'+this.credito.id,data)
           .then( res => {
 
-
             if (res.data.error) {
               alert(res.data.message);
               console.log(res.data.dat);
             } else {
               alert(res.data.message);
-              //window.open("{{url('/start/precreditos')}}/"+ res.data.dat.id +"/ver");
+              window.open("{{url('/start/precreditos')}}/"+ res.data.dat +"/ver");
             }
 
 
@@ -175,7 +169,7 @@
       else if (this.estado == 'edicion_solicitud' || this.estado == 'edicion_credito') {
         let precredito = {!! json_encode($precredito) !!};
         this.solicitud =  precredito;
-        this.arr_productos = {!! json_encode($arr_productos) !!}
+        this.solicitud.productos = {!! json_encode($arr_productos) !!}
         this.changePeriodo();
       }
 

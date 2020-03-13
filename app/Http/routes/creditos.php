@@ -18,14 +18,15 @@ Route::get('start/creditos',[
 // 	['uses' 	=> 'CreditoController@create','as'=> 'start.creditos.create'])->middleware('creditos_crear');
 
 Route::put('start/creditos/{credito}',[
+	// Route::get('startUpdate',[	
     'uses'  => 'CreditoController@update',
     'as'    => 'start.creditos.update'
-])->middleware('creditos_actualizar');
+]);
 
 Route::get('start/creditos/{credito}/edit',[
     'uses'  => 'CreditoController@edit',
     'as'    => 'start.creditos.edit'
-])->middleware('creditos_editar');
+]);
 
 Route::get('start/creditos/create/{id}/{mes}/{anio}',[
 	'uses' => 'CreditoController@create',

@@ -75,7 +75,7 @@
         <!-- PRODUCTOS  -->
 
 
-        <template v-for="elemento in arr_productos">
+        <template v-for="elemento in solicitud.productos">
             <div class="panel panel-default">
                 <div class="panel-body">
 
