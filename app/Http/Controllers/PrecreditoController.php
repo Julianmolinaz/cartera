@@ -112,6 +112,7 @@ class PrecreditoController extends Controller
     {
       $precredito = Precredito::find($id);
       $precredito->fecha = inv_fech2($precredito->fecha);
+      $proveedores       = \App\MyService\Proveedor::getProveedores();
 
       $ref_productos = (isset($precredito->ref_productos)) ? $precredito->ref_productos: '';
 
@@ -128,15 +129,16 @@ class PrecreditoController extends Controller
       ->with('arr_periodos',getEnumValues('precreditos','periodo'))
       ->with('arr_estudios',getEnumValues('precreditos','estudio'))
       ->with('arr_productos', $ref_productos)
-      ->with('fecha_pago','')
-      ->with('estados_credito','')
-      ->with('credito','')
       ->with('cliente',$precredito->cliente)
       ->with('variables',Variable::find(1))
+      ->with('proveedores',$proveedores)
       ->with('precredito',$precredito)
       ->with('user',\Auth::user())
+      ->with('estados_credito','')
+      ->with('now',Carbon::now())
       ->with('estado',$estado)
-      ->with('now',Carbon::now());
+      ->with('fecha_pago','')
+      ->with('credito','');
 
     }
 
@@ -291,9 +293,9 @@ class PrecreditoController extends Controller
 
         if($creditos_vigentes == 0 && $solicitudes_pendientes == 0){
 
-            $users            = User::all()->sortBy('name');
             $productos        = Producto::orderBy('nombre','DESC')->get();
             $carteras         = Cartera::where('estado','Activo')->orderBy('nombre')->get();
+            $proveedores      = \App\MyService\Proveedor::getProveedores();
             $variables        = Variable::find(1);
             $now              = Carbon::now();
             $estados_aprobacion = getEnumValues('precreditos', 'aprobado');
@@ -301,17 +303,20 @@ class PrecreditoController extends Controller
             $arr_estudios     = getEnumValues('precreditos','estudio');
 
             return view('start.precreditos.create')
-              ->with('users',$users)
-              ->with('cliente',$cliente)
+              ->with('estados_aprobacion',$estados_aprobacion)
+              ->with('arr_periodos',$arr_periodos)
+              ->with('arr_estudios',$arr_estudios)
+              ->with('proveedores',$proveedores)
+              ->with('user',Auth::user()->id)
               ->with('productos',$productos)
               ->with('variables',$variables)
               ->with('carteras',$carteras)
-              ->with('estado','creacion')
-              ->with('arr_periodos',$arr_periodos)
-              ->with('arr_estudios',$arr_estudios)
-              ->with('estados_aprobacion',$estados_aprobacion)
-              ->with('fecha_pago','')
               ->with('estados_credito','')
+              ->with('estado','creacion')
+              ->with('cliente',$cliente)
+              ->with('arr_productos','')
+              ->with('precredito','')
+              ->with('fecha_pago','')
               ->with('credito','');
         }
         else{

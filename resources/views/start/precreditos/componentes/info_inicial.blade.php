@@ -23,7 +23,7 @@
                        v-bind:class="['form-control','input-sm',errors.first('Número de factura') ? '_has-error' :'']" 
                        v-model="solicitud.num_fact"
                        v-validate="'required|numeric'"
-                       :disabled="user.rol != rol_permitido">
+                       :disabled="estado != 'creacion' && user.rol != rol_permitido">
                     <h6 class="text-danger">@{{errors.first('Número de factura')}}</h6>
             </div>
             <div class="col-md-4">
@@ -34,7 +34,7 @@
                        v-validate="'required'"
                        class="form-control input-sm" 
                        v-model="solicitud.fecha"
-                       :disabled="user.rol != rol_permitido">
+                       :disabled="estado != 'creacion' && user.rol != rol_permitido">
                 <h6 class="text-danger">@{{errors.first('Fecha de solicitud')}}</h6>
             </div>
 
@@ -48,7 +48,7 @@
                         v-model="solicitud.cartera_id"
                         v-validate="'required'"
                         v-bind:class="['form-control','input-sm', errors.first('Cartera') ? '_has-error' : '']"
-                        :disabled="user.rol != rol_permitido">
+                        :disabled="estado != 'creacion' && user.rol != rol_permitido">
                     <option selected disabled>--</option>
                     <option :value="cartera.id" v-for="cartera in carteras">@{{cartera.nombre}}</option>
                 </select>
@@ -62,7 +62,7 @@
                         v-bind:class="['form-control','input-sm', errors.first('Producto') ? '_has-error' : '']" 
                         @change="generarInputs()" 
                         v-model="solicitud.producto_id"
-                        :disabled="user.rol != rol_permitido">  
+                        :disabled="estado != 'creacion' && user.rol != rol_permitido"> 
                     <option selected disabled>--</option>
                     <option v-for="producto in productos" :value="producto.id">@{{ producto.nombre }}</option>
                 </select>
@@ -95,7 +95,7 @@
                                     v-model="elemento.proveedor_id" 
                                     v-bind:class="['form-control','input-sm', errors.first('Proveedor '+elemento.nombre) ? '_has-error' :'']">
                                 <option selected disabled>--</option>
-                                <option :value="1">Proveedor</option>
+                                <option :value="proveedor.id" v-for="proveedor in proveedores">@{{ proveedor.nombre }}</option>
                             </select>
                             <h6 class="text-danger">@{{ errors.first('Proveedor '+elemento.nombre) }}</h6>
                         </div>

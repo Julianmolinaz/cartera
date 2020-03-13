@@ -16,6 +16,7 @@
       cliente           : {!! json_encode($cliente) !!},
       carteras          : {!! json_encode($carteras) !!},
       productos         : {!! json_encode($productos) !!},
+      proveedores       : {!! json_encode($proveedores) !!},
       estado            : {!! json_encode($estado) !!},
       estados_aprobacion: {!! json_encode($estados_aprobacion) !!},
       solicitud         : new Solicitud(),
@@ -38,20 +39,19 @@
       generarInputs(){
 
         this.temp = this.productos.find( element => element.id == this.solicitud.producto_id );
-        console.log(this.temp);
 
         this.solicitud.productos = [];
 
         switch (this.temp.id) {
           case 1:
-            this.productos.push(new Producto(this.temp.id,this.temp.nombre));
+            this.solicitud.productos.push(new Producto(this.temp.id,this.temp.nombre));
             break;
           case 2:
-            this.productos.push(new Producto(this.temp.id,this.temp.nombre));
+            this.solicitud.productos.push(new Producto(this.temp.id,this.temp.nombre));
             break;
           case 3:
-            this.productos.push(new Producto(this.temp.id,'SOAT'));
-            this.productos.push(new Producto(this.temp.id,'RTM'));
+            this.solicitud.productos.push(new Producto(this.temp.id,'SOAT'));
+            this.solicitud.productos.push(new Producto(this.temp.id,'RTM'));
             break;
           default:
             break;
@@ -89,6 +89,8 @@
           .then( validate => {
             if(validate){
               self.send();
+            } else {
+              alert('Por favor complete correctamente todos los campos requeridos.');
             }
           })
       },
@@ -107,6 +109,7 @@
 
         axios.post('/start/precreditos',this.solicitud)
           .then( res => {
+            alert(res.data.message);
             if (res.data.error) {
               console.log(res.data.dat);
             }

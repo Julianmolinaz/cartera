@@ -325,7 +325,9 @@ class CreditoController extends Controller
 
       $ref_productos     = (isset($precredito->ref_productos)) ? $precredito->ref_productos: '';
 
-      $estado = 'edicion_credito';
+      $estado            = 'edicion_credito';
+
+      $proveedores       = \App\MyService\Proveedor::getProveedores();
 
       return view('start.precreditos.create')
       ->with('carteras',Cartera::where('estado','Activo')->orderBy('nombre')->get())
@@ -336,10 +338,11 @@ class CreditoController extends Controller
       ->with('arr_estudios',getEnumValues('precreditos','estudio'))
       ->with('estados_credito',$estados_credito)
       ->with('arr_productos', $ref_productos)
-      ->with('fecha_pago',$fecha_pago)
       ->with('cliente',$precredito->cliente)
       ->with('variables',Variable::find(1))
       ->with('estado','edicion_credito')
+      ->with('proveedores',$proveedores)
+      ->with('fecha_pago',$fecha_pago)
       ->with('precredito',$precredito)
       ->with('user',\Auth::user())
       ->with('credito', $credito)

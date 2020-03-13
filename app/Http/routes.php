@@ -25,6 +25,8 @@ require __DIR__ . '/routes/estudios.php';
 
 require __DIR__ . '/routes/pagos_creditos.php';
 
+require __DIR__ . '/routes/ref_productos.php';
+
 
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
