@@ -45,48 +45,49 @@
 
     @section('js')
 
-        @include('contabilidad.terceros.create')
+    @include('contabilidad.terceros.create')
+    
+    <script>
 
-        <script>
+        Vue.use(VeeValidate)
 
-            Vue.use(VeeValidate)
+        const Bus = new Vue();
 
-            const Bus = new Vue();
-
-            new Vue({
-                el: '#terceros-template',
-                data : {
-                    a: 'Terceros',
-                    terceros: ''
-                },
-                methods : {
-                    getTerceros(){
-
-                        var self = this;
-
-                        axios.get('/contabilidad/terceros/list')
-                            .then( res => {   
-                                console.log({res});
-                                                            
-                                self.terceros = res.data.dat;
-                            });
-                    },
-                    crearTercero(){
-                        Bus.$emit('crearTercero')
-                    }
-                },
-                created(){
+        new Vue({
+            el: '#terceros-template',
+            data : {
+                a: 'Terceros',
+                terceros: ''
+            },
+            methods : {
+                getTerceros(){
 
                     var self = this;
 
-                    this.getTerceros();
-
-                    Bus.$on('getTerceros', () => {
-                        self.getTerceros();
-                    });
+                    axios.get('/contabilidad/terceros/list')
+                        .then( res => {   
+                            console.log({res});
+                                                        
+                            self.terceros = res.data.dat;
+                        });
+                },
+                crearTercero(){
+                    Bus.$emit('crearTercero')
                 }
-            })
+            },
+            created(){
 
-        </script>
+                var self = this;
+
+                this.getTerceros();
+
+                Bus.$on('getTerceros', () => {
+                    self.getTerceros();
+                });
+            }
+        })
+
+    </script>
+    
     @endsection
 @endsection

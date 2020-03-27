@@ -12,6 +12,13 @@ use DB;
 
 class RefProductoController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => 'pagar']);
+    }
+
+
     public function store(Request $request)
     {
         try {
@@ -38,6 +45,7 @@ class RefProductoController extends Controller
 
     public function pagar(Request $request)
     {
+
         $sumatoria = 0;
 
         \DB::beginTransaction();
@@ -53,62 +61,63 @@ class RefProductoController extends Controller
                     if ($valid['bandera'] == 0) {
 
                         $sumatoria += $producto['costo'];
+
                         DB::table('ref_productos')
-                        ->where('id',$producto['id'])
-                        ->update(['estado' => 'Pagado']);
+                            ->where('id',$producto['id'])
+                            ->update(['estado' => 'Pagado','updated_by' => Auth::user()->id]);
                     }
                     else {
                         
-                        return res(false,$valid,'');
+                        return res(false,$valid,'Error en la validación.');
                     }
                 }
             }
 
-            // \DB::commit();
+            \DB::commit();
 
             return res(true,'','Se cargo el pago exitosamente !!!');
 
         } catch (\Exception $e) {
             \DB::rollback();
-
+            \Log::info($e);
             return res(false,$e,'Ocurrió un error: '.$e->getMessage());
 
         }
-
-
-        
-        return res(true,'','Todo bien');
     }
 
-    public function productoValidado($producto)
-    {
+    public function productoValidado($ref_producto)
+    {   
+        $ref_producto = RefProducto::find($ref_producto['id']);
 
-        \Log::error($producto);
+        $id = ($ref_producto->solicitud->credito == null )
+            ? 'S-'.$ref_producto->solicitud->id 
+            : 'C-'.$ref_producto->solicitud->credito;
+
         $mensaje = [];
         $bandera = 0;
 
-        if (! $producto['nombre']) {
-            array_push($mensaje, ['Se requiere el nombre del producto.']);
+        if (! $ref_producto['nombre']) {
+            array_push($mensaje, ["Se requiere el nombre del producto $id."]);
             $bandera = 1;
         }
-        if (! $producto['fecha_exp']) {
-            array_push($mensaje, ['Se requiere la fecha de expedición.']);
+        if (! $ref_producto['fecha_exp']) {
+            array_push($mensaje, ["Se requiere la fecha de expedición $id."]);
             $bandera = 1;
         }
-        if (! $producto['costo']) {
-            array_push($mensaje, ['Se requiere el costo del producto']);
+        if (! $ref_producto['costo']) {
+            array_push($mensaje, ["Se requiere el costo del producto $id."]);
             $bandera = 1;
         }
-        if (! $producto['iva']) {
-            array_push($mensaje, ['Se requiere el iva del producto']);
+        if (! $ref_producto['iva']) {
+            array_push($mensaje, ["Se requiere el iva del producto $id."]);
             $bandera = 1;
         }
-        if (! $producto['num_fact']) {
-            array_push($mensaje, ['Se requiere el número de factura del producto.']);
+        if (! $ref_producto['num_fact']) {
+            array_push($mensaje, ["Se requiere el número de factura del producto $id."]);
             $bandera = 1;
         }
-        if (! $producto['proveedor_id']) {
-            array_push($mensaje, ['Se requiere el proveedor del rpoducto']);
+        if (! $ref_producto['proveedor_id']) {
+            array_push($mensaje, ["Se requiere el proveedor del rpoducto $id."]);
             $bandera = 1;
         }
 

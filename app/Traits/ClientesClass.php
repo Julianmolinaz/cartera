@@ -442,7 +442,6 @@ trait ClientesClass
 
     private function editConyuge($obj, $tipo, $request)
     {
-        dd($obj->conyuge);
       if( $tipo == 'cliente' ){
 
         $conyuge = Conyuge::find($obj->conyuge->id);
@@ -562,7 +561,8 @@ trait ClientesClass
            'movil.alpha_num'            => 'No se puede introducir espacios en el movil',
            'ocupacion.required'         => 'La ocupación del cliente es requerida',
            'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
-           'email.max'                  => 'El correo electronico del cliente excede los 60 caracteres permitidos'
+           'email.required'             => 'El email es requerido',
+           'email.max'                  => 'El email del cliente excede los 60 caracteres permitidos'
             );
     }
 
@@ -586,7 +586,7 @@ trait ClientesClass
             'movilc'                    => 'required|max:20',
             'ocupacionc'                => 'required',
             'tipo_actividadc'           => 'required',
-            'emailc'                    => 'max:60'
+            'emailc'                    => 'required|max:60'
             );
     }
 
@@ -620,6 +620,7 @@ trait ClientesClass
            'movilc.max'                 => 'El número celular del codeudor excede los 20 dígitos permitidos',  
            'ocupacionc.required'        => 'La ocupación del codeudor es requerida',
            'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida',
+           'emailc.required'            => 'El email del codeudor es requerido',
            'emailc.max'                 => 'El correo electronico del codeudor excede los 60 caracteres permitidos'
             );    	
     }

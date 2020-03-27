@@ -363,7 +363,6 @@ class CreditoController extends Controller
     // public function update()
     {
       $changes = 0;
-      // $rq = $this->data();
       $rq = $request->all();
 
       // $validator = $this->validateCreditoUpdateTr($rq); // UpdateCreditoTrait.php
@@ -381,13 +380,13 @@ class CreditoController extends Controller
 
         $dat_credito = $this->saveCreditoUpdateTr($rq['credito'], $changes);
 
-        $dat_fecha_pago  = $this->saveFechaPagoUpdateTr($rq['fecha_pago'], $dat_credito['credito'], $changes);
+        $dat_fecha_pago  = $this->saveFechaPagoUpdateTr($rq['fecha_pago'], $dat_credito['credito'], $dat_credito['changes']);
         
         $credito = Credito::find($dat_credito['credito']['id']);
 
         $this->castigar($credito,$rq['credito']['castigada'],$dat_credito['anterior']);
 
-        if ($changes == 0) {
+        if ($dat_fecha_pago['changes'] == 0) {
           return response()->json([
             'error' => true,
             'message' => 'Ningun cambio en registro'

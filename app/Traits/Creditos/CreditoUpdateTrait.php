@@ -45,7 +45,11 @@ trait CreditoUpdateTrait
         // guarda el estado anterior del atributo castigada
         $anterior  = $credito_->castigada;
 
+        \Log::error($credito);
+
         $credito_->fill($credito);
+
+        \Log::info($credito_);
 
         if ($credito_->isDirty()) {
             $credito_->user_update_id = \Auth::user()->id;

@@ -11,11 +11,9 @@
         <span v-if="estado=='edicion_solicitud'" v-text="'Editar Solicitud de Crédito' + solicitud.id"></span>
         <span v-if="estado=='edicion_credito'" v-text="'Editar Crédito '+credito.id"></span>
         <small>-- {{$cliente->nombre.' -- '.$cliente->num_doc}}</small>
-        @if(isset($precredito->id))
-         <a href="{{ route('start.precreditos.edit',$precredito->id) }}" class="btn btn-default btn-sm" style="float:right; margin-top:-4px;">Refrescar</a>
-        @endif
+         <a href="#" @click="refresh" class="btn btn-default btn-sm" style="float:right; margin-top:-4px;">Refrescar</a>
       </div>
-      <div class="panel-body">
+      <div class="panel-body" style="background:#ebedef;">
         <form class="form-horizontal form-label-left" v-on:submit.prevent="onSubmit()">
 
           <div class="row">
@@ -47,7 +45,7 @@
                 <a href="javascript:window.history.back();"><button type="button" class="btn btn-default">Volver</button></a>
 
                   <button type="submit" class="btn btn-primary">
-                    Guardar Solicitud
+                    Guardar Cambios
                   </button>
 
                 </center>

@@ -116,6 +116,11 @@
 
             window.open("{{url('/start/precreditos')}}/"+ res.data.dat.id +"/ver");
           })
+          .catch( error => {
+            if (error.response.headers.connection == 'close') {
+                // window.location.href = "{{url('/log')}}";
+            }
+          });
       },
       sendPorEdicionDeSolicitud() {
 
@@ -128,9 +133,12 @@
               alert(res.data.message);
               window.open("{{url('/start/precreditos')}}/"+ res.data.dat.id +"/ver");
             }
-
-
           })
+          .catch( error => {
+            if (error.response.headers.connection == 'close') {
+                // window.location.href = "{{url('/log')}}";
+            }
+          });
       },
       sendPorEdicionDeCredito() {
         
@@ -140,7 +148,6 @@
           'fecha_pago': this.fecha_pago
         };
         
-        console.log(data);
         axios.put('/start/creditos/'+this.credito.id,data)
           .then( res => {
 
@@ -151,9 +158,22 @@
               alert(res.data.message);
               window.open("{{url('/start/precreditos')}}/"+ res.data.dat +"/ver");
             }
-
-
           })
+          .catch( error => {
+            if (error.response.headers.connection == 'close') {
+                //window.location.href = "{{url('/log')}}";
+                console.log(error)
+            }
+          });
+      },
+      refresh(){
+        if (this.estado == 'creacion') {
+          window.location.href = "{{url('/start/precreditos')}}/"+this.cliente.id;
+        } else if( this.estado == 'edicion_solicitud') {
+          window.location.href = "{{url('/start/precreditos')}}/"+this.solicitud.id+"/edit";
+        } else {
+          window.location.href = "{{url('/start/creditos')}}/"+this.credito.id+"/edit";
+        }
       }
     },
     filters: {
@@ -174,9 +194,8 @@
         this.solicitud =  precredito;
         this.solicitud.productos = {!! json_encode($arr_productos) !!}
         this.changePeriodo();
+        console.log(this.credito);
       }
-
-      
 
     }
   });
@@ -187,5 +206,21 @@
   ._has-error {
     border-color: red;
   }
+  .sm {
+    height: 25px;
+    font-size: .8em;
+  }
 
+  .form-sm {
+    margin-bottom: 0px;
+    padding: 0px 7px;
+  }
+  
+  .text-sm {
+    font-size: .8em;
+  }
+
+  spam {
+    margin-top: 2px;
+  }
 </style>

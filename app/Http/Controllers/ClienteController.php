@@ -88,8 +88,8 @@ class ClienteController extends Controller
     {
         // REGLAS DE VALIDACION 
 
-        $rules_cliente    = $this->rules_cliente('crear');
-        $message_cliente  = $this->messages_cliente('crear');
+        $rules_cliente    = $this->rules_cliente('crear'); //ClientesClass
+        $message_cliente  = $this->messages_cliente('crear'); //ClientesClass
 
         $this->validate($request,$rules_cliente,$message_cliente);
         
@@ -176,8 +176,8 @@ class ClienteController extends Controller
 
     public function update(Request $request, $id)
     {  
-        $rules_cliente    = $this->rules_cliente('editar');
-        $message_cliente  = $this->messages_cliente('editar');
+        $rules_cliente    = $this->rules_cliente('editar'); // ClientesClass
+        $message_cliente  = $this->messages_cliente('editar'); // ClientesClass
   
         //ACTUALIZAR CLIENTE CON CODEUDOR
         $this->validate($request,$rules_cliente,$message_cliente);

@@ -33,7 +33,7 @@
                                 <div class="col-md-6 form-group">
                                     <label>Regimen *</label>
                                     <select class="form-control" v-model="tercero.regimen">
-                                        <option selected disabled>Regimen *</option>
+                                        <option selected disabled>Régimen *</option>
                                         <option :value="regimen" v-for="regimen in data.regimenes">
                                             @{{regimen}}
                                         </option>
@@ -127,16 +127,9 @@
 
 </script>
 
+
+<script src="{{asset('js/interfaces/tercero.js')}}"></script>
 <script>
-    class Tercero {
-        constructor() {
-            this.id             = '';this.regimen        = '';this.razon_social   = '';
-            this.pnombre        = '';this.snombre        = '';this.papellido      = '';
-            this.sapellido      = '';this.tipo_doc       = '';this.num_doc        = '';
-            this.tel1           = '';this.tel2           = '';this.dir            = '';
-            this.mun_id         = '';this.email          = '';
-        }
-    }
 
     Vue.component('crear_tercero-component', {
         template: '#create-template',
@@ -166,7 +159,6 @@
                 var self = this;
                 axios.post('/contabilidad/terceros',this.tercero)
                     .then( res => {
-                        console.log(res);
                         if(res.data.success){
                             alert(res.data.message);
                             $('#create').modal('hide');
@@ -175,6 +167,11 @@
                         } else {
                             self.show_errors = true;
                             self.errores = res.data.dat;
+                        }
+                    })
+                    .catch( error => {
+                        if (error.response.headers.connection == 'close') {
+                            // window.location.href = "{{url('/log')}}";
                         }
                     });
             },

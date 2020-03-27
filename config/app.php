@@ -161,6 +161,9 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class,
+        Way\Generators\GeneratorsServiceProvider::class,
+        Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
         
     ],
 

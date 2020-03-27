@@ -10,6 +10,10 @@
         <div class="col-sm-6">
             <button type="button" class="btn btn-success" @click="pagar">Pagar al Proveedor</button>
         </div>
+
+        <div class="col-sm-12" v-if="errors">
+            <p class="text-primary" v-for="error in errors">@{{error[0]}}</p>        
+        </div>
            
         <div class="col-sm-12">
             <h5>Productos en debe</h5>
@@ -58,6 +62,7 @@
 <script>
     Vue.use(VeeValidate);
     VeeValidate.Validator.localize("es");
+    
 
     Vue.component('detalle-component',{
         template : '#detalle-template',
@@ -67,7 +72,8 @@
                 items : [],
                 total : 0,
                 proveedor: '',
-                item  : ''
+                item  : '',
+                errors: []
             }
         },
         methods: {
@@ -114,6 +120,9 @@
                     })
             },
             pagar(){
+
+                var self = this;
+
                 axios.post('/ref_productos/pagar',this.items)
                     .then( res => {
                         alert(res.data.message);
@@ -122,7 +131,13 @@
                             self.items = [];
                             Bus.$emit('getDetalles');  
                         } else {
-                            console.log(res.data.dat);
+
+                            console.log(res.data);
+
+                            if(res.data.message == 'Error en la validación.') {
+
+                               self.errors = res.data.dat.mensaje;
+                            }
                         }
                     })
             }

@@ -11,43 +11,18 @@ class PagoProveedorController extends Controller
 {
     public function index()
     {
-        $proveedores_en_debe = $this->getProveedoresALosQueSeLesDebe();
+        $proveedores_en_debe = \App\MyService\Proveedor::getProveedoresALosQueSeLesDebe();
+
         $proveedores = \App\MyService\Proveedor::getProveedores();
 
         return view('contabilidad.pago_proveedores.index')
-            ->with('proveedores_en_debe',$proveedores)
+            ->with('proveedores_en_debe',$proveedores_en_debe)
             ->with('proveedores',$proveedores);
     }
 
 
-    public function getProveedoresALosQueSeLesDebe()
+    public function list($proveedor_id, $type)
     {
-        $proveedores_en_debe = DB::table('terceros')
-            ->join('ref_productos','terceros.id','=','ref_productos.proveedor_id')
-            ->select('terceros.*')
-            ->where('ref_productos.estado','=','En proceso')
-            ->groupBy('ref_productos.proveedor_id')
-            ->get();
-
-        $proveedores = [];
-        
-        foreach ($proveedores_en_debe as $proveedor) {
-            $debe = DB::table('ref_productos')
-                ->where('proveedor_id',$proveedor->id)
-                ->where('estado','=','En proceso')
-                ->sum('costo');
-
-            $proveedor->debe = $debe;
-            $proveedores[] = $proveedor;
-        }
-
-
-        return $proveedores;
-
-    }
-
-
-    public function list($proveedor_id, $type){
         if ($type == 'debe') {
 
             $productos = DB::table('ref_productos')
@@ -73,5 +48,10 @@ class PagoProveedorController extends Controller
 
             return res(true,$productos_, '');
         }
+    }
+
+    public function pagar(Request $request)
+    {
+        
     }
 }

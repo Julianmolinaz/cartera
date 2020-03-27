@@ -31,6 +31,13 @@ class TerceroController extends Controller
         $tipos_doc  = getEnumValues('terceros', 'tipo_doc');
         $municipios = DB::table('municipios')->where('id','<>',100)->get();
 
+        if (! request()->session()->has('flash')) {
+            return response()->json([
+               'success' => false,
+               'message' => 'exit'
+            ]);
+        }
+
         return response()->json([
             'success' => true,
             'dat'     => [
@@ -66,7 +73,7 @@ class TerceroController extends Controller
         $rules          = [];
         $messages       = [];
 
-        if (! $rq['razon_social'] ) {
+        if ($rq['regimen'] == 'No responsable de IVA') {
 
             $regla = [ 'pnombre' => 'required', 'papellido' => 'required' ];
 
@@ -77,9 +84,9 @@ class TerceroController extends Controller
 
             $rules = array_merge($rules, $regla);
             $messages = array_merge($messages, $mensajes);
-        }
+        }       
 
-        if ( (! $rq['pnombre'])  || (! $rq['papellido']) ) {
+        else {
             
             $reglas= [ 'razon_social' => 'required' ];
             $mensajes = [ 'razon_social.required' => 'La razon social es requerida' ];
@@ -93,7 +100,11 @@ class TerceroController extends Controller
             'tipo_doc' => 'required',
             'num_doc'  => 'required',
             'tipo'     => 'required',
-            'mun_id' => 'required'
+            'mun_id'   => 'required',
+            'tel1'     => 'required|numeric',
+            'dir'      => 'required',
+            'mun_id'   => 'required',
+            'email'    => 'required|email'
         ];
 
         $mensajes = [
@@ -101,7 +112,14 @@ class TerceroController extends Controller
             'tipo_doc.required' => 'El tipo de documento es requerido',
             'num_doc.required'  => 'El número de documento es requerido',
             'tipo.required'     =>  'El tipo de tercero es requerido',
-            'mun_id.required' => 'El municipio es requerido'
+            'mun_id.required'   => 'El municipio es requerido',
+            'tel1.required'     => 'El teléfono 1 es requerido',
+            'tel1.numeric'      => 'El teléfono 1 debe ser númerico',
+            'dir.required'      => 'La dirección es requerida',
+            'mun_id.required'   => 'El municipio es requerido',
+            'email.required'    => 'El email es requerido',
+            'email.email'       => 'El email no tiene un formato valido'
+
         ];
 
         $rules = array_merge($rules, $reglas);

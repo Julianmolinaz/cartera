@@ -41,4 +41,8 @@ class Tercero extends Model
             $nombre .= ($this->attributes['sapellido'] ? ''.$this->attributes['sapellido'] : '');
         }
     }
+
+    public function ref_productos() {
+        return $this->hasMany('App\RefProducto','proveedor_id','id');
+    }
 }
