@@ -17,7 +17,7 @@ class CreateAnuladasTable extends Migration {
 			$table->increments('id');
 			$table->integer('cliente_id')->unsigned()->index('anuladas_cliente_id_foreign');
 			$table->integer('factura_id');
-			$table->integer('credito_id')->unsigned()->nullable()->index('anuladas_credito_id_foreign');
+			$table->integer('credito_id')->unsigned()->nullable();
 			$table->integer('precredito_id')->unsigned()->nullable();
 			$table->string('num_fact');
 			$table->string('fecha');
@@ -29,7 +29,6 @@ class CreateAnuladasTable extends Migration {
 			$table->timestamps();
 
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('RESTRICT')->onDelete('CASCADE');
-			$table->foreign('credito_id')->references('id')->on('creditos')->onUpdate('RESTRICT')->onDelete('CASCADE');
 			$table->foreign('user_anula')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('user_create_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});

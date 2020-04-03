@@ -12,7 +12,7 @@ class CallBusquedasTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        // CONFIGURACION
 
         \DB::table('call_busquedas')->delete();
         

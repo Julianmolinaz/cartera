@@ -7,7 +7,6 @@
 |--------------------------------------------------------------------------
 */
 
-
 Route::get('start/creditos',[
     'uses'  => 'CreditoController@index',
     'as'    => 'start.creditos.index'
@@ -52,5 +51,10 @@ Route::get('start/creditos/exportar_todo',[
 	'uses'	=> 'CreditoController@ExportarTodo',
 	'as'	=> 'start.creditos.exportar_todo'
 ])->middleware('refinanciacion');
+
+Route::get('start/creditos/{credito_id}/destroy',[
+	'uses'  => 'CreditoController@destroy',
+	'as'    => 'start.creditos.destroy'
+]);
 
 

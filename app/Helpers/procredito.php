@@ -3,24 +3,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Pago;
-use App\Credito;
-use App\Variable;
-use App\Egreso;
-use App\Cartera;
-use DB;
-use Carbon\Carbon;
-use App\Factura;
-use App\OtrosPagos;
-use Auth;
-use App\Llamada;
-use App\User;
-use App\Cliente;
-use App\Sancion;
-use App\Extra;
-use App\FechaCobro;
-use Excel;
+use App\Http\Requests;  use App\FechaCobro;
+use App\OtrosPagos;     use Carbon\Carbon;
+use App\Variable;       use App\Cartera;
+use App\Factura;        use App\Llamada;
+use App\Cliente;        use App\Sancion;
+use App\Credito;        use App\Egreso;
+use App\Extra;          use App\User;
+use App\Pago;           use Excel;
+use Auth;               use DB;
 
 /**
  * NÚMERO DE DIAS LIMITE PARA REPORTAR UN CRÉDITO COMO MOROSO (>30)
@@ -29,25 +20,24 @@ use Excel;
 const DIAS_PARA_REPORTAR = 30;
 
 
-function reporte_procredito(){
-
+function reporte_procredito()
+{
     try
     {
- 
-        $now                = Carbon::now(); // fecha actual
-        $fecha              = fecha_plana($now->toDateString()); // convertir fecha 
+        $now    = Carbon::now(); // fecha actual
+        $fecha  = fecha_plana($now->toDateString()); // convertir fecha 
 
         DB::table('cancelados')->where('reporte','procredito')->delete(); // vaciar tabla cancelados
 
-        $no_admitidos       = no_admitidos(); // listado de creditos que generan error
+        $no_admitidos = no_admitidos(); // listado de creditos que generan error
 
-        $ids                = DB::table('creditos')
-                            //->where('creditos.id',1271)
-                            ->whereIn('estado', ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
-                            ->where('end_procredito','<>',1)
-                            ->whereNotIn('id',$no_admitidos)
-                            ->select('id')
-                            ->get();
+        $ids = DB::table('creditos')
+                //->where('creditos.id',1271)
+                ->whereIn('estado', ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
+                ->where('end_procredito','<>',1)
+                ->whereNotIn('id',$no_admitidos)
+                ->select('id')
+                ->get();
 
         $reporte_array  = array();
 
@@ -56,11 +46,14 @@ function reporte_procredito(){
             set_time_limit(0);
             
             $credito = Credito::find($ids[$i]->id);
+
             if( $credito->estado == 'Cancelado' ||  $credito->saldo == 0){
-                DB::table('cancelados')->insert(
-                    ['credito_id' => $credito->id,
-                     'reporte'    => 'procredito',
-                     'created_at' => Carbon::now()]);
+
+                DB::table('cancelados')->insert([
+                    'credito_id' => $credito->id,
+                    'reporte'    => 'procredito',
+                    'created_at' => Carbon::now()
+                    ]);
             }
                
             $bandera            = 0;
@@ -68,13 +61,14 @@ function reporte_procredito(){
 
             // TIPO EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
-
-            if($credito->refinanciacion == 'Si'){
+            if ($credito->refinanciacion == 'Si') {
                 $credito_id = $credito->credito_refinanciado_id;
-                $refinanciacion = '0'; }
-            else{
+                $refinanciacion = '0'; 
+            }
+            else {
                 $credito_id = $credito->id;
-                $refinanciacion = ''; }
+                $refinanciacion = ''; 
+            }
 
             $tipo_documento = tipo_documento($credito->precredito->cliente->tipo_doc);
             if($tipo_documento == '2'){

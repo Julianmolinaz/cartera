@@ -524,6 +524,7 @@ trait ClientesClass
             'barrio'                    => 'required',
             'municipio_id'              => 'required',
             'movil'                     => 'required|max:20|alpha_num',
+            'fijo'                      => 'max:20|alpha_num',
             'ocupacion'                 => 'required',
             'tipo_actividad'            => 'required',
             'email'                     => 'required|max:60'
@@ -559,6 +560,8 @@ trait ClientesClass
            'movil.required'             => "El celular del cliente es requrido",
            'movil.max'                  => 'El número celular del cliente excede los 20 dígitos permitidos',
            'movil.alpha_num'            => 'No se puede introducir espacios en el movil',
+           'fijo.alpha_num'             => 'No se puede introducir espacios en el teléfono',
+           'fijo.max'                   => 'El número de teléfono del cliente excede los 20 dígitos permitidos',
            'ocupacion.required'         => 'La ocupación del cliente es requerida',
            'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
            'email.required'             => 'El email es requerido',
@@ -583,7 +586,8 @@ trait ClientesClass
             'direccionc'                => ['required','max:100','regex:/^[a-zA-ZñÑ0-9#\-\.[:space:]]*$/'],
             'barrioc'                   => 'required',
             'municipioc_id'             => 'required',
-            'movilc'                    => 'required|max:20',
+            'movilc'                    => 'required|max:20|alpha_num',
+            'fijoc'                     => 'max:20|alpha_num',
             'ocupacionc'                => 'required',
             'tipo_actividadc'           => 'required',
             'emailc'                    => 'required|max:60'
@@ -617,12 +621,15 @@ trait ClientesClass
            'barrioc.required'           => 'El barrio del codeudor es requerido',
            'municipioc_id.required'     => 'El municipio del codeudor es requerido',
            'movilc.required'            => 'El número celular del codeudor es requerido',
-           'movilc.max'                 => 'El número celular del codeudor excede los 20 dígitos permitidos',  
+           'movilc.max'                 => 'El número celular del codeudor excede los 20 dígitos permitidos',   
+           'movilc.alpha_num'           => 'No se puede introducir espacios en el movil',
+           'fijoc.alpha_num'            => 'No se puede introducir espacios en el teléfono',
+           'fijoc.max'                  => 'El número de teléfono del codeudor excede los 20 dígitos permitidos',
            'ocupacionc.required'        => 'La ocupación del codeudor es requerida',
            'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida',
            'emailc.required'            => 'El email del codeudor es requerido',
            'emailc.max'                 => 'El correo electronico del codeudor excede los 60 caracteres permitidos'
-            );    	
+        );    	
     }
 
 

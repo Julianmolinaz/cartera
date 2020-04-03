@@ -191,7 +191,6 @@ class FacturaController extends Controller
       $punto->save();
 
       return $prefijo .''. $consecutivo;
-
     }
 
 

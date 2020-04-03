@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Repositories\CreditoRepository;
 use App\Traits\Creditos\CreditoUpdateTrait;
 use App\Traits\Solicitudes\SolicitudUpdateTrait;
-use App\Http\Requests;
 use App\Traits\MensajeTrait;
+use App\Http\Requests;
 use App\Precredito;
 use App\FechaCobro;
 use App\Castigada;
@@ -83,7 +83,7 @@ class CreditoController extends Controller
 
         return view('start.creditos.index')
           ->with('creditos',$creditos);
-    }
+    }//.index
 
     /*
     |--------------------------------------------------------------------------
@@ -138,7 +138,7 @@ class CreditoController extends Controller
   
           return view('start.creditos.cancelados')
             ->with('creditos',$creditos);
-    }
+    }//.cancelados
 
     /*
     |--------------------------------------------------------------------------
@@ -242,7 +242,7 @@ class CreditoController extends Controller
             return redirect()->route('start.precreditos.ver',$precredito->id);
           }
         }
-    }
+    }//.create
 
     protected function validar_pagos_por_estudio($precredito)
     {
@@ -258,7 +258,7 @@ class CreditoController extends Controller
         return $this->validar_existencia_de_pago($precredito, 'Estudio tipico');
       }
 
-    }//.if
+    }//validar_pagos_por_estudio
 
     public function validar_existencia_de_pago($precredito,$estudio)
     {
@@ -271,7 +271,7 @@ class CreditoController extends Controller
       }
 
       return $respuesta;
-    }
+    }//.validar_existencia_de_pago
 
     protected function validar_pago_por_inicial($precredito)
     {
@@ -310,8 +310,7 @@ class CreditoController extends Controller
     */
 
     public function edit($id)
-    {  
-      
+    {   
       $credito        = Credito::find($id);
 
       $precredito     = $credito->precredito;
@@ -347,7 +346,7 @@ class CreditoController extends Controller
       ->with('user',\Auth::user())
       ->with('credito', $credito)
       ->with('now',Carbon::now());
-    }
+    }//.edit
 
     /*
     |--------------------------------------------------------------------------
@@ -456,7 +455,7 @@ class CreditoController extends Controller
       //   }
 
 
-    }
+    }//.update
     /*
     |--------------------------------------------------------------------------
     | destroy
@@ -498,9 +497,8 @@ class CreditoController extends Controller
                     'saldo'         => $credito->saldo,
                     'user_update_id'=> Auth::user()->id,
                     ]);
-}
-
-    }
+      }
+    } //.castigar
 
     /*
     |--------------------------------------------------------------------------
@@ -514,7 +512,8 @@ class CreditoController extends Controller
 
     // retorna un archivo excel con el listado de todos los creditos activos
 
-    function ExportarTodo(){
+    function ExportarTodo()
+    {
 
       try{
         $fecha = Carbon::now();
@@ -581,7 +580,7 @@ class CreditoController extends Controller
       dd('Error <br>*<br>*<br>'.$e);
     }
           
-    }
+    }//.exportar_todo
 
 
     function refinanciar($id)
@@ -599,7 +598,7 @@ class CreditoController extends Controller
                 ->with('variables',$variables)
                 ->with('carteras',$carteras)
                 ->with('credito_id',$id); 
-    }
+    }//.refinanciar
 
     function crear_refinanciacion(Request $request)
     {
@@ -738,277 +737,46 @@ class CreditoController extends Controller
               return redirect()->route('start.precreditos.ver',$precredito->id);
           }
   
+    } // .crear_refinanciacion
+
+
+    public function destroy($credito_id)
+    {
+      $credito = Credito::find($credito_id);
+
+      if (Auth::user()->id != 2) {
+        flash()->error('Lo sentimos, pero no tiene permisos para borrar este crédito.');
+        return redirect()->route('start.precreditos.ver',$credito->precredito_id);
+      }
+
+      DB::beginTransaction();
+
+      try {
+        $solicitud_id = $credito->precredito_id;
+
+        $credito->last_llamada_id = null;
+        $credito->save();
+
+        deletePagosCreditoHp($credito->id);
+        deleteSancionesCreditoHp($credito->id);
+        deleteLlamadasCreditoHp($credito->id);
+        deleteFechaCobrosCreditoHp($credito->id);
+        $credito->delete();
+
+        DB::commit();
+
+        flash()->success("El crédito {$credito_id} fue eliminado exitosamente !!!");
+
+      } catch (\Exception $e) {
+
+        flash()->error('Se rpesento un problema: '.$e->getMessage());
+        
+      } finally {
+        
+        return redirect()->route('start.precreditos.ver',$solicitud_id);
+      }
+
     }
 
-    public function data() {
-      return array (
-        'solicitud' => 
-        array (
-          'id' => 15836,
-          'num_fact' => '8887777888777',
-          'fecha' => '2020-01-01',
-          'cartera_id' => 24,
-          'funcionario_id' => 2,
-          'cliente_id' => 12579,
-          'producto_id' => 3,
-          'vlr_fin' => 600000,
-          'periodo' => 'Quincenal',
-          'meses' => 4,
-          'cuotas' => 8,
-          'vlr_cuota' => 100000,
-          'p_fecha' => '15',
-          's_fecha' => '30',
-          'estudio' => 'Tipico',
-          'cuota_inicial' => 0,
-          'aprobado' => 'Si',
-          'observaciones' => 'descripciones',
-          'user_create_id' => 2,
-          'user_update_id' => 2,
-          'created_at' => '2020-03-11 15:05:53',
-          'updated_at' => '2020-03-12 17:38:53',
-          'ref_productos' => 
-          array (
-            0 => 
-            array (
-              'id' => 11,
-              'nombre' => 'SOAT',
-              'estado' => 'En proceso',
-              'fecha_exp' => '2020-03-13',
-              'precredito_id' => 15836,
-              'costo' => 200000,
-              'iva' => 22222,
-              'num_fact' => '31313',
-              'proveedor_id' => 1,
-              'producto_id' => 3,
-              'extra' => NULL,
-              'observaciones' => '',
-              'created_by' => 2,
-              'updated_by' => 2,
-              'created_at' => '2020-03-11 20:26:48',
-              'updated_at' => '2020-03-11 20:26:48',
-            ),
-            1 => 
-            array (
-              'id' => 12,
-              'nombre' => 'RTM',
-              'estado' => 'En proceso',
-              'fecha_exp' => '2020-03-18',
-              'precredito_id' => 15836,
-              'costo' => 126555,
-              'iva' => 12001,
-              'num_fact' => '576564',
-              'proveedor_id' => 1,
-              'producto_id' => 3,
-              'extra' => NULL,
-              'observaciones' => '',
-              'created_by' => 2,
-              'updated_by' => 2,
-              'created_at' => '2020-03-11 20:27:07',
-              'updated_at' => '2020-03-11 20:27:07',
-            ),
-          ),
-          'cliente' => 
-          array (
-            'id' => 12579,
-            'nombre' => 'Pablo Adrian Gonzalez Salazar',
-            'primer_nombre' => 'Pablo',
-            'segundo_nombre' => 'Adrian',
-            'primer_apellido' => 'Gonzalez',
-            'segundo_apellido' => 'Salazar',
-            'tipo_doc' => 'Cedula Ciudadanía',
-            'num_doc' => '987654321',
-            'fecha_nacimiento' => '25-01-1982',
-            'direccion' => 'CR AAAA',
-            'barrio' => 'Centro',
-            'municipio_id' => 1,
-            'movil' => '3207809668',
-            'fijo' => '3213213212',
-            'email' => 'etereosum@gmail.com',
-            'placa' => '',
-            'ocupacion' => 'Ingeniero',
-            'empresa' => 'Freelancer',
-            'tipo_actividad' => 'Independiente',
-            'codeudor_id' => NULL,
-            'numero_de_creditos' => 1,
-            'user_create_id' => 2,
-            'user_update_id' => 2,
-            'calificacion' => NULL,
-            'created_at' => '2020-01-07 18:24:18',
-            'updated_at' => '2020-03-12 17:39:06',
-            'dir_empresa' => 'Dirección',
-            'tel_empresa' => '333333',
-            'conyuge_id' => NULL,
-          ),
-          'productos' => 
-          array (
-            0 => 
-            array (
-              'id' => 11,
-              'nombre' => 'SOAT',
-              'estado' => 'En proceso',
-              'fecha_exp' => '2020-03-13',
-              'precredito_id' => 15836,
-              'costo' => 200000,
-              'iva' => 22222,
-              'num_fact' => '31313',
-              'proveedor_id' => 1,
-              'producto_id' => 3,
-              'extra' => NULL,
-              'observaciones' => '',
-              'created_by' => 2,
-              'updated_by' => 2,
-              'created_at' => '2020-03-11 20:26:48',
-              'updated_at' => '2020-03-11 20:26:48',
-            ),
-            1 => 
-            array (
-              'id' => 12,
-              'nombre' => 'RTM',
-              'estado' => 'En proceso',
-              'fecha_exp' => '2020-03-18',
-              'precredito_id' => 15836,
-              'costo' => '222222',
-              'iva' => '22222',
-              'num_fact' => '222222',
-              'proveedor_id' => 1,
-              'producto_id' => 3,
-              'extra' => NULL,
-              'observaciones' => '',
-              'created_by' => 2,
-              'updated_by' => 2,
-              'created_at' => '2020-03-11 20:27:07',
-              'updated_at' => '2020-03-11 20:27:07',
-            ),
-          ),
-        ),
-        'credito' => 
-        array (
-          'id' => 11929,
-          'precredito_id' => 15836,
-          'cuotas_faltantes' => 8,
-          'saldo' => 800000,
-          'saldo_favor' => NULL,
-          'estado' => 'Al dia',
-          'rendimiento' => 200000,
-          'valor_credito' => 800000,
-          'castigada' => 'Si',
-          'refinanciacion' => 'No',
-          'end_procredito' => 0,
-          'end_datacredito' => 0,
-          'user_create_id' => 2,
-          'user_update_id' => 2,
-          'created_at' => '2020-03-12 17:39:06',
-          'updated_at' => '2020-03-12 17:39:06',
-          'credito_refinanciado_id' => NULL,
-          'last_llamada_id' => NULL,
-          'recordatorio' => NULL,
-          'sanciones_debe' => 0,
-          'sanciones_ok' => 0,
-          'sanciones_exoneradas' => 0,
-          'mes' => 'Marzo',
-          'anio' => 2020,
-          'permitir_mover_fecha' => 0,
-          'precredito' => 
-          array (
-            'id' => 15836,
-            'num_fact' => '8887777888777',
-            'fecha' => '2020-01-01',
-            'cartera_id' => 24,
-            'funcionario_id' => 2,
-            'cliente_id' => 12579,
-            'producto_id' => 3,
-            'vlr_fin' => 600000,
-            'periodo' => 'Quincenal',
-            'meses' => 4,
-            'cuotas' => 8,
-            'vlr_cuota' => 100000,
-            'p_fecha' => '15',
-            's_fecha' => '30',
-            'estudio' => 'Tipico',
-            'cuota_inicial' => 0,
-            'aprobado' => 'Si',
-            'observaciones' => 'descripciones',
-            'user_create_id' => 2,
-            'user_update_id' => 2,
-            'created_at' => '2020-03-11 15:05:53',
-            'updated_at' => '2020-03-12 17:38:53',
-            'ref_productos' => 
-            array (
-              0 => 
-              array (
-                'id' => 11,
-                'nombre' => 'SOAT',
-                'estado' => 'En proceso',
-                'fecha_exp' => '2020-03-13',
-                'precredito_id' => 15836,
-                'costo' => 200000,
-                'iva' => 22222,
-                'num_fact' => '31313',
-                'proveedor_id' => 1,
-                'producto_id' => 3,
-                'extra' => NULL,
-                'observaciones' => '',
-                'created_by' => 2,
-                'updated_by' => 2,
-                'created_at' => '2020-03-11 20:26:48',
-                'updated_at' => '2020-03-11 20:26:48',
-              ),
-              1 => 
-              array (
-                'id' => 12,
-                'nombre' => 'RTM',
-                'estado' => 'En proceso',
-                'fecha_exp' => '2020-03-18',
-                'precredito_id' => 15836,
-                'costo' => 126555,
-                'iva' => 12001,
-                'num_fact' => '576564',
-                'proveedor_id' => 1,
-                'producto_id' => 3,
-                'extra' => NULL,
-                'observaciones' => '',
-                'created_by' => 2,
-                'updated_by' => 2,
-                'created_at' => '2020-03-11 20:27:07',
-                'updated_at' => '2020-03-11 20:27:07',
-              ),
-            ),
-            'cliente' => 
-            array (
-              'id' => 12579,
-              'nombre' => 'Pablo Adrian Gonzalez Salazar',
-              'primer_nombre' => 'Pablo',
-              'segundo_nombre' => 'Adrian',
-              'primer_apellido' => 'Gonzalez',
-              'segundo_apellido' => 'Salazar',
-              'tipo_doc' => 'Cedula Ciudadanía',
-              'num_doc' => '987654321',
-              'fecha_nacimiento' => '25-01-1982',
-              'direccion' => 'CR AAAA',
-              'barrio' => 'Centro',
-              'municipio_id' => 1,
-              'movil' => '3207809668',
-              'fijo' => '3213213212',
-              'email' => 'etereosum@gmail.com',
-              'placa' => '',
-              'ocupacion' => 'Ingeniero',
-              'empresa' => 'Freelancer',
-              'tipo_actividad' => 'Independiente',
-              'codeudor_id' => NULL,
-              'numero_de_creditos' => 1,
-              'user_create_id' => 2,
-              'user_update_id' => 2,
-              'calificacion' => NULL,
-              'created_at' => '2020-01-07 18:24:18',
-              'updated_at' => '2020-03-12 17:39:06',
-              'dir_empresa' => 'Dirección',
-              'tel_empresa' => '333333',
-              'conyuge_id' => NULL,
-            ),
-          ),
-        ),
-        'fecha_pago' => '2020-01-16',
-      );  
-    }
 }
 

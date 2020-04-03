@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Contracts\UserResolver;
 use Auth;
@@ -11,6 +12,8 @@ class User extends Authenticatable  implements Auditable, UserResolver
 {
 
     use \OwenIt\Auditing\Auditable;
+    use EntrustUserTrait;
+    
     /**
      * The attributes that are mass assignable.
      *

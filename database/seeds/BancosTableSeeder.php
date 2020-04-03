@@ -12,7 +12,7 @@ class BancosTableSeeder extends Seeder
      */
     public function run()
     {
-        
+       // CONFIGURACION 
 
         \DB::table('bancos')->delete();
         

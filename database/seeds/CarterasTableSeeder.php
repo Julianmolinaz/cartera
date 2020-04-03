@@ -12,7 +12,7 @@ class CarterasTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('carteras')->delete();
         

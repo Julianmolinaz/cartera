@@ -12,7 +12,7 @@ class EstLaboralesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        // CONFIGURACION
 
         \DB::table('est_laborales')->delete();
         

@@ -161,9 +161,9 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Orangehill\Iseed\IseedServiceProvider::class,
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
+        Zizaco\Entrust\EntrustServiceProvider::class
         
     ],
 
@@ -217,6 +217,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Filter' => App\MyService\Access::class,
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
 
     ],
 

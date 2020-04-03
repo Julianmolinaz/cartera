@@ -9,7 +9,12 @@
 Route::get('start/clientes',[
     'uses'  => 'ClienteController@index',
     'as'    => 'start.clientes.index'
-])->middleware('clientes_listar');
+]);
+
+Route::get('start/clientes/list',[
+    'uses'  => 'ClienteController@list',
+    'as'    => 'start.clientes.list' 
+]);
 
 Route::post('start/clientes',[
     'uses'  => 'ClienteController@store',

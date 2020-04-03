@@ -12,7 +12,7 @@ class EstViviendasTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        // CONFIGURACION
 
         \DB::table('est_viviendas')->delete();
         

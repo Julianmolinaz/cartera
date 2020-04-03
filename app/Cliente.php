@@ -12,13 +12,31 @@ class Cliente extends Model implements Auditable
     protected $table = 'clientes';
 
     protected $fillable = [
-        'nombre','primer_nombre','segundo_nombre','primer_apellido',
-        'segundo_apellido','tipo_doc','num_doc','fecha_nacimiento',
-        'direccion','barrio','municipio_id', 'movil','fijo','ocupacion',
-        'tipo_actividad','empresa','placa','email','codeudor_id', 
-        'user_create_id','user_update_id','calificacion', 
-        'conyuge_id', 'tel_empresa', 'dir_empresa'
-
+        'nombre',
+        'primer_nombre',
+        'segundo_nombre',
+        'primer_apellido',
+        'segundo_apellido',
+        'tipo_doc',
+        'num_doc',
+        'fecha_nacimiento',
+        'direccion',
+        'barrio',
+        'municipio_id',
+        'movil',
+        'fijo',
+        'ocupacion',
+        'tipo_actividad',
+        'empresa',
+        'placa',
+        'email',
+        'codeudor_id',
+        'user_create_id',
+        'user_update_id',
+        'calificacion',
+        'conyuge_id',
+        'tel_empresa',
+        'dir_empresa'
     ];
 
     public function setNombreAttribute($value){

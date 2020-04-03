@@ -12,7 +12,7 @@ class MensajesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        // CONFIGURACION
 
         \DB::table('mensajes')->delete();
         

@@ -15,6 +15,7 @@ use App\Codeudor;
 use App\Cliente;
 use App\Conyuge;
 use App\Estudio;
+use Datatables;
 use App\Soat;
 use Auth;
 use DB;
@@ -36,29 +37,25 @@ class ClienteController extends Controller
      */
     public function index()
     {         
-        $clientes_qwery = 
-        DB::table('clientes')
-            ->join('codeudores','clientes.codeudor_id','=','codeudores.id')
-            ->join('users','clientes.user_create_id','=','users.id')
-            ->select('clientes.id as id',
-                     'clientes.nombre as nombre',
-                     'clientes.num_doc as num_doc',
-                     'clientes.fecha_nacimiento as fecha_nacimiento',
-                     'clientes.movil as movil',
-                     'clientes.fijo as fijo',
-                     'codeudores.nombrec as codeudor',
-                     'codeudores.movilc as movilc',
-                     'codeudores.fijoc as fijoc',
-                     'users.name as user_create',
-                     'clientes.created_at as created_at',
-                     'clientes.updated_at as updated_at')
-            ->orderBy('clientes.updated_at','desc')
-            ->paginate(50);
+        return view('start.clientes.index');
+    }
 
+    public function list()
+    {
+        $clientes = DB::table('clientes')->select([
+            'id','num_doc','nombre','movil'
+        ]);
 
-        return view('start.clientes.index')
-            ->with('clientes',$clientes_qwery);
+        return Datatables::of($clientes)
+            ->addColumn('btn', function($cliente) {
 
+                $route = route('start.clientes.show',$cliente->id);
+
+                return '<a href="'.$route.'" class="btn btn-default btn-xs ver">
+                              <span class="glyphicon glyphicon-eye-open"></span></a>';
+
+            })
+            ->make(true);
     }
 
     /**

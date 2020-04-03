@@ -25,9 +25,13 @@
             class = 'btn btn-default btn-xs' 
             data-toggle="tooltip" data-placement="top" title="Sanciones diarias"><span class = "glyphicon glyphicon-record" ></span></a>
 
-        <a href="{{route('admin.multas.show',$precredito->credito->id)}}" 
+        <a  href="{{route('admin.multas.show',$precredito->credito->id)}}" 
             class = 'btn btn-default btn-xs' 
-            data-toggle="tooltip" data-placement="top" title="Multas prejuridicas y juridicas"><span class = "glyphicon glyphicon-hourglass" ></span></a>
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Multas prejuridicas y juridicas">
+          <span class="glyphicon glyphicon-hourglass"></span>
+        </a>
 
         <a href="{{route('call.index_unique',$precredito->credito->id)}}"
           class = 'btn btn-default btn-xs'
@@ -44,6 +48,14 @@
           data-placement="top" 
           title="Estado de cuenta">
           <span><i class="fab fa-laravel"></i></span>
+        </a>
+        <a href="{{route('start.creditos.destroy',$precredito->credito->id)}}"
+          class="btn btn-default btn-xs"
+          onclick="return confirm('¿Esta seguro de eliminar el crédito?')" 
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Eliminar Crédito">
+          <span class="glyphicon glyphicon-trash"></span>
         </a>
         @endif
       </div>

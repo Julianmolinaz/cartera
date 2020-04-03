@@ -15,7 +15,9 @@
         "maatwebsite/excel": "~2.1.0",
         "owen-it/laravel-auditing": "^4.1",
         "yajra/laravel-datatables-oracle": "^6.0",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "zizaco/entrust": "5.2.x-dev",
+        "orangehill/iseed": "2.2"
 
     },
     "require-dev": {
@@ -51,7 +53,8 @@
             "app/Helpers/funciones_datacredito.php",
             "app/Helpers/middleware.php",
             "app/Helpers/caja_helper.php",
-            "app/Helpers/filters.php"
+            "app/Helpers/filters.php",
+            "app/Helpers/delete_helper.php"
         ]
     },
     "autoload-dev": {

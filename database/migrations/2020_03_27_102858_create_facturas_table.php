@@ -18,6 +18,7 @@ class CreateFacturasTable extends Migration {
 			$table->integer('credito_id')->unsigned()->nullable()->index('facturas_credito_id_foreign');
 			$table->string('num_fact');
 			$table->string('fecha');
+			$table->string('ref')->nullable()->comment('Numero de facturacion aceptado por la DIAN');
 			$table->float('total', 10, 0);
 			$table->enum('tipo', array('Efectivo','Consignacion'));
 			$table->enum('banco', array('Baloto','Banco Agrario','Banco AV Villas','Banco Caja Social','Banco de Occidente','Banco Popular','Bancóldex','Bancolombia','BBVA','Banco de Bogotá','Citi','Colpatria','Davivienda','Gana Gana','GNB Sudameris','Apostar'))->nullable();

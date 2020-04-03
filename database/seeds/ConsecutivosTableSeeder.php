@@ -12,7 +12,7 @@ class ConsecutivosTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        // CONFIGURACION
 
         \DB::table('consecutivos')->delete();
         
@@ -23,6 +23,16 @@ class ConsecutivosTableSeeder extends Seeder
                 'componente' => 'egresos',
                 'prefijo' => 'CE',
                 'incrementable' => 3497,
+            ),
+        ));
+
+        \DB::table('consecutivos')->insert(array (
+            0 => 
+            array (
+                'id' => 1,
+                'componente' => 'facturas',
+                'prefijo' => '',
+                'incrementable' => 0,
             ),
         ));
         
