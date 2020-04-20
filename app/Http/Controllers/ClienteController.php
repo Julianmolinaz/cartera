@@ -68,8 +68,10 @@ class ClienteController extends Controller
         $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
         $tipos_documento    = getEnumValues('clientes','tipo_doc');
         $tipos_documentoy   = getEnumValues('conyuges','tipo_docy');
+        $municipios         = Municipio::all();
 
         return view('start.clientes.create')
+            ->with('municipios', $municipios)
             ->with('tipo_actividades',$tipo_actividades)
             ->with('tipos_documento', $tipos_documento)
             ->with('tipos_documentoy',$tipos_documentoy);

@@ -67,10 +67,10 @@ class FinancieroController extends Controller
 
     public function financiero_sucursales($rango,$sucursal_id)
     {
-
         $f = $this->generar_fechas($rango);
 
-        if($sucursal_id == -1 ){
+        if($sucursal_id == -1 )
+        {
             $sucursales = Punto::all();
             $array = [];
             
@@ -95,7 +95,7 @@ class FinancieroController extends Controller
             return view('admin.reportes.financiero.sucursales.index')
                 ->with('sucursales', $array)
                 ->with('rango',$f['rango']);
-            }
+        }
         else
         {
             $sucursal = Punto::find($sucursal_id);

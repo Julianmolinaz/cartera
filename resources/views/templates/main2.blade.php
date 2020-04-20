@@ -28,7 +28,7 @@
     <link href="{{asset('vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 
     <!-- VUE -->
-    <script src="{{asset('js/vue.min.js')}}"></script>
+    <script src="{{asset('js/vue.js')}}"></script>
     
 
     <!-- font awesome -->
