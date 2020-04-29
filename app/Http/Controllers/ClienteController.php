@@ -65,16 +65,14 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
-        $tipos_documento    = getEnumValues('clientes','tipo_doc');
         $tipos_documentoy   = getEnumValues('conyuges','tipo_docy');
         $municipios         = Municipio::all();
+        $estado             = 'creacion';
 
         return view('start.clientes.create')
             ->with('municipios', $municipios)
-            ->with('tipo_actividades',$tipo_actividades)
-            ->with('tipos_documento', $tipos_documento)
-            ->with('tipos_documentoy',$tipos_documentoy);
+            ->with('data',$this->getData())
+            ->with('estado',$estado);
     }
 
     /**
@@ -85,6 +83,10 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+        \Log::info($request->all());
+
+        return response()->json($request->all(), 200);
+
         // REGLAS DE VALIDACION 
 
         $rules_cliente    = $this->rules_cliente('crear'); //ClientesClass
@@ -284,5 +286,21 @@ class ClienteController extends Controller
 
         return view('start.clientes.upload.create')
             ->with('cliente',$cliente);
+    }
+
+    public function getData()
+    {
+        return [  
+            'tipo_doc'              => getEnumValues('clientes','tipo_doc'),    
+            'estado_civil'          => getEnumValues('clientes','estado_civil'),
+            'nivel_estudios'        => getEnumValues('clientes','nivel_estudios'),
+            'envio_correspondencia' => getEnumValues('clientes','envio_correspondencia'),
+            'estrato'               => getEnumValues('clientes','estrato'),
+            'tipo_vivienda'         => getEnumValues('clientes','tipo_vivienda'),
+            'tipo_actividad'        => getEnumValues('clientes','tipo_actividad'),
+            'oficios'               => \App\Oficio::orderBy('nombre','desc')->get(),
+            'tipo_contrato'         => getEnumValues('clientes','tipo_contrato'),
+            'calificacion'          => getEnumValues('clientes','calificacion')
+        ];
     }
 }

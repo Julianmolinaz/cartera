@@ -19,27 +19,27 @@ Route::get('start/clientes/list',[
 Route::post('start/clientes',[
     'uses'  => 'ClienteController@store',
     'as'    => 'start.clientes.store'	
-])->middleware('clientes_guardar');
+]);     
 
 Route::get('start/clientes/create',[
     'uses' 	=> 'ClienteController@create',
     'as'    => 'start.clientes.create'
-])->middleware('clientes_crear');
+]);     
 
 Route::get('start/clientes/{cliente}',[
     'uses'  => 'ClienteController@show',
     'as'    => 'start.clientes.show'
-])->middleware('clientes_ver');
+]);     
 
 Route::get('start/clientes/{cliente}/edit',[
     'uses'  => 'ClienteController@edit',
     'as'    => 'start.clientes.edit'
-])->middleware('clientes_editar');
+]);     
 
 Route::put('start/clientes/{cliente}',[
     'uses'  => 'ClienteController@update',
     'as'    => 'start.clientes.update'
-])->middleware('clientes_actualizar');
+]);     
 
 Route::get('start/clientes/{id}/consultar_codeudor',[
 	'uses'	=> 'ClienteController@consultar_codeudor',
@@ -54,7 +54,7 @@ Route::get('start/clientes/{cliente_id}/upload',[
 Route::get('start/clientes/{id}/destroy',[
     'uses'	=> 'ClienteController@destroy',
     'as'	=> 'start.clientes.destroy'
-])->middleware('clientes_borrar');
+]);     
 
 
 

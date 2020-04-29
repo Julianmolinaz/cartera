@@ -42,14 +42,6 @@ Route::get('start/pagos/create',
 
 Route::get('start/pagos/hay_creditos/{doc}','PagoController@hay_creditos');
 
-
-
-
-
-// Route::get('start/clientes/{clientes}/edit',
-// 	['uses' => 'ClienteController@edit', 'as' => 'start.clientes.edit'])->middleware(['auth', 'admin',]);
-
-
 Route::get('start/anuladas/index',[ 'uses' => 'AnuladaController@index', 'as'   => 'start.anuladas.index']);
 
 //WIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKI

@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call('MunicipiosTableSeeder');
         $this->call('PuntosTableSeeder');
         $this->call('UsersTableSeeder');
+        $this->call('OficiosTableSeeder');
         $this->call('ConyugesTableSeeder');
         $this->call('CodeudoresTableSeeder');
         $this->call('ClientesTableSeeder');

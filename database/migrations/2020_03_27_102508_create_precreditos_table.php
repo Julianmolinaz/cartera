@@ -28,6 +28,9 @@ class CreatePrecreditosTable extends Migration {
 			$table->float('vlr_cuota', 10, 0);
 			$table->string('p_fecha');
 			$table->string('s_fecha')->nullable();
+			$table->string('placa')->nullable(); // new
+			$table->date('vencimiento_soat')->nullable(); // new
+			$table->date('vencimiento_rtm')->nullable(); // new
 			$table->enum('estudio', array('Tipico','Domicilio','Sin estudio'));
 			$table->float('cuota_inicial', 10, 0)->nullable()->default(0);
 			$table->enum('aprobado', array('Si','No','En estudio','Desistio'));

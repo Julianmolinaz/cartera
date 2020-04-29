@@ -8,8 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Conyuge extends Model
 {
 	protected $fillable = [
-		'nombrey','p_nombrey','s_nombrey','p_apellidoy','s_apellidoy',
-		'tipo_docy','num_docy','diry','movily','fijoy'
+		'nombrey',
+		'p_nombrey',
+		's_nombrey',
+		'p_apellidoy',
+		's_apellidoy',
+		'tipo_docy',
+		'num_docy',
+		'diry',
+		'movily',
+		'fijoy'
 	];
 
 	public $timestamps = false;

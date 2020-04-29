@@ -29,7 +29,7 @@ class ConsecutivosTableSeeder extends Seeder
         \DB::table('consecutivos')->insert(array (
             0 => 
             array (
-                'id' => 1,
+                'id' => 2,
                 'componente' => 'facturas',
                 'prefijo' => '',
                 'incrementable' => 0,

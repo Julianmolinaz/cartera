@@ -5,134 +5,158 @@
         <form @submit.prevent="onSubmit">
         
             <div class="col-md-12">
-                <div class="col-md-3">
-                    
-                    <div v-bind:class="['form-group', errors.first('primer nombre') ? 'has-error' :'']">
-                        <label>Primer nombre *</label>
-                        <input type="text" 
-                            class="form-control"
-                            name="primer nombre"
-                            v-model="personal.primer_nombre"
-                            v-validate="'required'">
-                        <span class="help-block">@{{ errors.first('primer nombre') }}</span>
+                
+                <!-- Primer nombre  -->
 
-                    </div>
+                <div v-bind:class="['form-group','col-md-3',errors.first(rules.primer_nombre.name) ? 'has-error' :'']">
+                    <label>Primer nombre *</label>
+                    <input type="text" 
+                        class="form-control"
+                        name="primer nombre"
+                        v-model="personal.primer_nombre"
+                        v-validate="rules.primer_nombre.rule">
+                    <span class="help-block">@{{ errors.first(rules.primer_nombre.name) }}</span>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Segundo nombre</label>
-                        <input type="text" class="form-control"
-                            name="Segundo nombre"
-                            v-model="personal.segundo_nombre">
-                    </div>
+
+                <!-- Segundo nombre  -->
+                
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.segundo_nombre.name) ? 'has-error' :'']">
+                    <label>Segundo nombre</label>
+                    <input type="text" class="form-control"
+                        name="segundo nombre"
+                        v-model="personal.segundo_nombre"
+                        v-validate="rules.segundo_nombre.rule">
+                    <span class="help-block">@{{ errors.first(rules.segundo_nombre.name) }}</span>                 
                 </div>
-                <div class="col-md-3">
-                    <div v-bind:class="['form-group', errors.first('primer apellido') ? 'has-error' :'']">
-                        <label>Primer apellido *</label>
-                        <input type="text" class="form-control"
-                            name="primer apellido"
-                            v-model="personal.primer_apellido"
-                            v-validate="'required'">
-                        <span class="help-block">@{{ errors.first('primer apellido') }}</span>
-                    </div>
+
+                <!-- Primer apellido  -->
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.primer_apellido.name) ? 'has-error' :'']">
+                    <label>Primer apellido *</label>
+                    <input type="text" class="form-control"
+                        name="primer apellido"
+                        v-model="personal.primer_apellido"
+                        v-validate="rules.primer_apellido.rule">
+                    <span class="help-block">@{{ errors.first(rules.primer_apellido.name) }}</span>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Segundo apellido</label>
-                        <input type="text" class="form-control"
-                            name="Segundo Apellido"
-                            v-model="personal.segundo_apellido">
-                    </div>
+
+                <!-- Segundo apellido  -->
+                
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.segundo_apellido.name) ? 'has-error' :'']">
+                    <label>Segundo apellido</label>
+                    <input type="text" 
+                        class="form-control"
+                        name="segundo Apellido"
+                        v-model="personal.segundo_apellido"
+                        v-validate="rules.segundo_apellido.rule">
+                    <span class="help-block">@{{ errors.first(rules.segundo_apellido.name) }}</span>
                 </div>
             
             </div>
 
             <div class="col-md-12">
-                <div class="col-md-3">
-                    <div v-bind:class="['form-group', errors.first('tipo de documento') ? 'has-error' :'']">
-                        <label>Tipo de documento *</label>
-                        <select name="tipo de documento" 
-                            v-model="personal.tipo_doc"
-                            class="form-control"
-                            v-validate="'required'">
-                            <option disabled selected>Tipo documento</option>
-                            <option :value="tipo_doc" v-for="tipo_doc in tipo_docs">@{{tipo_doc}}</option>    
-                        </select>
-                        <span class="help-block">@{{ errors.first('tipo de documento') }}</span>
-                    </div>
+
+                <!-- Tipo documento  -->
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.tipo_doc.name) ? 'has-error' :'']">
+                    <label>Tipo de documento *</label>
+                    <select name="tipo de documento" 
+                        v-model="personal.tipo_doc"
+                        class="form-control"
+                        v-validate="rules.tipo_doc.rule">
+                        <option disabled selected>Tipo documento</option>
+                        <option :value="tipo_doc" v-for="tipo_doc in data.tipo_doc">@{{tipo_doc}}</option>    
+                    </select>
+                    <span class="help-block">@{{ errors.first(rules.tipo_doc.name) }}</span>
                 </div>
-                <div class="col-md-3">
-                    <div v-bind:class="['form-group', errors.first('numero de documento') ? 'has-error' :'']">
-                        <label>Núm de documento *</label>
-                        <input type="text" class="form-control"
-                            name="numero de documento"
-                            placeholder="Número de documento"
-                            v-model="personal.num_doc"
-                            v-validate="'required'">
-                        <span class="help-block">@{{ errors.first('numero de documento') }}</span>
-                    </div>
+        
+   
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.num_doc.name) ? 'has-error' :'']">
+                    <label>Núm de documento *</label>
+                    <input type="text" class="form-control"
+                        name="numero de documento"
+                        placeholder="Número de documento"
+                        v-model="personal.num_doc"
+                        v-validate="rules.num_doc.rule">
+                    <span class="help-block">@{{ errors.first(rules.num_doc.name) }}</span>
                 </div>
-                <div class="col-md-3">
-                    <div v-bind:class="['form-group', errors.first('expedido en') ? 'has-error' :'']">
-                        <label>Expedido en *</label>
-                        <input type="text" class="form-control"
-                            name="expedido en"
-                            placeholder="Ciudad donde se expidió el documento"
-                            v-model="personal.ciudad_exp"
-                            v-validate="'required'">
-                        <span class="help-block">@{{ errors.first('expedido en') }}</span>
-                    </div>
+               
+               
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.lugar_exp.name) ? 'has-error' :'']">
+                    <label>Lugar de expedición *</label>
+                    <input type="text" class="form-control"
+                        name="lugar de expedicion"
+                        placeholder="Ciudad donde se expidió el documento"
+                        v-model="personal.lugar_exp"
+                        v-validate="rules.lugar_exp.rule">
+                    <span class="help-block">@{{ errors.first(rules.lugar_exp.name) }}</span>
                 </div>
-                <div class="col-md-3">
-                    <div v-bind:class="['form-group', errors.first('fecha de expedicion') ? 'has-error' :'']">
-                        <label>F. de expedición *</label>
-                        <input type="date" 
-                            name="fecha de expedicion"
-                            class="form-control"
-                            v-model="personal.fecha_exp"
-                            v-validate="'required'">
-                        <span class="help-block">@{{ errors.first('fecha de expedicion') }}</span>
-                    </div>
+            
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
+                    <label>F. de expedición *</label>
+                    <input type="date" 
+                        name="fecha de expedicion"
+                        class="form-control"
+                        v-model="personal.fecha_exp"
+                        v-validate="rules.fecha_exp.rule">
+                    <span class="help-block">@{{ errors.first(rules.fecha_exp.name) }}</span>
                 </div>
+
             </div>
 
             <div class="col-md-12">
-                <div v-bind:class="['form-group','col-md-3', errors.first('fecha de nacimiento') ? 'has-error' :'']">
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.fecha_nacimiento.name) ? 'has-error' :'']">
                     <label>F. de nacimiento *</label>
                     <input type="date" 
                         name="fecha de nacimiento" 
                         v-model="personal.fecha_nacimiento"
                         class="form-control"
-                        v-validate="'required'">
-                    <span class="help-block">@{{ errors.first('fecha de nacimiento') }}</span>
+                        v-validate="rules.fecha_nacimiento.rule">
+                    <span class="help-block">@{{ errors.first(rules.fecha_nacimiento.name) }}</span>
                 </div>
-                <div v-bind:class="['form-group','col-md-3', errors.first('lugar de nacimiento') ? 'has-error' :'']">
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.lugar_nacimiento.name) ? 'has-error' :'']">
                     <label>Lugar de nacimiento *</label>
                     <input type="text" 
                         name="lugar de nacimiento" 
                         class="form-control"
                         v-model="personal.lugar_nacimiento"
-                        v-validate="'required'">
-                    <span class="help-block">@{{ errors.first('lugar de nacimiento') }}</span>
+                        v-validate="rules.lugar_nacimiento.rule">
+                    <span class="help-block">@{{ errors.first(rules.lugar_nacimiento.name) }}</span>
                 </div>
-                <div class="form-group col-md-3">
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.nivel_estudios.name) ? 'has-error' :'']">
                     <label>Nivel de estudios *</label>
-                    <select name="Nivel de estudios" 
+                    <select name="nivel de estudios" 
                         v-model="personal.nivel_estudios"
-                        class="form-control"></select>
+                        class="form-control"
+                        v-validate="rules.nivel_estudios.rule">
+                        <option disabled selected>--</option>
+                        <option :value="item" v-for="item in data.nivel_estudios">@{{item}}</option>
+                    </select>
+                    <span class="help-block">@{{ errors.first(rules.nivel_estudios.name) }}</span>
                 </div>
-                <div class="form-group col-md-3">
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.estado_civil.name) ? 'has-error' :'']">
                     <label>Estado civil *</label>
-                    <select name="Estado civil"
+                    <select name="estado civil"
                         v-model="personal.estado_civil"
-                        class="form-control"></select>
+                        class="form-control"
+                        v-validate="rules.estado_civil.rule">
+                        <option disabled selected>--</option>
+                        <option :value="item" v-for="item in data.estado_civil">@{{ item }}</option>
+                    </select>
+                    <span class="help-block">@{{ errors.first(rules.estado_civil.name) }}</span>
                 </div>
+
             </div>
 
             <div class="col-md-12" style="margin-top:20px;">
                 <center>
-                    <button class="btn btn-default">Salvar</button>
-                    <button class="btn btn-primary" id="continuar_ubi">Continuar</button>
+                    <a class="btn btn-default" v-if="estado == 'estado'">Salvar</a>
+                    <button class="btn btn-primary">Continuar</button>
                 </center>
             </div>
         
@@ -146,26 +170,60 @@
 
 <script>
 
+    const rules_personales = {
+        primer_nombre:      { name: 'primer nombre',        rule: 'required'},
+        segundo_nombre:     { name: 'segundo nombre',       rule: ''},
+        primer_apellido:    { name: 'primer apellido',      rule: 'required'},
+        segundo_apellido:   { name: 'segundo apellido',     rule: ''},
+        tipo_doc :          { name: 'tipo de documento',    rule: 'required'},
+        num_doc :           { name: 'numero de documento',  rule: 'required'},
+        lugar_exp :         { name: 'lugar de expedicion',  rule: 'required'},
+        fecha_exp :         { name: 'fecha de expedicion',  rule: 'required'},
+        fecha_nacimiento :  { name: 'fecha de nacimiento',  rule: 'required'},
+        lugar_nacimiento :  { name: 'lugar de nacimiento',  rule: 'required'},
+        nivel_estudios :    { name: 'nivel de estudios',    rule: 'required'},
+        estado_civil :      { name: 'estado civil',         rule: 'required'},
+    }
+
+
     Vue.component('datos_personales-component',{
         template: '#datos_personales-template',
         data () {
             return {
-                personal: this.$store.state.info_personal
+                estado: this.$store.state.estado,
+                personal: this.$store.state.info_personal,
+                rules: rules_personales
             }
         },
         computed: {
-            tipo_docs () {
-                return this.$store.state.tipo_docs
-            }
+            data () { return this.$store.state.data; }
         },
         methods: {
             continuar () {
-                $('#ubicacion').tab('show')
+                $('.nav-tabs a[href="#ubicacion"]').tab('show');
             },
-            onSubmit () {
-                
+            async onSubmit () {
+
+                let valid = await this.$validator.validate()
+
+                if (this.estado == 'creacion' && valid) {
+                    this.$store.commit('setPersonal',this.personal)
+                    this.continuar();
+                } 
+                else if (this.estado == 'edicion' && valid) {
+                    // save()
+                } 
+                else {
+                    alert('Por favor complete la informacion requerida')
+                }
             }
         }
     });
 
 </script>
+
+<style scoped>
+    .help-block {
+        font-size: 10px;
+    }
+</style>
