@@ -5,6 +5,8 @@
         <form @submit.prevent="onSubmit">
         
             <div class="col-md-12">
+
+                <div v-if="warning_message" class="alert alert-warning" role="alert" v-text="message"></div>
                 
                 <!-- Primer nombre  -->
 
@@ -155,13 +157,12 @@
 
             <div class="col-md-12" style="margin-top:20px;">
                 <center>
-                    <a class="btn btn-default" v-if="estado == 'estado'">Salvar</a>
+                    <button class="btn btn-default" v-if="estado == 'edicion'">Salvar</button>
                     <button class="btn btn-primary">Continuar</button>
                 </center>
             </div>
         
         </form>
-
 
     </div>
 
@@ -192,15 +193,33 @@
             return {
                 estado: this.$store.state.estado,
                 personal: this.$store.state.info_personal,
-                rules: rules_personales
+                rules: rules_personales,
+                warning_message: false,
+                message: ''
             }
         },
         computed: {
             data () { return this.$store.state.data; }
         },
         methods: {
-            continuar () {
-                $('.nav-tabs a[href="#ubicacion"]').tab('show');
+            async continuar () {
+
+                // valida si el documento existe
+
+                let res = await axios.post('/start/clientes/validar/documento', {
+                    tipo_doc: this.personal.tipo_doc,
+                    num_doc: this.personal.num_doc
+                })
+
+                if (res.data.dat) {
+                    this.warning_message = true
+                    this.message = res.data.message
+                } else {
+                    this.warning_message = false
+                    this.message = ''
+                    $('.nav-tabs a[href="#ubicacion"]').tab('show');
+                }
+
             },
             async onSubmit () {
 
@@ -210,8 +229,8 @@
                     this.$store.commit('setPersonal',this.personal)
                     this.continuar();
                 } 
-                else if (this.estado == 'edicion' && valid) {
-                    // save()
+                else if (this.estado == 'edicion' && valid) {                    
+                    this.$store.dispatch('update')
                 } 
                 else {
                     alert('Por favor complete la informacion requerida')

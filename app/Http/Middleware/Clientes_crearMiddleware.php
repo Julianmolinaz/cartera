@@ -16,6 +16,10 @@ class Clientes_crearMiddleware
      */
     public function handle($request, Closure $next)
     {
+        if (!isset(Auth::user()->rol)) {
+            return redirect()->route('log.index');
+        }
+
         if( 
             Auth::user()->rol == 'Asesor' ||
             Auth::user()->rol == 'Asesor VIP' ||

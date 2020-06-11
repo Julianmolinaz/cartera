@@ -16,6 +16,7 @@ class CreateProductosTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('nombre');
+			$table->integer('num_vehiculos',2)->default(0)->comment('numero minimo de vehiculos requeridos');
 			$table->text('descripcion')->nullable();
 			$table->timestamps();
 		});

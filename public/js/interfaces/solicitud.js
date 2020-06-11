@@ -18,6 +18,9 @@ class Solicitud {
       this.estudio        = '',
       this.cuota_inicial  = '', 
       this.aprobado       = '',
-      this.observaciones  = ''
+      this.observaciones  = '',
+      this.productos      = [],
+      this.vehiculos      = []
+
     }
   }

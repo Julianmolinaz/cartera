@@ -13,24 +13,24 @@ class Credito extends Model implements Auditable
 
     protected $fillable = [
         'precredito_id' ,
-        'cuotas_faltantes' ,
-        'saldo',
-        'saldo_favor',
-        'estado' ,
-        'rendimiento'  ,
-        'valor_credito' ,
-        'castigada',                
+        'cuotas_faltantes', //*
+        'saldo',//*
+        'saldo_favor',//*
+        'estado' ,//*
+        'rendimiento'  ,//*
+        'valor_credito' ,//*
+        'castigada', //*        
         'refinanciacion',
         'credito_refinanciado_id',
         'end_procredito',
         'end_credito',
         'funcionario_id',
-        'last_llamada_id',              
-        'sanciones_debe',
+        'last_llamada_id',       
+        'sanciones_debe', 
         'sanciones_ok',
         'sanciones_exoneradas',
-        'mes',
-        'anio'
+        'mes', //*
+        'anio' //*
     ];      
 
     public function precredito(){

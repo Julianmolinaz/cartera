@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Traits\ClientesClass;
+use App\Traits\CastClienteTrait;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,14 +17,18 @@ use App\Cliente;
 use App\Conyuge;
 use App\Estudio;
 use Datatables;
+use Validator;
 use App\Soat;
+use App as _;
 use Auth;
 use DB;
 
 class ClienteController extends Controller
 {
-
     use ClientesClass;
+    use CastClienteTrait;
+
+    public $cliente;
 
     public function __construct()
     {
@@ -53,26 +58,24 @@ class ClienteController extends Controller
 
                 return '<a href="'.$route.'" class="btn btn-default btn-xs ver">
                               <span class="glyphicon glyphicon-eye-open"></span></a>';
-
             })
             ->make(true);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * $tipo = cliente, codeudor
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($tipo, $cliente_id = false)
     {
-        $tipos_documentoy   = getEnumValues('conyuges','tipo_docy');
-        $municipios         = Municipio::all();
-        $estado             = 'creacion';
-
         return view('start.clientes.create')
-            ->with('municipios', $municipios)
+            ->with('municipios',Municipio::all())
             ->with('data',$this->getData())
-            ->with('estado',$estado);
+            ->with('estado','creacion')
+            ->with('cliente',[])
+            ->with('cliente_id',$cliente_id)
+            ->with('tipo',$tipo);
     }
 
     /**
@@ -81,49 +84,123 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    // public function store()
+
+    public function store(Request $request)   
     {
         \Log::info($request->all());
 
-        return response()->json($request->all(), 200);
+        // $request = (object)array (
+        //     'cliente' => 
+        //     array (
+        //       'id' => '',
+        //       'tipo' => 'codeudor',
+        //       'info_personal' => 
+        //       array (
+        //         'primer_nombre' => 'pablo',
+        //         'segundo_nombre' => 'adrian',
+        //         'primer_apellido' => 'gonzalez',
+        //         'segundo_apellido' => 'salazar',
+        //         'tipo_doc' => 'Cedula Ciudadanía',
+        //         'num_doc' => '9875654444',
+        //         'fecha_nacimiento' => '1999-01-01',
+        //         'lugar_exp' => 'pereira',
+        //         'fecha_exp' => '2000-01-01',
+        //         'lugar_nacimiento' => 'pereira',
+        //         'nivel_estudios' => 'Bachiller',
+        //         'estado_civil' => 'Casado/a',
+        //       ),
+        //       'info_ubicacion' => 
+        //       array (
+        //         'direccion' => 'dir 12',
+        //         'barrio' => 'centro',
+        //         'municipio_id' => 1,
+        //         'movil' => '1234586444',
+        //         'fijo' => '454654654',
+        //         'email' => 'mail@mail.com',
+        //         'estrato' => '3',
+        //         'anos_residencia' => '3',
+        //         'meses_residencia' => '2',
+        //         'tipo_vivienda' => 'Propia',
+        //         'envio_correspondencia' => 'Casa',
+        //         'nombre_arrendador' => '',
+        //         'telefono_arrendador' => '',
+        //       ),
+        //       'info_economica' => 
+        //       array (
+        //         'oficio' => 'Asalariado',
+        //         'tipo_actividad' => 'Dependiente',
+        //         'empresa' => 'Free',
+        //         'tel_empresa' => '321212454',
+        //         'dir_empresa' => 'dir 123',
+        //         'doc_empresa' => '213215445',
+        //         'cargo' => 'new',
+        //         'tipo_contrato' => 'Idefinido',
+        //         'fecha_vinculacion' => '2000-01-01',
+        //         'descripcion_actividad' => '',
+        //       ),
+        //       'conyuge' => '',
+        //       'calificacion' => '',
+        //       'cdeudor' => '',
+        //     ),
+        //     'cliente_id' => '13536',
+        // );
+          
+        $rq = [];
 
-        // REGLAS DE VALIDACION 
+        $cliente = (object) $request->cliente;
+        $cliente_id = $request->cliente_id;
 
-        $rules_cliente    = $this->rules_cliente('crear'); //ClientesClass
-        $message_cliente  = $this->messages_cliente('crear'); //ClientesClass
+        if ( is_array($cliente->info_personal  ) ) { $rq = array_merge($rq, $cliente->info_personal);  } 
+        if ( is_array($cliente->info_ubicacion ) ) { $rq = array_merge($rq, $cliente->info_ubicacion); } 
+        if ( is_array($cliente->info_economica ) ) { $rq = array_merge($rq, $cliente->info_economica); } 
 
-        $this->validate($request,$rules_cliente,$message_cliente);
-        
-        DB::beginTransaction();
+        $validator = Validator::make($rq, $this->rules_cliente('crear'),$this->messages_cliente());
 
-        try{
-            // CREACION DEL CLIENTE
-
-            $cliente = new Cliente();
-            $cliente->fill($request->all());    
-            $cliente->fecha_nacimiento = inv_fech($request->fecha_nacimiento);         
-            $cliente->user_create_id  = Auth::user()->id;
-
-            $cliente->save();
-
-            //CREACION REGISTRO VENCIMIENTO SOAT
-
-            if( $request->soat ){
-                $this->createSoat($cliente, 'cliente', $request);
-            }
-
-            DB::commit();
-
-            flash()->info('El cliente ('.$cliente->id.') '.$cliente->nombre. ' se creo con éxito!');
-            return redirect()->route('start.clientes.show',$cliente->id);
-        }//.try
-        catch(\Exception $e){
-            DB::rollback();
-            flash()->error($e->getMessage());
-            return redirect()->route('start.clientes.create');                    
+        if ($validator->fails()) {
+            return res( true,$validator->errors(),'');
         }
 
-     }
+        DB::beginTransaction();
+
+        try {
+            // puede ser deudor o cdeudor
+
+            $cliente = new Cliente();
+            $cliente->tipo = $request->cliente['tipo'];
+            $cliente->fill($rq);
+            $cliente->version = 2;
+            $cliente->user_create_id = Auth::user()->id;            
+            $cliente->save();
+
+            \Log::info('***************************************');
+            \Log::info($cliente_id);
+            \Log::info($cliente->tipo);
+
+
+            if ($request->cliente['tipo'] == 'codeudor') {
+                $cliente_deudor = Cliente::find($cliente_id);
+
+                \Log::error('////////////////////////////');
+                \Log::error($cliente->id);
+                
+                $cliente_deudor->cdeudor_id = $cliente->id;
+                \Log::info($cliente_deudor);
+                $cliente_deudor->save();
+            }
+            
+            DB::commit();
+
+            return res(true, $cliente, 'El cliente se creó exitosamente !!!');
+
+        } catch (\Exception $e) {
+
+            // \Log::error($e);
+            DB::rollback();
+            return res(false,'',$e->getMessage());
+        }
+        
+    }//.store
 
     /**
      * show permite consultar la información del cliente
@@ -155,25 +232,37 @@ class ClienteController extends Controller
 
     public function edit($id)
     {
-
         $municipios         = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
-        $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
-        $cliente            = Cliente::find($id);
-        $tipos_documento    = getEnumValues('clientes','tipo_doc');
-        $cliente->fecha_nacimiento = inv_fech2($cliente->fecha_nacimiento);
+        $this->cliente            = Cliente::find($id);
         
-        if($cliente->soat){
-            $cliente->soat->vencimiento = inv_fech2($cliente->soat->vencimiento);
+        if($this->cliente->soat){
+            $this->cliente->soat->vencimiento = inv_fech2($this->cliente->soat->vencimiento);
         }
+        
+        if ($this->cliente->version == 1) {
+            
+            $tipos_documento    = getEnumValues('clientes','tipo_doc');
+            $this->cliente->fecha_nacimiento = inv_fech2($this->cliente->fecha_nacimiento);
+            $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
 
-        return view('start.clientes.edit')
-            ->with('cliente',$cliente)
-            ->with('municipios',$municipios)
-            ->with('tipo_actividades',$tipo_actividades)
-            ->with('tipos_documento',$tipos_documento);
+            return view('start.clientes.edit')
+                ->with('cliente',$this->cliente)
+                ->with('municipios',$municipios)
+                ->with('tipo_actividades',$tipo_actividades)
+                ->with('tipos_documento',$tipos_documento);
+        } 
+        else if ($this->cliente->version == 2) {
+
+            $cliente = $this->cast_cliente();
+
+            return view('start.clientes.create')
+                ->with('cliente',$cliente)
+                ->with('municipios',$municipios)
+                ->with('data',$this->getData())
+                ->with('estado','edicion');
+        }
+        
     }
-
-
 
     public function update(Request $request, $id)
     {  
@@ -241,6 +330,42 @@ class ClienteController extends Controller
         }
     }
 
+    public function updateV2(Request $request)
+    {
+        $rq = [];   
+        
+        if ( is_array($request->info_personal  ) ) { $rq = array_merge($rq, $request->info_personal);  } 
+        if ( is_array($request->info_ubicacion ) ) { $rq = array_merge($rq, $request->info_ubicacion); } 
+        if ( is_array($request->info_economica ) ) { $rq = array_merge($rq, $request->info_economica); } 
+        
+        \Log::info($rq);
+        
+        
+        $validator = Validator::make($rq, $this->rules_cliente('editar'),$this->messages_cliente());
+        
+        if ($validator->fails()) {
+
+            return res( false,$validator->errors(),'');
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            $cliente = Cliente::find($request->id);
+            $cliente->fill($rq);
+            $cliente->user_update_id = Auth::user()->id;
+            $cliente->save();
+    
+            DB::commit();
+            return res(true, $cliente, 'El cliente se editó exitosamente !!!');
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return res(false,'',$e->getMessage());
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -288,6 +413,23 @@ class ClienteController extends Controller
             ->with('cliente',$cliente);
     }
 
+
+    public function validate_document(Request $request) 
+    {
+        $cliente = Cliente::where('tipo_doc', $request->tipo_doc)
+            ->where('num_doc', $request->num_doc)
+            ->count();
+
+        if ($cliente > 0) {
+
+            return res(true,true,'Ya existe un cliente con este número de documento');
+        } else {
+
+            return res(true,false,'');
+        }
+    }
+
+
     public function getData()
     {
         return [  
@@ -298,9 +440,10 @@ class ClienteController extends Controller
             'estrato'               => getEnumValues('clientes','estrato'),
             'tipo_vivienda'         => getEnumValues('clientes','tipo_vivienda'),
             'tipo_actividad'        => getEnumValues('clientes','tipo_actividad'),
-            'oficios'               => \App\Oficio::orderBy('nombre','desc')->get(),
+            'oficios'               => \App\Oficio::orderBy('nombre')->get(),
             'tipo_contrato'         => getEnumValues('clientes','tipo_contrato'),
             'calificacion'          => getEnumValues('clientes','calificacion')
         ];
     }
+
 }

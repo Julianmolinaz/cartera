@@ -12,32 +12,70 @@ class Cliente extends Model implements Auditable
     protected $table = 'clientes';
 
     protected $fillable = [
-        'nombre',
+        
+        // info personal
+
+        'nombre', // show
         'primer_nombre',
         'segundo_nombre',
         'primer_apellido',
         'segundo_apellido',
-        'tipo_doc',
-        'num_doc',
+        'tipo_doc', // show
+        'num_doc', // show
+        'ciudad_exp',
+        'estado_civil',
+        'fecha_exp',
+        'lugar_exp',
         'fecha_nacimiento',
+        'lugar_nacimiento',
+        'nivel_estudios',
+
+
+        //info ubicacion
+
         'direccion',
         'barrio',
         'municipio_id',
-        'movil',
-        'fijo',
+        'movil', // show
+        'fijo',  // show
+        'email', // show
+        'anos_residencia',
+        'envio_correspondencia',
+        'estrato',
+        'meses_residencia',
+        'tipo_vivienda',
+        'nombre_arrendador',
+        'telefono_arrendador',
+
+        //info economica
+
         'ocupacion',
-        'tipo_actividad',
         'empresa',
-        'placa',
-        'email',
+        'tipo_actividad',
+        'dir_empresa',
+        'tel_empresa',
+        'cargo',
+        'descripcion_actividad',
+        'doc_empresa',
+        'fecha_vinculacion',
+        'oficio',
+        'tipo_contrato',
+
+        // referencias
+        'cdeudor_id',
+        'conyuge_id',
         'codeudor_id',
         'user_create_id',
         'user_update_id',
-        'calificacion',
-        'conyuge_id',
-        'tel_empresa',
-        'dir_empresa'
+
+        // general
+
+        'numero_de_creditos',
+        'calificacion', // caslificar por credito
+        'placa', // por credito
+        'tipo'
     ];
+
 
     public function setNombreAttribute($value){
 
@@ -120,6 +158,10 @@ class Cliente extends Model implements Auditable
 
     public function documentos(){
         return $this->hasMany('App\Documento','cliente_id','id');
+    }
+
+    public function cdeudor() {
+        return $this->hasOne('App\Cliente','id','cdeudor_id');
     }
 
     protected $auditExclude = [

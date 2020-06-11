@@ -2,7 +2,9 @@
 
 
 require __DIR__ . '/List_routes/pagos.php';
+
 require __DIR__ . '/List_routes/variables.php';
+
 require __DIR__ . '/List_routes/carteras.php';
 
 require __DIR__ . '/routes/general.php';
@@ -26,6 +28,18 @@ require __DIR__ . '/routes/estudios.php';
 require __DIR__ . '/routes/pagos_creditos.php';
 
 require __DIR__ . '/routes/ref_productos.php';
+
+require __DIR__ . '/routes/conyuges.php';
+
+require __DIR__ . '/routes/certificados.php';
+
+require __DIR__ . '/routes/oficios.php';
+
+
+Route::get('test',function(){
+	return view('start.certificados.paz_y_salvo');
+});
+
 
 
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
@@ -129,22 +143,6 @@ Route::post('start/estudios',
 //ESTUDIOS ACTUALIZAR
 Route::put('start/estudios/{estudio}',
 	['uses' => 'EstudioController@update','as'=> 'start.estudios.update'])->middleware('estudios_actualizar');
-
-
-
-//CONYUGES
-
-Route::resource('start/conyuges','ConyugeController');
-
-Route::get('start/conyuges/create/{cliente_id}/{tipo}','ConyugeController@create')
-		->name('start.conyuges.create');
-
-Route::get('start/conyuges/{cliente_id}/{tipo}/edit','ConyugeController@edit')
-		->name('start.conyuges.edit');
-
-Route::get('start/conyuges/destroy/{cliente_id}/{tipo}','ConyugeController@destroy')
-		->name('start.conyuges.destroy');
-
 
 //CODEUDORES
 

@@ -42,7 +42,7 @@ class CreateClientesTable extends Migration {
 			$table->string('movil');
 			$table->string('fijo')->nullable();
 			$table->string('email')->nullable();
-			$table->integer('anos_referencia')->nullable(); // new
+			$table->integer('anos_residencia')->nullable(); // new
 			$table->enum('envio_correspondencia',['Casa','Empresa','Correo electronico'])->nullable(); // new
 			$table->enum('estrato',[1,2,3,4,5,6])->nullable(); // new
 			$table->integer('meses_residencia')->nullable(); // new
@@ -62,6 +62,7 @@ class CreateClientesTable extends Migration {
 			$table->string('doc_empresa')->nullable(); // new
 			$table->date('fecha_vinculacion')->nullable(); // new
 			$table->string('oficio')->nullable(); // new
+			$table->enum('version',[1,2])->default(1);
 			$table->enum('tipo_contrato',['Idefinido','Prestacion de servicios','Termino fijo'])->nullable(); // new
 
 			// referencias
@@ -70,9 +71,10 @@ class CreateClientesTable extends Migration {
 			$table->integer('codeudor_id')->unsigned()->nullable()->index('clientes_codeudor_id_foreign');
 			$table->integer('user_create_id')->unsigned();
 			$table->integer('user_update_id')->unsigned()->nullable();
+			$table->integer('cdeudor_id')->unsigned()->nullable()->comments('codeudor v2 que es realmente un cliente con rol de codeudor');
 
 			// general
-
+			$table->enum('tipo',['cliente','codeudor'])->default('Cliente');
 			$table->integer('numero_de_creditos')->nullable();
 			$table->enum('calificacion', array('BB','B','M','MM','CASTIGADA'))->nullable();
 			$table->string('placa')->nullable();

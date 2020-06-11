@@ -38,7 +38,6 @@ class LogController extends Controller
      */
     public function store(Request $request)
     {
-        
         if(Auth::attempt($data=[
             'email' => $request->input('email'),
             'password' => $request->input('password'),

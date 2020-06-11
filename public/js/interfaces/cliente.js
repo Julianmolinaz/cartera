@@ -1,12 +1,14 @@
 
 class Cliente {
     constructor () {
-       
+        this.id                 = ''
+        this.tipo               = ''
         this.info_personal      = ''
         this.info_ubicacion     = ''
         this.info_economica     = ''
         this.conyuge            = ''
         this.calificacion       = ''
+        this.cdeudor            = ''
     }
 }
 
@@ -49,15 +51,10 @@ class InfoUbicacion
     }
 }
 
-class InfoConyuge
-{
-    
-}
-
 class InfoEconomica
 {
     constructor () {
-        this.ocupacion          = ''
+        this.oficio             = ''
         this.tipo_actividad     = ''
         this.empresa            = ''
         this.tel_empresa        = ''

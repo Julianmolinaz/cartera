@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use App\Cliente;
 use DB;
 
-
 function res($success,$data,$message,$status=200)
 {
   return response()->json([

@@ -10,11 +10,13 @@
 Route::get('start/creditos',[
     'uses'  => 'CreditoController@index',
     'as'    => 'start.creditos.index'
-])->middleware('creditos_listar');
+]);
 
+Route::get('start/creditos/list',[    
+	'uses'  => 'CreditoController@list',
+	'as'    => 'start.creditos.list'
+]);
 
-// Route::get('start/creditos/create',
-// 	['uses' 	=> 'CreditoController@create','as'=> 'start.creditos.create'])->middleware('creditos_crear');
 
 Route::put('start/creditos/{credito}',[
 	// Route::get('startUpdate',[	

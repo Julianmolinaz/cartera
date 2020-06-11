@@ -8,19 +8,29 @@
 
             <div class="col-md-12">
 
+                <div v-if="danger_message" class="alert alert-danger" role="alert">
+                    <ul>
+                        <li v-for="item in arr_messages">@{{item[0]}}</li>
+                    </ul>
+                </div>
+
                 <!-- Ocupacion  -->
 
-                <div v-bind:class="['form-group','col-md-6',errors.first(rules.ocupacion.name) ? 'has-error' :'']">
-                    <label>Ocupacion u oficio @{{rules.ocupacion.required}}</label>
+                <div v-bind:class="['form-group','col-md-6',errors.first(rules.oficio.name) ? 'has-error' :'']">
+                    <label>Ocupacion u oficio @{{rules.oficio.required}}</label>
                     <select class="form-control"
-                        name="ocupacion"
-                        v-model="economia.ocupacion"
-                        v-validate="rules.ocupacion.rule">
+                        name="oficio"
+                        v-model="economia.oficio"
+                        @change="analizarOficio"
+                        v-validate="rules.oficio.rule">
                         <option selected disabled>Ocupación principal</option>
-                        <option :value="item.id" v-for="item in data.oficios">@{{ item.nombre }}</option>
+                        <option :value="item.nombre" v-for="item in data.oficios">@{{ item.nombre }}</option>
+                        <option :value="'Otro'">Otro</option>
                     </select>
-                    <span class="help-block">@{{ errors.first(rules.ocupacion.name) }}</span>
+                    <span class="help-block">@{{ errors.first(rules.oficio.name) }}</span>
                 </div>
+
+                <oficios-component></oficios-component>
 
                 <!-- Tipo de actividad  -->
 
@@ -153,7 +163,7 @@
             <div class="col-md-12" style="margin-top:20px;">
                 <center>
                     <a class="btn btn-default" v-if="estado == 'creacion'" @click="volver">Volver</a>
-                    <a class="btn btn-default">Salvar</a>
+                    <button class="btn btn-default">Salvar</button>
                     <button class="btn btn-primary">Salvar y Continuar</button>
                 </center>
             </div>
@@ -164,14 +174,15 @@
 
 </script>
 
+@include('start.clientes.gestion.componentes.oficios')
 
 <script>
 
     let rules_economica = {
-        ocupacion             : { name : 'ocupacion',               rule: 'required', required : '*' }, // general
+        oficio                : { name : 'oficio',                  rule: 'required', required : '*' }, // general
         tipo_actividad        : { name : 'tipo de actividad',       rule: 'required', required : '*' }, // general
         empresa               : { name : 'nombre empresa',          rule: '',         required : '' }, // empleado e independiente
-        tel_empresa           : { name : 'telefono empresa',        rule: '',         required : '' }, // empleado e independiente
+        tel_empresa           : { name : 'telefono empresa',        rule: 'min:7|max:15',required : '' }, // empleado e independiente
         dir_empresa           : { name : 'direccion empresa',       rule: '',         required : '' }, // empleado e independiente
         doc_empresa           : { name : 'identificacion empresa',  rule: '',         required : '' }, // empleado
         cargo                 : { name : 'cargo',                   rule: '',         required : '' }, // empleado
@@ -184,10 +195,13 @@
         template: '#actividad_economica-template',
         data() {
             return {
-                estado: this.$store.state.estado,
-                rules : rules_economica,
-                economia: this.$store.state.info_economica,
-                data  : this.$store.state.data
+                estado          : this.$store.state.estado,
+                rules           : rules_economica,
+                economia        : this.$store.state.info_economica,
+                data            : this.$store.state.data,
+                danger_message  : false,
+                arr_messages    : '',
+                oficios         : this.$store.state.data.oficios
             }
         },
         methods: {
@@ -195,23 +209,45 @@
                 $('.nav-tabs a[href="#ubicacion"]').tab('show') 
             },
             continuar () {
+                this.message = ''
+                this.danger_message = false
                 $('.nav-tabs a[href="#conyuge"]').tab('show')
             },
-            async onSubmit () {
+            async onSubmit (action) {
 
                 let valid = await this.$validator.validate()
 
                 if (this.estado == 'creacion' && valid) {
                     this.$store.commit('setEconomica',this.economia)
 
-                    let res = await axios.post('/start/clientes',this.$store.state.cliente);
+                    let res = await axios.post('/start/clientes',{
+                        cliente: this.$store.state.cliente,
+                        cliente_id: this.$store.state.cliente_id
+                    });
 
-                    console.log({res})
+                    console.log(res);
 
-                    this.continuar();
+                    if (res.data.success) {
+
+                        if (res.data.message == '') {
+                            this.arr_messages = res.data.dat
+                            this.danger_message = true
+                        } 
+                        else {
+                            if (action == 'continuar') { 
+                                this.$store.commit('setClienteId',res.data.dat.id)
+                                this.continuar()
+                            } else { 
+                                //document.location.href= "/start/clientes/"+res.data.dat.id 
+                            }
+                        }
+                    } else {
+                        this.message = res.data.message
+                    }
+
                 } 
                 else if (this.estado == 'edicion' && valid) {
-                    // save()
+                    this.$store.dispatch('update')
                 } 
                 else {
                     alert('Por favor complete la informacion requerida')
@@ -245,6 +281,12 @@
 
                     this.rules.descripcion_actividad.rule     = 'required';
                     this.rules.descripcion_actividad.required = '*';
+                }
+            },//.activityAction
+            analizarOficio () {
+
+                if (this.economia.oficio == 'Otro') {
+                    Bus.$emit('setOficio')
                 }
             }
          }

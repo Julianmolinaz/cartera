@@ -202,7 +202,7 @@
 
                 <div class="col-md-12" style="margin-top:20px;">
                     <center>
-                        <a class="btn btn-default" v-if="estado == 'edicion'">Salvar</a>
+                        <button class="btn btn-default" v-if="estado == 'edicion'">Salvar</button>
                         <a class="btn btn-default" v-if="estado == 'creacion'" @click="volver">Volver</a>
                         <button class="btn btn-primary">Continuar</button>
                     </center>
@@ -218,19 +218,19 @@
 
 
     const rules_ubicacion = {
-        direccion              : { name: 'direccion',            rule: 'required' },
+        direccion              : { name: 'direccion',            rule: 'required|regex:^([a-zA-Z0-9  ]+)$'},
         barrio                 : { name: 'barrio',               rule: 'required' },
         municipio              : { name: 'municipio',            rule: 'required' },
-        movil                  : { name: 'celular',              rule: 'required|alpha_num|min:10' },
-        fijo                   : { name: 'telefono',             rule: 'alpha_num' },
+        movil                  : { name: 'celular',              rule: 'required|numeric|min:10' },
+        fijo                   : { name: 'telefono',             rule: 'numeric|min:7' },
         email                  : { name: 'correo electronico',   rule: 'required|email' },
         estrato                : { name: 'estrato',              rule: 'required' }, 
-        anos_residencia        : { name: 'años en residencia',   rule: 'required|integer'}, 
-        meses_residencia       : { name: 'meses en residencia',  rule: 'required|integer'}, 
+        anos_residencia        : { name: 'años en residencia',   rule: 'required|integer|min_value:0|max_value:75'}, 
+        meses_residencia       : { name: 'meses en residencia',  rule: 'required|integer|max_value:11'}, 
         tipo_vivienda          : { name: 'tipo de vivienda',     rule: 'required' }, 
         envio_correspondencia  : { name: 'envio de correspondencia', rule: '' }, 
         nombre_arrendador      : { name: 'nombre arrendador',    rule: '' }, 
-        telefono_arrendador    : { name: 'telefono arrendador',  rule: 'alpha_num'}
+        telefono_arrendador    : { name: 'telefono arrendador',  rule: 'numeric|min:7|max:10'}
     }
 
 
@@ -256,7 +256,7 @@
                 if (str_mun.length > 0) {
                
                     this.arr_mun = this.municipios.filter( mun => 
-                        mun.nombre.toLowerCase().includes(str_mun)
+                        mun.nombre.toLowerCase().includes(str_mun.toLowerCase())
                     )
                     if (this.arr_mun) {
                         this.show_mun = true
@@ -279,7 +279,8 @@
                 $('.nav-tabs a[href="#personales"]').tab('show') 
             },
             continuar () {
-                $('.nav-tabs a[href="#atividad"]').tab('show') 
+                $('.nav-tabs a[href="#actividad"]').tab('show') 
+                console.log('continuar')
             },
             async onSubmit () {
 
@@ -295,12 +296,24 @@
                     this.continuar();
                 } 
                 else if (this.estado == 'edicion' && valid) {
-                    // save()
+                    let res = await this.$store.dispatch('update')
                 } 
                 else {
                     alert('Por favor complete la informacion requerida')
                 }
+            },//onSubmit
+            setMunicipio2() {
+                if (this.estado == 'edicion') {
+                    municipio = this.municipios.filter( mun => 
+                        mun.id == this.$store.state.info_ubicacion.municipio_id
+                    )
+
+                    this.$refs.mun.value = municipio[0].nombre
+                }
             }
+        },
+        mounted(){
+            this.setMunicipio2()
         }
     });
 

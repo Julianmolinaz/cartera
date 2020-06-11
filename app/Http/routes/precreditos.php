@@ -14,7 +14,7 @@ Route::get('start/precreditos/{cliente}',[
 
 //PRECREDITOS EDITAR
 Route::get('start/precreditos/{precredito_id}/edit',[
-    'middleware' => ['role:superadmin'],
+    // 'middleware' => ['role:superadmin'],
     'uses'  => 'PrecreditoController@edit',
     'as'    => 'start.precreditos.edit'
 ]);

@@ -9,4 +9,8 @@ class Oficio extends Model
     public $timestamps = false;
     
     protected $fillable = ['nombre'];
+
+    public function setNombreAttribute($value) {
+        $this->attributes['nombre'] = ucwords(strtolower($value));
+    }
 }

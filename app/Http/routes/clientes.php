@@ -5,15 +5,26 @@
 | Clientes
 |--------------------------------------------------------------------------
 */
+// LIST
 
 Route::get('start/clientes',[
+    'middleware' => ['permission:cliente_show'],
     'uses'  => 'ClienteController@index',
     'as'    => 'start.clientes.index'
 ]);
 
+// LIST
+
 Route::get('start/clientes/list',[
-    'uses'  => 'ClienteController@list',
-    'as'    => 'start.clientes.list' 
+    'uses'       => 'ClienteController@list',
+    'as'         => 'start.clientes.list' 
+]);
+
+// VALIDATE DOCUMENT TO CREATE
+
+Route::post('start/clientes/validar/documento',[
+    'uses'  => 'ClienteController@validate_document',
+    'as'    => 'start.clientes.validate_document'
 ]);
 
 Route::post('start/clientes',[
@@ -21,12 +32,13 @@ Route::post('start/clientes',[
     'as'    => 'start.clientes.store'	
 ]);     
 
-Route::get('start/clientes/create',[
-    'uses' 	=> 'ClienteController@create',
-    'as'    => 'start.clientes.create'
-]);     
+Route::get('start/clientes_create/{tipo}/{cliente_id?}','ClienteController@create')
+    ->name('start.clientes_create');
+
+// SHOW
 
 Route::get('start/clientes/{cliente}',[
+    'middleware' => ['permission:cliente_show'],
     'uses'  => 'ClienteController@show',
     'as'    => 'start.clientes.show'
 ]);     
@@ -39,7 +51,9 @@ Route::get('start/clientes/{cliente}/edit',[
 Route::put('start/clientes/{cliente}',[
     'uses'  => 'ClienteController@update',
     'as'    => 'start.clientes.update'
-]);     
+]); 
+
+Route::post('start/clientes/updateV2','ClienteController@updateV2'); 
 
 Route::get('start/clientes/{id}/consultar_codeudor',[
 	'uses'	=> 'ClienteController@consultar_codeudor',

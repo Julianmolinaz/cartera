@@ -22,6 +22,7 @@ class Conyuge extends Model
 
 	public $timestamps = false;
 
+
 	public function setNombreyAttribute($value){
 
 		$_1 = ucwords(strtolower($this->p_nombrey));
@@ -53,6 +54,10 @@ class Conyuge extends Model
 	public function setSapellidoyAttribute($value){
 		$this->attributes['s_apellidoy'] = ucwords(strtolower($value));		
 		$this->setNombreyAttribute($value);
+	}
+
+	public function getIdentificacionAttribute() {
+		return $this->tipo_docy.' - '.$this->num_docy;
 	}
 
 }

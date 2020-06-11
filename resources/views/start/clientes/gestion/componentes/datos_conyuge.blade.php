@@ -5,7 +5,9 @@
     <form @submit.prevent="onSubmit">
     
         <div class="col-md-12">
-            
+
+        <div :class="['alert', alert_class]" role="alert" v-if="alert">@{{message}}</div>
+                    
             <!-- Primer nombre  -->
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.p_nombrey.name) ? 'has-error' :'']">
@@ -162,7 +164,10 @@
                 estado  : this.$store.state.estado,
                 rules   : rules_conyuge,
                 conyuge : this.$store.state.conyuge,
-                data    : this.$store.state.data
+                data    : this.$store.state.data,
+                alert   : null,
+                alert_class : '',
+                message : ''
             }
         },
         methods: {
@@ -172,9 +177,28 @@
             async onSubmit () {
 
                 let valid = await this.$validator.validate()
+                let cliente_id = this.$store.state.cliente.id
+
+                if (!cliente_id) {
+                    this.alert_class = 'alert-warning'
+                    this.message = 'Se requiere crear el cliente'
+                    this.alert = true
+                }
 
                 if (valid) {
-                    // save conyuge
+                    let res = await axios.post('/start/conyuges',{
+                        cliente_id : cliente_id,
+                        conyuge    : this.conyuge
+                    })
+
+                    if (res.data.success) {
+                        if (res.data.message == '') {
+                            this.message_danger = true
+                            this.message = res.data.dat
+                        } else {
+                            document.location.href= "/start/clientes/"+this.$store.state.cliente.id
+                        }
+                    }
                 } 
                 else {
                     alert('Por favor complete la informacion requerida')

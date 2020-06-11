@@ -10,7 +10,10 @@
 
     <div class="panel panel-default" style="padding:5px;" id="myabs">
 
-        <h1 style="margin: 12px 0px 15px 10px;">Cliente</h1>
+        <h1 style="margin: 12px 0px 15px 10px;">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            {{ $tipo }}
+        </h1>
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -50,22 +53,24 @@
             <div role="tabpanel" class="tab-pane" id="conyuge">
                 <datos_conyuge-component />
             </div>
+            
+            <p class="help-block">Los campos con asterisco (*) son obligatorios</p>
+
         </div>
     </div>
 
 </div>
 
+<script src="{{ asset('js/interfaces/cliente.js') }}"></script>
+<script src="{{ asset('js/interfaces/conyuge.js') }}"></script>
+<script src="/js/vue/vee_es.js"></script>
 
 @include('start.clientes.gestion.componentes.datos_personales')
 @include('start.clientes.gestion.componentes.datos_conyuge')
 @include('start.clientes.gestion.componentes.datos_ubicacion')
 @include('start.clientes.gestion.componentes.actividad_economica')
-
-
-<script src="{{ asset('js/interfaces/cliente.js') }}"></script>
-<script src="{{ asset('js/interfaces/conyuge.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.1.3/vuex.js"></script>
-<script src="/js/vue/vee_es.js"></script>
+@include('start.clientes.gestion.componentes.oficios')
+@include('start.clientes.gestion.componentes.store')
 
 <script>
 
@@ -75,57 +80,40 @@
     let token = document.head.querySelector('meta[name="csrf-token"]');
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 
-    const store = new Vuex.Store({
-        state: {
-            estado          : {!! json_encode($estado) !!},
-            cliente         : new Cliente(),
-            info_personal   : new InfoPersonal(),
-            info_ubicacion  : new InfoUbicacion(),
-            info_economica  : new InfoEconomica(),
-            conyuge         : new Conyuge(),
-            municipios      : {!! json_encode($municipios) !!},
-            data            : {!! json_encode($data) !!}
-        },
-        getters: {
-            getMunicipios: (state,value) => {
-                var value_ = value.toLowerCase
-                
-                return state.municipios.filter( municipio => {
-                    municipio.nombre.toLowerCase().includes(value_)
-                })
-            }
-        },
-        mutations: {
-            setPersonal (state,info_personal) {
-                state.info_personal = info_personal
-                state.cliente.info_personale = info_personal
-            },
-            setUbicacion (state, info_ubicacion) {
-                state.info_ubicacion = info_ubicacion
-                state.cliente.info_ubicacion = info_ubicacion
-            },
-            setEconomica (state,info_economica) {
-                state.info_economica = info_economica
-                state.cliente.info_economica = info_economica
-            }
-        }
-    })
-
+    const Bus = new Vue()
 
     new Vue({
         el: '#principal',
         store,
         data: {
-            tab: ''
+            tab     : '',
+            cliente : ''
+        },
+        methods: {
+            setCliente() {
+
+                this.$store.commit('setGeneralInfoCliente',{
+                    id: this.cliente.id,
+                    calificacion: this.cliente.calificacion
+                })
+                this.$store.commit('setPersonal',this.cliente.info_personal)
+                this.$store.commit('setUbicacion',this.cliente.info_ubicacion)
+                this.$store.commit('setEconomica',this.cliente.info_economica)
+                this.$store.commit('setConyuge',this.cliente.conyuge)
+
+            }
         },
         created () {
             if (this.$store.state.estado == 'creacion') {
+                this.$store.commit('setTipo',{!! json_encode($tipo) !!})
                 this.tab = 'tab'
             } else {
                 this.tab = 'tab'
+                this.cliente = {!! json_encode($cliente) !!}
+                this.setCliente()
             }
 
-        } 
+        }
     });
 
 </script>

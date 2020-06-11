@@ -3,7 +3,7 @@
     <div class="panel panel-primary">
       <div class="panel-heading">Información del Codeudor 
 
-      @if($cliente->codeudor)
+
       <a href="{{route('start.codeudores.edit',$cliente->id)}}" 
         class = 'btn btn-default btn-xs'  
         data-toggle="tooltip" data-placement="top" 
@@ -20,18 +20,6 @@
         title="Eliminar">
         <span class = "glyphicon glyphicon-trash" >
       </a>
-        @if($cliente->codeudor && $cliente->codeudor->conyuge)
-        @else
-          <!-- <a href="{{route('start.conyuges.create',[$cliente->id,'codeudor'])}}" 
-            class = 'btn btn-default btn-xs'>Crear conyuge
-          </a> -->
-
-        @endif
-      @else
-        <a href="{{route('start.codeudores.create',[$cliente->id,'codeudor'])}}" 
-          class = 'btn btn-warning btn-xs'>Crear codeudor</a>
-
-      @endif
 
       </div>
 

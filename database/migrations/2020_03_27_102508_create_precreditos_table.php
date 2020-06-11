@@ -37,6 +37,7 @@ class CreatePrecreditosTable extends Migration {
 			$table->text('observaciones')->nullable();
 			$table->integer('user_create_id')->unsigned();
 			$table->integer('user_update_id')->unsigned()->nullable();
+
 			$table->timestamps();
 
 			$table->foreign('cartera_id')->references('id')->on('carteras')->onUpdate('RESTRICT')->onDelete('RESTRICT');

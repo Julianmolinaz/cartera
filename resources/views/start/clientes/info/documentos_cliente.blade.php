@@ -5,7 +5,10 @@
         <a role="button" data-toggle="collapse" data-parent="#accordion" 
         href="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven" 
         style="font-size:12px;color:black;" class="btn btn-default btn-xs">
-          Ver
+
+        <span class="glyphicon glyphicon glyphicon-folder-open" aria-hidden="true"
+          style="margin-right:8px;"></span>
+          Click para ver la documentación
         </a>
       </p>
     </div>
