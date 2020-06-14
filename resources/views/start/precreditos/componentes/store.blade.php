@@ -4,20 +4,26 @@
     const store = new Vuex.Store({
         state: {
             productos: {!! json_encode($productos) !!},
-            num_vehiculos: 0
+            producto: 0
         },
         getters: {
             getProductos(state){
                 return state.productos
+            }, 
+            getProducto(state){
+                return state.producto
             }
         },
         mutations: {
-            setNumVehiculos(state, num){
-                state.num_vehiculos = num
+            setProducto(state, new_producto){
+                state.producto = new_producto
             }
         },
         actions: {
-
+            generateVehiculos(context){
+                // crear los vehiculos
+                // crear las rules
+            }
         }
     })
 </script>

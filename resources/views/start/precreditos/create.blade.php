@@ -59,6 +59,8 @@
 </div><!-- .col-md-8 -->
 
 <script src="/js/vue/vee_es.js"></script>
+<script src="/js/interfaces/vehiculo.js"></script>
+<script src="/js/rules/vehiculo.js"></script>
 
 @include('start.precreditos.componentes.producto')
 @include('start.precreditos.componentes.solicitud')

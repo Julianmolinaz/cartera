@@ -150,7 +150,17 @@
                 // let product = this.productos.filter( item => item.id == this.producto.id)
                 this.elements = getProductos(this.producto)
                 
-                this.$store.commit('setNumVehiculos',this.elements.lenght)
+                this.$store.commit('setProducto',this.producto)
+                let min_vehiculos = this.producto.min_vehiculos
+                let vehiculos = []
+                
+                for (var i = 0; i < min_vehiculos; i++) {
+                    let vehiculo = new Vehiculo();
+
+                }
+
+                console.log(min_vehiculos)
+
             }
         }
     });
