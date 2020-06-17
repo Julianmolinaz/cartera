@@ -12,11 +12,11 @@
             return [new Producto(producto.id, 'SOAT'), 
                     new Producto(producto.id, 'R.T.M')]
             break;        
-        case 15:
+        case 13:
             return [new Producto(producto.id, 'SOAT'), 
                     new Producto(producto.id, 'SOAT')]
             break;
-        case 16:
+        case 14:
             return [new Producto(producto.id, 'R.T.M'),
                     new Producto(producto.id, 'R.T.M')]
             break;        

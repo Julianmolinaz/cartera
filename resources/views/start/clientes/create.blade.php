@@ -11,7 +11,7 @@
     <div class="panel panel-default" style="padding:5px;" id="myabs">
 
         <h1 style="margin: 12px 0px 15px 10px;">
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
             {{ $tipo }}
         </h1>
 
