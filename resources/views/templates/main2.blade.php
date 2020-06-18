@@ -28,7 +28,7 @@
     <link href="{{asset('vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 
     <!-- VUE -->
-    <script src="{{asset('js/vue.min.js')}}"></script>
+    <script src="{{asset('js/vue.js')}}"></script>
     
 
     <!-- font awesome -->
@@ -67,10 +67,9 @@
   @include('templates.navbar_principal')
 
 
-<div class="col-md-12">
-  @yield('contenido','Ingrese Contenido')
-  
-</div>
+  <div class="col-md-12">
+    @yield('contenido','Ingrese Contenido')
+  </div>
 
 
     <footer class="footer">

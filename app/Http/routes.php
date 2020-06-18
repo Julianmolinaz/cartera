@@ -27,6 +27,9 @@ require __DIR__ . '/routes/pagos_creditos.php';
 
 require __DIR__ . '/routes/ref_productos.php';
 
+require __DIR__ . '/routes/permisos.php';
+
+require __DIR__ . '/routes/roles.php';
 
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 

@@ -7,5 +7,7 @@ use Zizaco\Entrust\EntrustPermission;
 
 class Permission extends Model
 {
-    //
+    protected $fillable = [
+        'name', 'display_name', 'description', 'created_by', 'updated_by', 'status', 'category'
+    ];
 }
