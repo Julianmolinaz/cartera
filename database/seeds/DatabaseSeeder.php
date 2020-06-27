@@ -56,5 +56,8 @@ class DatabaseSeeder extends Seeder
         $this->call('TercerosTableSeeder');
         $this->call('RefProductosTableSeeder');
         $this->call('PermissionsTableSeeder');
+        $this->call('RoleTableSeeder');
+        $this->call('RoleUserTableSeeder');
+
     }
 }

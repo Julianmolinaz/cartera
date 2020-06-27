@@ -11,7 +11,7 @@
     <!-- LISTADO  -->
     <div class="checkbox">
         <label>
-            <input type="checkbox" id="inlineCheckbox1" value="option1"> 
+            <input type="checkbox" id="" value="" @change="show_all"> 
             Todos
         </label>
     </div>
@@ -22,7 +22,6 @@
             <label>
                 <input type="checkbox" id="" value=""> 
                 @{{ categoria.category }} 
-                <i class="fa fa-minus" aria-hidden="true" style="font-size:8px;" v-if="categoria.show"></i>
             </label>
         </div>
 
@@ -31,7 +30,7 @@
             <div class="checkbox" style="text-indent:1em">
                 <label>
                     <input type="checkbox" id="" value="" v-model="permiso.checked"> 
-                    @{{ permiso.display_name }} <i class="fa fa-minus" aria-hidden="true" style="font-size:8px;"></i>
+                    @{{ permiso.display_name }}
                 </label>
             </div>
         

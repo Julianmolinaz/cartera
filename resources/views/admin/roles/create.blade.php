@@ -54,7 +54,8 @@
                 roles       : {!! json_encode($roles) !!},
                 name        : '',
                 descripcion : '',
-                errors      : ''
+                errors      : '',
+                select_todo : true
             },
             methods: {
                 async onSubmit() {
@@ -99,6 +100,21 @@
                         this.categorias = res.data.dat
                     } else {
                         alert(res.data.message)
+                    }
+                },
+                show_all() {
+
+                    console.log('show_all');
+
+                    this.select_todo = ! this.select_todo
+
+                    for (let i = 0; i < this.categorias.length; i++) {
+                        console.log(i)
+
+                        for (let j = 0; j < this.categorias[i].permisos.length; j++) {
+                            this.categorias[i].permisos[j].selected = false
+                            // this.cateorias[i].permisos[j].selected = true
+                        }
                     }
                 }
             },

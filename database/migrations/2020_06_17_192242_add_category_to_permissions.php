@@ -29,7 +29,7 @@ class AddCategoryToPermissions extends Migration
     {
         Schema::table('permissions', function (Blueprint $table) {
             $table->dropColumn('category');
-            $table->dropColumn('estado');
+            $table->dropColumn('status');
             $table->dropColumn('updated_by');
             $table->dropColumn('created_by');
         });

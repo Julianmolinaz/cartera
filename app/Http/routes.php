@@ -1,9 +1,8 @@
 <?php
 
+require __DIR__ . '/routes/variables.php';
 
-require __DIR__ . '/List_routes/pagos.php';
-require __DIR__ . '/List_routes/variables.php';
-require __DIR__ . '/List_routes/carteras.php';
+require __DIR__ . '/routes/carteras.php';
 
 require __DIR__ . '/routes/general.php';
 
@@ -31,17 +30,8 @@ require __DIR__ . '/routes/permisos.php';
 
 require __DIR__ . '/routes/roles.php';
 
-// SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
+require __DIR__ . '/routes/codeudores.php';
 
-Route::get('start/simulador',[
-	'uses' 	=> 'SimuladorController@index',
-	'as'	=> 'start.simulador.index'
-	])->middleware('simulador');
-
-Route::post('start/simulador',[
-	'uses' 	=> 'SimuladorController@store',
-	'as'	=> 'start.simulador.store'
-	])->middleware('simulador');
 
 //FINANCIERO
 
@@ -56,71 +46,74 @@ Route::get('financiero',
 | Clientes
 |--------------------------------------------------------------------------
 */
-Route::get('start/clientes',
-	['uses' => 'ClienteController@index','as'=> 'start.clientes.index'])->middleware('clientes_listar');
+// Route::get('start/clientes',[
+// 	'middleware' => ['permission:listar_clientes'],
+// 	'uses' => 'ClienteController@index',
+// 	'as'=> 'start.clientes.index'
+// ]);
 
-Route::post('start/clientes',
-	['uses' => 'ClienteController@store','as'=> 'start.clientes.store'	])->middleware('clientes_guardar');
+// Route::post('start/clientes',
+// 	['uses' => 'ClienteController@store','as'=> 'start.clientes.store'	]);
 
-Route::get('start/clientes/create',
-	['uses' 	=> 'ClienteController@create','as'=> 'start.clientes.create'])->middleware('clientes_crear');
+// Route::get('start/clientes/create',
+// 	['uses' 	=> 'ClienteController@create','as'=> 'start.clientes.create']);
 
-Route::get('start/clientes/{cliente}',
-	['uses' => 'ClienteController@show','as'=> 'start.clientes.show'])->middleware('clientes_ver');
+// Route::get('start/clientes/{cliente}',
+// 	['uses' => 'ClienteController@show','as'=> 'start.clientes.show']);
 
-Route::get('start/clientes/{cliente}/edit',
-	['uses' => 'ClienteController@edit','as'=> 'start.clientes.edit'])->middleware('clientes_editar');
+// Route::get('start/clientes/{cliente}/edit',
+// 	['uses' => 'ClienteController@edit','as'=> 'start.clientes.edit']);
 
-Route::put('start/clientes/{cliente}',
-	['uses' => 'ClienteController@update','as'=> 'start.clientes.update'])->middleware('clientes_actualizar');
+// Route::put('start/clientes/{cliente}',
+// 	['uses' => 'ClienteController@update','as'=> 'start.clientes.update']);
 
-Route::get('start/clientes/{id}/consultar_codeudor',[
-	'uses'	=> 'ClienteController@consultar_codeudor',
-	'as'	=> 'start.clientes.consulta_codeudor'
-	]);
+// Route::get('start/clientes/{id}/consultar_codeudor',[
+// 	'uses'	=> 'ClienteController@consultar_codeudor',
+// 	'as'	=> 'start.clientes.consulta_codeudor'
+// 	]);
 
-Route::get('start/clientes/{cliente_id}/upload',[
-	'uses'  => 'ClienteController@uploadDocument',
-	'as'    => 'start.clientes.upload_document'
-]);
+// Route::get('start/clientes/{cliente_id}/upload',[
+// 	'uses'  => 'ClienteController@uploadDocument',
+// 	'as'    => 'start.clientes.upload_document'
+// ]);
 
-//CLIENTE BORRAR
+// //CLIENTE BORRAR
 
-Route::get('start/clientes/{id}/destroy',
-	['uses'	=> 'ClienteController@destroy','as'	=> 'start.clientes.destroy'])->middleware('clientes_borrar');
+// Route::get('start/clientes/{id}/destroy',
+// 	['uses'	=> 'ClienteController@destroy','as'	=> 'start.clientes.destroy']);
 
-//DOCUMENTOS
-Route::put('start/documentos/{objeto_relacionado}',
-	['uses' => 'DocumentoController@set_documento',
-	 'as' => 'start.documentos.upload']);
+// //DOCUMENTOS
+// Route::put('start/documentos/{objeto_relacionado}',
+// 	['uses' => 'DocumentoController@set_documento',
+// 	 'as' => 'start.documentos.upload']);
 	
-Route::get('start/documentos/{documento_id}/get/{nombre}',
-	['uses' => 'DocumentoController@get_documento',
-	 'as' => 'start.documentos.get_documento']);
+// Route::get('start/documentos/{documento_id}/get/{nombre}',
+// 	['uses' => 'DocumentoController@get_documento',
+// 	 'as' => 'start.documentos.get_documento']);
 
-Route::get('start/documentos/{documento_id}/destroy/{inicio?}',
-	 ['uses' => 'DocumentoController@destroy',
-	  'as' => 'start.documentos.destroy']);
+// Route::get('start/documentos/{documento_id}/destroy/{inicio?}',
+// 	 ['uses' => 'DocumentoController@destroy',
+// 	  'as' => 'start.documentos.destroy']);
  
 
-//ESTUDIOS
+// //ESTUDIOS
 
 
-Route::get('start/estudios/cliente/{id_cliente}/codeudor/{id_codeudor}/create/{obj}',[
-	'uses'	=> 'EstudioController@create',
-	'as'	=> 'start.estudios.create'
-	])->middleware('estudios_crear');
+// Route::get('start/estudios/cliente/{id_cliente}/codeudor/{id_codeudor}/create/{obj}',[
+// 	'uses'	=> 'EstudioController@create',
+// 	'as'	=> 'start.estudios.create'
+// 	]);
 
 
-Route::post('estudios-ref',[
-	'uses'	=> 'EstudioController@store_ref',
-	'as'	=> 'start.estudios.create.ref'
-	])->middleware('estudios_crear');
+// Route::post('estudios-ref',[
+// 	'uses'	=> 'EstudioController@store_ref',
+// 	'as'	=> 'start.estudios.create.ref'
+// 	]);
 
-Route::put('estudios-ref',[
-	'uses'	=> 'EstudioController@update_ref',
-	'as'	=> 'start.estudios.create.ref'
-	])->middleware('estudios_crear');
+// Route::put('estudios-ref',[
+// 	'uses'	=> 'EstudioController@update_ref',
+// 	'as'	=> 'start.estudios.create.ref'
+// 	]);
 
 Route::resource('estudios','EstudioController');
 
@@ -298,7 +291,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::get('users/get_users','UserController@getUsers');
 	Route::resource('users','UserController');
 	
-	Route::resource('carteras','CarteraController');
+	// Route::resource('carteras','CarteraController');
 	Route::resource('negocios','NegocioController');
 	Route::get('negocios/{id}/destroy','NegocioController@destroy')->name('admin.negocios.destroy');
 	Route::resource('productos','ProductoController');

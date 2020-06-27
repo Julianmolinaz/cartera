@@ -71,7 +71,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::resource('users','UserController');
 
 	Route::resource('variables','VariableController',['only' =>['index','update']]);
-	Route::resource('carteras','CarteraController');
+	
 	Route::resource('negocios','NegocioController');
 	Route::get('negocios/{id}/destroy','NegocioController@destroy')->name('admin.negocios.destroy');
 	Route::resource('productos','ProductoController');

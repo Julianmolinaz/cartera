@@ -79,7 +79,7 @@
             <li><a href="{{route('admin.negocios.index')}}">Negocios</a></li> 
             <li><a href="{{route('admin.carteras.index')}}">Carteras</a></li> 
             <li><a href="{{route('admin.users.index')}}">Usuarios</a></li>
-            <li><a href="{{ route('admin.permisos.index')}}">Permisos</a></li>
+            <li><a href="{{ route('admin.roles.create')}}">Roles/Permisos</a></li>
             <li role="separator" class="divider"></li>          
             <li><a href="{{route('admin.puntos.index')}}">Puntos</a></li> 
             <li><a href="{{route('admin.zonas')}}">Zonas</a></li>                         

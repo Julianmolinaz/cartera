@@ -28,13 +28,13 @@ class Cliente extends Model implements Auditable
         'ocupacion',
         'tipo_actividad',
         'empresa',
-        'placa',
+        'placa', //*
         'email',
-        'codeudor_id',
+        'codeudor_id', //*
         'user_create_id',
         'user_update_id',
-        'calificacion',
-        'conyuge_id',
+        'calificacion',//*
+        'conyuge_id',//*
         'tel_empresa',
         'dir_empresa'
     ];

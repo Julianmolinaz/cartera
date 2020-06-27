@@ -3,30 +3,35 @@
 //ESTUDIOS
 
 Route::get('start/estudios/cliente/{id_cliente}/codeudor/{id_codeudor}/create/{obj}',[
+	'middleware' => ['permission:crear_estudios'],
 	'uses'	=> 'EstudioController@create',
 	'as'	=> 'start.estudios.create'
-])->middleware('estudios_crear');
+]);
 
 
 Route::post('estudios-ref',[
+	'middleware' => ['permission:crear_referencias'],
 	'uses'	=> 'EstudioController@store_ref',
 	'as'	=> 'start.estudios.create.ref'
-])->middleware('estudios_crear');
+]);
 
 Route::put('estudios-ref',[
+	'middleware' => ['permission:crear_referencias'],
 	'uses'	=> 'EstudioController@update_ref',
 	'as'	=> 'start.estudios.create.ref'
-	])->middleware('estudios_crear');
+]);
 
 Route::resource('estudios','EstudioController');
 
 Route::post('start/estudios',[
+	'middleware' => ['permission:listar_clientes'],
     'uses' => 'EstudioController@store',
     'as'=> 'start.estudios.store'	
-])->middleware('estudios_guardar');
+]);
 
 
 Route::put('start/estudios/{estudio}',[
+	'middleware' => ['permission:crear_estudios'],
     'uses' => 'EstudioController@update',
     'as'=> 'start.estudios.update'
-])->middleware('estudios_actualizar');
+]);
