@@ -18,7 +18,7 @@ class CreateTarifasTable extends Migration
             $table->string('tipo_vehiculo_id');
             $table->string('cilindraje_id');
             $table->double('valor');
-            $table->enum('modelo',[ 'Menor a 10 años', 'Mayor a 10 años'])->nulable();
+            $table->enum('modelo',[ 'De 0 a 9 años', 'De 10 años o más'])->nulable();
             $table->enum('estado', ['Activo','Inactivo'])->default('Activo');
             $table->timestamps();
         });

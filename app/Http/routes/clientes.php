@@ -10,15 +10,9 @@
 // Listar clientes
 
 Route::get('start/clientes',[
-<<<<<<< HEAD
 	'middleware' => ['permission:ver_clientes'],
 	'uses' => 'ClienteController@index',
 	'as'=> 'start.clientes.index'
-=======
-    'middleware' => ['permission:cliente_show'],
-    'uses'  => 'ClienteController@index',
-    'as'    => 'start.clientes.index'
->>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 ]);
 
 // LIST
