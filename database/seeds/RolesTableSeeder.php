@@ -35,5 +35,14 @@ class RolesTableSeeder extends Seeder
             'display_name' => 'Asesor',
             'description' => 'Rol de ejecutivos de cuenta'
         ]);
+        
+
+        \DB::table('roles')->insert([
+            'id' => '4',
+            'name' => 'analista',
+            'display_name' => 'Analista',
+            'description' => 'Rol de analistas de cartera'
+        ]);
+
     }
 }

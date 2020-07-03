@@ -499,18 +499,15 @@ trait ClientesClass
 
     public function rules_cliente($opcion)
     {
-    	if( $opcion == 'crear' )
-    	{
+    	if ( $opcion == 'crear' ) {
     		$num_doc = 'required|max:15|unique:clientes';
     	}
-    	elseif( $opcion == 'editar' ) 
-    	{
+    	elseif ( $opcion == 'editar' ) {
     		$num_doc = 'required|max:15|unique:clientes,'.'id';
     	}
-    	else
-    	{
+    	else {
     		dd('error en rules cliente'.$opcion);
-    	}
+        }
 
 		return array(
             'primer_nombre'             => ['required','max:60','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
@@ -525,17 +522,14 @@ trait ClientesClass
             'municipio_id'              => 'required',
             'movil'                     => 'required|max:20|alpha_num',
             'fijo'                      => 'max:20|alpha_num',
-            'ocupacion'                 => 'required',
+            'oficio'                    => 'required',
             'tipo_actividad'            => 'required',
             'email'                     => 'required|max:60'
             );
     }
 
-    public function messages_cliente($opcion)
+    public function messages_cliente(   )
     {
-    	// if( $opcion == 'crear' ){}
-    	// elseif( $opcion == 'editar' ){}
-    	// else{}
 		return array(
            'primer_nombre.required'     => 'EL primer nombre del cliente es requerido',
            'primer_nombre.max'          => 'El primer nombre del cliente excede los 60 caracteres permitidos',
@@ -562,7 +556,7 @@ trait ClientesClass
            'movil.alpha_num'            => 'No se puede introducir espacios en el movil',
            'fijo.alpha_num'             => 'No se puede introducir espacios en el teléfono',
            'fijo.max'                   => 'El número de teléfono del cliente excede los 20 dígitos permitidos',
-           'ocupacion.required'         => 'La ocupación del cliente es requerida',
+           'oficio.required'            => 'El oficio del cliente es requerida',
            'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
            'email.required'             => 'El email es requerido',
            'email.max'                  => 'El email del cliente excede los 60 caracteres permitidos'

@@ -12,7 +12,7 @@ class Producto extends Model implements Auditable
     protected $table = "productos";
 
     protected $fillable = [
-    	'nombre' , 'descripcion',
+    	'nombre','num_vehiculo','descripcion',
     ];
 
 

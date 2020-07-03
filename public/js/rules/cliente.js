@@ -1,0 +1,43 @@
+const rules_personales = {
+    primer_nombre:      { name: 'primer nombre',        rule: 'required'},
+    segundo_nombre:     { name: 'segundo nombre',       rule: ''},
+    primer_apellido:    { name: 'primer apellido',      rule: 'required'},
+    segundo_apellido:   { name: 'segundo apellido',     rule: ''},
+    tipo_doc :          { name: 'tipo de documento',    rule: 'required'},
+    num_doc :           { name: 'numero de documento',  rule: 'required'},
+    lugar_exp :         { name: 'lugar de expedicion',  rule: 'required'},
+    fecha_exp :         { name: 'fecha de expedicion',  rule: 'required'},
+    fecha_nacimiento :  { name: 'fecha de nacimiento',  rule: 'required'},
+    lugar_nacimiento :  { name: 'lugar de nacimiento',  rule: 'required'},
+    nivel_estudios :    { name: 'nivel de estudios',    rule: 'required'},
+    estado_civil :      { name: 'estado civil',         rule: 'required'},
+}
+
+const rules_ubicacion = {
+    direccion              : { name: 'direccion',            rule: 'required' },
+    barrio                 : { name: 'barrio',               rule: 'required' },
+    municipio              : { name: 'municipio',            rule: 'required' },
+    movil                  : { name: 'celular',              rule: 'required|alpha_num' },
+    fijo                   : { name: 'telefono',             rule: 'alpha_num' },
+    email                  : { name: 'correo electronico',   rule: 'required|email' },
+    estrato                : { name: 'estrato',              rule: 'required' }, 
+    anos_residencia        : { name: 'años en residencia',   rule: 'required|integer'}, 
+    meses_residencia       : { name: 'meses en residencia',  rule: 'required|integer'}, 
+    tipo_vivienda          : { name: 'tipo de vivienda',     rule: 'required' }, 
+    envio_correspondencia  : { name: 'envio de correspondencia', rule: '' }, 
+    nombre_arrendador      : { name: 'nombre arrendador',    rule: '' }, 
+    telefono_arrendador    : { name: 'telefono arrendador',  rule: 'alpha_num'}
+}
+
+const rules_economica = {
+    ocupacion             : { name : 'ocupacion',           rule: 'required' },
+    tipo_actividad        : { name : 'tiipo de actividad',  rule: 'required' },
+    empresa               : { name : 'nombre empresa',      rule: '' },
+    tel_empresa           : { name : 'telefono empresa',    rule: '' },
+    dir_empresa           : { name : 'direccion empresa',   rule: '' },
+    doc_empresa           : { name : 'identificacion empresa', rule: '' },
+    cargo                 : { name : 'cargo',               rule: '' },
+    tipo_contrato         : { name : 'tipo de contrato',    rule: '' },
+    fecha_vinculacion     : { name : 'fecha de vincalacion',rule: '' },
+    descripcion_actividad : { name : 'descripcion de la actividad', rule: '' }
+}

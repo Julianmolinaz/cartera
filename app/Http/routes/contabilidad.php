@@ -7,8 +7,8 @@ Route::group(['prefix' => 'contabilidad'], function () {
     Route::get('/', 'ContabilidadController@index')
         ->name('contabilidad.index');
 
-    Route::get('/puc/index','PucController@index')
-        ->name('contabilidad.puc.index');
+    // Route::get('/puc/index','PucController@index')
+    //     ->name('contabilidad.puc.index');
 
     // TERCEROS 
 

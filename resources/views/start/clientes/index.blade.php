@@ -51,6 +51,7 @@
             $('#table').DataTable({
                 processing: true,
                 serverSide: true,
+                order: [[0,"desc"]],
                 ajax: "{{url('start/clientes/list')}}",
                 columns: [
                     {data: 'num_doc'},

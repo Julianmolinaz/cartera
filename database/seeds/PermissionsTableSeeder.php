@@ -361,6 +361,7 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
+<<<<<<< HEAD
         \DB::table('permissions')->insert([
             'category' => 'Solicitudes',
             'name' => 'crear_solicitudes',
@@ -1385,6 +1386,40 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]); //*
 
+=======
+
+        \DB::table('permissions')->insert([
+            'id' => 2,
+            'name' => 'cliente_show',
+            'display_name' => 'Ver cliente',
+            'description' => 'Permite ver la información del cliente y su conyuge'
+        ]);
+
+
+        \DB::table('permissions')->insert([
+            'id' => 2,
+            'name' => 'cliente_create',
+            'display_name' => 'Craer cliente',
+            'description' => 'Permite crear un cliente y su respectivo conyuge'
+        ]);
+
+
+        \DB::table('permissions')->insert([
+            'id' => 2,
+            'name' => 'cliente_update',
+            'display_name' => 'Craer cliente',
+            'description' => 'Permite actualizar la información del cliente y/o el conyuge'
+        ]);
+        
+
+        \DB::table('permissions')->insert([
+            'id' => 2,
+            'name' => 'cliente_delete',
+            'display_name' => 'Borrar cliente',
+            'description' => 'Permite borrar la información del cliente y/o el conyuge'
+        ]);
+        
+>>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
     }
     
 }

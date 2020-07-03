@@ -18,9 +18,7 @@ use DB;
 
 class CodeudorController extends Controller
 {
-
     use ClientesClass;
-
 
     public function __construct()
     {
@@ -65,7 +63,6 @@ class CodeudorController extends Controller
     public function store(Request $request)
     {
         // REGLAS DE VALIDACION 
-        // dd($request->all());
 
         $rules_codeudor    = $this->rules_codeudor('crear');
         $message_codeudor  = $this->messages_codeudor('crear');
@@ -231,4 +228,5 @@ class CodeudorController extends Controller
             return redirect()->route('start.clientes.show',$cliente->id);
         }
     }
+
 }

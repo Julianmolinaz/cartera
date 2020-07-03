@@ -13,9 +13,16 @@ Route::get('start/creditos',[
     'as'    => 'start.creditos.index'
 ]);
 
+Route::get('start/creditos/list',[    
+	'uses'  => 'CreditoController@list',
+	'as'    => 'start.creditos.list'
+]);
 
+<<<<<<< HEAD
 // Route::get('start/creditos/create',
 // 	['uses' 	=> 'CreditoController@create','as'=> 'start.creditos.create']);
+=======
+>>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 
 Route::put('start/creditos/{credito}',[
 	// Route::get('startUpdate',[

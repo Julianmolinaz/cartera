@@ -301,7 +301,9 @@ class PrecreditoController extends Controller
             $estados_aprobacion = getEnumValues('precreditos', 'aprobado');
             $arr_periodos     = getEnumValues('precreditos','periodo');
             $arr_estudios     = getEnumValues('precreditos','estudio');
+            $tipo_vehiculos   = getEnumValues('vehiculos','tipo');
 
+            
             return view('start.precreditos.create')
               ->with('estados_aprobacion',$estados_aprobacion)
               ->with('arr_periodos',$arr_periodos)
@@ -317,7 +319,8 @@ class PrecreditoController extends Controller
               ->with('arr_productos','')
               ->with('precredito','')
               ->with('fecha_pago','')
-              ->with('credito','');
+              ->with('credito','')
+              ->with('tipo_vehiculos',$tipo_vehiculos);
         }
         else{
             flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');

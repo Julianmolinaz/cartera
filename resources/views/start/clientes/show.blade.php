@@ -14,7 +14,24 @@
     </div>
 
     <div class="col-md-6 col-sm-6 col-xs-12">
-      @include('start.clientes.info.codeudor')
+      @if($cliente->codeudor)
+        @include('start.clientes.info.codeudor')
+      @elseif($cliente->cdeudor)
+        @include('start.clientes.info.cdeudor')
+      @else
+      <div style="margin: 0px auto;
+          width: 100%;
+          height: 84vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;">
+        <a href="{{route('start.clientes_create',['codeudor',$cliente->id])}}" 
+          class='btn btn-primary'>
+          <span class = "glyphicon glyphicon-plus-sign"></span>
+          Crear Codeudor
+        </a>
+      </div>
+      @endif
     </div>
   
   </div>
