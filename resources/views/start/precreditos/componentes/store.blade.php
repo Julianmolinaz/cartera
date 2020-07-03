@@ -3,7 +3,9 @@
 <script>
     const store = new Vuex.Store({
         state: {
-            productos: {!! json_encode($productos) !!},
+            data: {!! json_encode($data) !!},
+            solicitud: new Solicitud(),
+            productos: {!! json_encode($data['productos']) !!},
             producto: 0
         },
         getters: {
@@ -17,6 +19,10 @@
         mutations: {
             setProducto(state, new_producto){
                 state.producto = new_producto
+            },
+            setProductosToSolicitud(state, productos){
+                console.log('store',productos)
+                state.solicitud.productos = productos
             }
         },
         actions: {

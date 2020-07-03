@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Traits\Solicitudes\SolicitudCreateTrait;
 use App\Traits\Solicitudes\SolicitudUpdateTrait;
+use App\Traits\Solicitudes\SolicitudTrait;
 use App\Traits\MensajeTrait;
 use App\Http\Requests;
 use App\Precredito;
@@ -24,6 +25,7 @@ use DB;
 class PrecreditoController extends Controller
 {
     use MensajeTrait;
+    use SolicitudTrait;
     use SolicitudCreateTrait;
     use SolicitudUpdateTrait;
 
@@ -33,7 +35,7 @@ class PrecreditoController extends Controller
     }
 
     public function index()
-    {
+    {     
         $precreditos = 
             Precredito::where('id','>',0)
             ->orderBy('updated_at','desc')
@@ -48,9 +50,22 @@ class PrecreditoController extends Controller
      * vaya a la funcion show de esta clase
      *
      */
-    public function create()
+    public function create($cliente_id)
     {
+      //validar que un cliente no tenga mas precréditos o créditos en proceso
 
+      if ($this->existen_solicitudes_pendientes_tr($cliente_id)) {
+          flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');
+          return redirect()->route('start.clientes.show',$cliente->id);
+      }
+
+      $cliente = Cliente::find($cliente_id);  
+      $data    = $this->obtener_data_para_crear($cliente_id);
+      
+      $data['status'] = 'create';
+
+      return view('start.precreditos.create')
+        ->with('data', $data);
 
     }
 

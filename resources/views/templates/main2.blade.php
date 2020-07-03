@@ -7,6 +7,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
+    <link rel="shortcut icon" href="{{ asset('favicon.ico')}}" />
+
     <!-- Bootstrap -->
     <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.css')}}" rel="stylesheet">
 
@@ -38,11 +40,20 @@
     <!-- mis css -->
     <link rel="stylesheet" href="{{ asset('build/css/micss.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('css/mystyles.css') }}">
+
     <!-- vee validate -->
     <script src="{{asset('js/vee.js')}}"></script>
 
     <!-- axios -->
     <script src="{{asset('js/axios.js')}}"></script>
+
+    <!-- alertify -->
+    <link rel="stylesheet" href="{{ asset('css/alertify.css') }}">
+
+    <!-- alertify -->
+    <script src="{{ asset('js/alertify.js') }}"></script>
+
 
 
     <style>

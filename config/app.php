@@ -14,7 +14,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'file'),
-
+    'cipher'=> 'AES-256-CBC',
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

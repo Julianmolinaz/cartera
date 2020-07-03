@@ -15,7 +15,7 @@ class CreateVehiculosTable extends Migration
         Schema::create('vehiculos', function (Blueprint $table) {
             $table->increments('id');
             $table->enum('tipo',['moto','carro','moto_carro','camioneta']);
-            $table->string('palca');
+            $table->string('placa');
             $table->date('vencimiento_soat');
             $table->date('vencimiento_rtm');
             $table->timestamps();

@@ -102,7 +102,7 @@
             return {
                 vehiculo: new Vehiculo(),
                 rules: rules_vehiculo,
-                tipos: {!! json_encode($tipo_vehiculos) !!}
+                tipos: {!! json_encode($data['tipo_vehiculos']) !!}
             }
         },
         methods: {

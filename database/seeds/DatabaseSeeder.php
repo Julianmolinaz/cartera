@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        ini_set('memory_limit', '1024M');
+
         // $this->call(UsersTableSeeder::class);
         $this->call('MunicipiosTableSeeder');
         $this->call('PuntosTableSeeder');

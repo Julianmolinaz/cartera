@@ -6,11 +6,13 @@ Route::get('start/precreditos',[
     'as'    => 'start.precreditos.index'
 ])->middleware('precreditos_listar');
 
-//PRECREDITOS CREAR
-Route::get('start/precreditos/{cliente}',[
-    'uses'  => 'PrecreditoController@show',
-    'as'    => 'start.precreditos.show'
-]);
+// // PRECREDITOS CREAR
+// Route::get('start/precreditos/{cliente}',[
+//     'uses'  => 'PrecreditoController@show',
+//     'as'    => 'start.precreditos.show'
+// ]);
+
+Route::get('start/precreditos/{cliente_id}','PrecreditoController@create');
 
 //PRECREDITOS EDITAR
 Route::get('start/precreditos/{precredito_id}/edit',[

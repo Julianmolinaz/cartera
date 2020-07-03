@@ -16,11 +16,9 @@ class Solicitud {
       this.p_fecha        = '',
       this.s_fecha        = '',
       this.estudio        = '',
-      this.cuota_inicial  = '', 
-      this.aprobado       = '',
+      this.cuota_inicial  = 1, 
+      this.aprobado       = 'En estudio',
       this.observaciones  = '',
-      this.productos      = [],
-      this.vehiculos      = []
-
+      this.productos      = []
     }
   }

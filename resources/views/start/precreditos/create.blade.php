@@ -2,7 +2,7 @@
 
 @section('contenido')
 
-<div class="col-md-8 col-md-offset-2" id="principal">
+<div class="col-md-12" id="principal">
 
     <div class="panel panel-default" style="pading:5px;" id="myabs">
         <h1 style="margin: 12px 0px 15px 10px">
@@ -24,11 +24,6 @@
                     </a>
                 </li>
                 <li role="presentacion">
-                    <a href="#vehiculo" aria-controls="vehiculo" data-toggle="tab" role="tab">
-                    Vehiculo
-                    </a>
-                </li>
-                <li role="presentacion">
                     <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab">
                     Credito
                     </a>
@@ -43,14 +38,14 @@
                 <div role="tabpanel" class="tab-pane" id="solicitud">
                     <solicitud-component />
                 </div>
-                <div role="tabpanel" class="tab-pane " id="vehiculo">
+                <!-- <div role="tabpanel" class="tab-pane " id="vehiculo">
                     <vehiculo-component />
-                </div>
+                </div> -->
                 <div role="tabpanel" class="tab-pane" id="credito">
                     <credito-component />
                 </div>
 
-            
+                <p class="help-block">Los campos con asterisco (*) son obligatorios</p>
                 
             </div><!-- tab-content  -->
         </div>  <!-- tabpanel    -->
@@ -64,9 +59,10 @@
 
 @include('start.precreditos.componentes.producto')
 @include('start.precreditos.componentes.solicitud')
-@include('start.precreditos.componentes.vehiculo')
+
 @include('start.precreditos.componentes.credito')
 @include('start.precreditos.componentes.store') 
+
 
 <script>
     Vue.use(VeeValidate)
@@ -74,7 +70,10 @@
 
     const principal =new Vue({
         el: '#principal',
-        store
+        store,
+        created(){
+            
+        }
     });
 
 </script>

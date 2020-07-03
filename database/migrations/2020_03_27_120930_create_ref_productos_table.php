@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,7 +16,7 @@ class CreateRefProductosTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->string('nombre', 100);
-			$table->enum('estado', array('En proceso','Pagado'))->nullable()->default('En proceso');
+			$table->enum('estado', array('Procesando','Pagado'))->nullable()->default('Procesando');
 			$table->date('fecha_exp')->nullable();
 			$table->integer('precredito_id');
 			$table->float('costo', 10, 0)->nullable();
