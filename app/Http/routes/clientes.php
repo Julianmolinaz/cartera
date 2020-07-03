@@ -7,15 +7,22 @@
 */
 // LIST
 
+// Listar clientes
+
 Route::get('start/clientes',[
-    'middleware' => ['permission:cliente_show'],
-    'uses'  => 'ClienteController@index',
-    'as'    => 'start.clientes.index'
+	'middleware' => ['permission:ver_clientes'],
+	'uses' => 'ClienteController@index',
+	'as'=> 'start.clientes.index'
 ]);
 
 // LIST
 
 Route::get('start/clientes/list',[
+<<<<<<< HEAD
+    'middleware' => ['permission:listar_clientes'],
+    'uses'  => 'ClienteController@list',
+    'as'    => 'start.clientes.list' 
+=======
     'uses'       => 'ClienteController@list',
     'as'         => 'start.clientes.list' 
 ]);
@@ -25,11 +32,34 @@ Route::get('start/clientes/list',[
 Route::post('start/clientes/validar/documento',[
     'uses'  => 'ClienteController@validate_document',
     'as'    => 'start.clientes.validate_document'
+>>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 ]);
 
+// Crear clientes
+
 Route::post('start/clientes',[
+    'middleware' => ['permission:crear_cliente'],
     'uses'  => 'ClienteController@store',
     'as'    => 'start.clientes.store'	
+<<<<<<< HEAD
+]);
+
+Route::get('start/clientes/create',[
+    'middleware' => ['permission:crear_cliente'],
+    'uses' 	=> 'ClienteController@create',
+    'as'    => 'start.clientes.create'
+]);
+
+// Ver clientes
+
+Route::get('start/clientes/{cliente_id}',[
+    'middleware' => ['permission:ver_clientes'],
+    'uses'  => 'ClienteController@show',
+    'as'    => 'start.clientes.show'
+]);
+
+// Editar clientes
+=======
 ]);     
 
 Route::get('start/clientes_create/{tipo}/{cliente_id?}','ClienteController@create')
@@ -42,33 +72,53 @@ Route::get('start/clientes/{cliente}',[
     'uses'  => 'ClienteController@show',
     'as'    => 'start.clientes.show'
 ]);     
+>>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 
 Route::get('start/clientes/{cliente}/edit',[
+    'middleware' => ['permission:editar_clientes'],
     'uses'  => 'ClienteController@edit',
     'as'    => 'start.clientes.edit'
+<<<<<<< HEAD
+]);
+=======
 ]);     
+>>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 
 Route::put('start/clientes/{cliente}',[
+    'middleware' => ['permission:editar_clientes'],
     'uses'  => 'ClienteController@update',
     'as'    => 'start.clientes.update'
+<<<<<<< HEAD
+]);
+=======
 ]); 
 
 Route::post('start/clientes/updateV2','ClienteController@updateV2'); 
+>>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 
-Route::get('start/clientes/{id}/consultar_codeudor',[
-	'uses'	=> 'ClienteController@consultar_codeudor',
-	'as'	=> 'start.clientes.consulta_codeudor'
+// Eliminar cliente
+
+Route::get('start/clientes/{id}/destroy',[
+    'middleware' => ['permission:borrar_clientes'],
+    'uses'	=> 'ClienteController@destroy',
+    'as'	=> 'start.clientes.destroy'
 ]);
 
+
 Route::get('start/clientes/{cliente_id}/upload',[
+    'middleware' => ['permission:subir_documentos'],
 	'uses'  => 'ClienteController@uploadDocument',
 	'as'    => 'start.clientes.upload_document'
 ]);
 
+<<<<<<< HEAD
+
+=======
 Route::get('start/clientes/{id}/destroy',[
     'uses'	=> 'ClienteController@destroy',
     'as'	=> 'start.clientes.destroy'
 ]);     
+>>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 
 
 
@@ -95,35 +145,5 @@ Route::get('start/documentos/{documento_id}/destroy/{inicio?}',[
  
 
 
-/*
-|--------------------------------------------------------------------------
-| Conyuges
-|--------------------------------------------------------------------------
-*/
-
-Route::resource('start/conyuges','ConyugeController');
-
-Route::get('start/conyuges/create/{cliente_id}/{tipo}','ConyugeController@create')
-		->name('start.conyuges.create');
-
-Route::get('start/conyuges/{cliente_id}/{tipo}/edit','ConyugeController@edit')
-		->name('start.conyuges.edit');
-
-Route::get('start/conyuges/destroy/{cliente_id}/{tipo}','ConyugeController@destroy')
-		->name('start.conyuges.destroy');
 
 
-/*
-|--------------------------------------------------------------------------
-| Codeudores
-|--------------------------------------------------------------------------
-*/
-
-
-Route::resource('start/codeudores','CodeudorController');
-
-Route::get('start/codeudores/create/{cliente_id}','CodeudorController@create')
-		->name('start.codeudores.create');
-
-Route::get('start/codeudores/destroy/{cliente_id}','CodeudorController@destroy')
-		->name('start.codeudores.destroy');

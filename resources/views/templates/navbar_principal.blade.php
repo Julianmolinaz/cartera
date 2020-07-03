@@ -70,13 +70,14 @@
             <li><a href="{{route('admin.multas.index')}}">Multas</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.reportes.index')}}">Reportes &nbsp;<i class="fas fa-chart-line"></i></a></li>
-            <li><a href="{{route('admin.gestion_cartera.index')}}">Informes Cartera&nbsp;<i class="fa fa-thermometer-empty"></i></a></li>
+            <li><a href="{{route('admin.gestion_carteras.index')}}">Informes Carteras&nbsp;<i class="fa fa-thermometer-empty"></i></a></li>
             <li><a href="{{route('admin.reporte.financiero')}}">Financiero &nbsp;<i class="glyphicon glyphicon-lock"></i></a></li>
 
             <li role="separator" class="divider"></li>
             <li><a href="{{route('admin.negocios.index')}}">Negocios</a></li> 
             <li><a href="{{route('admin.carteras.index')}}">Carteras</a></li> 
             <li><a href="{{route('admin.users.index')}}">Usuarios</a></li>
+            <li><a href="{{ route('admin.roles.create')}}">Roles/Permisos</a></li>
             <li role="separator" class="divider"></li>          
             <li><a href="{{route('admin.puntos.index')}}">Puntos</a></li> 
             <li><a href="{{route('admin.zonas')}}">Zonas</a></li>                         

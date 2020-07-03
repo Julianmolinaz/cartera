@@ -51,6 +51,15 @@ class Cliente extends Model implements Auditable
 
         'ocupacion',
         'empresa',
+        'placa', //*
+        'email',
+        'codeudor_id', //*
+        'user_create_id',
+        'user_update_id',
+        'calificacion',//*
+        'conyuge_id',//*
+        'tel_empresa',
+        'dir_empresa'
         'tipo_actividad',
         'dir_empresa',
         'tel_empresa',
@@ -74,6 +83,7 @@ class Cliente extends Model implements Auditable
         'calificacion', // caslificar por credito
         'placa', // por credito
         'tipo'
+>>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
     ];
 
 

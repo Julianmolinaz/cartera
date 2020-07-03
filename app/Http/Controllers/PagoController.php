@@ -28,7 +28,8 @@ class PagoController extends Controller
      */
     public function index_otros_ingresos()
     {
-        $otros_pagos = OtrosPagos::where('id','>','0')->orderBy('created_at','desc')->get();
+        $otros_pagos = OtrosPagos::where('id','>','0')
+            ->orderBy('created_at','desc')->get();
 
         return view('start.pagos.index_otros_pagos')
             ->with('otros_pagos',$otros_pagos);

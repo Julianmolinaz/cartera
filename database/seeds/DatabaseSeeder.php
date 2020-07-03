@@ -56,5 +56,12 @@ class DatabaseSeeder extends Seeder
         $this->call('ZonasTableSeeder');
         $this->call('TercerosTableSeeder');
         $this->call('RefProductosTableSeeder');
+        $this->call('PermissionsTableSeeder');
+        $this->call('RolesTableSeeder');
+        $this->call('RoleUserTableSeeder');
+        $this->call('TipoVehiculosTableSeeder');
+        $this->call('CilindrajesTableSeeder');
+        $this->call('TarifasTableSeeder');
+
     }
 }
