@@ -10,6 +10,7 @@ use App\Traits\Cartera\StructTrait;
 use App\Http\Requests;
 use App\Cartera;
 use Filter;
+use Entrust;
 use DB;
 
 class GestionCarteraController extends Controller

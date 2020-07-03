@@ -11,8 +11,11 @@
     <!-- LISTADO  -->
     <div class="checkbox">
         <label>
-            <input type="checkbox" id="" value="" @change="show_all"> 
+            <a>
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </a>
             Todos
+            <input type="checkbox" id="" value="" @change="showAll"  style="float:left;margin-left:10px;"> 
         </label>
     </div>
 
@@ -20,8 +23,9 @@
 
         <div class="checkbox">
             <label>
-                <input type="checkbox" id="" value=""> 
                 @{{ categoria.category }} 
+                <input type="checkbox" id="" v-model="categoria.selected"  
+                    @change="selectPorItem(categoria.category)" style="float:left;margin-left:10px;"> 
             </label>
         </div>
 
@@ -29,8 +33,10 @@
 
             <div class="checkbox" style="text-indent:1em">
                 <label>
-                    <input type="checkbox" id="" value="" v-model="permiso.checked"> 
                     @{{ permiso.display_name }}
+                    <input type="checkbox" id="" value="" v-model="permiso.selected" 
+                        style="float:left;margin-left:10px;"
+                        :checked="permiso.selected"> 
                 </label>
             </div>
         

@@ -35,3 +35,16 @@ Route::put('start/estudios/{estudio}',[
     'uses' => 'EstudioController@update',
     'as'=> 'start.estudios.update'
 ]);
+
+
+// Route::resource('estudios','EstudioController');
+
+// //ESTUDIO GUARDAR
+// Route::post('start/estudios',
+// 	['uses' => 'EstudioController@store','as'=> 'start.estudios.store'	]);
+
+
+// //ESTUDIOS ACTUALIZAR
+// Route::put('start/estudios/{estudio}',
+// 	['uses' => 'EstudioController@update','as'=> 'start.estudios.update']);
+

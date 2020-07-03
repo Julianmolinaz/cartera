@@ -55,7 +55,7 @@
                 name        : '',
                 descripcion : '',
                 errors      : '',
-                select_todo : true
+                select_todo : false
             },
             methods: {
                 async onSubmit() {
@@ -102,19 +102,34 @@
                         alert(res.data.message)
                     }
                 },
-                show_all() {
-
-                    console.log('show_all');
+                showAll() {
 
                     this.select_todo = ! this.select_todo
 
                     for (let i = 0; i < this.categorias.length; i++) {
-                        console.log(i)
-
+                        this.categorias[i].selected = this.select_todo
+                        
                         for (let j = 0; j < this.categorias[i].permisos.length; j++) {
-                            this.categorias[i].permisos[j].selected = false
-                            // this.cateorias[i].permisos[j].selected = true
+                            
+                            this.categorias[i].permisos[j].selected = this.select_todo
                         }
+                    }
+                },
+                selectPorItem(categoria) {
+
+                    console.log({categoria})
+
+                    for (let i = 0; i < this.categorias.length; i++) {
+                        console.log(this.categorias[i].category);
+                        if (this.categorias[i].category == categoria) {
+
+                  
+
+                            for (let j = 0; j < this.categorias[i].permisos.length; j++) {
+
+                                this.categorias[i].permisos[j].selected = this.categorias[i].selected
+                            }
+                        } 
                     }
                 }
             },

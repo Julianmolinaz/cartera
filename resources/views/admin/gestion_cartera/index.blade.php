@@ -23,7 +23,9 @@
                 <small><span class="text-muted">(Total Criterio / Total Cartera) * 100 </span></small></li>
             </ul>
           </p>
-          <p><a href="{{ route('admin.info_carteras') }}" class="btn btn-primary" role="button">Ver informe</a></p>
+
+            <p><a href="{{ route('admin.info_carteras') }}" class="btn btn-primary" role="button">Ver informe</a></p>
+
         </div>
       </div>
     </div>

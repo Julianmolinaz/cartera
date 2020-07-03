@@ -9,7 +9,7 @@
 // Listar clientes
 
 Route::get('start/clientes',[
-	'middleware' => ['permission:listar_clientes'],
+	'middleware' => ['permission:ver_clientes'],
 	'uses' => 'ClienteController@index',
 	'as'=> 'start.clientes.index'
 ]);
@@ -19,7 +19,6 @@ Route::get('start/clientes/list',[
     'uses'  => 'ClienteController@list',
     'as'    => 'start.clientes.list' 
 ]);
-
 
 // Crear clientes
 
@@ -37,7 +36,7 @@ Route::get('start/clientes/create',[
 
 // Ver clientes
 
-Route::get('start/clientes/{cliente}',[
+Route::get('start/clientes/{cliente_id}',[
     'middleware' => ['permission:ver_clientes'],
     'uses'  => 'ClienteController@show',
     'as'    => 'start.clientes.show'
@@ -99,35 +98,5 @@ Route::get('start/documentos/{documento_id}/destroy/{inicio?}',[
  
 
 
-/*
-|--------------------------------------------------------------------------
-| Conyuges
-|--------------------------------------------------------------------------
-*/
-
-Route::resource('start/conyuges','ConyugeController');
-
-Route::get('start/conyuges/create/{cliente_id}/{tipo}','ConyugeController@create')
-		->name('start.conyuges.create');
-
-Route::get('start/conyuges/{cliente_id}/{tipo}/edit','ConyugeController@edit')
-		->name('start.conyuges.edit');
-
-Route::get('start/conyuges/destroy/{cliente_id}/{tipo}','ConyugeController@destroy')
-		->name('start.conyuges.destroy');
 
 
-/*
-|--------------------------------------------------------------------------
-| Codeudores
-|--------------------------------------------------------------------------
-*/
-
-
-Route::resource('start/codeudores','CodeudorController');
-
-Route::get('start/codeudores/create/{cliente_id}','CodeudorController@create')
-		->name('start.codeudores.create');
-
-Route::get('start/codeudores/destroy/{cliente_id}','CodeudorController@destroy')
-		->name('start.codeudores.destroy');

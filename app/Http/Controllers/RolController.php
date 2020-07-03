@@ -94,7 +94,7 @@ class RolController extends Controller
 
                 foreach ($categoria['permisos'] as $permiso) {
 
-                    if (isset($permiso['checked']) && $permiso['checked']) {
+                    if ( isset($permiso['selected']) ) {
 
                         DB::table('permission_role')->insert([
                             'role_id' => $rol->id,

@@ -1,13 +1,18 @@
 <?php
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 
-    Route::resource('variables','VariableController',['only' =>['index','update']]);
-    
-    Route::get('get-mensajes','VariableController@get_mensajes');
+// LISTAR zonas
 
-    Route::post('variables/pagos/set_porcentaje_pago_parcial',
-        'VariableController@setPorcentajePagoParcial');
+Route::get('admin/variables', [
+    'middleware' => ['permission:ver_variables'],
+    'uses' => 'VariableController@index',
+    'as'  => 'admin.variables.index'
+]);
 
-});
+Route::get('admin/variables_listall/{page?}',[
+    'middleware' => ['permission:editar_variables'],
+    'uses' => 'VariableController@listall', 
+    'as' => 'admin.variables.listall'
+]);
+

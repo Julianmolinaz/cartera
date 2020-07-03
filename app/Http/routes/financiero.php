@@ -6,13 +6,13 @@
 //carga la vista principal de los reportes financieros
 
 Route::get('financiero',[
-		'middleware' => ['permission:financiero_operativo'],
-        'uses' =>'FinancieroController@index',
-        'as'=>'admin.reporte.financiero'
+	'middleware' => ['permission:financiero_operativo'],
+	'uses' =>'FinancieroController@index',
+	'as'=>'admin.reporte.financiero'
 ]);
 
 Route::get('repor-financiero',[
-	'middleware' => ['permission:financiero_operativo'],
+	'middleware' => ['permission:financiero'],
 	'uses' => 'FinancieroController@index',
 	'as'   => 'reporte.financiero'
 ]);
@@ -23,19 +23,17 @@ Route::get('repor-financiero/general/{rango}',[
 	'as'   => 'reporte.financiero.general'
 ]);
 
-Route::get('repor-financiero/sucursales/{rango}/{sucursal_id}',[
-		'middleware' => ['permission:ver_sucursales'],
-		'FinancieroController@financiero_sucursales'
-]);
+Route::get('repor-financiero/sucursales/{rango}/{sucursal_id}',
+	'FinancieroController@financiero_sucursales')
+;
 
 Route::get('repor-financiero/comparativo-anual/{year}',[
-	'middleware' => ['permission:ver_comparativa_anual'],
-	'uses' 	=> 'FinancieroController@financiero_comparativo',
-	'as'	=> 'reporte.financiero.comparativo'
+'uses' 	=> 'FinancieroController@financiero_comparativo',
+'as'	=> 'reporte.financiero.comparativo'
 ]);
 
 Route::post('repor-financiero/detalle',[
-	'middleware' => ['permission:financiero_operativo'],
-	'uses'  => 'FinancieroController@detalle',
-	'as'    => 'reporte.financiero.detalle'
+'uses'  => 'FinancieroController@detalle',
+'as'    => 'reporte.financiero.detalle'
 ]);
+

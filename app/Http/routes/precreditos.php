@@ -16,7 +16,7 @@ Route::get('start/precreditos/{cliente}',[
 
 //PRECREDITOS EDITAR
 Route::get('start/precreditos/{precredito_id}/edit',[
-    'middleware' => ['role:superadmin'],
+    'middleware' => ['permission:editar_solicitudes'],
     'uses'  => 'PrecreditoController@edit',
     'as'    => 'start.precreditos.edit'
 ]);
@@ -41,3 +41,11 @@ Route::get('start/precreditos/{id}/ver',[
     'uses'  	=> 'PrecreditoController@ver',
     'as'    => 'start.precreditos.ver'
 ]);
+
+//PRECREDITOS VER
+Route::get('start/precreditos/{id}/create',[
+    'middleware' => ['permission:crear_solicitudes'],
+    'uses'  	=> 'PrecreditoController@ver',
+    'as'    => 'start.precreditos.create'
+]);
+
