@@ -131,6 +131,14 @@ class CilindrajesTableSeeder extends Seeder
                 'created_at' => '2017-07-23 22:41:23',
                 'updated_at' => '2017-07-24 07:20:16',
             ),
+            13 => 
+            array (
+                'id' => 14,
+                'rango' => 'Menos de 2.500',
+                'estado' => '',
+                'created_at' => '2017-07-23 22:41:23',
+                'updated_at' => '2017-07-24 07:20:16',
+            ),
         ));
     }
 }

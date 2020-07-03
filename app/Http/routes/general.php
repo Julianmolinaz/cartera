@@ -18,13 +18,9 @@ Route::get('set-sanciones','GeneradorController@set');
 
 
 
-<<<<<<< HEAD
 
 
 
-=======
-Route::get('start/anuladas/index',[ 'uses' => 'AnuladaController@index', 'as'   => 'start.anuladas.index']);
->>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 
 //WIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKI
 
