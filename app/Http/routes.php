@@ -2,15 +2,7 @@
 
 require __DIR__ . '/routes/variables.php';
 
-<<<<<<< HEAD
 require __DIR__ . '/routes/carteras.php';
-=======
-require __DIR__ . '/List_routes/pagos.php';
-
-require __DIR__ . '/List_routes/variables.php';
-
-require __DIR__ . '/List_routes/carteras.php';
->>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 
 require __DIR__ . '/routes/general.php';
 
@@ -34,22 +26,7 @@ require __DIR__ . '/routes/pago_creditos.php';
 
 require __DIR__ . '/routes/ref_productos.php';
 
-<<<<<<< HEAD
 require __DIR__ . '/routes/permisos.php';
-=======
-require __DIR__ . '/routes/conyuges.php';
-
-require __DIR__ . '/routes/certificados.php';
-
-require __DIR__ . '/routes/oficios.php';
-
-
-Route::get('test',function(){
-	return view('start.certificados.paz_y_salvo');
-});
-
-
->>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 
 require __DIR__ . '/routes/roles.php';
 
@@ -81,57 +58,6 @@ require __DIR__ . '/routes/reportes.php';
 
 require __DIR__ . '/routes/conyuges.php';
 
-
-<<<<<<< HEAD
-
-
-=======
-//DOCUMENTOS
-Route::put('start/documentos/{objeto_relacionado}',
-	['uses' => 'DocumentoController@set_documento',
-	 'as' => 'start.documentos.upload']);
-	
-Route::get('start/documentos/{documento_id}/get/{nombre}',
-	['uses' => 'DocumentoController@get_documento',
-	 'as' => 'start.documentos.get_documento']);
-
-Route::get('start/documentos/{documento_id}/destroy/{inicio?}',
-	 ['uses' => 'DocumentoController@destroy',
-	  'as' => 'start.documentos.destroy']);
- 
-
-//ESTUDIOS
-
-
-Route::get('start/estudios/cliente/{id_cliente}/codeudor/{id_codeudor}/create/{obj}',[
-	'uses'	=> 'EstudioController@create',
-	'as'	=> 'start.estudios.create'
-	])->middleware('estudios_crear');
-
-
-Route::post('estudios-ref',[
-	'uses'	=> 'EstudioController@store_ref',
-	'as'	=> 'start.estudios.create.ref'
-	])->middleware('estudios_crear');
-
-Route::put('estudios-ref',[
-	'uses'	=> 'EstudioController@update_ref',
-	'as'	=> 'start.estudios.create.ref'
-	])->middleware('estudios_crear');
-
-Route::resource('estudios','EstudioController');
-
-//ESTUDIO GUARDAR
-Route::post('start/estudios',
-	['uses' => 'EstudioController@store','as'=> 'start.estudios.store'	])->middleware('estudios_guardar');
-
-
-//ESTUDIOS ACTUALIZAR
-Route::put('start/estudios/{estudio}',
-	['uses' => 'EstudioController@update','as'=> 'start.estudios.update'])->middleware('estudios_actualizar');
-
-//CODEUDORES
->>>>>>> 3f773aed3efbe1a041357650c41931c2d09ab172
 
 // //CODEUDORES
 
