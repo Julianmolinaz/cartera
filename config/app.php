@@ -217,7 +217,9 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Filter' => App\MyService\Access::class,
+        'c'   => Zizaco\Entrust\EntrustFacade::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+
 
     ],
 

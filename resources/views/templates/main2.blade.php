@@ -79,10 +79,9 @@
   @include('templates.navbar_principal')
 
 
-<div class="col-md-12">
-  @yield('contenido','Ingrese Contenido')
-  
-</div>
+  <div class="col-md-12">
+    @yield('contenido','Ingrese Contenido')
+  </div>
 
 
     <footer class="footer">

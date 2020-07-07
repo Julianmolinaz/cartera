@@ -52,6 +52,8 @@ class PrecreditoController extends Controller
      */
     public function create($cliente_id)
     {
+      
+
       //validar que un cliente no tenga mas precréditos o créditos en proceso
 
       if ($this->existen_solicitudes_pendientes_tr($cliente_id)) {
@@ -61,6 +63,8 @@ class PrecreditoController extends Controller
 
       $cliente = Cliente::find($cliente_id);  
       $data    = $this->obtener_data_para_crear($cliente_id);
+
+      dd($data);
       
       $data['status'] = 'create';
 

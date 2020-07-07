@@ -12,6 +12,9 @@
 
         <template v-for="i in $store.state.producto.min_vehiculos">
             <div class="row">
+                
+                <!-- TIPO  -->
+
                 <div class="form-group">
                     <div v-bind:class="['form-group','col-md-6',errors.first(rules.tipo_vehiculo.name) ? 'has-error' :'']">
                         <label for="">Tipo Vehiculo @{{ rules.tipo_vehiculo.required }}</label>      
@@ -27,6 +30,7 @@
                         </select> 
                         <span class="help-block">@{{ errors.first(rules.tipo_vehiculo.name) }}</span>         
                     </div>
+
                     <div v-bind:class="['form-group','col-md-6',errors.first(rules.placa.name) ? 'has-error' :'']">
                         <label for="">Placa @{{ rules.placa.required }}</label>  
                         <input  

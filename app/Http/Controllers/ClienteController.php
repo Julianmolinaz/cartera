@@ -41,7 +41,7 @@ class ClienteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {         
+    {       
         return view('start.clientes.index');
     }
 
@@ -209,18 +209,17 @@ class ClienteController extends Controller
 
     public function show($id)
     {
-        $cliente        = Cliente::find($id);
+        $cliente = Cliente::find($id);
 
-        if($cliente->codeudor && $cliente->codeudor->id == 100){
+        if(isset($cliente->codeudor) && $cliente->codeudor->id == 100){
             $cliente->codeudor_id = null;
             $cliente->save();
         }
 
-        $cliente = Cliente::find($id);
-
         $precreditos    = Precredito::where('cliente_id',$id)
                             ->orderBy('updated_at','desc')
                             ->get();
+                            
         $calificaciones = getEnumValues('clientes', 'calificacion');                 
 
         return view('start.clientes.show')
