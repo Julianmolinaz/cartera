@@ -93,7 +93,7 @@ class TarifasTableSeeder extends Seeder
                 'created_at' => '2017-07-23 22:41:23',
                 'updated_at' => '2017-07-24 07:20:16',
             ),
-            // SOAT PARA CAMPEROS Y CAMIONETAS MENOS DE 1.500 DE 10 AÑOS O MÁS
+            //SOAT PARA CAMPEROS Y CAMIONETAS MENOS DE 1.500 DE 10 AÑOS O MÁS
             6 => 
             array (
                 'id' => 7,
@@ -483,8 +483,8 @@ class TarifasTableSeeder extends Seeder
                 'created_at' => '2017-07-23 22:41:23',
                 'updated_at' => '2017-07-24 07:20:16',
             ),
-            // RTM PARA MOTOS TODOS LOS MODELOS
-            36> 
+            //  RTM PARA MOTOS TODOS LOS MODELOS
+            36 => 
             array (
                 'id' => 37,
                 'producto_id' => '1',
@@ -497,7 +497,7 @@ class TarifasTableSeeder extends Seeder
                 'updated_at' => '2017-07-24 07:20:16',
             ),
             // RTM PARA AUTOS FAMILIARES TODOS LOS MODELOS
-            37> 
+            37 => 
             array (
                 'id' => 38,
                 'producto_id' => '1',
@@ -510,9 +510,9 @@ class TarifasTableSeeder extends Seeder
                 'updated_at' => '2017-07-24 07:20:16',
             ),
             // SOAT PARA CICLOMOTOS
-            0 => 
+            38 => 
             array (
-                'id' => 1,
+                'id' => 39,
                 'producto_id' => '3',
                 'tipo_vehiculo_id' => '1',
                 'cilindraje_id' => '1',
@@ -522,10 +522,10 @@ class TarifasTableSeeder extends Seeder
                 'created_at' => '2017-07-23 22:41:23',
                 'updated_at' => '2017-07-24 07:20:16',
             ),
-                // SOAT PARA MOTOS de 50 a 99 
-            1 => 
+            //    SOAT PARA MOTOS de 50 a 99 
+            39 => 
             array (
-                'id' => 2,
+                'id' => 40,
                 'producto_id' => '3',
                 'tipo_vehiculo_id' => '2',
                 'cilindraje_id' => '2',
@@ -536,9 +536,9 @@ class TarifasTableSeeder extends Seeder
                 'updated_at' => '2017-07-24 07:20:16',
             ),
             // SOAT PARA MOTOS de 100 a 199
-            2 => 
+            40 => 
             array (
-                'id' => 3,
+                'id' => 41,
                 'producto_id' => '3',
                 'tipo_vehiculo_id' => '2',
                 'cilindraje_id' => '3',
@@ -549,9 +549,9 @@ class TarifasTableSeeder extends Seeder
                 'updated_at' => '2017-07-24 07:20:16',
             ),
             // SOAT PARA MOTOS mas de 200
-            3 => 
+            41 => 
             array (
-                'id' => 4,
+                'id' => 42,
                 'producto_id' => '3',
                 'tipo_vehiculo_id' => '2',
                 'cilindraje_id' => '4',
@@ -562,9 +562,9 @@ class TarifasTableSeeder extends Seeder
                 'updated_at' => '2017-07-24 07:20:16',
             ),
             // SOAT PARA CAMPEROS Y CAMIONETAS MENOS DE 1.500 de 0 a 9 años
-            3 => 
+            42 => 
             array (
-                'id' => 4,
+                'id' => 43,
                 'producto_id' => '3',
                 'tipo_vehiculo_id' => '4',
                 'cilindraje_id' => '5',

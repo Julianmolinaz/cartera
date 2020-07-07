@@ -29,7 +29,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="{{route('start.clientes.index')}}">Ver Clientes</a></li>
-            <li><a href="{{route('start.clientes_create','cliente')}}">Crear Cliente</a></li>
+            <li><a href="{{route('start.clientes.create','cliente')}}">Crear Cliente</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="{{route('call.index')}}">=) CallCenter Todos</a></li>
             <li><a href="{{route('call.morosos')}}">=) CallCenter Morosos</a></li>

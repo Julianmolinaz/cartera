@@ -13,7 +13,6 @@ class RefProductosTableSeeder extends Seeder
     public function run()
     {
         
-
         \DB::table('ref_productos')->delete();
         
         \DB::table('ref_productos')->insert(array (

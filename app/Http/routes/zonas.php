@@ -1,8 +1,4 @@
 <?php
-
-
-
-
 // LISTAR zonas
 
 Route::get('admin/zonas_listall/{page?}',[
