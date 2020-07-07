@@ -11,6 +11,12 @@ use DB;
 
 class RolController extends Controller
 {
+
+    public function __constructor()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -43,13 +49,13 @@ class RolController extends Controller
     {
         $arr_categorias = []; 
 
-        $roles    = \App\Role::orderBy('display_name')->get();
+        $roles = \App\Role::orderBy('display_name')->get();
         
         $categorias = $this->getCategorias();
 
         return view('admin.roles.create')
             ->with('categorias',$categorias)
-            ->with('roles', $roles);        
+            ->with('roles', $roles);  
     }
 
     /**
@@ -60,17 +66,9 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required|unique:roles',
-            'descripcion' => 'required'
-        ];
+        \Log::info($request->all());
 
-        $messages = [
-            'name.required' => 'El nombre es requerido',
-            'descripcion.required' => 'La descripción es requerida'
-        ];
-
-        $validator = Validator::make( $request->all() , $rules, $messages);
+        $validator = $this->validationRole($request->role);
 
         if ($validator->fails()) {
             return response()->json([
@@ -83,18 +81,17 @@ class RolController extends Controller
         DB::beginTransaction();
 
         try {
-
             $rol = new Role();
-            $rol->name = $request->name;
-            $rol->display_name = $request->name;
-            $rol->description = $request->description; 
+            $rol->display_name = $request->role['name'];
+            $rol->name = str_replace(' ', '_', $request->role['name']);
+            $rol->description = $request->role['description']; 
             $rol->save();
 
             foreach($request->categorias as $categoria) {
 
                 foreach ($categoria['permisos'] as $permiso) {
 
-                    if ( isset($permiso['selected']) ) {
+                    if ( $permiso['selected'] ) {
 
                         DB::table('permission_role')->insert([
                             'role_id' => $rol->id,
@@ -134,7 +131,19 @@ class RolController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = Role::find($id);
+
+        $permissions = \DB::table('permission_role')->where('role_id',$role->id)->get();
+
+        $categorias = $this->getCategorias($permissions);
+
+        return response()->json([
+            'error' => false,
+            'dat'   => [ 
+                'role'       => $role, 
+                'categorias' => $categorias 
+                ]
+        ]);
     }
 
     /**
@@ -157,7 +166,53 @@ class RolController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+
+            $rol = Role::find($id);
+            $rol->display_name = $request->role['name'];
+            $rol->name = str_replace(' ', '_', $request->role['name']);
+            $rol->description = $request->role['description']; 
+            $rol->save();
+    
+            DB::table('permission_role')->where('role_id', $id)->delete();
+    
+            foreach($request->categorias as $categoria) {
+    
+                foreach ($categoria['permisos'] as $permiso) {
+    
+                    if ( $permiso['selected'] ) {
+    
+                        DB::table('permission_role')->insert([
+                            'role_id' => $rol->id,
+                            'permission_id' => $permiso['id']
+                        ]);
+                    }
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'error'   => false, 
+                'message' => 'Se actualizo el Rol y sus permisos'
+            ]);
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            return response()->json([
+                'error'   => true, 
+                'message' => 'Se presentó un error: '.$e->getMessage()
+            ]);
+
+        }
+ 
+
+
+
+        \Log::info( $request->all() );
     }
 
     /**
@@ -171,7 +226,7 @@ class RolController extends Controller
         //
     }
 
-    public function getCategorias()
+    public function getCategorias($permissions = null)
     {
         $permisos =  \App\Permission::orderBy('category')->get();
         $categorias = \DB::table('permissions')
@@ -190,13 +245,16 @@ class RolController extends Controller
             for ($i = 0; $i < count($categorias); $i++) {
 
                 if ($categorias[$i]->category == $permiso->category) {
+
+                    $selected = $this->asignarPermiso($permissions, $permiso->id);
+
                     $temp = [
                         'id'           => $permiso->id,
                         'name'         => $permiso->name,
                         'display_name' => $permiso->display_name,
                         'description'  => $permiso->description,
                         'status'       => $permiso->status,
-                        'selected'     => false,
+                        'selected'     => $selected,
                         'show'         => true
                     ];
 
@@ -217,5 +275,38 @@ class RolController extends Controller
             'success' => true,
             'dat'     => $this->getCategorias()
         ]);
+    }
+
+    public function asignarPermiso($permissions, $permiso_id)
+    {
+        $selected = false;
+
+        if ($permissions) {
+            foreach ( $permissions as $permission ) {
+       
+                if ($permission->permission_id == $permiso_id) {
+
+                    $selected = true;
+                }
+            }
+        }
+
+        return $selected;
+    }
+
+    public function validationRole($data_role){
+        $rules = [
+            'name' => 'required|unique:roles',
+            'description' => 'required'
+        ];
+
+        $messages = [
+            'name.required' => 'El nombre es requerido',
+            'description.required' => 'La descripción es requerida'
+        ];
+
+        $validator = Validator::make( $data_role , $rules, $messages);
+
+        return $validator;
     }
 }

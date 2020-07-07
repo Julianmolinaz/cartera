@@ -1,11 +1,20 @@
+
+
+<button class="btn btn-warning" style="margin-bottom:10px;" v-if="estatus=='editar'" @click="reset">Crear Rol</button>
+    
+<a @click="onSubmit" class="btn btn-primary" style="margin-bottom:10px;">
+    <i class="fa fa-paper-plane" aria-hidden="true" style="margin-right:10px;"></i>
+    Salvar
+</a>
+    
 <div class="form-group">
         <label for="">Rol</label>
-        <input type="text" class="form-control" v-model="name">
+        <input type="text" class="form-control" v-model="role.name">
     </div>
 
     <div class="form-group">
         <label for="">Descripción</label>
-        <textarea class="form-control" id="" rows="3" v-model="descripcion"></textarea>
+        <textarea class="form-control" id="" rows="3" v-model="role.description"></textarea>
     </div>
 
     <!-- LISTADO  -->
@@ -44,8 +53,3 @@
 
     </template>
     
-    <div class="form-group" style="margin-top:20px;">
-        <a @click="onSubmit" class="btn btn-warning" style="margin-top-3 -4px;">
-        <i class="fa fa-paper-plane" aria-hidden="true" style="margin-right:10px;"></i>Salvar</a>
-    </div>
-

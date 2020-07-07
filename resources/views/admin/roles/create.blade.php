@@ -29,6 +29,8 @@
                 <div class="row" style="padding: 10px 40px">
 
                     <div class="col-md-6">
+                    
+                        
                         @include('admin.roles.componentes.gestionar')
                     </div>
                     <div class="col-md-6">
@@ -46,25 +48,62 @@
 
 
     <script>
+
+        class Role {
+            constructor() {
+                this.name        = '';
+                this.description = '';
+            }
+        }
+
   
         const permisos_component = new Vue({
             el: '#permisos_template',
             data: {
                 categorias  : {!! json_encode($categorias) !!},
                 roles       : {!! json_encode($roles) !!},
-                name        : '',
-                descripcion : '',
+                role        : new Role(),
+                estatus     : 'crear',
                 errors      : '',
                 select_todo : false
             },
             methods: {
+                crearRol() {
+
+                },
                 async onSubmit() {
                     this.errors = ''
-                    
+                    var self = this
+                    var res = ''
+
+                    if (this.estatus == 'crear') this.store()
+                    else this.update();
+                },
+                async store() {
+
+                    var self = this
                     const res = await axios.post('/admin/roles', {
                         categorias : this.categorias,
-                        name       : this.name,
-                        descripcion : this.descripcion
+                        role       : this.role
+                    })
+
+                    alert(res.data.message)
+
+                    if (res.data.success) {
+                        this.reset()
+                        this.getRoles()
+                    } else {
+                        if (res.data.dat) {
+                            this.errors = res.data.dat
+                        }
+                    }
+                },
+                async update() {
+
+                    var self = this
+                    const res = await axios.put('/admin/roles/'+this.role.id, {
+                        categorias : this.categorias,
+                        role       : this.role
                     })
 
                     alert(res.data.message)
@@ -88,9 +127,9 @@
                     }
                 },
                 reset() {
-                    this.name        = ''
-                    this.descripcion = ''
-                    this.errors      = '' 
+                    this.estatus = 'crear';
+                    this.role = new Role();
+                    this.errors = '';
                     this.resetPermisos()               
                 },
                 async resetPermisos() {
@@ -131,6 +170,17 @@
                             }
                         } 
                     }
+                },
+                async getPermisosRol(item) {
+                    var res = await axios.get('/admin/roles/show/'+item.id);
+
+                    if (!res.data.error) {
+                        this.role       = res.data.dat.role;
+                        this.categorias = res.data.dat.categorias;
+                        this.estatus    = 'editar';
+                    }
+
+                    console.log({res});
                 }
             },
             created() {

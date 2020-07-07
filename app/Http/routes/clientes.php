@@ -26,13 +26,13 @@ Route::get('start/clientes/list',[
 // Crear clientes
 
 Route::post('start/clientes',[
-    'middleware' => ['permission:crear_cliente'],
+    'middleware' => ['permission:crear_clientes'],
     'uses'  => 'ClienteController@store',
     'as'    => 'start.clientes.store'	
 ]);
 
-Route::get('start/clientes/create',[
-    'middleware' => ['permission:crear_cliente'],
+Route::get('start/clientes_create/{tipo}/{cliente_id?}',[
+    'middleware' => ['permission:crear_clientes'],
     'uses' 	=> 'ClienteController@create',
     'as'    => 'start.clientes.create'
 ]);
