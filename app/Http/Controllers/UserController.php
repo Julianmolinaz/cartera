@@ -105,8 +105,6 @@ class UserController extends Controller
             flash()->success('Error: '.$e->getMessage());
             return redirect()->route('admin.users.create');
         }
-            
-
 
     }
 
