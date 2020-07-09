@@ -42,7 +42,7 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Clientes',
             'name' => 'ver_clientes',
-            'display_name' => 'Ver Clientes',
+            'display_name' => 'Ver Cliente',
             'description' => 'Permite ver todos los clientes',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -62,7 +62,7 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Clientes',
             'name' => 'editar_clientes',
-            'display_name' => 'Editar Clientes',
+            'display_name' => 'Editar Cliente',
             'description' => 'Permite editar los clientes',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -84,6 +84,16 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'subir_documentos',
             'display_name' => 'Subir documentacion',
             'description' => 'Permite guardar documentos del cliente',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        \DB::table('permissions')->insert([
+            'category' => 'Clientes',
+            'name' => 'borrar_documentos',
+            'display_name' => 'Borrar documentacion',
+            'description' => 'Permite borrar documentos del cliente',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

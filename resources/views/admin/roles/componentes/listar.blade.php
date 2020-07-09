@@ -6,7 +6,8 @@
   <button type="button" class="list-group-item list-group-item-action active">
   <i class="fa fa-list" aria-hidden="true" style="margin-right:10px;"></i>Roles
   </button>
-  <button type="button" class="list-group-item list-group-item-action" v-for="item in roles">
+  <button type="button" class="list-group-item list-group-item-action" v-for="item in roles"
+      @click="getPermisosRol(item)">
     <i class="fa fa-check" aria-hidden="true" style="margin-right:10px;"></i>
     @{{ item.display_name }}
   </button>

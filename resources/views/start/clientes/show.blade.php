@@ -25,7 +25,7 @@
           display: flex;
           align-items: center;
           justify-content: center;">
-        <a href="{{route('start.clientes_create',['codeudor',$cliente->id])}}" 
+        <a href="{{route('start.clientes.create',['codeudor',$cliente->id])}}" 
           class='btn btn-primary'>
           <span class = "glyphicon glyphicon-plus-sign"></span>
           Crear Codeudor
