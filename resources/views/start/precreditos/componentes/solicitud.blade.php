@@ -223,10 +223,15 @@
         },
         methods: {
             async onSubmit() {
-                let valid = await this.$validator.validate()
+                if (! this.validarForm()) return false;
 
-                // imprimir por consola
-                console.log(valid)
+                let res = await axios.post('/start/precreditos', {
+                    'elements'  : this.$store.state.elements,
+                    'solicitud' : this.$store.state.solicitud
+                })
+
+                console.log({res})
+
             },
             validar_negocio() {
 
@@ -238,6 +243,8 @@
 
                     if ( sumatoria <= (this.solicitud.vlr_fin * 1)) {
                         alertify.notify('La sumatoria de cuotas no coincide con el valor del centro de costos', 'error', 5)
+                    } else {
+                        alertify.notify('El resultado es válido', 'success', 10)
                     }
                 }
             },
@@ -261,6 +268,13 @@
                 } else {
                     this.rango2 = []
                 }
+            },
+            async validarForm() {
+                let valid = await this.$validator.validate();
+
+                alert('Por favor complete los campos');
+
+                return valid
             }
         },   
         created() {

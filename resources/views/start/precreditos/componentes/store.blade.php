@@ -6,7 +6,8 @@
             data: {!! json_encode($data) !!},
             solicitud: new Solicitud(),
             productos: {!! json_encode($data['productos']) !!},
-            producto: 0
+            producto: 0,
+            elements: []
         },
         getters: {
             getProductos(state){
@@ -20,9 +21,8 @@
             setProducto(state, new_producto){
                 state.producto = new_producto
             },
-            setProductosToSolicitud(state, productos){
-                console.log('store',productos)
-                state.solicitud.productos = productos
+            setElements(state, elements){
+                state.elements = elements
             }
         },
         actions: {

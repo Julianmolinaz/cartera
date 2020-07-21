@@ -62,7 +62,7 @@ class PrecreditoController extends Controller
       $cliente = Cliente::find($cliente_id);  
       $data    = $this->obtener_data_para_crear($cliente_id);
 
-      dd($data);
+      // dd($data);
       
       $data['status'] = 'create';
 
@@ -74,6 +74,11 @@ class PrecreditoController extends Controller
 
     public function store(Request $request)
     {
+
+      \Log::info($request->all());
+
+      return response()->json($request->all());
+
       $rq = $request->all();
 
       $validator = $this->validateSolicitudCreateTr($rq);
@@ -88,7 +93,7 @@ class PrecreditoController extends Controller
 
       DB::beginTransaction();
 
-      try{
+      try {
           
         if ($this->procesosPendientes($rq)) {
           

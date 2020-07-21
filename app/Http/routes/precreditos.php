@@ -9,9 +9,9 @@ Route::get('start/precreditos',[
 
 //PRECREDITOS CREAR
 Route::get('start/precreditos/{cliente}',[
-    'middleware' => ['permission:ver_solicitudes'],
-    'uses'  => 'PrecreditoController@show',
-    'as'    => 'start.precreditos.show'
+    // 'middleware' => ['permission:ver_solicitudes'],
+    'uses'  => 'PrecreditoController@create',
+    'as'    => 'start.precreditos.create'
 ]);
 
 //PRECREDITOS EDITAR
@@ -35,6 +35,7 @@ Route::post('start/precreditos',[
     'as'    => 'start.precreditos.store'
 ]);
 
+
 //PRECREDITOS VER
 Route::get('start/precreditos/{id}/ver',[
     'middleware' => ['permission:ver_solicitudes'],
@@ -43,9 +44,9 @@ Route::get('start/precreditos/{id}/ver',[
 ]);
 
 //PRECREDITOS VER
-Route::get('start/precreditos/{id}/create',[
-    'middleware' => ['permission:crear_solicitudes'],
-    'uses'  	=> 'PrecreditoController@ver',
-    'as'    => 'start.precreditos.create'
-]);
+// Route::get('start/precreditos/{id}/create',[
+//     'middleware' => ['permission:crear_solicitudes'],
+//     'uses'  	=> 'PrecreditoController@ver',
+//     'as'    => 'start.precreditos.create'
+// ]);
 
