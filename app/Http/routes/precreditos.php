@@ -9,7 +9,7 @@ Route::get('start/precreditos',[
 
 //PRECREDITOS CREAR
 Route::get('start/precreditos/{cliente}',[
-    'middleware' => ['permission:ver_solicitudes'],
+    // 'middleware' => ['permission:ver_solicitudes'],
     'uses'  => 'PrecreditoController@show',
     'as'    => 'start.precreditos.show'
 ]);
