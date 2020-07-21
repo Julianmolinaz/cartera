@@ -62,7 +62,6 @@ class DatabaseSeeder extends Seeder
         $this->call('RolesTableSeeder');
         $this->call('RoleUserTableSeeder');
         $this->call('TipoVehiculosTableSeeder');
-        $this->call('CilindrajesTableSeeder');
         $this->call('TarifasTableSeeder');
 
     }

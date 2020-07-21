@@ -157,6 +157,7 @@ class CallcenterController extends Controller
             ->join('users','llamadas.user_create_id','=','users.id')
             ->select(DB::raw('
                 carteras.nombre             as cartera,
+                creditos.precredito_id      as precredito_id,
                 creditos.id                 as credito_id,
                 creditos.saldo              as saldo,
                 creditos.refinanciacion     as refinanciado,

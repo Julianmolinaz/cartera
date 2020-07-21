@@ -59,6 +59,9 @@ Route::put('start/clientes/{cliente}',[
     'as'    => 'start.clientes.update'
 ]);
 
+
+Route::post('start/clientes/updateV2','ClienteController@updateV2'); 
+
 // Eliminar cliente
 
 Route::get('start/clientes/{id}/destroy',[

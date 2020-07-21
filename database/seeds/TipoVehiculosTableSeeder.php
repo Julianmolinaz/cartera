@@ -18,7 +18,7 @@ class TipoVehiculosTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'nombre' => 'Ciclomotores',
+                'nombre' => 'Moto',
                 'estado' => '',
                 'created_at' => '2017-07-23 22:41:23',
                 'updated_at' => '2017-07-24 07:20:16',
