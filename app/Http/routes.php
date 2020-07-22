@@ -58,6 +58,8 @@ require __DIR__ . '/routes/reportes.php';
 
 require __DIR__ . '/routes/conyuges.php';
 
+require __DIR__ . '/routes/oficios.php';
+
 
 // //CODEUDORES
 

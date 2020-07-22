@@ -12,6 +12,8 @@ class OficioController extends Controller
 {
     public function store(Request $request) 
     {
+        \Log::info('store del oficio',$request->all());
+        
         try {
   
             $oficio_existe = \DB::table('oficios')->where('nombre', $request->nombre)->count();

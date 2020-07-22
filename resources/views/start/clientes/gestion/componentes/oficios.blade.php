@@ -90,20 +90,27 @@
 
                 axios.get('/start/oficios')
                     .then( res => {
+                        console.log({res})
                         self.$store.commit('setOficios',res.data.dat)
                     })
             },
             onSubmit() {
+
+                console.log('Evento on submit');
+
                 if (!this.oficio.nombre) {
                     alert('Se requiere el nombre del oficio');
                     return false
                 }
+
+                console.log('Estado:', this.estado);
 
                 if (this.estado == 'crear') { this.store() }
                 else { this.update() }
                 
             },
             store() {
+
                 var self = this
 
                 axios.post('/start/oficios',{ nombre: this.oficio.nombre })
