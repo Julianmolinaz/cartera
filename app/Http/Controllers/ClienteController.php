@@ -439,6 +439,7 @@ class ClienteController extends Controller
             'estrato'               => getEnumValues('clientes','estrato'),
             'tipo_vivienda'         => getEnumValues('clientes','tipo_vivienda'),
             'tipo_actividad'        => getEnumValues('clientes','tipo_actividad'),
+            'generos'               => getEnumValues('clientes','genero'),
             'oficios'               => \App\Oficio::orderBy('nombre')->get(),
             'tipo_contrato'         => getEnumValues('clientes','tipo_contrato'),
             'calificacion'          => getEnumValues('clientes','calificacion')

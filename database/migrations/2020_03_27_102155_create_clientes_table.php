@@ -65,7 +65,6 @@ class CreateClientesTable extends Migration {
 			$table->string('doc_empresa')->nullable(); // new
 			$table->date('fecha_vinculacion')->nullable(); // new
 			$table->string('oficio')->nullable(); // new
-			$table->enum('version',[1,2])->default(1);
 			$table->enum('tipo_contrato',['Idefinido','Prestacion de servicios','Termino fijo'])->nullable(); // new
 			$table->enum('reportado', array('si','no'));
 

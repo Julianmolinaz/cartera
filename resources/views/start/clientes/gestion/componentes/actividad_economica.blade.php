@@ -179,16 +179,16 @@
 <script>
 
     let rules_economica = {
-        oficio                : { name : 'oficio',                  rule: 'required', required : '*' }, // general
+        oficio                : { name : 'oficio',                  rule: 'required|alpha', required : '*' }, // general
         tipo_actividad        : { name : 'tipo de actividad',       rule: 'required', required : '*' }, // general
-        empresa               : { name : 'nombre empresa',          rule: '',         required : '' }, // empleado e independiente
+        empresa               : { name : 'nombre empresa',          rule: 'alpha',         required : '' }, // empleado e independiente
         tel_empresa           : { name : 'telefono empresa',        rule: 'min:7|max:15',required : '' }, // empleado e independiente
-        dir_empresa           : { name : 'direccion empresa',       rule: '',         required : '' }, // empleado e independiente
-        doc_empresa           : { name : 'identificacion empresa',  rule: '',         required : '' }, // empleado
-        cargo                 : { name : 'cargo',                   rule: '',         required : '' }, // empleado
+        dir_empresa           : { name : 'direccion empresa',       rule: 'regex:^([a-zA-Z0-9  ]+)$',         required : '' }, // empleado e independiente
+        doc_empresa           : { name : 'identificacion empresa',  rule: 'numeric',         required : '' }, // empleado
+        cargo                 : { name : 'cargo',                   rule: 'alpha',         required : '' }, // empleado
         tipo_contrato         : { name : 'tipo de contrato',        rule: '' ,        required : '' }, // empleado
         fecha_vinculacion     : { name : 'fecha de vinculacion',    rule: '',         required : '' }, // empleado e independiente
-        descripcion_actividad : { name : 'descripcion de la actividad', rule: '',     required : '' }, // indeṕendiente
+        descripcion_actividad : { name : 'descripcion de la actividad', rule: 'alpha',     required : '' }, // indeṕendiente
     }
 
     Vue.component('actividad_economica-component',{
