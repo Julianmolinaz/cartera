@@ -20,6 +20,7 @@ class Cliente extends Model implements Auditable
         'segundo_nombre',
         'primer_apellido',
         'segundo_apellido',
+        'genero',
         'tipo_doc', // show
         'num_doc', // show
         'ciudad_exp',
@@ -37,6 +38,7 @@ class Cliente extends Model implements Auditable
         'barrio',
         'municipio_id',
         'movil', // show
+        'antiguedad_movil',
         'fijo',  // show
         'email', // show
         'anos_residencia',
@@ -49,6 +51,7 @@ class Cliente extends Model implements Auditable
 
         //info economica
 
+        'tipo_actividad',
         'ocupacion',
         'empresa',
         'placa', //*
@@ -60,9 +63,6 @@ class Cliente extends Model implements Auditable
         'conyuge_id',//*
         'tel_empresa',
         'dir_empresa',
-        'tipo_actividad',
-        'dir_empresa',
-        'tel_empresa',
         'cargo',
         'descripcion_actividad',
         'doc_empresa',
@@ -82,7 +82,10 @@ class Cliente extends Model implements Auditable
         'numero_de_creditos',
         'calificacion', // caslificar por credito
         'placa', // por credito
-        'tipo'
+        'tipo',
+        'version',
+        'reportado'
+
     ];
 
 

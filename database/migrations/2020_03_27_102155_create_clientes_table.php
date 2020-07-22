@@ -23,6 +23,7 @@ class CreateClientesTable extends Migration {
 			$table->string('segundo_nombre', 60)->nullable();
 			$table->string('primer_apellido', 60)->nullable();
 			$table->string('segundo_apellido', 60)->nullable();
+			$table->enum('genero', array('Femenino','Masculino'));
 			$table->enum('tipo_doc', array('Cedula Ciudadanía','Nit','Cedula de Extranjería','Pasaporte','Pase Diplomático','Carnet Diplomático','Tarjeta de Identidad','Rut','Número único de Identificación Personal','Nit de Extranjería'))->default('Cedula Ciudadanía');
 			$table->string('num_doc')->unique();
 			$table->string('ciudad_exp')->nullable(); // new
@@ -40,6 +41,7 @@ class CreateClientesTable extends Migration {
 			$table->string('barrio')->nullable();
 			$table->integer('municipio_id')->unsigned()->nullable();
 			$table->string('movil');
+			$table->string('antiguedad_movil');
 			$table->string('fijo')->nullable();
 			$table->string('email')->nullable();
 			$table->integer('anos_residencia')->nullable(); // new
@@ -54,6 +56,7 @@ class CreateClientesTable extends Migration {
 
 			$table->string('ocupacion')->nullable();
 			$table->string('empresa')->nullable();
+			$table->string('nit');
 			$table->enum('tipo_actividad', array('Dependiente','Independiente'));
 			$table->string('dir_empresa')->nullable();
 			$table->string('tel_empresa')->nullable();@
@@ -62,8 +65,8 @@ class CreateClientesTable extends Migration {
 			$table->string('doc_empresa')->nullable(); // new
 			$table->date('fecha_vinculacion')->nullable(); // new
 			$table->string('oficio')->nullable(); // new
-			$table->enum('version',[1,2])->default(1);
 			$table->enum('tipo_contrato',['Idefinido','Prestacion de servicios','Termino fijo'])->nullable(); // new
+			$table->enum('reportado', array('si','no'));
 
 			// referencias
 
@@ -79,6 +82,7 @@ class CreateClientesTable extends Migration {
 			$table->enum('calificacion', array('BB','B','M','MM','CASTIGADA'))->nullable();
 			$table->string('placa')->nullable();
 			$table->timestamps();
+			$table->enum('version', array('1','2','web'));
 
 			// FK
 

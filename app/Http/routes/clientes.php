@@ -39,6 +39,8 @@ Route::get('start/clientes_create/{tipo}/{cliente_id?}',[
 
 // Ver clientes
 
+Route::post('start/clientes/validar/documento', 'ClienteController@validate_document');
+
 Route::get('start/clientes/{cliente_id}',[
     'middleware' => ['permission:ver_clientes'],
     'uses'  => 'ClienteController@show',
@@ -58,6 +60,9 @@ Route::put('start/clientes/{cliente}',[
     'uses'  => 'ClienteController@update',
     'as'    => 'start.clientes.update'
 ]);
+
+
+Route::post('start/clientes/updateV2','ClienteController@updateV2'); 
 
 // Eliminar cliente
 

@@ -11,21 +11,23 @@ class OficiosTableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('oficios')->insert([
-            'nombre' => 'Asalariado'
-        ]);
+        \DB::table('oficios')->delete();
 
-        \DB::table('oficios')->insert([
-            'nombre' => 'Independiente'
-        ]);
+        // \DB::table('oficios')->insert([
+        //     'nombre' => 'Asalariado'
+        // ]);
 
-        \DB::table('oficios')->insert([
-            'nombre' => 'Pensionado'
-        ]);
+        // \DB::table('oficios')->insert([
+        //     'nombre' => 'Independiente'
+        // ]);
 
-        \DB::table('oficios')->insert([
-            'nombre' => 'Socio'
-        ]);
+        // \DB::table('oficios')->insert([
+        //     'nombre' => 'Pensionado'
+        // ]);
+
+        // \DB::table('oficios')->insert([
+        //     'nombre' => 'Socio'
+        // ]);
 
     }
 }

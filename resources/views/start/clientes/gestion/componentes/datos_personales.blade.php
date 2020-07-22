@@ -129,8 +129,20 @@
                     <span class="help-block">@{{ errors.first(rules.lugar_nacimiento.name) }}</span>
                 </div>
 
-                <div v-bind:class="['form-group','col-md-3', errors.first(rules.nivel_estudios.name) ? 'has-error' :'']">
-                    <label>Nivel de estudios *</label>
+                <div v-bind:class="['form-group','col-md-2', errors.first(rules.genero.name) ? 'has-error' :'']">
+                    <label>Genero *</label>
+                    <select name="genero" 
+                        v-model="personal.genero"
+                        class="form-control"
+                        v-validate="rules.genero.rule">
+                        <option disabled selected>--</option>
+                        <option :value="item" v-for="item in data.generos">@{{item}}</option>
+                    </select>
+                    <span class="help-block">@{{ errors.first(rules.genero.name) }}</span>
+                </div>
+
+                <div v-bind:class="['form-group','col-md-2', errors.first(rules.nivel_estudios.name) ? 'has-error' :'']">
+                    <label>Estudios *</label>
                     <select name="nivel de estudios" 
                         v-model="personal.nivel_estudios"
                         class="form-control"
@@ -141,7 +153,7 @@
                     <span class="help-block">@{{ errors.first(rules.nivel_estudios.name) }}</span>
                 </div>
 
-                <div v-bind:class="['form-group','col-md-3', errors.first(rules.estado_civil.name) ? 'has-error' :'']">
+                <div v-bind:class="['form-group','col-md-2', errors.first(rules.estado_civil.name) ? 'has-error' :'']">
                     <label>Estado civil *</label>
                     <select name="estado civil"
                         v-model="personal.estado_civil"
@@ -172,16 +184,17 @@
 <script>
 
     const rules_personales = {
-        primer_nombre:      { name: 'primer nombre',        rule: 'required'},
+        primer_nombre:      { name: 'primer nombre',        rule: 'required|alpha'},
         segundo_nombre:     { name: 'segundo nombre',       rule: ''},
-        primer_apellido:    { name: 'primer apellido',      rule: 'required'},
+        primer_apellido:    { name: 'primer apellido',      rule: 'required|alpha'},
         segundo_apellido:   { name: 'segundo apellido',     rule: ''},
         tipo_doc :          { name: 'tipo de documento',    rule: 'required'},
-        num_doc :           { name: 'numero de documento',  rule: 'required'},
-        lugar_exp :         { name: 'lugar de expedicion',  rule: 'required'},
+        num_doc :           { name: 'numero de documento',  rule: 'required|numeric'},
+        lugar_exp :         { name: 'lugar de expedicion',  rule: 'required|alpha'},
         fecha_exp :         { name: 'fecha de expedicion',  rule: 'required'},
         fecha_nacimiento :  { name: 'fecha de nacimiento',  rule: 'required'},
         lugar_nacimiento :  { name: 'lugar de nacimiento',  rule: 'required'},
+        genero  :           { name: 'genero',               rule: 'required'},              
         nivel_estudios :    { name: 'nivel de estudios',    rule: 'required'},
         estado_civil :      { name: 'estado civil',         rule: 'required'},
     }
@@ -218,6 +231,7 @@
                     this.warning_message = false
                     this.message = ''
                     $('.nav-tabs a[href="#ubicacion"]').tab('show');
+                    console.log('continuar')
                 }
 
             },

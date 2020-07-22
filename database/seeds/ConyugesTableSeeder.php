@@ -12,8 +12,6 @@ class ConyugesTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
         \DB::table('conyuges')->delete();
         
         \DB::table('conyuges')->insert(array (
