@@ -1,7 +1,7 @@
 <?php
 
 Route::get('admin/listall/{page?}',[
-    'middleware' => ['permission:ver_criteriocall'],
+    'middleware' => ['permission:consultar_criteriocall'],
     'uses' => 'CriteriocallController@listall', 
     'as' => 'admin.listall'
 ]);
@@ -9,7 +9,7 @@ Route::get('admin/listall/{page?}',[
 // VER criteriocall
 
 Route::get('admin/criteriocall',[
-    'middleware' => ['permission:ver_criteriocall'],
+    'middleware' => ['permission:consultar_criteriocall'],
     'uses' => 'CriteriocallController@index',
     'as' => 'admin.criteriocall.index'
 ]);
@@ -17,7 +17,7 @@ Route::get('admin/criteriocall',[
 // VISTA CREAR criteriocall
 
 Route::get('admin/criteriocall/create',[
-    'middleware' => ['permission:ver_criteriocall'],
+    'middleware' => ['permission:crear_criteriocall'],
     'uses' => 'CriteriocallController@create',
     'as' => 'admin.criteriocall.create'
 ]);
@@ -25,7 +25,7 @@ Route::get('admin/criteriocall/create',[
 // ACTUALIZAR criteriocall
 
 Route::post('admin/criteriocall',[
-    'middleware' => ['permission:ver_criteriocall'],
+    'middleware' => ['permission:crear_criteriocall'],
     'uses' => 'CriteriocallController@store',
     'as' => 'admin.criteriocall.store'
 ]);

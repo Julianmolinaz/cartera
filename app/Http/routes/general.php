@@ -6,7 +6,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('set-sanciones','GeneradorController@set');
+
 
 // Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVentas')
 // 	;
@@ -39,7 +39,7 @@ Route::group(['prefix' => 'admin'],function(){
 	
 	Route::resource('productos','ProductoController');
 	Route::resource('sanciones','SancionController');
-  	Route::resource('anuladas','AnuladaController');
+
 	  
 	Route::post('data-asis',['uses' =>'DataAsisController@upload_excel','as' => 'data.data_asis']);
 
@@ -83,10 +83,7 @@ Route::get('admin/estado_cuenta/{credito_id}',[
 
 
 
-Route::get('admin/carteras/{id}/destroy',[
-	'uses'	=> 'CarteraController@destroy',
-	'as'	=> 'admin.carteras.destroy'
-	]);
+
 
 Route::resource('log','LogController');
 
@@ -116,9 +113,7 @@ Route::post('start/pagos','PagoController@store');
 //consultar listado de municipios
 Route::get('admin/municipios/cargar','PuntoController@cargar');
 
-//CREAR SANCIONES
 
-Route::post('admin/sanciones/crear_sanciones','SancionController@crearSanciones');
 
 
 //API

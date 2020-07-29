@@ -231,8 +231,9 @@
         },
         methods: {
             async onSubmit() {
+                
+                if (!await this.validate()) return false;
 
-                if (!this.validate()) return false;
                 await this.$store.commit('setElements',this.elements);
                 this.continuar()
 
@@ -291,6 +292,7 @@
 
                 if (!valid || count > 0) {
                     alert('Por favor complete los campos');
+
                     return false
                 }
                 else return true

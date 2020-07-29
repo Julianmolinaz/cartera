@@ -3,7 +3,7 @@
 // LISTAR OTROS INGRESOS
 
 Route::get('start/pagos/index_otros_ingresos',[
-    'middleware' => ['permission:hacer_otro_ingreso'],
+    'middleware' => ['permission:registrar_otros_ingresos'],
     'uses' => 'PagoController@index_otros_ingresos', 
     'as' => 'start.pagos.index_otros_ingresos'
 ]);

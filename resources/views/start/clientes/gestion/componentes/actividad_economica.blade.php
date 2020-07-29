@@ -179,7 +179,7 @@
 <script>
 
     let rules_economica = {
-        oficio                : { name : 'oficio',                  rule: 'required|alpha', required : '*' }, // general
+        oficio                : { name : 'oficio',                  rule: 'required', required : '*' }, // general
         tipo_actividad        : { name : 'tipo de actividad',       rule: 'required', required : '*' }, // general
         empresa               : { name : 'nombre empresa',          rule: 'alpha',         required : '' }, // empleado e independiente
         tel_empresa           : { name : 'telefono empresa',        rule: 'min:7|max:15',required : '' }, // empleado e independiente

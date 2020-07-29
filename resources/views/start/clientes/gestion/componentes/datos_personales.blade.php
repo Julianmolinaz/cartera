@@ -194,7 +194,7 @@
         fecha_exp :         { name: 'fecha de expedicion',  rule: 'required'},
         fecha_nacimiento :  { name: 'fecha de nacimiento',  rule: 'required'},
         lugar_nacimiento :  { name: 'lugar de nacimiento',  rule: 'required'},
-        genero  :           { name: 'genero',               rule: ''},              
+        genero  :           { name: 'genero',               rule: 'required'},              
         nivel_estudios :    { name: 'nivel de estudios',    rule: 'required'},
         estado_civil :      { name: 'estado civil',         rule: 'required'},
     }

@@ -26,8 +26,6 @@ require __DIR__ . '/routes/pago_creditos.php';
 
 require __DIR__ . '/routes/ref_productos.php';
 
-require __DIR__ . '/routes/permisos.php';
-
 require __DIR__ . '/routes/roles.php';
 
 require __DIR__ . '/routes/codeudores.php';
@@ -59,6 +57,11 @@ require __DIR__ . '/routes/reportes.php';
 require __DIR__ . '/routes/conyuges.php';
 
 require __DIR__ . '/routes/oficios.php';
+
+require __DIR__ . '/routes/sanciones.php';
+
+
+
 
 
 // //CODEUDORES
@@ -103,22 +106,6 @@ require __DIR__ . '/routes/oficios.php';
 
 // Route::get('call/{id}/consultar','CallcenterController@consultar_credito');
 
-// Route::get('call/{id}/index_unique',[
-// 	'uses' 	=> 'CallcenterController@index_unique',
-// 	'as'	=> 'call.index_unique'
-// ]);
-
-// //EXPORTAR TODOS LOS CREDITOS CALLCENTER
-// Route::get('call/exportar/todo/{todos?}',[
-// 	'uses'	=> 'CallcenterController@ExportarTodo',
-// 	'as'	=> 'call.exportar.todo'
-// 	]);
-
-// Route::get('call/exportar/soat',[
-// 	'uses'	=> 'CallcenterController@soat',
-// 	'as'	=> 'call.exportar.soat'
-// 	]);
-
 
 
 // //FACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECREDFACTPRECRED
@@ -158,18 +145,14 @@ require __DIR__ . '/routes/oficios.php';
 // 	Route::resource('negocios','NegocioController');
 // 	Route::get('negocios/{id}/destroy','NegocioController@destroy')->name('admin.negocios.destroy');
 // 	Route::resource('productos','ProductoController');
-// 	Route::resource('sanciones','SancionController');
 // 	Route::resource('multas','MultaController');
 // 	Route::resource('criteriocall','CriteriocallController');
-//   	Route::resource('anuladas','AnuladaController');
+
 //   	Route::resource('puntos','PuntoController');	
 	  
 // 	Route::post('data-asis',['uses' =>'DataAsisController@upload_excel','as' => 'data.data_asis']);
 
-// 	//PROVEEDORES
 
-// 	Route::get('proveedores/list','ProveedorController@list');
-// 	Route::resource('proveedores','ProveedorController');
 
 // });
 
@@ -190,36 +173,6 @@ require __DIR__ . '/routes/oficios.php';
 // ]);
 
 
-// //GESTION DE CARTERA
-
-
-// Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index']);
-
-// Route::post('admin/reportes',['uses' => 'ReporteController@store', 'as' => 'admin.reportes.store']);
-
-// //Route::resource('admin/reportes','ReporteController');
-
-// //ADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMIN
-
-
-// //REPORTES
-
-// Route::get('admin/reporte_centrales','ReporteController@centrales');
-
-
-// //REPORTESHISTORIALVENTAS
-
-// Route::post('admin/descargar_reporte_detallado_ventas','ReporteController@descargar');
-
-// Route::get('admin/marcar-cancelados/{tipo_reporte}', 
-// 	[ 'uses' => 'ReporteController@marcar_cancelados', 'as' => 'admin.marcar_cancelados'])
-// 	;
-
-
-
-
-
-
 // Route::get('admin/criteriocall/{id}/destroy',
 // 	['uses'	=> 'CriteriocallController@destroy','as'=> 'admin.criteriocall.destroy']);
 
@@ -238,10 +191,7 @@ require __DIR__ . '/routes/oficios.php';
 // 	'as'	=> 'admin.users.destroy'
 // 	]);
 
-// Route::get('admin/carteras/{id}/destroy',[
-// 	'uses'	=> 'CarteraController@destroy',
-// 	'as'	=> 'admin.carteras.destroy'
-// 	]);
+
 
 Route::resource('log','LogController');
 
@@ -275,10 +225,6 @@ Route::resource('log','LogController');
 
 // //consultar listado de municipios
 // Route::get('admin/municipios/cargar','PuntoController@cargar');
-
-// //CREAR SANCIONES
-
-// Route::post('admin/sanciones/crear_sanciones','SancionController@crearSanciones');
 
 
 // //API

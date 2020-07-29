@@ -664,19 +664,6 @@ class FacturaController extends Controller
     {
 
       \Log::notice($request->all());
-      // $rq = array (
-      //   'num_fact' => '',
-      //   'fecha' => '',
-      //   'monto' => '100000',
-      //   'tipo_pago' => 'Consignacion',
-      //   'credito_id' => 10333,
-      //   'auto' => false,
-      //   'pagos' => 
-      //   array (
-      //   ),
-      //   'banco' => '',
-      //   'num_consignacion' => '',
-      // );
 
       $monto      = $request->monto;
       $credito    = Credito::find($request->credito_id);

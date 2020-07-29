@@ -44,5 +44,25 @@ class RolesTableSeeder extends Seeder
             'description' => 'Rol de analistas de cartera'
         ]);
 
+        \DB::table('roles')->insert([
+            'id' => '5',
+            'name' => 'callcenter',
+            'display_name' => 'Call Center',
+            'description' => 'Rol de call center'
+        ]);
+
+        \DB::table('roles')->insert([
+            'id' => '6',
+            'name' => 'cartera',
+            'display_name' => 'Cartera',
+            'description' => 'Rol de cartera'
+        ]);
+
+        \DB::table('roles')->insert([
+            'id' => '7',
+            'name' => 'coordinador',
+            'display_name' => 'Coordinador',
+            'description' => 'Rol de coordinador'
+        ]);
     }
 }

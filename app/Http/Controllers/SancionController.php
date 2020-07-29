@@ -29,7 +29,7 @@ class SancionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Crea sanciones
      *
      * @return \Illuminate\Http\Response
      */
@@ -38,7 +38,8 @@ class SancionController extends Controller
         return view('admin.sanciones.create');
     }
 
-    public function crearSanciones(Request $request){
+    public function crearSanciones(Request $request)
+    {
     
        $credito = Credito::find($request->input('credito_id'));//CREDITO
        $rango   = $request->input('rango');// FECHA INICIAL A FECHA FINAL PUEDEN SER IGUALES
@@ -146,7 +147,7 @@ class SancionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Actualiza sanciones
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -197,7 +198,7 @@ class SancionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra sanciones
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

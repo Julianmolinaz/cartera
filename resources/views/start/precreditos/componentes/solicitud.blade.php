@@ -196,7 +196,7 @@
         <div class="row">
             <div class="col-md-12" style="margin-top:20px;">
                 <center>
-                    <a class="btn btn-default">Volver</a>
+                    <a class="btn btn-default" @click="volver">Volver</a>
                     <button class="btn btn-primary">Continuar</button>
                 </center>
             </div>
@@ -222,16 +222,34 @@
             }
         },
         methods: {
+            volver () {
+                $('.nav-tabs a[href="#producto"]').tab('show') 
+                
+            },
+            continuar () {
+                $('.nav-tabs a[href="#credito"]').tab('show') 
+                console.log('continuar')
+            },
             async onSubmit() {
-                if (! this.validarForm()) return false;
-
+                if ( ! await this.$validator.validate() ) {
+                    alert('Por favor complete los campos');
+                    return false;
+                }
+                
                 let res = await axios.post('/start/precreditos', {
                     'elements'  : this.$store.state.elements,
                     'solicitud' : this.$store.state.solicitud
                 })
 
-                console.log({res})
+                alert(res.data.message);
 
+                if (res.data.success) {
+                    window.location.href = "{{url('/start/clientes')}}/"+res.data.dat.cliente_id;
+                }
+            },            
+            async validarForm() {
+                let valid = await this.$validator.validate();
+                return valid
             },
             validar_negocio() {
 
@@ -249,7 +267,7 @@
                 }
             },
             setPeriodo(){
-                console.log('set periodo')
+                
 
                 if (this.solicitud.periodo == 'Quincenal') {
                     this.rango1 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
@@ -268,14 +286,8 @@
                 } else {
                     this.rango2 = []
                 }
-            },
-            async validarForm() {
-                let valid = await this.$validator.validate();
-
-                alert('Por favor complete los campos');
-
-                return valid
             }
+         
         },   
         created() {
             console.log(this.$store.state.data.cliente.id)

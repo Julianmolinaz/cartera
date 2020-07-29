@@ -6,12 +6,12 @@
 // LISTAR productos
 
 Route::get('admin/productos_listall/{page?}',[
-    'middleware' => ['permission:ver_productos'],
+    'middleware' => ['permission:consultar_productos'],
     'uses' => 'ProductoController@listall', 
     'as' => 'admin.productos.listall']);
 
 Route::get('admin/productos', [
-    'middleware' => ['permission:ver_productos'],
+    'middleware' => ['permission:consultar_productos'],
     'uses' => 'ProductoController@index',
     'as'  => 'admin.productos.index'
     ]);
@@ -19,7 +19,7 @@ Route::get('admin/productos', [
 // VISTA CREAR productos
 
 Route::get('admin/productos/create', [
-    'middleware' => ['permission:crear_productos'],
+    'middleware' => ['permission:crear_producto'],
     'uses' => 'ProductoController@create',
     'as' => 'admin.productos.create'
 ]);
@@ -27,7 +27,7 @@ Route::get('admin/productos/create', [
 // CREAR productos
 
 Route::post('admin/productos', [
-    'middleware' => ['permission:crear_productos'],
+    'middleware' => ['permission:crear_producto'],
     'uses' => 'ProductoController@store',
     'as'   => 'admin.productos.store'    
 ]);
