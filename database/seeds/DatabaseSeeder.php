@@ -64,5 +64,6 @@ class DatabaseSeeder extends Seeder
         $this->call('TipoVehiculosTableSeeder');
         $this->call('TarifasTableSeeder');
 
+        $this->call('PermissionRoleTableSeeder');
     }
 }

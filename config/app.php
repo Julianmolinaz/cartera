@@ -163,7 +163,8 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
-        Zizaco\Entrust\EntrustServiceProvider::class
+        Zizaco\Entrust\EntrustServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class
         
     ],
 
