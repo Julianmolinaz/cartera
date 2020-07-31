@@ -217,24 +217,6 @@
 
 <script>
 
-
-    const rules_ubicacion = {
-        direccion              : { name: 'direccion',            rule: 'required|regex:^([a-zA-Z0-9  ]+)$'},
-        barrio                 : { name: 'barrio',               rule: 'required|alpha_dash'},
-        municipio              : { name: 'municipio',            rule: 'required|alpha' },
-        movil                  : { name: 'celular',              rule: 'required|numeric|min:10|max:10' },
-        fijo                   : { name: 'telefono',             rule: 'numeric|min:7' },
-        email                  : { name: 'correo electronico',   rule: 'required|email' },
-        estrato                : { name: 'estrato',              rule: 'required' }, 
-        anos_residencia        : { name: 'años en residencia',   rule: 'required|integer|min_value:0|max_value:75'}, 
-        meses_residencia       : { name: 'meses en residencia',  rule: 'required|integer|max_value:11'}, 
-        tipo_vivienda          : { name: 'tipo de vivienda',     rule: 'required' }, 
-        envio_correspondencia  : { name: 'envio de correspondencia', rule: '' }, 
-        nombre_arrendador      : { name: 'nombre arrendador',    rule: 'alpha' }, 
-        telefono_arrendador    : { name: 'telefono arrendador',  rule: 'numeric|min:7|max:10'}
-    }
-
-
     const ubicacion = Vue.component('ubicacion-component',{
         template: '#ubicacion-template',
         data () {

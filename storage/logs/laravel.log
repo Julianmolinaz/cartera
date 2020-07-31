@@ -32661,3 +32661,621 @@ Stack trace:
 #7 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(107): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #8 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #9 {main}  
+[2020-07-29 17:24:51] local.INFO: store del oficio {"nombre":"marinero"} 
+[2020-07-29 17:25:33] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'cliente',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'mauricio',
+      'segundo_nombre' => '',
+      'primer_apellido' => 'asdfsdf',
+      'segundo_apellido' => '',
+      'tipo_doc' => 'Cedula Ciudadanía',
+      'num_doc' => '12365447',
+      'fecha_nacimiento' => '2020-02-21',
+      'lugar_exp' => 'peerer',
+      'fecha_exp' => '2020-02-21',
+      'lugar_nacimiento' => 'perer',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Masculino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'lhsdfjhlksjdhf',
+      'barrio' => 'asdfdsaf',
+      'municipio_id' => 2,
+      'movil' => '3147651296',
+      'fijo' => '',
+      'email' => 'mauricio@gmail.com',
+      'estrato' => '1',
+      'anos_residencia' => '12',
+      'meses_residencia' => '0',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'oficio' => 'Marinero',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'marineritos.com',
+      'tel_empresa' => '3125698747',
+      'dir_empresa' => 'majsehhh',
+      'doc_empresa' => '32145698',
+      'cargo' => 'operario',
+      'tipo_contrato' => 'Idefinido',
+      'fecha_vinculacion' => '2019-02-02',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+    'cdeudor' => '',
+  ),
+  'cliente_id' => false,
+)  
+[2020-07-29 17:25:33] local.INFO: ***************************************  
+[2020-07-29 17:25:33] local.INFO:   
+[2020-07-29 17:25:33] local.INFO: cliente  
+[2020-07-29 17:25:35] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'cliente',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'mauricio',
+      'segundo_nombre' => '',
+      'primer_apellido' => 'asdfsdf',
+      'segundo_apellido' => '',
+      'tipo_doc' => 'Cedula Ciudadanía',
+      'num_doc' => '12365447',
+      'fecha_nacimiento' => '2020-02-21',
+      'lugar_exp' => 'peerer',
+      'fecha_exp' => '2020-02-21',
+      'lugar_nacimiento' => 'perer',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Masculino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'lhsdfjhlksjdhf',
+      'barrio' => 'asdfdsaf',
+      'municipio_id' => 2,
+      'movil' => '3147651296',
+      'fijo' => '',
+      'email' => 'mauricio@gmail.com',
+      'estrato' => '1',
+      'anos_residencia' => '12',
+      'meses_residencia' => '0',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'oficio' => 'Marinero',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'marineritos.com',
+      'tel_empresa' => '3125698747',
+      'dir_empresa' => 'majsehhh',
+      'doc_empresa' => '32145698',
+      'cargo' => 'operario',
+      'tipo_contrato' => 'Idefinido',
+      'fecha_vinculacion' => '2019-02-02',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+    'cdeudor' => '',
+  ),
+  'cliente_id' => false,
+)  
+[2020-07-29 17:27:26] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'cliente',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'mauricio',
+      'segundo_nombre' => '',
+      'primer_apellido' => 'asdfsdf',
+      'segundo_apellido' => '',
+      'tipo_doc' => 'Cedula Ciudadanía',
+      'num_doc' => '12365447',
+      'fecha_nacimiento' => '2020-02-21',
+      'lugar_exp' => 'peerer',
+      'fecha_exp' => '2020-02-21',
+      'lugar_nacimiento' => 'perer',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Masculino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'lhsdfjhlksjdhf',
+      'barrio' => 'asdfdsaf',
+      'municipio_id' => 2,
+      'movil' => '3147651296',
+      'fijo' => '',
+      'email' => 'mauricio@gmail.com',
+      'estrato' => '1',
+      'anos_residencia' => '12',
+      'meses_residencia' => '0',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'oficio' => 'Marinero',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'marineritos.com',
+      'tel_empresa' => '3125698747',
+      'dir_empresa' => 'majsehhh',
+      'doc_empresa' => '32145698',
+      'cargo' => 'operario',
+      'tipo_contrato' => 'Idefinido',
+      'fecha_vinculacion' => '2019-02-02',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+    'cdeudor' => '',
+  ),
+  'cliente_id' => false,
+)  
+[2020-07-31 12:23:42] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'cliente',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'Mariana',
+      'segundo_nombre' => 'Marcela',
+      'primer_apellido' => 'MOncada',
+      'segundo_apellido' => 'Marin',
+      'tipo_doc' => 'Cedula Ciudadanía',
+      'num_doc' => '11111111111',
+      'fecha_nacimiento' => '1985-01-01',
+      'lugar_exp' => 'Pereira',
+      'fecha_exp' => '2000-01-01',
+      'lugar_nacimiento' => 'Pereira',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Masculino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'Cra 4 7 34',
+      'barrio' => 'Centro',
+      'municipio_id' => 1,
+      'movil' => '3207809668',
+      'fijo' => '32322211',
+      'email' => 'mail@mail.com',
+      'estrato' => '3',
+      'anos_residencia' => '2',
+      'meses_residencia' => '3',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'oficio' => 'Marinero',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'freelance',
+      'tel_empresa' => '3211211',
+      'dir_empresa' => 'cra 4 Av 4 56',
+      'doc_empresa' => '65465454',
+      'cargo' => 'nuevo',
+      'tipo_contrato' => 'Idefinido',
+      'fecha_vinculacion' => '2000-01-01',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+    'cdeudor' => '',
+  ),
+  'cliente_id' => false,
+)  
+[2020-07-31 12:23:42] local.INFO: ***************************************  
+[2020-07-31 12:23:42] local.INFO:   
+[2020-07-31 12:23:42] local.INFO: cliente  
+[2020-07-31 12:23:49] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'cliente',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'Mariana',
+      'segundo_nombre' => 'Marcela',
+      'primer_apellido' => 'MOncada',
+      'segundo_apellido' => 'Marin',
+      'tipo_doc' => 'Cedula Ciudadanía',
+      'num_doc' => '11111111111',
+      'fecha_nacimiento' => '1985-01-01',
+      'lugar_exp' => 'Pereira',
+      'fecha_exp' => '2000-01-01',
+      'lugar_nacimiento' => 'Pereira',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Masculino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'Cra 4 7 34',
+      'barrio' => 'Centro',
+      'municipio_id' => 1,
+      'movil' => '3207809668',
+      'fijo' => '32322211',
+      'email' => 'mail@mail.com',
+      'estrato' => '3',
+      'anos_residencia' => '2',
+      'meses_residencia' => '3',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'oficio' => 'Marinero',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'freelance',
+      'tel_empresa' => '3211211',
+      'dir_empresa' => 'cra 4 Av 4 56',
+      'doc_empresa' => '65465454',
+      'cargo' => 'nuevo',
+      'tipo_contrato' => 'Idefinido',
+      'fecha_vinculacion' => '2000-01-01',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+    'cdeudor' => '',
+  ),
+  'cliente_id' => false,
+)  
+[2020-07-31 12:24:17] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'cliente',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'Mariana',
+      'segundo_nombre' => 'Marcela',
+      'primer_apellido' => 'MOncada',
+      'segundo_apellido' => 'Marin',
+      'tipo_doc' => 'Cedula Ciudadanía',
+      'num_doc' => '2222222222',
+      'fecha_nacimiento' => '1985-01-01',
+      'lugar_exp' => 'Pereira',
+      'fecha_exp' => '2000-01-01',
+      'lugar_nacimiento' => 'Pereira',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Masculino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'Cra 4 7 34',
+      'barrio' => 'Centro',
+      'municipio_id' => 1,
+      'movil' => '3207809668',
+      'fijo' => '32322211',
+      'email' => 'mail@mail.com',
+      'estrato' => '3',
+      'anos_residencia' => '2',
+      'meses_residencia' => '3',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'oficio' => 'Marinero',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'freelance',
+      'tel_empresa' => '3211211',
+      'dir_empresa' => 'cra 4 Av 4 56',
+      'doc_empresa' => '65465454',
+      'cargo' => 'nuevo',
+      'tipo_contrato' => 'Idefinido',
+      'fecha_vinculacion' => '2000-01-01',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+    'cdeudor' => '',
+  ),
+  'cliente_id' => false,
+)  
+[2020-07-31 12:24:17] local.INFO: ***************************************  
+[2020-07-31 12:24:17] local.INFO:   
+[2020-07-31 12:24:17] local.INFO: cliente  
+[2020-07-31 12:24:22] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'cliente',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'Mariana',
+      'segundo_nombre' => 'Marcela',
+      'primer_apellido' => 'MOncada',
+      'segundo_apellido' => 'Marin',
+      'tipo_doc' => 'Cedula Ciudadanía',
+      'num_doc' => '2222222222',
+      'fecha_nacimiento' => '1985-01-01',
+      'lugar_exp' => 'Pereira',
+      'fecha_exp' => '2000-01-01',
+      'lugar_nacimiento' => 'Pereira',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Masculino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'Cra 4 7 34',
+      'barrio' => 'Centro',
+      'municipio_id' => 1,
+      'movil' => '3207809668',
+      'fijo' => '32322211',
+      'email' => 'mail@mail.com',
+      'estrato' => '3',
+      'anos_residencia' => '2',
+      'meses_residencia' => '3',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'oficio' => 'Marinero',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'freelance',
+      'tel_empresa' => '3211211',
+      'dir_empresa' => 'cra 4 Av 4 56',
+      'doc_empresa' => '65465454',
+      'cargo' => 'nuevo',
+      'tipo_contrato' => 'Idefinido',
+      'fecha_vinculacion' => '2000-01-01',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+    'cdeudor' => '',
+  ),
+  'cliente_id' => false,
+)  
+[2020-07-31 12:24:43] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'cliente',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'Mariana',
+      'segundo_nombre' => 'Marcela',
+      'primer_apellido' => 'MOncada',
+      'segundo_apellido' => 'Marin',
+      'tipo_doc' => 'Cedula Ciudadanía',
+      'num_doc' => '12121212121',
+      'fecha_nacimiento' => '1985-01-01',
+      'lugar_exp' => 'Pereira',
+      'fecha_exp' => '2000-01-01',
+      'lugar_nacimiento' => 'Pereira',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Masculino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'Cra 4 7 34',
+      'barrio' => 'Centro',
+      'municipio_id' => 1,
+      'movil' => '3207809668',
+      'fijo' => '32322211',
+      'email' => 'mail@mail.com',
+      'estrato' => '3',
+      'anos_residencia' => '2',
+      'meses_residencia' => '3',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'oficio' => 'Marinero',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'freelance',
+      'tel_empresa' => '3211211',
+      'dir_empresa' => 'cra 4 Av 4 56',
+      'doc_empresa' => '65465454',
+      'cargo' => 'nuevo',
+      'tipo_contrato' => 'Idefinido',
+      'fecha_vinculacion' => '2000-01-01',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+    'cdeudor' => '',
+  ),
+  'cliente_id' => false,
+)  
+[2020-07-31 12:24:43] local.INFO: ***************************************  
+[2020-07-31 12:24:43] local.INFO:   
+[2020-07-31 12:24:43] local.INFO: cliente  
+[2020-07-31 12:25:09] local.ERROR: ErrorException: Undefined variable: tipo in /home/lenovo/Documentos/empresas/gora/scrips/cartera2/storage/framework/views/af95a67bf5c0b190a89472176001376a97c52ae7.php:13
+Stack trace:
+#0 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/storage/framework/views/af95a67bf5c0b190a89472176001376a97c52ae7.php(13): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8, 'Undefined varia...', '/home/lenovo/Do...', 13, Array)
+#1 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(42): include('/home/lenovo/Do...')
+#2 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/lenovo/Do...', Array)
+#3 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/View.php(149): Illuminate\View\Engines\CompilerEngine->get('/home/lenovo/Do...', Array)
+#4 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/View.php(120): Illuminate\View\View->getContents()
+#5 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/View.php(85): Illuminate\View\View->renderContents()
+#6 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Http/Response.php(53): Illuminate\View\View->render()
+#7 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/symfony/http-foundation/Response.php(201): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
+#8 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1085): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
+#9 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(94): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
+#10 [internal function]: Illuminate\Routing\ControllerDispatcher->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#11 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#12 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/app/Http/Middleware/Authenticate.php(28): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#13 [internal function]: App\Http\Middleware\Authenticate->handle(Object(Illuminate\Http\Request), Object(Closure))
+#14 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#15 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#16 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#17 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#18 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#19 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(96): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#20 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(54): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\ClienteController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'edit')
+#21 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Route.php(174): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'edit')
+#22 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Route.php(140): Illuminate\Routing\Route->runController(Object(Illuminate\Http\Request))
+#23 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(724): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#24 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#25 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#26 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/zizaco/entrust/src/Entrust/Middleware/EntrustPermission.php(42): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#27 [internal function]: Zizaco\Entrust\Middleware\EntrustPermission->handle(Object(Illuminate\Http\Request), Object(Closure), 'editar_clientes')
+#28 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#29 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#30 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#31 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#32 [internal function]: Illuminate\Foundation\Http\Middleware\VerifyCsrfToken->handle(Object(Illuminate\Http\Request), Object(Closure))
+#33 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#34 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#35 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#36 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#37 [internal function]: Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#38 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#39 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#40 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#41 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#42 [internal function]: Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#43 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#44 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#45 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#46 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#47 [internal function]: Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
+#48 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#49 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#50 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#51 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(59): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#52 [internal function]: Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#53 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#54 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#55 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#56 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#57 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#58 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(726): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#59 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(699): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#60 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(675): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#61 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(246): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#62 [internal function]: Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#63 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#64 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(44): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#65 [internal function]: Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
+#66 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#67 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#68 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#69 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#70 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#71 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(132): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#72 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(99): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#73 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#74 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/server.php(21): require_once('/home/lenovo/Do...')
+#75 {main}
+
+Next ErrorException: Undefined variable: tipo (View: /home/lenovo/Documentos/empresas/gora/scrips/cartera2/resources/views/start/clientes/create.blade.php) in /home/lenovo/Documentos/empresas/gora/scrips/cartera2/storage/framework/views/af95a67bf5c0b190a89472176001376a97c52ae7.php:13
+Stack trace:
+#0 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(44): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+#1 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/lenovo/Do...', Array)
+#2 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/View.php(149): Illuminate\View\Engines\CompilerEngine->get('/home/lenovo/Do...', Array)
+#3 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/View.php(120): Illuminate\View\View->getContents()
+#4 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/View.php(85): Illuminate\View\View->renderContents()
+#5 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Http/Response.php(53): Illuminate\View\View->render()
+#6 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/symfony/http-foundation/Response.php(201): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
+#7 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1085): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
+#8 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(94): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
+#9 [internal function]: Illuminate\Routing\ControllerDispatcher->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#10 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#11 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/app/Http/Middleware/Authenticate.php(28): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#12 [internal function]: App\Http\Middleware\Authenticate->handle(Object(Illuminate\Http\Request), Object(Closure))
+#13 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#14 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#15 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#16 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#17 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#18 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(96): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#19 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(54): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\ClienteController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'edit')
+#20 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Route.php(174): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'edit')
+#21 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Route.php(140): Illuminate\Routing\Route->runController(Object(Illuminate\Http\Request))
+#22 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(724): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#23 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#24 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#25 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/zizaco/entrust/src/Entrust/Middleware/EntrustPermission.php(42): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#26 [internal function]: Zizaco\Entrust\Middleware\EntrustPermission->handle(Object(Illuminate\Http\Request), Object(Closure), 'editar_clientes')
+#27 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#28 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#29 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#30 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#31 [internal function]: Illuminate\Foundation\Http\Middleware\VerifyCsrfToken->handle(Object(Illuminate\Http\Request), Object(Closure))
+#32 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#33 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#34 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#35 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#36 [internal function]: Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#37 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#38 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#39 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#40 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#41 [internal function]: Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#42 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#43 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#44 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#45 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#46 [internal function]: Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
+#47 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#48 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#49 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#50 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(59): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#51 [internal function]: Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#52 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#53 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#54 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#55 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#56 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#57 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(726): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#58 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(699): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#59 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(675): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#60 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(246): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#61 [internal function]: Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#62 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#63 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(44): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#64 [internal function]: Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
+#65 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#66 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#67 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#68 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#69 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#70 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(132): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#71 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(99): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#72 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#73 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/server.php(21): require_once('/home/lenovo/Do...')
+#74 {main}  
+[2020-07-31 13:08:36] local.INFO: store del oficio {"nombre":"Ingeniero de sistemas"} 
