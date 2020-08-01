@@ -67,7 +67,7 @@
 
     <tr>
       <td colspan="2" class="info">
-        @include('start.clientes.info.personal')
+        @include('start.clientes.info.personalCliente')
       </td>
     </tr>
 
@@ -86,7 +86,7 @@
     @endif
 
       <tr>
-        <td colspan="2" class="info">@include('start.clientes.info.empresa_cliente')</td>
+        <td colspan="2" class="info">@include('start.clientes.info.empresaCliente')</td>
       </tr>
 
     <tr  style="color:#FE0000;">

@@ -152,7 +152,7 @@
 
     var rango = $('#daterange').val();
     var id    = credito_id;
-    var route = "{{url('admin/sanciones/crear_sanciones')}}";
+    var route = "{{url('admin/sanciones/store')}}";
     var token = $('#_token').val();
 
     $.ajax({

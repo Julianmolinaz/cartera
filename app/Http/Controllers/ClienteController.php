@@ -32,7 +32,7 @@ class ClienteController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -40,6 +40,7 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {       
         return view('start.clientes.index');
@@ -67,6 +68,7 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create($tipo, $cliente_id = false)
     {
         return view('start.clientes.create')
@@ -87,69 +89,10 @@ class ClienteController extends Controller
     // public function store()
 
     public function store(Request $request)   
-    {
-        \Log::info($request->all());
-
-        // $request = (object)array (
-        //     'cliente' => 
-        //     array (
-        //       'id' => '',
-        //       'tipo' => 'codeudor',
-        //       'info_personal' => 
-        //       array (
-        //         'primer_nombre' => 'pablo',
-        //         'segundo_nombre' => 'adrian',
-        //         'primer_apellido' => 'gonzalez',
-        //         'segundo_apellido' => 'salazar',
-        //         'tipo_doc' => 'Cedula Ciudadanía',
-        //         'num_doc' => '9875654444',
-        //         'fecha_nacimiento' => '1999-01-01',
-        //         'lugar_exp' => 'pereira',
-        //         'fecha_exp' => '2000-01-01',
-        //         'lugar_nacimiento' => 'pereira',
-        //         'nivel_estudios' => 'Bachiller',
-        //         'estado_civil' => 'Casado/a',
-        //       ),
-        //       'info_ubicacion' => 
-        //       array (
-        //         'direccion' => 'dir 12',
-        //         'barrio' => 'centro',
-        //         'municipio_id' => 1,
-        //         'movil' => '1234586444',
-        //         'fijo' => '454654654',
-        //         'email' => 'mail@mail.com',
-        //         'estrato' => '3',
-        //         'anos_residencia' => '3',
-        //         'meses_residencia' => '2',
-        //         'tipo_vivienda' => 'Propia',
-        //         'envio_correspondencia' => 'Casa',
-        //         'nombre_arrendador' => '',
-        //         'telefono_arrendador' => '',
-        //       ),
-        //       'info_economica' => 
-        //       array (
-        //         'oficio' => 'Asalariado',
-        //         'tipo_actividad' => 'Dependiente',
-        //         'empresa' => 'Free',
-        //         'tel_empresa' => '321212454',
-        //         'dir_empresa' => 'dir 123',
-        //         'doc_empresa' => '213215445',
-        //         'cargo' => 'new',
-        //         'tipo_contrato' => 'Idefinido',
-        //         'fecha_vinculacion' => '2000-01-01',
-        //         'descripcion_actividad' => '',
-        //       ),
-        //       'conyuge' => '',
-        //       'calificacion' => '',
-        //       'cdeudor' => '',
-        //     ),
-        //     'cliente_id' => '13536',
-        // );
-          
+    {          
         $rq = [];
 
         $cliente = (object) $request->cliente;
-        $cliente_id = $request->cliente_id;
 
         if ( is_array($cliente->info_personal  ) ) { $rq = array_merge($rq, $cliente->info_personal);  } 
         if ( is_array($cliente->info_ubicacion ) ) { $rq = array_merge($rq, $cliente->info_ubicacion); } 
@@ -173,29 +116,18 @@ class ClienteController extends Controller
             $cliente->user_create_id = Auth::user()->id;            
             $cliente->save();
 
-            \Log::info('***************************************');
-            \Log::info($cliente_id);
-            \Log::info($cliente->tipo);
-
-
             if ($request->cliente['tipo'] == 'codeudor') {
-                $cliente_deudor = Cliente::find($cliente_id);
-
-                \Log::error('////////////////////////////');
-                \Log::error($cliente->id);
-                
+                $cliente_deudor = Cliente::find($request->cliente_id);
                 $cliente_deudor->cdeudor_id = $cliente->id;
-                \Log::info($cliente_deudor);
                 $cliente_deudor->save();
             }
             
             DB::commit();
 
-            return res(true, $cliente, 'El cliente se creó exitosamente !!!');
+            return res(true, $request->cliente_id, 'El cliente se creó exitosamente !!!');
 
         } catch (\Exception $e) {
 
-            // \Log::error($e);
             DB::rollback();
             return res(false,'',$e->getMessage());
         }

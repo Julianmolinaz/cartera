@@ -10,7 +10,7 @@
 // Listar clientes
 
 Route::get('start/clientes',[
-	'middleware' => ['permission:ver_clientes'],
+	'middleware' => ['permission:consultar_clientes'],
 	'uses' => 'ClienteController@index',
 	'as'=> 'start.clientes.index'
 ]);
@@ -18,7 +18,7 @@ Route::get('start/clientes',[
 // LIST
 
 Route::get('start/clientes/list',[
-    'middleware' => ['permission:listar_clientes'],
+    'middleware' => ['permission:consultar_clientes'],
     'uses'  => 'ClienteController@list',
     'as'    => 'start.clientes.list' 
 ]);
@@ -42,7 +42,7 @@ Route::get('start/clientes_create/{tipo}/{cliente_id?}',[
 Route::post('start/clientes/validar/documento', 'ClienteController@validate_document');
 
 Route::get('start/clientes/{cliente_id}',[
-    'middleware' => ['permission:ver_clientes'],
+    'middleware' => ['permission:consultar_clientes'],
     'uses'  => 'ClienteController@show',
     'as'    => 'start.clientes.show'
 ]);
@@ -55,7 +55,7 @@ Route::get('start/clientes/{cliente}/edit',[
     'as'    => 'start.clientes.edit'
 ]);
 
-Route::put('start/clientes/{cliente}',[
+Route::put('start/clientes/{cliente}/edit',[
     'middleware' => ['permission:editar_clientes'],
     'uses'  => 'ClienteController@update',
     'as'    => 'start.clientes.update'
@@ -67,14 +67,14 @@ Route::post('start/clientes/updateV2','ClienteController@updateV2');
 // Eliminar cliente
 
 Route::get('start/clientes/{id}/destroy',[
-    'middleware' => ['permission:borrar_clientes'],
+    'middleware' => ['permission:eliminar_clientes'],
     'uses'	=> 'ClienteController@destroy',
     'as'	=> 'start.clientes.destroy'
 ]);
 
 
 Route::get('start/clientes/{cliente_id}/upload',[
-    'middleware' => ['permission:subir_documentos'],
+    // 'middleware' => ['permission:subir_documentos'],
 	'uses'  => 'ClienteController@uploadDocument',
 	'as'    => 'start.clientes.upload_document'
 ]);
@@ -89,6 +89,7 @@ Route::get('start/clientes/{cliente_id}/upload',[
 */
 
 Route::put('start/documentos/{objeto_relacionado}',[
+    'middleware' => ['permission:borrar_documentos'],
     'uses'  => 'DocumentoController@set_documento',
     'as'    => 'start.documentos.upload'
 ]);

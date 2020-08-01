@@ -72,7 +72,8 @@
                     <span class="help-block">@{{ errors.first(rules.tipo_doc.name) }}</span>
                 </div>
         
-   
+                <!-- Número de documento -->
+
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.num_doc.name) ? 'has-error' :'']">
                     <label>Núm de documento *</label>
                     <input type="text" class="form-control"
@@ -83,6 +84,7 @@
                     <span class="help-block">@{{ errors.first(rules.num_doc.name) }}</span>
                 </div>
                
+               <!-- Lugar de expedición -->
                
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.lugar_exp.name) ? 'has-error' :'']">
                     <label>Lugar de expedición *</label>
@@ -94,6 +96,7 @@
                     <span class="help-block">@{{ errors.first(rules.lugar_exp.name) }}</span>
                 </div>
             
+                <!-- Fecha de expedición -->
 
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
                     <label>F. de expedición *</label>
@@ -109,6 +112,8 @@
 
             <div class="col-md-12">
 
+                <!-- Fecha de nacimiento -->
+
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.fecha_nacimiento.name) ? 'has-error' :'']">
                     <label>F. de nacimiento *</label>
                     <input type="date" 
@@ -119,6 +124,8 @@
                     <span class="help-block">@{{ errors.first(rules.fecha_nacimiento.name) }}</span>
                 </div>
 
+                <!-- Lugar de nacimiento  -->
+
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.lugar_nacimiento.name) ? 'has-error' :'']">
                     <label>Lugar de nacimiento *</label>
                     <input type="text" 
@@ -128,6 +135,8 @@
                         v-validate="rules.lugar_nacimiento.rule">
                     <span class="help-block">@{{ errors.first(rules.lugar_nacimiento.name) }}</span>
                 </div>
+
+                <!-- Genero  -->
 
                 <div v-bind:class="['form-group','col-md-2', errors.first(rules.genero.name) ? 'has-error' :'']">
                     <label>Genero *</label>
@@ -140,6 +149,8 @@
                     </select>
                     <span class="help-block">@{{ errors.first(rules.genero.name) }}</span>
                 </div>
+
+                <!-- Estudios  -->
 
                 <div v-bind:class="['form-group','col-md-2', errors.first(rules.nivel_estudios.name) ? 'has-error' :'']">
                     <label>Estudios *</label>
@@ -182,23 +193,6 @@
 
 
 <script>
-
-    const rules_personales = {
-        primer_nombre:      { name: 'primer nombre',        rule: 'required|alpha'},
-        segundo_nombre:     { name: 'segundo nombre',       rule: ''},
-        primer_apellido:    { name: 'primer apellido',      rule: 'required|alpha'},
-        segundo_apellido:   { name: 'segundo apellido',     rule: ''},
-        tipo_doc :          { name: 'tipo de documento',    rule: 'required'},
-        num_doc :           { name: 'numero de documento',  rule: 'required|numeric'},
-        lugar_exp :         { name: 'lugar de expedicion',  rule: 'required|alpha'},
-        fecha_exp :         { name: 'fecha de expedicion',  rule: 'required'},
-        fecha_nacimiento :  { name: 'fecha de nacimiento',  rule: 'required'},
-        lugar_nacimiento :  { name: 'lugar de nacimiento',  rule: 'required'},
-        genero  :           { name: 'genero',               rule: ''},              
-        nivel_estudios :    { name: 'nivel de estudios',    rule: 'required'},
-        estado_civil :      { name: 'estado civil',         rule: 'required'},
-    }
-
 
     Vue.component('datos_personales-component',{
         template: '#datos_personales-template',

@@ -5,9 +5,9 @@
         <a  role="button" data-toggle="collapse" data-parent="#accordion" 
             href="#collapseFour" aria-expanded="true" aria-controls="collapseFour" 
             style="font-size:12px;color:black;"
-            id="btn-show_personal">
+            id="btn-show_personalCliente">
 
-        <span class="glyphicon glyphicon-menu-down" id="glyphicon_personal" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-menu-down" id="glyphicon_personalCliente" aria-hidden="true"></span>
           Información personal
         </a>
       </p>
@@ -43,20 +43,20 @@
 
 <script>
 
-  const btn_show_personal = document.getElementById('btn-show_personal')
-  const glyphicon_personal = document.getElementById('glyphicon_personal')
-  let show_personal = false
+  const btn_show_personalCliente = document.getElementById('btn-show_personalCliente')
+  const glyphicon_personalCliente = document.getElementById('glyphicon_personalCliente')
+  let show_personalCliente = false
 
-  btn_show_personal.addEventListener('click', () => {
-    show_personal = !show_personal
+  btn_show_personalCliente.addEventListener('click', () => {
+    show_personalCliente = !show_personalCliente
 
-    glyphicon_personal.classList.remove('glyphicon-menu-down')
-    glyphicon_personal.classList.remove('glyphicon-menu-up')
+    glyphicon_personalCliente.classList.remove('glyphicon-menu-down')
+    glyphicon_personalCliente.classList.remove('glyphicon-menu-up')
 
-    if (show_personal) {
-      glyphicon_personal.classList.add('glyphicon-menu-up')
+    if (show_personalCliente) {
+      glyphicon_personalCliente.classList.add('glyphicon-menu-up')
     } else {
-      glyphicon_personal.classList.add('glyphicon-menu-down')
+      glyphicon_personalCliente.classList.add('glyphicon-menu-down')
     }
   })
 

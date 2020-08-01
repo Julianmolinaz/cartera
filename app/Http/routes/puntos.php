@@ -3,15 +3,15 @@
 
 
 
-// LISTAR PUNTOS
+// CONSULTAR PUNTOS
 
 Route::get('admin/puntos_listall/{page?}',[
-    'middleware' => ['permission:ver_puntos'],
+    'middleware' => ['permission:consultar_puntos'],
     'uses' => 'PuntoController@listall', 
     'as' => 'admin.puntos.listall']);
 
 Route::get('admin/puntos', [
-    'middleware' => ['permission:ver_puntos'],
+    'middleware' => ['permission:consultar_puntos'],
     'uses' => 'PuntoController@index',
     'as'  => 'admin.puntos.index'
     ]);

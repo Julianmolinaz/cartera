@@ -1,15 +1,10 @@
 <?php
 
-// USERS
-    
-
-
-
 
 // VER USERS
 
 Route::get('admin/users',[
-    //'middleware' => ['permission:ver_users'],
+    'middleware' => ['permission:consultar_users'],
     'uses'	=> 'UserController@index',
     'as'	=> 'admin.users.index'
 ]);
@@ -17,7 +12,7 @@ Route::get('admin/users',[
 // VISTA CREAR NEGOCIOS
 
 Route::get('admin/users/create',[
-    //'middleware' => ['permission:crear_users'],
+    'middleware' => ['permission:crear_users'],
      'uses'	=> 'UserController@create',
      'as'	=> 'admin.users.create'
 ]);
@@ -25,7 +20,7 @@ Route::get('admin/users/create',[
 // ACTUALIZAR NEGOCIOS
 
 Route::post('admin/users/store',[
-    //'middleware' => ['permission:crear_users'],
+    'middleware' => ['permission:crear_users'],
      'uses'	=> 'UserController@store',
      'as'	=> 'admin.users.store'
 ]);

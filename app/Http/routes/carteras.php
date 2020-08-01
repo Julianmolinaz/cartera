@@ -8,7 +8,7 @@
 // LISTAR CARTERAS
 
 Route::get('admin/carteras', [
-    'middleware' => ['permission:listar_carteras'],
+    'middleware' => ['permission:consultar_carteras'],
     'uses' => 'CarteraController@index',
     'as'  => 'admin.carteras.index'
     ]);
@@ -53,3 +53,4 @@ Route::get('admin/carteras/destroy/{cartera_id}',[
     'as' => 'admin.carteras.destroy'
     ]);
 
+  

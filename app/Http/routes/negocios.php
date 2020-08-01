@@ -5,7 +5,7 @@
 // VER NEGOCIOS
 
 Route::get('admin/negocios',[
-    'middleware' => ['permission:ver_negocios'],
+    'middleware' => ['permission:consultar_negocios'],
     'uses' => 'NegocioController@index',
     'as' => 'admin.negocios.index'
 ]);
@@ -13,7 +13,7 @@ Route::get('admin/negocios',[
 // VISTA CREAR NEGOCIOS
 
 Route::get('admin/negocios/create',[
-    'middleware' => ['permission:ver_negocios'],
+    'middleware' => ['permission:crear_negocios'],
     'uses' => 'NegocioController@create',
     'as' => 'admin.negocios.create'
 ]);
@@ -21,7 +21,7 @@ Route::get('admin/negocios/create',[
 // ACTUALIZAR NEGOCIOS
 
 Route::post('admin/negocios/store',[
-    'middleware' => ['permission:ver_negocios'],
+    'middleware' => ['permission:crear_negocios'],
     'uses' => 'NegocioController@store',
     'as' => 'admin.negocios.store'
 ]);

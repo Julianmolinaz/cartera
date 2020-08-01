@@ -52,7 +52,7 @@ class CreateClientesTable extends Migration {
 			$table->string('nombre_arrendador')->nullable(); // new
 			$table->string('telefono_arrendador')->nullable(); // new
 
-			//info economica
+			//info laboral
 
 			$table->string('ocupacion')->nullable();
 			$table->string('empresa')->nullable();

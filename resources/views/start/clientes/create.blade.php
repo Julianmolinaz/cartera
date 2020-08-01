@@ -62,6 +62,7 @@
 </div>
 
 <script src="{{ asset('js/interfaces/cliente.js') }}"></script>
+<script src="{{ asset('js/rules/cliente.js') }}"></script>
 <script src="{{ asset('js/interfaces/conyuge.js') }}"></script>
 <script src="/js/vue/vee_es.js"></script>
 
@@ -86,8 +87,7 @@
         el: '#principal',
         store,
         data: {
-            tab     : '',
-            cliente : ''
+            
         },
         methods: {
             setCliente() {

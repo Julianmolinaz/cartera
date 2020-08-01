@@ -31,19 +31,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Clientes',
-            'name' => 'listar_clientes',
-            'display_name' => 'Listar Clientes',
-            'description' => 'Permite listar todos los clientes',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        \DB::table('permissions')->insert([
-            'category' => 'Clientes',
-            'name' => 'ver_clientes',
-            'display_name' => 'Ver Cliente',
-            'description' => 'Permite ver todos los clientes',
+            'name' => 'consultar_clientes',
+            'display_name' => 'Consultar clientes',
+            'description' => 'Permite listar y ver la información detallada de los clientes',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -52,7 +42,7 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Clientes',
             'name' => 'crear_clientes',
-            'display_name' => 'Crear Cliente',
+            'display_name' => 'Crear cliente',
             'description' => 'Permite crear clientes',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -62,7 +52,7 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Clientes',
             'name' => 'editar_clientes',
-            'display_name' => 'Editar Cliente',
+            'display_name' => 'Editar cliente',
             'description' => 'Permite editar los clientes',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -72,22 +62,14 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Clientes',
             'name' => 'eliminar_clientes',
-            'display_name' => 'eliminar Clientes',
+            'display_name' => 'Eliminar clientes',
             'description' => 'Permite eliminar los clientes',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
-        \DB::table('permissions')->insert([
-            'category' => 'Clientes',
-            'name' => 'subir_documentos',
-            'display_name' => 'Subir documentacion',
-            'description' => 'Permite guardar documentos del cliente',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
+        // Documentos
 
         \DB::table('permissions')->insert([
             'category' => 'Clientes',
@@ -99,97 +81,24 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        // CONYUGE DEL CLIENTE
-
-        \DB::table('permissions')->insert([
-            'category' => 'Conyuge',
-            'name' => 'crear_conyuges',
-            'display_name' => 'Crear el conyuge del cliente',
-            'description' => 'Permite crear el conyuge del cliente',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Conyuge',
-            'name' => 'editar_conyuges',
-            'display_name' => 'editar el conyuge del cliente',
-            'description' => 'Permite editar el conyuge del cliente',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Conyuge',
-            'name' => 'eliminar_conyuges',
-            'display_name' => 'eliminar el conyuge del cliente',
-            'description' => 'Permite eliminar el conyuge del cliente',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        // CLIENTE CODEUDOR
-
-        \DB::table('permissions')->insert([
-            'category' => 'Codeudores',
-            'name' => 'edit_codeudores',
-            'display_name' => 'Editar el codeudor del cliente',
-            'description' => 'Permite editar el Codeudores del cliente',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Codeudores',
-            'name' => 'crear_codeudores',
-            'display_name' => 'Crea el codeudor del cliente',
-            'description' => 'Permite crear el codeudor del cliente',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Codeudores',
-            'name' => 'eliminar_codeudores',
-            'display_name' => 'eliminar el codeudor del cliente',
-            'description' => 'Permite eliminar el codeudor del cliente',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
      
         // CALL CENTER
 
         \DB::table('permissions')->insert([
             'category' => 'CallCenter',
             'name' => 'exportar_todo',
-            'display_name' => 'Exportar Todo',
-            'description' => 'Permite exportar todos los creditos y sucursales',
+            'display_name' => 'Exportar todos clientes',
+            'description' => 'Permite exportar todos los archivos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]); //*
 
-        \DB::table('permissions')->insert([ 
-            'category' => 'CallCenter',
-            'name' => 'exportar_soat',
-            'display_name' => 'Exportar SOAT',
-            'description' => 'Permite exportar todos los SOAT por sucursales',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
 
         \DB::table('permissions')->insert([
             'category' => 'CallCenter',
             'name' => 'exportar_sucursal',
-            'display_name' => 'Exportar por sucursal',
+            'display_name' => 'Exportar clientes por sucursal',
             'description' => 'Permite exportar todos los creditos por sucursal',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -198,39 +107,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'CallCenter',
-            'name' => 'listar',
-            'display_name' => 'listar',
-            'description' => 'Permite listar todos los creditos CallCenter',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'CallCenter',
-            'name' => 'listar_morosos',
-            'display_name' => 'Listar Morosos',
-            'description' => 'Permite listar todos los creditos en estado mora CallCenter',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'CallCenter',
-            'name' => 'listar_agendados',
-            'display_name' => 'Listar Agendados',
-            'description' => 'Permite listar todos los creditos agendados CallCenter',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'CallCenter',
-            'name' => 'miscall',
-            'display_name' => 'Mis Call',
-            'description' => 'Permite ver toda la gestion pos asesor CallCenter',
+            'name' => 'consultar',
+            'display_name' => 'Consultar todos los listados',
+            'description' => 'Permite listar todos los creditos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -246,47 +125,29 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]); //*
 
-        \DB::table('permissions')->insert([
-            'category' => 'CallCenter',
-            'name' => 'Informacion_creditos',
-            'display_name' => 'Informacion del credito',
-            'description' => 'Permite ver la informacion del credito CallCenter',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'CallCenter',
-            'name' => 'llamar',
-            'display_name' => 'llamar callcenter',
-            'description' => 'Permite llamar CallCenter',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
         // CREDITOS
 
         \DB::table('permissions')->insert([
             'category' => 'Creditos',
-            'name' => 'crear_creditos',
-            'display_name' => 'crear credito',
-            'description' => 'Permite listar y crear los creditos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Creditos',
-            'name' => 'ver_creditos',
-            'display_name' => 'Ver credito',
+            'name' => 'consultar_creditos',
+            'display_name' => 'Consultar creditos',
             'description' => 'Permite listar y ver los creditos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]); //*
+
+        \DB::table('permissions')->insert([
+            'category' => 'Creditos',
+            'name' => 'crear_creditos',
+            'display_name' => 'Crear crédito',
+            'description' => 'Permite crear créditos',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]); //*
+
+
 
         \DB::table('permissions')->insert([
             'category' => 'Creditos',
@@ -311,7 +172,7 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Creditos',
             'name' => 'refinanciar_creditos',
-            'display_name' => 'refinanciar credito',
+            'display_name' => 'Refinanciar credito',
             'description' => 'Permite listar y refinanciar los creditos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -320,7 +181,7 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Creditos',
-            'name' => 'exportar_todos_creditos',
+            'name' => 'exportar_creditos',
             'display_name' => 'Exportar todos los creditos',
             'description' => 'Permite exportar rodos los creditos xls',
             'created_by' => 1,
@@ -331,29 +192,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Creditos',
-            'name' => 'exportar_vista',
-            'display_name' => 'Exportar vista',
-            'description' => 'Permite exportar la vista de los creditos en pantalla',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Creditos',
-            'name' => 'listar_creditos',
-            'display_name' => 'listar credito',
-            'description' => 'Permite listar los creditos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Creditos',
             'name' => 'llamar_creditos',
             'display_name' => 'Llamar credito',
-            'description' => 'Permite realizar llamda',
+            'description' => 'Permite registrar llamada al cliente relacionado al crédito',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -363,13 +204,14 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Solicitudes',
-            'name' => 'exportar_solicitudes',
-            'display_name' => 'Exportar',
-            'description' => 'Permite exportar todas las solicitudes',
+            'name' => 'consultar_solicitudes',
+            'display_name' => 'Consultar solicitud',
+            'description' => 'Permite listar y ver solicitudes de crédito',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
 
         \DB::table('permissions')->insert([
             'category' => 'Solicitudes',
@@ -391,22 +233,12 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        \DB::table('permissions')->insert([
-            'category' => 'Solicitudes',
-            'name' => 'ver_solicitudes',
-            'display_name' => 'Ver solicitud',
-            'description' => 'Permite ver la solicitud',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
 
         \DB::table('permissions')->insert([
             'category' => 'Solicitudes',
-            'name' => 'inicial_estudios',
-            'display_name' => 'Iniciales y estudio',
-            'description' => 'Permite realizar los pagos segun concepto para la solicitud',
+            'name' => 'valores_iniciales',
+            'display_name' => 'Registrar pago a solicitud',
+            'description' => 'Permite realizar los pagos a una solicitud de crédito como iniciales y estudios',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -415,9 +247,9 @@ class PermissionsTableSeeder extends Seeder
      
         \DB::table('permissions')->insert([
             'category' => 'Solicitudes',
-            'name' => 'listar_solicitudes',
-            'display_name' => 'Listar solicitudes',
-            'description' => 'Permite listar las solicitudes',
+            'name' => 'exportar_solicitudes',
+            'display_name' => 'Exportar',
+            'description' => 'Permite exportar todas las solicitudes',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -427,9 +259,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Cancelados',
-            'name' => 'listar_cancelados',
-            'display_name' => 'listar cancelados',
-            'description' => 'Permite listar los credito dentros cancelados',
+            'name' => 'consultar_cancelados',
+            'display_name' => 'Consultar créditos cancelados',
+            'description' => 'Permite listar y consultar los créditos cancelados',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -439,27 +271,7 @@ class PermissionsTableSeeder extends Seeder
         // SANCIONES
 
         \DB::table('permissions')->insert([
-            'category' => 'sanciones',
-            'name' => 'crear_sanciones',
-            'display_name' => 'Crear Sanciones',
-            'description' => 'Permite crear sanciones diarias',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        \DB::table('permissions')->insert([
-            'category' => 'sanciones',
-            'name' => 'exonerar_sanciones',
-            'display_name' => 'Exonerar Sanciones',
-            'description' => 'Permite exonerar sanciones diarias',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        \DB::table('permissions')->insert([
-            'category' => 'sanciones',
+            'category' => 'Sanciones',
             'name' => 'consultar_sanciones',
             'display_name' => 'Consultar Sanciones',
             'description' => 'Permite consultar sanciones diarias',
@@ -468,20 +280,20 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        // ESTUDIOS
-
         \DB::table('permissions')->insert([
-            'category' => 'estudio',
-            'name' => 'crear_estudios',
-            'display_name' => 'Crear Estudio',
-            'description' => 'Permite crear estudio del cliente',
+            'category' => 'Sanciones',
+            'name' => 'gestionar_sanciones',
+            'display_name' => 'Gestionar Sanciones',
+            'description' => 'Permite crear y exonerar sanciones diarias',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
-        ]); //*     
-        
+        ]);
+
+        // ESTUDIOS
+
         \DB::table('permissions')->insert([
-            'category' => 'estudio',
+            'category' => 'Estudio',
             'name' => 'consultar_estudio',
             'display_name' => 'Consultar Estudio',
             'description' => 'Permite consultar estudio del cliente',
@@ -490,57 +302,29 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]); //*        
 
+
         \DB::table('permissions')->insert([
             'category' => 'estudio',
-            'name' => 'editar_estudio',
-            'display_name' => 'Editar Estudio',
-            'description' => 'Permite editar estudio del cliente',
+            'name' => 'crear_estudios',
+            'display_name' => 'Crear Estudio',
+            'description' => 'Permite crear y editar un estudio de crédito',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
-        ]); //*  
+        ]); //*     
         
         \DB::table('permissions')->insert([
             'category' => 'estudio',
             'name' => 'crear_referencias',
             'display_name' => 'Crear referencias',
-            'description' => 'Permite crear referencias del cliente',
+            'description' => 'Permite crear y editar referencias del cliente',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]); //*      
-
-        \DB::table('permissions')->insert([
-            'category' => 'estudio',
-            'name' => 'ver_referencias',
-            'display_name' => 'Consultar Referencias',
-            'description' => 'Permite consultar referencias del cliente',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*     
-
-        \DB::table('permissions')->insert([
-            'category' => 'estudio',
-            'name' => 'editar_referencias',
-            'display_name' => 'Editar Referencias',
-            'description' => 'Permite editar referencias del cliente',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*      
+ 
 
         // OTROS INGRESOS
-
-        \DB::table('permissions')->insert([
-            'category' => 'Otros ingresos',
-            'name' => 'hacer_otro_ingreso',
-            'display_name' => 'Hacer otro ingreso',
-            'description' => 'Permite hacer el pago de otros ingresos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
 
         \DB::table('permissions')->insert([
             'category' => 'Otros ingresos',
@@ -552,22 +336,12 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]); //*
 
-        \DB::table('permissions')->insert([
-            'category' => 'Otros ingresos',
-            'name' => 'listar_otros_pagos',
-            'display_name' => 'Listar otros ingresos',
-            'description' => 'Permite listar otros pagos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
         // PAGO A UN CREDITO
-    
+
         \DB::table('permissions')->insert([
             'category' => 'Pago credito',
-            'name' => 'crear_pago_credito',
-            'display_name' => "Crear pago credito",
+            'name' => 'hacer_pago',
+            'display_name' => "Hacer pago de credito",
             'description' => 'Permite crear el pago o abono de un credito',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -597,29 +371,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Pago credito',
-            'name' => 'editar_pago_credito',
-            'display_name' => 'Edita recibo de pago de un credito',
-            'description' => 'Permite editar el pago o abono de un credito',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Pago credito',
             'name' => 'anular_pago_credito',
             'display_name' => 'Anular pago de un credito',
-            'description' => 'Permite anular el pago o abono de un credito',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Pago credito',
-            'name' => 'listar_pago_credito',
-            'display_name' => 'Listar pago credito',
-            'description' => 'Permite listar el pago o abono de un credito',
+            'description' => 'Permite anular el recibo de un pago o abono de un credito',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -643,9 +397,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Egresos',
-            'name' => 'ver_egresos',
-            'display_name' => 'Ver Egresos',
-            'description' => 'Permite ver egresos',
+            'name' => 'consultar_egresos',
+            'display_name' => 'Consultar Egresos',
+            'description' => 'Permite consultar egresos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -656,16 +410,6 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'crear_egresos',
             'display_name' => 'Crear Egresos',
             'description' => 'Permite crear egresos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        \DB::table('permissions')->insert([
-            'category' => 'Egresos',
-            'name' => 'borrar_egresos',
-            'display_name' => 'Borrar Egresos',
-            'description' => 'Permite borrar egresos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -686,6 +430,18 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'exportar_egresos',
             'display_name' => 'Exportar Egresos',
             'description' => 'Permite exportar egresos',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        // PROVEEDORES
+
+        \DB::table('permissions')->insert([
+            'category' => 'Egresos',
+            'name' => 'ver_proveedores',
+            'display_name' => 'Ver Proveedores',
+            'description' => 'Permite ver proveedores',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -716,9 +472,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Pre/Juridicos',
-            'name' => 'ver_multas',
-            'display_name' => 'Listar Pre/Juridicos',
-            'description' => 'Permite listar Pre/Juridicos',
+            'name' => 'consultar_multas',
+            'display_name' => 'Consultar Pre/Juridicos',
+            'description' => 'Permite consultar y listar multas por Prejurídicos y Juridicos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -734,15 +490,6 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]); //*
         
-        \DB::table('permissions')->insert([
-            'category' => 'Pre/Juridicos',
-            'name' => 'ver_PreJuridicos',
-            'display_name' => 'Ver Pre/Juridicos',
-            'description' => 'Permite ver Pre/Juridicos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
 
         \DB::table('permissions')->insert([
             'category' => 'Pre/Juridicos',
@@ -769,7 +516,7 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Reportes',
             'name' => 'generar_reporte',
-            'display_name' => 'genera todos los reportes',
+            'display_name' => 'Genera todos los reportes',
             'description' => 'Permite generar todos los reportes administrativos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -796,15 +543,6 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        \DB::table('permissions')->insert([
-            'category' => 'Reportes',
-            'name' => 'exportar_caja',
-            'display_name' => 'Caja',
-            'description' => 'Permite generar reporte para caja',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
 
         \DB::table('permissions')->insert([
             'category' => 'Reportes',
@@ -948,9 +686,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Reportes',
-            'name' => 'venta_credito',
-            'display_name' => 'Venta de Credito',
-            'description' => 'Permite generar reporte para Venta de Credito',
+            'name' => 'venta_creditos',
+            'display_name' => 'Venta de Creditos',
+            'description' => 'Permite generar reporte para Venta de Creditos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -959,8 +697,8 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Reportes',
             'name' => 'venta_credito_asesor',
-            'display_name' => 'Venta de Credito por Asesor',
-            'description' => 'Permite generar reporte para Venta de Credito por Asesor',
+            'display_name' => 'Venta de Creditos por Asesor',
+            'description' => 'Permite generar reporte para Venta de Creditos por Asesor',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -970,19 +708,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Cartera',
-            'name' => 'ver_inf_carteras',
-            'display_name' => 'Ver Informe por Carteras',
-            'description' => 'Permite ver Informe por Carteras',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
-        \DB::table('permissions')->insert([
-            'category' => 'Cartera',
-            'name' => 'escoger_carteras',
-            'display_name' => 'Ver Escoger Cartera',
-            'description' => 'Permite ver Escoger Cartera',
+            'name' => 'informes_cartera',
+            'display_name' => 'Pantalla informes cartera',
+            'description' => 'Permite entrar a la pantalla de Informes por Carteras',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -990,9 +718,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Cartera',
-            'name' => 'ver_informes',
-            'display_name' => 'Ver informe por carteras',
-            'description' => 'Permite Ver informe por carteras',
+            'name' => 'repote_por_carteras',
+            'display_name' => 'Reporte por carteras',
+            'description' => 'Permite ver los saldos de cartera',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1000,8 +728,8 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Cartera',
-            'name' => 'ver_informe_total_puntos',
-            'display_name' => 'Ver Informe Total por Puntos',
+            'name' => 'informe_total_por_puntos',
+            'display_name' => 'Informe total por puntos',
             'description' => 'Permite ver Informe Total por Puntos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -1010,19 +738,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Cartera',
-            'name' => 'ver_informe_flujo_cajas',
-            'display_name' => 'Ver Informe Flujo de Caja',
-            'description' => 'Permite ver Informe Flujo de Caja',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        \DB::table('permissions')->insert([
-            'category' => 'Cartera',
             'name' => 'flujo_cajas',
-            'display_name' => 'Ver Consultar Flujo de Caja',
-            'description' => 'Permite ver Consultar Flujo de Caja',
+            'display_name' => 'Flujo de Caja',
+            'description' => 'Muestra el flujo de caja segun un rango de fechas y la cartera',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1033,8 +751,8 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Financiero',
             'name' => 'financiero',
-            'display_name' => 'Consultar general',
-            'description' => 'Permite consultar general',
+            'display_name' => 'Informe financiero por carteras o negocios',
+            'description' => 'Permite consultar el estado financiero de una cartera o varias carteras',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1044,9 +762,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Negocios',
-            'name' => 'ver_negocios',
-            'display_name' => 'Ver Negocios',
-            'description' => 'Permite Ver Negocios',
+            'name' => 'consultar_negocios',
+            'display_name' => 'Consultar  Negocios',
+            'description' => 'Permite ver o listar negocios (agrupación de carteras)',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1086,23 +804,14 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Carteras',
-            'name' => 'listar_carteras',
-            'display_name' => 'listar carteras',
-            'description' => 'Permite listar carteras',
+            'name' => 'consultar_carteras',
+            'display_name' => 'Consultar carteras',
+            'description' => 'Permite listar y consultar carteras',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]); //* 
         
-        \DB::table('permissions')->insert([
-            'category' => 'Carteras',
-            'name' => 'ver_carteras',
-            'display_name' => 'Ver carteras',
-            'description' => 'Permite Ver carteras',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
 
         \DB::table('permissions')->insert([
             'category' => 'Carteras',
@@ -1137,50 +846,40 @@ class PermissionsTableSeeder extends Seeder
         // users 
 
         \DB::table('permissions')->insert([
-            'category' => 'users',
-            'name' => 'ver_users',
-            'display_name' => 'Ver users',
-            'description' => 'Permite ver users',
+            'category' => 'Users',
+            'name' => 'consultar_users',
+            'display_name' => 'Consultar usuarios del sistema',
+            'description' => 'Permite listar y ver los usuarios del sistema',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]); //*
 
         \DB::table('permissions')->insert([
-            'category' => 'users',
-            'name' => 'listar_users',
-            'display_name' => 'listar users',
-            'description' => 'Permite listar users',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'users',
+            'category' => 'Users',
             'name' => 'crear_users',
-            'display_name' => 'Crear users',
-            'description' => 'Permite crear users',
+            'display_name' => 'Crear usuario del sistema',
+            'description' => 'Permite crear usuario del sistema',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]); //*
 
         \DB::table('permissions')->insert([
-            'category' => 'users',
+            'category' => 'Users',
             'name' => 'editar_users',
-            'display_name' => 'Editar users',
-            'description' => 'Permite editar users',
+            'display_name' => 'Editar usuario del sistema',
+            'description' => 'Permite editar usuarios del sistema',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]); //*
 
         \DB::table('permissions')->insert([
-            'category' => 'users',
+            'category' => 'Users',
             'name' => 'eliminar_users',
-            'display_name' => 'Eliminar users',
-            'description' => 'Permite eliminar users',
+            'display_name' => 'Eliminar usuarios del sistema',
+            'description' => 'Permite eliminar usuarios del sistema',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1188,21 +887,12 @@ class PermissionsTableSeeder extends Seeder
 
         // ROL/PERMISOS
 
+
         \DB::table('permissions')->insert([
             'category' => 'Rol/Permisos',
-            'name' => 'crear_rol',
-            'display_name' => 'Crear rol/permisos',
-            'description' => 'Permite crear rol/permisos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
-        \DB::table('permissions')->insert([
-            'category' => 'Rol/Permisos',
-            'name' => 'ver_rol',
-            'display_name' => 'Ver rol/permisos',
-            'description' => 'Permite ver rol/permisos',
+            'name' => 'consultar_permisos',
+            'display_name' => 'Consultar roles y permisos',
+            'description' => 'Permite consultar los roles y permisos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1210,9 +900,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Rol/Permisos',
-            'name' => 'editar_rol',
-            'display_name' => 'Editar rol/permisos',
-            'description' => 'Permite editar rol/permisos',
+            'name' => 'crear_permisos',
+            'display_name' => 'Consultar roles y permisos',
+            'description' => 'Permite consultar los roles y permisos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1220,31 +910,32 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Rol/Permisos',
-            'name' => 'eliminar_rol',
-            'display_name' => 'Eliminar rol/permisos',
-            'description' => 'Permite eliminar rol/permisos',
+            'name' => 'modificar_permisos',
+            'display_name' => 'Crear y modificar roles y permisos',
+            'description' => 'Permite, modificar y eliminar roles y permisos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+    
 
         // PUNTOS
+
+        \DB::table('permissions')->insert([
+            'category' => 'Puntos',
+            'name' => 'consultar_puntos',
+            'display_name' => 'Consultar puntos',
+            'description' => 'Permite consultar y listar puntos o sucursales',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]); //*
 
         \DB::table('permissions')->insert([
             'category' => 'Puntos',
             'name' => 'crear_puntos',
             'display_name' => 'Crear Puntos',
             'description' => 'Permite crear Puntos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-        
-        \DB::table('permissions')->insert([
-            'category' => 'Puntos',
-            'name' => 'ver_puntos',
-            'display_name' => 'Ver Puntos',
-            'description' => 'Permite ver Puntos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1268,24 +959,7 @@ class PermissionsTableSeeder extends Seeder
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
-        ]); //*
-
-
-        // ZONAS
-        
-        \DB::table('permissions')->insert([
-            'category' => 'Zonas',
-            'name' => 'ver_zonas',
-            'display_name' => 'Ver Zonas',
-            'description' => 'Permite ver Zonas',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-       
-
-        // ROL/PERMISOS
+        ]); //*      
 
         //PRODUCTOS
 
@@ -1301,9 +975,9 @@ class PermissionsTableSeeder extends Seeder
         
         \DB::table('permissions')->insert([
             'category' => 'Productos',
-            'name' => 'ver_productos',
-            'display_name' => 'Ver Productos',
-            'description' => 'Permite ver Productos',
+            'name' => 'consultar_productos',
+            'display_name' => 'Consultar y listar productos',
+            'description' => 'Permite consultar y listar productos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1314,16 +988,6 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'editar_productos',
             'display_name' => 'Editar Productos',
             'description' => 'Permite editar Productos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]); //*
-
-        \DB::table('permissions')->insert([
-            'category' => 'Productos',
-            'name' => 'listar_productos',
-            'display_name' => 'Listar Productos',
-            'description' => 'Permite listar Productos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1367,9 +1031,9 @@ class PermissionsTableSeeder extends Seeder
         
         \DB::table('permissions')->insert([
             'category' => 'Criterios de llamada',
-            'name' => 'ver_criteriocall',
-            'display_name' => 'Ver Criterios de llamada',
-            'description' => 'Permite ver Criterios de llamada',
+            'name' => 'consultar_criteriocall',
+            'display_name' => 'Consultar Criterios de llamada',
+            'description' => 'Permite consultar criterios de llamada',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1379,7 +1043,7 @@ class PermissionsTableSeeder extends Seeder
             'category' => 'Criterios de llamada',
             'name' => 'editar_criteriocall',
             'display_name' => 'Editar Criterios de llamada',
-            'description' => 'Permite editar Criterios de llamada',
+            'description' => 'Permite editar criterios de llamada',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -1388,8 +1052,31 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Criterios de llamada',
             'name' => 'eliminar_criteriocall',
-            'display_name' => 'Eliminar Criterios de llamada',
-            'description' => 'Permite eliminar Criterios de llamada',
+            'display_name' => 'Eliminar criterios de llamada',
+            'description' => 'Permite eliminar criterios de llamada',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]); //*
+
+
+        // ZONAS    
+
+        \DB::table('permissions')->insert([
+            'category' => 'Zonas',
+            'name' => 'consultar_zonas',
+            'display_name' => 'Consultar las zonas',
+            'description' => 'Permiste consultar las todas zonas',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]); //*
+
+        \DB::table('permissions')->insert([
+            'category' => 'Zonas',
+            'name' => 'crear_zonas',
+            'display_name' => 'Crea una zona',
+            'description' => 'Permiste crear una zona',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

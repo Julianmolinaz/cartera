@@ -178,19 +178,6 @@
 
 <script>
 
-    let rules_economica = {
-        oficio                : { name : 'oficio',                  rule: 'required|alpha', required : '*' }, // general
-        tipo_actividad        : { name : 'tipo de actividad',       rule: 'required', required : '*' }, // general
-        empresa               : { name : 'nombre empresa',          rule: 'alpha',         required : '' }, // empleado e independiente
-        tel_empresa           : { name : 'telefono empresa',        rule: 'min:7|max:15',required : '' }, // empleado e independiente
-        dir_empresa           : { name : 'direccion empresa',       rule: 'regex:^([a-zA-Z0-9  ]+)$',         required : '' }, // empleado e independiente
-        doc_empresa           : { name : 'identificacion empresa',  rule: 'numeric',         required : '' }, // empleado
-        cargo                 : { name : 'cargo',                   rule: 'alpha',         required : '' }, // empleado
-        tipo_contrato         : { name : 'tipo de contrato',        rule: '' ,        required : '' }, // empleado
-        fecha_vinculacion     : { name : 'fecha de vinculacion',    rule: '',         required : '' }, // empleado e independiente
-        descripcion_actividad : { name : 'descripcion de la actividad', rule: 'alpha',     required : '' }, // indeṕendiente
-    }
-
     Vue.component('actividad_economica-component',{
         template: '#actividad_economica-template',
         data() {
@@ -218,14 +205,14 @@
                 let valid = await this.$validator.validate()
 
                 if (this.estado == 'creacion' && valid) {
-                    this.$store.commit('setEconomica',this.economia)
+                    await this.$store.commit('setEconomica',this.economia)
 
                     let res = await axios.post('/start/clientes',{
                         cliente: this.$store.state.cliente,
-                        cliente_id: this.$store.state.cliente_id
+                        cliente_id: this.$store.state.cliente_id,
                     });
 
-                    console.log(res);
+                    alert(res.data.message);
 
                     if (res.data.success) {
 
@@ -238,7 +225,7 @@
                                 this.$store.commit('setClienteId',res.data.dat.id)
                                 this.continuar()
                             } else { 
-                                //document.location.href= "/start/clientes/"+res.data.dat.id 
+                                document.location.href= "/start/clientes/"+res.data.dat.id 
                             }
                         }
                     } else {

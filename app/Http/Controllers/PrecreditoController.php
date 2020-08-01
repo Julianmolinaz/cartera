@@ -62,7 +62,6 @@ class PrecreditoController extends Controller
       $cliente = Cliente::find($cliente_id);  
       $data    = $this->obtener_data_para_crear($cliente_id);
 
-      // dd($data);
       
       $data['status'] = 'create';
 
@@ -75,20 +74,14 @@ class PrecreditoController extends Controller
     public function store(Request $request)
     {
 
-      \Log::info($request->all());
-
-      return response()->json($request->all());
+      return res(true,$request->solicitud, 'Se creó las solicitud exitosamente !!!');
 
       $rq = $request->all();
 
       $validator = $this->validateSolicitudCreateTr($rq);
 
-      if ($validator->fails()) {
-        return response()->json([
-          'error' => true,
-          'message' => 'Error en la validación',
-          'dat' => $validator->errors()
-        ]);
+      if ( $validator->fails() ) {
+        return res(false,$validator->errors(),'Error en la validación');
       }
 
       DB::beginTransaction();
@@ -97,8 +90,6 @@ class PrecreditoController extends Controller
           
         if ($this->procesosPendientes($rq)) {
           
-          DB::commit();
-
           return response()>json([
             'error'   => true,
             'message' => '@ No se puede crear la solicitud, ya existen solicitudes en trámite!'
