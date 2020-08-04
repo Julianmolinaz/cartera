@@ -39,7 +39,7 @@ Route::get('start/clientes_create/{tipo}/{cliente_id?}',[
 
 // Ver clientes
 
-Route::post('start/clientes/validar/documento', 'ClienteController@validate_document');
+Route::post('start/clientes/validar/documento/{cliente_id?}', 'ClienteController@validate_document');
 
 Route::get('start/clientes/{cliente_id}',[
     'middleware' => ['permission:consultar_clientes'],

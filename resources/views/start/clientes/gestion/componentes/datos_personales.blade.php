@@ -180,7 +180,8 @@
 
             <div class="col-md-12" style="margin-top:20px;">
                 <center>
-                    <button class="btn btn-default" v-if="estado == 'edicion'">Salvar</button>
+                    <button class="btn btn-default" v-if="estado == 'edicion'"
+                        @click="save">Salvar</button>
                     <button class="btn btn-primary">Continuar</button>
                 </center>
             </div>
@@ -211,9 +212,11 @@
         methods: {
             async continuar () {
 
+                var route = '/start/clientes/validar/documento/'+this.$store.state.cliente_id;
+
                 // valida si el documento existe
 
-                let res = await axios.post('/start/clientes/validar/documento', {
+                let res = await axios.post(route, {
                     tipo_doc: this.personal.tipo_doc,
                     num_doc: this.personal.num_doc
                 })
@@ -233,16 +236,19 @@
 
                 let valid = await this.$validator.validate()
 
-                if (this.estado == 'creacion' && valid) {
+                if ( (this.estado == 'creacion' || this.estado == 'edicion') && valid) {
                     this.$store.commit('setPersonal',this.personal)
                     this.continuar();
-                } 
-                else if (this.estado == 'edicion' && valid) {                    
-                    this.$store.dispatch('update')
-                } 
-                else {
+                }  
+                else if(!valid){
                     alert('Por favor complete la informacion requerida')
                 }
+            },
+            async save() {
+                console
+
+                await this.$store.commit('setPersonal',this.personal)
+                var res = this.$store.dispatch('update');
             }
         }
     });

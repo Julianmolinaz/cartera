@@ -209,7 +209,7 @@
 
                     let res = await axios.post('/start/clientes',{
                         cliente: this.$store.state.cliente,
-                        cliente_id: this.$store.state.cliente_id
+                        cliente_id: this.$store.state.cliente_id,
                     });
 
                     alert(res.data.message);

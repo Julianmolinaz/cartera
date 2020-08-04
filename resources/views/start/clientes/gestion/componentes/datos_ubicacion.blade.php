@@ -274,12 +274,9 @@
 
                 let valid = await this.$validator.validate()
 
-                if (this.$store.state.estado == 'creacion' && valid) {
+                if ((this.estado == 'creacion' || this.estado == 'edicion') && valid) {
                     this.$store.commit('setUbicacion',this.ubicacion)
                     this.continuar();
-                } 
-                else if (this.estado == 'edicion' && valid) {
-                    let res = await this.$store.dispatch('update')
                 } 
                 else {
                     alert('Por favor complete la informacion requerida')

@@ -12,7 +12,7 @@
 
         <h1 style="margin: 12px 0px 15px 10px;">
             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-            {{ $tipo }}
+            {{ $cliente['tipo'] }}
         </h1>
 
         <!-- Nav tabs -->
@@ -87,8 +87,7 @@
         el: '#principal',
         store,
         data: {
-            tab     : '',
-            cliente : ''
+            
         },
         methods: {
             setCliente() {
@@ -109,9 +108,13 @@
                 this.$store.commit('setTipo',{!! json_encode($tipo) !!})
                 this.tab = 'tab'
             } else {
-                this.tab = 'tab'
-                this.cliente = {!! json_encode($cliente) !!}
-                this.setCliente()
+                this.tab = 'tab';
+                this.cliente = {!! json_encode($cliente) !!};
+                this.$store.commit('setCliente', this.cliente);
+                this.$store.commit('setPersonal',this.cliente.info_personal)
+                this.$store.commit('setUbicacion',this.cliente.info_ubicacion)
+                this.$store.commit('setEconomica',this.cliente.info_economica)
+                this.$store.commit('setConyuge',this.cliente.conyuge)
             }
 
         }

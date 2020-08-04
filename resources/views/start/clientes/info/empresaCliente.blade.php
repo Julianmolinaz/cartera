@@ -32,24 +32,23 @@
         <dt>Teléfono empresa:</dt>
         <dd>{{ $cliente->tel_empresa }}</dd>
 
-        <dt>Cargo:</dt>
+                <dt>Cargo:</dt>
         <dd>{{ $cliente->cargo }}</dd>
 
         <dt>Descripción de actividad</dt>
-        <dd></dd>
+        <dd>{{ $cliente->descripcion_actividad }}</dd>
 
         <dt>Documento empresa</dt>
-        <dd></dd>
+        <dd>{{ $cliente->doc_empresa }}</dd>
 
         <dt>Fecha de vinculacion</dt>
-        <dd></dd>
+        <dd>{{ $cliente->fecha_vinculacion }}</dd>
 
         <dt>Oficio</dt>
-        <dd></dd>
+        <dd>{{ $cliente->oficio }}</dd>
 
         <dt>Tipo de contrato</dt>
-        <dd></dd>
-
+        <dd>{{ $cliente->tipo_contrato }}</dd>
       </dl>
 
       </div>
