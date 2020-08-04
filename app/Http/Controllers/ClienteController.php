@@ -120,11 +120,14 @@ class ClienteController extends Controller
                 $cliente_deudor = Cliente::find($request->cliente_id);
                 $cliente_deudor->cdeudor_id = $cliente->id;
                 $cliente_deudor->save();
-            }
-            
-            DB::commit();
 
-            return res(true, $request->cliente_id, 'El cliente se creó exitosamente !!!');
+                DB::commit();
+                return res(true, $request->cliente_id, 'El cliente se creó exitosamente !!!');
+            }
+
+            DB::commit();
+            return res(true, $cliente->id, 'El cliente se creó exitosamente !!!');
+            
 
         } catch (\Exception $e) {
 
@@ -164,8 +167,8 @@ class ClienteController extends Controller
     public function edit($id)
     {
         $municipios         = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
-        $this->cliente            = Cliente::find($id);
-        
+        $this->cliente      = Cliente::find($id);
+
         if($this->cliente->soat){
             $this->cliente->soat->vencimiento = inv_fech2($this->cliente->soat->vencimiento);
         }
@@ -187,6 +190,8 @@ class ClienteController extends Controller
             $cliente = $this->cast_cliente();
 
             return view('start.clientes.create')
+                ->with('cliente_id', $this->cliente->id)
+                ->with('tipo',$cliente['tipo'])
                 ->with('cliente',$cliente)
                 ->with('municipios',$municipios)
                 ->with('data',$this->getData())
@@ -267,15 +272,11 @@ class ClienteController extends Controller
         
         if ( is_array($request->info_personal  ) ) { $rq = array_merge($rq, $request->info_personal);  } 
         if ( is_array($request->info_ubicacion ) ) { $rq = array_merge($rq, $request->info_ubicacion); } 
-        if ( is_array($request->info_economica ) ) { $rq = array_merge($rq, $request->info_economica); } 
-        
-        \Log::info($rq);
-        
+        if ( is_array($request->info_economica ) ) { $rq = array_merge($rq, $request->info_economica); }        
         
         $validator = Validator::make($rq, $this->rules_cliente('editar'),$this->messages_cliente());
         
         if ($validator->fails()) {
-
             return res( false,$validator->errors(),'');
         }
 
@@ -345,10 +346,11 @@ class ClienteController extends Controller
     }
 
 
-    public function validate_document(Request $request) 
+    public function validate_document(Request $request, $cliente_id = null) 
     {
         $cliente = Cliente::where('tipo_doc', $request->tipo_doc)
             ->where('num_doc', $request->num_doc)
+            ->where('id','<>',$cliente_id)
             ->count();
 
         if ($cliente > 0) {

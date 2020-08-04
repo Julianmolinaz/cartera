@@ -142,20 +142,9 @@
 
 </script>
 
+<script src="{{ asset('js/rules/conyuge.js') }}"></script>
 
 <script>
-
-    let rules_conyuge = {
-		p_nombrey:   { name: 'primer nombre',       rule: 'required' },
-		s_nombrey:   { name: 'segundo nombre',      rule: '' },
-		p_apellidoy: { name: 'primer apellido',     rule: 'required' },
-		s_apellidoy: { name: 'segundo apellido',    rule: '' },
-		tipo_docy:   { name: 'tipo documento',      rule: '' },
-		num_docy:    { name: 'numero de documento', rule: '' },
-		diry:        { name: 'direccion',           rule: '' },
-		movily:      { name: 'celular',             rule: 'required' },
-		fijoy:       { name: 'telefono',            rule: '' },
-    }
 
     Vue.component('datos_conyuge-component',{
         template: '#datos_conyuge-template',
@@ -177,7 +166,7 @@
             async onSubmit () {
 
                 let valid = await this.$validator.validate()
-                let cliente_id = this.$store.state.cliente.id
+                let cliente_id = await this.$store.state.cliente.id
 
                 if (!cliente_id) {
                     this.alert_class = 'alert-warning'

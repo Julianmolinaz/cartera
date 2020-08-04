@@ -22,7 +22,8 @@ trait CastClienteTrait
             'info_ubicacion'     => $this->struct_info_ubicacion(),
             'info_economica'     => $this->struct_info_economica(),
             'conyuge'            => $this->struct_conyuge(),
-            'calificacion'       => $this->cliente->calificacion
+            'calificacion'       => $this->cliente->calificacion,
+            'tipo'               => $this->cliente->tipo
         ];
     }
 
@@ -40,7 +41,8 @@ trait CastClienteTrait
             'fecha_exp'          => $this->cliente->fecha_exp,
             'lugar_nacimiento'   => $this->cliente->lugar_nacimiento,
             'nivel_estudios'     => $this->cliente->nivel_estudios,
-            'estado_civil'       => $this->cliente->estado_civil
+            'estado_civil'       => $this->cliente->estado_civil,
+            'genero'             => $this->cliente->genero
         ];
     }
 
@@ -96,7 +98,7 @@ trait CastClienteTrait
 		    'num_docy'       => $this->cliente->conyuge->num_docy,
 		    'diry'           => $this->cliente->conyuge->diry,
 		    'movily'         => $this->cliente->conyuge->movily,
-		    'fijo'           => $this->cliente->conyuge->fijo
+		    'fijoy'          => $this->cliente->conyuge->fijoy
         ];
     }
 
