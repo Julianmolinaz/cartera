@@ -47,14 +47,14 @@ function reporte_procredito()
             
             $credito = Credito::find($ids[$i]->id);
 
-            if( $credito->estado == 'Cancelado' ||  $credito->saldo == 0){
+            // if( $credito->estado == 'Cancelado' ||  $credito->saldo == 0){
 
-                DB::table('cancelados')->insert([
-                    'credito_id' => $credito->id,
-                    'reporte'    => 'procredito',
-                    'created_at' => Carbon::now()
-                    ]);
-            }
+            //     DB::table('cancelados')->insert([
+            //         'credito_id' => $credito->id,
+            //         'reporte'    => 'procredito',
+            //         'created_at' => Carbon::now()
+            //         ]);
+            // }
                
             $bandera            = 0;
             $generar_tipo_d     = 0;
