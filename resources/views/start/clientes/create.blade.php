@@ -12,7 +12,7 @@
 
         <h1 style="margin: 12px 0px 15px 10px;">
             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-            {{ $cliente['tipo'] }}
+            {{ $tipo }}
         </h1>
 
         <!-- Nav tabs -->

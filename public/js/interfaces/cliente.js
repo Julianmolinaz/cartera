@@ -52,7 +52,6 @@ class InfoEconomica {
     this.oficio = "";
     this.tipo_actividad = "";
     this.empresa = "";
-    this.nit = "";
     this.tel_empresa = "";
     this.dir_empresa = "";
     this.doc_empresa = ""; //*
@@ -60,5 +59,20 @@ class InfoEconomica {
     this.tipo_contrato = ""; //*
     this.fecha_vinculacion = ""; //*
     this.descripcion_actividad = ""; //*
+  }
+
+  reset(arr) {
+    arr.forEach((item) => {
+      if (item == "oficio") this.oficio = "";
+      else if (item == "t1") this.tipo_actividad = "";
+      else if (item == "empr") this.empresa = "";
+      else if (item == "tel") this.tel_empresa = "";
+      else if (item == "dir") this.dir_empresa = "";
+      else if (item == "doc") this.doc_empresa = "";
+      else if (item == "cargo") this.cargo = "";
+      else if (item == "t2") this.tipo_contrato = "";
+      else if (item == "fech") this.fecha_vinculacion = "";
+      else if (item == "desc") this.descripcion_actividad = ""; //*
+    });
   }
 }

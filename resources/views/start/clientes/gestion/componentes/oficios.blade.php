@@ -4,7 +4,7 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="modal_oficios">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header my-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
                     <span class="glyphicon glyphicon-education"></span>

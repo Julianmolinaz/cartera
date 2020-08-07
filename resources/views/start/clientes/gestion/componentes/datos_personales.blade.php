@@ -212,14 +212,13 @@
         methods: {
             async continuar () {
 
-                var route = '/start/clientes/validar/documento/'+this.$store.state.cliente_id;
+                var route = '/start/clientes/validar/documento';
 
                 // valida si el documento existe
 
-                let res = await axios.post(route, {
-                    tipo_doc: this.personal.tipo_doc,
-                    num_doc: this.personal.num_doc
-                })
+                let res = await axios.post(route, this.$store.state.cliente)
+
+                console.log({res})
 
                 if (res.data.dat) {
                     this.warning_message = true
@@ -228,7 +227,6 @@
                     this.warning_message = false
                     this.message = ''
                     $('.nav-tabs a[href="#ubicacion"]').tab('show');
-                    console.log('continuar')
                 }
 
             },
@@ -245,8 +243,6 @@
                 }
             },
             async save() {
-                console
-
                 await this.$store.commit('setPersonal',this.personal)
                 var res = this.$store.dispatch('update');
             }

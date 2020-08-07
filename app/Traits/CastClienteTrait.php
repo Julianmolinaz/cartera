@@ -84,7 +84,18 @@ trait CastClienteTrait
     public function struct_conyuge()
     {
         if ( !isset($this->cliente->conyuge)) {
-            return [];
+            return [    
+                'nombrey'       => "",
+                'p_nombrey'     => "",
+                's_nombrey'     => "",
+                'p_apellidoy'   => "",
+                's_apellidoy'   => "",
+                'tipo_docy'     => "",
+                'num_docy'      => "",
+                'diry'          => "",
+                'movily'        => "",
+                'fijoy'         => ""
+            ];
         }
 
         return [

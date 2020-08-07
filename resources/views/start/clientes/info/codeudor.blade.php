@@ -70,7 +70,7 @@
             <td> {{ ($cliente->codeudor) ? $cliente->codeudor->placac : ''}}</td>
           </tr>
 
-          @if($cliente->codeudor && $cliente->codeudor->conyuge)
+          @if( $cliente->codeudor->conyuge || $cliente->cdeudor->conyuge )
             <tr>
               <th scope="row">Conyuge codeudor</th>
               <td>@include('start.clientes.info.conyuge_codeudor')</td>
