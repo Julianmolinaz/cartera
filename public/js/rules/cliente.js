@@ -1,5 +1,5 @@
 const rules_personales = {
-    primer_nombre: { name: 'primer nombre', rule: 'required|alpha_spaces' },
+    primer_nombre: { name: 'primer nombre', rule: 'required|alpha_spaces'0 },
     segundo_nombre: { name: 'segundo nombre', rule: 'alpha_spaces' },
     primer_apellido: { name: 'primer apellido', rule: 'required|alpha_spaces' },
     segundo_apellido: { name: 'segundo apellido', rule: 'alpha_spaces' },
