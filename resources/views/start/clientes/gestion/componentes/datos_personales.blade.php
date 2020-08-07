@@ -139,7 +139,7 @@
                 <!-- Genero  -->
 
                 <div v-bind:class="['form-group','col-md-2', errors.first(rules.genero.name) ? 'has-error' :'']">
-                    <label>Genero *</label>
+                    <label>Género *</label>
                     <select name="genero" 
                         v-model="personal.genero"
                         class="form-control"
