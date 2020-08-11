@@ -1,0 +1,400 @@
+[2020-08-10 17:59:53] local.ERROR: array (
+  'id' => 13548,
+  'info_personal' => 
+  array (
+    'primer_nombre' => 'Jhhgjhgjhg',
+    'segundo_nombre' => 'Jhgjhghj',
+    'primer_apellido' => 'Jhgjgjh',
+    'segundo_apellido' => 'Jhhjgh',
+    'tipo_doc' => 'Cedula Ciudadanía',
+    'num_doc' => '9879879879',
+    'fecha_nacimiento' => '2000-02-01',
+    'lugar_exp' => 'Pereira',
+    'fecha_exp' => '2000-01-01',
+    'lugar_nacimiento' => 'Pereiura',
+    'nivel_estudios' => 'Universitario',
+    'estado_civil' => 'Soltero/a',
+    'genero' => 'Masculino',
+  ),
+  'info_ubicacion' => 
+  array (
+    'direccion' => 'JSHGDGFDSH',
+    'barrio' => 'kjhkjhkjh',
+    'municipio_id' => 1,
+    'movil' => '6765765675',
+    'fijo' => '565656565',
+    'email' => 'fjas@jfdsak.com',
+    'estrato' => '4',
+    'anos_residencia' => 56,
+    'meses_residencia' => 5,
+    'tipo_vivienda' => 'Propia',
+    'envio_correspondencia' => 'Casa',
+    'nombre_arrendador' => 'sfdglhjsf',
+    'telefono_arrendador' => '645646546',
+  ),
+  'info_economica' => 
+  array (
+    'ocupacion' => 'Administrador De Empresas',
+    'tipo_actividad' => 'Dependiente',
+    'empresa' => '',
+    'tel_empresa' => '',
+    'dir_empresa' => '',
+    'doc_empresa' => '',
+    'cargo' => '',
+    'tipo_contrato' => '',
+    'fecha_vinculacion' => '2000-01-01',
+    'descripcion_actividad' => 'fdjkghsfjkdhg sfdghsdflghsdfjk ghlsdjfhlskdfhlsdfkjfjkdlssldfghkdj',
+  ),
+  'conyuge' => 
+  array (
+    'nombrey' => '',
+    'p_nombrey' => '',
+    's_nombrey' => '',
+    'p_apellidoy' => '',
+    's_apellidoy' => '',
+    'tipo_docy' => '',
+    'num_docy' => '',
+    'diry' => '',
+    'movily' => '',
+    'fijoy' => '',
+  ),
+  'calificacion' => NULL,
+  'tipo' => 'cliente',
+)  
+[2020-08-10 18:01:06] local.ERROR: array (
+  'id' => 13548,
+  'info_personal' => 
+  array (
+    'primer_nombre' => 'Jhhgjhgjhg',
+    'segundo_nombre' => 'Jhgjhghj',
+    'primer_apellido' => 'Jhgjgjh',
+    'segundo_apellido' => 'Jhhjgh',
+    'tipo_doc' => 'Cedula Ciudadanía',
+    'num_doc' => '9879879879',
+    'fecha_nacimiento' => '2000-02-01',
+    'lugar_exp' => 'Pereira',
+    'fecha_exp' => '2000-01-01',
+    'lugar_nacimiento' => 'Pereiura',
+    'nivel_estudios' => 'Universitario',
+    'estado_civil' => 'Soltero/a',
+    'genero' => 'Masculino',
+  ),
+  'info_ubicacion' => 
+  array (
+    'direccion' => 'JSHGDGFDSH',
+    'barrio' => 'kjhkjhkjh',
+    'municipio_id' => 1,
+    'movil' => '6765765675',
+    'fijo' => '565656565',
+    'email' => 'fjas@jfdsak.com',
+    'estrato' => '4',
+    'anos_residencia' => 56,
+    'meses_residencia' => 5,
+    'tipo_vivienda' => 'Propia',
+    'envio_correspondencia' => 'Casa',
+    'nombre_arrendador' => 'sfdglhjsf',
+    'telefono_arrendador' => '645646546',
+  ),
+  'info_economica' => 
+  array (
+    'ocupacion' => 'Administrador De Empresas',
+    'tipo_actividad' => 'Dependiente',
+    'empresa' => '',
+    'tel_empresa' => '',
+    'dir_empresa' => '',
+    'doc_empresa' => '',
+    'cargo' => '',
+    'tipo_contrato' => '',
+    'fecha_vinculacion' => '2000-01-01',
+    'descripcion_actividad' => 'fdjkghsfjkdhg sfdghsdflghsdfjk ghlsdjfhlskdfhlsdfkjfjkdlssldfghkdj',
+  ),
+  'conyuge' => 
+  array (
+    'nombrey' => '',
+    'p_nombrey' => '',
+    's_nombrey' => '',
+    'p_apellidoy' => '',
+    's_apellidoy' => '',
+    'tipo_docy' => '',
+    'num_docy' => '',
+    'diry' => '',
+    'movily' => '',
+    'fijoy' => '',
+  ),
+  'calificacion' => NULL,
+  'tipo' => 'cliente',
+)  
+[2020-08-10 18:10:39] local.ERROR: array (
+  'id' => 13548,
+  'info_personal' => 
+  array (
+    'primer_nombre' => 'Jhhgjhgjhg',
+    'segundo_nombre' => 'Jhgjhghj',
+    'primer_apellido' => 'Jhgjgjh',
+    'segundo_apellido' => 'Jhhjgh',
+    'tipo_doc' => 'Cedula Ciudadanía',
+    'num_doc' => '9879879879',
+    'fecha_nacimiento' => '2000-02-01',
+    'lugar_exp' => 'Pereira',
+    'fecha_exp' => '2000-01-01',
+    'lugar_nacimiento' => 'Pereiura',
+    'nivel_estudios' => 'Universitario',
+    'estado_civil' => 'Soltero/a',
+    'genero' => 'Masculino',
+  ),
+  'info_ubicacion' => 
+  array (
+    'direccion' => 'JSHGDGFDSH',
+    'barrio' => 'kjhkjhkjh',
+    'municipio_id' => 1,
+    'movil' => '6765765675',
+    'fijo' => '565656565',
+    'email' => 'fjas@jfdsak.com',
+    'estrato' => '4',
+    'anos_residencia' => 56,
+    'meses_residencia' => 5,
+    'tipo_vivienda' => 'Propia',
+    'envio_correspondencia' => 'Casa',
+    'nombre_arrendador' => 'sfdglhjsf',
+    'telefono_arrendador' => '645646546',
+  ),
+  'info_economica' => 
+  array (
+    'ocupacion' => 'Administrador De Empresas',
+    'tipo_actividad' => 'Dependiente',
+    'empresa' => '',
+    'tel_empresa' => '',
+    'dir_empresa' => '',
+    'doc_empresa' => '',
+    'cargo' => '',
+    'tipo_contrato' => '',
+    'fecha_vinculacion' => '2000-01-01',
+    'descripcion_actividad' => 'fdjkghsfjkdhg sfdghsdflghsdfjk ghlsdjfhlskdfhlsdfkjfjkdlssldfghkdj',
+  ),
+  'conyuge' => 
+  array (
+    'nombrey' => '',
+    'p_nombrey' => '',
+    's_nombrey' => '',
+    'p_apellidoy' => '',
+    's_apellidoy' => '',
+    'tipo_docy' => '',
+    'num_docy' => '',
+    'diry' => '',
+    'movily' => '',
+    'fijoy' => '',
+  ),
+  'calificacion' => NULL,
+  'tipo' => 'cliente',
+)  
+[2020-08-10 18:11:15] local.ERROR: array (
+  'id' => 13548,
+  'info_personal' => 
+  array (
+    'primer_nombre' => 'Jhhgjhgjhg',
+    'segundo_nombre' => 'Jhgjhghj',
+    'primer_apellido' => 'Jhgjgjh',
+    'segundo_apellido' => 'Jhhjgh',
+    'tipo_doc' => 'Cedula Ciudadanía',
+    'num_doc' => '9879879879',
+    'fecha_nacimiento' => '2000-02-01',
+    'lugar_exp' => 'Pereira',
+    'fecha_exp' => '2000-01-01',
+    'lugar_nacimiento' => 'Pereiura',
+    'nivel_estudios' => 'Universitario',
+    'estado_civil' => 'Soltero/a',
+    'genero' => 'Masculino',
+  ),
+  'info_ubicacion' => 
+  array (
+    'direccion' => 'JSHGDGFDSH',
+    'barrio' => 'kjhkjhkjh',
+    'municipio_id' => 1,
+    'movil' => '6765765675',
+    'fijo' => '565656565',
+    'email' => 'fjas@jfdsak.com',
+    'estrato' => '4',
+    'anos_residencia' => 56,
+    'meses_residencia' => 5,
+    'tipo_vivienda' => 'Propia',
+    'envio_correspondencia' => 'Casa',
+    'nombre_arrendador' => 'sfdglhjsf',
+    'telefono_arrendador' => '645646546',
+  ),
+  'info_economica' => 
+  array (
+    'ocupacion' => 'Administrador De Empresas',
+    'tipo_actividad' => 'Dependiente',
+    'empresa' => '',
+    'tel_empresa' => '',
+    'dir_empresa' => '',
+    'doc_empresa' => '',
+    'cargo' => '',
+    'tipo_contrato' => '',
+    'fecha_vinculacion' => '2000-01-01',
+    'descripcion_actividad' => 'fdjkghsfjkdhg sfdghsdflghsdfjk ghlsdjfhlskdfhlsdfkjfjkdlssldfghkdj',
+  ),
+  'conyuge' => 
+  array (
+    'nombrey' => '',
+    'p_nombrey' => '',
+    's_nombrey' => '',
+    'p_apellidoy' => '',
+    's_apellidoy' => '',
+    'tipo_docy' => '',
+    'num_docy' => '',
+    'diry' => '',
+    'movily' => '',
+    'fijoy' => '',
+  ),
+  'calificacion' => NULL,
+  'tipo' => 'cliente',
+)  
+[2020-08-10 18:15:35] local.ERROR: array (
+  'id' => 13544,
+  'info_personal' => 
+  array (
+    'primer_nombre' => 'Juan',
+    'segundo_nombre' => 'Jose',
+    'primer_apellido' => 'Rodas',
+    'segundo_apellido' => '',
+    'tipo_doc' => 'Cedula Ciudadanía',
+    'num_doc' => '987645445',
+    'fecha_nacimiento' => '2000-01-01',
+    'lugar_exp' => 'Pereira',
+    'fecha_exp' => '2000-01-01',
+    'lugar_nacimiento' => 'Dosquebradas',
+    'nivel_estudios' => 'Primaria',
+    'estado_civil' => 'Casado/a',
+    'genero' => 'Masculino',
+  ),
+  'info_ubicacion' => 
+  array (
+    'direccion' => 'DIRECCION',
+    'barrio' => 'barrio',
+    'municipio_id' => 547,
+    'movil' => '5444545454',
+    'fijo' => '564564654',
+    'email' => 'mail@mail.com',
+    'estrato' => '2',
+    'anos_residencia' => 2,
+    'meses_residencia' => 1,
+    'tipo_vivienda' => 'Familiar',
+    'envio_correspondencia' => 'Casa',
+    'nombre_arrendador' => '',
+    'telefono_arrendador' => '',
+  ),
+  'info_economica' => 
+  array (
+    'ocupacion' => 'Ingeniero',
+    'tipo_actividad' => 'Dependiente',
+    'empresa' => 'Frellanecer',
+    'tel_empresa' => '321545456',
+    'dir_empresa' => 'direccion',
+    'doc_empresa' => '564654',
+    'cargo' => 'Operario',
+    'tipo_contrato' => 'Prestacion de servicios',
+    'fecha_vinculacion' => '2000-10-10',
+    'descripcion_actividad' => '',
+  ),
+  'conyuge' => 
+  array (
+    'id' => 1692,
+    'nombrey' => 'Martha  Salazar',
+    'p_nombrey' => 'Martha',
+    's_nombrey' => '',
+    'p_apellidoy' => 'Salazar',
+    's_apellidoy' => '',
+    'tipo_docy' => '',
+    'num_docy' => '',
+    'diry' => '',
+    'movily' => '36521654654',
+    'fijoy' => '',
+  ),
+  'calificacion' => NULL,
+  'tipo' => 'codeudor',
+)  
+[2020-08-10 18:15:50] local.ERROR: array (
+  'id' => 13544,
+  'info_personal' => 
+  array (
+    'primer_nombre' => 'Juan',
+    'segundo_nombre' => 'Jose',
+    'primer_apellido' => 'Rodas',
+    'segundo_apellido' => '',
+    'tipo_doc' => 'Cedula Ciudadanía',
+    'num_doc' => '987645445',
+    'fecha_nacimiento' => '2000-01-01',
+    'lugar_exp' => 'Pereira',
+    'fecha_exp' => '2000-01-01',
+    'lugar_nacimiento' => 'Dosquebradas',
+    'nivel_estudios' => 'Primaria',
+    'estado_civil' => 'Casado/a',
+    'genero' => 'Masculino',
+  ),
+  'info_ubicacion' => 
+  array (
+    'direccion' => 'DIRECCION',
+    'barrio' => 'barrio',
+    'municipio_id' => 547,
+    'movil' => '5444545454',
+    'fijo' => '564564654',
+    'email' => 'mail@mail.com',
+    'estrato' => '2',
+    'anos_residencia' => 2,
+    'meses_residencia' => 1,
+    'tipo_vivienda' => 'Familiar',
+    'envio_correspondencia' => 'Casa',
+    'nombre_arrendador' => '',
+    'telefono_arrendador' => '',
+  ),
+  'info_economica' => 
+  array (
+    'ocupacion' => 'Ingeniero',
+    'tipo_actividad' => 'Dependiente',
+    'empresa' => 'Frellanecer',
+    'tel_empresa' => '321545456',
+    'dir_empresa' => 'direccion',
+    'doc_empresa' => '564654',
+    'cargo' => 'Operario',
+    'tipo_contrato' => 'Prestacion de servicios',
+    'fecha_vinculacion' => '2000-10-10',
+    'descripcion_actividad' => '',
+  ),
+  'conyuge' => 
+  array (
+    'id' => 1692,
+    'nombrey' => 'Martha  Salazar',
+    'p_nombrey' => 'Martha',
+    's_nombrey' => '',
+    'p_apellidoy' => 'Salazar',
+    's_apellidoy' => '',
+    'tipo_docy' => '',
+    'num_docy' => '',
+    'diry' => '',
+    'movily' => '36521654654',
+    'fijoy' => '',
+  ),
+  'calificacion' => NULL,
+  'tipo' => 'codeudor',
+)  
+[2020-08-10 18:42:08] local.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Undefined constant 'Ao' in /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/psy/psysh/src/Psy/ExecutionLoop/Loop.php(79) : eval()'d code:1
+Stack trace:
+#0 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/psy/psysh/src/Psy/ExecutionLoop/Loop.php(79): eval()
+#1 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/psy/psysh/src/Psy/ExecutionLoop/Loop.php(135): Psy\ExecutionLoop\{closure}(Object(Psy\Shell))
+#2 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/psy/psysh/src/Psy/ExecutionLoop/ForkingLoop.php(79): Psy\ExecutionLoop\Loop->run(Object(Psy\Shell))
+#3 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/psy/psysh/src/Psy/Shell.php(307): Psy\ExecutionLoop\ForkingLoop->run(Object(Psy\Shell))
+#4 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(117): Psy\Shell->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Psy\Output\ShellOutput))
+#5 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/psy/psysh/src/Psy/Shell.php(273): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Psy\Output\ShellOutput))
+#6 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Console/TinkerCommand.php(54): Psy\Shell->run()
+#7 [internal function]: Illuminate\Foundation\Console\TinkerCommand->fire()
+#8 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Container/Container.php(507): call_user_func_array(Array, Array)
+#9 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Console/Command.php(169): Illuminate\Container\Container->call(Array)
+#10 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Command/Command.php(256): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Console/Command.php(155): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(794): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(186): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Foundation\Console\TinkerCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#14 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(117): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#15 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(107): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#16 /Users/pablo/Documents/misproyectos/gora/carteragora2020/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#17 {main}  

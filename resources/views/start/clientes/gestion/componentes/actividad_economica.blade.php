@@ -4,32 +4,30 @@
 
         <form @submit.prevent="">
 
-            <input type="hidden" >
-
             <div class="col-md-12">
 
                 <div v-if="danger_message" class="alert alert-danger" role="alert">
                     <ul>
-                        <li v-for="item in arr_messages">@{{item[0]}}</li>
+                        <li v-for="item in arr_messages">@{{ item[0] }}</li>
                     </ul>
                 </div>
 
                 <!-- Ocupacion  -->
 
-                <div v-bind:class="['form-group','col-md-6',errors.first(rules.oficio.name) ? 'has-error' :'']">
-                    <label>Ocupacion u oficio @{{rules.oficio.required}} 
+                <div v-bind:class="['form-group','col-md-6',errors.first(rules.ocupacion.name) ? 'has-error' :'']">
+                    <label>Ocupacion u oficio @{{rules.ocupacion.required}} 
                         <a href="javascript:void(0);" @click="analizarOficio()">
                             <i class="fa fa-plus-square" aria-hidden="true" style="cursor:pointer;font-size:16px;"></i>
                         </a>
                     </label>
                     <select class="form-control"
-                        name="oficio"
-                        v-model="economia.oficio"
-                        v-validate="rules.oficio.rule">
+                        name="ocupacion"
+                        v-model="economia.ocupacion"
+                        v-validate="rules.ocupacion.rule">
                         <option selected disabled>Ocupación principal</option>
                         <option :value="item.nombre" v-for="item in data.oficios">@{{ item.nombre }}</option>
                     </select>
-                    <span class="help-block">@{{ errors.first(rules.oficio.name) }}</span>
+                    <span class="help-block">@{{ errors.first(rules.ocupacion.name) }}</span>
                 </div>
 
                 <oficios-component></oficios-component>
@@ -154,7 +152,7 @@
             <div v-bind:class="['form-group','col-md-12',errors.first(rules.descripcion_actividad.name) ? 'has-error' :'']">
                     <label for="">Descripcion actividad @{{rules.descripcion_actividad.required}}</label>
                     <textarea class="form-control"
-                        name="descripcion"
+                        name="descripcion de la actividad"
                         v-model="economia.descripcion_actividad"
                         v-validate="rules.descripcion_actividad.rule">
                     </textarea>
@@ -252,7 +250,10 @@
             },
             activityAction () {
 
+                this.errors.clear();
+                this.$validator.reset()
                 this.economia.reset(['tel','fech','desc','doc','t2','cargo']);
+
 
                 this.rules = rules_economica;
 
@@ -280,6 +281,21 @@
 
                     this.rules.descripcion_actividad.rule     = 'required';
                     this.rules.descripcion_actividad.required = '*';
+
+                    this.rules.empresa.rule            = '';
+                    this.rules.empresa.required        = '';
+
+                    this.rules.tel_empresa.rule        = '';
+                    this.rules.tel_empresa.required    = '';
+
+                    this.rules.dir_empresa.rule        = '';
+                    this.rules.dir_empresa.required    = '';
+
+                    this.rules.cargo.rule              = '';
+                    this.rules.cargo.required          = '';
+
+                    this.rules.tipo_contrato.rule      = ''; 
+                    this.rules.tipo_contrato.required  = '';
                 }
             },//.activityAction
             analizarOficio () {

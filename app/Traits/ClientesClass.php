@@ -522,7 +522,7 @@ trait ClientesClass
             'municipio_id'              => 'required',
             'movil'                     => 'required|max:20|alpha_num',
             'fijo'                      => 'max:20|alpha_num',
-            'oficio'                    => 'required',
+            'ocupacion'                 => 'required',
             'tipo_actividad'            => 'required',
             'email'                     => 'required|max:60'
             );
@@ -556,7 +556,7 @@ trait ClientesClass
            'movil.alpha_num'            => 'No se puede introducir espacios en el movil',
            'fijo.alpha_num'             => 'No se puede introducir espacios en el teléfono',
            'fijo.max'                   => 'El número de teléfono del cliente excede los 20 dígitos permitidos',
-           'oficio.required'            => 'El oficio del cliente es requerida',
+           'ocupacion.required'            => 'El oficio del cliente es requerida',
            'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
            'email.required'             => 'El email es requerido',
            'email.max'                  => 'El email del cliente excede los 60 caracteres permitidos'

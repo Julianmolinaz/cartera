@@ -88,7 +88,6 @@ class Cliente extends Model implements Auditable
 
     ];
 
-
     public function setNombreAttribute($value){
 
         $_1 = ucwords(strtolower($this->primer_nombre));

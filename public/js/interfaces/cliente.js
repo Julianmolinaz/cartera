@@ -49,7 +49,7 @@ class InfoUbicacion {
 
 class InfoEconomica {
   constructor() {
-    this.oficio = "";
+    this.ocupacion = "";
     this.tipo_actividad = "";
     this.empresa = "";
     this.tel_empresa = "";
@@ -63,7 +63,7 @@ class InfoEconomica {
 
   reset(arr) {
     arr.forEach((item) => {
-      if (item == "oficio") this.oficio = "";
+      if (item == "ocup") this.ocupacion = "";
       else if (item == "t1") this.tipo_actividad = "";
       else if (item == "empr") this.empresa = "";
       else if (item == "tel") this.tel_empresa = "";

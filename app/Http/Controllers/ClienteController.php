@@ -92,7 +92,9 @@ class ClienteController extends Controller
     // public function store()
 
     public function store(Request $request)   
-    {          
+    {       
+        \Log::info($request->all());
+        
         $rq = [];
 
         $cliente = (object) $request->cliente;
@@ -200,7 +202,6 @@ class ClienteController extends Controller
                 ->with('data',$this->getData())
                 ->with('estado','edicion');
         }
-        
     }
 
     public function update(Request $request, $id)
@@ -298,9 +299,15 @@ class ClienteController extends Controller
             $cliente->fill($rq);
             $cliente->user_update_id = Auth::user()->id;
             $cliente->save();
+
+            $id = $cliente->id;
+
+            if ($cliente->tipo == 'codeudor') {
+                $id = $cliente->deudor->id;
+            }
     
             DB::commit();
-            return res(true, $cliente, 'El cliente se editó exitosamente !!!');
+            return res(true, $id, 'El cliente se editó exitosamente !!!');
 
         } catch (\Exception $e) {
             DB::rollback();

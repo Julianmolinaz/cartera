@@ -68,7 +68,8 @@ trait CastClienteTrait
     public function struct_info_economica()
     {
         return [
-            'oficio'             => $this->cliente->oficio,
+
+            'ocupacion'          => $this->cliente->ocupacion,
             'tipo_actividad'     => $this->cliente->tipo_actividad,
             'empresa'            => $this->cliente->empresa,
             'tel_empresa'        => $this->cliente->tel_empresa,
