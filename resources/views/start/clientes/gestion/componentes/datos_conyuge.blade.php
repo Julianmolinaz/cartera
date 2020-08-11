@@ -25,7 +25,7 @@
             <div v-bind:class="['form-group','col-md-3', errors.first(rules.s_nombrey.name) ? 'has-error' :'']">
                 <label>Segundo nombre</label>
                 <input type="text" class="form-control"
-                    name="Segundo nombre"
+                    name="segundo nombre"
                     v-model="conyuge.s_nombrey"
                     v-validate="rules.s_nombrey.rule">
                 <span class="help-block">@{{ errors.first(rules.s_nombrey.name) }}</span>                 
