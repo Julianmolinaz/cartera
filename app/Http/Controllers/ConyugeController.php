@@ -70,14 +70,22 @@ class ConyugeController extends Controller
 
         try
         {
-            $conyuge = new Conyuge();
-            $conyuge->fill($request->conyuge);
-            $conyuge->save();
+            if ( isset($request->conyuge['id']) ) {
+                $conyuge = Conyuge::find($request->conyuge['id']);
+                $conyuge->fill($request->conyuge);
+                $conyuge->save();
+            } else {
+                $conyuge = new Conyuge();
+                $conyuge->fill($request->conyuge);
+                $conyuge->save();
 
-            $cliente = Cliente::find($request->cliente_id);
-            $cliente->conyuge_id = $conyuge->id;
-            $cliente->user_update_id = Auth::user()->id;
-            $cliente->save();
+                $cliente = Cliente::find($request->cliente_id);
+                $cliente->conyuge_id = $conyuge->id;
+                $cliente->user_update_id = Auth::user()->id;
+                $cliente->save();
+            }
+
+
 
             DB::commit();
             return res(true,'','Conyuge creado exitosamente !!!');

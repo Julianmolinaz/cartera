@@ -33,7 +33,7 @@ const rules_ubicacion = {
 const rules_economica = {
     oficio: { name: 'oficio', rule: 'required', required: '*' }, // general
     tipo_actividad: { name: 'tipo de actividad', rule: 'required', required: '*' }, // general
-    empresa: { name: 'nombre empresa', rule: 'alpha', required: '' }, // empleado e independiente
+    empresa: { name: 'nombre empresa', rule: 'alpha_spaces', required: '' }, // empleado e independiente
     tel_empresa: { name: 'telefono empresa', rule: 'min:7|max:15', required: '' }, // empleado e independiente
     dir_empresa: { name: 'direccion empresa', rule: 'regex:^([a-zA-Z0-9  ]+)$', required: '' }, // empleado e independiente
     doc_empresa: { name: 'identificacion empresa', rule: 'numeric', required: '' }, // empleado

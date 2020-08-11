@@ -48,9 +48,12 @@ class ClienteController extends Controller
 
     public function list()
     {
-        $clientes = DB::table('clientes')->select([
-            'id','num_doc','nombre','movil'
-        ]);
+        $clientes = DB::table('clientes')
+            ->where('tipo','cliente')
+            ->orderBy('updated_at','desc')
+            ->select([
+                'id','num_doc','nombre','movil'
+            ]);
 
         return Datatables::of($clientes)
             ->addColumn('btn', function($cliente) {
@@ -254,8 +257,15 @@ class ClienteController extends Controller
             }
             DB::commit();
 
-            flash()->info('El cliente ('.$cliente->id.') '.$cliente->nombre. ' se editó con éxito!');
-            return redirect()->route('start.clientes.show',$cliente->id);            
+            if($cliente->tipo == 'codeudor'){
+                flash()->info('El codeudor ('.$cliente->id.') '.$cliente->nombre. ' se editó con éxito!');
+                return redirect()->route('start.clientes.show',$cliente->deudor->id);            
+            } else {
+
+                flash()->info('El cliente ('.$cliente->id.') '.$cliente->nombre. ' se editó con éxito!');
+                return redirect()->route('start.clientes.show',$cliente->id);            
+            }
+
 
         }
         catch(\Exception $e)
@@ -345,20 +355,37 @@ class ClienteController extends Controller
             ->with('cliente',$cliente);
     }
 
+    /**
+     * Valida que un cliente no se repita, utilizando
+     * la cedula como elemento unico 
+     * para los codeudores no aplica
+     */
 
-    public function validate_document(Request $request, $cliente_id = null) 
+
+    public function validate_document(Request $request) 
     {
-        $cliente = Cliente::where('tipo_doc', $request->tipo_doc)
-            ->where('num_doc', $request->num_doc)
-            ->where('id','<>',$cliente_id)
-            ->count();
+        try {
 
-        if ($cliente > 0) {
-
-            return res(true,true,'Ya existe un cliente con este número de documento');
-        } else {
-
-            return res(true,false,'');
+            if ($request->tipo =! 'cliente') return res(false,'','');
+    
+            if ($request->id) {
+                $cliente = Cliente::where('tipo_doc', $request->info_personal['tipo_doc'])
+                    ->where('num_doc', $request->info_personal['num_doc'])
+                    ->where('id','<>',$request->id)
+                    ->count();
+            } else {
+                $cliente = Cliente::where('tipo_doc', $request->info_personal['tipo_doc'])
+                    ->where('num_doc', $request->info_personal['num_doc'])
+                    ->count();
+            }
+    
+            if ($cliente > 0) {
+                return res(false,true,'Ya existe un cliente con este número de documento');
+            } else {
+                return res(true,'','');
+            }
+        } catch (Exception $e) {
+            return res(false, '', $e->getMessage());
         }
     }
 

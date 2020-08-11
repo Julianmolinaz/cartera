@@ -23,7 +23,6 @@ class Cliente extends Model implements Auditable
         'genero',
         'tipo_doc', // show
         'num_doc', // show
-        'ciudad_exp',
         'estado_civil',
         'fecha_exp',
         'lugar_exp',
@@ -51,7 +50,7 @@ class Cliente extends Model implements Auditable
 
         //info economica
 
-        'tipo_actividad',
+        'actividad_economica',
         'ocupacion',
         'empresa',
         'placa', //*
@@ -74,6 +73,7 @@ class Cliente extends Model implements Auditable
         'cdeudor_id',
         'conyuge_id',
         'codeudor_id',
+        'cdeudor_id',
         'user_create_id',
         'user_update_id',
 
@@ -174,6 +174,10 @@ class Cliente extends Model implements Auditable
 
     public function cdeudor() {
         return $this->hasOne('App\Cliente','id','cdeudor_id');
+    }
+
+    public function deudor() {
+        return $this->hasOne('App\Cliente','cdeudor_id','id');
     }
 
     protected $auditExclude = [

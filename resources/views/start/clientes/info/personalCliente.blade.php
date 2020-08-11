@@ -1,8 +1,8 @@
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="margin-bottom: 1px;">
+<div class="panel-group" id="accordion14" role="tablist" aria-multiselectable="true" style="margin-bottom: 1px;">
   <div class="">
     <div role="tab" id="headingFour">
       <p>
-        <a  role="button" data-toggle="collapse" data-parent="#accordion" 
+        <a  role="button" data-toggle="collapse" data-parent="#accordion14" 
             href="#collapseFour" aria-expanded="true" aria-controls="collapseFour" 
             style="font-size:12px;color:black;"
             id="btn-show_personalCliente">

@@ -3,7 +3,7 @@
 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
   Información del Codeudor ...
       
-  <a href="{{route('start.clientes.edit',$cliente->id)}}" 
+  <a href="{{route('start.clientes.edit',$cliente->cdeudor->id)}}" 
      class = 'btn btn-default btn-xs'  
      data-toggle="tooltip" data-placement="top" 
      title="Editar"
@@ -25,9 +25,9 @@
   <table class="table" style="font-size:12px">
 
     <tr>
-        <th scope="row">Documentación</th>
+        <th scope="row" style="height:49px;"></th>
         <td>
-          <span>@include('start.clientes.info.documentos_cliente')</span>
+          <span></span>
         </td>
     </tr>
 
@@ -71,16 +71,11 @@
       </td>
     </tr>
 
-    <!-- <tr>
-      <th scope="row">Placa</th>
-      <td> {{ $cliente->placa}}</td>
-    </tr> -->
-
     @if($cliente->conyuge)
       <tr>
 
         <td colspan="2" class="info">
-          @include('start.clientes.info.conyuge_cliente')
+          @include('start.clientes.info.conyuge_codeudor')
         </td>
       </tr>
     @endif
@@ -96,29 +91,16 @@
           @endif
           Estudio
       </th>
-        @if($cliente->estudio == NULL)
-          <td> No hay estudio..</td>
-        @else
-          <td>{{$cliente->cdeudor->estudio->cal_estudio}}</td>
-        @endif
+       
+        <td>No aplica</td>
     </tr>
-    @if($cliente->soat)
-    <tr>
-      <th scope="row">Vencimiento SOAT</th>
-      <td>
-      {{substr( $cliente->soat->vencimiento , 8, 3 ).
-        substr( $cliente->soat->vencimiento , 4, 4 ).
-        substr( $cliente->soat->vencimiento , 0, 4 )}}
-      </td>
-    </tr>
-    @endif
 
     <tr>
       <th scope="row">
         <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
           Núm. créditos
         </th>
-      <td> {{ $cliente->numero_de_creditos }}</td>
+      <td>No Aplica</td>
     </tr>
 
     <tr style="color:green; font-weight: bold;">
@@ -126,7 +108,7 @@
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
         Calificación
       </th>
-      <td> {{ $cliente->calificacion}}</td>
+      <td>No aplica</td>
     </tr>
 
     <tr>
@@ -149,9 +131,6 @@
       &nbsp;&nbsp;&nbsp;&nbsp;Volver&nbsp;&nbsp;&nbsp;&nbsp;</button>
     </a>
 
-    <a href="{{route('start.estudios.create',[$cliente->id,'0', 'cliente'])}}">
-      <button type="button" class="btn btn-danger">Estudio</button>
-    </a>
 
     <!-- <a href="{{route('start.clientes.edit',$cliente->id)}}">
       <button type="button" class="btn btn-danger">Editar</button>

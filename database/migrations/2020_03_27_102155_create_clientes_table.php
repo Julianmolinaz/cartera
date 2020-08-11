@@ -26,7 +26,6 @@ class CreateClientesTable extends Migration {
 			$table->enum('genero', array('Femenino','Masculino'));
 			$table->enum('tipo_doc', array('Cedula Ciudadanía','Nit','Cedula de Extranjería','Pasaporte','Pase Diplomático','Carnet Diplomático','Tarjeta de Identidad','Rut','Número único de Identificación Personal','Nit de Extranjería'))->default('Cedula Ciudadanía');
 			$table->string('num_doc')->unique();
-			$table->string('ciudad_exp')->nullable(); // new
 			$table->enum('estado_civil',['Soltero/a','Casado/a','Separado/a','Viudo/a','Union libre','Otro'])->nullable(); // new
 			$table->date('fecha_exp')->nullable(); // new
 			$table->string('lugar_exp')->nullable(); // new
@@ -40,7 +39,8 @@ class CreateClientesTable extends Migration {
 			$table->string('direccion')->nullable();
 			$table->string('barrio')->nullable();
 			$table->integer('municipio_id')->unsigned()->nullable();
-			$table->string('movil');
+            $table->string('movil');
+            $table->integer('antiguedad_movil')->nullable()->comment('anitguedad en meses');
 			$table->string('antiguedad_movil');
 			$table->string('fijo')->nullable();
 			$table->string('email')->nullable();
@@ -59,14 +59,14 @@ class CreateClientesTable extends Migration {
 			$table->string('nit');
 			$table->enum('tipo_actividad', array('Dependiente','Independiente'));
 			$table->string('dir_empresa')->nullable();
-			$table->string('tel_empresa')->nullable();@
+			$table->string('tel_empresa')->nullable();
 			$table->string('cargo')->nullable(); // new
 			$table->string('descripcion_actividad')->nullable(); // new
 			$table->string('doc_empresa')->nullable(); // new
 			$table->date('fecha_vinculacion')->nullable(); // new
 			$table->string('oficio')->nullable(); // new
 			$table->enum('tipo_contrato',['Idefinido','Prestacion de servicios','Termino fijo'])->nullable(); // new
-			$table->enum('reportado', array('si','no'));
+			$table->enum('reportado', array('si','no'))->default('no');
 
 			// referencias
 

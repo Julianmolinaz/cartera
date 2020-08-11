@@ -5,7 +5,7 @@
         <a  role="button" data-toggle="collapse" data-parent="#accordion" 
             href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" 
             style="font-size:12px;color:black;"
-            id="btn-show">
+            id="btn-show-conyuge">
 
         <span class="glyphicon glyphicon-menu-down" id="glyphicon" aria-hidden="true"></span>
           Información del Conyuge
@@ -57,11 +57,11 @@
 
 <script>
 
-  const btn_show = document.getElementById('btn-show')
+  const btn_show_conyuge = document.getElementById('btn-show-conyuge')
   const glyphicon = document.getElementById('glyphicon')
   let show = false
 
-  btn_show.addEventListener('click', () => {
+  btn_show_conyuge.addEventListener('click', () => {
     show = !show
 
     glyphicon.classList.remove('glyphicon-menu-down')

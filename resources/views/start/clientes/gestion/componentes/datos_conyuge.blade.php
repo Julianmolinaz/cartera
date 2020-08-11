@@ -165,8 +165,15 @@
             },
             async onSubmit () {
 
+                console.log('submit coyuge');
+
                 let valid = await this.$validator.validate()
+
+                console.log({valid})
+
                 let cliente_id = await this.$store.state.cliente.id
+
+                console.log({cliente_id})
 
                 if (!cliente_id) {
                     this.alert_class = 'alert-warning'
@@ -179,6 +186,8 @@
                         cliente_id : cliente_id,
                         conyuge    : this.conyuge
                     })
+
+                    console.log({res})
 
                     if (res.data.success) {
                         if (res.data.message == '') {
