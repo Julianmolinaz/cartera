@@ -215,10 +215,7 @@
                 var route = '/start/clientes/validar/documento';
 
                 // valida si el documento existe
-
                 let res = await axios.post(route, this.$store.state.cliente)
-
-                console.log({res})
 
                 if (res.data.dat) {
                     this.warning_message = true

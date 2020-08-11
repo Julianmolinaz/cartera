@@ -68,7 +68,7 @@
                 axios.post('/start/clientes/updateV2', state.cliente)
                     .then( res => {
                         if (res.data.success) {
-                            document.location.href= "/start/clientes/"+state.cliente.id 
+                            document.location.href= "/start/clientes/"+res.data.dat 
                         } else {
                             console.log(res.data.dat, res.data.message)
                         }

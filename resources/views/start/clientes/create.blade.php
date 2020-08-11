@@ -7,7 +7,6 @@
 
 <div class="col-md-8 col-md-offset-2" id="principal">
 
-
     <div class="panel panel-default" style="padding:5px;" id="myabs">
 
         <h1 style="margin: 12px 0px 15px 10px;">

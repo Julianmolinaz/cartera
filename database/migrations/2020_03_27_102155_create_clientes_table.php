@@ -41,7 +41,6 @@ class CreateClientesTable extends Migration {
 			$table->integer('municipio_id')->unsigned()->nullable();
             $table->string('movil');
             $table->integer('antiguedad_movil')->nullable()->comment('anitguedad en meses');
-			$table->string('antiguedad_movil');
 			$table->string('fijo')->nullable();
 			$table->string('email')->nullable();
 			$table->integer('anos_residencia')->nullable(); // new
