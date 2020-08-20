@@ -66,6 +66,7 @@ class CallcenterController extends Controller
                  creditos.refinanciacion     as refinanciado,
                  creditos.credito_refinanciado_id as credito_refinanciado_id,
                  precreditos.vlr_fin         as valor_financiar,
+		 precreditos.id              as precredito_id,
                  municipios.nombre           as municipio,
                  municipios.departamento     as departamento,
                  creditos.estado             as estado,
@@ -157,6 +158,7 @@ class CallcenterController extends Controller
             ->join('users','llamadas.user_create_id','=','users.id')
             ->select(DB::raw('
                 carteras.nombre             as cartera,
+                creditos.precredito_id      as precredito_id,
                 creditos.id                 as credito_id,
                 creditos.saldo              as saldo,
                 creditos.refinanciacion     as refinanciado,

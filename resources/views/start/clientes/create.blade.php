@@ -115,7 +115,7 @@
                             </div>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <label class="txt-small">Email :</label>
+                                <label class="txt-small">Email *:</label>
                                 <input type="email" class="form-control" placeholder="correo electrónico" id="email" name="email" value="{{old('email')}}" size="60">
                             </div>
                         </div>

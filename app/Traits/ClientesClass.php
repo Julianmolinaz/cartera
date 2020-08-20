@@ -527,7 +527,7 @@ trait ClientesClass
             'movil'                     => 'required|max:20|alpha_num',
             'ocupacion'                 => 'required',
             'tipo_actividad'            => 'required',
-            'email'                     => 'max:60'
+            'email'                     => 'required|max:60'
             );
     }
 
@@ -562,7 +562,8 @@ trait ClientesClass
            'movil.alpha_num'            => 'No se puede introducir espacios en el movil',
            'ocupacion.required'         => 'La ocupación del cliente es requerida',
            'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
-           'email.max'                  => 'El correo electronico del cliente excede los 60 caracteres permitidos'
+           'email.max'                  => 'El correo electronico del cliente excede los 60 caracteres permitidos',
+	   'email.required'             => 'El email es requerido'
             );
     }
 
