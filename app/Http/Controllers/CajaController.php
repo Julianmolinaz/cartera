@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Precredito;
 use Carbon\Carbon;
 use App\Llamada;
+use App as _;
 use Auth;
 use DB;
 
@@ -32,7 +33,28 @@ class CajaController extends Controller
 
     public function get_cashes_report($date) 
     {
-        $res = [ 'error'  => false, 'dat' => cajasHp( $date )];
+
+        
+        $cajas =  cajasHp( $date );
+        $ids_puntos = [];
+        $ids_users  = [];
+        
+        foreach ($cajas as $caja ) {
+            array_push($ids_puntos, $caja['punto']['id']);
+            array_push($ids_users, $caja['user']['id']);
+        }
+
+        $puntos = _\Punto::orderBy('nombre')->whereIn('id',$ids_puntos)->get();
+        $users = _\User::orderBy('name')->whereIn('id',$ids_users)->get();
+        
+        $res = [ 
+            'error'  => false, 
+            'dat' => [
+                'cajas' => $cajas,
+                'puntos' => $puntos,
+                'users' => $users
+            ]
+        ];
         
         return response()->json($res);
     }
