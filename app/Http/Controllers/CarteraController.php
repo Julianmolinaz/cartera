@@ -8,19 +8,17 @@ use App\Http\Requests;
 use App\Cartera;
 
 
-/**/
-use App\Sancion;
-use App\Variable;
-use App\Pago;
-use App\Credito;
-use App\Factura;
-use App\Extra;
-use Carbon\Carbon;
 use App\FechaCobro;
+use Carbon\Carbon;
+use App\Variable;
+use App\Sancion;
+use App\Factura;
+use App\Credito;
+use App\Extra;
+use App\Pago;
 use Auth;
 use DB;
 
-/**/
 
 class CarteraController extends Controller
 {
@@ -93,8 +91,6 @@ class CarteraController extends Controller
      */
     public function show($id)
     {
-
-
       $factura = Factura::find($id);
 
       $ultima_factura = DB::table('facturas')
@@ -108,6 +104,7 @@ class CarteraController extends Controller
       } else {
         echo 'no es la ultima factura';
       }
+
     }
 
     /**
@@ -135,7 +132,6 @@ class CarteraController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $this->validate($request,
             ['nombre' => 'required|unique:carteras,nombre,'.$id],
             ['nombre.required' => 'El Nombre es requerido',

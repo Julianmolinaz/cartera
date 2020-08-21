@@ -1,55 +1,30 @@
 <?php
-use App\Cliente;
-use App\Codeudor;
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
 
-Route::get('/', function () {
-    return view('welcome');
-});
+require __DIR__ . '/List_routes/pagos.php';
+require __DIR__ . '/List_routes/variables.php';
+require __DIR__ . '/List_routes/carteras.php';
 
-Route::get('set-sanciones','GeneradorController@set');
+require __DIR__ . '/routes/general.php';
 
-Route::get('detallado_ventas/{nombre}','ReporteController@descargarDetalladoVentas')
-	->middleware('admin');
+require __DIR__ . '/routes/simulador.php';
 
-Route::get('ventas_cartera/{nombre}','ReporteController@descargarVentasCartera')
-	->middleware('admin');
+require __DIR__ . '/routes/financiero.php';
 
-//FINANCIERO
+require __DIR__ . '/routes/clientes.php';
 
-Route::get('repor-financiero',[
-	'uses' => 'FinancieroController@index',
-	'as'   => 'reporte.financiero'
-])->middleware('admin');
+require __DIR__ . '/routes/callcenter.php';
 
-Route::get('repor-financiero/general/{rango}',[
-	'uses' => 'FinancieroController@general',
-	'as'   => 'reporte.financiero.general'
-])->middleware('admin');
+require __DIR__ . '/routes/contabilidad.php';
 
-Route::get('repor-financiero/sucursales/{rango}/{sucursal_id}',
-		'FinancieroController@financiero_sucursales')
-	->middleware('admin');
+require __DIR__ . '/routes/creditos.php';
 
-Route::get('repor-financiero/comparativo-anual/{year}',[
-	'uses' 	=> 'FinancieroController@financiero_comparativo',
-	'as'	=> 'reporte.financiero.comparativo'
-])->middleware('admin');
+require __DIR__ . '/routes/precreditos.php';
 
-Route::post('repor-financiero/detalle',[
-	'uses'  => 'FinancieroController@detalle',
-	'as'    => 'reporte.financiero.detalle'
-]);
+require __DIR__ . '/routes/estudios.php';
+
+require __DIR__ . '/routes/pagos_creditos.php';
+
 
 // SIMULADORSIMULADORSIMULADORSIMULADORSIMULADORSIMULADOR
 
@@ -397,8 +372,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	// USERS
 	Route::get('users/get_users','UserController@getUsers');
 	Route::resource('users','UserController');
-
-	Route::resource('variables','VariableController',['only' =>['index','update']]);
+	
 	Route::resource('carteras','CarteraController');
 	Route::resource('negocios','NegocioController');
 	Route::get('negocios/{id}/destroy','NegocioController@destroy')->name('admin.negocios.destroy');
@@ -408,8 +382,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']],function(){
 	Route::resource('criteriocall','CriteriocallController');
   	Route::resource('anuladas','AnuladaController');
   	Route::resource('puntos','PuntoController');	
-
-    Route::get('get-mensajes','VariableController@get_mensajes');
 	  
 	Route::post('data-asis',['uses' =>'DataAsisController@upload_excel','as' => 'data.data_asis']);
 
@@ -439,24 +411,6 @@ Route::get('admin/estado_cuenta/{credito_id}',[
 
 //GESTION DE CARTERA
 
-Route::get('admin/gestion_cartera/index',[
-	'uses'	=> 'GestionCarteraController@index',
-	'as'    => 'admin.gestion_cartera.index'
-]);
-
-Route::get('admin/gestion_cartera/getCartera/{carteraId}','GestionCarteraController@getCartera');
-Route::get('admin/gestion_cartera/get_info_puntos',[
-	'uses' => 'GestionCarteraController@getPuntos',
-    'as'   => 'admin.info_cartera_puntos']);
-Route::get('admin/gestion_cartera/getCarteras','CarteraController@getCarteras');
-Route::get('admin/gestion_cartera/get_info_carteras',[
-	'uses' => 'GestionCarteraController@getInfoCarteras',
-	'as'   => 'admin.info_carteras' ]);
-Route::get('admin/gestion_cartera/flujo_de_caja',[
-	'uses' => 'FlujocajaController@index',
-	'as'   => 'admin.info_cartera.flujo_de_caja']);	
-Route::get('admin/gestion_cartera/data_flujo_de_caja','FlujocajaController@getDataFlujo');
-Route::post('admin/gestion_cartera/get_flujo_de_caja','FlujocajaController@getFlujoDeCaja');
 
 Route::get('admin/reportes',['uses' => 'ReporteController@index', 'as' => 'admin.reportes.index'])
 	->middleware('reporte_listar');
@@ -667,5 +621,32 @@ Route::get('123', function(){
 
 Route::get('pruebas','PruebaController@invertirFecha');
 Route::get('pruebas/log','PruebaController@log');
+Route::get('ventasMes/{user_id}/{date}', function($user_id, $date){
+    
+    $date = new \Carbon\Carbon($date);
+    $month = $date->month;
+    $mes = '';
 
+    switch ($month) {
+        case '1': $mes = 'Enero'; break;
+        case '2': $mes = 'Febrero'; break;
+        case '3': $mes = 'Marzo'; break;
+        case '4': $mes = 'Abril'; break;
+        case '5': $mes = 'Mayo'; break;
+        case '6': $mes = 'Junio'; break;
+        case '7': $mes = 'Julio'; break;
+        case '8': $mes = 'Agosto'; break;
+        case '9': $mes = 'Septiembre'; break;
+        case '10': $mes = 'Octubre'; break;
+        case '11': $mes = 'Noviembre'; break;
+        case '12': $mes = 'Diciembre'; break;
+    }
 
+    return \DB::table('creditos')
+        ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+        ->join('users','precreditos.user_create_id','=','users.id')
+        ->where('users.id',$user_id)
+        ->where('creditos.mes', $mes)
+        ->where('creditos.anio', $date->year)
+        ->sum('precreditos.vlr_fin');
+});

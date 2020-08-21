@@ -10,7 +10,6 @@
             <table id="tabla" class="table table-striped" >
                   <thead>
                     <tr>
-                      <th v-if="mover_fecha != ''">  No mover Fecha </th>
                       <th>  Cant        </th>
                       <th>  Concepto    </th>
                       <th>  Pago desde  </th>
@@ -21,13 +20,6 @@
                   <tbody>
                     <tr v-for="(pago, index) in general.pagos" style="font-size: 10px;"
                         :class="{ danger : pago.marcado  }">
-                      <td class="td-small">  
-                        <div class="checkbox" v-if="pago.marcado" style="margin:0px;">
-                           <label>
-                            <input type="checkbox" @click="mover_fecha_parcial(index)">
-                          </label>
-                        </div>
-                      </td>
                        <td class="td-small">@{{ pago.cant }}     </td>
                        <td class="td-small">@{{ pago.concepto }} </td>
                        <td class="td-small">@{{ pago.ini  }}     </td>

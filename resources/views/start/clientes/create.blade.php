@@ -94,7 +94,7 @@
                             <!-- MUNICIIPIO **************************************************************************-->
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <label class="txt-small">Municipio *:</label>
-                                <input type="text" class="form-control" placeholder="ingrese municipio" id="municipio" value="{{old('municipio')}}">
+                                <input type="text" class="form-control" placeholder="ingrese municipio" id="municipio" value="{{old('municipio')}}" autocomplete="off">
                                 <div id="list_mun" 
                                     style="margin:0px;padding:0px;line-height:0;float:left;z-index:900;position:absolute;">
                                     <ul style="padding:0px;"></ul>

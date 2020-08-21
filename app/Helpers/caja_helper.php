@@ -236,7 +236,56 @@ use DB;
     		return ( $element->concepto == 'Cuota inicial' );
     	});
 
-    }
+	}
+	
+	function ventasMesHp($date, $user_id)
+	{
+		try {
+			$month = $date->month;
+			$anio  = $date->year;
+			$mes = '';
+
+			switch ($month) {
+				case '1': $mes = 'Enero'; break;
+				case '2': $mes = 'Febrero'; break;
+				case '3': $mes = 'Marzo'; break;
+				case '4': $mes = 'Abril'; break;
+				case '5': $mes = 'Mayo'; break;
+				case '6': $mes = 'Junio'; break;
+				case '7': $mes = 'Julio'; break;
+				case '8': $mes = 'Agosto'; break;
+				case '9': $mes = 'Septiembre'; break;
+				case '10': $mes = 'Octubre'; break;
+				case '11': $mes = 'Noviembre'; break;
+				case '12': $mes = 'Diciembre'; break;
+			}
+
+			$res =  \DB::table('creditos')
+				->join('precreditos','creditos.precredito_id','=','precreditos.id')
+				->join('users','precreditos.user_create_id','=','users.id')
+				->where('creditos.anio', $anio)
+				->where('creditos.mes', $mes)
+				->where('users.id',$user_id)
+			//	->where( function($query){
+			//	      $query->whereNotIn('creditos.mes',
+			//			['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre'])
+			//			->where('creditos.anio','2019');
+			//		})
+				->sum('precreditos.vlr_fin');
+
+
+			if($res) {
+				return $res;
+			} else {
+				return 0;
+			}
+		} catch (\Exception $e) {
+			return $e->getMessage();
+		}
+
+	}
+
+	
 	
 
 	

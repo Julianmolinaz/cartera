@@ -320,7 +320,7 @@ class PrecreditoController extends Controller
 
         if($creditos_vigentes == 0 && $solicitudes_pendientes == 0){
 
-            $users = User::all()->sortBy('name');
+            $users = User::where('estado','Activo')->orderBy('name')->get();
             $productos = Producto::all()->sortBy('nombre');
             $carteras = Cartera::where('estado','Activo')->get();
             $variables = Variable::find(1);

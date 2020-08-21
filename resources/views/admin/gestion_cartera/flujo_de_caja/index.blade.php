@@ -45,7 +45,8 @@
                     <ul>
                         <li v-for="cartera in carteras" style="list-style:none;">
                             <label>
-                                <input type="checkbox" :value="cartera.checked" :checked="cartera.checked">
+                                <input type="checkbox" @click="cartera.checked = !cartera.checked"
+                                    :checked="cartera.checked">
                                 @{{cartera.nombre}}
                             </label>
                         </li>

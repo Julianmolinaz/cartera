@@ -416,20 +416,22 @@ class CallcenterController extends Controller
                     }
                     $header = [
                         'cartera',
+                        'punto',
+ 			'municipio',
+			'departamento',
                         'credito_id',
                         'fecha_apertura',
                         'cliente',
                         'celular',
                         'documento',
-                        'municipio',
-                        'departamento',
                         'estado',
                         'castigada',
                         'saldo deuda',
+			'total a pagar',
                         'tipo moroso',
                         'sanciones que debe',
                         'sanciones pagadas',
- 			            'total sanciones',
+ 			'total sanciones',
                         'fecha próximo pago',
                         'fecha de agenda',
                         'funcionario ultima llamada',
@@ -443,16 +445,18 @@ class CallcenterController extends Controller
 
                         $temp = [
                             'cartera'            => $credito->cartera,
+			    'punto'              => $credito->punto,
+			    'municipio'          => $credito->municipio,
+			    'departamento'       => $credito->depto,
                             'credito_id'         => $credito->id,
                             'fecha_apertura'     => $this->ddmmyyyySlash($credito->apertura),
                             'cliente'            => $credito->cliente,
                             'celular'            => $credito->movil,
                             'documento'          => $credito->num_doc,
-                            'municipio'          => $credito->municipio,
-                            'departamento'       => $credito->depto,
                             'estado'             => $credito->estado,
                             'castigada'          => $credito->castigada,
-                            'saldo'              => (float)$credito->saldo,  
+                            'saldo'              => (float)$credito->saldo,
+			    'total_a_pagar'      => (float)$credito->total_a_pagar,  
                             'tipo_moroso'        => $this->tipoMorosoTr($credito),
                             'sanciones_debe'     => (int)$credito->sanciones_debe,
                             'sanciones_pagadas'  => (int)$credito->sanciones_ok,
@@ -470,7 +474,7 @@ class CallcenterController extends Controller
 
                     // dd($array_creditos);
 
-                $sheet->cells('A1:R1', function ($cells) {
+                $sheet->cells('A1:V1', function ($cells) {
                     $cells->setBackground('#CCCCCC');
                 });
 

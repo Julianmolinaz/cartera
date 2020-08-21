@@ -51,6 +51,7 @@ class DataAsisController extends Controller
 
                 if(!empty($this->data) && $this->data->count()) {
                     $this->get_estructura();
+
                     $this->report_all = reporte_datacredito($this->f_corte, $this->content);
                     return $this->generateFile();
                    } else {
@@ -62,84 +63,86 @@ class DataAsisController extends Controller
 
     public function get_estructura()
     {
-        foreach( $this->data as $d ){
+        try {
+            foreach( $this->data as $d ){
 
-            $contrato = $this->contrato($d);
+                $contrato = $this->contrato($d);
+                $register = [
+                    '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($d->tipo_doc),1,'right'),
+                    '2.2-numero_identificacion' => cast_number($d->num_doc,11,'right'),
+                    '2.3-numero_obligacion'     => cast_number('9990000000'.$d->afil_id,18,'right'),
+                    '2.4-nombre_completo'       => cast_string(strtoupper(sanear_string($d->nombre)),45),
+                    '2.5-situacion_titular'     => '0',
+                    '2.6-fecha_apertura'        => fecha_Ymd(inv_fech($d->f_apertura)),
+                    '2.7-fecha_vencimiento'     => fecha_Ymd(inv_fech($this->vencimiento($d->f_apertura) )),
+                    '2.8-responsable'           => '00',
+                    '2.9-tipo_obligacion'       => '1',
+                    '2.10-subcidio_hipotecario' => '0',
+                    '2.11-fecha_subcidio'       => '00000000',
+                    '2.12-termino_contrato'     => $contrato['termino_contrato'],//contrato definido
+                    '2.13-forma_pago'           => forma_pago($d->estado),
+                    '2.14-periodicidad_pago'    => '1',
+                    '2.15-novedad'              => cast_number($this->get_novedad($d->fecha_pago,$d->estado),2,'right'),
+                    '2.16-estado_origen'        => '0',
+                    '2.17-fecha_estado_origen'  => fecha_Ymd(inv_fech($d->f_apertura)),
+                    '2.18-estado_cuenta'        => $this->estadoCuenta($d)['estado'],
+                    '2.19-fecha_estado_cuenta'  => $this->estadoCuenta($d)['fecha'],
+                    '2.20-estado_plastico'      => '0',
+                    '2.21-fecha_estado_plastico'=> '00000000',
+                    '2.22-adjetivo'             => '0',
+                    '2.23-fecha_adjetivo'       => '00000000',
+                    '2.24-clase_tarjeta'        => '0',
+                    '2.25-franquicia'           => '0',
+                    '2.26-nombre_marca_privada' => cast_string('',30),// N/A
+                    '2.27-tipo_moneda'          => '1',
+                    '2.28-tipo_garantia'        => '2',
+                    '2.29-calificacion'         => cast_string('',2),// N/A
+                    '2.30-prob_incumplimiento'  => cast_number('',3,'right'), // N/A
+                    '2.31-edad_mora'            => cast_number($this->get_dias_mora($d->fecha_pago),3, 'right'),
+                    '2.32-valor_inicial'        => cast_number('',11, 'right'),// N/A
+                    '2.33-saldo_deuda'          => cast_number($this->saldoDeuda($d),11 ,'right'),
+                    '2.34-valor_disponible'     => cast_number('',11, 'right'),// N/A
+                    '2.35-vlr_cuota_mensual'    => cast_number((int)$d->vlr_cuota,11, 'right'),
+                    '2.36-vlr_saldo_mora'       => cast_number($this->saldoMora($d)['saldo_mora'],11,'right'),
+                    '2.37-total_cuotas'         => cast_number($contrato['total_cuotas'], 3, 'right'),
+                    '2.38-cuotas_canceladas'    => cast_number($this->cuotasCanceladas($d), 3, 'right'),
+                    '2.39-cuotas_mora'          => cast_number($this->saldoMora($d)['cts_mora'], 3,'right'),
+                    '2.40-clausula_permanencia' => cast_number($contrato['clausula_permanencia'],3,'right'), // variable
+                    '2.41-fecha_clausula_perman'=> $contrato['f_clausula_permanencia'], // variable
+                    '2.42-fecha_limite_pago'    => fecha_Ymd(inv_fech($d->fecha_pago)),
+                    '2.43-fecha_pago'           => cast_number(fecha_Ymd(inv_fech($d->fecha_ultimo_pago)),8,'right'),
+                    '2.44-oficina_radicacion'   => cast_string('ASISTIMOTOS IBAGUE',30),
+                    '2.45-ciudad_radicacion'    => cast_string('IBAGUE',20), // variable
+                    '2.46-codigo_dane_radica'   => cast_number(001,8,'right'),
+                    '2.47-ciudad_res_com'       => cast_string($d->mun_reside_nombre,20),//ciudad de residencia del usuario
+                    '2.48-codigo_dane_res_com'  => cast_number($d->mun_reside,8, 'right'),// codigo dane de la ciudad de residencia del usuario
+                    '2.49-depto_res_com'        => cast_string($d->depto_reside,20),//depto ubicación residencia o comercial
+                    '2.50-dir_res_com'          => cast_string(sanear_string($d->dir_reside.' '.$d->barrio_reside),60), // direccion residencia o comercial 
+                    '2.51-tel_res_com'          => cast_number($d->telefono,12, 'right'),
+                    '2.52-ciudad_laboral'       => cast_string($d->mun_cobro_nombre,20),
+                    '2.53-cod_dane_ciudad_lab'  => cast_number($d->mun_cobro,8,'right'),
+                    '2.54-departamento_laboral' => cast_string($d->depto_cobro,20),
+                    '2.55-direccion_laboral'    => cast_string($d->dir_cobro,60),
+                    '2.56-tel_laboral'          => cast_number($d->telefono,12,'right'),
+                    '2.57-ciud_correspondencia' => cast_string($d->mun_reside_nombre,20),
+                    '2.58-cod_dane_ciud_corresp'=> cast_number($d->mun_reside,8,'right'),
+                    '2.59-depto_correspondencia'=> cast_string($d->depto_reside,20),
+                    '2.60-dir_correspondencia'  => cast_string(sanear_string($d->dir_reside.' '.$d->barrio_reside),60),   
+                    '2.61-correo_electronico'   => cast_string($d->email,60),
+                    '2.62-celular'              => cast_number($d->movil,12,'right'),
+                    '2.63-suscriptor_destino'   => cast_number('',6,'right'),
+                    '2.64-numero_tarjeta'       => cast_number('',18,'right'),
+                    '2.65-detalle_garantia'     => cast_string('',1),
+                    '2.66-espacio_blanco'       => cast_string('',18)
+                ];
 
-            $register = [
-                '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($d->tipo_doc),1,'right'),
-                '2.2-numero_identificacion' => cast_number($d->num_doc,11,'right'),
-                '2.3-numero_obligacion'     => cast_number('9990000000'.$d->afil_id,18,'right'),
-                '2.4-nombre_completo'       => cast_string(strtoupper(sanear_string($d->nombre)),45),
-                '2.5-situacion_titular'     => '0',
-                '2.6-fecha_apertura'        => fecha_Ymd(inv_fech($d->f_apertura)),
-                '2.7-fecha_vencimiento'     => fecha_Ymd(inv_fech($this->vencimiento($d->f_apertura) )),
-                '2.8-responsable'           => '00',
-                '2.9-tipo_obligacion'       => '1',
-                '2.10-subcidio_hipotecario' => '0',
-                '2.11-fecha_subcidio'       => '00000000',
-                '2.12-termino_contrato'     => $contrato['termino_contrato'],//contrato definido
-                '2.13-forma_pago'           => forma_pago($d->estado),
-                '2.14-periodicidad_pago'    => '1',
-                '2.15-novedad'              => cast_number($this->get_novedad($d->fecha_pago,$d->estado),2,'right'),
-                '2.16-estado_origen'        => '0',
-                '2.17-fecha_estado_origen'  => fecha_Ymd(inv_fech($d->f_apertura)),
-                '2.18-estado_cuenta'        => $this->estadoCuenta($d)['estado'],
-                '2.19-fecha_estado_cuenta'  => $this->estadoCuenta($d)['fecha'],
-                '2.20-estado_plastico'      => '0',
-                '2.21-fecha_estado_plastico'=> '00000000',
-                '2.22-adjetivo'             => '0',
-                '2.23-fecha_adjetivo'       => '00000000',
-                '2.24-clase_tarjeta'        => '0',
-                '2.25-franquicia'           => '0',
-                '2.26-nombre_marca_privada' => cast_string('',30),// N/A
-                '2.27-tipo_moneda'          => '1',
-                '2.28-tipo_garantia'        => '2',
-                '2.29-calificacion'         => cast_string('',2),// N/A
-                '2.30-prob_incumplimiento'  => cast_number('',3,'right'), // N/A
-                '2.31-edad_mora'            => cast_number($this->get_dias_mora($d->fecha_pago),3, 'right'),
-                '2.32-valor_inicial'        => cast_number('',11, 'right'),// N/A
-                '2.33-saldo_deuda'          => cast_number($this->saldoDeuda($d),11 ,'right'),
-                '2.34-valor_disponible'     => cast_number('',11, 'right'),// N/A
-                '2.35-vlr_cuota_mensual'    => cast_number((int)$d->vlr_cuota,11, 'right'),
-                '2.36-vlr_saldo_mora'       => cast_number($this->saldoMora($d)['saldo_mora'],11,'right'),
-                '2.37-total_cuotas'         => cast_number($contrato['total_cuotas'], 3, 'right'),
-                '2.38-cuotas_canceladas'    => cast_number($this->cuotasCanceladas($d), 3, 'right'),
-                '2.39-cuotas_mora'          => cast_number($this->saldoMora($d)['cts_mora'], 3,'right'),
-                '2.40-clausula_permanencia' => cast_number($contrato['clausula_permanencia'],3,'right'), // variable
-                '2.41-fecha_clausula_perman'=> $contrato['f_clausula_permanencia'], // variable
-                '2.42-fecha_limite_pago'    => fecha_Ymd(inv_fech($d->fecha_pago)),
-                '2.43-fecha_pago'           => cast_number(fecha_Ymd(inv_fech($d->fecha_ultimo_pago)),8,'right'),
-                '2.44-oficina_radicacion'   => cast_string('ASISTIMOTOS IBAGUE',30),
-                '2.45-ciudad_radicacion'    => cast_string('IBAGUE',20), // variable
-                '2.46-codigo_dane_radica'   => cast_number(001,8,'right'),
-                '2.47-ciudad_res_com'       => cast_string($d->mun_reside_nombre,20),//ciudad de residencia del usuario
-                '2.48-codigo_dane_res_com'  => cast_number($d->mun_reside,8, 'right'),// codigo dane de la ciudad de residencia del usuario
-                '2.49-depto_res_com'        => cast_string($d->depto_reside,20),//depto ubicación residencia o comercial
-                '2.50-dir_res_com'          => cast_string(sanear_string($d->dir_reside.' '.$d->barrio_reside),60), // direccion residencia o comercial 
-                '2.51-tel_res_com'          => cast_number($d->telefono,12, 'right'),
-                '2.52-ciudad_laboral'       => cast_string($d->mun_cobro_nombre,20),
-                '2.53-cod_dane_ciudad_lab'  => cast_number($d->mun_cobro,8,'right'),
-                '2.54-departamento_laboral' => cast_string($d->depto_cobro,20),
-                '2.55-direccion_laboral'    => cast_string($d->dir_cobro,60),
-                '2.56-tel_laboral'          => cast_number($d->telefono,12,'right'),
-                '2.57-ciud_correspondencia' => cast_string($d->mun_reside_nombre,20),
-                '2.58-cod_dane_ciud_corresp'=> cast_number($d->mun_reside,8,'right'),
-                '2.59-depto_correspondencia'=> cast_string($d->depto_reside,20),
-                '2.60-dir_correspondencia'  => cast_string(sanear_string($d->dir_reside.' '.$d->barrio_reside),60),   
-                '2.61-correo_electronico'   => cast_string($d->email,60),
-                '2.62-celular'              => cast_number($d->movil,12,'right'),
-                '2.63-suscriptor_destino'   => cast_number('',6,'right'),
-                '2.64-numero_tarjeta'       => cast_number('',18,'right'),
-                '2.65-detalle_garantia'     => cast_string('',1),
-                '2.66-espacio_blanco'       => cast_string('',18)
-            ];
-
-            len_line($register);
-
-            $this->content[] = $register;
+                len_line($register);
+                $this->content[] = $register;
+            }
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
-        //dd($this->content); 
+
     }//get_estructura
 
 
@@ -247,7 +250,8 @@ class DataAsisController extends Controller
         $dias_mora  = $this->get_dias_mora($pago_hasta);
         $novedad    = '';
 
-        if($estado == 'Activo' || (  ($estado == 'Mora' || $estado == 'Castigada')  && $dias_mora < $this->tope) ) 
+        if( $estado == 'Activo' || (  ($estado == 'Mora' || $estado == 'Castigada' || $estado == 'Suspendido')  
+            && $dias_mora < $this->tope) ) 
         {
             $novedad = '01'; // al día
         }
@@ -266,7 +270,7 @@ class DataAsisController extends Controller
                 $novedad = '09'; //mora 120 dias
             }
         }
-        else if( $estado == 'Retirado'){
+        else if( $estado == 'Retirado' || $estado == 'Finalizado'){
             $novedad = '05';
         }
 
@@ -290,11 +294,12 @@ class DataAsisController extends Controller
         $fecha = fecha_plana_Ymd($this->f_corte);
         $moras = $this->get_dias_mora($afiliacion->fecha_pago);
 
-        if( $afiliacion->estado == 'Activo' || $afiliacion->estado == 'Suspendido'
-            || (( $afiliacion->estado == 'Mora' || $afiliacion->estado == 'Castigada' ) &&  $moras < $this->tope)){
+        if( ($afiliacion->estado == 'Activo' || $afiliacion->estado == 'Suspendido'
+            || (( $afiliacion->estado == 'Mora' || $afiliacion->estado == 'Castigada' )) &&  $moras < $this->tope)){
             $estado = '01'; // Al día
         }
-        if( ( $afiliacion->estado == 'Mora' || $afiliacion->estado == 'Castigada' ) && $moras >= $this->tope){
+
+        if( ( $afiliacion->estado == 'Mora' || $afiliacion->estado == 'Castigada' || $afiliacion->estado == 'Suspendido') && $moras >= $this->tope){
             $estado = '02'; // En mora
         }
         if($afiliacion->estado == 'Retirado' || $afiliacion->estado == 'Finalizado'){

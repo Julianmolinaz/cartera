@@ -373,7 +373,12 @@ function fecha_limite_pago($credito, $corte)
 
 function fecha_plana_Ymd($obj_date)
 { 
-    $date = $obj_date->toDateString();
+    $date = '';
+    if(gettype($obj_date) == 'object' ){
+        $date = $obj_date->toDateString();
+    } else {
+        $date = $obj_date;
+    }
     $date = inv_fech(formatoFecha(dia($date),mes($date),ano($date)));
     $date = str_replace('-','',$date);
     $date = str_replace(' ','',$date);

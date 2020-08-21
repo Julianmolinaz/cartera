@@ -13,6 +13,7 @@
               <img src="{{asset('images/gora_logo_medium.png')}}" alt="...">
             </div>              
               <div class="mid_center">
+		<div id="mandamientos"></div>
 
                 <form autocomplete="off">
 
@@ -53,6 +54,36 @@ document.onkeypress = function(){
     return (tecla!=13);
   }
 }
+
+    const day = moment().day();
+
+    switch (day) {
+        case 1:
+            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Ser humano ante todo</p><br>';
+            break;
+        case 2:
+            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Pasión por lo que hacemos</p><br>';
+            break;    
+        case 3:
+            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Pensamiento de familia</p><br>';
+            break;
+        case 4:
+            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Unidos por un bien común</p><br>';
+            break;
+        case 5:
+            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">El cliente nuestra prioridad</p><br>';
+            break;
+        case 6:
+            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Ser humano ante todo</p><br>';
+            break;  
+        case 7:
+            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Pasión por lo que hacemos</p><br>';
+            break;                                                
+        default:
+            break;
+    }
+
+
 
     function Buscar(){
         var string = $('#string').val();

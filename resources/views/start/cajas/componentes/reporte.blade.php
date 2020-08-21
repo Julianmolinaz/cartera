@@ -7,10 +7,28 @@
 			     <li class="list-group-item">
 
 			        <div class="form-group has-info has-feedback"  style="margin-bottom:0px;">
-			          <label class="control-label" for="inputSuccess2">
-			          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-			          @{{ (info.punto) ? info.punto.nombre : '' }}@{{' '+info.date}}</label>
-			        </div>
+			                               <center>
+                            <label class="control-label" for="inputSuccess2">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                            @{{ (info.punto) ? info.punto.nombre : '' }}@{{' '+info.date}}</label>
+                            <br>
+                        
+                            <img src="/iconosFree/snail.svg"  width="80" v-if="ventas == 0">
+                            <img src="/iconosFree/turtle.svg" width="80" v-else-if="ventas > 0 && ventas <= 4000000">
+                            <img src="/iconosFree/pig.svg"  width="80" v-else-if="ventas > 4000000 && ventas <= 8000000">
+                            <img src="/iconosFree/seal.svg"  width="80" v-else-if="ventas > 8000000 && ventas <= 12000000">
+                            <img src="/iconosFree/ladybug.svg" width="80" v-else-if="ventas > 12000000 && ventas <= 16000000">
+                            <img src="/iconosFree/penguin.svg" width="80" v-else-if="ventas > 16000000 && ventas <= 18000000">
+                            <img src="/iconosFree/elephant.svg" width="80" v-else-if="ventas > 18000000 && ventas <= 20000000">
+                            <img src="/iconosFree/bat.svg" width="80" v-else-if="ventas > 20000000 && ventas <= 24000000">
+                            <img src="/iconosFree/fox.svg" width="80" v-else-if="ventas > 24000000 && ventas <= 28000000">
+                            <img src="/iconosFree/oul.svg" width="80" v-else-if="ventas > 28000000 && ventas < 30000000">
+                            <img src="/iconosFree/whale.svg" width="80" v-else>
+                            <br>
+                            <label>Ventas mes: @{{ventas}}</label>
+                            <br>
+                        </center>
+				</div>
 			      </li>
 			      <li class="list-group-item">
 
@@ -35,7 +53,7 @@
 			          <h4>Reporte Caja </h4>
 			        </center>
 			      </li>
-						<li class="list-group-item">
+				  <li class="list-group-item">
 			        <span class="badge">@{{ info.num_anuladas }}</span>
 			        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			        Anuladas
@@ -74,7 +92,9 @@
 			          <span class="badge">@{{ info.total_caja }}</span>
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			          Total caja
-			        </li>
+					</li>
+					
+					@{{date}}
 
 			    </ul>
 			</div>
@@ -82,7 +102,8 @@
 		data(){
 			return {
 				date: '',
-				info: ''
+				info: '',
+				ventas: 0
 			}
 		},
 		methods: {
@@ -95,7 +116,22 @@
 						console.log(res)
 						if (! res.error) {
 							self.info = res.data.dat
+							self.getVentasMes();
 							Bus.$emit('get_dat', res.data.dat)
+						} else {
+							alert(res.data.message)
+						}
+					})
+			}, 
+			getVentasMes() {
+				var self = this
+				var route = "/start/ventas_mes/report/" + this.date
+
+				axios.get(route).then(
+					function (res) {
+						console.log(res)
+						if (! res.error) {
+							self.ventas = res.data.ventas
 						} else {
 							alert(res.data.message)
 						}
@@ -105,6 +141,7 @@
 		created() {
 			this.date = moment().format('YYYY-MM-DD')
 			this.get_cash_report()
+			this.getVentasMes()
 		}
 
 	})

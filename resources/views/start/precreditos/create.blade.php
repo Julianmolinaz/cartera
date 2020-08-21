@@ -156,7 +156,7 @@
       <div class="form-group">  
         <div class="col-md-12 col-sm-12 col-xs-12">
           <label>Observaciones</label>
-          <textarea class="form-control input-sm" rows="3" id="observaciones" name="observaciones" placeholder='Escriba la descripción de la modalidad' autocomplete="on"  value="{{old('observaciones')}}"></textarea>
+          <textarea class="form-control input-sm" rows="12" id="observaciones" name="observaciones" autocomplete="on"  value="{{old('observaciones')}}"></textarea>
         </div>
 
       </div>
@@ -189,6 +189,17 @@
 <script>
   $(document).ready(function(){
  // alert('ready!');
+    document.getElementById('observaciones').value = 
+        "SOAT-PROVEEDOR(CDA):\nSOAT-#FACTURA(# DE PÓLIZA):\nSOAT-FECHA EXPEDICIÓN:\nSOAT COSTO (VALOR):\n";
+
+    document.getElementById('observaciones').value = document.getElementById('observaciones').value +
+        "------------------------------\n";
+
+    document.getElementById('observaciones').value = document.getElementById('observaciones').value +
+        "RTM-PROVEEDOR(CDA):\nRTM-#FACTURA:\nRTM-FECHA EXPEDICIÓN:\nRTM-SUBTOTAL (VALOR SIN IVA):\nRTM-IVA:\nRTM-CLIENTE:\n";
+
+
+
 
 
  $('#meses').on('change',function(e){

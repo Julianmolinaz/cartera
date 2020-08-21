@@ -116,12 +116,14 @@ class CreditoRepository{
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
             ->select(
                     'carteras.nombre as cartera',
+		    'puntos.nombre as punto',
                     'creditos.id as id',
                     'municipios.nombre as municipio',
                     'municipios.departamento as depto',
                     'creditos.estado as estado',
                     'creditos.castigada as castigada',
                     'creditos.saldo as saldo',
+                    'creditos.valor_credito as total_a_pagar',
                     'creditos.sanciones_debe as sanciones_debe',
                     'creditos.sanciones_ok as sanciones_ok',
                     'creditos.sanciones_exoneradas as sanciones_exoneradas',
@@ -154,12 +156,14 @@ class CreditoRepository{
             ->where('puntos.id', Auth::user()->punto_id)
             ->select(
                     'carteras.nombre as cartera',
+                    'puntos.nombre as punto',
                     'creditos.id as id',
                     'municipios.nombre as municipio',
                     'municipios.departamento as depto',
                     'creditos.estado as estado',
                     'creditos.castigada as castigada',
                     'creditos.saldo as saldo',
+                    'creditos.valor_credito as total_a_pagar',
                     'creditos.sanciones_debe as sanciones_debe',
                     'creditos.sanciones_ok as sanciones_ok',
                     'creditos.sanciones_exoneradas as sanciones_exoneradas',
@@ -191,9 +195,8 @@ class CreditoRepository{
                      'creditos.cuotas_faltantes as cts_faltantes',
                      'creditos.sanciones_debe as sanciones',
                      'fecha_cobros.fecha_pago as proxima_f_pago')
-            ->where('creditos.id',8545)
-            // ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
-            // ->whereIn('carteras.id',$ids_carteras)
+            ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+            ->whereIn('carteras.id',$ids_carteras)
             ->get();
     }
 

@@ -57,6 +57,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                       users.name       as user_create,
                       sum(pagos.abono) as cuotas,
                       facturas.fecha   as fecha,
+                      facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,
                       facturas.created_at as created_at              
@@ -84,6 +85,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                             users.name       as user_create,
                             sum(pagos.abono) as sanciones,
                             facturas.fecha   as fecha,
+                            facturas.banco   as banco,
                             carteras.nombre  as cartera,
                             facturas.tipo    as tipo_pago,
                             facturas.created_at as created_at                           
@@ -111,6 +113,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                               users.name       as user_create,
                               sum(pagos.abono) as juridico,
                               facturas.fecha   as fecha,
+                              facturas.banco   as banco,
                               carteras.nombre  as cartera,
                               facturas.tipo    as tipo_pago,
                               facturas.created_at as created_at                             
@@ -137,6 +140,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                               users.name       as user_create,
                               sum(pagos.abono) as prejuridico,
                               facturas.fecha   as fecha,
+                              facturas.banco   as banco,
                               carteras.nombre  as cartera,
                               facturas.tipo    as tipo_pago,
                               facturas.created_at as created_at                             
@@ -163,6 +167,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                               users.name       as user_create,
                               sum(pagos.abono) as saldo_favor,
                               facturas.fecha   as fecha,
+                              facturas.banco   as banco,
                               carteras.nombre  as cartera,
                               facturas.tipo    as tipo_pago,                            
                               facturas.created_at as created_at                             
@@ -454,12 +459,6 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
     }
 
     $total['diferencia'] = $total['ingresos'] - $total['egresos'];
-    
-    // foreach($sanciones as $sancion){
-    //     echo $sancion->user_create;
-    //     echo '<br>';
-    // }
-    // dd('hola');
 
     $reporte = array(
                 'cuotas' => $cuotas,
