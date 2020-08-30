@@ -49,7 +49,6 @@ class ClienteController extends Controller
     public function list()
     {
         $clientes = DB::table('clientes')
-            ->where('tipo','cliente')
             ->orderBy('updated_at','desc')
             ->select([
                 'id','num_doc','nombre','movil'
@@ -72,15 +71,15 @@ class ClienteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function create($tipo, $cliente_id = false)
+    public function create($cliente_id = false)
     {
         return view('start.clientes.create')
-            ->with('municipios',Municipio::all())
+            ->with('municipios',Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get())
             ->with('data',$this->getData())
             ->with('estado','creacion')
             ->with('cliente',[])
             ->with('cliente_id',$cliente_id)
-            ->with('tipo',$tipo);
+            ->with('tipo','cliente');
     }
 
     /**
@@ -92,11 +91,8 @@ class ClienteController extends Controller
     // public function store()
 
     public function store(Request $request)   
-    {       
-        \Log::info($request->all());
-        
-        $rq = [];
-
+    {               
+        $rq      = [];
         $cliente = (object) $request->cliente;
 
         if ( is_array($cliente->info_personal  ) ) { $rq = array_merge($rq, $cliente->info_personal);  } 
@@ -105,34 +101,20 @@ class ClienteController extends Controller
 
         $validator = Validator::make($rq, $this->rules_cliente('crear'),$this->messages_cliente());
 
-        if ($validator->fails()) {
-            return res( true,$validator->errors(),'');
-        }
+        if ($validator->fails()) return res( true,$validator->errors(),'');
 
         DB::beginTransaction();
 
         try {
-            // puede ser deudor o cdeudor
 
             $cliente = new Cliente();
-            $cliente->tipo = $request->cliente['tipo'];
             $cliente->fill($rq);
             $cliente->version = 2;
             $cliente->user_create_id = Auth::user()->id;            
             $cliente->save();
 
-            if ($request->cliente['tipo'] == 'codeudor') {
-                $cliente_deudor = Cliente::find($request->cliente_id);
-                $cliente_deudor->cdeudor_id = $cliente->id;
-                $cliente_deudor->save();
-
-                DB::commit();
-                return res(true, $request->cliente_id, 'El cliente se creó exitosamente !!!');
-            }
-
             DB::commit();
             return res(true, $cliente->id, 'El cliente se creó exitosamente !!!');
-            
 
         } catch (\Exception $e) {
 
@@ -373,7 +355,11 @@ class ClienteController extends Controller
     {
         try {
 
+            // Validación si es codeudor
+
             if ($request->tipo =! 'cliente') return res(false,'','');
+
+            // Validación si es cliente
     
             if ($request->id) {
                 $cliente = Cliente::where('tipo_doc', $request->info_personal['tipo_doc'])

@@ -12,29 +12,99 @@ class Codeudor extends Model implements Auditable
     protected $table = 'codeudores';
 
     protected $fillable = [
-        'codeudor',
-        'nombrec',
-        'primer_nombrec',
-        'segundo_nombrec', 
-        'primer_apellidoc', 
-        'segundo_apellidoc',
-        'tipo_docc',
-        'num_docc', 
-        'fecha_nacimientoc',
-        'direccionc',
-        'barrioc',
-        'municipioc_id',
-        'movilc',
-        'fijoc',
-        'ocupacionc',
-        'tipo_actividadc',
-        'empresac',
-        'placac',
-        'emailc',
-        'conyuge_id',
-        'tel_empresac',
-        'dir_empresac'
+
+        // información personal
+
+        'codeudor',             //*
+        'nombrec',              //*
+        'primer_nombrec',       //*
+        'segundo_nombrec',      //*
+        'primer_apellidoc',     //*
+        'segundo_apellidoc',    //*
+        'tipo_docc',            //*
+        'num_docc',             //*
+        'fecha_nacimientoc',    //*
+        'direccionc',           //*
+        'barrioc',              //*
+        'municipioc_id',        //*
+        'movilc',               //*
+        'fijoc',                //*
+        'ocupacionc',           //*
+        'tipo_actividadc',      //*
+        'empresac',             //*
+        'placac',               //*
+        'emailc',               //*
+        'conyuge_id',           // ambos
+        'tel_empresac',         //*
+        'dir_empresac',         //*
+
+
+        // info personal
+
+        'nombre',               // new
+        'primer_nombre',        // new
+        'segundo_nombre',       // new
+        'primer_apellido',      // new
+        'segundo_apellido',     // new
+        'genero',               // new
+        'tipo_doc',             // new
+        'num_doc',              // new
+        'estado_civil',         // new
+        'fecha_exp',            // new
+        'lugar_exp',            // new
+        'fecha_nacimiento',     // new
+        'lugar_nacimiento',     // new
+        'nivel_estudios',       // new
+
+        //info ubicacion
+
+        'direccion',            // new
+        'barrio',               // new
+        'municipio_id',         // new
+        'movil',                // new
+        'antiguedad_movil',     // new
+        'fijo',                 // new
+        'email',                // new
+        'anos_residencia',      // new
+        'envio_correspondencia',// new
+        'estrato',              // new
+        'meses_residencia',     // new
+        'tipo_vivienda',        // new
+        'nombre_arrendador',    // new
+        'telefono_arrendador',  // new
+
+        //info laboral
+
+        'tipo_actividad',       // new
+        'ocupacion',            // new
+        'empresa',              // new
+        'nit',                  // new
+        'dir_empresa',          // new
+        'tel_empresa',          // new
+        'cargo',                // new
+        'descripcion_actividad',// new
+        'doc_empresa',          // new
+        'fecha_vinculacion',    // new
+        'tipo_contrato',        // new
+        
+        // info crediticia
+        
+        'reportado',            // new
+        'calificacion',         // new
+        
+        // referencias FK
+
+        'codeudor_id',          // new
+        'user_create_id',       // new
+        'user_update_id',       // new
+        
+        // general
+
+        'placa',                // new
+        'version'               // new
+
     ];
+        
 
     // mutators
 

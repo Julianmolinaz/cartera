@@ -26,12 +26,12 @@ Route::get('start/clientes/list',[
 // Crear clientes
 
 Route::post('start/clientes',[
-    'middleware' => ['permission:crear_clientes'],
+    // 'middleware' => ['permission:crear_clientes'],
     'uses'  => 'ClienteController@store',
     'as'    => 'start.clientes.store'	
 ]);
 
-Route::get('start/clientes_create/{tipo}/{cliente_id?}',[
+Route::get('start/clientes_create/{cliente_id?}',[
     'middleware' => ['permission:crear_clientes'],
     'uses' 	=> 'ClienteController@create',
     'as'    => 'start.clientes.create'
@@ -81,29 +81,6 @@ Route::get('start/clientes/{cliente_id}/upload',[
 
 
 
-
-/*
-|--------------------------------------------------------------------------
-| Documentos
-|--------------------------------------------------------------------------
-*/
-
-Route::put('start/documentos/{objeto_relacionado}',[
-    'middleware' => ['permission:borrar_documentos'],
-    'uses'  => 'DocumentoController@set_documento',
-    'as'    => 'start.documentos.upload'
-]);
-	
-Route::get('start/documentos/{documento_id}/get/{nombre}',[
-    'uses'  => 'DocumentoController@get_documento',
-    'as'    => 'start.documentos.get_documento'
-]);
-
-Route::get('start/documentos/{documento_id}/destroy/{inicio?}',[
-    'uses'  => 'DocumentoController@destroy',
-    'as'    => 'start.documentos.destroy'
-]);
- 
 
 
 

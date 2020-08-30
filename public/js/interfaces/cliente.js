@@ -7,7 +7,6 @@ class Cliente {
     this.info_economica = "";
     this.conyuge = "";
     this.calificacion = "";
-    this.cdeudor = "";
   }
 }
 
@@ -72,7 +71,7 @@ class InfoEconomica {
       else if (item == "cargo") this.cargo = "";
       else if (item == "t2") this.tipo_contrato = "";
       else if (item == "fech") this.fecha_vinculacion = "";
-      else if (item == "desc") this.descripcion_actividad = ""; //*
+      else if (item == "desc") this.descripcion_actividad = "";
     });
   }
 }

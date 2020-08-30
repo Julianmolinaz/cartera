@@ -12,6 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-
+        'start/clientes/validar/documento',
+        'start/*'
     ];
 }
