@@ -141,10 +141,10 @@ class ConyugeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'p_nombrey'     => 'required',
-            'p_apellidoy'   => 'required',
+            'p_nombrey'     => 'required|alpha',
+            'p_apellidoy'   => 'required|alpha',
             'tipo_docy'     => 'required',
-            'num_docy'      => 'required',
+            'num_docy'      => 'required|unique|numeric',
             'movily'        => 'required',
             'diry'          => 'required'
         ],[
