@@ -2,7 +2,7 @@
 <script src="/js/vue/vuex.js"></script>
 
 <script>
-    const store = new Vuex.Store({
+     const store = new Vuex.Store({
         state: {
             estado          : {!! json_encode($estado) !!},
             cliente_id      : {!! json_encode($cliente_id) !!},
@@ -63,17 +63,24 @@
             }
         },
         actions: {
-            update ({state,getters}) {
+            async update ({state,getters}) {
 
-                axios.post('/start/clientes/updateV2', state.cliente)
-                    .then( res => {
-                        if (res.data.success) {
-                            document.location.href= "/start/clientes/"+res.data.dat 
-                        } else {
-                            console.log(res.data.dat, res.data.message)
-                        }
-                    })
-     
+                console.log(state.cliente);
+
+                if ( state.cliente.tipo == 'cliente' ) {
+                    route = '/start/clientes/updateV2';
+                    res = await axios.post(route, state.cliente);
+                    if (res.data.success) document.location.href= "/start/clientes/"+res.data.dat 
+                    else alert(res.data.message);
+                } 
+                else if (state.cliente.tipo == 'codeudor') {
+                    route = '/start/codeudores/updateV2/' + state.cliente_id;
+                    res = await axios.put(route, state.cliente);
+                    if (res.data.success) document.location.href= "/start/clientes/"+res.data.dat 
+                    else alert(res.data.message);
+                }
+
+    
             }
         }
     })

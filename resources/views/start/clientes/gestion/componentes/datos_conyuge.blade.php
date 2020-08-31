@@ -176,6 +176,7 @@
                 }
 
                 if (valid) {
+
                     let res = await axios.post('/start/conyuges',{
                         cliente_id : cliente.id,
                         tipo       : cliente.tipo,
@@ -183,12 +184,8 @@
                     });
 
                     if (res.data.success) {
-                        if (res.data.message == '') {
-                            this.message_danger = true
-                            this.message = res.data.dat
-                        } else {
-                            document.location.href= "/start/clientes/"+res.data.dat
-                        }
+                        alert(res.data.message);
+                        document.location.href= "/start/clientes/"+res.data.dat        
                     }
                 } 
                 else {

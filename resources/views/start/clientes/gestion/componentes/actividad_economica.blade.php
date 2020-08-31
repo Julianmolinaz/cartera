@@ -220,8 +220,6 @@
             },
             async store(action) {
 
-                console.log({action})
-
                 let tipo = this.$store.state.cliente.tipo;
 
                 let route = (tipo == 'cliente') ? '/start/clientes' : '/start/codeudores';
@@ -230,8 +228,6 @@
                     cliente: this.$store.state.cliente,
                     cliente_id: this.$store.state.cliente_id,
                 });
-
-                console.log({res});
 
                 alert(res.data.message);
 

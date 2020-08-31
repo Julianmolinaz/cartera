@@ -228,7 +228,6 @@
             },
             continuar () {
                 $('.nav-tabs a[href="#credito"]').tab('show') 
-                console.log('continuar')
             },
             async onSubmit() {
                 if ( ! await this.$validator.validate() ) {
@@ -260,7 +259,7 @@
                     const sumatoria = this.solicitud.cuotas *  this.solicitud.vlr_cuota;
 
                     if ( sumatoria <= (this.solicitud.vlr_fin * 1)) {
-                        alertify.notify('La sumatoria de cuotas no coincide con el valor del centro de costos', 'error', 5)
+                        // alertify.notify('La sumatoria de cuotas no coincide con el valor del centro de costos', 'error', 5)
                     } else {
                         alertify.notify('El resultado es válido', 'success', 10)
                     }

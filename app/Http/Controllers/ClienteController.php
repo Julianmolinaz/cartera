@@ -161,8 +161,8 @@ class ClienteController extends Controller
 
     public function edit($id)
     {
-        $municipios         = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
-        $this->cliente      = Cliente::find($id);
+        $municipios    = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
+        $this->cliente = Cliente::find($id);
 
         if($this->cliente->soat){
             $this->cliente->soat->vencimiento = inv_fech2($this->cliente->soat->vencimiento);
@@ -186,7 +186,8 @@ class ClienteController extends Controller
 
             return view('start.clientes.create')
                 ->with('cliente_id', $this->cliente->id)
-                ->with('tipo',$cliente['tipo'])
+                // ->with('tipo',$cliente['tipo'])
+                ->with('tipo', 'cliente')
                 ->with('cliente',$cliente)
                 ->with('municipios',$municipios)
                 ->with('data',$this->getData())

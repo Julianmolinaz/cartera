@@ -1,0 +1,65 @@
+[2020-08-31 03:42:12] local.INFO: array (
+  'elements' => 
+  array (
+    0 => 
+    array (
+      'id' => '',
+      'producto_id' => 3,
+      'nombre' => 'SOAT',
+      'precredito_id' => '',
+      'proveedor_id' => 15,
+      'num_fac' => '9878787',
+      'fecha_exp' => '2000-01-01',
+      'costo' => '2000000',
+      'estado' => 'Procesando',
+      'iva' => '898000',
+      'observaciones' => 'Observaciones SOAT',
+      '_tipo_vehiculo' => 'moto',
+      '_placa' => 'FGDFH',
+      '_vencimiento_soat' => '2000-01-01',
+      '_vencimiento_rtm' => '2000-01-01',
+    ),
+    1 => 
+    array (
+      'id' => '',
+      'producto_id' => 3,
+      'nombre' => 'R.T.M',
+      'precredito_id' => '',
+      'proveedor_id' => 17,
+      'num_fac' => '989898',
+      'fecha_exp' => '2000-01-01',
+      'costo' => '908988',
+      'estado' => 'Procesando',
+      'iva' => '989898',
+      'observaciones' => 'Observaciones R.T.M',
+      '_tipo_vehiculo' => 'moto',
+      '_placa' => 'FGDFH',
+      '_vencimiento_soat' => '2000-01-01',
+      '_vencimiento_rtm' => '2000-01-01',
+    ),
+  ),
+  'solicitud' => 
+  array (
+    'id' => '',
+    'num_fact' => '',
+    'fecha' => '',
+    'cartera_id' => '',
+    'funcionario_id' => '',
+    'cliente_id' => 13547,
+    'producto_id' => '',
+    'productos' => 
+    array (
+    ),
+    'vlr_fin' => '',
+    'periodo' => '',
+    'meses' => '',
+    'cuotas' => '',
+    'vlr_cuota' => '',
+    'p_fecha' => '',
+    's_fecha' => '',
+    'estudio' => '',
+    'cuota_inicial' => 0,
+    'aprobado' => 'En estudio',
+    'observaciones' => '',
+  ),
+)  

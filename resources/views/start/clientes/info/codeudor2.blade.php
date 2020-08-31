@@ -3,7 +3,7 @@
         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
             Información del Codeudor ...
     
-        <a href="{{route('start.clientes.edit',$cliente->codeudor->id)}}" 
+        <a href="{{route('start.codeudores.edit',$cliente->id)}}" 
             class = 'btn btn-default btn-xs'  
             data-toggle="tooltip" data-placement="top" 
             title="Editar"

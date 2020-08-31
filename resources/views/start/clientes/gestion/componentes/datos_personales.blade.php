@@ -2,7 +2,7 @@
 
     <div class="row">
 
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="">
         
             <div class="col-md-12">
 
@@ -182,7 +182,7 @@
                 <center>
                     <button class="btn btn-default" v-if="estado == 'edicion'"
                         @click="save">Salvar</button>
-                    <button class="btn btn-primary">Continuar</button>
+                    <button class="btn btn-primary" @click="continuar">Continuar</button>
                 </center>
             </div>
         
@@ -212,34 +212,38 @@
         methods: {
             async continuar () {
 
+                await this.$store.commit('setPersonal',this.personal)
+                let res = await this.validarDocumento();
+                if (res) $('.nav-tabs a[href="#ubicacion"]').tab('show');
+            },
+            async validarDocumento() {
+
                 var route = '/start/clientes/validar/documento';
 
                 // valida si el documento existe
                 let res = await axios.post(route, this.$store.state.cliente)
 
                 if (res.data.dat) {
-                    this.warning_message = true
-                    this.message = res.data.message
+                    this.warning_message = true;
+                    this.message = res.data.message;
+                    return false;
                 } else {
-                    this.warning_message = false
-                    this.message = ''
-                    $('.nav-tabs a[href="#ubicacion"]').tab('show');
+                    this.warning_message = false;
+                    this.message = '';
+                    return true;
                 }
-
             },
             async onSubmit () {
 
-                let valid = await this.$validator.validate()
-
-                if ( (this.estado == 'creacion' || this.estado == 'edicion') && valid) {
-                    this.$store.commit('setPersonal',this.personal)
-                    this.continuar();
-                }  
-                else if(!valid){
-                    alert('Por favor complete la informacion requerida')
-                }
             },
             async save() {
+                let valid = await this.$validator.validate()
+
+                if (!valid) {
+                    alert('Por favor complete la informacion requerida');
+                    return false;
+                }
+
                 await this.$store.commit('setPersonal',this.personal)
                 var res = this.$store.dispatch('update');
             }

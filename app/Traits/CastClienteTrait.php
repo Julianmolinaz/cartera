@@ -23,7 +23,7 @@ trait CastClienteTrait
             'info_economica'     => $this->struct_info_economica(),
             'conyuge'            => $this->struct_conyuge(),
             'calificacion'       => $this->cliente->calificacion,
-            'tipo'               => $this->cliente->tipo
+            'tipo'               => 'cliente'
         ];
     }
 

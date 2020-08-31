@@ -9,8 +9,6 @@ const rules_producto = {
     estado          : { name: 'estado',             rule: '',               required: ''},
     iva             : { name: 'iva',                rule: 'decimal',        required: ''},
     observaciones   : { name: 'observaciones',      rule: '',               required: '' },
-    observaciones   : { name: 'observaciones',      rule: '',               required: '' },
-    observaciones   : { name: 'observaciones',      rule: '',               required: '' },
     vencimiento_rtm   : { name: 'observaciones',      rule: '',               required: '' },
     vencimiento_soat   : { name: 'observaciones',      rule: '',               required: '' },
     observaciones   : { name: 'observaciones',      rule: '',               required: '' }

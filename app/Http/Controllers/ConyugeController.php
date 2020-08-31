@@ -63,7 +63,6 @@ class ConyugeController extends Controller
         $validator = Validator::make($request->conyuge,$this::rulesConyugeTr('create'),$this::messagesConyugeTr());
 
         if ($validator->fails()) return res(true, $validator->errors(),'');
-        $cliente_id;
 
         DB::beginTransaction();
 
@@ -75,12 +74,24 @@ class ConyugeController extends Controller
                 $conyuge->fill($request->conyuge);
                 $conyuge->save();
 
+                $cliente_id = '';
+                
+                if ($request->tipo == 'cliente') {
+                    $cliente_id = $request->cliente_id;
+                } else {
+                    $codeudor = Codeudor::find($request->cliente_id);
+                    $cliente_id = $codeudor->client->id;
+                }
+
+                DB::commit();
+
+                return res(true,$cliente_id,'Conyuge editado exitosamente !!!');
+
             } else {
 
                 $conyuge = new Conyuge();
                 $conyuge->fill($request->conyuge);
                 $conyuge->save();
-                
             }
             
             if ($request->tipo == 'cliente') {
@@ -102,8 +113,6 @@ class ConyugeController extends Controller
 
                 $cliente_id = $codeudor->client->id;
             }
-
-
             
             DB::commit();
 
@@ -209,6 +218,7 @@ class ConyugeController extends Controller
         }
 
     }
+
 
     /**
      * Remove the specified resource from storage.
