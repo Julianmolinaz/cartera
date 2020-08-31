@@ -17,23 +17,23 @@
 
             <dl class="dl-horizontal">
 
-              <dt>Ciudad exp. doc:</dt>
-              <dd>{{ $cliente->lugar_exp}}</dd>
+                <dt>Ciudad exp. doc:</dt>
+                <dd>{{ $cliente->lugar_exp}}</dd>
 
-              <dt>Fecha de exp. doc:</dt>
-              <dd>{{  \Carbon\Carbon::parse($cliente->fecha_exp)->format('d-m-Y') }}</dd>
+                <dt>Fecha de exp. doc:</dt>
+                <dd>{{  \Carbon\Carbon::parse($cliente->fecha_exp)->format('d-m-Y') }}</dd>
 
-              <dt>Estado civil:</dt>
-              <dd>{{ $cliente->estado_civil }}</dd>
+                <dt>Estado civil:</dt>
+                <dd>{{ $cliente->estado_civil }}</dd>
 
-              <dt>Fecha de nacimiento</dt>
-              <dd>{{ \Carbon\Carbon::parse($cliente->fecha_nacimiento)->format('d-m-Y') }}</dd>
+                <dt>Fecha de nacimiento</dt>
+                <dd>{{ \Carbon\Carbon::parse($cliente->fecha_nacimiento)->format('d-m-Y') }}</dd>
 
-              <dt>Lugar de nacimiento:</dt>
-              <dd>{{ $cliente->lugar_nacimiento }}</dd>
+                <dt>Lugar de nacimiento:</dt>
+                <dd>{{ $cliente->lugar_nacimiento }}</dd>
 
-              <dt>Nivel de estudios:</dt>
-              <dd>{{ $cliente->nivel_estudios }}</dd>
+                <dt>Nivel de estudios:</dt>
+                <dd>{{ $cliente->nivel_estudios }}</dd>
 
             </dl>
       </div>

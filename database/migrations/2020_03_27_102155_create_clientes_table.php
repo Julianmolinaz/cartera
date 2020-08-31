@@ -60,7 +60,7 @@ class CreateClientesTable extends Migration {
 			$table->string('descripcion_actividad')->nullable();    // new
 			$table->string('doc_empresa')->nullable();              // new
 			$table->date('fecha_vinculacion')->nullable();          // new
-			$table->enum('tipo_contrato',['Idefinido','Prestacion de servicios','Termino fijo'])->nullable(); // new
+			$table->enum('tipo_contrato',['Indefinido','Prestacion de servicios','Termino fijo'])->nullable(); // new
             
             // info crediticia
             

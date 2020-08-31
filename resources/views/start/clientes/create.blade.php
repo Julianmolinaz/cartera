@@ -13,7 +13,7 @@
             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
             {{ $tipo }}
         </h1>
-
+    
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
@@ -86,7 +86,7 @@
         el: '#principal',
         store,
         data: {
-            
+            tab: ''
         },
         methods: {
             setCliente() {
@@ -94,12 +94,12 @@
                 this.$store.commit('setGeneralInfoCliente',{
                     id: this.cliente.id,
                     calificacion: this.cliente.calificacion
-                })
+                });
+                
                 this.$store.commit('setPersonal',this.cliente.info_personal)
                 this.$store.commit('setUbicacion',this.cliente.info_ubicacion)
                 this.$store.commit('setEconomica',this.cliente.info_economica)
                 this.$store.commit('setConyuge',this.cliente.conyuge)
-
             }
         },
         created () {

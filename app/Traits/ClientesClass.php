@@ -40,7 +40,7 @@ trait ClientesClass
         //CREAR SOAT PARA CODEUDOR
 
         if( $request->input('soatc') ){
-          $this->createSoat($codeudor,'codeudor',$request);
+            $this->createSoat($codeudor,'codeudor',$request);
         }
 
         // CREACIÓN DEL CONYUGE

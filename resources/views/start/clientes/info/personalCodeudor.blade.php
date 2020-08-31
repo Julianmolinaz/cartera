@@ -17,23 +17,23 @@
 
             <dl class="dl-horizontal">
 
-              <dt>Ciudad exp. doc:</dt>
-              <dd>{{ $cliente->cdeudor->lugar_exp}}</dd>
+                <dt>Ciudad exp. doc:</dt>
+                <dd>{{ $cliente->codeudor->lugar_exp}}</dd>
 
-              <dt>Fecha de exp. doc:</dt>
-              <dd>{{  \Carbon\Carbon::parse($cliente->cdeudor->fecha_exp)->format('d-m-Y') }}</dd>
+                <dt>Fecha de exp. doc:</dt>
+                <dd>{{  \Carbon\Carbon::parse($cliente->codeudor->fecha_exp)->format('d-m-Y') }}</dd>
 
-              <dt>Estado civil:</dt>
-              <dd>{{ $cliente->cdeudor->estado_civil }}</dd>
+                <dt>Estado civil:</dt>
+                <dd>{{ $cliente->codeudor->estado_civil }}</dd>
 
-              <dt>Fecha de nacimiento</dt>
-              <dd>{{ \Carbon\Carbon::parse($cliente->cdeudor->fecha_nacimiento)->format('d-m-Y') }}</dd>
+                <dt>Fecha de nacimiento</dt>
+                <dd>{{ \Carbon\Carbon::parse($cliente->codeudor->fecha_nacimiento)->format('d-m-Y') }}</dd>
 
-              <dt>Lugar de nacimiento:</dt>
-              <dd>{{ $cliente->cdeudor->lugar_nacimiento }}</dd>
+                <dt>Lugar de nacimiento:</dt>
+                <dd>{{ $cliente->codeudor->lugar_nacimiento }}</dd>
 
-              <dt>Nivel de estudios:</dt>
-              <dd>{{ $cliente->cdeudor->nivel_estudios }}</dd>
+                <dt>Nivel de estudios:</dt>
+                <dd>{{ $cliente->codeudor->nivel_estudios }}</dd>
 
             </dl>
       </div>

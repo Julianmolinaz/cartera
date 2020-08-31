@@ -114,7 +114,15 @@ class ClienteController extends Controller
             $cliente->save();
 
             DB::commit();
-            return res(true, $cliente->id, 'El cliente se creó exitosamente !!!');
+
+            $data = [ 
+                'ref_cliente' => $cliente->id,
+                'cliente_id'  => $cliente->id
+            ];
+
+            DB::commit();
+
+            return res(true,$data,'El cliente se creó exitosamente !!!');
 
         } catch (\Exception $e) {
 
@@ -269,9 +277,7 @@ class ClienteController extends Controller
         
         $validator = Validator::make($rq, $this->rules_cliente('editar'),$this->messages_cliente());
         
-        if ($validator->fails()) {
-            return res( false,$validator->errors(),'');
-        }
+        if ($validator->fails()) return res( false,$validator->errors(),'');
 
         DB::beginTransaction();
 
@@ -284,9 +290,7 @@ class ClienteController extends Controller
 
             $id = $cliente->id;
 
-            if ($cliente->tipo == 'codeudor') {
-                $id = $cliente->deudor->id;
-            }
+            if ($cliente->tipo == 'codeudor') $id = $cliente->deudor->id;
     
             DB::commit();
             return res(true, $id, 'El cliente se editó exitosamente !!!');
@@ -357,7 +361,7 @@ class ClienteController extends Controller
 
             // Validación si es codeudor
 
-            if ($request->tipo =! 'cliente') return res(false,'','');
+            if ($request->tipo == 'codeudor') return res(false,'','');
 
             // Validación si es cliente
     

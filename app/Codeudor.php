@@ -116,8 +116,21 @@ class Codeudor extends Model implements Auditable
         $_4 = ' '.ucwords(strtolower($this->segundo_apellidoc));
 
         $this->attributes['nombrec'] = trim($_1.$_2.$_3.$_4);
+    }
+
+    public function setNombreAttribute($value){
+
+        $_1 = ucwords(strtolower( trim($this->primer_nombre)) );
+        $_2 = $this->segundo_nombre ? ' '.ucwords(strtolower( trim($this->segundo_nombre) )) : '';
+        $_3 = ' '.ucwords(strtolower( trim($this->primer_apellido) ));
+        $_4 = $this->segundo_apellido ? ' '.ucwords(strtolower( trim($this->segundo_apellido) )) : '';
+
+        $this->attributes['nombre'] = trim($_1.$_2.$_3.$_4);
 
     }
+
+
+    // C
 
     public function setPrimernombrecAttribute($value){
         $this->attributes['primer_nombrec'] = ucwords(strtolower($value));
@@ -182,5 +195,44 @@ class Codeudor extends Model implements Auditable
     }
 
 
+    // NOT C
+    
+    public function setPrimernombreAttribute($value){
+        $this->attributes['primer_nombre'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setSegundonombreAttribute($value){
+        $this->attributes['segundo_nombre'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setPrimerapellidoAttribute($value){
+        $this->attributes['primer_apellido'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setSegundoapellidoAttribute($value){
+        $this->attributes['segundo_apellido'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    // RELATIONS
+
+    public function client(){
+        return $this->hasOne('App\Cliente','codeudor_id','id');
+    }
+
+    public function mun(){
+        return $this->hasOne('App\Municipio','id','municipio_id');
+    }
+
+    public function study(){
+        return $this->belongsTo('App\Estudio','id','codeudor_id');
+    }
+
+    public function spouse(){
+        return $this->hasOne('App\Conyuge','id','conyuge_id');
+    }
 
 }

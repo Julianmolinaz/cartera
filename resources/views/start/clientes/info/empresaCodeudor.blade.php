@@ -18,37 +18,37 @@
       <dl class="dl-horizontal">
 
         <dt>Ocupación:</dt>
-        <dd>{{ $cliente->cdeudor->ocupacion }}</dd>
+        <dd>{{ $cliente->codeudor->ocupacion }}</dd>
 
         <dt>Empresa:</dt>
-        <dd>{{ $cliente->cdeudor->empresa }}</dd>
+        <dd>{{ $cliente->codeudor->empresa }}</dd>
 
         <dt>Dirección</dt>
-        <dd>{{ $cliente->cdeudor->dir_empresa }}</dd>
+        <dd>{{ $cliente->codeudor->dir_empresa }}</dd>
 
         <dt>Tipo de actividad</dt>
-        <dd>{{ $cliente->cdeudor->tipo_actividad }}</dd>
+        <dd>{{ $cliente->codeudor->tipo_actividad }}</dd>
 
         <dt>Teléfono empresa:</dt>
-        <dd>{{ $cliente->cdeudor->tel_empresa }}</dd>
+        <dd>{{ $cliente->codeudor->tel_empresa }}</dd>
 
         <dt>Cargo:</dt>
-        <dd>{{ $cliente->cdeudor->cargo }}</dd>
+        <dd>{{ $cliente->codeudor->cargo }}</dd>
 
         <dt>Descripción de actividad</dt>
-        <dd>{{ $cliente->cdeudor->descripcion_actividad }}</dd>
+        <dd>{{ $cliente->codeudor->descripcion_actividad }}</dd>
 
         <dt>Documento empresa</dt>
-        <dd>{{ $cliente->cdeudor->doc_empresa }}</dd>
+        <dd>{{ $cliente->codeudor->doc_empresa }}</dd>
 
         <dt>Fecha de vinculacion</dt>
-        <dd>{{ $cliente->cdeudor->fecha_vinculacion }}</dd>
+        <dd>{{ $cliente->codeudor->fecha_vinculacion }}</dd>
 
         <dt>Oficio</dt>
-        <dd>{{ $cliente->cdeudor->oficio }}</dd>
+        <dd>{{ $cliente->codeudor->oficio }}</dd>
 
         <dt>Tipo de contrato</dt>
-        <dd>{{ $cliente->cdeudor->tipo_contrato }}</dd>
+        <dd>{{ $cliente->codeudor->tipo_contrato }}</dd>
 
       </dl>
 

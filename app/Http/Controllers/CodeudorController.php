@@ -79,7 +79,8 @@ class CodeudorController extends Controller
 
         try{
             $codeudor = new Codeudor();
-            $codeudor->fill($rq);    
+            $codeudor->fill($rq);   
+            $codeudor->version = 2; 
             $codeudor->created_at = Auth::user() ? Auth::user()->id : 1;     
             $codeudor->save();
 
@@ -87,11 +88,16 @@ class CodeudorController extends Controller
 
             DB::commit();
 
-            return res(false, $codeudor->id , 'Codeudor creado exitosamente !!!');
+            $data = [ 
+                'ref_cliente' => $codeudor->client->id,
+                'cliente_id'  => $codeudor->id
+            ];
+
+            return res(true,$data,'Codeudor creado exitosamente !!!');
         }
         catch(\Exception $e){
             DB::rollback();
-            return  res(true, '', $e->getMessage());
+            return  res(false, '', $e->getMessage());
         }
     }
 
