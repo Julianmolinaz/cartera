@@ -12,6 +12,8 @@ require __DIR__ . '/routes/financiero.php';
 
 require __DIR__ . '/routes/clientes.php';
 
+require __DIR__ . '/routes/documentos.php';
+
 require __DIR__ . '/routes/callcenter.php';
 
 require __DIR__ . '/routes/contabilidad.php';

@@ -220,7 +220,11 @@
             },
             async store(action) {
 
-                let res = await axios.post('/start/clientes',{
+                let tipo = this.$store.state.cliente.tipo;
+
+                let route = (tipo == 'cliente') ? '/start/clientes' : '/start/codeudores';
+                
+                let res = await axios.post(route,{
                     cliente: this.$store.state.cliente,
                     cliente_id: this.$store.state.cliente_id,
                 });

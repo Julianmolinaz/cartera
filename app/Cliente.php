@@ -15,77 +15,71 @@ class Cliente extends Model implements Auditable
         
         // info personal
 
-        'nombre', // show
-        'primer_nombre',
-        'segundo_nombre',
-        'primer_apellido',
-        'segundo_apellido',
-        'genero',
-        'tipo_doc', // show
-        'num_doc', // show
-        'estado_civil',
-        'fecha_exp',
-        'lugar_exp',
-        'fecha_nacimiento',
-        'lugar_nacimiento',
-        'nivel_estudios',
-
+        'nombre',               //*
+        'primer_nombre',        //*
+        'segundo_nombre',       //*
+        'primer_apellido',      //*
+        'segundo_apellido',     //*
+        'genero',               //new
+        'tipo_doc',             //*
+        'num_doc',              //*
+        'estado_civil',         //new
+        'fecha_exp',            //new
+        'lugar_exp',            //new
+        'fecha_nacimiento',     //*
+        'lugar_nacimiento',     //new
+        'nivel_estudios',       //new
 
         //info ubicacion
 
-        'direccion',
-        'barrio',
-        'municipio_id',
-        'movil', // show
-        'antiguedad_movil',
-        'fijo',  // show
-        'email', // show
-        'anos_residencia',
-        'envio_correspondencia',
-        'estrato',
-        'meses_residencia',
-        'tipo_vivienda',
-        'nombre_arrendador',
-        'telefono_arrendador',
+        'direccion',            //*
+        'barrio',               //*
+        'municipio_id',         //*
+        'movil',                //*
+        'antiguedad_movil',     //new
+        'fijo',                 //*
+        'email',                //*
+        'anos_residencia',      //new
+        'envio_correspondencia',//new
+        'estrato',              //new
+        'meses_residencia',     //new
+        'tipo_vivienda',        //new
+        'nombre_arrendador',    //new
+        'telefono_arrendador',  //new
 
-        //info economica
+        //info laboral
 
-        'actividad_economica',
-        'ocupacion',
-        'empresa',
-        'placa', //*
-        'email',
-        'codeudor_id', //*
-        'user_create_id',
-        'user_update_id',
-        'calificacion',//*
-        'conyuge_id',//*
-        'tel_empresa',
-        'dir_empresa',
-        'cargo',
-        'descripcion_actividad',
-        'doc_empresa',
-        'fecha_vinculacion',
-        'oficio',
-        'tipo_contrato',
-
-        // referencias
-        'cdeudor_id',
-        'conyuge_id',
-        'codeudor_id',
-        'cdeudor_id',
-        'user_create_id',
-        'user_update_id',
-
+        'tipo_actividad',       //*
+        'ocupacion',            //*
+        'empresa',              //*
+        'nit',                  //
+        'dir_empresa',          //new
+        'tel_empresa',          //*
+        'cargo',                //new
+        'descripcion_actividad',//new
+        'doc_empresa',          //new
+        'fecha_vinculacion',    //new
+        'tipo_contrato',        //new
+        
+        // info crediticia
+        
+        'reportado',            //new
+        'numero_de_creditos',   //*
+        'calificacion',         //*
+        
+        // referencias FK
+        
+        'codeudor_id',          //*
+        'conyuge_id',           //new
+        'user_create_id',       //*
+        'user_update_id',       //*
+        
         // general
-
-        'numero_de_creditos',
-        'calificacion', // caslificar por credito
-        'placa', // por credito
-        'tipo',
-        'version',
-        'reportado'
-
+        
+        'placa',                //new
+        'version',              //new
+        'calificacion',         //*
+        
     ];
 
     public function setNombreAttribute($value){
