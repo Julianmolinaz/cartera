@@ -15,7 +15,7 @@ class Solicitud {
         this.vlr_cuota      = "";
         this.p_fecha        = "";
         this.s_fecha        = "";
-        this.estudio        = "";
+        this.estudio        = "Tipico";
         this.cuota_inicial  = 0;
         this.aprobado       = "En estudio";
         this.observaciones  = "";

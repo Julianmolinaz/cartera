@@ -19,6 +19,7 @@ use App\Credito;
 use App\Extra;
 use Validator;
 use App\User;
+use App as _;
 use Auth;
 use DB;
 
@@ -31,13 +32,12 @@ class PrecreditoController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     public function index()
     {     
-        $precreditos = 
-            Precredito::where('id','>',0)
+        $precreditos = Precredito::where('id','>',0)
             ->orderBy('updated_at','desc')
             ->paginate(100);
 
@@ -46,41 +46,36 @@ class PrecreditoController extends Controller
     }
 
     /**
-     * para crear precreditos o solicitudes
-     * vaya a la funcion show de esta clase
-     *
+     * Permite crear solicitudes
      */
+
+
     public function create($cliente_id)
     {
-      //validar que un cliente no tenga mas precréditos o créditos en proceso
+        //validar que un cliente no tenga mas precréditos o créditos en proceso
 
-      if ($this->existen_solicitudes_pendientes_tr($cliente_id)) {
-          flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');
-          return redirect()->route('start.clientes.show',$cliente->id);
-      }
+        if ( $this->existen_solicitudes_pendientes_tr( $cliente_id ) ) {
 
-      $cliente = Cliente::find($cliente_id);  
-      $data    = $this->obtener_data_para_crear($cliente_id);
+            flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');
+            return redirect()->route('start.clientes.show',$cliente_id);
+        }
 
-      
-      $data['status'] = 'create';
+        $cliente = Cliente::find($cliente_id);  
+        $data    = $this->obtener_data_para_crear($cliente_id);
 
-      return view('start.precreditos.create')
-        ->with('data', $data);
+        $data['status'] = 'create';
+
+        return view('start.precreditos.create')
+            ->with('data', $data)
+            ->with('elements',[])
+            ->with('producto_id','')
+            ->with('solicitud','');
 
     }
 
-
     public function store(Request $request)
-    {
-
-        \Log::info($request->all());
-
-        return res( true, $request->solicitud, 'Se creó las solicitud exitosamente !!!');
-    
-        $rq = $request->all();
-
-        $validator = $this->validateSolicitudCreateTr($rq);
+    {        
+        $validator = $this->validateSolicitudCreateTr($request->all());
 
         if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
 
@@ -88,28 +83,49 @@ class PrecreditoController extends Controller
 
         try {
             
-            if ($this->procesosPendientes($rq)) {
+            if ($this->procesosPendientes($request->cliente_id)) {
             
                 return response()>json([
                     'error'   => true,
                     'message' => '@ No se puede crear la solicitud, ya existen solicitudes en trámite!'
                 ]);
-
             }
 
-            $solicitud = $this->saveSolicitudCreateTr($rq); // SolicitudCreateTrait.php
+            $solicitud = $this->saveSolicitudCreateTr($request->all()); // SolicitudCreateTrait.php
             
-            $this->saveProductosCreateTr($rq['productos'], $solicitud); // SolicitudCreateTrait.php
-    
+            if ($request->productos) {
+                foreach ($request->productos as $producto) {
+
+                    $producto = $producto;
+
+                    $vehiculo = new _\Vehiculo();
+                    $vehiculo->placa = $producto['_placa'];
+                    $vehiculo->tipo_vehiculo_id = $producto['_tipo_vehiculo_id'];
+                    $vehiculo->vencimiento_soat = $producto['_vencimiento_soat'];
+                    $vehiculo->vencimiento_rtm  = $producto['_vencimiento_rtm'];
+                    $vehiculo->save();
+
+                    $ref_producto = new _\RefProducto();
+                    $ref_producto->fill($producto);
+                    $ref_producto->vehiculo_id = $vehiculo->id;
+                    $ref_producto->precredito_id = $solicitud->id;
+                    $ref_producto->created_by  = Auth::user() ? Auth::user()->id : 1;
+                    $ref_producto->save();
+                }
+            }
+
             \DB::commit();
 
             return response()->json([
-            'error'   => false,
-            'message' => 'La solicitud con Id: '.$solicitud->id.' del cliente '.$solicitud->cliente->nombre.' se creo con éxito!',
-            'dat'     => $solicitud
+                'error'   => false,
+                'message' => 'La solicitud con Id: '.$solicitud->id.' del cliente '.$solicitud->cliente->nombre.' se creo con éxito!',
+                'dat'     => $solicitud->cliente_id
             ]);
 
         } catch(\Exception $e){
+
+            \Log::info($e);
+
             DB::rollback();
             return response()->json([
                 'error'   => true,
@@ -121,42 +137,78 @@ class PrecreditoController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit($precredito_id)
     {
-      $precredito = Precredito::find($id);
-      $precredito->fecha = inv_fech2($precredito->fecha);
-      $proveedores       = \App\MyService\Proveedor::getProveedores();
+        $precredito = Precredito::find($precredito_id);
+        $precredito->fecha = inv_fech2($precredito->fecha);
+        $proveedores       = \App\MyService\Proveedor::getProveedores();
+        
+        $ref_productos = (isset($precredito->ref_productos)) ? $precredito->ref_productos: '';
+        
+        if (isset($precredito->credito )) {
+            $estado = 'edicion_credito';
+        } else {
+            $estado = 'edicion_solicitud';
+        }
+        
+        if ($precredito->version == 1) {
+            return view('start.precreditos.create')
+                ->with('carteras',Cartera::where('estado','Activo')->orderBy('nombre')->get())
+                ->with('estados_aprobacion',getEnumValues('precreditos', 'aprobado'))
+                ->with('productos',Producto::orderBy('nombre','DESC')->get())
+                ->with('arr_periodos',getEnumValues('precreditos','periodo'))
+                ->with('arr_estudios',getEnumValues('precreditos','estudio'))
+                ->with('arr_productos', $ref_productos)
+                ->with('cliente',$precredito->cliente)
+                ->with('variables',Variable::find(1))
+                ->with('proveedores',$proveedores)
+                ->with('precredito',$precredito)
+                ->with('user',\Auth::user())
+                ->with('estados_credito','')
+                ->with('now',Carbon::now())
+                ->with('estado',$estado)
+                ->with('fecha_pago','')
+                ->with('credito','');
+        } else {
 
-      $ref_productos = (isset($precredito->ref_productos)) ? $precredito->ref_productos: '';
+            $cliente = $precredito->cliente;  
+            $data    = $this->obtener_data_para_crear($cliente->id);
+    
+            $data['status'] = 'edit';
+            $ref_productos = (isset($precredito->ref_productos)) ? $precredito->ref_productos : '';
 
-      if (isset($precredito->credito )) {
-        $estado = 'edicion_credito';
-      } else {
-        $estado = 'edicion_solicitud';
-      }
+            $ref_productos = $ref_productos->map( function ($ref_producto) {
+                return [
+                    'id' => $ref_producto->id,
+                    'producto_id' => $ref_producto->producto_id,
+                    'nombre' =>  $ref_producto->nombre,
+                    'precredito_id' => $ref_producto->precredito_id,
+                    'proveedor_id' => $ref_producto->proveedor_id,
+                    'num_fact' =>  $ref_producto->num_fact,
+                    'fecha_exp' => $ref_producto->fecha_exp,
+                    'costo' => $ref_producto->costo,
+                    'estado' => $ref_producto->estado,
+                    'iva' => $ref_producto->iva,
+                    'observaciones' => $ref_producto->observaciones,
+                    '_tipo_vehiculo_id' => $ref_producto->vehiculo->tipo_vehiculo_id,
+                    '_placa' => $ref_producto->vehiculo->placa,
+                    '_vencimiento_soat' => $ref_producto->vehiculo->vencimiento_soat,
+                    '_vencimiento_rtm' => $ref_producto->vehiculo->vencimiento_rtm
+                ];
+            });
+    
+            return view('start.precreditos.create')
+                ->with('data', $data)
+                ->with('elements', $ref_productos)
+                ->with('producto_id',$precredito->producto_id)
+                ->with('solicitud',$precredito);
+        }
 
-      return view('start.precreditos.create')
-      ->with('carteras',Cartera::where('estado','Activo')->orderBy('nombre')->get())
-      ->with('estados_aprobacion',getEnumValues('precreditos', 'aprobado'))
-      ->with('productos',Producto::orderBy('nombre','DESC')->get())
-      ->with('arr_periodos',getEnumValues('precreditos','periodo'))
-      ->with('arr_estudios',getEnumValues('precreditos','estudio'))
-      ->with('arr_productos', $ref_productos)
-      ->with('cliente',$precredito->cliente)
-      ->with('variables',Variable::find(1))
-      ->with('proveedores',$proveedores)
-      ->with('precredito',$precredito)
-      ->with('user',\Auth::user())
-      ->with('estados_credito','')
-      ->with('now',Carbon::now())
-      ->with('estado',$estado)
-      ->with('fecha_pago','')
-      ->with('credito','');
 
     }
 
     /*
-      VER MUESTRA LA INFORMACIÒN DE LA SOLICITUD QUE INTERNAMENTE LA LLAMAMOS PRECREDITO
+    VER MUESTRA LA INFORMACIÒN DE LA SOLICITUD QUE INTERNAMENTE LA LLAMAMOS PRECREDITO
     */
 
 
@@ -181,9 +233,9 @@ class PrecreditoController extends Controller
 
         if(count($credito) > 0){
 
-          $juridico = Extra::where('credito_id',$credito[0]->id)->where('concepto','Juridico')->where('estado','Debe')->get();
+        $juridico = Extra::where('credito_id',$credito[0]->id)->where('concepto','Juridico')->where('estado','Debe')->get();
 
-          if(count($juridico) > 0){
+        if(count($juridico) > 0){
 
             $pago_juridico =
             DB::table('pagos')
@@ -191,54 +243,54 @@ class PrecreditoController extends Controller
                 ->get();
 
             if( count($pago_juridico) > 0 ){
-              $pago_juridico = array('juridico' => $pago_juridico[0]->debe, 'valor' => $juridico[0]->valor);
+            $pago_juridico = array('juridico' => $pago_juridico[0]->debe, 'valor' => $juridico[0]->valor);
             } else{
-              $pago_juridico = array('juridico' => 0, 'valor' => $juridico[0]->valor);
+            $pago_juridico = array('juridico' => 0, 'valor' => $juridico[0]->valor);
             }
-          }
-          else {
+        }
+        else {
             $pago_juridico = array('juridico' => null, 'valor' => 0);
-          }
+        }
 
-          /******************** PREJURIDICO  **************************/
-          /* se valida la existencia de sanciones Prejuridicas en la tabla extras, si existen se valida que haya abonos en
-          la tabla pagos en los casos de que no existan se generan los respectivos valores */
+        /******************** PREJURIDICO  **************************/
+        /* se valida la existencia de sanciones Prejuridicas en la tabla extras, si existen se valida que haya abonos en
+        la tabla pagos en los casos de que no existan se generan los respectivos valores */
 
-          $prejuridico = Extra::where('credito_id',$credito[0]->id)->where('concepto','Prejuridico')->where('estado','Debe')->get();
+        $prejuridico = Extra::where('credito_id',$credito[0]->id)->where('concepto','Prejuridico')->where('estado','Debe')->get();
 
-          if(count($prejuridico) > 0){
+        if(count($prejuridico) > 0){
 
             $pago_prejuridico = DB::table('pagos')
-					->where([['credito_id','=',$credito[0]->id],
-						 ['concepto','=','Prejuridico'],
-						 ['estado','=','Debe']])
-					->get();
+                    ->where([['credito_id','=',$credito[0]->id],
+                        ['concepto','=','Prejuridico'],
+                        ['estado','=','Debe']])
+                    ->get();
 
             if(count($pago_prejuridico) > 0){
-              $pago_prejuridico = array('prejuridico' => (int)$pago_prejuridico[0]->debe, 'valor' => ' de '.$prejuridico[0]->valor);
+            $pago_prejuridico = array('prejuridico' => (int)$pago_prejuridico[0]->debe, 'valor' => ' de '.$prejuridico[0]->valor);
             } else{
-              $pago_prejuridico = array('prejuridico' => 0, 'valor' => $prejuridico[0]->valor);
+            $pago_prejuridico = array('prejuridico' => 0, 'valor' => $prejuridico[0]->valor);
             }
-          }
-          else{
+        }
+        else{
             $pago_prejuridico = array('prejuridico' => null, 'valor' => 0);
-          }
+        }
 
-          /******************** PAGOS PARCIALES **************************/
-          $total_parciales =
-          DB::table('pagos')
-              ->where([['credito_id','=',$credito[0]->id],['concepto','=','Cuota Parcial'],['estado','=','Debe']])
-              ->sum('Debe');
+        /******************** PAGOS PARCIALES **************************/
+        $total_parciales =
+        DB::table('pagos')
+            ->where([['credito_id','=',$credito[0]->id],['concepto','=','Cuota Parcial'],['estado','=','Debe']])
+            ->sum('Debe');
 
 
-          /*******************SANCIONES*********************************/
-          $sum_sanciones = DB::table('sanciones')
-              ->where([['credito_id','=',$credito[0]->id],['estado','Debe']])
-              ->sum('valor');
+        /*******************SANCIONES*********************************/
+        $sum_sanciones = DB::table('sanciones')
+            ->where([['credito_id','=',$credito[0]->id],['estado','Debe']])
+            ->sum('valor');
 
-              if(!$sum_sanciones){ $sum_sanciones = 0;}
+            if(!$sum_sanciones){ $sum_sanciones = 0;}
 
-          /******************FECHA LIMITE DE PAGO***********************/
+        /******************FECHA LIMITE DE PAGO***********************/
 
 
         }//end if credito
@@ -282,7 +334,7 @@ class PrecreditoController extends Controller
     // la variable $id es el id del cliente
     public function show($cliente_id)
     {
-      //validar que un cliente no tenga mas precréditos o créditos en proceso
+    //validar que un cliente no tenga mas precréditos o créditos en proceso
 
         $solicitudes_pendientes =
         DB::table('precreditos')
@@ -295,11 +347,11 @@ class PrecreditoController extends Controller
 
         $creditos_vigentes =
         DB::table('creditos')
-         ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-         ->join('clientes','precreditos.cliente_id','=','clientes.id')
-         ->where([['clientes.id','=',$cliente_id]])
-         ->whereIn('Estado',['Al dia','Mora','Prejuridico','Juridico'])
-         ->count();
+        ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+        ->join('clientes','precreditos.cliente_id','=','clientes.id')
+        ->where([['clientes.id','=',$cliente_id]])
+        ->whereIn('Estado',['Al dia','Mora','Prejuridico','Juridico'])
+        ->count();
 
 
         $cliente = Cliente::find($cliente_id);
@@ -318,22 +370,22 @@ class PrecreditoController extends Controller
 
             
             return view('start.precreditos.create')
-              ->with('estados_aprobacion',$estados_aprobacion)
-              ->with('arr_periodos',$arr_periodos)
-              ->with('arr_estudios',$arr_estudios)
-              ->with('proveedores',$proveedores)
-              ->with('user',Auth::user()->id)
-              ->with('productos',$productos)
-              ->with('variables',$variables)
-              ->with('carteras',$carteras)
-              ->with('estados_credito','')
-              ->with('estado','creacion')
-              ->with('cliente',$cliente)
-              ->with('arr_productos','')
-              ->with('precredito','')
-              ->with('fecha_pago','')
-              ->with('credito','')
-              ->with('tipo_vehiculos',$tipo_vehiculos);
+            ->with('estados_aprobacion',$estados_aprobacion)
+            ->with('arr_periodos',$arr_periodos)
+            ->with('arr_estudios',$arr_estudios)
+            ->with('proveedores',$proveedores)
+            ->with('user',Auth::user()->id)
+            ->with('productos',$productos)
+            ->with('variables',$variables)
+            ->with('carteras',$carteras)
+            ->with('estados_credito','')
+            ->with('estado','creacion')
+            ->with('cliente',$cliente)
+            ->with('arr_productos','')
+            ->with('precredito','')
+            ->with('fecha_pago','')
+            ->with('credito','')
+            ->with('tipo_vehiculos',$tipo_vehiculos);
         }
         else{
             flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');
@@ -346,23 +398,23 @@ class PrecreditoController extends Controller
 
     public function update(Request $request, $id)
     {
-      $changes = 0;
+    $changes = 0;
 
-      $rq = $request->all();
-      
-      $validator = $this->validateSolicitudUpdateTr($rq);
-      
-      if ($validator->fails()) {
+    $rq = $request->all();
+    
+    $validator = $this->validateSolicitudUpdateTr($rq);
+    
+    if ($validator->fails()) {
         return response()->json([
-          'error' => true,
-          'message' => 'Error en la validación.',
-          'dat' => $validator->errors()
-          ]);
-      }
-      DB::beginTransaction();
-      
-      try {
-          
+        'error' => true,
+        'message' => 'Error en la validación.',
+        'dat' => $validator->errors()
+        ]);
+    }
+    DB::beginTransaction();
+    
+    try {
+        
         $data = $this->saveSolicitudUpdate($rq); // SolicitudUpdateTrait.php
 
         $solicitud = $data->solicitud;
@@ -372,29 +424,29 @@ class PrecreditoController extends Controller
         
         if ($changes) {
 
-          DB::commit();
+        DB::commit();
 
-          return response()->json([
+        return response()->json([
             'error' => false,
             'message' => 'Solicitud modificada exitosamente !!!',
             'dat' => $solicitud
-          ]);
+        ]);
         } 
         else {
-          return response()->json([
+        return response()->json([
             'error' => true,
             'message' => 'No se realizaron cambios a la solicitud'
-          ]);
+        ]);
         }
 
-      } catch (\Exception $e) {
+    } catch (\Exception $e) {
         DB::rollback();
         return response()->json([
-          'error'   => true,
-          'message' => 'Ocurrió un error, intentelo nuevamente.',
-          'dat'     => $e->getMessage()
+        'error'   => true,
+        'message' => 'Ocurrió un error, intentelo nuevamente.',
+        'dat'     => $e->getMessage()
         ]);
-      }
+    }
 
 }
 

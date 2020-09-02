@@ -1,39 +1,11 @@
 <script type="text/x-template" id="solicitud-template">
     
 <div>
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="">
         <div class="row">
-            <!-- FECHA SOLICITUD  -->
-
-            <div v-bind:class="['form-group','col-md-4',errors.first(rules.fecha_solicitud.name) ? 'has-error' :'']">
-                <label for="">Fecha @{{ rules.fecha_solicitud.required }}</label>    
-                <input 
-                    type="date" 
-                    class="form-control" 
-                    v-model="solicitud.fecha"
-                    v-validate="rules.fecha_solicitud.rule"
-                    :name="rules.fecha_solicitud.name">  
-                <span class="help-block">@{{ errors.first(rules.fecha_solicitud.name) }}</span>                   
-            </div>
-
-            <!-- CARTERA  -->
-
-            <div v-bind:class="['form-group','col-md-4',errors.first(rules.cartera.name) ? 'has-error' :'']">
-                <label for="">Cartera @{{ rules.cartera.required }}</label> 
-                <select 
-                    class="form-control" 
-                    v-validate="rules.cartera.rule"
-                    :name="rules.cartera.name"
-                    v-model="solicitud.cartera_id"> 
-                    <option selected disabled>--</option>
-                    <option :value="cartera.id" v-for="cartera in data.carteras">@{{cartera.nombre}}</option>                
-                </select>
-                <span class="help-block">@{{ errors.first(rules.cartera.name) }}</span>                   
-            </div>
-
             <!-- APROBADO  -->
 
-            <div v-bind:class="['form-group','col-md-4',errors.first(rules.aprobado.name) ? 'has-error' :'']">
+            <div v-bind:class="['form-group','col-md-2',errors.first(rules.aprobado.name) ? 'has-error' :'']">
                 <label for="">Aprobado @{{ rules.aprobado.required }}</label>
                 <select 
                     class="form-control" 
@@ -48,7 +20,68 @@
                     </option>  
                 </select>
                 <span class="help-block">@{{ errors.first(rules.aprobado.name) }}</span>                   
-            </div>    
+            </div>   
+
+            <!-- Consecutivo  -->
+
+            <div v-bind:class="['form-group','col-md-2',errors.first(rules.num_fact.name) ? 'has-error' :'']">
+                <label for="">Consecutivo @{{ rules.num_fact.required }}</label>    
+                <input 
+                    style="font-size:12px;"
+                    type="text" 
+                    class="form-control" 
+                    v-model="solicitud.num_fact"
+                    v-validate="rules.num_fact.rule"
+                    :name="rules.num_fact.name">  
+                <span class="help-block">@{{ errors.first(rules.num_fact.name) }}</span>                   
+            </div>
+
+
+            <!-- FECHA SOLICITUD  -->
+
+            <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_solicitud.name) ? 'has-error' :'']">
+                <label for="">Fecha @{{ rules.fecha_solicitud.required }}</label>    
+                <input 
+                    style="font-size:10px;"
+                    type="date" 
+                    class="form-control" 
+                    v-model="solicitud.fecha"
+                    v-validate="rules.fecha_solicitud.rule"
+                    :name="rules.fecha_solicitud.name">  
+                <span class="help-block">@{{ errors.first(rules.fecha_solicitud.name) }}</span>                   
+            </div>
+
+
+            <!-- CARTERA  -->
+
+            <div v-bind:class="['form-group','col-md-3',errors.first(rules.funcionario_id.name) ? 'has-error' :'']">
+                <label for="">Vendedor @{{ rules.funcionario_id.required }}</label> 
+                <select 
+                    class="form-control" 
+                    v-validate="rules.funcionario_id.rule"
+                    :name="rules.funcionario_id.name"
+                    v-model="solicitud.funcionario_id"> 
+                    <option selected disabled>--</option>
+                    <option :value="vendedor.id" v-for="vendedor in data.vendedores">@{{vendedor.name}}</option>                
+                </select>
+                <span class="help-block">@{{ errors.first(rules.funcionario_id.name) }}</span>                   
+            </div>
+
+            <!-- CARTERA  -->
+
+            <div v-bind:class="['form-group','col-md-3',errors.first(rules.cartera.name) ? 'has-error' :'']">
+                <label for="">Cartera @{{ rules.cartera.required }}</label> 
+                <select 
+                    class="form-control" 
+                    v-validate="rules.cartera.rule"
+                    :name="rules.cartera.name"
+                    v-model="solicitud.cartera_id"> 
+                    <option selected disabled>--</option>
+                    <option :value="cartera.id" v-for="cartera in data.carteras">@{{cartera.nombre}}</option>                
+                </select>
+                <span class="help-block">@{{ errors.first(rules.cartera.name) }}</span>                   
+            </div>
+    
         </div> <!-- row file 1  -->
         <div class="row">
 
@@ -81,12 +114,28 @@
                 <span class="help-block">@{{ errors.first(rules.cuota_inicial.name) }}</span>
             </div>
 
+            <!-- MESES -->
+
+            <div v-bind:class="['form-group','col-md-2',errors.first(rules.meses.name) ? 'has-error' :'']">
+                <label for="">Meses @{{ rules.meses.required }}</label>
+                <select 
+                    @change="setup"
+                    class="form-control"  
+                    v-model="solicitud.meses"
+                    v-validate="rules.meses.rule"
+                    :name="rules.meses.name">
+                    <option selected disabled>--</option>
+                    <option :value="meses" v-for="meses in data.rango_meses">@{{ meses }}</option>
+                </select>
+                <span class="help-block">@{{ errors.first(rules.periodo.name) }}</span>
+            </div>
+
             <!-- PERIODO -->
 
-            <div v-bind:class="['form-group','col-md-3',errors.first(rules.periodo.name) ? 'has-error' :'']">
+            <div v-bind:class="['form-group','col-md-2',errors.first(rules.periodo.name) ? 'has-error' :'']">
                 <label for="">Periodo @{{ rules.periodo.required }}</label>
                 <select 
-                    @change="setPeriodo"
+                    @change="setup"
                     class="form-control"  
                     v-model="solicitud.periodo"
                     v-validate="rules.periodo.rule"
@@ -99,17 +148,18 @@
 
             <!-- NUMERO DE CUOTAS -->
 
-            <div v-bind:class="['form-group','col-md-3',errors.first(rules.num_cuotas.name) ? 'has-error' :'']">
-                <label for="">Número de Cuotas @{{ rules.num_cuotas.required }}</label>
+            <div v-bind:class="['form-group','col-md-2',errors.first(rules.cuotas.name) ? 'has-error' :'']">
+                <label for="">Número de Cuotas @{{ rules.cuotas.required }}</label>
                 <input 
+                    disabled
                     @keyup="validar_negocio"
                     type="text" 
                     class="form-control" 
                     placeholder="Cantidad de Cuotas"
                     v-model="solicitud.cuotas"
-                    v-validate="rules.num_cuotas.rule"
-                    :name="rules.num_cuotas.name">
-                <span class="help-block">@{{ errors.first(rules.num_cuotas.name) }}</span>
+                    v-validate="rules.cuotas.rule"
+                    :name="rules.cuotas.name">
+                <span class="help-block">@{{ errors.first(rules.cuotas.name) }}</span>
             </div>
         </div> <!-- row file 2-->
         <div class="row">
@@ -197,7 +247,7 @@
             <div class="col-md-12" style="margin-top:20px;">
                 <center>
                     <a class="btn btn-default" @click="volver">Volver</a>
-                    <button class="btn btn-primary">Continuar</button>
+                    <button class="btn btn-primary" @click="onSubmit">Salvar</button>
                 </center>
             </div>
         </div> 
@@ -205,97 +255,4 @@
 </div> <!-- div pripal -->
 </script>
 
-
-<script src="/js/rules/solicitud.js"></script>
-<script src="/js/interfaces/solicitud.js"></script>
-<script>
-
-    const solicitud = Vue.component('solicitud-component',{
-        template: '#solicitud-template',
-        data() {
-            return {
-                rango1: [],
-                rango2: [],
-                data: this.$store.state.data,
-                solicitud: this.$store.state.solicitud,
-                rules: rules_solicitud
-            }
-        },
-        methods: {
-            volver () {
-                $('.nav-tabs a[href="#producto"]').tab('show') 
-                
-            },
-            continuar () {
-                $('.nav-tabs a[href="#credito"]').tab('show') 
-            },
-            async onSubmit() {
-                if ( ! await this.$validator.validate() ) {
-                    alert('Por favor complete los campos');
-                    return false;
-                }
-                
-                let res = await axios.post('/start/precreditos', {
-                    'elements'  : this.$store.state.elements,
-                    'solicitud' : this.$store.state.solicitud
-                })
-
-                alert(res.data.message);
-
-                if (res.data.success) {
-                    window.location.href = "{{url('/start/clientes')}}/"+res.data.dat.cliente_id;
-                }
-            },            
-            async validarForm() {
-                let valid = await this.$validator.validate();
-                return valid
-            },
-            validar_negocio() {
-
-                if (   this.solicitud.vlr_fin 
-                    && this.solicitud.cuotas 
-                    && this.solicitud.vlr_cuota) {
-
-                    const sumatoria = this.solicitud.cuotas *  this.solicitud.vlr_cuota;
-
-                    if ( sumatoria <= (this.solicitud.vlr_fin * 1)) {
-                        // alertify.notify('La sumatoria de cuotas no coincide con el valor del centro de costos', 'error', 5)
-                    } else {
-                        alertify.notify('El resultado es válido', 'success', 10)
-                    }
-                }
-            },
-            setPeriodo(){
-                
-
-                if (this.solicitud.periodo == 'Quincenal') {
-                    this.rango1 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-                } else {
-                    this.rango2 = []
-                    this.rango1 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
-                }
-
-                if (this.solicitud.p_fecha) this.setRango2()
-            },
-            setRango2(){
-                if (this.solicitud.periodo == 'Quincenal') {
-                    let n = this.solicitud.p_fecha
-                    this.rango2 = [n+15, n+16, n+17]
-                    alertify.notify('Escoja una segunda fecha', 'success', 5)
-                } else {
-                    this.rango2 = []
-                }
-            }
-         
-        },   
-        created() {
-            console.log(this.$store.state.data.cliente.id)
-
-           if (this.$store.state.data.status == 'create') {
-               this.solicitud.cliente_id = this.$store.state.data.cliente.id
-           } 
-        }
-    });
-
-</script>
-
+@include('start.precreditos.componentes.solicitudJs')

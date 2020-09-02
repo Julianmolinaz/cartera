@@ -16,7 +16,6 @@ class CreateTipoVehiculosTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->enum('estado', ['Activo','Inactivo'])->default('Activo');
-            $table->timestamps();
         });
     }
 

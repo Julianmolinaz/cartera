@@ -43,5 +43,13 @@
                 <div class="title">ERRoR.</div>
             </div>
         </div>
+
+        <script>
+            setTimeout(() => {
+                location.href = "/"; 
+            }, 30000);
+        
+        </script>
+
     </body>
 </html>

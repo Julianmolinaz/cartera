@@ -2,12 +2,12 @@
 
 @section('contenido')
 
-<div class="col-md-12" id="principal">
+<div class="col-md-10 col-md-offset-1" id="principal">
 
     <div class="panel panel-default" style="pading:5px;" id="myabs">
         <h1 style="margin: 12px 0px 15px 10px">
             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-            Solicitud
+            Solicitud <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.data.status"></span>
         </h1>
 
         <div role ="tabpanel">
@@ -38,9 +38,6 @@
                 <div role="tabpanel" class="tab-pane" id="solicitud">
                     <solicitud-component />
                 </div>
-                <!-- <div role="tabpanel" class="tab-pane " id="vehiculo">
-                    <vehiculo-component />
-                </div> -->
                 <div role="tabpanel" class="tab-pane" id="credito">
                     <credito-component />
                 </div>
@@ -59,7 +56,6 @@
 
 @include('start.precreditos.componentes.producto')
 @include('start.precreditos.componentes.solicitud')
-
 @include('start.precreditos.componentes.credito')
 @include('start.precreditos.componentes.store') 
 
@@ -71,9 +67,8 @@
     const principal =new Vue({
         el: '#principal',
         store,
-        created(){
-            
-        }
+        methods: {},
+        created(){}
     });
 
 </script>

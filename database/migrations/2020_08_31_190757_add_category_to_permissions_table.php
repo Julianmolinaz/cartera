@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCategoryToPermissions extends Migration
+class AddCategoryToPermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,6 +17,7 @@ class AddCategoryToPermissions extends Migration
             $table->integer('created_by')->unsigned();
             $table->integer('updated_by')->unisgned()->nullable();
             $table->string('category');
+
         });
     }
 
@@ -32,6 +33,7 @@ class AddCategoryToPermissions extends Migration
             $table->dropColumn('status');
             $table->dropColumn('updated_by');
             $table->dropColumn('created_by');
+
         });
     }
 }

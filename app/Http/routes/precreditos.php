@@ -37,7 +37,7 @@ Route::put('start/precreditos/{precredito_id}',[
 
 //PRECREDITOS GUARDAR
 Route::post('start/precreditos',[
-    'middleware' => ['permission:crear_solicitudes'],
+    // 'middleware' => ['permission:crear_solicitudes'],
     'uses'  => 'PrecreditoController@store',
     'as'    => 'start.precreditos.store'
 ]);

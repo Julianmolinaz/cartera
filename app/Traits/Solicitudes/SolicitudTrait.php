@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits\Solicitudes;
+use App as _;
 
 trait SolicitudTrait 
 {
@@ -33,19 +34,29 @@ trait SolicitudTrait
     }
 
     public function obtener_data_para_crear($cliente_id){
+
+        $range = [];
+        $variables = \DB::table('variables')->first();
+
+        foreach (range($variables->meses_min, $variables->meses_max) as $numero) {
+            $range[] = $numero;
+        }
+
         return [
-            'productos'            => \App\Producto::orderBy('nombre','DESC')->get(),
-            'carteras'             => \App\Cartera::where('estado','Activo')->orderBy('nombre')->get(),
-            'proveedores'          => \App\MyService\Proveedor::getProveedores(),
-            'variables'            => \App\Variable::find(1),
+            'productos'            => _\Producto::orderBy('nombre','DESC')->get(),
+            'carteras'             => _\Cartera::where('estado','Activo')->orderBy('nombre')->get(),
+            'proveedores'          => _\MyService\Proveedor::getProveedores(),
+            'variables'            => _\Variable::find(1),
             'now'                  => \Carbon\Carbon::now(),
-            'estados_aprobacion'   => \App\Http\Controllers\getEnumValues('precreditos', 'aprobado'),
-            'estados_ref_producto' => \App\Http\Controllers\getEnumValues('ref_productos', 'estado'),
-            'arr_periodos'         => \App\Http\Controllers\getEnumValues('precreditos','periodo'),
-            'arr_estudios'         => \App\Http\Controllers\getEnumValues('precreditos','estudio'),
-            'tipo_vehiculos'       => \App\Http\Controllers\getEnumValues('vehiculos','tipo'),
-            'cliente'              => \App\Cliente::find($cliente_id),
-            'proveedores'          => \App\Tercero::where('tipo','Proveedor')->orderBy('razon_social')->get()
+            'estados_aprobacion'   => _\Http\Controllers\getEnumValues('precreditos', 'aprobado'),
+            'estados_ref_producto' => _\Http\Controllers\getEnumValues('ref_productos', 'estado'),
+            'arr_periodos'         => _\Http\Controllers\getEnumValues('precreditos','periodo'),
+            'arr_estudios'         => _\Http\Controllers\getEnumValues('precreditos','estudio'),
+            'tipo_vehiculos'       => _\TipoVehiculo::orderBY('nombre')->get(),
+            'cliente'              => _\Cliente::find($cliente_id),
+            'proveedores'          => _\Tercero::where('tipo','Proveedor')->orderBy('razon_social')->get(),
+            'vendedores'           => _\User::orderBy('name')->where('estado','activo')->where('id','<>',1)->get(),
+            'rango_meses'          => $range
          ];
 
     }

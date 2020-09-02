@@ -148,9 +148,6 @@
         methods: {
             async onSubmit() {
                 let valid = await this.$validator.validate()
-
-                // imprimir por consola
-                console.log(valid)
             }
         }
     });

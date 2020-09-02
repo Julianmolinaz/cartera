@@ -14,7 +14,7 @@ class CreateTercerosTable extends Migration {
 	{
 		Schema::create('terceros', function(Blueprint $table)
 		{
-			$table->integer('id', true)->comment('Llave primaria');
+			$table->increments('id')->comment('Llave primaria');
 			$table->enum('tipo', array('Cliente','Empleado','General','Proveedor','Vendedor'));
 			$table->enum('regimen', array('Estatal','Gran contribuyente','Regimen comun','Regimen especial','No responsable de IVA'))->comment('regimen tributario');
 			$table->string('razon_social', 100)->nullable();
