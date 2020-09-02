@@ -1,0 +1,11 @@
+[2020-08-31 22:55:46] local.ERROR: Symfony\Component\Console\Exception\CommandNotFoundException: Command "db:sedd" is not defined.
+
+Did you mean one of these?
+    db:seed
+    generate:seed in /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/symfony/console/Application.php:515
+Stack trace:
+#0 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/symfony/console/Application.php(183): Symfony\Component\Console\Application->find('db:sedd')
+#1 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/symfony/console/Application.php(117): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(107): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 {main}  

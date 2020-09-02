@@ -62,36 +62,66 @@ class ConyugeController extends Controller
     {
         $validator = Validator::make($request->conyuge,$this::rulesConyugeTr('create'),$this::messagesConyugeTr());
 
-        if ($validator->fails()) {
-            return res(true, $validator->errors(),'');
-        }
+        if ($validator->fails()) return res(true, $validator->errors(),'');
 
         DB::beginTransaction();
 
         try
         {
             if ( isset($request->conyuge['id']) ) {
+
                 $conyuge = Conyuge::find($request->conyuge['id']);
                 $conyuge->fill($request->conyuge);
                 $conyuge->save();
+
+                $cliente_id = '';
+                
+                if ($request->tipo == 'cliente') {
+                    $cliente_id = $request->cliente_id;
+                } else {
+                    $codeudor = Codeudor::find($request->cliente_id);
+                    $cliente_id = $codeudor->client->id;
+                }
+
+                DB::commit();
+
+                return res(true,$cliente_id,'Conyuge editado exitosamente !!!');
+
             } else {
+
                 $conyuge = new Conyuge();
                 $conyuge->fill($request->conyuge);
                 $conyuge->save();
+            }
+            
+            if ($request->tipo == 'cliente') {
 
                 $cliente = Cliente::find($request->cliente_id);
                 $cliente->conyuge_id = $conyuge->id;
                 $cliente->user_update_id = Auth::user()->id;
                 $cliente->save();
+
+                $cliente_id = $cliente->id;
+
+            } 
+            else if ($request->tipo == 'codeudor'){
+
+                $codeudor = Codeudor::find($request->cliente_id);
+                $codeudor->conyuge_id = $conyuge->id;
+                $codeudor->user_update_id = Auth::user()->id;
+                $codeudor->save();
+
+                $cliente_id = $codeudor->client->id;
             }
-
-
-
+            
             DB::commit();
-            return res(true,'','Conyuge creado exitosamente !!!');
+
+            return res(true,$cliente_id,'Conyuge creado exitosamente !!!');
         }
         catch(\Exception $e)
         {
+            \Log::error($e);
+
             DB::rollback();
             return res(false,'','Error: '.$e->getMessage());
         }
@@ -188,6 +218,7 @@ class ConyugeController extends Controller
         }
 
     }
+
 
     /**
      * Remove the specified resource from storage.

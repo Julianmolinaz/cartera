@@ -98,7 +98,7 @@ class CreateCodeudoresTable extends Migration {
 			$table->string('descripcion_actividad')->nullable();    
 			$table->string('doc_empresa')->nullable();              
 			$table->date('fecha_vinculacion')->nullable();          
-			$table->enum('tipo_contrato',['Idefinido','Prestacion de servicios','Termino fijo'])->nullable(); 
+			$table->enum('tipo_contrato',['Indefinido','Prestacion de servicios','Termino fijo'])->nullable(); 
             
             // info crediticia
             

@@ -59,6 +59,12 @@
             </tr>
 
             <tr>
+                <th scope="row">Dirección</th>
+                <td> {{ $cliente->codeudor->direccionc }}</td>
+            </tr>
+            
+
+            <tr>
                 <th scope="row">Email</th>
                 <td> {{ ($cliente->codeudor) ? $cliente->codeudor->emailc : ''}}</td>
             </tr>

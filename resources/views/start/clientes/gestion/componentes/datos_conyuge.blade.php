@@ -165,37 +165,27 @@
             },
             async onSubmit () {
 
-                console.log('submit coyuge');
-
                 let valid = await this.$validator.validate()
 
-                console.log({valid})
+                let cliente = await this.$store.state.cliente
 
-                let cliente_id = await this.$store.state.cliente.id
-
-                console.log({cliente_id})
-
-                if (!cliente_id) {
+                if (!cliente.id) {
                     this.alert_class = 'alert-warning'
                     this.message = 'Se requiere crear el cliente'
                     this.alert = true
                 }
 
                 if (valid) {
-                    let res = await axios.post('/start/conyuges',{
-                        cliente_id : cliente_id,
-                        conyuge    : this.conyuge
-                    })
 
-                    console.log({res})
+                    let res = await axios.post('/start/conyuges',{
+                        cliente_id : cliente.id,
+                        tipo       : cliente.tipo,
+                        conyuge    : this.conyuge
+                    });
 
                     if (res.data.success) {
-                        if (res.data.message == '') {
-                            this.message_danger = true
-                            this.message = res.data.dat
-                        } else {
-                            document.location.href= "/start/clientes/"+this.$store.state.cliente.id
-                        }
+                        alert(res.data.message);
+                        document.location.href= "/start/clientes/"+res.data.dat        
                     }
                 } 
                 else {

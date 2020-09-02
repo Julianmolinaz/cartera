@@ -1,6 +1,6 @@
 <script type="text/x-template" id="producto-template">
 
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="">
     
         <div class="row">
             <div class="col-md-12">
@@ -146,7 +146,7 @@
                                 <!-- PLACA  -->
 
                                 <div v-bind:class="['form-group','col-md-3',errors.first('placa'+index) ? 'has-error' :'']">
-                                    <label for="">Placa</label>  
+                                    <label for="">Placa *</label>  
                                     <input class="form-control"  
                                         placeholder="escriba placa"
                                         v-model="element._placa"
@@ -158,7 +158,7 @@
                                 <!-- VENCIMIENTO SOAT  -->
 
                                 <div v-bind:class="['form-group','col-md-3',errors.first('vencimiento_soat'+index) ? 'has-error' :'']">
-                                    <label for="">Vencimiento SOAT</label>
+                                    <label for="">Vencimiento SOAT *</label>
                                     <input type="date" 
                                         class="form-control"
                                         v-model="element._vencimiento_soat"
@@ -170,7 +170,7 @@
                                 <!-- VENCIMIENTO RTM  -->
 
                                 <div v-bind:class="['form-group','col-md-3',errors.first('vencimiento_rtm'+index) ? 'has-error' :'']">
-                                    <label for="">Vencimiento RTM</label>
+                                    <label for="">Vencimiento RTM *</label>
                                     <input type="date" 
                                         class="form-control"
                                         v-model="element._vencimiento_rtm"
@@ -199,9 +199,10 @@
                     <div class="row">
                         <div class="col-md-12" style="margin-top:20px;">
                             <center>
-                                <button type="submit" class="btn btn-primary">Continuar</button>
+                                <button class="btn btn-default" @click="save()" v-if="$store.state.data.status=='edit'" >Save</button>
+                                <button type="submit" class="btn btn-primary" @click="continuar">Continuar</button>
                             </center>
-                        </div>
+                        </div>  
                     </div>
                 </div>
                 
@@ -230,14 +231,6 @@
             }
         },
         methods: {
-            async onSubmit() {
-                
-                if (!await this.validate()) return false;
-
-                await this.$store.commit('setElements',this.elements);
-                this.continuar()
-
-            },
             cargarProducto() {
                 // let product = this.productos.filter( item => item.id == this.producto.id)
                 this.elements = getProductos(this.producto)
@@ -275,9 +268,13 @@
                 this.elements[index]._vencimiento_soat  = ''
                 this.elements[index]._vencimiento_rtm   = ''
             },
-            continuar() {
-                
+            async continuar() {
+                if (!await this.validate()) return false;
+                await this.$store.commit('setElements',this.elements);
                 $('.nav-tabs a[href="#solicitud"]').tab('show');
+            },
+            save() {
+
             },
             async validate() {
 

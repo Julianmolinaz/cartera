@@ -74,49 +74,49 @@ class PrecreditoController extends Controller
     public function store(Request $request)
     {
 
-      return res(true,$request->solicitud, 'Se creó las solicitud exitosamente !!!');
+        \Log::info($request->all());
 
-      $rq = $request->all();
+        return res( true, $request->solicitud, 'Se creó las solicitud exitosamente !!!');
+    
+        $rq = $request->all();
 
-      $validator = $this->validateSolicitudCreateTr($rq);
+        $validator = $this->validateSolicitudCreateTr($rq);
 
-      if ( $validator->fails() ) {
-        return res(false,$validator->errors(),'Error en la validación');
-      }
+        if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
 
-      DB::beginTransaction();
+        DB::beginTransaction();
 
-      try {
-          
-        if ($this->procesosPendientes($rq)) {
-          
-          return response()>json([
-            'error'   => true,
-            'message' => '@ No se puede crear la solicitud, ya existen solicitudes en trámite!'
-          ]);
+        try {
+            
+            if ($this->procesosPendientes($rq)) {
+            
+                return response()>json([
+                    'error'   => true,
+                    'message' => '@ No se puede crear la solicitud, ya existen solicitudes en trámite!'
+                ]);
 
+            }
+
+            $solicitud = $this->saveSolicitudCreateTr($rq); // SolicitudCreateTrait.php
+            
+            $this->saveProductosCreateTr($rq['productos'], $solicitud); // SolicitudCreateTrait.php
+    
+            \DB::commit();
+
+            return response()->json([
+            'error'   => false,
+            'message' => 'La solicitud con Id: '.$solicitud->id.' del cliente '.$solicitud->cliente->nombre.' se creo con éxito!',
+            'dat'     => $solicitud
+            ]);
+
+        } catch(\Exception $e){
+            DB::rollback();
+            return response()->json([
+                'error'   => true,
+                'message' => 'Ocurrió un error, intentelo nuevamente.',
+                'dat'     => $e->getMessage()
+            ]);
         }
-
-        $solicitud = $this->saveSolicitudCreateTr($rq); // SolicitudCreateTrait.php
-        
-        $this->saveProductosCreateTr($rq['productos'], $solicitud); // SolicitudCreateTrait.php
-  
-        \DB::commit();
-
-        return response()->json([
-          'error'   => false,
-          'message' => 'La solicitud con Id: '.$solicitud->id.' del cliente '.$solicitud->cliente->nombre.' se creo con éxito!',
-          'dat'     => $solicitud
-        ]);
-
-      } catch(\Exception $e){
-          DB::rollback();
-          return response()->json([
-            'error'   => true,
-            'message' => 'Ocurrió un error, intentelo nuevamente.',
-            'dat'     => $e->getMessage()
-          ]);
-      }
 
     }
 

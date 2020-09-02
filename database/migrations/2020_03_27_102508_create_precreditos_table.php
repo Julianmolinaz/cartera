@@ -15,7 +15,7 @@ class CreatePrecreditosTable extends Migration {
 		Schema::create('precreditos', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('num_fact')->unique();
+			$table->string('num_fact')->unique()->nullable();
 			$table->string('fecha');
 			$table->integer('cartera_id')->unsigned()->index('precreditos_cartera_id_foreign');
 			$table->integer('funcionario_id')->unsigned()->index('precreditos_funcionario_id_foreign');

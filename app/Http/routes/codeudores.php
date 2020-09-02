@@ -22,8 +22,14 @@ Route::post('start/codeudores',[
 
 // Editar
 
+Route::put('start/codeudores/updateV2/{cliente_id}',[
+	// 'middleware' => ['permission:editar_codeudor'],
+	'uses' => 'CodeudorController@updateV2',
+	'as' => 'start.codeudores.updateV2'
+]);
+
 Route::get('start/codeudores/{cliente_id}/edit',[
-	'middleware' => ['permission:editar_codeudor'],
+	// 'middleware' => ['permission:editar_codeudor'],
 	'uses' => 'CodeudorController@edit',
 	'as' => 'start.codeudores.edit'
 ]);

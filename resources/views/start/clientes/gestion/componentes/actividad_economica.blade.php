@@ -83,7 +83,7 @@
                     <label>Nit/Cédula @{{rules.doc_empresa.required}}</label>
                     <input type="text" 
                         class="text form-control"
-                        name="identificacion empreasa"
+                        name="identificacion empresa"
                         v-model="economia.doc_empresa"
                         v-validate="rules.doc_empresa.rule">
                     <span class="help-block">@{{ errors.first(rules.doc_empresa.name) }}</span>
@@ -233,18 +233,13 @@
 
                 if (res.data.success) {
 
-                    if (res.data.message == '') {
-                        this.arr_messages = res.data.dat
-                        this.danger_message = true
-                    } 
-                    else {
-                        if (action == 'continuar') { 
-                            this.$store.commit('setClienteId',res.data.dat)
-                            this.continuar()
-                        } else { 
-                            document.location.href= "/start/clientes/"+res.data.dat
-                        }
+                    if (action == 'continuar') { 
+                        await this.$store.commit('setClienteId',res.data.dat.cliente_id)
+                        await this.continuar()
+                    } else {     
+                        document.location.href= "/start/clientes/"+res.data.dat.ref_cliente
                     }
+
                 } else {
                     this.message = res.data.message
                 }

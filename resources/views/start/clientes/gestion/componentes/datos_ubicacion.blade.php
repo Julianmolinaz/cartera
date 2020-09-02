@@ -2,7 +2,7 @@
     <div>
        
        <div class="row">
-            <form @submit.prevent="onSubmit">
+            <form @submit.prevent="">
                 <div class="col-md-12">
 
                     <!-- Direccion  -->
@@ -203,9 +203,9 @@
 
                 <div class="col-md-12" style="margin-top:20px;">
                     <center>
-                        <button class="btn btn-default" v-if="estado == 'edicion'">Salvar</button>
+                        <button class="btn btn-default" v-if="estado == 'edicion'" @click="save()">Salvar</button>
                         <a class="btn btn-default" v-if="estado == 'creacion'" @click="volver">Volver</a>
-                        <button class="btn btn-primary">Continuar</button>
+                        <button class="btn btn-primary" @click="continuar">Continuar</button>
                     </center>
                 </div>
             </form>        
@@ -258,29 +258,39 @@
                 this.ubicacion.municipio_id = municipio.id
                 this.$refs.mun.value        = municipio.nombre
             },
-            volver () {
-                $('.nav-tabs a[href="#personales"]').tab('show') 
+            async volver () {
+                
+                if (this.show_mun) {
+                    this.$refs.mun.value = '';
+                    this.show_mun = false;
+                }
+
+                await this.$store.commit('setUbicacion',this.ubicacion)
+
+                $('.nav-tabs a[href="#personales"]').tab('show');
+
             },
-            continuar () {
-                $('.nav-tabs a[href="#actividad"]').tab('show') 
-                console.log('continuar')
-            },
-            async onSubmit () {
+            async continuar () {
 
                 if (this.show_mun) {
-                    this.$refs.mun.value = ''
-                    this.show_mun = false
+                    this.$refs.mun.value = '';
+                    this.show_mun = false;
                 }
+
+                await this.$store.commit('setUbicacion',this.ubicacion)
+                $('.nav-tabs a[href="#actividad"]').tab('show') 
+            },
+            async save () {
 
                 let valid = await this.$validator.validate()
 
-                if ((this.estado == 'creacion' || this.estado == 'edicion') && valid) {
-                    this.$store.commit('setUbicacion',this.ubicacion)
-                    this.continuar();
-                } 
-                else {
-                    alert('Por favor complete la informacion requerida')
+                if (!valid) {
+                    alert('Por favor complete la informacion requerida');
+                    return false;
                 }
+                
+                await this.$store.commit('setUbicacion',this.ubicacion)
+                await this.$store.dispatch('update');
             },//onSubmit
             setMunicipio2() {
                 if (this.estado == 'edicion') {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Traits\ClientesClass;
+use App\Traits\CastCodeudorTrait;
 use App\Traits\CodeudorTrait;
 use App\Http\Requests;
 use App\Precredito;
@@ -22,6 +23,9 @@ class CodeudorController extends Controller
 {
     use ClientesClass;
     use CodeudorTrait;
+    use CastCodeudorTrait;
+
+    public $codeudor;
 
     public function __construct()
     {
@@ -79,7 +83,8 @@ class CodeudorController extends Controller
 
         try{
             $codeudor = new Codeudor();
-            $codeudor->fill($rq);    
+            $codeudor->fill($rq);   
+            $codeudor->version = 2; 
             $codeudor->created_at = Auth::user() ? Auth::user()->id : 1;     
             $codeudor->save();
 
@@ -87,11 +92,16 @@ class CodeudorController extends Controller
 
             DB::commit();
 
-            return res(false, $codeudor->id , 'Codeudor creado exitosamente !!!');
+            $data = [ 
+                'ref_cliente' => $codeudor->client->id,
+                'cliente_id'  => $codeudor->id
+            ];
+
+            return res(true,$data,'Codeudor creado exitosamente !!!');
         }
         catch(\Exception $e){
             DB::rollback();
-            return  res(true, '', $e->getMessage());
+            return  res(false, '', $e->getMessage());
         }
     }
 
@@ -114,21 +124,40 @@ class CodeudorController extends Controller
      */
     public function edit($id)
     {
-        $municipios         = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
-        $tipo_actividadesc  = getEnumValues('codeudores','tipo_actividadc');
-        $cliente            = Cliente::find($id);
-        $tipos_documentoc   = getEnumValues('codeudores','tipo_docc');
-        $cliente->codeudor->fecha_nacimientoc = inv_fech2($cliente->codeudor->fecha_nacimientoc);
+        $cliente = Cliente::find($id);
+        $municipios = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
 
-        if($cliente->codeudor->soat){
-            $cliente->codeudor->soat->vencimiento = inv_fech2($cliente->codeudor->soat->vencimiento); 
+        if ($cliente->codeudor->version == 1) {
+
+            $tipo_actividadesc  = getEnumValues('codeudores','tipo_actividadc');
+            $tipos_documentoc   = getEnumValues('codeudores','tipo_docc');
+            $cliente->codeudor->fecha_nacimientoc = inv_fech2($cliente->codeudor->fecha_nacimientoc);
+    
+            if($cliente->codeudor->soat){
+                $cliente->codeudor->soat->vencimiento = inv_fech2($cliente->codeudor->soat->vencimiento); 
+            }
+    
+            return view('start.codeudores.edit')
+                ->with('cliente',$cliente)
+                ->with('municipios',$municipios)
+                ->with('tipo_actividadesc',$tipo_actividadesc)
+                ->with('tipos_documentoc',$tipos_documentoc);
+
+        } else if ($cliente->codeudor->version == 2) {
+
+            $this->codeudor = $cliente->codeudor;
+            
+            return view('start.clientes.create')
+                ->with('cliente_id', $cliente->id)
+                ->with('tipo','codeudor')
+                ->with('cliente',$this->cast_codeudor())
+                ->with('municipios',$municipios)
+                ->with('data',$this->getData())
+                ->with('estado','edicion');
+
         }
 
-        return view('start.codeudores.edit')
-            ->with('cliente',$cliente)
-            ->with('municipios',$municipios)
-            ->with('tipo_actividadesc',$tipo_actividadesc)
-            ->with('tipos_documentoc',$tipos_documentoc);
+
     }
 
     /**
@@ -141,8 +170,6 @@ class CodeudorController extends Controller
     public function update(Request $request, $id)
     {
         // REGLAS DE VALIDACION 
-        //dd($request->all());
-
         $rules_codeudor    = $this->rules_codeudor('editar');
         $message_codeudor  = $this->messages_codeudor('editar');
 
@@ -180,6 +207,40 @@ class CodeudorController extends Controller
             DB::rollback();
             flash()->error('Error '.$e->getMessage());
             return redirect()->route('start.codeudores.edit', $request->cliente_id);                    
+        }
+    }
+
+
+    public function updateV2(Request $request, $cliente_id)
+    {        
+        $rq = [];
+
+        if ( is_array($request->info_personal  ) ) { $rq = array_merge($rq, $request->info_personal);  } 
+        if ( is_array($request->info_ubicacion ) ) { $rq = array_merge($rq, $request->info_ubicacion); } 
+        if ( is_array($request->info_economica ) ) { $rq = array_merge($rq, $request->info_economica); }   
+        
+
+        $validator = Validator::make( $rq, $this->rulesCodeudorTr(), $this->messagesCodeudorTr());
+
+        if ($validator->fails()) return res('true',$validator->errors(),'Error en la validación.');
+
+        DB::beginTransaction();
+
+        try{
+            $codeudor = Codeudor::find($request->id);
+            $codeudor->fill($rq);   
+            $codeudor->updated_at = Auth::user() ? Auth::user()->id : 1;     
+            $codeudor->save();
+
+            \DB::table('clientes')->where('id',$cliente_id)->update([ 'codeudor_id' => $codeudor->id ]);
+
+            DB::commit();
+
+            return res(true,$codeudor->client->id,'Codeudor creado exitosamente !!!');
+        }
+        catch(\Exception $e){
+            DB::rollback();
+            return  res(false, '', $e->getMessage());
         }
     }
 

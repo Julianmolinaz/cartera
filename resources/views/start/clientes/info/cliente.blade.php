@@ -60,6 +60,15 @@
     <tr>
       <th scope="row">
         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+        Dirección
+      </th>
+      <td> {{ $cliente->direccion}}</td>
+    </tr>
+
+
+    <tr>
+      <th scope="row">
+        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
         Email
       </th>
       <td> {{ $cliente->email}}</td>
