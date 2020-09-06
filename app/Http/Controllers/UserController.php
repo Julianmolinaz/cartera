@@ -62,6 +62,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {        
+
         $rules_user = array(
             'name'      => 'required',
             'rol_id'       => 'required',
@@ -128,7 +129,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = getEnumValues('users', 'rol');
+        $roles = \DB::table('roles')->orderBy('display_name')->get();
         $puntos = Punto::where('id','>',0)
                     ->where('estado','Activo')
                     ->orderBy('nombre')
@@ -154,25 +155,26 @@ class UserController extends Controller
         $rules_user = array(
             'name'      => 'required',
             'estado'    =>'required',
-            'rol'       => 'required',
+            'rol_id'       => 'required',
             'email'     => 'required|email|unique:users,email,'.$id,
             'password'  => 'required',
-            );
+        );
+
         $rules_message = array(
             'name.required'     => 'El Nombre es requerido',
-            'rol.required'      => 'El Rol es requerido',
+            'rol_id.required'      => 'El Rol es requerido',
             'email.required'    => 'El Email es requerido',
             'email.email'       => 'El Email no tiene el formato esperado',
             'email.unique'      => 'El Email ya existe',
             'password.required' => 'La Contraseña es requerida',
-            );
+        );
 
         $this->validate($request,$rules_user,$rules_message); 
 
         $user = User::find($id);
         $user->name     = strtoupper($request->input('name'));
         $user->estado   = $request->input('estado');
-        $user->rol      = $request->input('rol');
+        $user->rol_id      = $request->input('rol_id');
         $user->email    = $request->input('email');
         $user->punto_id = $request->input('punto_id');
         $user->banco_id = $request->input('banco_id');

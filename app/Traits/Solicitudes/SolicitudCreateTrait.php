@@ -36,12 +36,11 @@ trait SolicitudCreateTrait
     
     }
 
-    public function procesosPendientes($request)
+    public function procesosPendientes($cliente_id)
     {
         $cantidad_precreditos = \DB::table('precreditos')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
-            ->where([['clientes.id','=',$request['cliente_id']],
-                     ['precreditos.aprobado','=','En estudio']])
+            ->where([['clientes.id','=',$cliente_id],['precreditos.aprobado','=','En estudio']])
             ->count();
 
         return ($cantidad_precreditos > 0) ? true : false;  
@@ -50,8 +49,8 @@ trait SolicitudCreateTrait
     public function saveSolicitudCreateTr($request)
     {
         $solicitud = new \App\Precredito($request);
-        $solicitud->user_create_id = \Auth::user()->id;
-        $solicitud->funcionario_id = \Auth::user()->id;
+        $solicitud->user_create_id = \Auth::user() ? \Auth::user()->id : 1;
+        $solicitud->version = 2;
         $solicitud->save();
 
         return $solicitud;

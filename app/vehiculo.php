@@ -4,9 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class vehiculo extends Model
+class Vehiculo extends Model
 {
+    public $timestamps = false;
+
     protected $fillable= [
-        'tipo','placa','vencimiento_soat','vencimiento_rtm','observaciones',
+        'tipo_vehiculo_id','placa','vencimiento_soat','vencimiento_rtm','observaciones',
     ];
+
+    public function tipo() {
+        return $this->hasOne('App\TipoVehiculo','id','tipo_vehiculo_id');
+    }
+
+    public function setPlacaAttribute($value) {
+        $this->attributes['placa'] = strtoupper($value);
+    }
 }

@@ -9,27 +9,36 @@ class RefProducto extends Model
     protected $table = "ref_productos";
 
     protected $fillable = [
+
         'nombre',
         'estado',
         'fecha_exp',
-        'precredito_id',
         'costo',
         'iva',
         'num_fact',
-        'proveedor_id',
-        'producto_id',
         'extra',
         'observaciones',
+  
+        // Referenciass
+
+        'vehiculo_id',
+        'producto_id',       
+        'proveedor_id', // ver terceros
+        'precredito_id',
         'created_by',
-        'updated_by'
+        'updated_by',    
     ];
+
+    public function vehiculo() {
+        return $this->hasOne('App\Vehiculo','id','vehiculo_id');
+    }
 
     public function solicitud() {
         return $this->hasOne('App\Precredito','id','precredito_id');
     }
 
     public function proveedor() {
-        return $this->hasOne('App\Proveedor','id','proveedor_id');
+        return $this->hasOne('App\Tercero','id','tercero_id');
     }
 
     public function producto() {

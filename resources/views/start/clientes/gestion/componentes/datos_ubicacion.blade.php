@@ -203,9 +203,15 @@
 
                 <div class="col-md-12" style="margin-top:20px;">
                     <center>
-                        <button class="btn btn-default" v-if="estado == 'edicion'" @click="save()">Salvar</button>
-                        <a class="btn btn-default" v-if="estado == 'creacion'" @click="volver">Volver</a>
-                        <button class="btn btn-primary" @click="continuar">Continuar</button>
+                        <a class="btn btn-default" v-if="estado == 'creacion'" @click="volver">
+                            <i class="fa fa-backward" aria-hidden="true"></i>
+                            Volver</a>
+                        <button class="btn btn-primary" v-if="estado == 'edicion'" @click="save()">
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                            Salvar</button>
+                        <button class="btn btn-default" @click="continuar">
+                            <i class="fa fa-forward" aria-hidden="true"></i>
+                            Continuar</button>
                     </center>
                 </div>
             </form>        
@@ -260,25 +266,18 @@
             },
             async volver () {
                 
-                if (this.show_mun) {
-                    this.$refs.mun.value = '';
-                    this.show_mun = false;
-                }
-
-                await this.$store.commit('setUbicacion',this.ubicacion)
-
+                await this.valid_municipio();
+                await this.$store.commit('setUbicacion',this.ubicacion);
                 $('.nav-tabs a[href="#personales"]').tab('show');
-
             },
             async continuar () {
 
-                if (this.show_mun) {
-                    this.$refs.mun.value = '';
-                    this.show_mun = false;
-                }
+                await this.$store.commit('setUbicacion',this.ubicacion);
 
-                await this.$store.commit('setUbicacion',this.ubicacion)
-                $('.nav-tabs a[href="#actividad"]').tab('show') 
+                await this.valid_municipio();
+
+                if (await this.validation()) $('.nav-tabs a[href="#actividad"]').tab('show');
+                
             },
             async save () {
 
@@ -300,6 +299,24 @@
 
                     this.$refs.mun.value = municipio[0].nombre
                 }
+            },
+            valid_municipio() {
+                if (this.show_mun) {
+                    this.$refs.mun.value = '';
+                    this.show_mun = false;
+                }
+            },
+            async validation() {
+
+                let valid = await this.$validator.validate()
+
+                if (!valid) {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Corrija los campos marcados en rojo (Ubicación)', 'error', 5, await function(){  console.log(''); });
+
+                    return false;
+                } 
+                return true;
             }
         },
         mounted(){

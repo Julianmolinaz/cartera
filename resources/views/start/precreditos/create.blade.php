@@ -2,12 +2,12 @@
 
 @section('contenido')
 
-<div class="col-md-12" id="principal">
+<div class="col-md-10 col-md-offset-1" id="principal">
 
     <div class="panel panel-default" style="pading:5px;" id="myabs">
         <h1 style="margin: 12px 0px 15px 10px">
             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-            Solicitud
+            Solicitud <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.data.status"></span>
         </h1>
 
         <div role ="tabpanel">
@@ -15,17 +15,17 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentacion" class="active">
                     <a href="#producto" aria-controls="producto" data-toggle="tab" role="tab">
-                    Producto
+                    <i class="fa fa-cube" aria-hidden="true" style="margin-right:5px;"></i> Producto
                     </a>
                 </li>
                 <li role="presentacion">
                     <a href="#solicitud" aria-controls="solicitud" data-toggle="tab" role="tab">
-                    Solicitud
+                    <i class="fa fa-plug" aria-hidden="true" style="margin-right:5px;"></i>Solicitud
                     </a>
                 </li>
                 <li role="presentacion">
                     <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab">
-                    Credito
+                    <i class="fa fa-rss-square" aria-hidden="true" style="margin-right:5px;"></i>Crédito
                     </a>
                 </li>
             </ul>
@@ -38,9 +38,6 @@
                 <div role="tabpanel" class="tab-pane" id="solicitud">
                     <solicitud-component />
                 </div>
-                <!-- <div role="tabpanel" class="tab-pane " id="vehiculo">
-                    <vehiculo-component />
-                </div> -->
                 <div role="tabpanel" class="tab-pane" id="credito">
                     <credito-component />
                 </div>
@@ -59,7 +56,6 @@
 
 @include('start.precreditos.componentes.producto')
 @include('start.precreditos.componentes.solicitud')
-
 @include('start.precreditos.componentes.credito')
 @include('start.precreditos.componentes.store') 
 
@@ -71,9 +67,8 @@
     const principal =new Vue({
         el: '#principal',
         store,
-        created(){
-            
-        }
+        methods: {},
+        created(){}
     });
 
 </script>

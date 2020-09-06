@@ -477,7 +477,7 @@ class TarifasTableSeeder extends Seeder
             array (
                 'id' => 39,
                 'producto_id' => '3',
-                'tipo_vehiculo_id' => '1',               
+                'tipo_vehiculo_id' => '2',               
                 'concepto' => '',
                 'valor' => '319050',
                 'estado' => '',

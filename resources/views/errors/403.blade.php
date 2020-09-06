@@ -43,5 +43,17 @@
                 <div class="title">ERRoR.</div>
             </div>
         </div>
+
+        <script>
+            setTimeout(() => {
+                if ({!! json_encode(session()->get('waypts'),JSON_FORCE_OBJECT) !!}) {
+                    location.href = "/"; 
+                } else {
+                    window.history.back();
+                }
+            }, 1000);
+        
+        </script>
+
     </body>
 </html>

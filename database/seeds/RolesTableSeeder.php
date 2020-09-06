@@ -23,7 +23,7 @@ class RolesTableSeeder extends Seeder
 
         \DB::table('roles')->insert([
             'id' => '2',
-            'name' => 'admin',
+            'name' => 'administrador',
             'display_name' => 'Administrador',
             'description' => 'Rol de administrador empresarial para labores de gestion'
         ]);

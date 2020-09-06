@@ -12,25 +12,26 @@ class Precredito extends Model implements Auditable
     protected $table = 'precreditos';
 
     protected $fillable = [
-        'num_fact' , 
-        'fecha' , 
-        'cartera_id' , 
-        'funcionario_id' , 
-        'cliente_id' , 
-        'producto_id' , 
-        'vlr_fin' , 
-        'periodo' , 
-        'meses' , 
-        'cuotas' , 
-        'vlr_cuota' , 
-        'p_fecha' , 
-        's_fecha' ,  
-        'estudio' , 
-        'cuota_inicial' , 
-        'aprobado' , 
-        'observaciones' , 
-        'user_create_id' , 
-        'user_update_id',
+        'num_fact' ,            // old
+        'fecha' ,               // old
+        'cartera_id' ,          // old
+        'funcionario_id' ,      // old
+        'cliente_id' ,          // old
+        'producto_id' ,         // old
+        'vlr_fin' ,             // old
+        'periodo' ,             // old
+        'meses' ,               // old
+        'cuotas' ,              // old
+        'vlr_cuota' ,           // old
+        'p_fecha' ,             // old
+        's_fecha' ,             // old
+        'estudio' ,             // old
+        'cuota_inicial' ,       // old
+        'aprobado' ,            // old
+        'observaciones' ,       // old
+        'user_create_id' ,      // old
+        'user_update_id',       // old
+        'version'
     ];
 
     public function user(){

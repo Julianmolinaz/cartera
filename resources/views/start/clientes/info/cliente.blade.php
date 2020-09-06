@@ -59,7 +59,7 @@
 
     <tr>
       <th scope="row">
-        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+        <i class="fa fa-location-arrow" aria-hidden="true"></i>
         Dirección
       </th>
       <td> {{ $cliente->direccion}}</td>

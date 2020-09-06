@@ -17,7 +17,9 @@ class CreateUsersTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->enum('estado', ['Activo','Inactivo'])->default('Activo');
-			$table->enum('rol', ['Administrador','Asesor','Asesor VIP','Cartera','Recaudador','Call']);
+            $table->enum('rol', ['Administrador','Asesor','Asesor VIP','Cartera','Recaudador','Call']);
+            $table->integer('rol_id')->unsigned()->nullable();
+            // $table->foreign('roles')->references('id')->on('roles')->nullable();
 			$table->string('email')->unique();
 			$table->string('password');
 			$table->integer('punto_id')->unsigned();

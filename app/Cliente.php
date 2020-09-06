@@ -117,6 +117,11 @@ class Cliente extends Model implements Auditable
         $this->attributes['direccion'] = trim(strtoupper($value));
     }
 
+        public function setBarrioAttribute($value){
+        $this->attributes['barrio'] = trim(strtoupper($value));
+    }
+
+
     // public function setOcupacionAttribute($value){
     //     $this->attributes['ocupacion'] = strtoupper($value);
     // }

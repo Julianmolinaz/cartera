@@ -55,8 +55,8 @@ class InfoEconomica {
     this.dir_empresa = "";
     this.doc_empresa = ""; //*
     this.cargo = ""; //*
-    this.tipo_contrato = ""; //*
     this.fecha_vinculacion = ""; //*
+    this.tipo_contrato = ""; //*
     this.descripcion_actividad = ""; //*
   }
 

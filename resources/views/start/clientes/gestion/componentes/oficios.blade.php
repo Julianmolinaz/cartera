@@ -12,15 +12,18 @@
                
             </div>
             <div class="modal-body">
-                
-                <div class="form-group">
-                    <label>Nombre del nuevo oficio</label>            
-                    <input type="text" class="form-control" v-model="oficio.nombre">
-                </div>
-                <button type="button" class="btn btn-default float-left" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary float-left" @click="onSubmit">
-                    Salvar
-                </button>
+                @permission('crear_editar_oficios')
+                    <div class="form-group">
+                        <label>Nombre del nuevo oficio</label>            
+                        <input type="text" class="form-control" v-model="oficio.nombre">
+                    </div>
+                    <button type="button" class="btn btn-default float-left" data-dismiss="modal">Cerrar</button>
+                    
+                    
+                    <button type="button" class="btn btn-primary float-left" @click="onSubmit">
+                        Salvar
+                    </button>
+                @endpermission
                 
                 <button type="button" class="btn btn-link" v-if="estado=='editar'"
                     @click="reset">De click para crear un oficio</button>
@@ -41,12 +44,16 @@
                                     @{{item.nombre}}
                                 </td>
                                 <td>
-                                    <a href="#" @click="editar(item)" class="btn btn-xs btn-primary">
-                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" @click="destroy(item)" class="btn btn-xs btn-danger">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
+                                    @permission('crear_editar_oficios')
+                                        <a href="#" @click="editar(item)" class="btn btn-xs btn-primary">
+                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                        </a>
+                                    @endpermission
+                                    @permission('eliminar_oficios')
+                                        <a href="#" @click="destroy(item)" class="btn btn-xs btn-danger">
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                        </a>
+                                    @endpermission
                                 </td>
                             </tr>
                         </tbody>
@@ -90,20 +97,16 @@
 
                 axios.get('/start/oficios')
                     .then( res => {
-                        console.log({res})
                         self.$store.commit('setOficios',res.data.dat)
                     })
             },
             onSubmit() {
 
-                console.log('Evento on submit');
-
                 if (!this.oficio.nombre) {
-                    alert('Se requiere el nombre del oficio');
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Se requiere el nombre del oficio', 'error', 5, function(){  console.log(''); });
                     return false
                 }
-
-                console.log('Estado:', this.estado);
 
                 if (this.estado == 'crear') { this.store() }
                 else { this.update() }
@@ -115,11 +118,15 @@
 
                 axios.post('/start/oficios',{ nombre: this.oficio.nombre })
                 .then( res => {
-                    alert(res.data.message)
-
+                    alertify.set('notifier','position', 'top-right');
                     if (!res.data.error) {
+
+                        alertify.notify(res.data.message, 'success', 5, function(){  console.log(''); });
+
                         self.getOficios()
                         self.reset()
+                    } else {
+                        alertify.notify(res.data.message, 'error', 5, function(){  console.log(''); });
                     }
                 })
             },
@@ -132,11 +139,14 @@
                 var self = this
                 axios.post('/start/oficios/update',this.oficio)
                     .then( res => {
-                        alert(res.data.message)
-
+                        alertify.set('notifier','position', 'top-right');
+                        
                         if (!res.data.error) {
+                            alertify.notify(res.data.message, 'success', 5, function(){  console.log(''); });
                             self.getOficios()
                             self.reset()
+                        } else {
+                            alertify.notify(res.data.message, 'error', 5, function(){  console.log(''); });
                         }
                     } )
             },
@@ -144,22 +154,25 @@
 
                 var self = this
 
-                if (!confirm('Esta seguro de borrar el oficio')) {
-                    return false
-                }
+                alertify.confirm('Eliminar Oficio', 'Esta seguro de borrar el oficio', 
+                    function(){ 
+                        axios.get('/start/oficios/delete/'+oficio.id).then( res => {
+                            
+                            if (!res.data.error) {
+                                alertify.success(res.data.message) 
+                                self.getOficios()
+                                self.reset()
+                            } else {
+                                alertify.error(res.data.dat);
+                            }
 
-                axios.get('/start/oficios/delete/'+oficio.id)
-                    .then( res => {
-                        alert(res.data.message)
-
-                        if (!res.data.error) {
-                            self.getOficios()
-                            self.reset()
-                        } else {
-                            console.log(res.data.dat);
-                        }
-
-                    })
+                        })
+                        
+                        
+                    }
+                    , function(){ 
+                        alertify.error('Borrado Cancelado')
+                });                
             },
             reset() {
                 this.estado = 'crear'

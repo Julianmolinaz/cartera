@@ -51,7 +51,7 @@
 
         class Role {
             constructor() {
-                this.name        = '';
+                this.display_name        = '';
                 this.description = '';
             }
         }
@@ -81,18 +81,23 @@
                 },
                 async store() {
 
+                    alertify.set('notifier','position', 'top-right');
                     var self = this
                     const res = await axios.post('/admin/roles', {
                         categorias : this.categorias,
                         role       : this.role
                     })
 
-                    alert(res.data.message)
+                    console.log({res});
 
-                    if (res.data.success) {
+                    if (!res.data.error) {   
+                        alertify.notify(res.data.message, 'success', 5, function(){  console.log(''); });
+
                         this.reset()
                         this.getRoles()
                     } else {
+                        alertify.notify(res.data.message, 'error', 5, function(){  console.log(''); });
+
                         if (res.data.dat) {
                             this.errors = res.data.dat
                         }
@@ -106,12 +111,19 @@
                         role       : this.role
                     })
 
-                    alert(res.data.message)
+                    console.log({res});
 
-                    if (res.data.success) {
+                    if (!res.data.error) {
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.notify(res.data.message, 'success', 5, function(){  console.log(''); });
+
                         this.reset()
                         this.getRoles()
                     } else {
+
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.notify(res.data.message, 'error', 5, function(){  console.log(''); });
+
                         if (res.data.dat) {
                             this.errors = res.data.dat
                         }

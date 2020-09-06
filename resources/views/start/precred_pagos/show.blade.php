@@ -41,11 +41,12 @@
             <td> {{ number_format($factura->total,0,",",".") }}</td>
             <td> {{ $factura->user_create->name.' '.$factura->created_at }} </td>
             <td>
-
+            @permission('anular_pago_solicitud')
               <a href="#" class = 'btn btn-default btn-xs' title="anular factura" 
                 OnClick="Anular({{$factura->id}},'{{$factura->num_fact}}');" data-toggle="modal" data-target="#modal">
                 <span class = "glyphicon glyphicon-fire"  ></span>
               </a>
+            @endpermission  
               <a href="#" class='btn btn-default btn-xs' @click="print('{{$factura->id}}')">
 		                	<span class = "glyphicon glyphicon-print" title="Imprimir"></span>
 		                </a>

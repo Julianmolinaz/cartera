@@ -15,104 +15,82 @@ class TipoVehiculosTableSeeder extends Seeder
         
         \DB::table('tipo_vehiculos')->insert(array (
 
-            0 => 
-            array (
-                'id' => 1,
-                'nombre' => 'Moto',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+        
+            // [
+            //     'id' => 1,
+            //     'nombre' => 'Moto',
+            //     'estado' => ''
+            // ],
 
-            1 => 
-            array (
+        
+            [
                 'id' => 2,
                 'nombre' => 'Moto',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
 
-            2 => 
-            array (
+        
+            [
                 'id' => 3,
                 'nombre' => 'Motocarro',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
 
-            3 => 
-            array (
+        
+            [
                 'id' => 4,
                 'nombre' => 'Camperos y Camionetas',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
 
-            4 => 
-            array (
+        
+            [
                 'id' => 5,
                 'nombre' => 'Carga o Mixto',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
 
-            5 => 
-            array (
+        
+            [
                 'id' => 6,
                 'nombre' => 'Oficiales Especiales',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
 
-            6 => 
-            array (
+        
+            [
                 'id' => 7,
                 'nombre' => 'Autos Familiares',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
             
-            7 => 
-            array (
+        
+            [
                 'id' => 8,
                 'nombre' => 'Vehiculos 6 o + pasajeros',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
 
-            8 => 
-            array (
+        
+            [
                 'id' => 9,
                 'nombre' => 'Autos Servicio Publico',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
 
-            9 => 
-            array (
+        
+            [
                 'id' => 10,
                 'nombre' => 'Bus Buseta Servicio Publico',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
 
-            10 => 
-            array (
+        
+            [
                 'id' => 11,
                 'nombre' => 'Servcio Publico Intermunicipal',
-                'estado' => '',
-                'created_at' => '2017-07-23 22:41:23',
-                'updated_at' => '2017-07-24 07:20:16',
-            ),
+                'estado' => ''
+            ],
         ));
     }
 }

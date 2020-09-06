@@ -26,7 +26,6 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-
         // CLIENTES
 
         \DB::table('permissions')->insert([
@@ -64,6 +63,28 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'eliminar_clientes',
             'display_name' => 'Eliminar clientes',
             'description' => 'Permite eliminar los clientes',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        // Oficios
+
+        \DB::table('permissions')->insert([
+            'category' => 'Oficios',
+            'name' => 'crear_editar_oficios',
+            'display_name' => 'Crear y editar oficios',
+            'description' => 'Permite crear y editar los oficios que se asignan a los clientes',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        \DB::table('permissions')->insert([
+            'category' => 'Oficios',
+            'name' => 'eliminar_oficios',
+            'display_name' => 'Eliminar oficios',
+            'description' => 'Permite eliminar un oficio',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -147,6 +168,26 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]); //*
 
+        //
+        \DB::table('permissions')->insert([
+            'category' => 'Pre/Juridicos',
+            'name' => 'ver_seguimiento_proceso_prejuridico',
+            'display_name' => 'Consultar el seguimeinto a un proceso pre/jurídico',
+            'description' => 'Permite consultar el seguimeinto a un proceso pre/jurídico',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]); //*
+
+         \DB::table('permissions')->insert([
+            'category' => 'Pre/Juridicos',
+            'name' => 'crear_seguimiento_proceso_prejuridico',
+            'display_name' => 'Crear el seguimeinto a un proceso pre/jurídico',
+            'description' => 'Permite crear el seguimeinto a un proceso pre/jurídico',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]); //*
 
 
         \DB::table('permissions')->insert([
@@ -233,12 +274,34 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
+        \DB::table('permissions')->insert([
+            'category' => 'Solicitudes',
+            'name' => 'aprobar_solicitudes',
+            'display_name' => 'Aprobar solicitudes',
+            'description' => 'Permite cambiar el estado de la solicitud a aprobado, negado, cliente  desistió, etc',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
 
         \DB::table('permissions')->insert([
             'category' => 'Solicitudes',
             'name' => 'valores_iniciales',
             'display_name' => 'Registrar pago a solicitud',
             'description' => 'Permite realizar los pagos a una solicitud de crédito como iniciales y estudios',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        // 
+
+        \DB::table('permissions')->insert([
+            'category' => 'Solicitudes',
+            'name' => 'anular_pago_solicitud',
+            'display_name' => 'Anular pago de Solicitud',
+            'description' => 'Permite anular el pago realizado a una Solicitud',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -891,16 +954,6 @@ class PermissionsTableSeeder extends Seeder
         \DB::table('permissions')->insert([
             'category' => 'Rol/Permisos',
             'name' => 'consultar_permisos',
-            'display_name' => 'Consultar roles y permisos',
-            'description' => 'Permite consultar los roles y permisos',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        \DB::table('permissions')->insert([
-            'category' => 'Rol/Permisos',
-            'name' => 'crear_permisos',
             'display_name' => 'Consultar roles y permisos',
             'description' => 'Permite consultar los roles y permisos',
             'created_by' => 1,
