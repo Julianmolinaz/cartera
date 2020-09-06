@@ -9,7 +9,7 @@
     
 <div class="form-group">
         <label for="">Rol</label>
-        <input type="text" class="form-control" v-model="role.name">
+        <input type="text" class="form-control" v-model="role.display_name">
     </div>
 
     <div class="form-group">

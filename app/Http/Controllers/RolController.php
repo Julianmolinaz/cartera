@@ -82,8 +82,8 @@ class RolController extends Controller
 
         try {
             $rol = new Role();
-            $rol->display_name = $request->role['name'];
-            $rol->name = str_replace(' ', '_', $request->role['name']);
+            $rol->display_name = $request->role['display_name'];
+            $rol->name = str_replace(' ', '_', $request->role['display_name']);
             $rol->description = $request->role['description']; 
             $rol->save();
 

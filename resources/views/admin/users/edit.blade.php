@@ -45,10 +45,10 @@
           <div class="form-group">             
           <div class="col-md-12 col-sm-12 col-xs-12">
             <label>Rol *:</label>
-            <select class="form-control" placeholder="rol de usuario" name="rol" id="rol" required>
+            <select class="form-control" placeholder="rol de usuario" name="rol_id" id="rol_id" required>
               <option value="" disabled selected hidden="rol">- -</option>
               @foreach($roles as $rol)
-              <option id="rol" name="rol" value="{{ $rol }}" {{ $user->rol == $rol ? "selected":"" }}>{{  $rol }}</option>
+              <option value="{{ $rol->id }}" {{ $user->rol_id == $rol->id ? "selected":"" }}>{{  $rol->display_name }}</option>
               @endforeach
             </select>
             </div>

@@ -15,17 +15,17 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentacion" class="active">
                     <a href="#producto" aria-controls="producto" data-toggle="tab" role="tab">
-                    Producto
+                    <i class="fa fa-cube" aria-hidden="true" style="margin-right:5px;"></i> Producto
                     </a>
                 </li>
                 <li role="presentacion">
                     <a href="#solicitud" aria-controls="solicitud" data-toggle="tab" role="tab">
-                    Solicitud
+                    <i class="fa fa-plug" aria-hidden="true" style="margin-right:5px;"></i>Solicitud
                     </a>
                 </li>
                 <li role="presentacion">
                     <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab">
-                    Credito
+                    <i class="fa fa-rss-square" aria-hidden="true" style="margin-right:5px;"></i>Crédito
                     </a>
                 </li>
             </ul>

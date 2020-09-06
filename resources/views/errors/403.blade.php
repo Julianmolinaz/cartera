@@ -46,8 +46,12 @@
 
         <script>
             setTimeout(() => {
-                location.href = "/"; 
-            }, 30000);
+                if ({!! json_encode(session()->get('waypts'),JSON_FORCE_OBJECT) !!}) {
+                    location.href = "/"; 
+                } else {
+                    window.history.back();
+                }
+            }, 1000);
         
         </script>
 

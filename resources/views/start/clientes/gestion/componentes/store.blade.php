@@ -2,6 +2,7 @@
 <script src="/js/vue/vuex.js"></script>
 
 <script>
+
      const store = new Vuex.Store({
         state: {
             estado          : {!! json_encode($estado) !!},
@@ -65,8 +66,6 @@
         actions: {
             async update ({state,getters}) {
 
-                console.log(state.cliente);
-
                 if ( state.cliente.tipo == 'cliente' ) {
                     route = '/start/clientes/updateV2';
                     res = await axios.post(route, state.cliente);
@@ -79,8 +78,6 @@
                     if (res.data.success) document.location.href= "/start/clientes/"+res.data.dat 
                     else alert(res.data.message);
                 }
-
-    
             }
         }
     })

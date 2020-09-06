@@ -6,6 +6,8 @@ trait SolicitudUpdateTrait
 {
     public function validateSolicitudUpdateTr($request)
     {
+        dd($request);
+
         $rules = [
             'num_fact'    => 'required|unique:precreditos,num_fact,'.$request['id'],
             'fecha'       => 'required',

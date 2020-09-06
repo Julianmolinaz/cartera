@@ -15,33 +15,41 @@
         },
         methods: {
             volver () {
-                $('.nav-tabs a[href="#producto"]').tab('show') 
-                
+                $('.nav-tabs a[href="#producto"]').tab('show');
             },
             continuar () {
                 $('.nav-tabs a[href="#credito"]').tab('show') 
             },
             async onSubmit() {
+
                 if ( ! await this.$validator.validate() ) {
                     alert('Por favor complete los campos');
                     return false;
                 }
+                
+                this.solicitud.ref_productos = this.$store.state.elements;
+                this.solicitud.producto_id = this.$store.state.producto_id;
+                this.$store.commit('setSolicitud', this.solicitud);
 
-                this.solicitud.producto_id = this.$store.state.producto.id;
-                this.solicitud.productos = this.$store.state.elements;
-
-                console.log(this.solicitud);
+                if (this.$store.state.data.status == 'create') {
+                    await this.save();
+                } else {
+                    await this.update();
+                }                
+            }, 
+            async save() {
                 
                 let res = await axios.post('/start/precreditos', this.solicitud)
 
-                console.log({res});
-
-                alert(res.data.message);
+                alertify.notify(res.data.message, 'success', 5);
 
                 if (!res.data.error) {
                     window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
                 }
-            },            
+            },
+            async update() {
+                await this.$store.dispatch('update');
+            },                       
             async validarForm() {
                 let valid = await this.$validator.validate();
                 return valid
@@ -61,7 +69,7 @@
                     }
                 }
             },
-            setup(){
+            async setup(){
 
                 if (this.solicitud.meses && this.solicitud.periodo) {
                     rock = (this.solicitud.periodo == 'Quincenal') ? 2 : 1;  
@@ -75,21 +83,22 @@
                     this.rango1 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
                 }
 
-                if (this.solicitud.p_fecha) this.setRango2()
+                if (this.solicitud.p_fecha) await this.setRango2()
             },
             setRango2(){
             
-                if (this.solicitud.periodo == 'Quincenal') {
-                    let n = this.solicitud.p_fecha;
-                    let arr = [];
-                
+                if (this.solicitud.periodo === 'Quincenal') {
+
+                    var n = parseInt(this.solicitud.p_fecha);
+                    var arr = [];
+
                     for (let i = 0; i < 3; i++) {
                         if (n+(15 + i) <= 30) arr.push(n + (15 + i));
                     }
 
                     this.rango2 = arr;
 
-                    alertify.notify('Escoja una segunda fecha', 'success', 5);
+                    // alertify.notify('Escoja una segunda fecha', 'success', 5);
                 } else {
                     this.rango2 = []
                 }

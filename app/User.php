@@ -20,8 +20,12 @@ class User extends Authenticatable  implements Auditable, UserResolver
      * @var array
      */
     protected $fillable = [
-        'name', 'estado' , 'rol' , 'email', 'password','punto_id', 'banco_id', 'num_cuenta'
+        'name', 'estado' , 'rol' , 'email', 'password','punto_id', 'banco_id', 'num_cuenta', 'rol_id'
     ];
+
+    public function role() {
+        return $this->hasOne('App\Role','id','rol_id');
+    }
 
     public function cliente_create(){
         return $this->hasOne('App\User');

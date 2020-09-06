@@ -19,14 +19,17 @@
         <br />
 
         <!--FORMULARIO ********** -->
-        <form class="form-horizontal form-label-left" action="{{route('start.precreditos.update',$precredito)}}" method="POST">
+        <form class="form-horizontal form-label-left" 
+              action="{{route('start.precreditos.update',$precredito)}}" 
+              method="POST">
 
           <input type="hidden" name="_method" value="PUT">
+          <input type="hidden" name="id" value="{{$precredito->id}}">
           <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <label for="">Aprobado *: </label>
               <select class="form-control" placeholder="primera fecha" name="aprobado" id="aprobado" 
-		{{ (Auth::user()->rol != 'Administrador') ? 'disabled' : ''}}>
+		        {{ ($user->can('aprobar_solicitudes')) ? '' : 'disabled'}}>
               <option value="" readonly selected hidden="aprobado">{{old('aprobado')}}</option>
               @foreach(['Si','No','En estudio','Desistio'] as $key => $tipo)
               <option id="aprobado" name="aprobado" value="{{ $tipo }}" {{ $precredito->aprobado == $tipo ? "selected":"" }}>{{  $tipo }}</option>

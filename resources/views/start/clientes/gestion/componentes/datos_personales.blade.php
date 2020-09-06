@@ -180,9 +180,13 @@
 
             <div class="col-md-12" style="margin-top:20px;">
                 <center>
-                    <button class="btn btn-default" v-if="estado == 'edicion'"
-                        @click="save">Salvar</button>
-                    <button class="btn btn-primary" @click="continuar">Continuar</button>
+                    <button class="btn btn-primary" v-if="estado == 'edicion'"
+                        @click="save">
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                        Salvar</button>
+                    <button class="btn btn-default" @click="continuar">
+                        <i class="fa fa-forward" aria-hidden="true"></i>
+                        Continuar</button>
                 </center>
             </div>
         
@@ -212,9 +216,11 @@
         methods: {
             async continuar () {
 
-                await this.$store.commit('setPersonal',this.personal)
-                let res = await this.validarDocumento();
-                if (res) $('.nav-tabs a[href="#ubicacion"]').tab('show');
+                await this.$store.commit('setPersonal',this.personal)// Guarda info personal en el store
+                let res = await this.validarDocumento(); // Validar que el documento del cliente no exista
+                let valid = await this.validation();
+                if (res && valid) $('.nav-tabs a[href="#ubicacion"]').tab('show'); // continuar a el siguiente tab
+
             },
             async validarDocumento() {
 
@@ -237,15 +243,23 @@
 
             },
             async save() {
-                let valid = await this.$validator.validate()
 
-                if (!valid) {
-                    alert('Por favor complete la informacion requerida');
-                    return false;
-                }
+                // if (!this.validation) return false;
 
                 await this.$store.commit('setPersonal',this.personal)
                 var res = this.$store.dispatch('update');
+            },
+            async validation() {
+
+                let valid = await this.$validator.validate()
+
+                if (!valid) {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Corrija los campos marcados en rojo (Datos personales)', 'error', 5, function(){  console.log(''); });
+
+                    return false;
+                } 
+                return true;
             }
         }
     });

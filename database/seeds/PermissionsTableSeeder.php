@@ -26,7 +26,6 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-
         // CLIENTES
 
         \DB::table('permissions')->insert([
@@ -64,6 +63,28 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'eliminar_clientes',
             'display_name' => 'Eliminar clientes',
             'description' => 'Permite eliminar los clientes',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        // Oficios
+
+        \DB::table('permissions')->insert([
+            'category' => 'Oficios',
+            'name' => 'crear_editar_oficios',
+            'display_name' => 'Crear y editar oficios',
+            'description' => 'Permite crear y editar los oficios que se asignan a los clientes',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        \DB::table('permissions')->insert([
+            'category' => 'Oficios',
+            'name' => 'eliminar_oficios',
+            'display_name' => 'Eliminar oficios',
+            'description' => 'Permite eliminar un oficio',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -228,6 +249,16 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'editar_solicitudes',
             'display_name' => 'Editar solicitud',
             'description' => 'Permite editar la solicitud',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        \DB::table('permissions')->insert([
+            'category' => 'Solicitudes',
+            'name' => 'aprobar_solicitudes',
+            'display_name' => 'Aprobar solicitudes',
+            'description' => 'Permite cambiar el estado de la solicitud a aprobado, negado, cliente  desistió, etc',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

@@ -75,6 +75,9 @@ class PrecreditoController extends Controller
 
     public function store(Request $request)
     {        
+
+        \Log::info($request->all());
+
         $validator = $this->validateSolicitudCreateTr($request->all());
 
         if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
@@ -85,7 +88,7 @@ class PrecreditoController extends Controller
             
             if ($this->procesosPendientes($request->cliente_id)) {
             
-                return response()>json([
+                return response()->json([
                     'error'   => true,
                     'message' => '@ No se puede crear la solicitud, ya existen solicitudes en trámite!'
                 ]);
@@ -93,10 +96,8 @@ class PrecreditoController extends Controller
 
             $solicitud = $this->saveSolicitudCreateTr($request->all()); // SolicitudCreateTrait.php
             
-            if ($request->productos) {
-                foreach ($request->productos as $producto) {
-
-                    $producto = $producto;
+            if ($request->ref_productos) {
+                foreach ($request->ref_productos as $producto) {
 
                     $vehiculo = new _\Vehiculo();
                     $vehiculo->placa = $producto['_placa'];
@@ -141,7 +142,8 @@ class PrecreditoController extends Controller
     {
         $precredito = Precredito::find($precredito_id);
         $precredito->fecha = inv_fech2($precredito->fecha);
-        $proveedores       = \App\MyService\Proveedor::getProveedores();
+        $proveedores = _\MyService\Proveedor::getProveedores();
+        $users = _\User::where('estado','activo')->orderBy('name')->get();
         
         $ref_productos = (isset($precredito->ref_productos)) ? $precredito->ref_productos: '';
         
@@ -150,9 +152,8 @@ class PrecreditoController extends Controller
         } else {
             $estado = 'edicion_solicitud';
         }
-        
         if ($precredito->version == 1) {
-            return view('start.precreditos.create')
+            return view('start.precreditos.edit')
                 ->with('carteras',Cartera::where('estado','Activo')->orderBy('nombre')->get())
                 ->with('estados_aprobacion',getEnumValues('precreditos', 'aprobado'))
                 ->with('productos',Producto::orderBy('nombre','DESC')->get())
@@ -164,6 +165,7 @@ class PrecreditoController extends Controller
                 ->with('proveedores',$proveedores)
                 ->with('precredito',$precredito)
                 ->with('user',\Auth::user())
+                ->with('users', $users)
                 ->with('estados_credito','')
                 ->with('now',Carbon::now())
                 ->with('estado',$estado)
@@ -177,9 +179,11 @@ class PrecreditoController extends Controller
             $data['status'] = 'edit';
             $ref_productos = (isset($precredito->ref_productos)) ? $precredito->ref_productos : '';
 
+            dd($data);
+
             $ref_productos = $ref_productos->map( function ($ref_producto) {
                 return [
-                    'id' => $ref_producto->id,
+                    'ref_producto_id' => $ref_producto->id,
                     'producto_id' => $ref_producto->producto_id,
                     'nombre' =>  $ref_producto->nombre,
                     'precredito_id' => $ref_producto->precredito_id,
@@ -190,6 +194,7 @@ class PrecreditoController extends Controller
                     'estado' => $ref_producto->estado,
                     'iva' => $ref_producto->iva,
                     'observaciones' => $ref_producto->observaciones,
+                    '_vehiculo_id' => $ref_producto->vehiculo->id,
                     '_tipo_vehiculo_id' => $ref_producto->vehiculo->tipo_vehiculo_id,
                     '_placa' => $ref_producto->vehiculo->placa,
                     '_vencimiento_soat' => $ref_producto->vehiculo->vencimiento_soat,
@@ -398,57 +403,188 @@ class PrecreditoController extends Controller
 
     public function update(Request $request, $id)
     {
-    $changes = 0;
+        // valida que p_fecha sea menor que s_fecha
 
-    $rq = $request->all();
-    
-    $validator = $this->validateSolicitudUpdateTr($rq);
-    
-    if ($validator->fails()) {
-        return response()->json([
-        'error' => true,
-        'message' => 'Error en la validación.',
-        'dat' => $validator->errors()
-        ]);
-    }
-    DB::beginTransaction();
-    
-    try {
+        $ini = $request->input('p_fecha')+1;
+        if($request->input('s_fecha')){
+            $fin = $request->input('s_fecha')-1;
+        }
         
-        $data = $this->saveSolicitudUpdate($rq); // SolicitudUpdateTrait.php
-
-        $solicitud = $data->solicitud;
-        $changes   = $data->changes;
-
-        $changes += $this->saveProductosUpdateTr($rq['productos']); // SolicitudUpdateTrait.php
-        
-        if ($changes) {
-
-        DB::commit();
-
-        return response()->json([
-            'error' => false,
-            'message' => 'Solicitud modificada exitosamente !!!',
-            'dat' => $solicitud
-        ]);
-        } 
+        if($request->input('s_fecha') == "" || $request->input('periodo') == 'Mensual'){
+            $fin = 30;
+        }
+        if($request->input('periodo') == 'Quincenal'){
+            $rule_s_fecha_quincena = 'required|integer|between:'.$ini.',30';
+        }
         else {
-        return response()->json([
-            'error' => true,
-            'message' => 'No se realizaron cambios a la solicitud'
-        ]);
+            $rule_s_fecha_quincena = 'between:0,30';
         }
 
-    } catch (\Exception $e) {
-        DB::rollback();
-        return response()->json([
-        'error'   => true,
-        'message' => 'Ocurrió un error, intentelo nuevamente.',
-        'dat'     => $e->getMessage()
-        ]);
+        $rules_fijos = array(
+            'num_fact' => 'required|unique:precreditos,num_fact,'.$request->id,
+            'fecha'    => 'required',
+            'vlr_fin'  => 'required',
+            'producto_id' => 'required',
+            'periodo'  => 'required',
+            'meses'    => 'required',
+            'estudio'  => 'required', 
+            'vlr_cuota'=> 'required',
+            'p_fecha'  => 'required|integer|between:1,'.$fin,
+            's_fecha'  => $rule_s_fecha_quincena,
+            'funcionario_id' => 'required',
+            );
+        $message_fijos = array(
+            'num_fact.required'      => 'El Número de Factura es requerido',
+            'num_fact.unique'        => 'El Número de factura ya existe',
+            'fecha.required'         => 'La Fecha de afiliación es requerida',
+            'vlr_fin.required'       => 'El Centro de Costos es requerido',
+            'producto_id.required'   => 'El Producto es requerido',
+            'periodo.required'       => 'El Periodo es requerido',
+            'meses.required'         => 'El # de Meses es requerido',
+            'estudio.required'       => 'El tipo de estudio es requerido',
+            'vlr_cuota.required'     => 'El Valor de la Cuota es requerido',
+            'p_fecha.required'       => 'La Fecha 1 es requerida',
+            'p_fecha.between'        => 'La Fecha 1 debe ser menor que la Fecha 2',
+            's_fecha.between'        => 'La Fecha 2 debe ser mayor que la Fecha 1',
+            's_fecha.required'       => 'La Fecha 2 es requerida',
+            'funcionario_id.required'=> 'El Funcionario es requerido',
+            );
+
+        $this->validate($request,$rules_fijos,$message_fijos);
+
+        //si el periodo es quincenal se validan las dos fechas de pago mensual
+
+        if($request->input('periodo') == 'Quincenal'){
+            $this->validate($request,
+                            ['s_fecha' => 'required'],
+                            ['s_fecha.required' => 'La Fecha 2 es requerida.']);
+        }
+
+        DB::beginTransaction();
+
+        try{
+
+            if($request->input('periodo') == 'Mensual'){ $s_fecha = '';}
+            else{ $s_fecha = $request->input('s_fecha');}
+
+            $precredito = Precredito::find($request->id);
+
+            $estado_anterior_solicitud = $precredito->aprobado; //toma el estado (aprobado) antes de editar
+
+            $cliente = Cliente::find($precredito->cliente_id);
+            $precredito->fill($request->all());
+            $precredito->s_fecha = $s_fecha;
+            $precredito->user_update_id = Auth::user()->id;
+            $precredito->save();
+
+            //actualizacion del crédito relacionado
+
+            if($precredito->credito != NULL){
+
+
+                $credito = Credito::find($precredito->credito->id);
+
+                $estado_anterior_credito   = $credito->estado; // se guarda el estado anterior del credito
+
+                $credito->cuotas_faltantes = $precredito->cuotas;
+                $credito->saldo            = $precredito->vlr_fin - $precredito->cuota_inicial;
+                $credito->valor_credito    = $precredito->cuotas * $precredito->vlr_cuota;
+                $credito->rendimiento      = $credito->valor_credito - ($precredito->vlr_fin -$precredito->cuota_inicial);
+                $credito->user_update_id   = Auth::user()->id;
+                $credito->save();
+
+            }
+
+            DB::commit();
+
+            //envío de mensjae de texto 'MSS111' 'su solicitud de credito ha sido aprobada'
+
+            $movil  = $precredito->cliente->movil;
+
+            // si el objeto de edición es el crédito
+
+            if(isset($precredito->credito)){
+                if( ($credito->estado != $estado_anterior_credito ) && $movil){
+                if( $credito->estado == 'Prejuridico' ){
+                    $this->send_message([$movil],'MSS444'); 
+                }
+                elseif( $credito->estado == 'Juridico' ){
+                    $this->send_message([$movil],'MSS555'); 
+                }
+                }
+            } 
+            // si el objeto de edición es el precredito (solicitud)
+            else{
+
+                if( ($precredito->aprobado != $estado_anterior_solicitud ) && $movil){
+                    if( $precredito->aprobado == 'Si' ){
+                        $this->send_message([$movil],'MSS111'); 
+                    }
+                }
+            }
+
+            flash()->success('La solicitud con Id: '.$precredito->id.' del cliente '.$cliente->nombre.' se editó con éxito!');
+            return redirect()->route('start.precreditos.ver',$precredito->id);
+
+        } catch(\Exception $e){
+            DB::rollback();
+            flash()->error('Ocurrió un error!!!'.$e->getMessage());
+            return redirect()->route('start.precreditos.index');
+        }
     }
 
-}
+    public function updateV2(Request $request) 
+    {         
+        $validator = $this->validateSolicitudUpdateTr($request->all());
+
+        if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
+
+        DB::beginTransaction();
+
+        try {
+
+            $solicitud = Precredito::find($request->id);
+
+            $solicitud->fill($request->all());
+            $solicitud->user_update_id = (Auth::user()) ? Auth::user()->id : 1;
+            $solicitud->save();
+            
+            if ($request->ref_productos) {
+                foreach ($request->ref_productos as $producto) {
+                    
+                    $vehiculo = _\Vehiculo::find($producto['_vehiculo_id']);
+                    $vehiculo->placa = $producto['_placa'];
+                    $vehiculo->tipo_vehiculo_id = $producto['_tipo_vehiculo_id'];
+                    $vehiculo->vencimiento_soat = $producto['_vencimiento_soat'];
+                    $vehiculo->vencimiento_rtm  = $producto['_vencimiento_rtm'];
+                    $vehiculo->save();
+
+                    $ref_producto = _\RefProducto::find($producto['ref_producto_id']);
+                    $ref_producto->fill($producto);
+                    $ref_producto->updated_by  = Auth::user() ? Auth::user()->id : 1;
+                    $ref_producto->save();
+                }
+            }
+
+            \DB::commit();
+
+            return response()->json([
+                'error'   => false,
+                'message' => 'La solicitud con Id: '.$solicitud->id.' del cliente '.$solicitud->cliente->nombre.' se creo con éxito!',
+                'dat'     => $solicitud->cliente_id
+            ]);
+
+        } catch(\Exception $e){
+
+            DB::rollback();
+            return response()->json([
+                'error'   => true,
+                'message' => 'Ocurrió un error, intentelo nuevamente.',
+                'dat'     => $e->getMessage()
+            ]);
+        }
+
+    }
 
     public function destroy($id)
     {

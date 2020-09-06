@@ -130,8 +130,12 @@
 
         <div class="col-md-12" style="margin-top:20px;">
             <center>
-                <a class="btn btn-default" v-if="estado == 'creacion'" @click="volver">Volver</a>
-                <button class="btn btn-primary">Salvar</button>
+                <a class="btn btn-default" v-if="estado == 'creacion'" @click="volver">
+                    <i class="fa fa-backward" aria-hidden="true"></i>
+                    Volver</a>
+                <button class="btn btn-primary">
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                    Salvar</button>
             </center>
         </div>
     
@@ -175,6 +179,8 @@
                     this.alert = true
                 }
 
+                alertify.set('notifier','position', 'top-right');
+
                 if (valid) {
 
                     let res = await axios.post('/start/conyuges',{
@@ -184,12 +190,13 @@
                     });
 
                     if (res.data.success) {
-                        alert(res.data.message);
+                        alertify.notify(res.data.message, 'error', 5, function(){  console.log(''); });
                         document.location.href= "/start/clientes/"+res.data.dat        
                     }
                 } 
                 else {
-                    alert('Por favor complete la informacion requerida')
+                    
+                    alertify.notify('Por favor complete la informacion requeridan (Datos del conyuge)', 'error', 5, function(){  console.log(''); });
                 }
             },
         }

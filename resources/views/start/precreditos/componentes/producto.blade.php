@@ -197,9 +197,15 @@
                     <div class="row">
                         <div class="col-md-12" style="margin-top:20px;">
                             <center>
-                                <a class="btn btn-default" href="{{ route('start.clientes.show',$data['cliente']['id']) }}">Salir</a>
-                                <button class="btn btn-default" @click="save()" v-if="$store.state.data.status=='edit'" >Save</button>
-                                <button type="submit" class="btn btn-primary" @click="continuar">Continuar</button>
+                                <a class="btn btn-default" href="{{ route('start.clientes.show',$data['cliente']['id']) }}">
+                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                    Salir</a>
+                                <button class="btn btn-primary" @click="update()" v-if="$store.state.data.status=='edit'" >
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                    Salvar</button>
+                                <button type="submit" class="btn btn-default" @click="continuar">
+                                    <i class="fa fa-forward" aria-hidden="true"></i>
+                                    Continuar</button>
                             </center>
                         </div>  
                     </div>

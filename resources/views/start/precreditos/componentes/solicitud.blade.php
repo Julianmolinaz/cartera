@@ -246,8 +246,12 @@
         <div class="row">
             <div class="col-md-12" style="margin-top:20px;">
                 <center>
-                    <a class="btn btn-default" @click="volver">Volver</a>
-                    <button class="btn btn-primary" @click="onSubmit">Salvar</button>
+                    <a class="btn btn-default" @click="volver">
+                        <i class="fa fa-backward" aria-hidden="true"></i>
+                        Volver</a>
+                    <button class="btn btn-primary" @click="onSubmit">
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                        Salvar</button>
                 </center>
             </div>
         </div> 

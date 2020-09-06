@@ -11,7 +11,11 @@
 
         <h1 style="margin: 12px 0px 15px 10px;">
             <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-            {{ $tipo }}
+            {{ $tipo }} <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.estado"></span>
+
+            <a href="{{route('start.inicio.index')}}" class="btn btn-default" style="float:right;margin:12px 50px 0px 0px;">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        Salir</a>
         </h1>
     
         <!-- Nav tabs -->

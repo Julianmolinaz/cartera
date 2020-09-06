@@ -24,7 +24,9 @@
                 <i data-toggle="tooltip" data-placement="bottom" title="Ver Tutoriales"><b>GoFin-3000!</b></i>
             </a> 
         </li>
-        <li class=""><a href="{{route('start.simulador.index')}}">Simulador <span class="sr-only">(current)</span></a></li>
+        <li class=""><a href="{{route('start.simulador.index')}}">
+            <i class="fa fa-calculator" aria-hidden="true"></i>
+            Simulador <span class="sr-only">(current)</span></a></li>
         <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -100,10 +102,16 @@
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" >{!! Auth::user()->rol!!}</a></li>
+        <li>
+            <a href="#" >{{ Auth::user()->role->display_name }}</a>
+        </li>
         <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
-        role="button" aria-haspopup="true" aria-expanded="false">{!! Auth::user()->name!!} <span class="caret"></span></a>
+            
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                {!! Auth::user()->name!!} 
+                <span class="caret"></span>
+            </a>
         <ul class="dropdown-menu">
             <li>
             <a href="{{ route('start.cajas.index') }}">

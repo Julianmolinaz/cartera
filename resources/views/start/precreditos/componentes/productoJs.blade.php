@@ -11,23 +11,16 @@
                 producto_id : this.$store.state.producto_id,
                 rules       : rules_producto,
                 productos   : this.$store.state.productos,
-                elements    : this.$store.state.elements
+                elements    : this.$store.state.elements,
+                producto    : ''
             }
         },
         methods: {
-            cargarProducto() {
+            async cargarProducto() {
 
-                let producto = this.productos.find(producto => producto.id ==  this.producto_id);
-
-                this.elements = getProductos(producto)
-                
-                this.$store.commit('setProducto',this.producto)
-                let min_vehiculos = this.producto.min_vehiculos
-                let vehiculos = []
-                
-                for (var i = 0; i < min_vehiculos; i++) {
-                    let vehiculo = new Vehiculo()
-                }
+                this.producto = await this.productos.find(producto => producto.id ==  this.producto_id);
+                this.elements = await getProductos(this.producto);
+            
             },
             check(index) {
 
@@ -55,12 +48,26 @@
                 this.elements[index]._vencimiento_soat  = ''
                 this.elements[index]._vencimiento_rtm   = ''
             },
-            async continuar() {
-                if (!await this.validate()) return false;
-                await this.$store.commit('setElements',this.elements);
+            continuar() {
+                if (!this.validate()) return false;
+
+                this.$store.commit('setProductoId',this.producto_id);
+                this.$store.commit('setProductId',this.producto_id);
+                this.$store.commit('setProducto',this.producto);
+                this.$store.commit('setElements',this.elements);
+
                 $('.nav-tabs a[href="#solicitud"]').tab('show');
             },
-            save() {},
+            async update() {
+
+                var solicitud = this.$store.state.solicitud;
+                solicitud.ref_productos = this.$store.state.elements;
+                solicitud.producto_id = this.$store.state.producto_id;
+                this.$store.commit('setSolicitud', solicitud);
+
+                await this.$store.dispatch('update');
+
+            },
             async validate() {
 
                 var count = 0;
