@@ -33,6 +33,7 @@
           <span class="glyphicon glyphicon-hourglass"></span>
         </a>
 
+        @endif    
         <a href="{{route('call.index_unique',$precredito->credito->id)}}"
           class = 'btn btn-default btn-xs'
           data-toggle="tooltip" 
@@ -40,7 +41,6 @@
           title="Llamar">
           <span class = "glyphicon glyphicon-phone-alt"></span>
         </a>
-        @endif    
         @if(Auth::user()->rol == 'Administrador')
         <a href="{{route('admin.get_estado_cuenta',$precredito->credito->id)}}"
           class = 'btn btn-default btn-xs'
@@ -133,9 +133,11 @@
           <tr class="danger">  
             <th scope="row">Juridico </th>
             <td> {{'$ '.number_format($juridico['juridico'],0,",",".").' de '.number_format($juridico['valor'],0,",",".")}}
+              @permission('ver_seguimiento_proceso_prejuridico')  
                 <a href="{{ route('admin.anotaciones.index', $precredito->credito->id) }}" title="Haga seguimiento legal"
                   class="btn btn-primary btn-xs pull-right" style="margin-right: 23px;">
                     Proceso jurídico &nbsp;<i class="fas fa-gavel"></i></a>
+              @endpermission      
             </td>
           </tr>
           <tr class="danger">  

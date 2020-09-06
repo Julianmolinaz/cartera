@@ -417,3 +417,21 @@ function bancos()
     'Apostar'
   ];
 }
+
+function log($user_id ,$action ,$desc ,$visible ,$type ,$id) {
+
+  if ($solicitud) {
+    $log = new \App\Log();
+    $log->user_create_id=$user_id;
+    $log->action=$action;
+    $log->descripcion=$desc;
+    $log->visible=$visible;
+    $log->ref_type=$type;
+    $log->ref_id=$id;
+    $log->save();
+  }
+}
+
+
+
+

@@ -61,3 +61,5 @@ require __DIR__ . '/routes/conyuges.php';
 require __DIR__ . '/routes/oficios.php';
 
 require __DIR__ . '/routes/sanciones.php';
+
+require __DIR__ . '/routes/anotaciones.php';
