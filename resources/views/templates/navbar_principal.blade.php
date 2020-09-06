@@ -28,44 +28,54 @@
             <i class="fa fa-calculator" aria-hidden="true"></i>
             Simulador <span class="sr-only">(current)</span></a></li>
         <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="{{route('start.clientes.index')}}">Ver Clientes</a></li>
-            <li><a href="{{route('start.clientes.create')}}">Crear Cliente</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{{route('call.index')}}">=) CallCenter Todos</a></li>
-            <li><a href="{{route('call.morosos')}}">=) CallCenter Morosos</a></li>
-            <li><a href="{{route('call.agendados')}}">=) CallCenter Agendados</a></li>
-            <li><a href="{{route('call.miscall')}}">=) Mis Call</a></li>
-        </ul>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-users" aria-hidden="true"></i> Clientes <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{route('start.clientes.index')}}">Ver Clientes</a></li>
+                <li><a href="{{route('start.clientes.create')}}">Crear Cliente</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="{{route('call.index')}}">=) CallCenter Todos</a></li>
+                <li><a href="{{route('call.morosos')}}">=) CallCenter Morosos</a></li>
+                <li><a href="{{route('call.agendados')}}">=) CallCenter Agendados</a></li>
+                <li><a href="{{route('call.miscall')}}">=) Mis Call</a></li>
+            </ul>
         </li>
 
         <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Obligaciones <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="{{route('start.creditos.index')}}">Ver Creditos</a></li>
-            <li><a href="{{route('start.precreditos.index')}}">Ver Solicitudes</a></li> 
-            <li><a href="{{route('start.creditos.cancelados')}}">Ver Cancelados</a></li>
-        </ul>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Obligaciones 
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{route('start.creditos.index')}}">Ver Creditos</a></li>
+                <li><a href="{{route('start.precreditos.index')}}">Ver Solicitudes</a></li> 
+                <li><a href="{{route('start.creditos.cancelados')}}">Ver Cancelados</a></li>
+            </ul>
         </li> 
 
         <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pagos <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="{{route('start.pagos.inicio')}}">Hacer Pago</a></li>
-            <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{{route('start.facturas.index')}}">Ver Facturas Créditos</a></li>
-            <!-- <li><a href="{{route('start.pagos')}}">Ver Pagos Créditos</a></li>  -->
-            <li><a href="{{route('start.anuladas.index')}}">Ver Facturas Anuladas</a></li> 
-            <li role="separator" class="divider"></li>
-            <li><a href="{{route('start.pagos.index_otros_ingresos')}}">Ver Otros Ingresos</a></li> 
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-university" aria-hidden="true"></i>
+            Pagos 
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{route('start.pagos.inicio')}}">Hacer Pago</a></li>
+                <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="{{route('start.facturas.index')}}">Ver Facturas Créditos</a></li>
+                <!-- <li><a href="{{route('start.pagos')}}">Ver Pagos Créditos</a></li>  -->
+                <li><a href="{{route('start.anuladas.index')}}">Ver Facturas Anuladas</a></li> 
+                <li role="separator" class="divider"></li>
+                <li><a href="{{route('start.pagos.index_otros_ingresos')}}">Ver Otros Ingresos</a></li> 
 
-        </ul>
+            </ul>
         </li>   
 
         <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+           <i class="fa fa-cog" aria-hidden="true"></i>
+            Admin 
+        <span class="caret"></span></a>
         <ul class="dropdown-menu">
 
             <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>

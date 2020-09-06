@@ -23,7 +23,8 @@
             async onSubmit() {
 
                 if ( ! await this.$validator.validate() ) {
-                    alert('Por favor complete los campos');
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
                     return false;
                 }
                 
@@ -40,11 +41,14 @@
             async save() {
                 
                 let res = await axios.post('/start/precreditos', this.solicitud)
-
-                alertify.notify(res.data.message, 'success', 5);
-
+                alertify.set('notifier','position', 'top-right');
+                
                 if (!res.data.error) {
-                    window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
+                    alertify.notify(res.data.message, 'success', 3, () => {
+                        window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
+                    });
+                } else {
+                    alertify.notify(res.data.message, 'error', 5, () => {console.log(res.data.message)});
                 }
             },
             async update() {

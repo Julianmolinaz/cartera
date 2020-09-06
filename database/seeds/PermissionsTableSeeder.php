@@ -286,6 +286,8 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
+        
+
         // CANCELADOS
 
         \DB::table('permissions')->insert([

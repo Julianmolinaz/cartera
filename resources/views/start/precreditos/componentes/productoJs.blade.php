@@ -48,8 +48,8 @@
                 this.elements[index]._vencimiento_soat  = ''
                 this.elements[index]._vencimiento_rtm   = ''
             },
-            continuar() {
-                if (!this.validate()) return false;
+            async continuar() {
+                if (! await this.validate()) return false;
 
                 this.$store.commit('setProductoId',this.producto_id);
                 this.$store.commit('setProductId',this.producto_id);
@@ -60,10 +60,16 @@
             },
             async update() {
 
+                if (! await this.validate()) return false;
+
                 var solicitud = this.$store.state.solicitud;
+                
+                this.$store.commit('setElements',this.elements);
+
                 solicitud.ref_productos = this.$store.state.elements;
                 solicitud.producto_id = this.$store.state.producto_id;
-                this.$store.commit('setSolicitud', solicitud);
+
+                await this.$store.commit('setSolicitud', solicitud);
 
                 await this.$store.dispatch('update');
 
@@ -81,7 +87,8 @@
                 let valid = await this.$validator.validate()
 
                 if (!valid || count > 0) {
-                    alert('Por favor complete los campos');
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Por favor complete los campos', 'error', 5, function(){ });
 
                     return false
                 }

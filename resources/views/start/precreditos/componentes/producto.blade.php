@@ -112,6 +112,7 @@
                             <div v-bind:class="['form-group','col-md-2',errors.first(rules.estado.name) ? 'has-error' :'']">
                                 <label for="">Estado @{{element.nombre }} @{{ rules.estado.required }}</label> 
                                 <select 
+                                    disabled
                                     class="form-control" 
                                     v-model="element.estado">                          
                                     <option selected disabled>--</option>

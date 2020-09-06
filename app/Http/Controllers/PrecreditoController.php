@@ -75,9 +75,6 @@ class PrecreditoController extends Controller
 
     public function store(Request $request)
     {        
-
-        \Log::info($request->all());
-
         $validator = $this->validateSolicitudCreateTr($request->all());
 
         if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
@@ -125,7 +122,7 @@ class PrecreditoController extends Controller
 
         } catch(\Exception $e){
 
-            \Log::info($e);
+            \Log::error($e);
 
             DB::rollback();
             return response()->json([
@@ -178,9 +175,7 @@ class PrecreditoController extends Controller
     
             $data['status'] = 'edit';
             $ref_productos = (isset($precredito->ref_productos)) ? $precredito->ref_productos : '';
-
-            dd($data);
-
+        
             $ref_productos = $ref_productos->map( function ($ref_producto) {
                 return [
                     'ref_producto_id' => $ref_producto->id,
@@ -534,7 +529,7 @@ class PrecreditoController extends Controller
     }
 
     public function updateV2(Request $request) 
-    {         
+    {  
         $validator = $this->validateSolicitudUpdateTr($request->all());
 
         if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
@@ -547,7 +542,7 @@ class PrecreditoController extends Controller
 
             $solicitud->fill($request->all());
             $solicitud->user_update_id = (Auth::user()) ? Auth::user()->id : 1;
-            $solicitud->save();
+            $solicitud->save();       
             
             if ($request->ref_productos) {
                 foreach ($request->ref_productos as $producto) {

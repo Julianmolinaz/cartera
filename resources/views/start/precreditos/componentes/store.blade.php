@@ -40,10 +40,16 @@
 
                 let res = await axios.post('/start/precreditos/updateV2', state.solicitud);
 
-                alertify.notify(res.data.message, 'success', 5);
+                console.log({res});
 
+                alertify.set('notifier','position', 'top-right');
+                
                 if (!res.data.error) {
-                    window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
+                    alertify.notify(res.data.message, 'success', 3, () => {
+                        window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
+                    });
+                } else {
+                    alertify.notify(res.data.message, 'error', 5, function() {console.log(res.data.message)});
                 }
             }
         }
