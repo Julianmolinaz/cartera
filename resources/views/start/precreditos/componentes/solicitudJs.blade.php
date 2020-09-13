@@ -13,34 +13,49 @@
                 rules: rules_solicitud
             }
         },
+        filters: {
+            formatPrice(value) {
+                let val = (value/1).toFixed(0).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            }
+        },
         methods: {
-            volver () {
+            async volver () {
+
+                if (! await this.validation()) return false; 
+
+                await this.assignData();
+
+                
                 $('.nav-tabs a[href="#producto"]').tab('show');
             },
             continuar () {
+                this.assignData();
                 $('.nav-tabs a[href="#credito"]').tab('show') 
             },
             async onSubmit() {
 
-                if ( ! await this.$validator.validate() ) {
-                    alertify.set('notifier','position', 'top-right');
-                    alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
-                    return false;
-                }
+                if (! await this.validation()) return false;
                 
-                this.solicitud.ref_productos = this.$store.state.elements;
-                this.solicitud.producto_id = this.$store.state.producto_id;
-                this.$store.commit('setSolicitud', this.solicitud);
+                await this.assignData();
 
                 if (this.$store.state.data.status == 'create') {
                     await this.save();
-                } else {
-                    await this.update();
-                }                
+                } else if (this.$store.data.status == 'edit') {
+                    await this.$store.dispatch('updateSolicitud');
+                } else if (this.$store.data.status == 'edit cred') {
+
+                }
             }, 
+            assignData() {
+                this.solicitud.ref_productos = this.$store.state.elements;
+                this.solicitud.producto_id   = this.$store.state.producto_id;
+                this.$store.commit('setSolicitud', this.solicitud);
+            },
             async save() {
                 
                 let res = await axios.post('/start/precreditos', this.solicitud)
+
                 alertify.set('notifier','position', 'top-right');
                 
                 if (!res.data.error) {
@@ -48,15 +63,18 @@
                         window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
                     });
                 } else {
-                    alertify.notify(res.data.message, 'error', 5, () => {console.log(res.data.message)});
+                    alertify.alert('Alert Title', res.data.message, () => {});
                 }
-            },
-            async update() {
-                await this.$store.dispatch('update');
-            },                       
-            async validarForm() {
-                let valid = await this.$validator.validate();
-                return valid
+            },                      
+            async validation() {
+                
+                if ( ! await this.$validator.validate() ) {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
+                    return false;
+                }
+
+                return true;
             },
             validar_negocio() {
 
@@ -110,12 +128,13 @@
         
         },   
         async created() {
-            console.log(this.$store.state.data.cliente.id)
+
+            // Bus.$on('assign', await this.assignData());
 
             if (this.$store.state.data.status == 'create') {
                 this.solicitud.cliente_id = this.$store.state.data.cliente.id
             } 
-            else if (this.$store.state.data.status == 'edit') {
+            else if (this.$store.state.data.status == 'edit' || this.$store.state.data.status == 'edit cred') {
 
                 await this.setup();
             }
@@ -123,4 +142,10 @@
     });
 
 </script>
+
+<style scoped>
+    .my-input {
+        font-size:10px;
+    }
+</style>
 

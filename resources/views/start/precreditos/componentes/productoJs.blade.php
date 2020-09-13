@@ -15,10 +15,18 @@
                 producto    : ''
             }
         },
+        filters: {
+            formatPrice(value) {
+                let val = (value/1).toFixed(0).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            }
+        },
         methods: {
             async cargarProducto() {
 
                 this.producto = await this.productos.find(producto => producto.id ==  this.producto_id);
+                await this.$store.commit('setProductoId', this.producto.id);
+                await this.$store.commit('setProducto',this.producto);
                 this.elements = await getProductos(this.producto);
             
             },
@@ -51,10 +59,7 @@
             async continuar() {
                 if (! await this.validate()) return false;
 
-                this.$store.commit('setProductoId',this.producto_id);
-                this.$store.commit('setProductId',this.producto_id);
-                this.$store.commit('setProducto',this.producto);
-                this.$store.commit('setElements',this.elements);
+                await this.assignData();
 
                 $('.nav-tabs a[href="#solicitud"]').tab('show');
             },
@@ -62,16 +67,24 @@
 
                 if (! await this.validate()) return false;
 
-                var solicitud = this.$store.state.solicitud;
+                this.assignData();
+
+                if (this.$store.data.status == 'edit') {
+                    await this.$store.dispatch('updateSolicitud');
+                } else if (this.$store.data.status == 'edit cred') {
+                    // update credito
+                }
+
+            },
+            assignData() {
                 
                 this.$store.commit('setElements',this.elements);
+                
+                // var solicitud = this.$store.state.solicitud;  
+                
+                // solicitud.ref_productos = this.$store.state.elements;
 
-                solicitud.ref_productos = this.$store.state.elements;
-                solicitud.producto_id = this.$store.state.producto_id;
-
-                await this.$store.commit('setSolicitud', solicitud);
-
-                await this.$store.dispatch('update');
+                // await this.$store.commit('setSolicitud', solicitud);
 
             },
             async validate() {
@@ -88,7 +101,7 @@
 
                 if (!valid || count > 0) {
                     alertify.set('notifier','position', 'top-right');
-                    alertify.notify('Por favor complete los campos', 'error', 5, function(){ });
+                    alertify.notify('Por favor complete los campos (Producto)', 'error', 5, function(){ });
 
                     return false
                 }
@@ -118,7 +131,17 @@
                     return true;
                 }
             }
+        },
+        created(){
+            Bus.$on('assign', () => this.assignData());
         }
     });
 
 </script>
+<style scoped>
+
+    .help-block{
+        font-size: 12px;
+    }
+
+</style>

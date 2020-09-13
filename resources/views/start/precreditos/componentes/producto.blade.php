@@ -92,7 +92,9 @@
                                     v-model="element.costo"
                                     v-validate="rules.costo.rule"
                                     :name="rules.costo.name+index">  
-                                <span class="help-block">@{{ errors.first(rules.costo.name+index) }}</span>                            
+                                <span class="help-block" v-if="element.costo > 0">$ @{{ element.costo | formatPrice }}</span>
+                                <span class="help-block">@{{ errors.first(rules.costo.name+index) }}</span>  
+
                             </div>
 
                             <!-- IVA  -->
@@ -103,7 +105,8 @@
                                     class="form-control input-solicitud" 
                                     v-model="element.iva"
                                     v-validate="rules.iva.rule"
-                                    :name="rules.iva.name">  
+                                    :name="rules.iva.name"> 
+                                <span class="help-block" v-if="element.iva > 0">$ @{{ element.iva | formatPrice }}</span> 
                                 <span class="help-block">@{{ errors.first(rules.iva.name) }}</span>                          
                             </div>
 
@@ -201,7 +204,7 @@
                                 <a class="btn btn-default" href="{{ route('start.clientes.show',$data['cliente']['id']) }}">
                                     <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                     Salir</a>
-                                <button class="btn btn-primary" @click="update()" v-if="$store.state.data.status=='edit'" >
+                                <button class="btn btn-primary" @click="update()" v-if="$store.state.data.status=='edit' || $store.state.data.status=='edit cred'" >
                                     <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                                     Salvar</button>
                                 <button type="submit" class="btn btn-default" @click="continuar">

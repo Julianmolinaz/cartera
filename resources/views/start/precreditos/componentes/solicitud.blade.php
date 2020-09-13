@@ -41,10 +41,9 @@
 
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_solicitud.name) ? 'has-error' :'']">
                 <label for="">Fecha @{{ rules.fecha_solicitud.required }}</label>    
-                <input 
-                    style="font-size:10px;"
+                <input
                     type="date" 
-                    class="form-control" 
+                    class="form-control my-input" 
                     v-model="solicitud.fecha"
                     v-validate="rules.fecha_solicitud.rule"
                     :name="rules.fecha_solicitud.name">  
@@ -52,18 +51,19 @@
             </div>
 
 
-            <!-- CARTERA  -->
+            <!-- Vendedor  -->
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.funcionario_id.name) ? 'has-error' :'']">
                 <label for="">Vendedor @{{ rules.funcionario_id.required }}</label> 
                 <select 
-                    class="form-control" 
+                    class="form-control my-input" 
                     v-validate="rules.funcionario_id.rule"
                     :name="rules.funcionario_id.name"
                     v-model="solicitud.funcionario_id"> 
                     <option selected disabled>--</option>
                     <option :value="vendedor.id" v-for="vendedor in data.vendedores">@{{vendedor.name}}</option>                
                 </select>
+                
                 <span class="help-block">@{{ errors.first(rules.funcionario_id.name) }}</span>                   
             </div>
 
@@ -72,7 +72,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.cartera.name) ? 'has-error' :'']">
                 <label for="">Cartera @{{ rules.cartera.required }}</label> 
                 <select 
-                    class="form-control" 
+                    class="form-control my-input" 
                     v-validate="rules.cartera.rule"
                     :name="rules.cartera.name"
                     v-model="solicitud.cartera_id"> 
@@ -97,6 +97,7 @@
                     v-model="solicitud.vlr_fin"
                     v-validate="rules.centro_costo.rule"
                     :name="rules.centro_costo.name">
+                <span class="help-block" v-if="solicitud.vlr_fin > 0">$ @{{ solicitud.vlr_fin | formatPrice }}</span>                       
                 <span class="help-block">@{{ errors.first(rules.centro_costo.name) }}</span>                   
             </div>
 
@@ -111,6 +112,7 @@
                     v-model="solicitud.cuota_inicial"
                     v-validate="rules.cuota_inicial.rule"
                     :name="rules.cuota_inicial.name">
+                <span class="help-block" v-if="solicitud.cuota_inicial > 0">$ @{{ solicitud.cuota_inicial | formatPrice }}</span>
                 <span class="help-block">@{{ errors.first(rules.cuota_inicial.name) }}</span>
             </div>
 
@@ -176,6 +178,8 @@
                     v-model="solicitud.vlr_cuota"
                     v-validate="rules.valor_cuotas.rule"
                     :name="rules.valor_cuotas.name">
+
+                <span class="help-block" v-if="solicitud.vlr_cuota > 0">$ @{{ solicitud.vlr_cuota | formatPrice }}</span>                    
                 <span class="help-block">@{{ errors.first(rules.valor_cuotas.name) }}</span>
             </div>
 
@@ -251,7 +255,11 @@
                         Volver</a>
                     <button class="btn btn-primary" @click="onSubmit">
                         <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                        Salvar</button>
+                        Salvar
+                    </button>
+                    <a class="btn btn-default" @click="continuar" v-if="$store.state.data.status == 'edit cred'">
+                        <i class="fa fa-forward" aria-hidden="true"></i>
+                        Continuar</a>
                 </center>
             </div>
         </div> 

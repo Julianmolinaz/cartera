@@ -69,7 +69,8 @@ class PrecreditoController extends Controller
             ->with('data', $data)
             ->with('elements',[])
             ->with('producto_id','')
-            ->with('solicitud','');
+            ->with('solicitud','')
+            ->with('credito','');
 
     }
 
@@ -201,9 +202,9 @@ class PrecreditoController extends Controller
                 ->with('data', $data)
                 ->with('elements', $ref_productos)
                 ->with('producto_id',$precredito->producto_id)
-                ->with('solicitud',$precredito);
+                ->with('solicitud',$precredito)
+                ->with('credito','');
         }
-
 
     }
 

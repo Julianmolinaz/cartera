@@ -10,7 +10,7 @@
     <div class="panel panel-default" style="padding:5px;" id="myabs">
 
         <h1 style="margin: 12px 0px 15px 10px;">
-            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+            <i class="fa fa-user" aria-hidden="true" style="color:gray;"></i>
             {{ $tipo }} <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.estado"></span>
 
             <a href="{{route('start.inicio.index')}}" class="btn btn-default" style="float:right;margin:12px 50px 0px 0px;">
@@ -22,21 +22,25 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#personales" aria-controls="personales" role="tab" :data-toggle="tab">
+                    <i class="fa fa-bed" aria-hidden="true"></i>
                     Datos Personales del Solicitante   
                 </a>
             </li>
             <li role="presentation">
                 <a href="#ubicacion" aria-controls="ubicacion" role="tab" :data-toggle="tab">
+                    <i class="fa fa-street-view" aria-hidden="true"></i>
                     Ubicación
                 </a>
             </li>
             <li role="presentation">
                 <a href="#actividad" aria-controls="actividad" role="tab" :data-toggle="tab">
+                    <i class="fa fa-address-card" aria-hidden="true"></i>
                     Actidad económica
                 </a>
             </li>
             <li role="presentation">
                 <a href="#conyuge" aria-controls="conyuge" role="tab" :data-toggle="tab">
+                    <i class="fa fa-neuter" aria-hidden="true"></i>
                     Datos del Conyuge
                 </a>
             </li>
