@@ -4,13 +4,16 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Auth;
 use DB; 
 
 trait ReporteTrait
 {
 	public function tipo_reportes()
 	{
-          return array(
+          $user = Auth::user();         
+
+          $arr = array(
                array('value' => 'auditoria','vista' => 'Auditoria del Sistema','definición'=>'Muestra las transacciones de modificación en los registros'),
                array('value' => 'caja','vista' => 'Caja','definicion' => 'Muestra todas las cajas'),
                array('value' => 'castigada', 'vista' => 'Cartera Castigada'),
@@ -24,10 +27,26 @@ trait ReporteTrait
                array('value' => 'informe_cartera','vista' => 'Informe Cartera'),
                array('value' => 'morosos','vista' => 'Morosos'),
                array('value' => 'procredito','vista' => 'Reporte Procredito'),
-               array('value' => 'datacredito','vista' => 'Reporte Datacredito'),
                array('value' => 'data-asis','vista' => 'Reporte Datacredito asistimotos'),
                array('value' => 'venta_creditos', 'vista' => 'Venta de Créditos'),
-               array('value' => 'venta_creditos_por_asesor','vista' => 'Venta de Créditos por Asesor'));
+               array('value' => 'venta_creditos_por_asesor','vista' => 'Venta de Créditos por Asesor')
+          );
+
+
+          if ( $user->can('reporte_datacredito') ) {     
+               array_push($arr, ['value' => 'datacredito','vista' => 'Reporte Datacredito'] );
+          }
+
+          if ( $user->can('reporte_procredito') ) {     
+               array_push($arr, ['value' => 'procredito','vista' => 'Reporte procredito'] );
+          }
+
+            if ( $user->can('reporte_datacredito_asistimotos') ) {     
+               array_push($arr, ['value' => 'data-asis','vista' => 'Reporte Datacredito asistimotos'] );
+          }
+
+          return $arr;
+           
 	}
 
 }

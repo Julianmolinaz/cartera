@@ -79,8 +79,14 @@ class PrecreditoController extends Controller
     }
 
     public function store(Request $request)
+<<<<<<< HEAD
+    {      
+       
+        $validator = $this->validateSolicitudCreateTr($request->all());
+=======
     {   
         $validator = $this->validateSolicitudCreateTr($request->solicitud);
+>>>>>>> 734c4ac73a73b5794e83ff6f262f5e4a4236bb29
 
         if ($validator->fails()) return res(false,'validation',$validator->errors());
 
@@ -92,9 +98,17 @@ class PrecreditoController extends Controller
                 return res(false, '','No se puede crear la solicitud, ya existen solicitudes en trámite!!!');
             }
 
+<<<<<<< HEAD
+            $solicitud = $this->saveSolicitudCreateTr($request->all()); // SolicitudCreateTrait.php
+
+
+            if ($request->ref_productos) {
+                foreach ($request->ref_productos as $producto) {
+=======
             $solicitud = $this->saveSolicitudCreateTr($request->solicitud); // SolicitudCreateTrait.php
             
             if ($request->producto['min_vehiculos'] && $request->ref_productos) {
+>>>>>>> 734c4ac73a73b5794e83ff6f262f5e4a4236bb29
 
                 foreach ($request->ref_productos as $producto) {
                     $vehiculo = $this->saveVehiculoFromProductoTr($producto); // Creditos/VehiculoTr

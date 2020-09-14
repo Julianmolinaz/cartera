@@ -82,9 +82,6 @@ Route::get('start/invoice-print/{factura_id}',[
     'as'   => 'start.factura.print']);
     
 
-
-
-
 Route::get('start/pagos/index_otros_ingresos',[
     'uses' => 'PagoController@index_otros_ingresos', 
     'as' => 'start.pagos.index_otros_ingresos']);

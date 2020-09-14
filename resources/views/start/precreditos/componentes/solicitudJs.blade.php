@@ -64,7 +64,37 @@
                     return false;
                 }
 
+<<<<<<< HEAD
+                if (this.$store.state.data.status == 'create') {
+                    await this.save();
+                } else {
+                    await this.update();
+                }                
+            }, 
+            async save() {
+                
+                let res = await axios.post('/start/precreditos', this.solicitud)
+                alertify.set('notifier','position', 'top-right');
+
+                console.log({res});
+                
+                if (!res.data.error) {
+                    alertify.notify(res.data.message, 'success', 3, () => {
+                        window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
+                    });
+                } else {
+                    alertify.notify(res.data.message, 'error', 5, () => {alert(res.data.message)});
+                }
+            },
+            async update() {
+                await this.$store.dispatch('update');
+            },                       
+            async validarForm() {
+                let valid = await this.$validator.validate();
+                return valid
+=======
                 return true;
+>>>>>>> 734c4ac73a73b5794e83ff6f262f5e4a4236bb29
             },
             validar_negocio() {
 

@@ -229,6 +229,7 @@ class RolController extends Controller
     public function getCategorias($permissions = null)
     {
         $permisos =  \App\Permission::orderBy('category')->get();
+
         $categorias = \DB::table('permissions')
             ->select('category')
             ->groupBy('category')
@@ -238,7 +239,6 @@ class RolController extends Controller
             $categoria->permisos = [];
             $categoria->show     = true;
         }
-
 
         foreach ($permisos as $permiso) {
 
