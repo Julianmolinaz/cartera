@@ -4,7 +4,7 @@ namespace App\Traits\Solicitudes;
 
 trait SolicitudCreateTrait
 {
-    public function validateSolicitudCreateTr($request)
+    public function validateSolicitudCreateTr($producto)
     {
         $rules = [
             'num_fact'    => 'unique:precreditos',
@@ -29,7 +29,7 @@ trait SolicitudCreateTrait
             'vlr_cuota.required'     => 'El Valor de la Cuota es requerido'
         ];
     
-        $validator = \Validator::make($request,$rules, $messages);
+        $validator = \Validator::make($producto,$rules, $messages);
     
         return $validator;
     
@@ -48,7 +48,7 @@ trait SolicitudCreateTrait
     public function saveSolicitudCreateTr($request)
     {
         $solicitud = new \App\Precredito($request);
-        $solicitud->user_create_id = \Auth::user() ? \Auth::user()->id : 1;
+        $solicitud->user_create_id = \Auth::user()->id;
         $solicitud->version = 2;
         $solicitud->save();
 

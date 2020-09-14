@@ -3,13 +3,17 @@
 <script>
     const store = new Vuex.Store({
         state: {
-            data: {!! json_encode($data) !!},
-            solicitud: {!! json_encode($solicitud) !!} || new Solicitud(),
-            productos: {!! json_encode($data['productos']) !!},
-            producto_id: {!! json_encode($producto_id) !!},
-            producto: {},
-            elements: {!! json_encode($elements) !!},
-            credito : {!! json_encode($credito) !!}
+            data            : {!! json_encode($data) !!},
+            solicitud       : {!! json_encode($solicitud) !!} || new Solicitud(),
+            productos       : {!! json_encode($data['productos']) !!},
+            producto        : {!! json_encode($producto) !!}, 
+            producto_id     : {!! json_encode($producto_id) !!},
+            ref_productos   : {!! json_encode($ref_productos) !!},
+            data_credito    : {!! json_encode($data_credito) !!},
+            credito         : {!! json_encode($credito) !!},
+            data_credito    : {!! json_encode($data_credito) !!},
+            fecha_pago      : {!! json_encode($fecha_pago) !!},
+            message         : ''
         },
         getters: {
             getProductos(state) {
@@ -23,57 +27,128 @@
             setProducto(state, producto) {
                 state.producto = producto;
             },
-            setElements(state, elements) {
-                state.elements = elements
+            setRefProductos(state, ref_productos) {
+                state.ref_productos = ref_productos
             },
             setSolicitud(state, solicitud) {
                 state.solicitud = solicitud
             },
-            setProductoId(state, producto_id) {
-                state.solicitud.producto_id = producto_id
+            setProductoIdToSolicitud(state) {
+                state.solicitud.producto_id = state.producto_id
             },
-            setProductId(state, producto_id) {
+            setProductoId(state, producto_id) {
                 state.producto_id = producto_id
+                state.solicitud.producto_id = producto_id
             },
             setCredito(state, credito) {
                 state.credito.info = credito
             },
             setFechaPago(state, fecha_pago) {
-                state.credito.fecha_pago = fecha_pago
+                state.fecha_pago = fecha_pago
             }
         },
         actions: {
-            async updateSolicitud({state,getters}) {
+            async createSolicitud({state,getters}) 
+            {
+                let dat = {
+                    ref_productos : state.ref_productos,
+                    solicitud     : state.solicitud,
+                    producto      : state.producto
+                };
 
-                let res = await axios.post('/start/precreditos/updateV2', state.solicitud);
+                let res = await axios.post('/start/precreditos', dat);
 
                 alertify.set('notifier','position', 'top-right');
                 
-                if (!res.data.error) {
-                    alertify.notify(res.data.message, 'success', 3, () => {
-                        window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
+                if (res.data.success) {
+                    alertify.notify(res.data.message, 'success', 1, () => {
+                        // res.data.dat.id = precredito_id
+                        window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.id+'/ver';
                     });
                 } else {
-                    alertify.notify(res.data.message, 'error', 5, function() {console.log(res.data.message)});
+                    if (res.data.dat == 'validation') {
+                        alertify.alert('Error de validación =(', 'Revise los campos requeridos en el mensaje');
+                        var $temp = '';
+
+                        for(var j = 0; j < res.data.message.length; j++) {
+                            for(var key in res.data.message[j]) {
+                                $temp += res.data.message[j][key][0] + '<br>';
+                            }
+                        }
+                        state.message = $temp;
+                    } else {
+                        alertify.alert('Error =(', res.data.message);
+                    }
                 }
             },
-            async updateCredito({state, getters}) {
-                let res = await axios.post('/start/creditos/updateV2', {
-                    credito : state.credito.info,
-                    solicitud : state.solicitud,
-                    fecha_pago : state.credito.fecha_pago
-                });
+            async updateSolicitud({state,getters}) 
+            {
+
+                let dat = {
+                    ref_productos : state.ref_productos,
+                    solicitud     : state.solicitud,
+                    producto      : state.producto
+                };
+
+                let res = await axios.post('/start/precreditos/updateV2', dat);
 
                 console.log({res});
 
                 alertify.set('notifier','position', 'top-right');
                 
-                if (!res.data.error) {
-                    alertify.notify(res.data.message, 'success', 3, () => {
-                        //window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
+                if (res.data.success) {
+                    alertify.notify(res.data.message, 'success', 1, () => {
+                        window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.id+'/ver';
                     });
                 } else {
-                    alertify.notify(res.data.message, 'error', 5, function() {console.log(res.data.message)});
+                    if (res.data.dat == 'validation') {
+                        alertify.alert('Error de validación =(', 'Revise los campos requeridos en el mensaje');
+                        var $temp = '';
+
+                        for(var j = 0; j < res.data.message.length; j++) {
+                            for(var key in res.data.message[j]) {
+                                $temp += res.data.message[j][key][0] + '<br>';
+                            }
+                        }
+                        state.message = $temp;
+                    } else {
+                        alertify.alert('Error =(', res.data.message);
+                    }
+                }
+            },
+            async updateCredito({state, getters}) 
+            {
+                let dat = {
+                    ref_productos : state.ref_productos,
+                    credito       : state.credito,
+                    solicitud     : state.solicitud,
+                    fecha_pago    : state.fecha_pago,
+                    producto      : state.producto
+                };
+
+                let res = await axios.post('/start/creditos/updateV2', dat);
+
+                alertify.set('notifier','position', 'top-right');
+                
+                if (res.data.success) {
+                    alertify.notify(res.data.message, 'success', 2, () => {
+                        window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.precredito_id+'/ver';
+                    });
+                } else {
+                    if (res.data.dat == 'validation') {
+                        alertify.alert('Error de validación =(', 'Revise los campos requeridos en el mensaje');
+                        var $temp = '';
+
+                        for(var j = 0; j < res.data.message.length; j++) {
+                            for(var key in res.data.message[j]) {
+                                $temp += res.data.message[j][key][0] + '<br>';
+                       
+                            }
+                        }
+                        state.message = $temp;
+                    } else {
+                        alertify.alert('Error =(', res.data.message);
+                    }
                 }
             }   
         }

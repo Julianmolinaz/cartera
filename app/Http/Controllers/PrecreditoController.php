@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Traits\Solicitudes\SolicitudCreateTrait;
 use App\Traits\Solicitudes\SolicitudUpdateTrait;
 use App\Traits\Solicitudes\SolicitudTrait;
+use App\Traits\Creditos\VehiculoTrait;
+use App\Traits\Creditos\RefProductoTrait;
+use App\Traits\Creditos\CreditoUpdateTraitV2;
 use App\Traits\MensajeTrait;
 use App\Http\Requests;
 use App\Precredito;
@@ -25,10 +28,8 @@ use DB;
 
 class PrecreditoController extends Controller
 {
-    use MensajeTrait;
-    use SolicitudTrait;
-    use SolicitudCreateTrait;
-    use SolicitudUpdateTrait;
+    use MensajeTrait, SolicitudTrait,SolicitudCreateTrait, SolicitudUpdateTrait;
+    use VehiculoTrait, RefProductoTrait, CreditoUpdateTraitV2;
 
     public function __construct()
     {
@@ -69,68 +70,47 @@ class PrecreditoController extends Controller
             ->with('data', $data)
             ->with('elements',[])
             ->with('producto_id','')
+            ->with('producto','')
+            ->with('ref_productos','')
+            ->with('data_credito','')
+            ->with('fecha_pago','')
             ->with('solicitud','')
             ->with('credito','');
-
     }
 
     public function store(Request $request)
-    {        
-        $validator = $this->validateSolicitudCreateTr($request->all());
+    {   
+        $validator = $this->validateSolicitudCreateTr($request->solicitud);
 
-        if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
+        if ($validator->fails()) return res(false,'validation',$validator->errors());
 
         DB::beginTransaction();
 
         try {
             
             if ($this->procesosPendientes($request->cliente_id)) {
-            
-                return response()->json([
-                    'error'   => true,
-                    'message' => '@ No se puede crear la solicitud, ya existen solicitudes en trámite!'
-                ]);
+                return res(false, '','No se puede crear la solicitud, ya existen solicitudes en trámite!!!');
             }
 
-            $solicitud = $this->saveSolicitudCreateTr($request->all()); // SolicitudCreateTrait.php
+            $solicitud = $this->saveSolicitudCreateTr($request->solicitud); // SolicitudCreateTrait.php
             
-            if ($request->ref_productos) {
+            if ($request->producto['min_vehiculos'] && $request->ref_productos) {
+
                 foreach ($request->ref_productos as $producto) {
-
-                    $vehiculo = new _\Vehiculo();
-                    $vehiculo->placa = $producto['_placa'];
-                    $vehiculo->tipo_vehiculo_id = $producto['_tipo_vehiculo_id'];
-                    $vehiculo->vencimiento_soat = $producto['_vencimiento_soat'];
-                    $vehiculo->vencimiento_rtm  = $producto['_vencimiento_rtm'];
-                    $vehiculo->save();
-
-                    $ref_producto = new _\RefProducto();
-                    $ref_producto->fill($producto);
-                    $ref_producto->vehiculo_id = $vehiculo->id;
-                    $ref_producto->precredito_id = $solicitud->id;
-                    $ref_producto->created_by  = Auth::user() ? Auth::user()->id : 1;
-                    $ref_producto->save();
+                    $vehiculo = $this->saveVehiculoFromProductoTr($producto); // Creditos/VehiculoTr
+                    $ref_producto = $this->saveRefProductoFromProductoTr($producto, $vehiculo, $solicitud); // Creditos/RefProductoTrait
                 }
             }
 
-            \DB::commit();
+            DB::commit();
 
-            return response()->json([
-                'error'   => false,
-                'message' => 'La solicitud con Id: '.$solicitud->id.' del cliente '.$solicitud->cliente->nombre.' se creo con éxito!',
-                'dat'     => $solicitud->cliente_id
-            ]);
+            return res(true, $solicitud, 'Se creó la solicitud con éxito !!!');
 
         } catch(\Exception $e){
 
-            \Log::error($e);
-
             DB::rollback();
-            return response()->json([
-                'error'   => true,
-                'message' => 'Ocurrió un error, intentelo nuevamente.',
-                'dat'     => $e->getMessage()
-            ]);
+
+            return res(false, '', 'Ocurrió un error: '.$e->getMessage());
         }
 
     }
@@ -200,9 +180,12 @@ class PrecreditoController extends Controller
     
             return view('start.precreditos.create')
                 ->with('data', $data)
-                ->with('elements', $ref_productos)
                 ->with('producto_id',$precredito->producto_id)
                 ->with('solicitud',$precredito)
+                ->with('producto',$precredito->producto)
+                ->with('ref_productos',$ref_productos)
+                ->with('data_credito','')
+                ->with('fecha_pago','')
                 ->with('credito','');
         }
 
@@ -213,11 +196,11 @@ class PrecreditoController extends Controller
     */
 
 
-    public function ver($id)
+    public function ver($precredito_id)
     {
-        $precredito = Precredito::find($id);
+        $precredito = Precredito::find($precredito_id);
 
-        $credito    = Credito::where('precredito_id',$id)->get();
+        $credito    = Credito::where('precredito_id',$precredito_id)->get();
 
         ($precredito->credito) ?  $total_pagos = sum_pagos($credito[0]) : $total_pagos = 0;
 
@@ -531,7 +514,7 @@ class PrecreditoController extends Controller
 
     public function updateV2(Request $request) 
     {  
-        $validator = $this->validateSolicitudUpdateTr($request->all());
+        $validator = $this->validateSolicitudUpdateTr($request->solicitud);
 
         if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
 
@@ -539,45 +522,30 @@ class PrecreditoController extends Controller
 
         try {
 
-            $solicitud = Precredito::find($request->id);
+            // Update producto
 
-            $solicitud->fill($request->all());
-            $solicitud->user_update_id = (Auth::user()) ? Auth::user()->id : 1;
-            $solicitud->save();       
-            
-            if ($request->ref_productos) {
-                foreach ($request->ref_productos as $producto) {
-                    
-                    $vehiculo = _\Vehiculo::find($producto['_vehiculo_id']);
-                    $vehiculo->placa = $producto['_placa'];
-                    $vehiculo->tipo_vehiculo_id = $producto['_tipo_vehiculo_id'];
-                    $vehiculo->vencimiento_soat = $producto['_vencimiento_soat'];
-                    $vehiculo->vencimiento_rtm  = $producto['_vencimiento_rtm'];
-                    $vehiculo->save();
+            $solicitud = Precredito::find($request->solicitud['id']);
+            $old_producto_id = $solicitud->producto_id;
+            $solicitud->fill($request->solicitud);
 
-                    $ref_producto = _\RefProducto::find($producto['ref_producto_id']);
-                    $ref_producto->fill($producto);
-                    $ref_producto->updated_by  = Auth::user() ? Auth::user()->id : 1;
-                    $ref_producto->save();
-                }
+            if ($solicitud->isDirty()) {
+                $solicitud->user_update_id = Auth::user()->id;
+                $solicitud->save(); 
             }
 
-            \DB::commit();
+            // Edit ref productos
+            
+            $this->saveRefProductosTrV2($request, $old_producto_id);
 
-            return response()->json([
-                'error'   => false,
-                'message' => 'La solicitud con Id: '.$solicitud->id.' del cliente '.$solicitud->cliente->nombre.' se creo con éxito!',
-                'dat'     => $solicitud->cliente_id
-            ]);
+            DB::commit();
+
+            return res(true, $solicitud , 'Se editó la solicitud con éxito !!!');
 
         } catch(\Exception $e){
 
             DB::rollback();
-            return response()->json([
-                'error'   => true,
-                'message' => 'Ocurrió un error, intentelo nuevamente.',
-                'dat'     => $e->getMessage()
-            ]);
+
+            return res(false, '', 'Ocurrio un error: '.$e->getMessage());
         }
 
     }

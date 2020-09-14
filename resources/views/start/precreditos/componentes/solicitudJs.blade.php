@@ -10,7 +10,8 @@
                 rango2: [],
                 data: this.$store.state.data,
                 solicitud: this.$store.state.solicitud,
-                rules: rules_solicitud
+                rules: rules_solicitud,
+                show : {!! json_encode(\Auth::user()->can('editar_solicitudes')) !!}
             }
         },
         filters: {
@@ -25,12 +26,11 @@
                 if (! await this.validation()) return false; 
 
                 await this.assignData();
-
                 
                 $('.nav-tabs a[href="#producto"]').tab('show');
             },
-            continuar () {
-                this.assignData();
+            async continuar () {
+                await this.assignData();
                 $('.nav-tabs a[href="#credito"]').tab('show') 
             },
             async onSubmit() {
@@ -39,33 +39,23 @@
                 
                 await this.assignData();
 
-                if (this.$store.state.data.status == 'create') {
-                    await this.save();
-                } else if (this.$store.data.status == 'edit') {
+                var status = await this.$store.state.data.status;
+
+                console.log({status});
+
+                if (status == 'create') 
+                    await this.$store.dispatch('createSolicitud');
+
+                else if (status == 'edit')
                     await this.$store.dispatch('updateSolicitud');
-                } else if (this.$store.data.status == 'edit cred') {
 
-                }
+                else if (status == 'edit cred')
+                    await this.$store.dispatch('updateCredito');
             }, 
-            assignData() {
-                this.solicitud.ref_productos = this.$store.state.elements;
-                this.solicitud.producto_id   = this.$store.state.producto_id;
-                this.$store.commit('setSolicitud', this.solicitud);
-            },
-            async save() {
-                
-                let res = await axios.post('/start/precreditos', this.solicitud)
-
-                alertify.set('notifier','position', 'top-right');
-                
-                if (!res.data.error) {
-                    alertify.notify(res.data.message, 'success', 3, () => {
-                        window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
-                    });
-                } else {
-                    alertify.alert('Alert Title', res.data.message, () => {});
-                }
-            },                      
+            async assignData() {
+                console.log('Assign data');
+                await this.$store.commit('setSolicitud', this.solicitud);
+            },                     
             async validation() {
                 
                 if ( ! await this.$validator.validate() ) {
@@ -78,9 +68,7 @@
             },
             validar_negocio() {
 
-                if (this.solicitud.vlr_fin &&
-                    this.solicitud.cuotas  &&
-                    this.solicitud.vlr_cuota ) {
+                if (this.solicitud.vlr_fin && this.solicitud.cuotas && this.solicitud.vlr_cuota ) {
 
                     const sumatoria = this.solicitud.cuotas *  this.solicitud.vlr_cuota;
 
@@ -119,24 +107,25 @@
                     }
 
                     this.rango2 = arr;
-
-                    // alertify.notify('Escoja una segunda fecha', 'success', 5);
+                    
                 } else {
                     this.rango2 = []
                 }
             }
         
         },   
-        async created() {
+        created() {
 
-            // Bus.$on('assign', await this.assignData());
+            Bus.$on('assign_solicitud', () => {
+                console.log('view solicitud');
+                this.assignData();
+            });
 
             if (this.$store.state.data.status == 'create') {
                 this.solicitud.cliente_id = this.$store.state.data.cliente.id
             } 
             else if (this.$store.state.data.status == 'edit' || this.$store.state.data.status == 'edit cred') {
-
-                await this.setup();
+                this.setup();
             }
         }
     });

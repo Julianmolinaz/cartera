@@ -16,7 +16,7 @@
                         :name="rules.estado.name">                              
                         <option selected disabled>--</option>
                         <option :value="estado" 
-                            v-for="(estado,index) in $store.state.credito.estados"
+                            v-for="(estado,index) in $store.state.data_credito.estados"
                             v-if="estado != 'Cancelado por refinanciacion'">@{{estado}}</option>
                     </select>
                     <span class="help-block">@{{ errors.first(rules.estado.name) }}</span>
@@ -106,7 +106,7 @@
                         v-validate="rules.castigada.rule"
                         :name="rules.castigada.name">
                         <option selected disabled>--</option>
-                        <option :value="estado" v-for="estado in $store.state.credito.estados_castigada">@{{ estado }}</option>
+                        <option :value="estado" v-for="estado in $store.state.data_credito.estados_castigada">@{{ estado }}</option>
                     </select>  
                     <span class="help-block">@{{ errors.first(rules.castigada.name) }}</span>   
                 </div>
@@ -136,7 +136,7 @@
                         v-validate="rules.mes.rule"
                         :name="rules.mes.name">
                         <option selected disabled>--</option>
-                        <option :value="mes" v-for="mes in $store.state.credito.meses">@{{ mes }}</option>
+                        <option :value="mes" v-for="mes in $store.state.data_credito.meses">@{{ mes }}</option>
                     </select>
                     <span class="help-block">@{{ errors.first(rules.mes.name) }}</span>
                 </div>  
@@ -152,7 +152,7 @@
                         v-validate="rules.anio.rule"
                         :name="rules.anio.name">
                         <option selected disabled>--</option>
-                        <option :value="anio" v-for="anio in $store.state.credito.anios">@{{ anio }}</option>
+                        <option :value="anio" v-for="anio in $store.state.data_credito.anios">@{{ anio }}</option>
                     </select>  
                     <span class="help-block">@{{ errors.first(rules.anio.name) }}</span>     
                 </div> 
@@ -214,9 +214,9 @@
         template: '#credito-template',
         data() {
             return {
-                credito: this.$store.state.credito.info,
+                credito: this.$store.state.credito,
                 rules: rules_credito,
-                fecha_pago: this.$store.state.credito.fecha_pago
+                fecha_pago: this.$store.state.fecha_pago
             }
         },
         methods: {
@@ -232,7 +232,6 @@
                 this.$store.commit('setFechaPago',this.fecha_pago);
             },
             assignData() {
-                // add credito
                 this.$store.commit('setCredito', this.credito);
                 this.$store.commit('setFechaPago', this.fecha_pago);
             },
@@ -256,7 +255,10 @@
             }
         },
         created() {
-            Bus.$on('assign', () => this.assignData());
+            Bus.$on('assign_credito', () => {
+                console.log('view credito');
+                this.assignData();
+            });
         }
     });
 

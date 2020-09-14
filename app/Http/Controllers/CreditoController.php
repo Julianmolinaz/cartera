@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Traits\Solicitudes\SolicitudUpdateTrait;
 use App\Traits\Creditos\DatatableCreditoTrait;
 use App\Traits\Creditos\CreditoUpdateTrait;
+use App\Traits\Creditos\RefProductoTrait;
+use App\Traits\Creditos\VehiculoTrait;
+use App\Traits\Creditos\CreditoUpdateTraitV2;
 use App\Traits\Solicitudes\SolicitudTrait;
 use App\Repositories\CreditoRepository;
 use App\Traits\MensajeTrait;
@@ -23,6 +26,7 @@ use App\Cliente;
 use Datatables;
 use App\User;
 use Validator;
+use App as _;
 use Excel;
 use Auth;
 use DB;
@@ -31,7 +35,7 @@ class CreditoController extends Controller
 {
     protected $creditos;
     use MensajeTrait;
-    use CreditoUpdateTrait;
+    use CreditoUpdateTrait,CreditoUpdateTraitV2, RefProductoTrait, VehiculoTrait;
     use SolicitudUpdateTrait, SolicitudTrait;
     use DatatableCreditoTrait;
 
@@ -336,14 +340,17 @@ class CreditoController extends Controller
                 ];
             });
 
-            $credit = $this->obtener_data_para_editar_credito($credito);
+            $data_credito = $this->obtener_data_para_editar_credito($credito);
 
             return view('start.precreditos.create')
-                ->with('data', $data)
-                ->with('elements', $ref_productos)
-                ->with('producto_id',$credito->precredito->producto_id)
+                ->with('fecha_pago', $credito->fecha_pago->fecha_pago)
+                ->with('ref_productos', $ref_productos)
                 ->with('solicitud',$credito->precredito)
-                ->with('credito', $credit);
+                ->with('producto',$credito->precredito->producto)
+                ->with('producto_id',$credito->precredito->producto_id)
+                ->with('data_credito', $data_credito)
+                ->with('credito', $credito)
+                ->with('data', $data);
         }
     }//.edit
 
@@ -496,39 +503,74 @@ class CreditoController extends Controller
     
     public function updateV2(Request $request) 
     {
-        $errorMessages = [];
+        $old_producto_id = '';
+        $errorMessages = $this->validateMakeTrV2($request); // Creditos/CreditoUpdateTraitV2
 
-        // Validar solicitud
-        $validatorSolicitud = $this->validateSolicitudUpdateTr($request->solicitud);
+        if ($errorMessages) return res(false,'validation',$errorMessages);
 
-        // Validar credito
-        $validatorCredito = $this->validateCreditoUpdateTr($request->credito);
+        DB::beginTransaction();
 
-        // Validar fecha de pago
-        $validatorFechaDePago = Validator::make($request->all(), 
-            ['fecha_pago' => 'required'], 
-            ['fecha_pago.required' => 'La fecha de pago es requerida']);
+        try {
+            // Guardar credito
+
+            $credito = Credito::find($request->credito['id']);
+            $credito->fill($request->credito);
+    
+            if ($credito->isDirty()) {
+                $credito->user_update_id = Auth::user()->id;
+                $credito->save();
+            }
+
+            // Guardar solicitud
+
+            $solicitud = Precredito::find($request->solicitud['id']);
+            $old_producto_id = $solicitud->producto_id;
+            $solicitud->fill($request->solicitud);
+
+            if ($solicitud->isDirty()) {
+                $solicitud->user_create_id = Auth::user()->id;
+                $solicitud->save();
+            }
+
+            // Guardar fecha de pago
+            
+            $fecha_pago = _\FechaCobro::find($credito->fecha_pago->id);
+            $fecha_pago->fecha_pago = $request->fecha_pago;
+
+            if ($fecha_pago->isDirty()) {
+                $fecha_pago->save();
+            }
+
+            // Guardar RefProductos
+
+            $this->saveRefProductosTrV2($request, $old_producto_id); // Creditos/CreditoUpdateTraitV2
+
+            // Castigar
 
 
-        if ($validatorSolicitud->fails()) $errorMessages[] =  $validatorSolicitud->errors();
-        if ($validatorCredito->fails())   $errorMessages[] =  $validatorCredito->errors();
-        if ($validatorFechaDePago->fails()) $errorMessages[] =  $validatorFechaDePago->errors();
+            // Calificar
 
-        if ($errorMessages) return res('false','',$errorMessages);
+            DB::commit();
 
-        // Guardar credito
+            return res(true, $credito, 'El crédito se modificó con éxito');
 
-        // Guardar solicitud
+        } catch (\Exception $e) {
 
-        // Guardar fecha de pago
+            DB::rollback();
+
+            return res(false, '', "Se ha generado un error: $e->getMessage()");
+
+        } 
+
+
+
+
+
 
         
-        // Castigar
 
 
-        // Calificar
 
-        return res(true, $request->all(), '');
     }
 
 

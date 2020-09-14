@@ -276,6 +276,16 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Solicitudes',
+            'name' => 'editar_producto_solicitudes',
+            'display_name' => 'Editar producto de solicitud',
+            'description' => 'Permite editar el producto asignado a la solicitud',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        \DB::table('permissions')->insert([
+            'category' => 'Solicitudes',
             'name' => 'aprobar_solicitudes',
             'display_name' => 'Aprobar solicitudes',
             'description' => 'Permite cambiar el estado de la solicitud a aprobado, negado, cliente  desistió, etc',
@@ -318,7 +328,6 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        
 
         // CANCELADOS
 

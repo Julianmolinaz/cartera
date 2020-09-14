@@ -4,7 +4,7 @@
      switch (producto.id) {
         case 1:
             return [new Producto(producto.id, 'R.T.M')];
-            break;
+            break;  
         case 2: 
             return [new Producto(producto.id, 'SOAT')];   
             break; 

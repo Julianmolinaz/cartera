@@ -84,12 +84,10 @@ trait CreditoUpdateTrait
         $anios = [$anio->year -1, $anio->year];
 
         return [
-            'info' => $credito,
             'estados' => _\Http\Controllers\getEnumValues('creditos','estado'),
             'estados_castigada' => _\Http\Controllers\getEnumValues('creditos','castigada'),
             'anios' => $anios,
-            'meses' => ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-            'fecha_pago' => $credito->fecha_pago->fecha_pago
+            'meses' => ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
         ];   
     }
 
@@ -112,7 +110,6 @@ trait CreditoUpdateTrait
 
     public function updateV2Tr(Request $request, $id)
     {
-    
         // reglas de validacion del formulario
         if($request->input('periodo') == 'Quincenal'){
             $this->validate($request, ['s_fecha' => 'required'],

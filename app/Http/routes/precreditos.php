@@ -23,7 +23,7 @@ Route::get('start/precreditos/{cliente}',[
 
 //PRECREDITOS EDITAR
 Route::get('start/precreditos/{precredito_id}/edit',[
-    'middleware' => ['permission:editar_solicitudes'],
+    'middleware' => ['permission:editar_solicitudes|editar_producto_solicitudes'],
     'uses'  => 'PrecreditoController@edit',
     'as'    => 'start.precreditos.edit'
 ]);
@@ -52,7 +52,7 @@ Route::post('start/precreditos',[
 
 
 //PRECREDITOS VER
-Route::get('start/precreditos/{id}/ver',[
+Route::get('start/precreditos/{precredito_id}/ver',[
     'middleware' => ['permission:consultar_solicitudes'],
     'uses'  	=> 'PrecreditoController@ver',
     'as'    => 'start.precreditos.ver'

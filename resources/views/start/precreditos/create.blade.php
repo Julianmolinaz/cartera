@@ -12,22 +12,27 @@
             <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.data.status"></span>
         </h1>
 
+        <div class="alert alert-danger" role="alert" style="margin:5px 10px;"
+            v-if="$store.state.message" v-html="$store.state.message"></div>
+
         <div role ="tabpanel">
         
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentacion" class="active">
-                    <a href="#producto" aria-controls="producto" data-toggle="tab" role="tab" @click="go()">
+                    <a href="#producto" aria-controls="producto" data-toggle="tab" role="tab" @click="go('producto')">
                         <i class="fa fa-cube" aria-hidden="true" style="margin-right:5px;"></i> Producto
                     </a>
                 </li>
+    
                 <li role="presentacion">
-                    <a href="#solicitud" aria-controls="solicitud" data-toggle="tab" role="tab" @click="go()">
+                    <a href="#solicitud" aria-controls="solicitud" data-toggle="tab" role="tab" @click="go('solicitud')">
                     <i class="fa fa-plug" aria-hidden="true" style="margin-right:5px;"></i>Solicitud
                     </a>
                 </li>
+          
                 @if($credito)
                 <li role="presentacion">
-                    <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab" @click="go()">
+                    <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab" @click="go('credito')">
                     <i class="fa fa-rss-square" aria-hidden="true" style="margin-right:5px;"></i>Crédito
                     </a>
                 </li>
@@ -68,7 +73,6 @@
 @include('start.precreditos.componentes.credito')
 @include('start.precreditos.componentes.store') 
 
-
 <script>
 
     Vue.use(VeeValidate)
@@ -77,9 +81,15 @@
     const principal = new Vue({
         el: '#principal',
         store,
+        data: {
+            view: 'producto',
+            permission: {!! \Auth::user()->can('aprobar_solicitudes') || 
+                    \Auth::user()->can('editar_solicitudes_solo_producto') !!}
+        },
         methods: {
-            go(){
-                Bus.$emit('assign');
+            async go(view){
+                await Bus.$emit('assign_'+this.view);
+                this.view = view
             }
         },
         created(){}

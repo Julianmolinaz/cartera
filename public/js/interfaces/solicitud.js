@@ -19,6 +19,5 @@ class Solicitud {
     this.cuota_inicial = 0;
     this.aprobado = "En estudio";
     this.observaciones = "";
-    this.ref_productos = [];
   }
 }

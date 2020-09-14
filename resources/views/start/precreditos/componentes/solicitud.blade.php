@@ -3,11 +3,12 @@
 <div>
     <form @submit.prevent="">
         <div class="row">
-            <!-- APROBADO  -->
 
+            <!-- APROBADO  -->
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.aprobado.name) ? 'has-error' :'']">
                 <label for="">Aprobado @{{ rules.aprobado.required }}</label>
-                <select 
+                <select     
+                    :disabled="!show"
                     class="form-control" 
                     v-model="solicitud.aprobado"
                     v-validate="rules.aprobado.rule"
@@ -27,6 +28,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.num_fact.name) ? 'has-error' :'']">
                 <label for="">Consecutivo @{{ rules.num_fact.required }}</label>    
                 <input 
+                    :disabled="!show"
                     style="font-size:12px;"
                     type="text" 
                     class="form-control" 
@@ -42,6 +44,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_solicitud.name) ? 'has-error' :'']">
                 <label for="">Fecha @{{ rules.fecha_solicitud.required }}</label>    
                 <input
+                    :disabled="!show"
                     type="date" 
                     class="form-control my-input" 
                     v-model="solicitud.fecha"
@@ -55,7 +58,8 @@
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.funcionario_id.name) ? 'has-error' :'']">
                 <label for="">Vendedor @{{ rules.funcionario_id.required }}</label> 
-                <select 
+                <select
+                    :disabled="!show" 
                     class="form-control my-input" 
                     v-validate="rules.funcionario_id.rule"
                     :name="rules.funcionario_id.name"
@@ -72,6 +76,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.cartera.name) ? 'has-error' :'']">
                 <label for="">Cartera @{{ rules.cartera.required }}</label> 
                 <select 
+                    :disabled="!show"
                     class="form-control my-input" 
                     v-validate="rules.cartera.rule"
                     :name="rules.cartera.name"
@@ -90,6 +95,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.centro_costo.name) ? 'has-error' :'']">
                 <label for="">Centro de Costos @{{ rules.centro_costo.required }}</label>
                 <input 
+                    :disabled="!show"
                     @keyup="validar_negocio"
                     type="text" 
                     class="form-control"  
@@ -106,6 +112,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.cuota_inicial.name) ? 'has-error' :'']">
                 <label for="">Cuota Inicial @{{ rules.cuota_inicial.required }}</label>
                 <input
+                    :disabled="!show"
                     type="text" 
                     class="form-control" 
                     placeholder="Monto inicial"
@@ -121,6 +128,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.meses.name) ? 'has-error' :'']">
                 <label for="">Meses @{{ rules.meses.required }}</label>
                 <select 
+                    :disabled="!show"
                     @change="setup"
                     class="form-control"  
                     v-model="solicitud.meses"
@@ -137,6 +145,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.periodo.name) ? 'has-error' :'']">
                 <label for="">Periodo @{{ rules.periodo.required }}</label>
                 <select 
+                    :disabled="!show"
                     @change="setup"
                     class="form-control"  
                     v-model="solicitud.periodo"
@@ -171,6 +180,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.valor_cuotas.name) ? 'has-error' :'']">
                 <label for="">Valor Cuotas @{{ rules.valor_cuotas.required }}</label>
                 <input 
+                    :disabled="!show"
                     @keyup="validar_negocio"
                     type="text" 
                     class="form-control"  
@@ -188,6 +198,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.f_pago_1.name) ? 'has-error' :'']">
                 <label for="">F. Pago 1 @{{ rules.f_pago_1.required }}</label>
                 <select 
+                    :disabled="!show"
                     @change="setRango2"
                     class="form-control" 
                     v-model="solicitud.p_fecha"
@@ -204,7 +215,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.f_pago_2.name) ? 'has-error' :'']">
                 <label for="">F. Pago 2 @{{ rules.f_pago_2.required }}</label>
                 <select
-                    :disabled="solicitud.periodo == 'Mensual'"
+                    :disabled="solicitud.periodo == 'Mensual' || !show"
                     class="form-control"  
                     v-model="solicitud.s_fecha"
                     v-validate="rules.f_pago_2.rule"
@@ -220,6 +231,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.estudio.name) ? 'has-error' :'']">
                 <label for="">Estudio @{{ rules.estudio.required }}</label>
                 <select 
+                    :disabled="!show"
                     class="form-control"  
                     placeholder="Tipo de Estudio"
                     v-model="solicitud.estudio"
