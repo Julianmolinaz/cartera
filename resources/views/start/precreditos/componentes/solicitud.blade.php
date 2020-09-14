@@ -214,15 +214,13 @@
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.f_pago_2.name) ? 'has-error' :'']">
                 <label for="">F. Pago 2 @{{ rules.f_pago_2.required }}</label>
-                <select
-                    :disabled="solicitud.periodo == 'Mensual' || !show"
+                <input
+                    type="text"
+                    disabled
                     class="form-control"  
                     v-model="solicitud.s_fecha"
                     v-validate="rules.f_pago_2.rule"
                     :name="rules.f_pago_2.name">
-                    <option selected disabled>--</option>
-                    <option :value="i" v-for="i in rango2" >@{{ i }}</option>
-                </select>
                 <span class="help-block">@{{ errors.first(rules.f_pago_2.name) }}</span>
             </div>
 

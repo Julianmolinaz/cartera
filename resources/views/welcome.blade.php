@@ -26,7 +26,7 @@
           <div class="col-middle">
             <div class="text-center text-center">
             <div class="product_image">
-              <img src="{{asset('images/gora_logo.png')}}" alt="...">
+              <img src="{{asset('images/logo_inversiones_gora.png')}}" alt="..." width="400">
             </div>              
               <br><br><br><br>
               <h2  style="color: #000;">¡Hola!</h2>

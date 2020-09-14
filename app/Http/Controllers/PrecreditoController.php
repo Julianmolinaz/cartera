@@ -93,9 +93,14 @@ class PrecreditoController extends Controller
             }
 
             $solicitud = $this->saveSolicitudCreateTr($request->solicitud); // SolicitudCreateTrait.php
+<<<<<<< HEAD
 
 
             if ($request->ref_productos) {
+=======
+            
+            if ($request->producto['min_vehiculos'] && $request->ref_productos) {
+>>>>>>> 7d90727506336b05da7d6265e6d7ba54665cc20e
 
                 foreach ($request->ref_productos as $producto) {
                     $vehiculo = $this->saveVehiculoFromProductoTr($producto); // Creditos/VehiculoTr
@@ -112,7 +117,6 @@ class PrecreditoController extends Controller
             \Log::info($e);
 
             DB::rollback();
-
             return res(false, '', 'Ocurrió un error: '.$e->getMessage());
         }
 
