@@ -74,7 +74,8 @@ class PrecreditoController extends Controller
     }
 
     public function store(Request $request)
-    {        
+    {      
+       
         $validator = $this->validateSolicitudCreateTr($request->all());
 
         if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
@@ -92,7 +93,8 @@ class PrecreditoController extends Controller
             }
 
             $solicitud = $this->saveSolicitudCreateTr($request->all()); // SolicitudCreateTrait.php
-            
+
+
             if ($request->ref_productos) {
                 foreach ($request->ref_productos as $producto) {
 

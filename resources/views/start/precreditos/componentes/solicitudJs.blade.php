@@ -42,13 +42,15 @@
                 
                 let res = await axios.post('/start/precreditos', this.solicitud)
                 alertify.set('notifier','position', 'top-right');
+
+                console.log({res});
                 
                 if (!res.data.error) {
                     alertify.notify(res.data.message, 'success', 3, () => {
                         window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
                     });
                 } else {
-                    alertify.notify(res.data.message, 'error', 5, () => {console.log(res.data.message)});
+                    alertify.notify(res.data.message, 'error', 5, () => {alert(res.data.message)});
                 }
             },
             async update() {

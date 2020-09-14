@@ -7,7 +7,7 @@ trait SolicitudUpdateTrait
     public function validateSolicitudUpdateTr($request)
     {
         $rules = [
-            'num_fact'    => 'required|unique:precreditos,num_fact,'.$request['id'],
+            'num_fact'    => 'unique:precreditos,num_fact,'.$request['id'],
             'fecha'       => 'required',
             'cartera_id'  => 'required',
             'vlr_fin'     => 'required',
@@ -18,7 +18,6 @@ trait SolicitudUpdateTrait
         ];
 
         $messages = [
-            'num_fact.required'      => 'El Número de Formulario es requerido',
             'num_fact.unique'        => 'EL Número de Formulario ya existe',
             'fecha.required'         => 'La Fecha de Solicitud es requerida',
             'cartera_id.required'    => 'La Cartera es requerida',

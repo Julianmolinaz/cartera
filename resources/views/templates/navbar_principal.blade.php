@@ -60,6 +60,7 @@
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="{{route('start.pagos.inicio')}}">Hacer Pago</a></li>
+                <li><a href="{{route('admin.pagos_masivos.index')}}">Pagos Masivos</a></li>
                 <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="{{route('start.facturas.index')}}">Ver Facturas Créditos</a></li>

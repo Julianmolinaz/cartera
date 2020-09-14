@@ -38,7 +38,6 @@ class UsersTableSeeder extends Seeder
                 'name' => 'PABLO ADRIAN GONZALEZ SALAZAR',
                 'estado' => 'Activo',
                 'rol' => 'Administrador',
-                'rol_id' => '2',
                 'email' => 'etereosum@gmail.com',
                 'password' => '$2y$10$VEgiD/5dwKBKia0KT2jTsuB0kTuQSEtG6KflLSfC6gOPeOZ.6TJru',
                 'punto_id' => 1,

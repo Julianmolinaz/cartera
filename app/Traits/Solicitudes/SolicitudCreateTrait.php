@@ -7,7 +7,7 @@ trait SolicitudCreateTrait
     public function validateSolicitudCreateTr($request)
     {
         $rules = [
-            'num_fact'    => 'required|unique:precreditos',
+            'num_fact'    => 'unique:precreditos',
             'fecha'       => 'required',
             'cartera_id'  => 'required',
             'vlr_fin'     => 'required',
@@ -18,7 +18,6 @@ trait SolicitudCreateTrait
         ];
 
         $messages = [
-            'num_fact.required'      => 'El Número de Formulario es requerido',
             'num_fact.unique'        => 'EL Número de Formulario ya existe',
             'fecha.required'         => 'La Fecha de Solicitud es requerida',
             'cartera_id.required'    => 'La Cartera es requerida',

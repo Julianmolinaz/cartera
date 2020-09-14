@@ -369,9 +369,9 @@ class PermissionsTableSeeder extends Seeder
 
 
         \DB::table('permissions')->insert([
-            'category' => 'estudio',
+            'category' => 'Estudio',
             'name' => 'crear_estudios',
-            'display_name' => 'Crear Estudio',
+            'display_name' => 'Crear estudio',
             'description' => 'Permite crear y editar un estudio de crédito',
             'created_by' => 1,
             'created_at' => Carbon::now(),
@@ -379,7 +379,7 @@ class PermissionsTableSeeder extends Seeder
         ]); //*     
         
         \DB::table('permissions')->insert([
-            'category' => 'estudio',
+            'category' => 'Estudio',
             'name' => 'crear_referencias',
             'display_name' => 'Crear referencias',
             'description' => 'Permite crear y editar referencias del cliente',
@@ -449,6 +449,18 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'listar_pagos_anulados',
             'display_name' => 'Listar pago creditos anulados',
             'description' => 'Permite listar el pago o abono de un credito anulado',
+            'created_by' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]); //*
+
+        // PAGOS MASIVOS
+
+        \DB::table('permissions')->insert([
+            'category' => 'Pago credito',
+            'name' => 'pagos_masivos',
+            'display_name' => 'Cargar archivo de pagos masivos',
+            'description' => 'Permite cargar archivo de pagos masivos',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -721,9 +733,9 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->insert([
             'category' => 'Reportes',
-            'name' => 'marcar_cancelados',
-            'display_name' => 'Reporte Procredito',
-            'description' => 'Permite generar reporte para Reporte Procredito',
+            'name' => 'reporte_procredito',
+            'display_name' => 'Reporte procredito',
+            'description' => 'Permite generar reporte para procredito',
             'created_by' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -739,15 +751,6 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        \DB::table('permissions')->insert([
-            'category' => 'Reportes',
-            'name' => 'reporte datacredito',
-            'display_name' => 'Reporte Datacredito',
-            'description' => 'Permite generar reporte para Reporte Datacredito',
-            'created_by' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
 
         \DB::table('permissions')->insert([
             'category' => 'Reportes',
