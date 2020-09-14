@@ -100,13 +100,7 @@
                 if (this.solicitud.periodo === 'Quincenal') {
 
                     var n = parseInt(this.solicitud.p_fecha);
-                    var arr = [];
-
-                    for (let i = 0; i < 3; i++) {
-                        if (n+(15 + i) <= 30) arr.push(n + (15 + i));
-                    }
-
-                    this.rango2 = arr;
+                    this.solicitud.s_fecha = n + 15;
                     
                 } else {
                     this.rango2 = []
