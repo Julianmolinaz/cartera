@@ -15,7 +15,7 @@ class CreateRefProductosTable extends Migration
         Schema::create('ref_productos', function (Blueprint $table) {
             $table->integer('id', true);
 			$table->string('nombre', 100);
-			$table->enum('estado', ['En proceso','Liqudado'])->nullable()->default('En Proceso');
+			$table->enum('estado', ['En proceso','Liquidado'])->nullable()->default('En Proceso');
 			$table->date('fecha_exp')->nullable();
 			$table->float('costo', 10, 0)->nullable();
 			$table->float('iva', 10, 0)->nullable();

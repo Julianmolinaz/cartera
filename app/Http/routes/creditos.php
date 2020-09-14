@@ -29,10 +29,15 @@ Route::get('start/creditos/show',[
 // 	['uses' 	=> 'CreditoController@create','as'=> 'start.creditos.create']);
 
 Route::put('start/creditos/{credito}',[
-	// Route::get('startUpdate',[
 	'middleware' => ['permission:editar_creditos'],	
     'uses'  => 'CreditoController@update',
     'as'    => 'start.creditos.update'
+]);
+
+Route::post('start/creditos/updateV2',[
+	'middleware' => ['permission:editar_creditos'],	
+    'uses'  => 'CreditoController@updateV2',
+    'as'    => 'start.creditos.updateV2'
 ]);
 
 Route::get('start/creditos/{credito_id}/edit',[

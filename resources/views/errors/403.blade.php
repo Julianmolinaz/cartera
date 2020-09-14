@@ -46,10 +46,13 @@
 
         <script>
             setTimeout(() => {
+
+                console.log({!! json_encode(session()->get('waypts'),JSON_FORCE_OBJECT) !!});
+
                 if ({!! json_encode(session()->get('waypts'),JSON_FORCE_OBJECT) !!}) {
-                    location.href = "/"; 
-                } else {
                     window.history.back();
+                } else {
+                    location.href = "/"; 
                 }
             }, 1000);
         

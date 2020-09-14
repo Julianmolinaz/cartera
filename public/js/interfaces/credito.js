@@ -11,6 +11,7 @@ class Credito {
         this.castigada           ='',
         this.mes                 ='',
         this.anio                ='',
+        this.recordatorio       ='',
         this.observaciones       =''
     }
 }

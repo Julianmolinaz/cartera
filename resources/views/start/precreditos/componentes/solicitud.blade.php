@@ -3,11 +3,12 @@
 <div>
     <form @submit.prevent="">
         <div class="row">
-            <!-- APROBADO  -->
 
+            <!-- APROBADO  -->
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.aprobado.name) ? 'has-error' :'']">
                 <label for="">Aprobado @{{ rules.aprobado.required }}</label>
-                <select 
+                <select     
+                    :disabled="!show"
                     class="form-control" 
                     v-model="solicitud.aprobado"
                     v-validate="rules.aprobado.rule"
@@ -27,6 +28,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.num_fact.name) ? 'has-error' :'']">
                 <label for="">Consecutivo @{{ rules.num_fact.required }}</label>    
                 <input 
+                    :disabled="!show"
                     style="font-size:12px;"
                     type="text" 
                     class="form-control" 
@@ -41,10 +43,10 @@
 
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_solicitud.name) ? 'has-error' :'']">
                 <label for="">Fecha @{{ rules.fecha_solicitud.required }}</label>    
-                <input 
-                    style="font-size:10px;"
+                <input
+                    :disabled="!show"
                     type="date" 
-                    class="form-control" 
+                    class="form-control my-input" 
                     v-model="solicitud.fecha"
                     v-validate="rules.fecha_solicitud.rule"
                     :name="rules.fecha_solicitud.name">  
@@ -52,18 +54,20 @@
             </div>
 
 
-            <!-- CARTERA  -->
+            <!-- Vendedor  -->
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.funcionario_id.name) ? 'has-error' :'']">
                 <label for="">Vendedor @{{ rules.funcionario_id.required }}</label> 
-                <select 
-                    class="form-control" 
+                <select
+                    :disabled="!show" 
+                    class="form-control my-input" 
                     v-validate="rules.funcionario_id.rule"
                     :name="rules.funcionario_id.name"
                     v-model="solicitud.funcionario_id"> 
                     <option selected disabled>--</option>
                     <option :value="vendedor.id" v-for="vendedor in data.vendedores">@{{vendedor.name}}</option>                
                 </select>
+                
                 <span class="help-block">@{{ errors.first(rules.funcionario_id.name) }}</span>                   
             </div>
 
@@ -72,7 +76,8 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.cartera.name) ? 'has-error' :'']">
                 <label for="">Cartera @{{ rules.cartera.required }}</label> 
                 <select 
-                    class="form-control" 
+                    :disabled="!show"
+                    class="form-control my-input" 
                     v-validate="rules.cartera.rule"
                     :name="rules.cartera.name"
                     v-model="solicitud.cartera_id"> 
@@ -90,6 +95,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.centro_costo.name) ? 'has-error' :'']">
                 <label for="">Centro de Costos @{{ rules.centro_costo.required }}</label>
                 <input 
+                    :disabled="!show"
                     @keyup="validar_negocio"
                     type="text" 
                     class="form-control"  
@@ -97,6 +103,7 @@
                     v-model="solicitud.vlr_fin"
                     v-validate="rules.centro_costo.rule"
                     :name="rules.centro_costo.name">
+                <span class="help-block" v-if="solicitud.vlr_fin > 0">$ @{{ solicitud.vlr_fin | formatPrice }}</span>                       
                 <span class="help-block">@{{ errors.first(rules.centro_costo.name) }}</span>                   
             </div>
 
@@ -105,12 +112,14 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.cuota_inicial.name) ? 'has-error' :'']">
                 <label for="">Cuota Inicial @{{ rules.cuota_inicial.required }}</label>
                 <input
+                    :disabled="!show"
                     type="text" 
                     class="form-control" 
                     placeholder="Monto inicial"
                     v-model="solicitud.cuota_inicial"
                     v-validate="rules.cuota_inicial.rule"
                     :name="rules.cuota_inicial.name">
+                <span class="help-block" v-if="solicitud.cuota_inicial > 0">$ @{{ solicitud.cuota_inicial | formatPrice }}</span>
                 <span class="help-block">@{{ errors.first(rules.cuota_inicial.name) }}</span>
             </div>
 
@@ -119,6 +128,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.meses.name) ? 'has-error' :'']">
                 <label for="">Meses @{{ rules.meses.required }}</label>
                 <select 
+                    :disabled="!show"
                     @change="setup"
                     class="form-control"  
                     v-model="solicitud.meses"
@@ -135,6 +145,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.periodo.name) ? 'has-error' :'']">
                 <label for="">Periodo @{{ rules.periodo.required }}</label>
                 <select 
+                    :disabled="!show"
                     @change="setup"
                     class="form-control"  
                     v-model="solicitud.periodo"
@@ -169,6 +180,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.valor_cuotas.name) ? 'has-error' :'']">
                 <label for="">Valor Cuotas @{{ rules.valor_cuotas.required }}</label>
                 <input 
+                    :disabled="!show"
                     @keyup="validar_negocio"
                     type="text" 
                     class="form-control"  
@@ -176,6 +188,8 @@
                     v-model="solicitud.vlr_cuota"
                     v-validate="rules.valor_cuotas.rule"
                     :name="rules.valor_cuotas.name">
+
+                <span class="help-block" v-if="solicitud.vlr_cuota > 0">$ @{{ solicitud.vlr_cuota | formatPrice }}</span>                    
                 <span class="help-block">@{{ errors.first(rules.valor_cuotas.name) }}</span>
             </div>
 
@@ -184,6 +198,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.f_pago_1.name) ? 'has-error' :'']">
                 <label for="">F. Pago 1 @{{ rules.f_pago_1.required }}</label>
                 <select 
+                    :disabled="!show"
                     @change="setRango2"
                     class="form-control" 
                     v-model="solicitud.p_fecha"
@@ -200,7 +215,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.f_pago_2.name) ? 'has-error' :'']">
                 <label for="">F. Pago 2 @{{ rules.f_pago_2.required }}</label>
                 <select
-                    :disabled="solicitud.periodo == 'Mensual'"
+                    :disabled="solicitud.periodo == 'Mensual' || !show"
                     class="form-control"  
                     v-model="solicitud.s_fecha"
                     v-validate="rules.f_pago_2.rule"
@@ -216,6 +231,7 @@
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.estudio.name) ? 'has-error' :'']">
                 <label for="">Estudio @{{ rules.estudio.required }}</label>
                 <select 
+                    :disabled="!show"
                     class="form-control"  
                     placeholder="Tipo de Estudio"
                     v-model="solicitud.estudio"
@@ -251,7 +267,11 @@
                         Volver</a>
                     <button class="btn btn-primary" @click="onSubmit">
                         <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                        Salvar</button>
+                        Salvar
+                    </button>
+                    <a class="btn btn-default" @click="continuar" v-if="$store.state.data.status == 'edit cred'">
+                        <i class="fa fa-forward" aria-hidden="true"></i>
+                        Continuar</a>
                 </center>
             </div>
         </div> 

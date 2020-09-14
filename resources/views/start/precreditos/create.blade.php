@@ -6,28 +6,37 @@
 
     <div class="panel panel-default" style="pading:5px;" id="myabs">
         <h1 style="margin: 12px 0px 15px 10px">
-            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-            Solicitud <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.data.status"></span>
+            <span class="glyphicon glyphicon-briefcase" aria-hidden="true" style="color:gray;"></span>
+            <span v-if="$store.state.data.status == 'edit cred'">Crédito</span> 
+            <span v-else>Solicitud</span> 
+            <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.data.status"></span>
         </h1>
+
+        <div class="alert alert-danger" role="alert" style="margin:5px 10px;"
+            v-if="$store.state.message" v-html="$store.state.message"></div>
 
         <div role ="tabpanel">
         
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentacion" class="active">
-                    <a href="#producto" aria-controls="producto" data-toggle="tab" role="tab">
-                    <i class="fa fa-cube" aria-hidden="true" style="margin-right:5px;"></i> Producto
+                    <a href="#producto" aria-controls="producto" data-toggle="tab" role="tab" @click="go('producto')">
+                        <i class="fa fa-cube" aria-hidden="true" style="margin-right:5px;"></i> Producto
                     </a>
                 </li>
+    
                 <li role="presentacion">
-                    <a href="#solicitud" aria-controls="solicitud" data-toggle="tab" role="tab">
+                    <a href="#solicitud" aria-controls="solicitud" data-toggle="tab" role="tab" @click="go('solicitud')">
                     <i class="fa fa-plug" aria-hidden="true" style="margin-right:5px;"></i>Solicitud
                     </a>
                 </li>
+          
+                @if($credito)
                 <li role="presentacion">
-                    <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab">
+                    <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab" @click="go('credito')">
                     <i class="fa fa-rss-square" aria-hidden="true" style="margin-right:5px;"></i>Crédito
                     </a>
                 </li>
+                @endif
             </ul>
         
             <!-- Tab panes -->
@@ -38,10 +47,11 @@
                 <div role="tabpanel" class="tab-pane" id="solicitud">
                     <solicitud-component />
                 </div>
+                @if($credito)
                 <div role="tabpanel" class="tab-pane" id="credito">
                     <credito-component />
                 </div>
-
+                @endif
                 <p class="help-block">Los campos con asterisco (*) son obligatorios</p>
                 
             </div><!-- tab-content  -->
@@ -54,20 +64,34 @@
 <script src="/js/interfaces/vehiculo.js"></script>
 <script src="/js/rules/vehiculo.js"></script>
 
+<script>
+    const Bus = new Vue();
+</script>
+
 @include('start.precreditos.componentes.producto')
 @include('start.precreditos.componentes.solicitud')
 @include('start.precreditos.componentes.credito')
 @include('start.precreditos.componentes.store') 
 
-
 <script>
+
     Vue.use(VeeValidate)
     VeeValidate.Validator.localize("es");
 
-    const principal =new Vue({
+    const principal = new Vue({
         el: '#principal',
         store,
-        methods: {},
+        data: {
+            view: 'producto',
+            permission: {!! \Auth::user()->can('aprobar_solicitudes') || 
+                    \Auth::user()->can('editar_solicitudes_solo_producto') !!}
+        },
+        methods: {
+            async go(view){
+                await Bus.$emit('assign_'+this.view);
+                this.view = view
+            }
+        },
         created(){}
     });
 
