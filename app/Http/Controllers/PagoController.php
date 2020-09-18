@@ -48,6 +48,7 @@ class PagoController extends Controller
     {
         
         $tipos_pago = getEnumValues('facturas', 'tipo');
+        $tipos      = $tipos_pago + ['Unificacion' => 'Unificacion'];
         $carteras   = Cartera::where('estado','Activo')->get();
         $now        = Carbon::today();
         $now        = formatoFecha(ano($now),mes($now),dia($now));
@@ -65,7 +66,7 @@ class PagoController extends Controller
         $otros_pagos = OtrosPagos::find(array_ids($otros_pagos))->sortByDesc('created_at');
 
         return view('start.pagos.create_venta')
-            ->with('tipos_pago',$tipos_pago)
+            ->with('tipos_pago',$tipos)
             ->with('carteras',$carteras)
             ->with('otros_pagos',$otros_pagos);
     }
