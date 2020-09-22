@@ -108,6 +108,8 @@ class PrecreditoController extends Controller
 
         } catch(\Exception $e){
 
+            \Log::info($e);
+
             DB::rollback();
             return res(false, '', 'Ocurrió un error: '.$e->getMessage());
         }

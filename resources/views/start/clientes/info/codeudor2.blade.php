@@ -80,7 +80,7 @@
             </td>
         </tr>
 
-        @if($cliente->conyuge)
+        @if($cliente->codeudor->conyuge)
         <tr>
 
             <td colspan="2" class="info">
