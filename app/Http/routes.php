@@ -65,3 +65,5 @@ require __DIR__ . '/routes/sanciones.php';
 require __DIR__ . '/routes/anotaciones.php';
 
 require __DIR__ . '/routes/pagos_masivos.php';
+
+require __DIR__ . '/routes/test.php';
