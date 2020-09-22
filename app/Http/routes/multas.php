@@ -16,19 +16,19 @@ Route::get('admin/multas',[
 
 // VER MULTAS
 
-Route::get('admin/multas/show',[
+Route::get('admin/multas/show/{credito_id}',[
     'middleware' => ['permission:consultar_multas'],
-    'uses' => 'MultaController@index',
+    'uses' => 'MultaController@show',
     'as'  => 'admin.multas.show'
     ]);
 
 // VER PREJURIDICOS
 
-Route::get('admin/multas/show',[
-    'middleware' => ['permission:consultar_multas'],
-    'uses' => 'MultaController@index',
-    'as'  => 'admin.multas.show'
-    ]);
+// Route::get('admin/multas/show',[
+//     'middleware' => ['permission:consultar_multas'],
+//     'uses' => 'MultaController@index',
+//     'as'  => 'admin.multas.show'
+//     ]);
 
 // VISTA CREAR CARTERA
 
@@ -48,7 +48,7 @@ Route::post('admin/multas', [
 
 // VISTA EDITAR CARTERA
 
-Route::get('admin/multas/edit/{cartera_id}',[
+Route::get('admin/multas/{cartera_id}/edit',[
     'middleware' => ['permission:editar_PreJuridicos'],
     'uses' => 'MultaController@edit',
     'as' => 'admin.multas.edit'
@@ -69,8 +69,7 @@ Route::get('admin/multas/destroy/{cartera_id}',[
     'uses' => 'MultaController@destroy',
     'as' => 'admin.multas.destroy'
     ]);
-// MULTAS CONCEPTO
-Route::post('admin/multas/concepto',[
-    'uses' =>'MultaController@concepto']);
 
-    // Route::post('admin/multas/concepto','MultaController@concepto')->middleware(['auth', 'admin']);
+    
+// MULTAS CONCEPTO
+Route::post('admin/multas/concepto',['uses' =>'MultaController@concepto']);

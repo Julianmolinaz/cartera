@@ -25,7 +25,7 @@
             class = 'btn btn-default btn-xs' 
             data-toggle="tooltip" data-placement="top" title="Sanciones diarias"><span class = "glyphicon glyphicon-record" ></span></a>
 
-        <a  href="{{route('admin.multas.show',$precredito->credito->id)}}" 
+        <a  href="{{route('admin.multas.show',[$precredito->credito->id])}}" 
             class = 'btn btn-default btn-xs' 
             data-toggle="tooltip" 
             data-placement="top" 

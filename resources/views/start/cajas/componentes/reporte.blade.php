@@ -93,9 +93,6 @@
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			          Total caja
 					</li>
-					
-					@{{date}}
-
 			    </ul>
 			</div>
 		`,

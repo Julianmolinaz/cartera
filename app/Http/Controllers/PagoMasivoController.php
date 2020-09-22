@@ -158,6 +158,12 @@ class PagoMasivoController extends Controller
     }
   
 
+      
+    public function validate_sanciones()
+    {
+           
+    }
+
     public function validate_heading() 
     {
         $keys = $this->data[0]->keys();
@@ -287,7 +293,6 @@ class PagoMasivoController extends Controller
         })->download('xls');
     }
 
-   
 
 }
 

@@ -231,9 +231,9 @@
             setFechaPago() {
                 this.$store.commit('setFechaPago',this.fecha_pago);
             },
-            assignData() {
-                this.$store.commit('setCredito', this.credito);
-                this.$store.commit('setFechaPago', this.fecha_pago);
+            async assignData() {
+                await this.$store.commit('setCredito', this.credito);
+                // await this.$store.commit('setFechaPago', this.fecha_pago);
             },
             async volver() {
 

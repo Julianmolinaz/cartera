@@ -21,6 +21,15 @@
             }, 
             getProducto(state) {
                 return state.producto
+            },
+            getData(state) {
+                return {
+                    solicitud : state.solicitud,
+                    credito   : state.credito,
+                    producto  : state.producto,
+                    ref_productos : state.ref_productos,
+                    fecha_pago : state.fecha_pago 
+                }
             }
         },
         mutations: {
@@ -41,7 +50,7 @@
                 state.solicitud.producto_id = producto_id
             },
             setCredito(state, credito) {
-                state.credito.info = credito
+                state.credito = credito
             },
             setFechaPago(state, fecha_pago) {
                 state.fecha_pago = fecha_pago
@@ -83,7 +92,6 @@
             },
             async updateSolicitud({state,getters}) 
             {
-
                 let dat = {
                     ref_productos : state.ref_productos,
                     solicitud     : state.solicitud,
@@ -118,7 +126,7 @@
             },
             async updateCredito({state, getters}) 
             {
-                let dat = {
+                var dat = {
                     ref_productos : state.ref_productos,
                     credito       : state.credito,
                     solicitud     : state.solicitud,
@@ -126,7 +134,9 @@
                     producto      : state.producto
                 };
 
-                let res = await axios.post('/start/creditos/updateV2', dat);
+                console.log(this.getters['getData']);
+
+                let res = await axios.post('/start/creditos/updateV2', this.getters['getData']);
 
                 alertify.set('notifier','position', 'top-right');
                 

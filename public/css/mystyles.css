@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "amatic";
+  src: url("/fonts/Amatic_SC/AmaticSC-Regular.ttf");
+}
+
+@font-face {
+  font-family: "amatic-bold";
+  src: url("/fonts/Amatic_SC/AmaticSC-Bold.ttf");
+}
+
 .input-solicitud {
   font-size: 11px;
 }
