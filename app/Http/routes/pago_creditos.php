@@ -51,7 +51,7 @@ Route::put('start/facturas/{factura}',[
 
 Route::post('start/facturas/abonos',[
     'middleware' => ['permission:ver_pagos_credito'],
-    'FacturaController@abonos'
+    'uses' =>'FacturaController@abonos'
 ]);
 
 // ANULADA facturas

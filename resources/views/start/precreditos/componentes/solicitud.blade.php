@@ -8,7 +8,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.aprobado.name) ? 'has-error' :'']">
                 <label for="">Aprobado @{{ rules.aprobado.required }}</label>
                 <select     
-                    :disabled="!show"
+                    :disabled="!show || $store.state.data.status == 'edit cred'"
                     class="form-control" 
                     v-model="solicitud.aprobado"
                     v-validate="rules.aprobado.rule"
@@ -196,7 +196,7 @@
             <!-- FECHA DE PAGO 1 -->
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.f_pago_1.name) ? 'has-error' :'']">
-                <label for="">F. Pago 1 @{{ rules.f_pago_1.required }}</label>
+                <label for="">Fecha Pago 1 @{{ rules.f_pago_1.required }}</label>
                 <select 
                     :disabled="!show"
                     @change="setRango2"
@@ -213,7 +213,7 @@
             <!-- FECHA DE PAGO 2  -->
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.f_pago_2.name) ? 'has-error' :'']">
-                <label for="">F. Pago 2 @{{ rules.f_pago_2.required }}</label>
+                <label for="">Fecha Pago 2 @{{ rules.f_pago_2.required }}</label>
                 <input
                     type="text"
                     disabled

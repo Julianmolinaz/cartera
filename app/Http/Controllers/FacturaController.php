@@ -209,7 +209,7 @@ class FacturaController extends Controller
     {
       DB::beginTransaction();
 
-      try{
+      try {
 
         $id         = $request->credito_id;
         $pagos      = $request->pagos; // pagos a registrar
@@ -248,8 +248,9 @@ class FacturaController extends Controller
         $factura->credito_id      = $request->credito_id;
         $factura->total           = $request->monto;
         $factura->tipo            = $request->tipo_pago;
+
         if($request->tipo_pago == 'Consignacion') {
-          $factura->banco = $request->banco;
+            $factura->banco = $request->banco;
         }
         $factura->user_create_id  = Auth::user()->id;
         $factura->user_update_id  = Auth::user()->id;
@@ -585,6 +586,7 @@ class FacturaController extends Controller
         "mensaje" => "Se generaron los pagos Éxitosamente !!!"
       ]); 
     } catch(\Exception $e){
+
         DB::rollback();
         return response()->json([
           "error"   => true,

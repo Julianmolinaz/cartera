@@ -1,0 +1,28 @@
+[2020-09-17 11:02:36] local.INFO: store del oficio {"nombre":"Ingeniero"} 
+[2020-09-21 11:16:39] local.NOTICE: array (
+  'num_fact' => '',
+  'fecha' => '',
+  'monto' => '100000',
+  'tipo_pago' => 'Efectivo',
+  'credito_id' => 11932,
+  'auto' => true,
+  'pagos' => 
+  array (
+  ),
+  'banco' => '',
+  'num_consignacion' => '',
+)  
+[2020-09-21 12:56:19] local.ERROR: LogicException: Unable to prepare route [/] for serialization. Uses Closure. in /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Route.php:926
+Stack trace:
+#0 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Console/RouteCacheCommand.php(61): Illuminate\Routing\Route->prepareForSerialization()
+#1 [internal function]: Illuminate\Foundation\Console\RouteCacheCommand->fire()
+#2 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Container/Container.php(507): call_user_func_array(Array, Array)
+#3 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Console/Command.php(169): Illuminate\Container\Container->call(Array)
+#4 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Command/Command.php(256): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Console/Command.php(155): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(794): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(186): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Foundation\Console\RouteCacheCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(117): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(107): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/pablo/Documents/misproyectos/gora/carteragora2020/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 {main}  

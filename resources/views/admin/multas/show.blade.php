@@ -8,10 +8,7 @@
 
     <div class="panel panel-warning">
 
-      <div class="panel-heading"><h4>Multas
-
-        &nbsp;&nbsp;<small>[{{$credito->precredito->cliente->nombre.' '.$credito->precredito->cliente->num_doc}}]</small>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="panel-heading"><h4>Multas<small style="margin: 0px 20px;">[{{$credito->precredito->cliente->nombre.' '.$credito->precredito->cliente->num_doc}}]</small>
 
         <div class="btn-group" role="group" aria-label="...">
 

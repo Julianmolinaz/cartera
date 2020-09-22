@@ -345,11 +345,11 @@ class CreditoController extends Controller
             return view('start.precreditos.create')
                 ->with('fecha_pago', $credito->fecha_pago->fecha_pago)
                 ->with('ref_productos', $ref_productos)
-                ->with('solicitud',$credito->precredito)
+                ->with('solicitud', DB::table('precreditos')->where('id',$credito->precredito_id)->first())
                 ->with('producto',$credito->precredito->producto)
                 ->with('producto_id',$credito->precredito->producto_id)
                 ->with('data_credito', $data_credito)
-                ->with('credito', $credito)
+                ->with('credito', DB::table('creditos')->where('id',$credito->id)->first())
                 ->with('data', $data);
         }
     }//.edit

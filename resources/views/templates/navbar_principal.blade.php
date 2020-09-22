@@ -3,8 +3,9 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
 
-    <img alt="Brand" src="{{asset('images/gora_logo_mini.png')}}" >
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    <img alt="Brand" src="{{asset('images/logo_inversiones_gora.png')}}" width="80">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
+        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>

@@ -13,7 +13,7 @@
               <img src="{{asset('images/logo_inversiones_gora.png')}}" alt="..." width="300" style="margin: 20px 0px;">
             </div>              
               <div class="mid_center">
-	          	<div id="mandamientos"></div>
+	          	<div id="mandamientos" style="color: #337ab7;font-size:2.5em;margin: 0px;font-family:amatic-bold"></div>
 
                 <form autocomplete="off">
 
@@ -59,25 +59,25 @@ document.onkeypress = function(){
 
     switch (day) {
         case 1:
-            mandamientos.innerHTML = '<p style="color: #337ab7;font-weight:bold;font-size:1.2em;text-decoration:underline;margin: 0px;">Ser humano ante todo</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Ser humano ante todo</p>';
             break;
         case 2:
-            mandamientos.innerHTML = '<p style="color: #337ab7;font-weight:bold;font-size:1.2em;text-decoration:underline;margin: 0px;">Pasión por lo que hacemos</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Pasión por lo que hacemos</p>';
             break;    
         case 3:
-            mandamientos.innerHTML = '<p style="color: #337ab7;font-weight:bold;font-size:1.2em;text-decoration:underline;margin: 0px;">Pensamiento de familia</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Pensamiento de familia</p>';
             break;
         case 4:
-            mandamientos.innerHTML = '<p style="color: #337ab7;font-weight:bold;font-size:1.2em;text-decoration:underline;margin: 0px;">Unidos por un bien común</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Unidos por un bien común</p>';
             break;
         case 5:
-            mandamientos.innerHTML = '<p style="color: #337ab7;font-weight:bold;font-size:1.2em;text-decoration:underline;margin: 0px;">El cliente nuestra prioridad</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">El cliente nuestra prioridad</p>';
             break;
         case 6:
-            mandamientos.innerHTML = '<p style="color: #337ab7;font-weight:bold;font-size:1.2em;text-decoration:underline;margin: 0px;">Ser humano ante todo</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Ser humano ante todo</p>';
             break;  
         case 7:
-            mandamientos.innerHTML = '<p style="color: #337ab7;font-weight:bold;font-size:1.2em;text-decoration:underline;margin: 0px;">Pasión por lo que hacemos</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Pasión por lo que hacemos</p>';
             break;                                                
         default:
             break;

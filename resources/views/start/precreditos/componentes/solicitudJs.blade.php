@@ -64,37 +64,7 @@
                     return false;
                 }
 
-<<<<<<< HEAD
-                if (this.$store.state.data.status == 'create') {
-                    await this.save();
-                } else {
-                    await this.update();
-                }                
-            }, 
-            async save() {
-                
-                let res = await axios.post('/start/precreditos', this.solicitud)
-                alertify.set('notifier','position', 'top-right');
-
-                console.log({res});
-                
-                if (!res.data.error) {
-                    alertify.notify(res.data.message, 'success', 3, () => {
-                        window.location.href = "{{url('/start/clientes')}}/"+res.data.dat;
-                    });
-                } else {
-                    alertify.notify(res.data.message, 'error', 5, () => {alert(res.data.message)});
-                }
-            },
-            async update() {
-                await this.$store.dispatch('update');
-            },                       
-            async validarForm() {
-                let valid = await this.$validator.validate();
-                return valid
-=======
                 return true;
->>>>>>> 734c4ac73a73b5794e83ff6f262f5e4a4236bb29
             },
             validar_negocio() {
 
@@ -119,13 +89,14 @@
                 if ( this.solicitud.periodo == 'Quincenal' ) {
                     this.rango1 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
                 } else {
-                    this.rango2 = [];
                     this.rango1 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
                 }
 
                 if (this.solicitud.p_fecha) await this.setRango2()
             },
             setRango2(){
+
+                this.solicitud.s_fecha = '';
             
                 if (this.solicitud.periodo === 'Quincenal') {
 

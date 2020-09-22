@@ -37,7 +37,7 @@ Route::put('start/precreditos/{precredito_id}',[
 
 //PRECREDITOS ACTUALIZAR V2 
 Route::post('start/precreditos/updateV2',[
-    // 'middleware' => ['permission:crear_solicitudes'],
+    'middleware' => ['permission:crear_solicitudes'],
     'uses'  => 'PrecreditoController@updateV2',
     'as'    => 'start.precreditos.update'
 ]);
@@ -45,7 +45,7 @@ Route::post('start/precreditos/updateV2',[
 
 //PRECREDITOS GUARDAR
 Route::post('start/precreditos',[
-    // 'middleware' => ['permission:crear_solicitudes'],
+    'middleware' => ['permission:crear_solicitudes'],
     'uses'  => 'PrecreditoController@store',
     'as'    => 'start.precreditos.store'
 ]);
