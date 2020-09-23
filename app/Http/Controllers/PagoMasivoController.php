@@ -14,15 +14,13 @@ use DB;
 
 class PagoMasivoController extends Controller
 {
-
     public $report;
     public $data;
     public $arr_error = [];
 
-
     public function index() {
         return view('admin.masivos.index')
-            ->with('err', null);
+            ->with('err', []);
     }
 
     public function store(Request $request) 

@@ -1,0 +1,3955 @@
+[2020-09-22 18:53:50] local.INFO: array (
+  'categorias' => 
+  array (
+    0 => 
+    array (
+      'category' => 'Simulador',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 1,
+          'name' => 'simular',
+          'display_name' => 'Simulador',
+          'description' => 'Permite calcular el valor de la cuota',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    1 => 
+    array (
+      'category' => 'Clientes',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 2,
+          'name' => 'consultar_clientes',
+          'display_name' => 'Consultar clientes',
+          'description' => 'Permite listar y ver la información detallada de los clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 3,
+          'name' => 'crear_clientes',
+          'display_name' => 'Crear cliente',
+          'description' => 'Permite crear clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 4,
+          'name' => 'editar_clientes',
+          'display_name' => 'Editar cliente',
+          'description' => 'Permite editar los clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 5,
+          'name' => 'eliminar_clientes',
+          'display_name' => 'Eliminar clientes',
+          'description' => 'Permite eliminar los clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 8,
+          'name' => 'borrar_documentos',
+          'display_name' => 'Borrar documentacion',
+          'description' => 'Permite borrar documentos del cliente',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    2 => 
+    array (
+      'category' => 'Oficios',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 6,
+          'name' => 'crear_editar_oficios',
+          'display_name' => 'Crear y editar oficios',
+          'description' => 'Permite crear y editar los oficios que se asignan a los clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 7,
+          'name' => 'eliminar_oficios',
+          'display_name' => 'Eliminar oficios',
+          'description' => 'Permite eliminar un oficio',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    3 => 
+    array (
+      'category' => 'CallCenter',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 9,
+          'name' => 'exportar_todo',
+          'display_name' => 'Exportar todos clientes',
+          'description' => 'Permite exportar todos los archivos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 10,
+          'name' => 'exportar_sucursal',
+          'display_name' => 'Exportar clientes por sucursal',
+          'description' => 'Permite exportar todos los creditos por sucursal',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 11,
+          'name' => 'consultar',
+          'display_name' => 'Consultar todos los listados',
+          'description' => 'Permite listar todos los creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 12,
+          'name' => 'registro_llamada',
+          'display_name' => 'Registro de llamada',
+          'description' => 'Permite registrar llamadas CallCenter',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    4 => 
+    array (
+      'category' => 'Creditos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 13,
+          'name' => 'consultar_creditos',
+          'display_name' => 'Consultar creditos',
+          'description' => 'Permite listar y ver los creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 14,
+          'name' => 'crear_creditos',
+          'display_name' => 'Crear crédito',
+          'description' => 'Permite crear créditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 17,
+          'name' => 'editar_creditos',
+          'display_name' => 'Editar credito',
+          'description' => 'Permite editar la informacion del credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 18,
+          'name' => 'eliminar_credito',
+          'display_name' => 'Eliminar credito',
+          'description' => 'Permite eliminar el credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 19,
+          'name' => 'refinanciar_creditos',
+          'display_name' => 'Refinanciar credito',
+          'description' => 'Permite listar y refinanciar los creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 20,
+          'name' => 'exportar_creditos',
+          'display_name' => 'Exportar todos los creditos',
+          'description' => 'Permite exportar rodos los creditos xls',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 21,
+          'name' => 'llamar_creditos',
+          'display_name' => 'Llamar credito',
+          'description' => 'Permite registrar llamada al cliente relacionado al crédito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    5 => 
+    array (
+      'category' => 'Pre/Juridicos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 15,
+          'name' => 'ver_seguimiento_proceso_prejuridico',
+          'display_name' => 'Consultar el seguimeinto a un proceso pre/jurídico',
+          'description' => 'Permite consultar el seguimeinto a un proceso pre/jurídico',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 16,
+          'name' => 'crear_seguimiento_proceso_prejuridico',
+          'display_name' => 'Crear el seguimeinto a un proceso pre/jurídico',
+          'description' => 'Permite crear el seguimeinto a un proceso pre/jurídico',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 49,
+          'name' => 'consultar_multas',
+          'display_name' => 'Consultar Pre/Juridicos',
+          'description' => 'Permite consultar y listar multas por Prejurídicos y Juridicos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 50,
+          'name' => 'exportar_PreJuridicos',
+          'display_name' => 'Exportar Pre/Juridicos',
+          'description' => 'Permite exportar Pre/Juridicos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 51,
+          'name' => 'editar_PreJuridicos',
+          'display_name' => 'Editar Pre/Juridicos',
+          'description' => 'Permite editar Pre/Juridicos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 52,
+          'name' => 'crear_PreJuridicos',
+          'display_name' => 'Crear Pre/Juridicos',
+          'description' => 'Permite crear Pre/Juridicos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    6 => 
+    array (
+      'category' => 'Solicitudes',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 22,
+          'name' => 'consultar_solicitudes',
+          'display_name' => 'Consultar solicitud',
+          'description' => 'Permite listar y ver solicitudes de crédito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 23,
+          'name' => 'crear_solicitudes',
+          'display_name' => 'Crear solicitud',
+          'description' => 'Permite crear varias solicitudes a un mismo cliente',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 24,
+          'name' => 'editar_solicitudes',
+          'display_name' => 'Editar solicitud',
+          'description' => 'Permite editar la solicitud',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 25,
+          'name' => 'editar_producto_solicitudes',
+          'display_name' => 'Editar producto de solicitud',
+          'description' => 'Permite editar el producto asignado a la solicitud',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 26,
+          'name' => 'aprobar_solicitudes',
+          'display_name' => 'Aprobar solicitudes',
+          'description' => 'Permite cambiar el estado de la solicitud a aprobado, negado, cliente  desistió, etc',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 27,
+          'name' => 'valores_iniciales',
+          'display_name' => 'Registrar pago a solicitud',
+          'description' => 'Permite realizar los pagos a una solicitud de crédito como iniciales y estudios',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 28,
+          'name' => 'anular_pago_solicitud',
+          'display_name' => 'Anular pago de Solicitud',
+          'description' => 'Permite anular el pago realizado a una Solicitud',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        7 => 
+        array (
+          'id' => 29,
+          'name' => 'exportar_solicitudes',
+          'display_name' => 'Exportar',
+          'description' => 'Permite exportar todas las solicitudes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    7 => 
+    array (
+      'category' => 'Cancelados',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 30,
+          'name' => 'consultar_cancelados',
+          'display_name' => 'Consultar créditos cancelados',
+          'description' => 'Permite listar y consultar los créditos cancelados',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    8 => 
+    array (
+      'category' => 'Sanciones',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 31,
+          'name' => 'consultar_sanciones',
+          'display_name' => 'Consultar Sanciones',
+          'description' => 'Permite consultar sanciones diarias',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 32,
+          'name' => 'gestionar_sanciones',
+          'display_name' => 'Gestionar Sanciones',
+          'description' => 'Permite crear y exonerar sanciones diarias',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    9 => 
+    array (
+      'category' => 'Estudio',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 33,
+          'name' => 'consultar_estudio',
+          'display_name' => 'Consultar Estudio',
+          'description' => 'Permite consultar estudio del cliente',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    10 => 
+    array (
+      'category' => 'Otros ingresos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 36,
+          'name' => 'registrar_otros_ingresos',
+          'display_name' => 'Registrar otros ingresos',
+          'description' => 'Permite agregar el pago o abono de otros ingresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    11 => 
+    array (
+      'category' => 'Pago credito',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 37,
+          'name' => 'hacer_pago',
+          'display_name' => 'Hacer pago de credito',
+          'description' => 'Permite crear el pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 38,
+          'name' => 'ver_pagos_credito',
+          'display_name' => 'Consultar el pago de un recibo',
+          'description' => 'Permite ver el pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 39,
+          'name' => 'imprimir_pago_credito',
+          'display_name' => 'Imprimir recibo de pago de un credito',
+          'description' => 'Permite imprimir pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 40,
+          'name' => 'anular_pago_credito',
+          'display_name' => 'Anular pago de un credito',
+          'description' => 'Permite anular el recibo de un pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 41,
+          'name' => 'listar_pagos_anulados',
+          'display_name' => 'Listar pago creditos anulados',
+          'description' => 'Permite listar el pago o abono de un credito anulado',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    12 => 
+    array (
+      'category' => 'Egresos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 42,
+          'name' => 'consultar_egresos',
+          'display_name' => 'Consultar Egresos',
+          'description' => 'Permite consultar egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 43,
+          'name' => 'crear_egresos',
+          'display_name' => 'Crear Egresos',
+          'description' => 'Permite crear egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 44,
+          'name' => 'eliminar_egresos',
+          'display_name' => 'Eliminar Egresos',
+          'description' => 'Permite eliminar egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 45,
+          'name' => 'exportar_egresos',
+          'display_name' => 'Exportar Egresos',
+          'description' => 'Permite exportar egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 46,
+          'name' => 'ver_proveedores',
+          'display_name' => 'Ver Proveedores',
+          'description' => 'Permite ver proveedores',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 47,
+          'name' => 'crear_proveedor',
+          'display_name' => 'Crear Proveedor',
+          'description' => 'Permite crear proveedor',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 48,
+          'name' => 'editar_proveedor',
+          'display_name' => 'Editar Proveedor',
+          'description' => 'Permite editar proveedor',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    13 => 
+    array (
+      'category' => 'Reportes',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 53,
+          'name' => 'generar_reporte',
+          'display_name' => 'Genera todos los reportes',
+          'description' => 'Permite generar todos los reportes administrativos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 54,
+          'name' => 'auditoria_sistema',
+          'display_name' => 'Auditoria del Sistema',
+          'description' => 'Permite generar reporte para Auditoria del Sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 55,
+          'name' => 'ver_caja',
+          'display_name' => 'Ver Caja',
+          'description' => 'Permite ver caja',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 56,
+          'name' => 'cartera_castigada',
+          'display_name' => 'Cartera Castigada',
+          'description' => 'Permite generar reporte para Cartera Castigada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 57,
+          'name' => 'call_center',
+          'display_name' => 'Call Center',
+          'description' => 'Permite generar reporte para Call Center',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 58,
+          'name' => 'egresos',
+          'display_name' => 'Egresos',
+          'description' => 'Permite generar reporte para Egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 59,
+          'name' => 'financiero_operativo',
+          'display_name' => 'Financiero operativo',
+          'description' => 'Permite generar reporte para Financiero operativo',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        7 => 
+        array (
+          'id' => 60,
+          'name' => 'general',
+          'display_name' => 'General',
+          'description' => 'Permite generar reporte para General',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        8 => 
+        array (
+          'id' => 61,
+          'name' => 'general_carteras',
+          'display_name' => 'General por Carteras',
+          'description' => 'Permite generar reporte para General por Carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        9 => 
+        array (
+          'id' => 62,
+          'name' => 'general_funcionario',
+          'display_name' => 'General por Funcionario',
+          'description' => 'Permite generar reporte para General por Funcionario',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        10 => 
+        array (
+          'id' => 63,
+          'name' => 'historial_venta_creditos',
+          'display_name' => 'Historial Venta de Creditos',
+          'description' => 'Permite generar reporte para Historial Venta de Creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        11 => 
+        array (
+          'id' => 64,
+          'name' => 'informe_carteras',
+          'display_name' => 'Informe Cartera',
+          'description' => 'Permite generar reporte para Informe Cartera',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        12 => 
+        array (
+          'id' => 65,
+          'name' => 'morosos',
+          'display_name' => 'Morosos',
+          'description' => 'Permite generar reporte para Morosos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        13 => 
+        array (
+          'id' => 66,
+          'name' => 'reporte_datacredito',
+          'display_name' => 'Reporte Datacredito',
+          'description' => 'Permite generar reporte para Reporte Datacredito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        14 => 
+        array (
+          'id' => 67,
+          'name' => 'marcar_cancelados',
+          'display_name' => 'Reporte Procredito',
+          'description' => 'Permite generar reporte para Reporte Procredito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        15 => 
+        array (
+          'id' => 68,
+          'name' => 'reporte_datacredito_asistimotos',
+          'display_name' => 'Reporte Datacredito Asistimotos',
+          'description' => 'Permite generar reporte para Reporte Datacredito Asistimotos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        16 => 
+        array (
+          'id' => 69,
+          'name' => 'reporte datacredito',
+          'display_name' => 'Reporte Datacredito',
+          'description' => 'Permite generar reporte para Reporte Datacredito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        17 => 
+        array (
+          'id' => 70,
+          'name' => 'venta_creditos',
+          'display_name' => 'Venta de Creditos',
+          'description' => 'Permite generar reporte para Venta de Creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        18 => 
+        array (
+          'id' => 71,
+          'name' => 'venta_credito_asesor',
+          'display_name' => 'Venta de Creditos por Asesor',
+          'description' => 'Permite generar reporte para Venta de Creditos por Asesor',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    14 => 
+    array (
+      'category' => 'Cartera',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 72,
+          'name' => 'informes_cartera',
+          'display_name' => 'Pantalla informes cartera',
+          'description' => 'Permite entrar a la pantalla de Informes por Carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 73,
+          'name' => 'repote_por_carteras',
+          'display_name' => 'Reporte por carteras',
+          'description' => 'Permite ver los saldos de cartera',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 74,
+          'name' => 'informe_total_por_puntos',
+          'display_name' => 'Informe total por puntos',
+          'description' => 'Permite ver Informe Total por Puntos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 75,
+          'name' => 'flujo_cajas',
+          'display_name' => 'Flujo de Caja',
+          'description' => 'Muestra el flujo de caja segun un rango de fechas y la cartera',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    15 => 
+    array (
+      'category' => 'Financiero',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 76,
+          'name' => 'financiero',
+          'display_name' => 'Informe financiero por carteras o negocios',
+          'description' => 'Permite consultar el estado financiero de una cartera o varias carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    16 => 
+    array (
+      'category' => 'Negocios',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 77,
+          'name' => 'consultar_negocios',
+          'display_name' => 'Consultar  Negocios',
+          'description' => 'Permite ver o listar negocios (agrupación de carteras)',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 78,
+          'name' => 'crear_negocios',
+          'display_name' => 'Crear Negocios',
+          'description' => 'Permite crear Negocios',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 79,
+          'name' => 'editar_negocios',
+          'display_name' => 'Editar Negocios',
+          'description' => 'Permite editar Negocios',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 80,
+          'name' => 'eliminar_negocios',
+          'display_name' => 'Eliminar Negocios',
+          'description' => 'Permite eliminar Negocios',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    17 => 
+    array (
+      'category' => 'Carteras',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 81,
+          'name' => 'consultar_carteras',
+          'display_name' => 'Consultar carteras',
+          'description' => 'Permite listar y consultar carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 82,
+          'name' => 'crear_carteras',
+          'display_name' => 'Crear carteras',
+          'description' => 'Permite crear carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 83,
+          'name' => 'editar_carteras',
+          'display_name' => 'Editar carteras',
+          'description' => 'Permite editar carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 84,
+          'name' => 'eliminar_carteras',
+          'display_name' => 'Eliminar carteras',
+          'description' => 'Permite eliminar carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    18 => 
+    array (
+      'category' => 'Users',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 85,
+          'name' => 'consultar_users',
+          'display_name' => 'Consultar usuarios del sistema',
+          'description' => 'Permite listar y ver los usuarios del sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 86,
+          'name' => 'crear_users',
+          'display_name' => 'Crear usuario del sistema',
+          'description' => 'Permite crear usuario del sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 87,
+          'name' => 'editar_users',
+          'display_name' => 'Editar usuario del sistema',
+          'description' => 'Permite editar usuarios del sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 88,
+          'name' => 'eliminar_users',
+          'display_name' => 'Eliminar usuarios del sistema',
+          'description' => 'Permite eliminar usuarios del sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    19 => 
+    array (
+      'category' => 'Rol/Permisos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 89,
+          'name' => 'consultar_permisos',
+          'display_name' => 'Consultar roles y permisos',
+          'description' => 'Permite consultar los roles y permisos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 90,
+          'name' => 'modificar_permisos',
+          'display_name' => 'Crear y modificar roles y permisos',
+          'description' => 'Permite, modificar y eliminar roles y permisos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    20 => 
+    array (
+      'category' => 'Puntos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 91,
+          'name' => 'consultar_puntos',
+          'display_name' => 'Consultar puntos',
+          'description' => 'Permite consultar y listar puntos o sucursales',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 92,
+          'name' => 'crear_puntos',
+          'display_name' => 'Crear Puntos',
+          'description' => 'Permite crear Puntos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 93,
+          'name' => 'editar_puntos',
+          'display_name' => 'Editar Puntos',
+          'description' => 'Permite editar Puntos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 94,
+          'name' => 'eliminar_puntos',
+          'display_name' => 'Eliminar Puntos',
+          'description' => 'Permite eliminar Puntos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    21 => 
+    array (
+      'category' => 'Productos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 95,
+          'name' => 'crear_producto',
+          'display_name' => 'Crear Productos',
+          'description' => 'Permite crear Productos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 96,
+          'name' => 'consultar_productos',
+          'display_name' => 'Consultar y listar productos',
+          'description' => 'Permite consultar y listar productos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 97,
+          'name' => 'editar_productos',
+          'display_name' => 'Editar Productos',
+          'description' => 'Permite editar Productos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    22 => 
+    array (
+      'category' => 'Variables',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 98,
+          'name' => 'ver_variables',
+          'display_name' => 'Ver Variables',
+          'description' => 'Permite ver Variables',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 99,
+          'name' => 'editar_variables',
+          'display_name' => 'Editar Variables',
+          'description' => 'Permite editar Variables',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    23 => 
+    array (
+      'category' => 'Criterios de llamada',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 100,
+          'name' => 'crear_criteriocall',
+          'display_name' => 'Crear Criterios de llamada',
+          'description' => 'Permite crear Criterios de llamada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 101,
+          'name' => 'consultar_criteriocall',
+          'display_name' => 'Consultar Criterios de llamada',
+          'description' => 'Permite consultar criterios de llamada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 102,
+          'name' => 'editar_criteriocall',
+          'display_name' => 'Editar Criterios de llamada',
+          'description' => 'Permite editar criterios de llamada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 103,
+          'name' => 'eliminar_criteriocall',
+          'display_name' => 'Eliminar criterios de llamada',
+          'description' => 'Permite eliminar criterios de llamada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    24 => 
+    array (
+      'category' => 'Zonas',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 104,
+          'name' => 'consultar_zonas',
+          'display_name' => 'Consultar las zonas',
+          'description' => 'Permiste consultar las todas zonas',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 105,
+          'name' => 'crear_zonas',
+          'display_name' => 'Crea una zona',
+          'description' => 'Permiste crear una zona',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+  ),
+  'role' => 
+  array (
+    'display_name' => 'TI',
+    'description' => '',
+  ),
+)  
+[2020-09-22 18:55:00] local.INFO: array (
+  'categorias' => 
+  array (
+    0 => 
+    array (
+      'category' => 'Simulador',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 1,
+          'name' => 'simular',
+          'display_name' => 'Simulador',
+          'description' => 'Permite calcular el valor de la cuota',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    1 => 
+    array (
+      'category' => 'Clientes',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 2,
+          'name' => 'consultar_clientes',
+          'display_name' => 'Consultar clientes',
+          'description' => 'Permite listar y ver la información detallada de los clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 3,
+          'name' => 'crear_clientes',
+          'display_name' => 'Crear cliente',
+          'description' => 'Permite crear clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 4,
+          'name' => 'editar_clientes',
+          'display_name' => 'Editar cliente',
+          'description' => 'Permite editar los clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 5,
+          'name' => 'eliminar_clientes',
+          'display_name' => 'Eliminar clientes',
+          'description' => 'Permite eliminar los clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 8,
+          'name' => 'borrar_documentos',
+          'display_name' => 'Borrar documentacion',
+          'description' => 'Permite borrar documentos del cliente',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    2 => 
+    array (
+      'category' => 'Oficios',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 6,
+          'name' => 'crear_editar_oficios',
+          'display_name' => 'Crear y editar oficios',
+          'description' => 'Permite crear y editar los oficios que se asignan a los clientes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 7,
+          'name' => 'eliminar_oficios',
+          'display_name' => 'Eliminar oficios',
+          'description' => 'Permite eliminar un oficio',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    3 => 
+    array (
+      'category' => 'CallCenter',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 9,
+          'name' => 'exportar_todo',
+          'display_name' => 'Exportar todos clientes',
+          'description' => 'Permite exportar todos los archivos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 10,
+          'name' => 'exportar_sucursal',
+          'display_name' => 'Exportar clientes por sucursal',
+          'description' => 'Permite exportar todos los creditos por sucursal',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 11,
+          'name' => 'consultar',
+          'display_name' => 'Consultar todos los listados',
+          'description' => 'Permite listar todos los creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 12,
+          'name' => 'registro_llamada',
+          'display_name' => 'Registro de llamada',
+          'description' => 'Permite registrar llamadas CallCenter',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    4 => 
+    array (
+      'category' => 'Creditos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 13,
+          'name' => 'consultar_creditos',
+          'display_name' => 'Consultar creditos',
+          'description' => 'Permite listar y ver los creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 14,
+          'name' => 'crear_creditos',
+          'display_name' => 'Crear crédito',
+          'description' => 'Permite crear créditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 17,
+          'name' => 'editar_creditos',
+          'display_name' => 'Editar credito',
+          'description' => 'Permite editar la informacion del credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 18,
+          'name' => 'eliminar_credito',
+          'display_name' => 'Eliminar credito',
+          'description' => 'Permite eliminar el credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 19,
+          'name' => 'refinanciar_creditos',
+          'display_name' => 'Refinanciar credito',
+          'description' => 'Permite listar y refinanciar los creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 20,
+          'name' => 'exportar_creditos',
+          'display_name' => 'Exportar todos los creditos',
+          'description' => 'Permite exportar rodos los creditos xls',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 21,
+          'name' => 'llamar_creditos',
+          'display_name' => 'Llamar credito',
+          'description' => 'Permite registrar llamada al cliente relacionado al crédito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    5 => 
+    array (
+      'category' => 'Pre/Juridicos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 15,
+          'name' => 'ver_seguimiento_proceso_prejuridico',
+          'display_name' => 'Consultar el seguimeinto a un proceso pre/jurídico',
+          'description' => 'Permite consultar el seguimeinto a un proceso pre/jurídico',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 16,
+          'name' => 'crear_seguimiento_proceso_prejuridico',
+          'display_name' => 'Crear el seguimeinto a un proceso pre/jurídico',
+          'description' => 'Permite crear el seguimeinto a un proceso pre/jurídico',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 49,
+          'name' => 'consultar_multas',
+          'display_name' => 'Consultar Pre/Juridicos',
+          'description' => 'Permite consultar y listar multas por Prejurídicos y Juridicos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 50,
+          'name' => 'exportar_PreJuridicos',
+          'display_name' => 'Exportar Pre/Juridicos',
+          'description' => 'Permite exportar Pre/Juridicos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 51,
+          'name' => 'editar_PreJuridicos',
+          'display_name' => 'Editar Pre/Juridicos',
+          'description' => 'Permite editar Pre/Juridicos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 52,
+          'name' => 'crear_PreJuridicos',
+          'display_name' => 'Crear Pre/Juridicos',
+          'description' => 'Permite crear Pre/Juridicos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    6 => 
+    array (
+      'category' => 'Solicitudes',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 22,
+          'name' => 'consultar_solicitudes',
+          'display_name' => 'Consultar solicitud',
+          'description' => 'Permite listar y ver solicitudes de crédito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 23,
+          'name' => 'crear_solicitudes',
+          'display_name' => 'Crear solicitud',
+          'description' => 'Permite crear varias solicitudes a un mismo cliente',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 24,
+          'name' => 'editar_solicitudes',
+          'display_name' => 'Editar solicitud',
+          'description' => 'Permite editar la solicitud',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 25,
+          'name' => 'editar_producto_solicitudes',
+          'display_name' => 'Editar producto de solicitud',
+          'description' => 'Permite editar el producto asignado a la solicitud',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 26,
+          'name' => 'aprobar_solicitudes',
+          'display_name' => 'Aprobar solicitudes',
+          'description' => 'Permite cambiar el estado de la solicitud a aprobado, negado, cliente  desistió, etc',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 27,
+          'name' => 'valores_iniciales',
+          'display_name' => 'Registrar pago a solicitud',
+          'description' => 'Permite realizar los pagos a una solicitud de crédito como iniciales y estudios',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 28,
+          'name' => 'anular_pago_solicitud',
+          'display_name' => 'Anular pago de Solicitud',
+          'description' => 'Permite anular el pago realizado a una Solicitud',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        7 => 
+        array (
+          'id' => 29,
+          'name' => 'exportar_solicitudes',
+          'display_name' => 'Exportar',
+          'description' => 'Permite exportar todas las solicitudes',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    7 => 
+    array (
+      'category' => 'Cancelados',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 30,
+          'name' => 'consultar_cancelados',
+          'display_name' => 'Consultar créditos cancelados',
+          'description' => 'Permite listar y consultar los créditos cancelados',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    8 => 
+    array (
+      'category' => 'Sanciones',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 31,
+          'name' => 'consultar_sanciones',
+          'display_name' => 'Consultar Sanciones',
+          'description' => 'Permite consultar sanciones diarias',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 32,
+          'name' => 'gestionar_sanciones',
+          'display_name' => 'Gestionar Sanciones',
+          'description' => 'Permite crear y exonerar sanciones diarias',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    9 => 
+    array (
+      'category' => 'Estudio',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 33,
+          'name' => 'consultar_estudio',
+          'display_name' => 'Consultar Estudio',
+          'description' => 'Permite consultar estudio del cliente',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    10 => 
+    array (
+      'category' => 'Otros ingresos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 36,
+          'name' => 'registrar_otros_ingresos',
+          'display_name' => 'Registrar otros ingresos',
+          'description' => 'Permite agregar el pago o abono de otros ingresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    11 => 
+    array (
+      'category' => 'Pago credito',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 37,
+          'name' => 'hacer_pago',
+          'display_name' => 'Hacer pago de credito',
+          'description' => 'Permite crear el pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 38,
+          'name' => 'ver_pagos_credito',
+          'display_name' => 'Consultar el pago de un recibo',
+          'description' => 'Permite ver el pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 39,
+          'name' => 'imprimir_pago_credito',
+          'display_name' => 'Imprimir recibo de pago de un credito',
+          'description' => 'Permite imprimir pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 40,
+          'name' => 'anular_pago_credito',
+          'display_name' => 'Anular pago de un credito',
+          'description' => 'Permite anular el recibo de un pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 41,
+          'name' => 'listar_pagos_anulados',
+          'display_name' => 'Listar pago creditos anulados',
+          'description' => 'Permite listar el pago o abono de un credito anulado',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    12 => 
+    array (
+      'category' => 'Egresos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 42,
+          'name' => 'consultar_egresos',
+          'display_name' => 'Consultar Egresos',
+          'description' => 'Permite consultar egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 43,
+          'name' => 'crear_egresos',
+          'display_name' => 'Crear Egresos',
+          'description' => 'Permite crear egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 44,
+          'name' => 'eliminar_egresos',
+          'display_name' => 'Eliminar Egresos',
+          'description' => 'Permite eliminar egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 45,
+          'name' => 'exportar_egresos',
+          'display_name' => 'Exportar Egresos',
+          'description' => 'Permite exportar egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 46,
+          'name' => 'ver_proveedores',
+          'display_name' => 'Ver Proveedores',
+          'description' => 'Permite ver proveedores',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 47,
+          'name' => 'crear_proveedor',
+          'display_name' => 'Crear Proveedor',
+          'description' => 'Permite crear proveedor',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 48,
+          'name' => 'editar_proveedor',
+          'display_name' => 'Editar Proveedor',
+          'description' => 'Permite editar proveedor',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    13 => 
+    array (
+      'category' => 'Reportes',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 53,
+          'name' => 'generar_reporte',
+          'display_name' => 'Genera todos los reportes',
+          'description' => 'Permite generar todos los reportes administrativos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 54,
+          'name' => 'auditoria_sistema',
+          'display_name' => 'Auditoria del Sistema',
+          'description' => 'Permite generar reporte para Auditoria del Sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 55,
+          'name' => 'ver_caja',
+          'display_name' => 'Ver Caja',
+          'description' => 'Permite ver caja',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 56,
+          'name' => 'cartera_castigada',
+          'display_name' => 'Cartera Castigada',
+          'description' => 'Permite generar reporte para Cartera Castigada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 57,
+          'name' => 'call_center',
+          'display_name' => 'Call Center',
+          'description' => 'Permite generar reporte para Call Center',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 58,
+          'name' => 'egresos',
+          'display_name' => 'Egresos',
+          'description' => 'Permite generar reporte para Egresos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 59,
+          'name' => 'financiero_operativo',
+          'display_name' => 'Financiero operativo',
+          'description' => 'Permite generar reporte para Financiero operativo',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        7 => 
+        array (
+          'id' => 60,
+          'name' => 'general',
+          'display_name' => 'General',
+          'description' => 'Permite generar reporte para General',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        8 => 
+        array (
+          'id' => 61,
+          'name' => 'general_carteras',
+          'display_name' => 'General por Carteras',
+          'description' => 'Permite generar reporte para General por Carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        9 => 
+        array (
+          'id' => 62,
+          'name' => 'general_funcionario',
+          'display_name' => 'General por Funcionario',
+          'description' => 'Permite generar reporte para General por Funcionario',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        10 => 
+        array (
+          'id' => 63,
+          'name' => 'historial_venta_creditos',
+          'display_name' => 'Historial Venta de Creditos',
+          'description' => 'Permite generar reporte para Historial Venta de Creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        11 => 
+        array (
+          'id' => 64,
+          'name' => 'informe_carteras',
+          'display_name' => 'Informe Cartera',
+          'description' => 'Permite generar reporte para Informe Cartera',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        12 => 
+        array (
+          'id' => 65,
+          'name' => 'morosos',
+          'display_name' => 'Morosos',
+          'description' => 'Permite generar reporte para Morosos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        13 => 
+        array (
+          'id' => 66,
+          'name' => 'reporte_datacredito',
+          'display_name' => 'Reporte Datacredito',
+          'description' => 'Permite generar reporte para Reporte Datacredito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        14 => 
+        array (
+          'id' => 67,
+          'name' => 'marcar_cancelados',
+          'display_name' => 'Reporte Procredito',
+          'description' => 'Permite generar reporte para Reporte Procredito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        15 => 
+        array (
+          'id' => 68,
+          'name' => 'reporte_datacredito_asistimotos',
+          'display_name' => 'Reporte Datacredito Asistimotos',
+          'description' => 'Permite generar reporte para Reporte Datacredito Asistimotos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        16 => 
+        array (
+          'id' => 69,
+          'name' => 'reporte datacredito',
+          'display_name' => 'Reporte Datacredito',
+          'description' => 'Permite generar reporte para Reporte Datacredito',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        17 => 
+        array (
+          'id' => 70,
+          'name' => 'venta_creditos',
+          'display_name' => 'Venta de Creditos',
+          'description' => 'Permite generar reporte para Venta de Creditos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        18 => 
+        array (
+          'id' => 71,
+          'name' => 'venta_credito_asesor',
+          'display_name' => 'Venta de Creditos por Asesor',
+          'description' => 'Permite generar reporte para Venta de Creditos por Asesor',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    14 => 
+    array (
+      'category' => 'Cartera',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 72,
+          'name' => 'informes_cartera',
+          'display_name' => 'Pantalla informes cartera',
+          'description' => 'Permite entrar a la pantalla de Informes por Carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 73,
+          'name' => 'repote_por_carteras',
+          'display_name' => 'Reporte por carteras',
+          'description' => 'Permite ver los saldos de cartera',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 74,
+          'name' => 'informe_total_por_puntos',
+          'display_name' => 'Informe total por puntos',
+          'description' => 'Permite ver Informe Total por Puntos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 75,
+          'name' => 'flujo_cajas',
+          'display_name' => 'Flujo de Caja',
+          'description' => 'Muestra el flujo de caja segun un rango de fechas y la cartera',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    15 => 
+    array (
+      'category' => 'Financiero',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 76,
+          'name' => 'financiero',
+          'display_name' => 'Informe financiero por carteras o negocios',
+          'description' => 'Permite consultar el estado financiero de una cartera o varias carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    16 => 
+    array (
+      'category' => 'Negocios',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 77,
+          'name' => 'consultar_negocios',
+          'display_name' => 'Consultar  Negocios',
+          'description' => 'Permite ver o listar negocios (agrupación de carteras)',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 78,
+          'name' => 'crear_negocios',
+          'display_name' => 'Crear Negocios',
+          'description' => 'Permite crear Negocios',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 79,
+          'name' => 'editar_negocios',
+          'display_name' => 'Editar Negocios',
+          'description' => 'Permite editar Negocios',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 80,
+          'name' => 'eliminar_negocios',
+          'display_name' => 'Eliminar Negocios',
+          'description' => 'Permite eliminar Negocios',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    17 => 
+    array (
+      'category' => 'Carteras',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 81,
+          'name' => 'consultar_carteras',
+          'display_name' => 'Consultar carteras',
+          'description' => 'Permite listar y consultar carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 82,
+          'name' => 'crear_carteras',
+          'display_name' => 'Crear carteras',
+          'description' => 'Permite crear carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 83,
+          'name' => 'editar_carteras',
+          'display_name' => 'Editar carteras',
+          'description' => 'Permite editar carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 84,
+          'name' => 'eliminar_carteras',
+          'display_name' => 'Eliminar carteras',
+          'description' => 'Permite eliminar carteras',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    18 => 
+    array (
+      'category' => 'Users',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 85,
+          'name' => 'consultar_users',
+          'display_name' => 'Consultar usuarios del sistema',
+          'description' => 'Permite listar y ver los usuarios del sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 86,
+          'name' => 'crear_users',
+          'display_name' => 'Crear usuario del sistema',
+          'description' => 'Permite crear usuario del sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 87,
+          'name' => 'editar_users',
+          'display_name' => 'Editar usuario del sistema',
+          'description' => 'Permite editar usuarios del sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 88,
+          'name' => 'eliminar_users',
+          'display_name' => 'Eliminar usuarios del sistema',
+          'description' => 'Permite eliminar usuarios del sistema',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    19 => 
+    array (
+      'category' => 'Rol/Permisos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 89,
+          'name' => 'consultar_permisos',
+          'display_name' => 'Consultar roles y permisos',
+          'description' => 'Permite consultar los roles y permisos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 90,
+          'name' => 'modificar_permisos',
+          'display_name' => 'Crear y modificar roles y permisos',
+          'description' => 'Permite, modificar y eliminar roles y permisos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    20 => 
+    array (
+      'category' => 'Puntos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 91,
+          'name' => 'consultar_puntos',
+          'display_name' => 'Consultar puntos',
+          'description' => 'Permite consultar y listar puntos o sucursales',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 92,
+          'name' => 'crear_puntos',
+          'display_name' => 'Crear Puntos',
+          'description' => 'Permite crear Puntos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 93,
+          'name' => 'editar_puntos',
+          'display_name' => 'Editar Puntos',
+          'description' => 'Permite editar Puntos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 94,
+          'name' => 'eliminar_puntos',
+          'display_name' => 'Eliminar Puntos',
+          'description' => 'Permite eliminar Puntos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    21 => 
+    array (
+      'category' => 'Productos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 95,
+          'name' => 'crear_producto',
+          'display_name' => 'Crear Productos',
+          'description' => 'Permite crear Productos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 96,
+          'name' => 'consultar_productos',
+          'display_name' => 'Consultar y listar productos',
+          'description' => 'Permite consultar y listar productos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 97,
+          'name' => 'editar_productos',
+          'display_name' => 'Editar Productos',
+          'description' => 'Permite editar Productos',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    22 => 
+    array (
+      'category' => 'Variables',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 98,
+          'name' => 'ver_variables',
+          'display_name' => 'Ver Variables',
+          'description' => 'Permite ver Variables',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 99,
+          'name' => 'editar_variables',
+          'display_name' => 'Editar Variables',
+          'description' => 'Permite editar Variables',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    23 => 
+    array (
+      'category' => 'Criterios de llamada',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 100,
+          'name' => 'crear_criteriocall',
+          'display_name' => 'Crear Criterios de llamada',
+          'description' => 'Permite crear Criterios de llamada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 101,
+          'name' => 'consultar_criteriocall',
+          'display_name' => 'Consultar Criterios de llamada',
+          'description' => 'Permite consultar criterios de llamada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 102,
+          'name' => 'editar_criteriocall',
+          'display_name' => 'Editar Criterios de llamada',
+          'description' => 'Permite editar criterios de llamada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 103,
+          'name' => 'eliminar_criteriocall',
+          'display_name' => 'Eliminar criterios de llamada',
+          'description' => 'Permite eliminar criterios de llamada',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+    24 => 
+    array (
+      'category' => 'Zonas',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 104,
+          'name' => 'consultar_zonas',
+          'display_name' => 'Consultar las zonas',
+          'description' => 'Permiste consultar las todas zonas',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 105,
+          'name' => 'crear_zonas',
+          'display_name' => 'Crea una zona',
+          'description' => 'Permiste crear una zona',
+          'status' => 'Activo',
+          'selected' => true,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+      'selected' => true,
+    ),
+  ),
+  'role' => 
+  array (
+    'display_name' => 'TI',
+    'description' => '....',
+  ),
+)  
+[2020-09-22 18:55:23] local.INFO: array (
+  'categorias' => 
+  array (
+    0 => 
+    array (
+      'category' => 'Simulador',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 1,
+          'name' => 'simular',
+          'display_name' => 'Simulador',
+          'description' => 'Permite calcular el valor de la cuota',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    1 => 
+    array (
+      'category' => 'Clientes',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 2,
+          'name' => 'consultar_clientes',
+          'display_name' => 'Consultar clientes',
+          'description' => 'Permite listar y ver la información detallada de los clientes',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 3,
+          'name' => 'crear_clientes',
+          'display_name' => 'Crear cliente',
+          'description' => 'Permite crear clientes',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 4,
+          'name' => 'editar_clientes',
+          'display_name' => 'Editar cliente',
+          'description' => 'Permite editar los clientes',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 5,
+          'name' => 'eliminar_clientes',
+          'display_name' => 'Eliminar clientes',
+          'description' => 'Permite eliminar los clientes',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 8,
+          'name' => 'borrar_documentos',
+          'display_name' => 'Borrar documentacion',
+          'description' => 'Permite borrar documentos del cliente',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    2 => 
+    array (
+      'category' => 'Oficios',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 6,
+          'name' => 'crear_editar_oficios',
+          'display_name' => 'Crear y editar oficios',
+          'description' => 'Permite crear y editar los oficios que se asignan a los clientes',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 7,
+          'name' => 'eliminar_oficios',
+          'display_name' => 'Eliminar oficios',
+          'description' => 'Permite eliminar un oficio',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    3 => 
+    array (
+      'category' => 'CallCenter',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 9,
+          'name' => 'exportar_todo',
+          'display_name' => 'Exportar todos clientes',
+          'description' => 'Permite exportar todos los archivos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 10,
+          'name' => 'exportar_sucursal',
+          'display_name' => 'Exportar clientes por sucursal',
+          'description' => 'Permite exportar todos los creditos por sucursal',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 11,
+          'name' => 'consultar',
+          'display_name' => 'Consultar todos los listados',
+          'description' => 'Permite listar todos los creditos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 12,
+          'name' => 'registro_llamada',
+          'display_name' => 'Registro de llamada',
+          'description' => 'Permite registrar llamadas CallCenter',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    4 => 
+    array (
+      'category' => 'Creditos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 13,
+          'name' => 'consultar_creditos',
+          'display_name' => 'Consultar creditos',
+          'description' => 'Permite listar y ver los creditos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 14,
+          'name' => 'crear_creditos',
+          'display_name' => 'Crear crédito',
+          'description' => 'Permite crear créditos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 17,
+          'name' => 'editar_creditos',
+          'display_name' => 'Editar credito',
+          'description' => 'Permite editar la informacion del credito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 18,
+          'name' => 'eliminar_credito',
+          'display_name' => 'Eliminar credito',
+          'description' => 'Permite eliminar el credito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 19,
+          'name' => 'refinanciar_creditos',
+          'display_name' => 'Refinanciar credito',
+          'description' => 'Permite listar y refinanciar los creditos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 20,
+          'name' => 'exportar_creditos',
+          'display_name' => 'Exportar todos los creditos',
+          'description' => 'Permite exportar rodos los creditos xls',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 21,
+          'name' => 'llamar_creditos',
+          'display_name' => 'Llamar credito',
+          'description' => 'Permite registrar llamada al cliente relacionado al crédito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    5 => 
+    array (
+      'category' => 'Pre/Juridicos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 15,
+          'name' => 'ver_seguimiento_proceso_prejuridico',
+          'display_name' => 'Consultar el seguimeinto a un proceso pre/jurídico',
+          'description' => 'Permite consultar el seguimeinto a un proceso pre/jurídico',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 16,
+          'name' => 'crear_seguimiento_proceso_prejuridico',
+          'display_name' => 'Crear el seguimeinto a un proceso pre/jurídico',
+          'description' => 'Permite crear el seguimeinto a un proceso pre/jurídico',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 49,
+          'name' => 'consultar_multas',
+          'display_name' => 'Consultar Pre/Juridicos',
+          'description' => 'Permite consultar y listar multas por Prejurídicos y Juridicos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 50,
+          'name' => 'exportar_PreJuridicos',
+          'display_name' => 'Exportar Pre/Juridicos',
+          'description' => 'Permite exportar Pre/Juridicos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 51,
+          'name' => 'editar_PreJuridicos',
+          'display_name' => 'Editar Pre/Juridicos',
+          'description' => 'Permite editar Pre/Juridicos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 52,
+          'name' => 'crear_PreJuridicos',
+          'display_name' => 'Crear Pre/Juridicos',
+          'description' => 'Permite crear Pre/Juridicos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    6 => 
+    array (
+      'category' => 'Solicitudes',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 22,
+          'name' => 'consultar_solicitudes',
+          'display_name' => 'Consultar solicitud',
+          'description' => 'Permite listar y ver solicitudes de crédito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 23,
+          'name' => 'crear_solicitudes',
+          'display_name' => 'Crear solicitud',
+          'description' => 'Permite crear varias solicitudes a un mismo cliente',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 24,
+          'name' => 'editar_solicitudes',
+          'display_name' => 'Editar solicitud',
+          'description' => 'Permite editar la solicitud',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 25,
+          'name' => 'editar_producto_solicitudes',
+          'display_name' => 'Editar producto de solicitud',
+          'description' => 'Permite editar el producto asignado a la solicitud',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 26,
+          'name' => 'aprobar_solicitudes',
+          'display_name' => 'Aprobar solicitudes',
+          'description' => 'Permite cambiar el estado de la solicitud a aprobado, negado, cliente  desistió, etc',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 27,
+          'name' => 'valores_iniciales',
+          'display_name' => 'Registrar pago a solicitud',
+          'description' => 'Permite realizar los pagos a una solicitud de crédito como iniciales y estudios',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 28,
+          'name' => 'anular_pago_solicitud',
+          'display_name' => 'Anular pago de Solicitud',
+          'description' => 'Permite anular el pago realizado a una Solicitud',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        7 => 
+        array (
+          'id' => 29,
+          'name' => 'exportar_solicitudes',
+          'display_name' => 'Exportar',
+          'description' => 'Permite exportar todas las solicitudes',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    7 => 
+    array (
+      'category' => 'Cancelados',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 30,
+          'name' => 'consultar_cancelados',
+          'display_name' => 'Consultar créditos cancelados',
+          'description' => 'Permite listar y consultar los créditos cancelados',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    8 => 
+    array (
+      'category' => 'Sanciones',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 31,
+          'name' => 'consultar_sanciones',
+          'display_name' => 'Consultar Sanciones',
+          'description' => 'Permite consultar sanciones diarias',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 32,
+          'name' => 'gestionar_sanciones',
+          'display_name' => 'Gestionar Sanciones',
+          'description' => 'Permite crear y exonerar sanciones diarias',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    9 => 
+    array (
+      'category' => 'Estudio',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 33,
+          'name' => 'consultar_estudio',
+          'display_name' => 'Consultar Estudio',
+          'description' => 'Permite consultar estudio del cliente',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    10 => 
+    array (
+      'category' => 'Otros ingresos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 36,
+          'name' => 'registrar_otros_ingresos',
+          'display_name' => 'Registrar otros ingresos',
+          'description' => 'Permite agregar el pago o abono de otros ingresos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    11 => 
+    array (
+      'category' => 'Pago credito',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 37,
+          'name' => 'hacer_pago',
+          'display_name' => 'Hacer pago de credito',
+          'description' => 'Permite crear el pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 38,
+          'name' => 'ver_pagos_credito',
+          'display_name' => 'Consultar el pago de un recibo',
+          'description' => 'Permite ver el pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 39,
+          'name' => 'imprimir_pago_credito',
+          'display_name' => 'Imprimir recibo de pago de un credito',
+          'description' => 'Permite imprimir pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 40,
+          'name' => 'anular_pago_credito',
+          'display_name' => 'Anular pago de un credito',
+          'description' => 'Permite anular el recibo de un pago o abono de un credito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 41,
+          'name' => 'listar_pagos_anulados',
+          'display_name' => 'Listar pago creditos anulados',
+          'description' => 'Permite listar el pago o abono de un credito anulado',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    12 => 
+    array (
+      'category' => 'Egresos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 42,
+          'name' => 'consultar_egresos',
+          'display_name' => 'Consultar Egresos',
+          'description' => 'Permite consultar egresos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 43,
+          'name' => 'crear_egresos',
+          'display_name' => 'Crear Egresos',
+          'description' => 'Permite crear egresos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 44,
+          'name' => 'eliminar_egresos',
+          'display_name' => 'Eliminar Egresos',
+          'description' => 'Permite eliminar egresos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 45,
+          'name' => 'exportar_egresos',
+          'display_name' => 'Exportar Egresos',
+          'description' => 'Permite exportar egresos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 46,
+          'name' => 'ver_proveedores',
+          'display_name' => 'Ver Proveedores',
+          'description' => 'Permite ver proveedores',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 47,
+          'name' => 'crear_proveedor',
+          'display_name' => 'Crear Proveedor',
+          'description' => 'Permite crear proveedor',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 48,
+          'name' => 'editar_proveedor',
+          'display_name' => 'Editar Proveedor',
+          'description' => 'Permite editar proveedor',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    13 => 
+    array (
+      'category' => 'Reportes',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 53,
+          'name' => 'generar_reporte',
+          'display_name' => 'Genera todos los reportes',
+          'description' => 'Permite generar todos los reportes administrativos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 54,
+          'name' => 'auditoria_sistema',
+          'display_name' => 'Auditoria del Sistema',
+          'description' => 'Permite generar reporte para Auditoria del Sistema',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 55,
+          'name' => 'ver_caja',
+          'display_name' => 'Ver Caja',
+          'description' => 'Permite ver caja',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 56,
+          'name' => 'cartera_castigada',
+          'display_name' => 'Cartera Castigada',
+          'description' => 'Permite generar reporte para Cartera Castigada',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        4 => 
+        array (
+          'id' => 57,
+          'name' => 'call_center',
+          'display_name' => 'Call Center',
+          'description' => 'Permite generar reporte para Call Center',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        5 => 
+        array (
+          'id' => 58,
+          'name' => 'egresos',
+          'display_name' => 'Egresos',
+          'description' => 'Permite generar reporte para Egresos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        6 => 
+        array (
+          'id' => 59,
+          'name' => 'financiero_operativo',
+          'display_name' => 'Financiero operativo',
+          'description' => 'Permite generar reporte para Financiero operativo',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        7 => 
+        array (
+          'id' => 60,
+          'name' => 'general',
+          'display_name' => 'General',
+          'description' => 'Permite generar reporte para General',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        8 => 
+        array (
+          'id' => 61,
+          'name' => 'general_carteras',
+          'display_name' => 'General por Carteras',
+          'description' => 'Permite generar reporte para General por Carteras',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        9 => 
+        array (
+          'id' => 62,
+          'name' => 'general_funcionario',
+          'display_name' => 'General por Funcionario',
+          'description' => 'Permite generar reporte para General por Funcionario',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        10 => 
+        array (
+          'id' => 63,
+          'name' => 'historial_venta_creditos',
+          'display_name' => 'Historial Venta de Creditos',
+          'description' => 'Permite generar reporte para Historial Venta de Creditos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        11 => 
+        array (
+          'id' => 64,
+          'name' => 'informe_carteras',
+          'display_name' => 'Informe Cartera',
+          'description' => 'Permite generar reporte para Informe Cartera',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        12 => 
+        array (
+          'id' => 65,
+          'name' => 'morosos',
+          'display_name' => 'Morosos',
+          'description' => 'Permite generar reporte para Morosos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        13 => 
+        array (
+          'id' => 66,
+          'name' => 'reporte_datacredito',
+          'display_name' => 'Reporte Datacredito',
+          'description' => 'Permite generar reporte para Reporte Datacredito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        14 => 
+        array (
+          'id' => 67,
+          'name' => 'marcar_cancelados',
+          'display_name' => 'Reporte Procredito',
+          'description' => 'Permite generar reporte para Reporte Procredito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        15 => 
+        array (
+          'id' => 68,
+          'name' => 'reporte_datacredito_asistimotos',
+          'display_name' => 'Reporte Datacredito Asistimotos',
+          'description' => 'Permite generar reporte para Reporte Datacredito Asistimotos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        16 => 
+        array (
+          'id' => 69,
+          'name' => 'reporte datacredito',
+          'display_name' => 'Reporte Datacredito',
+          'description' => 'Permite generar reporte para Reporte Datacredito',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        17 => 
+        array (
+          'id' => 70,
+          'name' => 'venta_creditos',
+          'display_name' => 'Venta de Creditos',
+          'description' => 'Permite generar reporte para Venta de Creditos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        18 => 
+        array (
+          'id' => 71,
+          'name' => 'venta_credito_asesor',
+          'display_name' => 'Venta de Creditos por Asesor',
+          'description' => 'Permite generar reporte para Venta de Creditos por Asesor',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    14 => 
+    array (
+      'category' => 'Cartera',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 72,
+          'name' => 'informes_cartera',
+          'display_name' => 'Pantalla informes cartera',
+          'description' => 'Permite entrar a la pantalla de Informes por Carteras',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 73,
+          'name' => 'repote_por_carteras',
+          'display_name' => 'Reporte por carteras',
+          'description' => 'Permite ver los saldos de cartera',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 74,
+          'name' => 'informe_total_por_puntos',
+          'display_name' => 'Informe total por puntos',
+          'description' => 'Permite ver Informe Total por Puntos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 75,
+          'name' => 'flujo_cajas',
+          'display_name' => 'Flujo de Caja',
+          'description' => 'Muestra el flujo de caja segun un rango de fechas y la cartera',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    15 => 
+    array (
+      'category' => 'Financiero',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 76,
+          'name' => 'financiero',
+          'display_name' => 'Informe financiero por carteras o negocios',
+          'description' => 'Permite consultar el estado financiero de una cartera o varias carteras',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    16 => 
+    array (
+      'category' => 'Negocios',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 77,
+          'name' => 'consultar_negocios',
+          'display_name' => 'Consultar  Negocios',
+          'description' => 'Permite ver o listar negocios (agrupación de carteras)',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 78,
+          'name' => 'crear_negocios',
+          'display_name' => 'Crear Negocios',
+          'description' => 'Permite crear Negocios',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 79,
+          'name' => 'editar_negocios',
+          'display_name' => 'Editar Negocios',
+          'description' => 'Permite editar Negocios',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 80,
+          'name' => 'eliminar_negocios',
+          'display_name' => 'Eliminar Negocios',
+          'description' => 'Permite eliminar Negocios',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    17 => 
+    array (
+      'category' => 'Carteras',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 81,
+          'name' => 'consultar_carteras',
+          'display_name' => 'Consultar carteras',
+          'description' => 'Permite listar y consultar carteras',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 82,
+          'name' => 'crear_carteras',
+          'display_name' => 'Crear carteras',
+          'description' => 'Permite crear carteras',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 83,
+          'name' => 'editar_carteras',
+          'display_name' => 'Editar carteras',
+          'description' => 'Permite editar carteras',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 84,
+          'name' => 'eliminar_carteras',
+          'display_name' => 'Eliminar carteras',
+          'description' => 'Permite eliminar carteras',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    18 => 
+    array (
+      'category' => 'Users',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 85,
+          'name' => 'consultar_users',
+          'display_name' => 'Consultar usuarios del sistema',
+          'description' => 'Permite listar y ver los usuarios del sistema',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 86,
+          'name' => 'crear_users',
+          'display_name' => 'Crear usuario del sistema',
+          'description' => 'Permite crear usuario del sistema',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 87,
+          'name' => 'editar_users',
+          'display_name' => 'Editar usuario del sistema',
+          'description' => 'Permite editar usuarios del sistema',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 88,
+          'name' => 'eliminar_users',
+          'display_name' => 'Eliminar usuarios del sistema',
+          'description' => 'Permite eliminar usuarios del sistema',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    19 => 
+    array (
+      'category' => 'Rol/Permisos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 89,
+          'name' => 'consultar_permisos',
+          'display_name' => 'Consultar roles y permisos',
+          'description' => 'Permite consultar los roles y permisos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 90,
+          'name' => 'modificar_permisos',
+          'display_name' => 'Crear y modificar roles y permisos',
+          'description' => 'Permite, modificar y eliminar roles y permisos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    20 => 
+    array (
+      'category' => 'Puntos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 91,
+          'name' => 'consultar_puntos',
+          'display_name' => 'Consultar puntos',
+          'description' => 'Permite consultar y listar puntos o sucursales',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 92,
+          'name' => 'crear_puntos',
+          'display_name' => 'Crear Puntos',
+          'description' => 'Permite crear Puntos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 93,
+          'name' => 'editar_puntos',
+          'display_name' => 'Editar Puntos',
+          'description' => 'Permite editar Puntos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 94,
+          'name' => 'eliminar_puntos',
+          'display_name' => 'Eliminar Puntos',
+          'description' => 'Permite eliminar Puntos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    21 => 
+    array (
+      'category' => 'Productos',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 95,
+          'name' => 'crear_producto',
+          'display_name' => 'Crear Productos',
+          'description' => 'Permite crear Productos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 96,
+          'name' => 'consultar_productos',
+          'display_name' => 'Consultar y listar productos',
+          'description' => 'Permite consultar y listar productos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 97,
+          'name' => 'editar_productos',
+          'display_name' => 'Editar Productos',
+          'description' => 'Permite editar Productos',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    22 => 
+    array (
+      'category' => 'Variables',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 98,
+          'name' => 'ver_variables',
+          'display_name' => 'Ver Variables',
+          'description' => 'Permite ver Variables',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 99,
+          'name' => 'editar_variables',
+          'display_name' => 'Editar Variables',
+          'description' => 'Permite editar Variables',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    23 => 
+    array (
+      'category' => 'Criterios de llamada',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 100,
+          'name' => 'crear_criteriocall',
+          'display_name' => 'Crear Criterios de llamada',
+          'description' => 'Permite crear Criterios de llamada',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 101,
+          'name' => 'consultar_criteriocall',
+          'display_name' => 'Consultar Criterios de llamada',
+          'description' => 'Permite consultar criterios de llamada',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        2 => 
+        array (
+          'id' => 102,
+          'name' => 'editar_criteriocall',
+          'display_name' => 'Editar Criterios de llamada',
+          'description' => 'Permite editar criterios de llamada',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        3 => 
+        array (
+          'id' => 103,
+          'name' => 'eliminar_criteriocall',
+          'display_name' => 'Eliminar criterios de llamada',
+          'description' => 'Permite eliminar criterios de llamada',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+    24 => 
+    array (
+      'category' => 'Zonas',
+      'permisos' => 
+      array (
+        0 => 
+        array (
+          'id' => 104,
+          'name' => 'consultar_zonas',
+          'display_name' => 'Consultar las zonas',
+          'description' => 'Permiste consultar las todas zonas',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+        1 => 
+        array (
+          'id' => 105,
+          'name' => 'crear_zonas',
+          'display_name' => 'Crea una zona',
+          'description' => 'Permiste crear una zona',
+          'status' => 'Activo',
+          'selected' => false,
+          'show' => true,
+        ),
+      ),
+      'show' => true,
+    ),
+  ),
+  'role' => 
+  array (
+    'display_name' => 'TI',
+    'description' => '...',
+  ),
+)  
+[2020-09-22 19:01:11] local.ERROR: Symfony\Component\Console\Exception\CommandNotFoundException: Command "migrate:fresh" is not defined.
+
+Did you mean one of these?
+    migrate:refresh
+    migrate:reset
+    migrate:generate
+    migrate
+    migrate:install
+    migrate:rollback
+    migrate:status in /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php:515
+Stack trace:
+#0 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(183): Symfony\Component\Console\Application->find('migrate:fresh')
+#1 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(117): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(107): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /Users/pablo/Documents/misproyectos/gora/carteragora2020/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 {main}  
+[2020-09-22 19:01:15] local.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Class 'CreateLogsTable' not found in /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php:335
+Stack trace:
+#0 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(227): Illuminate\Database\Migrations\Migrator->resolve('create_logs_tab...')
+#1 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(206): Illuminate\Database\Migrations\Migrator->runDown(Object(stdClass), false)
+#2 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/ResetCommand.php(69): Illuminate\Database\Migrations\Migrator->reset(false)
+#3 [internal function]: Illuminate\Database\Console\Migrations\ResetCommand->fire()
+#4 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Container/Container.php(507): call_user_func_array(Array, Array)
+#5 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Console/Command.php(169): Illuminate\Container\Container->call(Array)
+#6 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Command/Command.php(256): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArrayInput), Object(Illuminate\Console\OutputStyle))
+#7 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Console/Command.php(155): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArrayInput), Object(Illuminate\Console\OutputStyle))
+#8 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Console/Command.php(185): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArrayInput), Object(Illuminate\Console\OutputStyle))
+#9 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/RefreshCommand.php(45): Illuminate\Console\Command->call('migrate:reset', Array)
+#10 [internal function]: Illuminate\Database\Console\Migrations\RefreshCommand->fire()
+#11 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Container/Container.php(507): call_user_func_array(Array, Array)
+#12 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Console/Command.php(169): Illuminate\Container\Container->call(Array)
+#13 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Command/Command.php(256): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#14 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Console/Command.php(155): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#15 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(794): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#16 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(186): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\Migrations\RefreshCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#17 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/console/Application.php(117): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#18 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(107): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#19 /Users/pablo/Documents/misproyectos/gora/carteragora2020/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#20 {main}  
+[2020-09-22 19:07:20] local.ERROR: ErrorException: Invalid argument supplied for foreach() in /Users/pablo/Documents/misproyectos/gora/carteragora2020/storage/framework/views/dd8b9b9bc4c216b5525585e7ca270f07c1c81bba.php:31
+Stack trace:
+#0 /Users/pablo/Documents/misproyectos/gora/carteragora2020/storage/framework/views/dd8b9b9bc4c216b5525585e7ca270f07c1c81bba.php(31): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'Invalid argumen...', '/Users/pablo/Do...', 31, Array)
+#1 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(42): include('/Users/pablo/Do...')
+#2 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/Users/pablo/Do...', Array)
+#3 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/View.php(149): Illuminate\View\Engines\CompilerEngine->get('/Users/pablo/Do...', Array)
+#4 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/View.php(120): Illuminate\View\View->getContents()
+#5 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/View.php(85): Illuminate\View\View->renderContents()
+#6 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Http/Response.php(53): Illuminate\View\View->render()
+#7 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/http-foundation/Response.php(201): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
+#8 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1085): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
+#9 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(94): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
+#10 [internal function]: Illuminate\Routing\ControllerDispatcher->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#11 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#12 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#13 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#14 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(96): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#15 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(54): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\PagoMasivoController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'index')
+#16 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Route.php(174): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'index')
+#17 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Route.php(140): Illuminate\Routing\Route->runController(Object(Illuminate\Http\Request))
+#18 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(724): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#19 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#20 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#21 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/zizaco/entrust/src/Entrust/Middleware/EntrustPermission.php(42): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#22 [internal function]: Zizaco\Entrust\Middleware\EntrustPermission->handle(Object(Illuminate\Http\Request), Object(Closure), 'pagos_masivos')
+#23 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#24 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#25 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#26 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#27 [internal function]: Illuminate\Foundation\Http\Middleware\VerifyCsrfToken->handle(Object(Illuminate\Http\Request), Object(Closure))
+#28 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#29 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#30 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#31 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#32 [internal function]: Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#33 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#34 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#35 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#36 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#37 [internal function]: Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#38 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#39 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#40 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#41 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#42 [internal function]: Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
+#43 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#44 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#45 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#46 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(59): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#47 [internal function]: Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#48 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#49 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#50 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#51 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#52 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#53 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(726): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#54 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(699): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#55 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(675): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#56 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(246): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#57 [internal function]: Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#58 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#59 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(44): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#60 [internal function]: Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
+#61 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#62 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#63 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#64 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#65 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#66 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(132): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#67 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(99): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#68 /Users/pablo/Documents/misproyectos/gora/carteragora2020/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#69 /Users/pablo/Documents/misproyectos/gora/carteragora2020/server.php(21): require_once('/Users/pablo/Do...')
+#70 {main}
+
+Next ErrorException: Invalid argument supplied for foreach() (View: /Users/pablo/Documents/misproyectos/gora/carteragora2020/resources/views/admin/masivos/index.blade.php) in /Users/pablo/Documents/misproyectos/gora/carteragora2020/storage/framework/views/dd8b9b9bc4c216b5525585e7ca270f07c1c81bba.php:31
+Stack trace:
+#0 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(44): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+#1 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/Users/pablo/Do...', Array)
+#2 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/View.php(149): Illuminate\View\Engines\CompilerEngine->get('/Users/pablo/Do...', Array)
+#3 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/View.php(120): Illuminate\View\View->getContents()
+#4 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/View.php(85): Illuminate\View\View->renderContents()
+#5 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Http/Response.php(53): Illuminate\View\View->render()
+#6 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/symfony/http-foundation/Response.php(201): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
+#7 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1085): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
+#8 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(94): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
+#9 [internal function]: Illuminate\Routing\ControllerDispatcher->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#10 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#11 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#12 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#13 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(96): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#14 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(54): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\PagoMasivoController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'index')
+#15 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Route.php(174): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'index')
+#16 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Route.php(140): Illuminate\Routing\Route->runController(Object(Illuminate\Http\Request))
+#17 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(724): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#19 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#20 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/zizaco/entrust/src/Entrust/Middleware/EntrustPermission.php(42): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#21 [internal function]: Zizaco\Entrust\Middleware\EntrustPermission->handle(Object(Illuminate\Http\Request), Object(Closure), 'pagos_masivos')
+#22 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#23 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#24 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#25 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#26 [internal function]: Illuminate\Foundation\Http\Middleware\VerifyCsrfToken->handle(Object(Illuminate\Http\Request), Object(Closure))
+#27 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#28 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#29 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#30 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#31 [internal function]: Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#32 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#33 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#34 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#35 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#36 [internal function]: Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#37 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#38 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#39 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#40 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#41 [internal function]: Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
+#42 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#43 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#44 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#45 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(59): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#46 [internal function]: Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#47 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#48 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#49 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#50 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#51 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#52 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(726): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#53 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(699): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#54 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Router.php(675): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#55 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(246): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#56 [internal function]: Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#57 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#58 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(44): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#59 [internal function]: Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
+#60 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#61 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#62 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#63 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#64 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#65 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(132): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#66 /Users/pablo/Documents/misproyectos/gora/carteragora2020/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(99): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#67 /Users/pablo/Documents/misproyectos/gora/carteragora2020/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#68 /Users/pablo/Documents/misproyectos/gora/carteragora2020/server.php(21): require_once('/Users/pablo/Do...')
+#69 {main}  
