@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Credito;
 use App\Cliente;
+use Carbon\Carbon;
 
 class CertificadoController extends Controller
 {
@@ -20,14 +21,16 @@ class CertificadoController extends Controller
 
         $pdf->loadHtml($view);
 
-        return $pdf->stream('archivo.pdf');
+        return $pdf->stream('paz_y_salvo_'.$data->numero_documento.'.pdf');
     }
 
     public function getDataPazYSalvo($cliente_id)
     {
         $cliente = Cliente::find($cliente_id);
+        $fecha = Carbon::now();
 
         return (object)[
+            'fecha' => $fecha->format('d/m/Y'),
             'nombre' => $cliente->nombre,
             'tipo_documento' => $cliente->tipo_doc,
             'numero_documento' => $cliente->num_doc
