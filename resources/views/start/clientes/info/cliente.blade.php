@@ -10,7 +10,7 @@
      style="margin-left:10px;">
      <span class = "glyphicon glyphicon-pencil">
   </a>
-  <a href="{{route('certificados.paz_y_salvo',$cliente->id)}}"
+  <a href="{{route('certificados.paz_y_salvo',[$cliente->id,'cliente'])}}"
     target="_blank"
     class = 'btn btn-default btn-xs'  
     data-toggle="tooltip" data-placement="top" 
