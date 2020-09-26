@@ -10,13 +10,20 @@
                 style="margin-left:10px;">
                 <span class = "glyphicon glyphicon-pencil">
             </a>
-
+            <a href="{{route('certificados.paz_y_salvo',[$cliente->id,'codeudor'])}}"
+                target="_blank"
+                class = 'btn btn-default btn-xs'  
+                data-toggle="tooltip" data-placement="top" 
+                title="Paz y Salvo">
+                <span class = "glyphicon glyphicon-file">
+            </a>
             <a href="{{route('start.codeudores.destroy',$cliente->id)}}" 
                 onclick="return confirm('¿Esta seguro de eliminar el usuario?')" 
                 class = 'btn btn-default btn-xs' 
                 data-toggle="tooltip" 
                 data-placement="top" 
-                title="Eliminar">
+                title="Eliminar"
+                style="margin-left:40px;">
                 <span class = "glyphicon glyphicon-trash" >
             </a>
 

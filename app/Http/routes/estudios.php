@@ -9,7 +9,7 @@ Route::get('start/estudios/cliente/{id_cliente}/codeudor/{id_codeudor}/create/{o
 //ESTUDIOS
 
 Route::get('start/estudios/cliente/{id_cliente}/codeudor/{id_codeudor}/create/{obj}',[
-	'middleware' => ['permission:consultar_estudios'],
+	'middleware' => ['permission:consultar_estudio'],
 	'uses'	=> 'EstudioController@create',
 	'as'	=> 'start.estudios.create'
 ]);

@@ -67,3 +67,5 @@ require __DIR__ . '/routes/anotaciones.php';
 require __DIR__ . '/routes/pagos_masivos.php';
 
 require __DIR__ . '/routes/test.php';
+
+require __DIR__ . '/routes/certificados.php';
