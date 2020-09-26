@@ -665,8 +665,6 @@ class FacturaController extends Controller
     public function abonos(Request $request)
     {
 
-      \Log::notice($request->all());
-
       $monto      = $request->monto;
       $credito    = Credito::find($request->credito_id);
       $contenedor = [];  // almacena los pagos 

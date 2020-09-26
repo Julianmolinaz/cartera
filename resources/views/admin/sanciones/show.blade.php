@@ -105,8 +105,6 @@
 
         @endforeach
 
-        
-
         <br><br>
         <input type="hidden" name="credito_id" value="{{ $credito->id }}" />
         <input type="hidden" name="_token" id="_token"value="{{ csrf_token() }}" />
@@ -121,7 +119,6 @@
         </form>
 
         
-
   </div>
     <div class="col-md-4 col-sm-3"></div>
 </div>  
@@ -152,16 +149,17 @@
 
     var rango = $('#daterange').val();
     var id    = credito_id;
-    var route = "{{url('admin/sanciones/store')}}";
     var token = $('#_token').val();
 
     $.ajax({
-        url:route,
+        url:'/admin/sanciones/crear_sanciones',
         headers: {'X-CSRF-TOKEN':token},
         type: 'POST',
         dataType:'json',
         data:{ credito_id:id , rango:rango },
         success:function(res){
+
+            console.log({res})
 
           $('#alerta').empty();
 

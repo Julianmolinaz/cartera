@@ -11,7 +11,7 @@
                 <div class="panel-heading">
 
                     <p>
-                        <h4>Mis clientes <i class="fas fa-users"></i></h4>
+                        <h4>Créditos <i class="fas fa-users"></i></h4>
                     </p>
 
                 </div>
@@ -26,13 +26,12 @@
 
                         <thead>
                             <tr>
-                            <th>    Crédito    </th>
+                            <th>    Código crédito </th>
+                            <th>    Código solicitud</th>
+                            <th>    Estado     </th>
                             <th>    Cartera  </th>
                             <th>    Nombre     </th>
                             <th>    Documento </th>
-                            <th>    Estado     </th>
-                            <th>    Cent. de Constos</th>
-                            <th>    Sanciones  </th>
                             <th>    Acciones   </th>
                             </tr>
                         </thead>
@@ -56,15 +55,15 @@
                 serverSide: true,
                 ajax: "{{url('start/creditos/list')}}",
                 columns: [
-                    {data: 'id'},
-                    {data: 'cartera'},
-                    {data: 'nombre'},
-                    {data: 'num_doc'},
-                    {data: 'estado' },
-                    {data: 'cc'},
-                    {data: 'sanciones'},
-                    {data: 'btn'}
-                ]
+                    {data: 'id', name: 'creditos.id'},
+                    {data: 'precredito_id', name: 'precreditos.id'},
+                    {data: 'estado', name: 'creditos.estado'},
+                    {data: 'cartera', name: 'carteras.nombre'},
+                    {data: 'nombre', name: 'clientes.nombre'},
+                    {data: 'num_doc', name: 'clientes.num_doc'},
+                    {data: 'btn', searchable: false}
+                ],
+                order: [[0, 'desc']]
             });
 
         

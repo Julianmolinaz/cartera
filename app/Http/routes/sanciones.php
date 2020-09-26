@@ -8,7 +8,7 @@
 
 //CREAR SANCIONES
 
-// Route::post('admin/sanciones/crear_sanciones','SancionController@crearSanciones');
+Route::post('admin/sanciones/crear_sanciones','SancionController@crearSanciones');
 
 // Actualizar sancniones
 

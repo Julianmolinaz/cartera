@@ -39,7 +39,8 @@ class CreditoController extends Controller
     use SolicitudUpdateTrait, SolicitudTrait;
     use DatatableCreditoTrait;
 
-    public function __construct(CreditoRepository $creditos){
+    public function __construct(CreditoRepository $creditos)
+    {
       $this->creditos = $creditos;
       $this->middleware('auth');
     }
@@ -127,7 +128,6 @@ class CreditoController extends Controller
 
     public function create($id, $mes, $anio)
     {
-
        $precredito = Precredito::find($id);
 
        //validacion del pago de estudio de crédito
@@ -143,7 +143,6 @@ class CreditoController extends Controller
           flash()->error('Se requiere el pago completo de la cuota inicial !');
           return redirect()->route('start.precreditos.ver',$precredito->id);
        }
-
 
        //valida que no existan creditos vigentes o que la solicitud actual no este aprobada
 

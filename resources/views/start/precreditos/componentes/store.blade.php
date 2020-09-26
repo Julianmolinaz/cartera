@@ -71,7 +71,6 @@
                 
                 if (res.data.success) {
                     alertify.notify(res.data.message, 'success', 1, () => {
-                        // res.data.dat.id = precredito_id
                         window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.id+'/ver';
                     });
                 } else {
@@ -99,8 +98,6 @@
                 };
 
                 let res = await axios.post('/start/precreditos/updateV2', dat);
-
-                console.log({res});
 
                 alertify.set('notifier','position', 'top-right');
                 
@@ -160,7 +157,7 @@
                         alertify.alert('Error =(', res.data.message);
                     }
                 }
-            }   
+            }
         }
     })
 </script>

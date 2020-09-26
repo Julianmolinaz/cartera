@@ -1,6 +1,18 @@
 <script type="text/x-template" id="credito-template">
     
     <div>
+        
+        <ul style="list-style-type: none;padding: 0px">
+            <li style="float:left;margin-left:5px;">Solicitud: @{{ $store.state.solicitud.id }} /</li>
+            <li style="float:left;margin-left:5px;">Centro de costos: $@{{ $store.state.solicitud.vlr_fin | formatPrice }} /</li>
+            <li style="float:left;margin-left:5px;">Número de cuotas: @{{ $store.state.solicitud.cuotas }} /</li>
+            <li style="float:left;margin-left:5px;">Valor cuota: $@{{ $store.state.solicitud.vlr_cuota | formatPrice }}</li>
+        </ul>
+            
+        <br>
+        <hr>
+
+
         <form @submit.prevent="onSubmit" class="form-main">
             <div class="row">
 
@@ -38,8 +50,8 @@
 
                 <!-- Saldo -->
 
-                <div v-bind:class="['form-group','col-md-3',errors.first(rules.saldo.name) ? 'has-error' :'']">
-                    <label for="">Saldo @{{ rules.saldo.required }}</label>
+                <div v-bind:class="['form-group has-success','col-md-3',errors.first(rules.saldo.name) ? 'has-error' :'']">
+                    <label class="control-label">Saldo @{{ rules.saldo.required }}</label>
                     <input 
                         type="text" 
                         class="form-control" 
@@ -113,8 +125,8 @@
 
                 <!-- FECHA DE PAGO  -->
 
-                <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_pago.name) ? 'has-error' :'']">
-                    <label for="">Fecha de pago @{{ rules.fecha_pago.required }}</label>    
+                <div v-bind:class="['form-group has-success','col-md-2',errors.first(rules.fecha_pago.name) ? 'has-error' :'']">
+                    <label class="control-label">Fecha de pago @{{ rules.fecha_pago.required }}</label>    
                     <input 
                         type="date" 
                         class="form-control form-main__input--small" 

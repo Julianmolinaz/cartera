@@ -96,7 +96,7 @@
                 <label for="">Centro de Costos @{{ rules.centro_costo.required }}</label>
                 <input 
                     :disabled="!show"
-                    @keyup="validar_negocio"
+                    @blur="validar_negocio"
                     type="text" 
                     class="form-control"  
                     placeholder="Monto Solicitado"
@@ -163,7 +163,7 @@
                 <label for="">Número de Cuotas @{{ rules.cuotas.required }}</label>
                 <input 
                     disabled
-                    @keyup="validar_negocio"
+                    @blur="validar_negocio"
                     type="text" 
                     class="form-control" 
                     placeholder="Cantidad de Cuotas"
@@ -175,13 +175,13 @@
         </div> <!-- row file 2-->
         <div class="row">
 
-            <!-- VALOR CUOTAS  -->
+            <!-- VALOR CUOTA -->
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.valor_cuotas.name) ? 'has-error' :'']">
-                <label for="">Valor Cuotas @{{ rules.valor_cuotas.required }}</label>
+                <label for="">Valor Cuota @{{ rules.valor_cuotas.required }}</label>
                 <input 
                     :disabled="!show"
-                    @keyup="validar_negocio"
+                    @blur="validar_negocio"
                     type="text" 
                     class="form-control"  
                     placeholder="valor cuotas"
