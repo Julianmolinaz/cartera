@@ -11,32 +11,23 @@
       </div>
       <div class="modal-body">
 
-        <p>
-          BB : Mejor calificación pagó cumplido.
-        </p>
-        <p>
-          B : Se le hicierón llamados pero pago.
-        </p>
-        <p>
-          M : Se insistió mucho, muy dificil el cliente pero pagó.
-        </p>
-        <p>
-          MM : Pagó con demanda.
-        </p>
-        <p>
-          CASTIGADA : no pagó.  
-        </p>
+        <p>BB : Mejor calificación pagó cumplido.</p>
+        <p>B : Se le hicierón llamados pero pago.</p>
+        <p>M : Se insistió mucho, muy dificil el cliente pero pagó.</p>
+        <p>MM : Pagó con demanda.</p>
+        <p>CASTIGADA : no pagó.</p>
+        
         <hr>
 
-          <div class="form-group">
+        <div class="form-group">
             <label for="recipient-name" class="form-control-label">Calificación:</label>
             <select class="form-control form-control-lg" id="select_calificacion">
                 <option disabled selected>- -</option>
-              @foreach($calificaciones as $calificacion)
+                @foreach($calificaciones as $calificacion)
                 <option>{{$calificacion}}</option>
-              @endforeach
+                @endforeach
             </select>
-          </div>
+        </div>
           
       </div>
       <div class="modal-footer">

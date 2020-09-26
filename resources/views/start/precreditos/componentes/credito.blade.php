@@ -9,9 +9,7 @@
             <li style="float:left;margin-left:5px;">Valor cuota: $@{{ $store.state.solicitud.vlr_cuota | formatPrice }}</li>
         </ul>
             
-        <br>
-        <hr>
-
+        <br><hr>
 
         <form @submit.prevent="onSubmit" class="form-main">
             <div class="row">
@@ -25,7 +23,8 @@
                         class="form-control"  
                         v-model="credito.estado"
                         v-validate="rules.estado.rule"
-                        :name="rules.estado.name">                              
+                        :name="rules.estado.name"
+                        @change="changeEstado()">                              
                         <option selected disabled>--</option>
                         <option :value="estado" 
                             v-for="(estado,index) in $store.state.data_credito.estados"
@@ -211,7 +210,10 @@
                     </center>
                 </div>
             </div> 
-        </form>        
+        </form>     
+
+        @include('start.precreditos.componentes.calificar_cliente_modal')
+
     </div> <!-- div fin -->
 </script>
     
@@ -264,6 +266,11 @@
                     return false
                 }
                 else return true
+            },
+            changeEstado() {
+                if (this.credito.estado == 'Cancelado') {
+                    $('#calificar').modal('show')
+                }
             }
         },
         created() {

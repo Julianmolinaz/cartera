@@ -10,6 +10,12 @@
             <span v-if="$store.state.data.status == 'edit cred'">Crédito</span> 
             <span v-else>Solicitud</span> 
             <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.data.status"></span>
+
+            <a  class="btn btn-default" 
+                style="float:right;margin:12px 50px 0px 0px;"
+                href="{{ route('start.clientes.show',$data['cliente']['id']) }}">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i> Salir</a>
+
         </h1>
 
         <div class="alert alert-danger" role="alert" style="margin:5px 10px;"
