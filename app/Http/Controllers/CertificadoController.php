@@ -14,7 +14,7 @@ class CertificadoController extends Controller
     public function paz_y_salvo($cliente_id,$tipo)
     {
         $data = $this->getDataPazYSalvo($cliente_id, $tipo);
-
+        
         $view = \View::make('start.certificados.paz_y_salvo',compact('data'))->render();
 
         $pdf = \App::make('dompdf.wrapper');

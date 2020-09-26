@@ -22,7 +22,7 @@
         .firma {
             position:absolute;
             z-index:100;
-            padding:40px 60px;   
+            padding:60px 60px;   
             opacity:0.9;
         }
         .datos-firma {
@@ -67,7 +67,7 @@
             <h2 style="text-align:center;margin:60px">CERTIFICO QUE</h2>
     
             <p>
-                {{$data->nombre}} identificado/a con {{$data->tipo_documento.' '.$data->numero_documento}},  se encuentra a PAZ Y SALVO,
+                {{$data->nombre}} identificado/a con {{$data->tipo_documento.' No. '.$data->numero_documento}},  se encuentra a PAZ Y SALVO,
                 bajo todo concepto hasta el día de hoy con la empresa INVERSIONES GORA S.A.S.
             </p>
     
@@ -82,7 +82,7 @@
         </section> 
 
         <div class="firma">
-            <img src="{{public_path('images/firmaJackeline.png')}}" alt="..." width="300">
+            <img src="{{public_path('images/firmaJackeline.png')}}" alt="..." width="250">
         </div>
 
         <section class="datos-firma">
