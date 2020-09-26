@@ -17,7 +17,7 @@
             position:absolute;.
             z-index:100;
             opacity:0.15;
-            padding:280px 80px;
+            padding:270px 80px;
         }
         .firma {
             position:absolute;
@@ -36,7 +36,7 @@
         .footer {
             background:#fbee32;
             max-width:100%;
-            margin:22px 0px;
+            margin:16px 0px;
             border-radius:5px;
         }
         .footer p {
@@ -59,16 +59,16 @@
             <img src="{{public_path('images/logo_inversiones_gora.png')}}" alt="" width="200">
         </section>
 
-        <section style="margin:40px 30px 30px 60px;">
+        <section style="margin:30px 30px 30px 60px;">
 
             
             <p>Pereira, {{$data->fecha }}</p>
     
             <h2 style="text-align:center;margin:60px">CERTIFICO QUE</h2>
     
-            <p>
-                {{$data->nombre}} identificado/a con {{$data->tipo_documento.' No. '.$data->numero_documento}},  se encuentra a PAZ Y SALVO,
-                bajo todo concepto hasta el día de hoy con la empresa INVERSIONES GORA S.A.S.
+            <p align="justify">
+                El señor/a <b>{{$data->nombre}}</b> identificado/a con {{$data->tipo_documento }} N° <b>{{$data->numero_documento}}</b>,  se encuentra a PAZ Y SALVO,
+                bajo todo concepto con la obligación <b>#{{$data->credito_id}}</b> hasta el día de hoy con la empresa <b>INVERSIONES GORA S.A.S.</b>
             </p>
     
             <p style="margin-top:60px;">

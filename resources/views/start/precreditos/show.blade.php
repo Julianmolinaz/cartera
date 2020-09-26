@@ -33,5 +33,37 @@
 
 @include('start.pagos.print_js')
 
+@include('start.precreditos.go_pazysalvo')
+
 @endsection
 @include('templates.main2')
+
+<script>
+
+    const credito = {!! json_encode($precredito->credito) !!}
+    
+
+    function getPazYsalvo() {
+
+        if ('{!! $precredito->cliente->codeudor !!}') {
+
+            $('#valid_pys_modal').modal('show');
+
+        } else {
+            getPazYsalvoCliente();
+        }
+
+    }
+
+    function getPazYsalvoCliente(){
+        window.open(`/start/certificados/paz_y_salvo/${credito.id}/cliente`, '_blank');
+        $('#valid_pys_modal').modal('hide');
+    }
+
+    function getPazYsalvoCodeudor(){ 
+        window.open(`/start/certificados/paz_y_salvo/${credito.id}/codeudor`, '_blank');
+        $('#valid_pys_modal').modal('hide');
+    }
+
+</script>
+
