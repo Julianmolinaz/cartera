@@ -19,7 +19,7 @@ class CreateFacturasTable extends Migration
             $table->string('fecha');
             $table->double('total');
             $table->enum('tipo',['Efectivo','Consignacion']);
-            $table->enum('banco',['Banco Agrario','Banco AV Villas','Banco Caja Social','Banco de Occidente','Banco Popular','Bancóldex','Bancolombia','BBVA','Banco de Bogotá','Citi','Colpatria','Davivienda','GNB Sudameris']);
+            $table->enum('banco',['Banco Agrario','Banco AV Villas','Banco Caja Social','Banco de Occidente','Banco Popular','Bancóldex','Bancolombia','BBVA','Banco de Bogotá','Citi','Colpatria','Davivienda','GNB Sudameris','Unificacion']);
             $table->date('fecha_proximo_pago');
             $table->integer('user_create_id')->unsigned();
             $table->integer('user_update_id')->unsigned();

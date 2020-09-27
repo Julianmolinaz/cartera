@@ -48,7 +48,7 @@ class PagoController extends Controller
     {
         
         $tipos_pago = getEnumValues('facturas', 'tipo');
-	$tipos      = $tipos_pago + ['Unificacion' => 'Unificacion'];
+        $tipos      = $tipos_pago + ['Unificacion' => 'Unificacion'];
         $carteras   = Cartera::where('estado','Activo')->get();
         $now        = Carbon::today();
         $now        = formatoFecha(ano($now),mes($now),dia($now));
