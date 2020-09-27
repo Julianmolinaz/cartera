@@ -3,7 +3,7 @@
     <tr>
     <td style="font-weight: bold;font-size: 150%;"> {{$precredito->cartera->nombre}}</td>
     <td>{{'#   '.$precredito->id}}</td>
-    <th scope="row"># Factura</th>
+    <th scope="row"># Consecutivo Formulario</th>
     <td>{{$precredito->num_fact}}</td>
     </tr>
 

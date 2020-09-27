@@ -30,8 +30,8 @@ trait Financierotrait
       $total_egresos  = $this->egresos_repo->get_egresos_punto($ini, $fin, $sucursal_id);
   
       $info = $this->reporte_financiero($creditos);
-
-      return array(
+ 	
+	return array(
         'total_egresos'         => $total_egresos, 
         'egresos_por_concepto'  => 
             $this->egresos_repo->get_egresos_sucursal_por_conceptos($ini,$fin,$sucursal_id),
@@ -53,7 +53,7 @@ trait Financierotrait
   {
     $negocio      = \App\Negocio::find(18);
 	  $ids_carteras = collect($negocio->carteras)->pluck('id');
-
+	  //$ids_carteras = [36];
 	  $creditos = \DB::table('creditos')
 		  ->join('precreditos','creditos.precredito_id','=','precreditos.id')
 		  ->join('carteras','precreditos.cartera_id','=','carteras.id')
@@ -115,7 +115,7 @@ trait Financierotrait
       ->whereBetween('creditos.created_at',[$ini,$fin])
       ->get();
 
-    $collection_estudios = DB::table('pagos')
+    $collection_estudios = DB::table('precred_pagos')
       ->join('precreditos','precred_pagos.precredito_id','=','precreditos.id')
       ->join('users','precreditos.user_create_id','=','users.id')
       ->join('puntos','users.punto_id','=','puntos.id')
@@ -123,8 +123,12 @@ trait Financierotrait
       ->whereBetween('precreditos.created_at',[$ini,$fin])
       ->get();  
 
+<<<<<<< HEAD
+    $collection_estudios = collect($collection_estudios);
+=======
     $collection_estudios = collect($estudios);
     
+>>>>>>> f7f59483862cc3c7a340c55484e9c35363c1db1d
     $num_estudios = $collection_estudios->count();
     $sum_estudios = $collection_estudios->sum('subtotal');
 
