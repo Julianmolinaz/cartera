@@ -12,13 +12,74 @@ class Cliente extends Model implements Auditable
     protected $table = 'clientes';
 
     protected $fillable = [
-        'nombre','primer_nombre','segundo_nombre','primer_apellido',
-        'segundo_apellido','tipo_doc','num_doc','fecha_nacimiento',
-        'direccion','barrio','municipio_id', 'movil','fijo','ocupacion',
-        'tipo_actividad','empresa','placa','email','codeudor_id', 
-        'user_create_id','user_update_id','calificacion', 
-        'conyuge_id', 'tel_empresa', 'dir_empresa'
+        
+        // info personal
 
+        'nombre',               //*
+        'primer_nombre',        //*
+        'segundo_nombre',       //*
+        'primer_apellido',      //*
+        'segundo_apellido',     //*
+        'genero',               //new
+        'tipo_doc',             //*
+        'num_doc',              //*
+        'estado_civil',         //new
+        'fecha_exp',            //new
+        'lugar_exp',            //new
+        'fecha_nacimiento',     //*
+        'lugar_nacimiento',     //new
+        'nivel_estudios',       //new
+
+        //info ubicacion
+
+        'direccion',            //*
+        'barrio',               //*
+        'municipio_id',         //*
+        'movil',                //*
+        'antiguedad_movil',     //new
+        'fijo',                 //*
+        'email',                //*
+        'anos_residencia',      //new
+        'envio_correspondencia',//new
+        'estrato',              //new
+        'meses_residencia',     //new
+        'tipo_vivienda',        //new
+        'nombre_arrendador',    //new
+        'telefono_arrendador',  //new
+
+        //info laboral
+
+        'tipo_actividad',       //*
+        'ocupacion',            //*
+        'empresa',              //*
+        'nit',                  //
+        'dir_empresa',          //new
+        'tel_empresa',          //*
+        'cargo',                //new
+        'descripcion_actividad',//new
+        'doc_empresa',          //new
+        'fecha_vinculacion',    //new
+        'tipo_contrato',        //new
+        
+        // info crediticia
+        
+        'reportado',            //new
+        'numero_de_creditos',   //*
+        'calificacion',         //*
+        
+        // referencias FK
+        
+        'codeudor_id',          //*
+        'conyuge_id',           //new
+        'user_create_id',       //*
+        'user_update_id',       //*
+        
+        // general
+        
+        'placa',                //new
+        'version',              //new
+        'calificacion',         //*
+        
     ];
 
     public function setNombreAttribute($value){
@@ -55,6 +116,11 @@ class Cliente extends Model implements Auditable
     public function setDireccionAttribute($value){
         $this->attributes['direccion'] = trim(strtoupper($value));
     }
+
+        public function setBarrioAttribute($value){
+        $this->attributes['barrio'] = trim(strtoupper($value));
+    }
+
 
     // public function setOcupacionAttribute($value){
     //     $this->attributes['ocupacion'] = strtoupper($value);
@@ -102,6 +168,14 @@ class Cliente extends Model implements Auditable
 
     public function documentos(){
         return $this->hasMany('App\Documento','cliente_id','id');
+    }
+
+    public function cdeudor() {
+        return $this->hasOne('App\Cliente','id','cdeudor_id');
+    }
+
+    public function deudor() {
+        return $this->hasOne('App\Cliente','cdeudor_id','id');
     }
 
     protected $auditExclude = [

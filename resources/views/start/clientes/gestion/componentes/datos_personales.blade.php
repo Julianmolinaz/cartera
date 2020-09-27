@@ -1,0 +1,273 @@
+<script type="text/x-template" id="datos_personales-template">
+
+    <div class="row">
+
+        <form @submit.prevent="">
+        
+            <div class="col-md-12">
+
+                <div v-if="warning_message" class="alert alert-warning" role="alert" v-text="message"></div>
+                
+                <!-- Primer nombre  -->
+
+                <div v-bind:class="['form-group','col-md-3',errors.first(rules.primer_nombre.name) ? 'has-error' :'']">
+                    <label>Primer nombre *</label>
+                    <input type="text" 
+                        class="form-control"
+                        name="primer nombre"
+                        v-model="personal.primer_nombre"
+                        v-validate="rules.primer_nombre.rule">
+                    <span class="help-block">@{{ errors.first(rules.primer_nombre.name) }}</span>
+                </div>
+
+                <!-- Segundo nombre  -->
+                
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.segundo_nombre.name) ? 'has-error' :'']">
+                    <label>Segundo nombre</label>
+                    <input type="text" class="form-control"
+                        name="segundo nombre"
+                        v-model="personal.segundo_nombre"
+                        v-validate="rules.segundo_nombre.rule">
+                    <span class="help-block">@{{ errors.first(rules.segundo_nombre.name) }}</span>                 
+                </div>
+
+                <!-- Primer apellido  -->
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.primer_apellido.name) ? 'has-error' :'']">
+                    <label>Primer apellido *</label>
+                    <input type="text" class="form-control"
+                        name="primer apellido"
+                        v-model="personal.primer_apellido"
+                        v-validate="rules.primer_apellido.rule">
+                    <span class="help-block">@{{ errors.first(rules.primer_apellido.name) }}</span>
+                </div>
+
+                <!-- Segundo apellido  -->
+                
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.segundo_apellido.name) ? 'has-error' :'']">
+                    <label>Segundo apellido</label>
+                    <input type="text" 
+                        class="form-control"
+                        name="segundo Apellido"
+                        v-model="personal.segundo_apellido"
+                        v-validate="rules.segundo_apellido.rule">
+                    <span class="help-block">@{{ errors.first(rules.segundo_apellido.name) }}</span>
+                </div>
+            
+            </div>
+
+            <div class="col-md-12">
+
+                <!-- Tipo documento  -->
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.tipo_doc.name) ? 'has-error' :'']">
+                    <label>Tipo de documento *</label>
+                    <select name="tipo de documento" 
+                        v-model="personal.tipo_doc"
+                        class="form-control"
+                        v-validate="rules.tipo_doc.rule">
+                        <option disabled selected>Tipo documento</option>
+                        <option :value="tipo_doc" v-for="tipo_doc in data.tipo_doc">@{{tipo_doc}}</option>    
+                    </select>
+                    <span class="help-block">@{{ errors.first(rules.tipo_doc.name) }}</span>
+                </div>
+        
+                <!-- Número de documento -->
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.num_doc.name) ? 'has-error' :'']">
+                    <label>Núm de documento *</label>
+                    <input type="text" class="form-control"
+                        name="numero de documento"
+                        placeholder="Número de documento"
+                        v-model="personal.num_doc"
+                        v-validate="rules.num_doc.rule">
+                    <span class="help-block">@{{ errors.first(rules.num_doc.name) }}</span>
+                </div>
+               
+               <!-- Lugar de expedición -->
+               
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.lugar_exp.name) ? 'has-error' :'']">
+                    <label>Lugar de expedición *</label>
+                    <input type="text" class="form-control"
+                        name="lugar de expedicion"
+                        placeholder="Ciudad donde se expidió el documento"
+                        v-model="personal.lugar_exp"
+                        v-validate="rules.lugar_exp.rule">
+                    <span class="help-block">@{{ errors.first(rules.lugar_exp.name) }}</span>
+                </div>
+            
+                <!-- Fecha de expedición -->
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
+                    <label>F. de expedición *</label>
+                    <input type="date" 
+                        name="fecha de expedicion"
+                        class="form-control"
+                        v-model="personal.fecha_exp"
+                        v-validate="rules.fecha_exp.rule">
+                    <span class="help-block">@{{ errors.first(rules.fecha_exp.name) }}</span>
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+
+                <!-- Fecha de nacimiento -->
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.fecha_nacimiento.name) ? 'has-error' :'']">
+                    <label>F. de nacimiento *</label>
+                    <input type="date" 
+                        name="fecha de nacimiento" 
+                        v-model="personal.fecha_nacimiento"
+                        class="form-control"
+                        v-validate="rules.fecha_nacimiento.rule">
+                    <span class="help-block">@{{ errors.first(rules.fecha_nacimiento.name) }}</span>
+                </div>
+
+                <!-- Lugar de nacimiento  -->
+
+                <div v-bind:class="['form-group','col-md-3', errors.first(rules.lugar_nacimiento.name) ? 'has-error' :'']">
+                    <label>Lugar de nacimiento *</label>
+                    <input type="text" 
+                        name="lugar de nacimiento" 
+                        class="form-control"
+                        v-model="personal.lugar_nacimiento"
+                        v-validate="rules.lugar_nacimiento.rule">
+                    <span class="help-block">@{{ errors.first(rules.lugar_nacimiento.name) }}</span>
+                </div>
+
+                <!-- Genero  -->
+
+                <div v-bind:class="['form-group','col-md-2', errors.first(rules.genero.name) ? 'has-error' :'']">
+                    <label>Género *</label>
+                    <select name="genero" 
+                        v-model="personal.genero"
+                        class="form-control"
+                        v-validate="rules.genero.rule">
+                        <option disabled selected>--</option>
+                        <option :value="item" v-for="item in data.generos">@{{item}}</option>
+                    </select>
+                    <span class="help-block">@{{ errors.first(rules.genero.name) }}</span>
+                </div>
+
+                <!-- Estudios  -->
+
+                <div v-bind:class="['form-group','col-md-2', errors.first(rules.nivel_estudios.name) ? 'has-error' :'']">
+                    <label>Estudios *</label>
+                    <select name="nivel de estudios" 
+                        v-model="personal.nivel_estudios"
+                        class="form-control"
+                        v-validate="rules.nivel_estudios.rule">
+                        <option disabled selected>--</option>
+                        <option :value="item" v-for="item in data.nivel_estudios">@{{item}}</option>
+                    </select>
+                    <span class="help-block">@{{ errors.first(rules.nivel_estudios.name) }}</span>
+                </div>
+
+                <div v-bind:class="['form-group','col-md-2', errors.first(rules.estado_civil.name) ? 'has-error' :'']">
+                    <label>Estado civil *</label>
+                    <select name="estado civil"
+                        v-model="personal.estado_civil"
+                        class="form-control"
+                        v-validate="rules.estado_civil.rule">
+                        <option disabled selected>--</option>
+                        <option :value="item" v-for="item in data.estado_civil">@{{ item }}</option>
+                    </select>
+                    <span class="help-block">@{{ errors.first(rules.estado_civil.name) }}</span>
+                </div>
+
+            </div>
+
+            <div class="col-md-12" style="margin-top:20px;">
+                <center>
+                    <button class="btn btn-primary" v-if="estado == 'edicion'"
+                        @click="save">
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                        Salvar</button>
+                    <button class="btn btn-default" @click="continuar">
+                        <i class="fa fa-forward" aria-hidden="true"></i>
+                        Continuar</button>
+                </center>
+            </div>
+        
+        </form>
+
+    </div>
+
+</script>
+
+
+<script>
+
+    Vue.component('datos_personales-component',{
+        template: '#datos_personales-template',
+        data () {
+            return {
+                estado: this.$store.state.estado,
+                personal: this.$store.state.info_personal,
+                rules: rules_personales,
+                warning_message: false,
+                message: ''
+            }
+        },
+        computed: {
+            data () { return this.$store.state.data; }
+        },
+        methods: {
+            async continuar () {
+
+                await this.$store.commit('setPersonal',this.personal)// Guarda info personal en el store
+                let res = await this.validarDocumento(); // Validar que el documento del cliente no exista
+                let valid = await this.validation();
+                if (res && valid) $('.nav-tabs a[href="#ubicacion"]').tab('show'); // continuar a el siguiente tab
+
+            },
+            async validarDocumento() {
+
+                var route = '/start/clientes/validar/documento';
+
+                // valida si el documento existe
+                let res = await axios.post(route, this.$store.state.cliente)
+
+                if (res.data.dat) {
+                    this.warning_message = true;
+                    this.message = res.data.message;
+                    return false;
+                } else {
+                    this.warning_message = false;
+                    this.message = '';
+                    return true;
+                }
+            },
+            async onSubmit () {
+
+            },
+            async save() {
+
+                // if (!this.validation) return false;
+
+                await this.$store.commit('setPersonal',this.personal)
+                var res = this.$store.dispatch('update');
+            },
+            async validation() {
+
+                let valid = await this.$validator.validate()
+
+                if (!valid) {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Corrija los campos marcados en rojo (Datos personales)', 'error', 5, function(){  console.log(''); });
+
+                    return false;
+                } 
+                return true;
+            }
+        }
+    });
+
+</script>
+
+<style scoped>
+    .help-block {
+        font-size: 10px;
+    }
+</style>

@@ -1,0 +1,327 @@
+<script type="text/x-template" id="ubicacion-template">
+    <div>
+       
+       <div class="row">
+            <form @submit.prevent="">
+                <div class="col-md-12">
+
+                    <!-- Direccion  -->
+
+                    <div v-bind:class="['form-group','col-md-6',errors.first(rules.direccion.name) ? 'has-error' :'']">
+                        <label>Dirección *</label>
+                        <input type="text" 
+                            class="text form-control"
+                            placeholder="dirección de residencia"
+                            v-model="ubicacion.direccion"
+                            name="direccion"
+                            v-validate="rules.direccion.rule">
+                        <span class="help-block">@{{ errors.first(rules.direccion.name) }}</span>
+                    </div>
+
+                    <!-- Barrio  -->
+
+                    <div v-bind:class="['form-group','col-md-6',errors.first(rules.barrio.name) ? 'has-error' :'']">
+                        <label>Barrio*</label>
+                        <input type="text" 
+                            class="text form-control"
+                            placeholder="barrio de residencia"
+                            v-model="ubicacion.barrio"
+                            name="barrio"
+                            v-validate="rules.barrio.rule">
+                        <span class="help-block">@{{ errors.first(rules.barrio.name) }}</span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+
+                    <!-- Municipio  -->
+
+                    <div v-bind:class="['form-group','col-md-4',errors.first(rules.municipio.name) ? 'has-error' :'']">
+
+                        <label>Municipio*</label>
+                        <input type="text" 
+                            class="text form-control"
+                            ref="mun"
+                            name="municipio"
+                            @keyup="getMunicipios"
+                            v-validate="rules.municipio.rule">
+                        <span class="help-block">@{{ errors.first(rules.municipio.name) }}</span>
+
+                        <input type="hidden" v-model="ubicacion.municipio_id">
+
+                        <div class="list-group" 
+                            style="position:absolute;z-index:2;background:white"
+                            v-if="show_mun">
+                            <a class="list-group-item list-group-item-action"
+                                style="cursor:pointer;"
+                                @click="setMunicipio(mun)"
+                                v-for="mun in arr_mun">@{{mun.nombre}}-@{{mun.departamento}}</a>
+                        </div>
+                    
+                    </div>
+
+                    <!-- Estrato  -->
+
+                    <div v-bind:class="['form-group','col-md-2',errors.first(rules.estrato.name) ? 'has-error' :'']">
+                        <label>Estrato*</label>
+                        <select type="text" 
+                            class="form-control"
+                            v-model="ubicacion.estrato"
+                            name="estrato"
+                            v-validate="rules.estrato.rule">
+                            <option disabled selected>--</option>
+                            <option :value="item" v-for="item in data.estrato">@{{ item }}</option>
+                        </select>
+                        <span class="help-block">@{{ errors.first(rules.estrato.name) }}</span>
+                    </div>
+
+                    <!-- Años en residencia  -->
+
+                    <div v-bind:class="['form-group','col-md-3',errors.first(rules.anos_residencia.name) ? 'has-error' :'']">
+
+                        <label>Tiempo en residencia*</label>
+                        <input type="text" 
+                            class="text form-control" 
+                            placeholder="años"
+                            v-model="ubicacion.anos_residencia"
+                            name="años en residencia"
+                            v-validate="rules.anos_residencia.rule">
+                        <span class="help-block">@{{ errors.first(rules.anos_residencia.name) }}</span>
+
+                    </div>
+
+                    <!-- Meses en residencia  -->
+
+                    <div v-bind:class="['form-group','col-md-3',errors.first(rules.meses_residencia.name) ? 'has-error' :'']">
+                        <label>...</label>
+                        <input type="text" 
+                            class="text form-control" 
+                            placeholder="meses"
+                            v-model="ubicacion.meses_residencia"
+                            name="meses en residencia"
+                            v-validate="rules.meses_residencia.rule">
+                        <span class="help-block">@{{ errors.first(rules.meses_residencia.name) }}</span>
+                    </div>
+                </div>
+
+                <div class="col-md-12" style="z-index:1">
+
+                    <!-- Celular  -->
+
+                    <div v-bind:class="['form-group','col-md-3',errors.first(rules.movil.name) ? 'has-error' :'']">
+                        <label>Celular*</label>
+                        <input type="text" 
+                            class="form-control"
+                            v-model="ubicacion.movil"
+                            name="celular"
+                            v-validate="rules.movil.rule">
+                        <span class="help-block">@{{ errors.first(rules.movil.name) }}</span>
+                    </div>
+
+                    <!-- Telefono  -->
+
+                    <div v-bind:class="['form-group','col-md-3',errors.first(rules.fijo.name) ? 'has-error' :'']">
+                        <label>Teléfono</label>
+                        <input type="text" 
+                            class="form-control"
+                            v-model="ubicacion.fijo"
+                            name="telefono"
+                            v-validate="rules.fijo.rule">
+                        <span class="help-block">@{{ errors.first(rules.fijo.name) }}</span>
+                    </div>
+
+                    <!-- Correo electronico -->
+
+                    <div v-bind:class="['form-group','col-md-6',errors.first(rules.email.name) ? 'has-error' :'']">
+                        <label>Correo electrónico*</label>
+                        <input type="text" 
+                            class="form-control"
+                            v-model="ubicacion.email"
+                            name="correo electronico"
+                            v-validate="rules.email.rule">
+                        <span class="help-block">@{{ errors.first(rules.email.name) }}</span>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12">
+
+                    <!-- Tipo de vivienda  -->
+
+                    <div v-bind:class="['form-group','col-md-2',errors.first(rules.tipo_vivienda.name) ? 'has-error' :'']">
+                        <label style="font-size:10px;">Tipo de vivienda*</label>
+                        <select type="text" 
+                            class="form-control"
+                            v-model="ubicacion.tipo_vivienda"
+                            name="tipo de vivienda"
+                            v-validate="rules.tipo_vivienda.rule">
+                            <option disabled selected>--</option>
+                            <option :value="item" v-for="item in data.tipo_vivienda">@{{ item }}</option>
+                        </select>
+                        <span class="help-block">@{{ errors.first(rules.tipo_vivienda.name) }}</span>
+                    </div>
+
+                    <!-- Envio de correspondencia  -->
+
+                    <div v-bind:class="['form-group','col-md-3',errors.first(rules.envio_correspondencia.name) ? 'has-error' :'']">
+                        <label style="font-size:10px;">Envío de correspondencia</label>
+                        <select type="text" 
+                            class="form-control"
+                            v-model="ubicacion.envio_correspondencia"
+                            name="envio de correspondencia"
+                            v-validate="rules.envio_correspondencia.rule">
+                            <option disabled selected>--</option>
+                            <option :value="item" v-for="item in data.envio_correspondencia">@{{ item }}</option>
+                        </select>
+                        <span class="help-block">@{{ errors.first(rules.envio_correspondencia.name) }}</span>
+                    </div>
+
+                    <!-- Nombre arrendador  -->
+
+                    <div v-bind:class="['form-group','col-md-4',errors.first(rules.nombre_arrendador.name) ? 'has-error' :'']">
+                        <label>Nombre arrendador</label>
+                        <input type="text" 
+                            class="form-control"
+                            v-model="ubicacion.nombre_arrendador"
+                            name="nombre arrendador"
+                            v-validate="rules.nombre_arrendador.rule">
+                        <span class="help-block">@{{ errors.first(rules.nombre_arrendador.name) }}</span>
+                    </div>
+
+                    <!-- Telefono arrendador  -->
+
+                    <div v-bind:class="['form-group','col-md-3',errors.first(rules.telefono_arrendador.name) ? 'has-error' :'']">
+                        <label>Teléfono arrendador</label>
+                        <input type="text" 
+                            class="form-control"
+                            v-model="ubicacion.telefono_arrendador"
+                            name="telefono arrendador"
+                            v-validate="rules.telefono_arrendador.rule">
+                        <span class="help-block">@{{ errors.first(rules.telefono_arrendador.name) }}</span>
+                    </div>
+                    
+                </div>
+
+                <div class="col-md-12" style="margin-top:20px;">
+                    <center>
+                        <a class="btn btn-default" v-if="estado == 'creacion'" @click="volver">
+                            <i class="fa fa-backward" aria-hidden="true"></i>
+                            Volver</a>
+                        <button class="btn btn-primary" v-if="estado == 'edicion'" @click="save()">
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                            Salvar</button>
+                        <button class="btn btn-default" @click="continuar">
+                            <i class="fa fa-forward" aria-hidden="true"></i>
+                            Continuar</button>
+                    </center>
+                </div>
+            </form>        
+       </div>
+
+    </div>
+</script>
+
+
+<script>
+
+    const ubicacion = Vue.component('ubicacion-component',{
+        template: '#ubicacion-template',
+        data () {
+            return {
+                estado      : this.$store.state.estado,
+                show_mun    : false,
+                municipio   : '',
+                municipios  : this.$store.state.municipios,
+                arr_mun     : [],
+                ubicacion   : this.$store.state.info_ubicacion,
+                rules       : rules_ubicacion,
+                data        : this.$store.state.data
+            }
+        },
+        methods: {
+            getMunicipios () {
+
+                let str_mun = this.$refs.mun.value
+                
+                if (str_mun.length > 0) {
+               
+                    this.arr_mun = this.municipios.filter( mun => 
+                        mun.nombre.toLowerCase().includes(str_mun.toLowerCase())
+                    )
+                    if (this.arr_mun) {
+                        this.show_mun = true
+                    }
+
+                } else {
+
+                    this.show_mun = false
+                    return false
+                }
+                
+            },
+            setMunicipio ( municipio ) {
+
+                this.show_mun               = false
+                this.ubicacion.municipio_id = municipio.id
+                this.$refs.mun.value        = municipio.nombre
+            },
+            async volver () {
+                
+                await this.valid_municipio();
+                await this.$store.commit('setUbicacion',this.ubicacion);
+                $('.nav-tabs a[href="#personales"]').tab('show');
+            },
+            async continuar () {
+
+                await this.$store.commit('setUbicacion',this.ubicacion);
+
+                await this.valid_municipio();
+
+                if (await this.validation()) $('.nav-tabs a[href="#actividad"]').tab('show');
+                
+            },
+            async save () {
+
+                let valid = await this.$validator.validate()
+
+                if (!valid) {
+                    alert('Por favor complete la informacion requerida');
+                    return false;
+                }
+                
+                await this.$store.commit('setUbicacion',this.ubicacion)
+                await this.$store.dispatch('update');
+            },//onSubmit
+            setMunicipio2() {
+                if (this.estado == 'edicion') {
+                    municipio = this.municipios.filter( mun => 
+                        mun.id == this.$store.state.info_ubicacion.municipio_id
+                    )
+
+                    this.$refs.mun.value = municipio[0].nombre
+                }
+            },
+            valid_municipio() {
+                if (this.show_mun) {
+                    this.$refs.mun.value = '';
+                    this.show_mun = false;
+                }
+            },
+            async validation() {
+
+                let valid = await this.$validator.validate()
+
+                if (!valid) {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Corrija los campos marcados en rojo (Ubicación)', 'error', 5, await function(){  console.log(''); });
+
+                    return false;
+                } 
+                return true;
+            }
+        },
+        mounted(){
+            this.setMunicipio2()
+        }
+    });
+
+</script>

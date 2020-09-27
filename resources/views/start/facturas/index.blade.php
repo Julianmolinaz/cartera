@@ -70,9 +70,11 @@
                 <span class = "glyphicon glyphicon-usd"  ></span>
               </a>  
               @endif
+              @permission('anular_pago_credito')
               <a href="#" class = 'btn btn-default btn-xs' OnClick="Anular({{$factura->id}},'{{$factura->num_fact}}');" data-toggle="modal" data-target="#modal" title="Anular factura">
                 <span class = "glyphicon glyphicon-fire" ></span>
               </a>  
+              @endpermission
               <a href="#" class = 'btn btn-default btn-xs' onclick="print('{{$factura->id}}')" title="Imprimir factura">
                 <span class = "glyphicon glyphicon-print" ></span>
               </a>  

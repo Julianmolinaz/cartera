@@ -48,11 +48,12 @@
             <td> {{ $factura->user_create->name.' '.$factura->created_at }} </td>
             <td style="display:none;"> {{$factura->updated_at}}</td>
             <td>
-
+            @permission('anular_pago_credito')
               <a href="#" class = 'btn btn-default btn-xs' title="anular factura" 
                 OnClick="Anular({{$factura->id}},'{{$factura->num_fact}}');" data-toggle="modal" data-target="#modal">
                 <span class = "glyphicon glyphicon-fire"  ></span>
               </a>
+            @endpermission
               @if($factura->credito)
               <a href="{{route('start.precreditos.ver',$factura->credito->precredito->id)}}" class = 'btn btn-default btn-xs'>
                 <span class = "glyphicon glyphicon-sunglasses"  data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
@@ -69,7 +70,7 @@
 
       <a href="javascript:window.history.back();">
         <button class="btn btn-default" id="btn_volver" style="margin-right: 5px; ">
-        <i class="glyphicon glyphicon-arrow-left"></i>&nbsp;&nbsp;Volver&nbsp;&nbsp;
+        <i class="glyphicon glyphicon-arrow-left"></i>&nbsp;&nbsp;Volver7&nbsp;&nbsp;
         </button>
       </a>
 

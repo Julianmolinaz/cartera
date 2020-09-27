@@ -10,10 +10,10 @@
           <div class="col-middle">
             <div class="text-center text-center">
             <div class="product_image">
-              <img src="{{asset('images/gora_logo_medium.png')}}" alt="...">
+              <img src="{{asset('images/logo_inversiones_gora.png')}}" alt="..." width="300" style="margin: 20px 0px;">
             </div>              
               <div class="mid_center">
-		<div id="mandamientos"></div>
+	          	<div id="mandamientos" style="color: #337ab7;font-size:1.5em;margin: 0px;font-family:special-elite"></div>
 
                 <form autocomplete="off">
 
@@ -59,31 +59,31 @@ document.onkeypress = function(){
 
     switch (day) {
         case 1:
-            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Ser humano ante todo</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Ser humano ante todo</p>';
             break;
         case 2:
-            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Pasión por lo que hacemos</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Pasión por lo que hacemos</p>';
             break;    
         case 3:
-            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Pensamiento de familia</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Pensamiento de familia</p>';
             break;
         case 4:
-            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Unidos por un bien común</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Unidos por un bien común</p>';
             break;
         case 5:
-            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">El cliente nuestra prioridad</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">El cliente nuestra prioridad</p>';
             break;
         case 6:
-            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Ser humano ante todo</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Ser humano ante todo</p>';
             break;  
         case 7:
-            mandamientos.innerHTML = '<p style="color: gray;margin: 0px;">Pasión por lo que hacemos</p><br>';
+            mandamientos.innerHTML = '<p style="margin-bottom:10px;">Pasión por lo que hacemos</p>';
             break;                                                
         default:
             break;
     }
 
-
+    var error_ = '';
 
     function Buscar(){
         var string = $('#string').val();
@@ -92,8 +92,17 @@ document.onkeypress = function(){
         $('#resultado').empty();
 
         $.get(route, function(res){
+            
             $('#resultado').append( res );
-        });
+        })
+        .fail( function(error){
+          error_ = error
+          if (error.responseText == "Unauthorized.") {
+            // window.location.href = "{{url('/log')}}";
+          } else {
+            alert('Ha ocurrido un error !!!');
+          }
+        })
         
     }
 

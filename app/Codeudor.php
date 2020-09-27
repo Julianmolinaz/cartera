@@ -12,29 +12,99 @@ class Codeudor extends Model implements Auditable
     protected $table = 'codeudores';
 
     protected $fillable = [
-        'codeudor',
-        'nombrec',
-        'primer_nombrec',
-        'segundo_nombrec', 
-        'primer_apellidoc', 
-        'segundo_apellidoc',
-        'tipo_docc',
-        'num_docc', 
-        'fecha_nacimientoc',
-        'direccionc',
-        'barrioc',
-        'municipioc_id',
-        'movilc',
-        'fijoc',
-        'ocupacionc',
-        'tipo_actividadc',
-        'empresac',
-        'placac',
-        'emailc',
-        'conyuge_id',
-        'tel_empresac',
-        'dir_empresac'
+
+        // información personal
+
+        'codeudor',             //*
+        'nombrec',              //*
+        'primer_nombrec',       //*
+        'segundo_nombrec',      //*
+        'primer_apellidoc',     //*
+        'segundo_apellidoc',    //*
+        'tipo_docc',            //*
+        'num_docc',             //*
+        'fecha_nacimientoc',    //*
+        'direccionc',           //*
+        'barrioc',              //*
+        'municipioc_id',        //*
+        'movilc',               //*
+        'fijoc',                //*
+        'ocupacionc',           //*
+        'tipo_actividadc',      //*
+        'empresac',             //*
+        'placac',               //*
+        'emailc',               //*
+        'conyuge_id',           // ambos
+        'tel_empresac',         //*
+        'dir_empresac',         //*
+
+
+        // info personal
+
+        'nombre',               // new
+        'primer_nombre',        // new
+        'segundo_nombre',       // new
+        'primer_apellido',      // new
+        'segundo_apellido',     // new
+        'genero',               // new
+        'tipo_doc',             // new
+        'num_doc',              // new
+        'estado_civil',         // new
+        'fecha_exp',            // new
+        'lugar_exp',            // new
+        'fecha_nacimiento',     // new
+        'lugar_nacimiento',     // new
+        'nivel_estudios',       // new
+
+        //info ubicacion
+
+        'direccion',            // new
+        'barrio',               // new
+        'municipio_id',         // new
+        'movil',                // new
+        'antiguedad_movil',     // new
+        'fijo',                 // new
+        'email',                // new
+        'anos_residencia',      // new
+        'envio_correspondencia',// new
+        'estrato',              // new
+        'meses_residencia',     // new
+        'tipo_vivienda',        // new
+        'nombre_arrendador',    // new
+        'telefono_arrendador',  // new
+
+        //info laboral
+
+        'tipo_actividad',       // new
+        'ocupacion',            // new
+        'empresa',              // new
+        'nit',                  // new
+        'dir_empresa',          // new
+        'tel_empresa',          // new
+        'cargo',                // new
+        'descripcion_actividad',// new
+        'doc_empresa',          // new
+        'fecha_vinculacion',    // new
+        'tipo_contrato',        // new
+        
+        // info crediticia
+        
+        'reportado',            // new
+        'calificacion',         // new
+        
+        // referencias FK
+
+        'codeudor_id',          // new
+        'user_create_id',       // new
+        'user_update_id',       // new
+        
+        // general
+
+        'placa',                // new
+        'version'               // new
+
     ];
+        
 
     // mutators
 
@@ -46,8 +116,21 @@ class Codeudor extends Model implements Auditable
         $_4 = ' '.ucwords(strtolower($this->segundo_apellidoc));
 
         $this->attributes['nombrec'] = trim($_1.$_2.$_3.$_4);
+    }
+
+    public function setNombreAttribute($value){
+
+        $_1 = ucwords(strtolower( trim($this->primer_nombre)) );
+        $_2 = $this->segundo_nombre ? ' '.ucwords(strtolower( trim($this->segundo_nombre) )) : '';
+        $_3 = ' '.ucwords(strtolower( trim($this->primer_apellido) ));
+        $_4 = $this->segundo_apellido ? ' '.ucwords(strtolower( trim($this->segundo_apellido) )) : '';
+
+        $this->attributes['nombre'] = trim($_1.$_2.$_3.$_4);
 
     }
+
+
+    // C
 
     public function setPrimernombrecAttribute($value){
         $this->attributes['primer_nombrec'] = ucwords(strtolower($value));
@@ -112,5 +195,44 @@ class Codeudor extends Model implements Auditable
     }
 
 
+    // NOT C
+    
+    public function setPrimernombreAttribute($value){
+        $this->attributes['primer_nombre'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setSegundonombreAttribute($value){
+        $this->attributes['segundo_nombre'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setPrimerapellidoAttribute($value){
+        $this->attributes['primer_apellido'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    public function setSegundoapellidoAttribute($value){
+        $this->attributes['segundo_apellido'] = ucwords(strtolower($value));
+        $this->setNombreAttribute($value);
+    }
+
+    // RELATIONS
+
+    public function client(){
+        return $this->hasOne('App\Cliente','codeudor_id','id');
+    }
+
+    public function mun(){
+        return $this->hasOne('App\Municipio','id','municipio_id');
+    }
+
+    public function study(){
+        return $this->belongsTo('App\Estudio','id','codeudor_id');
+    }
+
+    public function spouse(){
+        return $this->hasOne('App\Conyuge','id','conyuge_id');
+    }
 
 }

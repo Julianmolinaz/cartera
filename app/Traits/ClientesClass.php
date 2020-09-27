@@ -40,7 +40,7 @@ trait ClientesClass
         //CREAR SOAT PARA CODEUDOR
 
         if( $request->input('soatc') ){
-          $this->createSoat($codeudor,'codeudor',$request);
+            $this->createSoat($codeudor,'codeudor',$request);
         }
 
         // CREACIÓN DEL CONYUGE
@@ -442,7 +442,6 @@ trait ClientesClass
 
     private function editConyuge($obj, $tipo, $request)
     {
-        dd($obj->conyuge);
       if( $tipo == 'cliente' ){
 
         $conyuge = Conyuge::find($obj->conyuge->id);
@@ -500,18 +499,15 @@ trait ClientesClass
 
     public function rules_cliente($opcion)
     {
-    	if( $opcion == 'crear' )
-    	{
+    	if ( $opcion == 'crear' ) {
     		$num_doc = 'required|max:15|unique:clientes';
     	}
-    	elseif( $opcion == 'editar' ) 
-    	{
+    	elseif ( $opcion == 'editar' ) {
     		$num_doc = 'required|max:15|unique:clientes,'.'id';
     	}
-    	else
-    	{
+    	else {
     		dd('error en rules cliente'.$opcion);
-    	}
+        }
 
 		return array(
             'primer_nombre'             => ['required','max:60','regex:/^[a-zA-ZñÑ[:space:]]*$/'],
@@ -525,17 +521,15 @@ trait ClientesClass
             'barrio'                    => 'required',
             'municipio_id'              => 'required',
             'movil'                     => 'required|max:20|alpha_num',
+            'fijo'                      => 'max:20|alpha_num',
             'ocupacion'                 => 'required',
             'tipo_actividad'            => 'required',
             'email'                     => 'required|max:60'
             );
     }
 
-    public function messages_cliente($opcion)
+    public function messages_cliente(   )
     {
-    	// if( $opcion == 'crear' ){}
-    	// elseif( $opcion == 'editar' ){}
-    	// else{}
 		return array(
            'primer_nombre.required'     => 'EL primer nombre del cliente es requerido',
            'primer_nombre.max'          => 'El primer nombre del cliente excede los 60 caracteres permitidos',
@@ -560,10 +554,12 @@ trait ClientesClass
            'movil.required'             => "El celular del cliente es requrido",
            'movil.max'                  => 'El número celular del cliente excede los 20 dígitos permitidos',
            'movil.alpha_num'            => 'No se puede introducir espacios en el movil',
-           'ocupacion.required'         => 'La ocupación del cliente es requerida',
+           'fijo.alpha_num'             => 'No se puede introducir espacios en el teléfono',
+           'fijo.max'                   => 'El número de teléfono del cliente excede los 20 dígitos permitidos',
+           'ocupacion.required'            => 'El oficio del cliente es requerida',
            'tipo_actividad.required'    => 'El tipo de actividad del cliente es requerida',
-           'email.max'                  => 'El correo electronico del cliente excede los 60 caracteres permitidos',
-	   'email.required'             => 'El email es requerido'
+           'email.required'             => 'El email es requerido',
+           'email.max'                  => 'El email del cliente excede los 60 caracteres permitidos'
             );
     }
 
@@ -584,10 +580,11 @@ trait ClientesClass
             'direccionc'                => ['required','max:100','regex:/^[a-zA-ZñÑ0-9#\-\.[:space:]]*$/'],
             'barrioc'                   => 'required',
             'municipioc_id'             => 'required',
-            'movilc'                    => 'required|max:20',
+            'movilc'                    => 'required|max:20|alpha_num',
+            'fijoc'                     => 'max:20|alpha_num',
             'ocupacionc'                => 'required',
             'tipo_actividadc'           => 'required',
-            'emailc'                    => 'max:60'
+            'emailc'                    => 'required|max:60'
             );
     }
 
@@ -618,11 +615,15 @@ trait ClientesClass
            'barrioc.required'           => 'El barrio del codeudor es requerido',
            'municipioc_id.required'     => 'El municipio del codeudor es requerido',
            'movilc.required'            => 'El número celular del codeudor es requerido',
-           'movilc.max'                 => 'El número celular del codeudor excede los 20 dígitos permitidos',  
+           'movilc.max'                 => 'El número celular del codeudor excede los 20 dígitos permitidos',   
+           'movilc.alpha_num'           => 'No se puede introducir espacios en el movil',
+           'fijoc.alpha_num'            => 'No se puede introducir espacios en el teléfono',
+           'fijoc.max'                  => 'El número de teléfono del codeudor excede los 20 dígitos permitidos',
            'ocupacionc.required'        => 'La ocupación del codeudor es requerida',
            'tipo_actividadc.required'   => 'El tipo de actividad del codeudor es requerida',
+           'emailc.required'            => 'El email del codeudor es requerido',
            'emailc.max'                 => 'El correo electronico del codeudor excede los 60 caracteres permitidos'
-            );    	
+        );    	
     }
 
 

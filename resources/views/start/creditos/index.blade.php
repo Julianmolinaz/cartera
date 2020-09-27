@@ -1,153 +1,75 @@
-  @section('title','Creditos')
+@extends('templates.main3')
+
+@section('title','Creditos')
 @section('contenido')
 
-<div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12">
-  <div class="panel panel-primary">
-    <div class="panel-heading"><h2>Créditos <i class="fas fa-suitcase"></i>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-primary">
 
 
+                <div class="panel-heading">
+
+                    <p>
+                        <h4>Créditos <i class="fas fa-users"></i></h4>
+                    </p>
+
+                </div>
 
 
-      <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="ExportarTodo();">
-        Exportar todos los créditos xls
-      </button>
+                <div class="panel-body">
 
-      <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">
-        Exportar vista xls
-      </button>
+                    <p> @include('flash::message') </p>
 
 
-    </h2></div>
-    <div class="panel-body">
-        <p>
-         @include('flash::message')
-        
-       </p>
-       
-       <table id="datatable"  data-order='[[ 0, "desc" ]]'class="table table-striped table-bordered" style="font-size:11px">
-        <thead>
-          <tr  style="background-color:#FFC300;">
-            <th style="display:none;">    Actualizacion  </th>
-            <th> <small>   Credito id </small>  </th>
-            <th>      Cartera                   </th>
-            <th>      Fecha Aprobación            </th>
-            <th>      Cliente                   </th>
-            <th>      Documento                 </th>
-            <th>      Estado                    </th>
-            <th>      Días mora                 </th>
-            <th>      Saldo                     </th>
-            <th>      Pago hasta                </th>
-            <th>      Creó                      </th>
-            <th>      Acciones                  </th>
-          </tr>
-          </thead>
-          <tbody>
+                    <table id="table" class="table table-striped display" style="width:100%;">
 
-            @foreach($creditos as $credito)
-              @if($credito->estado == 'Cancelado' || $credito->estado == 'Finalizado')
-                <tr class="danger">
-              @else    
-                <tr>
-              @endif    
-              <td style="display:none;"> {{$credito->updated_at}}</td>
-              <td> {{$credito->id}}       </td>
-              <td> {{$credito->cartera}}  </td>
-              <td> {{$credito->created_at}}    </td>
-              <td> {{$credito->cliente}}  </td>
-              <td> {{$credito->doc}}      </td>
+                        <thead>
+                            <tr>
+                            <th>    Código crédito </th>
+                            <th>    Código solicitud</th>
+                            <th>    Estado     </th>
+                            <th>    Cartera  </th>
+                            <th>    Nombre     </th>
+                            <th>    Documento </th>
+                            <th>    Acciones   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                        </tbody>
 
-              <td>
-                @if($credito->estado == 'Al dia')
+                    </table>
 
-                  <spam class="label label-primary">{{$credito->estado}}</spam>
-
-                @elseif($credito->estado == 'Mora')
-                
-                  <spam class="label label-danger">{{$credito->estado}}<spam>  
-
-                @elseif($credito->estado == 'Prejuridico')
-
-                  <spam class="label label-success  ">{{$credito->estado}}</spam>
-
-                @elseif($credito->estado == 'Juridico')
-
-                  <spam class="label label-info">{{$credito->estado}}</spam>
-
-                @else
-                  <spam class="label label-warning">{{$credito->estado}}</spam>
-                @endif
-
-              </td>
-              <td>{{$credito->sanciones}}</td>
-             
-              <td align="right"> {{number_format($credito->saldo,0,",",".")}}</td>
-              
-              <td>{{ $credito->fecha_pago }} </td>
- 
-              <td> <small>{{$credito->user_create.' ('.$credito->created_at.')'}}</small></td>
-
-              <td>
-                <a href="{{route('start.precreditos.ver',$credito->precredito_id)}}"
-                  class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver crédito"><span class = "glyphicon glyphicon-eye-open" ></span></a>
-
-                <a href="{{route('start.clientes.show',$credito->cliente_id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver cliente"><span class = "glyphicon glyphicon-user" ></span></a>
-
-                <a href="{{route('start.facturas.create',$credito->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Hacer pagos"><span class = "glyphicon glyphicon-usd" ></span></a>
-
-                <a href="{{route('admin.sanciones.show',$credito->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver sanciones diarias"><span class = "glyphicon glyphicon-record" ></span></a>
-
-                <a href="{{route('admin.multas.show',$credito->id)}}" class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Crear cobros prejurídicos o jurídicos"><span class = "glyphicon glyphicon-hourglass" ></span></a>
-
-                 <a href="{{route('start.creditos.edit',$credito->id)}}" class = 'btn btn-default btn-xs'  data-toggle="tooltip" data-placement="top" title="Editar"><span class = "glyphicon glyphicon-pencil"></a>
-
-                <a href="{{route('call.index_unique',$credito->id)}}"
-                   class = 'btn btn-default btn-xs'
-                   data-toggle="tooltip" 
-                   data-placement="top" 
-                   title="Llamar">
-                  <span class = "glyphicon glyphicon-phone-alt"></span>
-                </a>
-
-                </td>
-              </tr>
-
-              @endforeach
-              </tbody>
-          </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div style="margin-left:30px;">
-    {{ $creditos->links() }}
-  </div>
+    @section('js')
 
-  <script>
-    $( document ).ready(function() {
+        <script>
 
-      $('#datatable').dataTable({
-        'scrollY'       : 500,
-        'paging'        : false,
-        "scrollCollapse": true,
-        "iDisplayLength": 500
-        });
-      });
+            $('#table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{url('start/creditos/list')}}",
+                columns: [
+                    {data: 'id', name: 'creditos.id'},
+                    {data: 'precredito_id', name: 'precreditos.id'},
+                    {data: 'estado', name: 'creditos.estado'},
+                    {data: 'cartera', name: 'carteras.nombre'},
+                    {data: 'nombre', name: 'clientes.nombre'},
+                    {data: 'num_doc', name: 'clientes.num_doc'},
+                    {data: 'btn', searchable: false}
+                ],
+                order: [[0, 'desc']]
+            });
 
-    function Exportar(){
-      $('#datatable').table2excel({
-        name    : 'creditos',
-        filename: "creditos.xls"
-      });
-    }
-    function ExportarTodo(){
-      window.open("{{url('start/creditos/exportar_todo')}}", '_blank');
-    }
-  </script>
+        
+        </script>
 
+    @endsection
 
+@endsection
 
-
-  @endsection
-  @include('templates.main2')

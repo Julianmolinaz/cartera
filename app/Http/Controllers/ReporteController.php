@@ -59,24 +59,25 @@ class ReporteController extends Controller
         $tipo_reportes = $this->tipo_reportes();
 
         $carteras = Cartera::all()->sortBy('nombre');   
-        $now = Carbon::now();
-        $ano = $now->year;
+        $now      = Carbon::now();
+        $ano      = $now->year;
 
         $ultimo_reporte_cancelados = DB::table('cancelados')->first();
 
-
-        if($ultimo_reporte_cancelados){
+        if ($ultimo_reporte_cancelados) {
+            
             $ultimo_reporte_cancelados = $ultimo_reporte_cancelados->created_at;
         }
-        else{ $ultimo_reporte_cancelados = null; }
+        else { 
 
-        //dd($ultimo_reporte_cancelados);
+            $ultimo_reporte_cancelados = null; 
+        }
 
         return view('admin.reportes.index')
+            ->with('ultimo_reporte_cancelados', $ultimo_reporte_cancelados)
             ->with('tipo_reportes', $tipo_reportes)
             ->with('carteras',$carteras)
-            ->with('ano',$ano)
-            ->with('ultimo_reporte_cancelados', $ultimo_reporte_cancelados);
+            ->with('ano',$ano);
     }
 
     public function create()
@@ -350,6 +351,7 @@ class ReporteController extends Controller
             
             //asignacion de datos al archivo
             foreach($report_procredito as $reporte){
+                
                 foreach($reporte as $key => $elemento){
 
                     if ($elemento === reset($reporte)) {

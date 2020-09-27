@@ -63,9 +63,9 @@
     </tr>
     <tr>
     <th scope="row">Actualizó</th>
-    <td> {{$precredito->user_update->name}}</td>
+    <td> {{($precredito->user_update) ? $precredito->user_update->name : ''}}</td>
     <th scope="row">Fecha</th>
-    <td> {{$precredito->updated_at}}</td>
+    <td> {{ ($precredito->user_update) ? $precredito->updated_at : ''}}</td>
     </tr>
     <tr>
     <th scope="row">Observaciones</th>

@@ -103,6 +103,8 @@ trait Financierotrait
 
   function financiero_por_sucursales($ini, $fin, $sucursal_id)
   {
+
+    dd(12);
     $array = [];
     $creditos = DB::table('creditos')
       ->join('precreditos','creditos.precredito_id','=','precreditos.id')
@@ -121,7 +123,12 @@ trait Financierotrait
       ->whereBetween('precreditos.created_at',[$ini,$fin])
       ->get();  
 
+<<<<<<< HEAD
     $collection_estudios = collect($collection_estudios);
+=======
+    $collection_estudios = collect($estudios);
+    
+>>>>>>> f7f59483862cc3c7a340c55484e9c35363c1db1d
     $num_estudios = $collection_estudios->count();
     $sum_estudios = $collection_estudios->sum('subtotal');
 

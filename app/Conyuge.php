@@ -8,11 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Conyuge extends Model
 {
 	protected $fillable = [
-		'nombrey','p_nombrey','s_nombrey','p_apellidoy','s_apellidoy',
-		'tipo_docy','num_docy','diry','movily','fijoy'
+		'nombrey',
+		'p_nombrey',
+		's_nombrey',
+		'p_apellidoy',
+		's_apellidoy',
+		'tipo_docy',
+		'num_docy',
+		'diry',
+		'movily',
+		'fijoy'
 	];
 
 	public $timestamps = false;
+
 
 	public function setNombreyAttribute($value){
 
@@ -45,6 +54,10 @@ class Conyuge extends Model
 	public function setSapellidoyAttribute($value){
 		$this->attributes['s_apellidoy'] = ucwords(strtolower($value));		
 		$this->setNombreyAttribute($value);
+	}
+
+	public function getIdentificacionAttribute() {
+		return $this->tipo_docy.' - '.$this->num_docy;
 	}
 
 }

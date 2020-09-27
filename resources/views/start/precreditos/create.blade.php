@@ -1,261 +1,107 @@
-@section('title','Crear Solicitud')
+@extends('templates.main2')
 
 @section('contenido')
 
-<div class="row">
+<div class="col-md-10 col-md-offset-1" id="principal">
 
-<div class="col-md-2 col-sm-2"></div>
+    <div class="panel panel-default" style="pading:5px;" id="myabs">
+        <h1 style="margin: 12px 0px 15px 10px">
+            <span class="glyphicon glyphicon-briefcase" aria-hidden="true" style="color:gray;"></span>
+            <span v-if="$store.state.data.status == 'edit cred'">Crédito</span> 
+            <span v-else>Solicitud</span> 
+            <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.data.status"></span>
 
-  <div class="col-md-8 col-sm-8 col-xs-12">
+            <a  class="btn btn-default" 
+                style="float:right;margin:12px 50px 0px 0px;"
+                href="{{ route('start.clientes.show',$data['cliente']['id']) }}">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i> Salir</a>
 
-  <div class="panel panel-primary">
-    <div class="panel-heading">Crear Solicitud de Crédito <small>{{$cliente->nombre.' '.$cliente->num_doc}}</small></div>
-    <div class="panel-body">
-        @include('templates.error')
-        <br />
-        <!--FORMULARIO ********** -->
-        <form class="form-horizontal form-label-left" action="{{route('start.precreditos.store')}}" method="POST">
+        </h1>
 
-          <input type="hidden" name="cliente_id" value="{{$cliente->id}}">
+        <div class="alert alert-danger" role="alert" style="margin:5px 10px;"
+            v-if="$store.state.message" v-html="$store.state.message"></div>
 
-          <!-- ***** num_fact *********-->
+        <div role ="tabpanel">
+        
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentacion" class="active">
+                    <a href="#producto" aria-controls="producto" data-toggle="tab" role="tab" @click="go('producto')">
+                        <i class="fa fa-cube" aria-hidden="true" style="margin-right:5px;"></i> Producto
+                    </a>
+                </li>
+    
+                <li role="presentacion">
+                    <a href="#solicitud" aria-controls="solicitud" data-toggle="tab" role="tab" @click="go('solicitud')">
+                    <i class="fa fa-plug" aria-hidden="true" style="margin-right:5px;"></i>Solicitud
+                    </a>
+                </li>
+          
+                @if($credito)
+                <li role="presentacion">
+                    <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab" @click="go('credito')">
+                    <i class="fa fa-rss-square" aria-hidden="true" style="margin-right:5px;"></i>Crédito
+                    </a>
+                </li>
+                @endif
+            </ul>
+        
+            <!-- Tab panes -->
+            <div class="tab-content" style="padding:25px">
+                <div role="tabpanel" class="tab-pane  active" id="producto">
+                    <producto-component />
+                </div>      
+                <div role="tabpanel" class="tab-pane" id="solicitud">
+                    <solicitud-component />
+                </div>
+                @if($credito)
+                <div role="tabpanel" class="tab-pane" id="credito">
+                    <credito-component />
+                </div>
+                @endif
+                <p class="help-block">Los campos con asterisco (*) son obligatorios</p>
+                
+            </div><!-- tab-content  -->
+        </div>  <!-- tabpanel    -->
+    </div> <!-- panel  -->
+ 
+</div><!-- .col-md-8 -->
 
-          <div class="form-group">
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <label for="">Número de Factura *:</label>
-              <input type="text" class="form-control input-sm" placeholder="# de factura" id="num_fact" name="num_fact"  value="{{old('num_fact')}}" autofocus>
-            </div>
-
-            <!--*** fecha ***-->
-
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <label for="">Fecha:</label>
-              <input type="text" class="form-control input-sm" data-inputmask="'mask': '99-99-9999'" placeholder="dd-mm-aaaa" id="fecha" name="fecha" value="{{old('fecha')}}">
-            </div>
-
-            <!--*** cartera_id ***-->  
-
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <label>Cartera *:</label>
-              <select class="form-control input-sm" name="cartera_id" id="cartera_id">
-               <option value="" disabled selected hidden="">- -</option>
-               @foreach($carteras as $cartera)
-               <option value="{{$cartera->id}}" {{ (old("cartera_id") == $cartera->id ? "selected":"") }}>{{$cartera->nombre}}</option>
-               @endforeach  
-             </select>
-           </div>  
-         </div>
-
-         <!-- vlr_fin*****-->
-
-         <div class="form-group">
-          <div class="col-md-6 col-sm-6 col-xs-12">
-            <label for="">Centro de Costos *: </label>
-            <input type="text" class="form-control input-sm" placeholder="ingrese monto solicitado" id="vlr_fin" name="vlr_fin" value="{{old('vlr_fin')}}" >
-          </div>
-
-          <div class="col-md-6 col-sm-6 col-xs-12">
-            <label>Producto *:</label>
-            <select class="form-control input-sm" name="producto_id" id="producto_id">
-             <option value="" disabled selected hidden="">- -</option>
-             @foreach($productos as $producto)
-             <option value="{{$producto->id}}" {{ (old("producto_id") == $producto->id ? "selected":"") }}>{{$producto->nombre}}</option>
-             @endforeach  
-           </select>
-         </div>
-       </div>
-
-
-       <div class="form-group">  
-
-        <div class="col-md-3 col-sm-3 col-xs-12">
-          <label for="">Periodo *: </label>
-          <select class="form-control input-sm" placeholder="periodo" name="periodo" id="periodo" >
-            <option value="" readonly selected hidden="periodo">- -</option>
-            @foreach(['Quincenal','Mensual'] as $key => $tipo)
-            <option id="periodo" name="periodo" value="{{ $tipo }}" {{ (old("periodo") == $tipo ? "selected":"") }}>{{  $tipo }}</option>
-            @endforeach 
-          </select>
-        </div>
-
-        <div class="col-md-3 col-sm-3 col-xs-12">
-          <label># Meses *:</label>
-          <input type="number" class="form-control input-sm" id="meses" name="meses"  autocomplete="off" placeholder="Meses" min="{{$variables->meses_min}}" max="{{$variables->meses_max}}" step="1" value="{{old('meses')}}">
-        </div>
-
-
-        <div class="col-md-6 col-sm-6 col-xs-12">
-          <label># Cuotas *:</label>
-          <input type="number" class="form-control input-sm" id="cuotas" name="cuotas"  autocomplete="off" placeholder="cuotas" readonly value="{{old('cuotas')}}">
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <div class="col-md-6 col-sm-6 col-xs-12">
-          <label for="">Valor cuota *: </label>
-          <input type="text" class="form-control input-sm" placeholder="ingrese valor " id="vlr_cuota" name="vlr_cuota" value="{{old('vlr_cuota')}}" >
-        </div>
-
-        <div class="col-md-3 col-sm-3 col-xs-12">
-          <label for="">Fecha 1 *: </label>
-          <select class="form-control input-sm" placeholder="primera fecha" name="p_fecha" id="p_fecha" >
-            <option value="" readonly selected hidden="p_fecha"></option>
-            @foreach(range(1, 30) as $tipo)
-              <option id="p_fecha" name="p_fecha" value="{{ $tipo }}" {{ (old("p_fecha") == $tipo ? "selected":"") }}>{{  $tipo }}</option>
-              @endforeach
-            </select>
-          </div>
-          <div class="col-md-3 col-sm-3 col-xs-12">
-            <label for="">Fecha 2 : </label>
-            <select class="form-control input-sm" placeholder="segunda fecha" name="s_fecha" id="s_fecha" >
-              <option value="" readonly selected hidden="s_fecha"></option>
-              @foreach(range(1, 30) as $tipo)
-                <option id="s_fecha" name="s_fecha" value="{{ $tipo }}" {{ (old("s_fecha") == $tipo ? "selected":"") }}>{{  $tipo }}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <label for="">Estudio *: </label>
-              <select class="form-control input-sm" placeholder="primera fecha" name="estudio" id="estudio" >
-                <option value="" readonly selected hidden="estudio">{{old('estudio')}}</option>
-                @foreach(['Tipico','Domicilio','Sin estudio'] as $key => $tipo)
-                <option id="estudio" name="estudio" value="{{ $tipo }}" {{ (old("estudio") == $tipo ? "selected":"") }}>{{  $tipo }}</option>
-                @endforeach
-              </select>
-            </div>
-<!--CUOTA INICIAL-->
-            <div class="col-md-6 col-sm-6 col-xs-12">
-
-              <label for="">Cuota Inicial : </label>
-              <input type="number" class="form-control input-sm" id="cuota_inicial" name="cuota_inicial"  autocomplete="off" placeholder="cuota inicial" value="{{old('cuota_inicial')}}">
-            </div>
-
-          </div>
-
-        <!--FUNCIONARIO-->
-        <div class="form-group">
-          <div class="col-md-12 col-sm-12 col-xs-12">
-
-            <label for="">Funcionario *: </label>
-            <select class="form-control input-sm" name="funcionario_id" id="funcionario_id">
-              <option value="" disabled selected hidden="">- -</option>
-              @foreach($users as $user)
-              <option value="{{$user->id}}" {{ (old("funcionario_id") == $user->id ? "selected":"") }}>{{$user->name}}</option>
-              @endforeach  
-            </select>
-
-          </div>
-        </div> 
-
-<!--OBSERVACIONES-->
-      <div class="form-group">  
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <label>Observaciones</label>
-          <textarea class="form-control input-sm" rows="12" id="observaciones" name="observaciones" autocomplete="on"  value="{{old('observaciones')}}"></textarea>
-        </div>
-
-      </div>
-
-      <!-- BOTONES **************************************************************************-->
-
-      <center>
-          <a href="javascript:window.history.back();"><button type="button" class="btn btn-primary">Volver</button></a>
-          <button type="submit" class="btn btn-danger">&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
-      </center>    
-
-
-      <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-    </form>
-    <!-- END FORMULARIO ******-->
-
-
-
-
-  </div>
-  </div>
-
-</div>
-
-<div class="col-md-2 col-sm-2"></div>
-
-</div>
-
+<script src="/js/vue/vee_es.js"></script>
+<script src="/js/interfaces/vehiculo.js"></script>
+<script src="/js/rules/vehiculo.js"></script>
 
 <script>
-  $(document).ready(function(){
- // alert('ready!');
-    document.getElementById('observaciones').value = 
-        "SOAT-PROVEEDOR(CDA):\nSOAT-#FACTURA(# DE PÓLIZA):\nSOAT-FECHA EXPEDICIÓN:\nSOAT COSTO (VALOR):\n";
+    const Bus = new Vue();
+</script>
 
-    document.getElementById('observaciones').value = document.getElementById('observaciones').value +
-        "------------------------------\n";
+@include('start.precreditos.componentes.producto')
+@include('start.precreditos.componentes.solicitud')
+@include('start.precreditos.componentes.credito')
+@include('start.precreditos.componentes.store') 
 
-    document.getElementById('observaciones').value = document.getElementById('observaciones').value +
-        "RTM-PROVEEDOR(CDA):\nRTM-#FACTURA:\nRTM-FECHA EXPEDICIÓN:\nRTM-SUBTOTAL (VALOR SIN IVA):\nRTM-IVA:\nRTM-CLIENTE:\n";
+<script>
 
+    Vue.use(VeeValidate)
+    VeeValidate.Validator.localize("es");
 
-
-
-
- $('#meses').on('change',function(e){
-
-  var meses2 = $('#meses').val();
-
-  var min = $('#meses').attr("min") * 1;
-  var max = $('#meses').attr("max") * 1;
-
-  if(meses2 < min || meses2 > max){
-    alert('EL valor debe estar entre '+min+' '+max);
-  }
-
-});
-
- $('#meses').on('keyup',function(e){
-
-  var periodo =  $('#periodo').val();
-  var meses = $('#meses').val();
-
-  /** Calculo del número de cuotas segun los meses se modifiquen  **/
-
-  if(periodo == 'Quincenal'){
-    $('#cuotas').val(meses*2);
-  }
-  else if(periodo == 'Mensual'){
-    $('#cuotas').val(meses);
-  }
-  else{
-    $('#cuotas').val('');
-  }
-  });//fin del $('#meses').on('keyup'..
-
-
- $('#periodo').on('change',function(){
-  var periodo =  $('#periodo').val();
-  var meses = $('#meses').val();
-
-  if(meses == ''){
-    $('#cuotas').val('');
-  }
-  else if(periodo == 'Quincenal'){
-    $('#cuotas').val(meses*2);
-  }
-  else{
-    $('#cuotas').val(meses);
-  }
-  });//fin de $('#periodo').on('change'....
-
-});//fin del $(document).ready...
+    const principal = new Vue({
+        el: '#principal',
+        store,
+        data: {
+            view: 'producto',
+            permission: {!! \Auth::user()->can('aprobar_solicitudes') || 
+                    \Auth::user()->can('editar_solicitudes_solo_producto') !!}
+        },
+        methods: {
+            async go(view){
+                await Bus.$emit('assign_'+this.view);
+                this.view = view
+            }
+        },
+        created(){}
+    });
 
 </script>
 
-
-
-
 @endsection
 
-@include('templates.main2')

@@ -46,7 +46,7 @@
               <td> {{ $user->punto->nombre}}</td>
               <td> {{ $user->punto->municipio->nombre}}</td>
               <td> {{ $user->estado}}   </td>
-              <td> {{ $user->rol   }}   </td>
+              <td> {{ ($user->rol_id) ? $user->role->display_name : '' }}   </td>
               <td> {{ $user->email }}   </td>
               <td> {{ ($user->banco) ? $user->banco->nombre : '' }}   </td>
               <td> {{ $user->num_cuenta }}   </td>
@@ -77,3 +77,4 @@
 
 @endsection
 @include('templates.main2')
+

@@ -27,6 +27,9 @@ class InicioController extends Controller
     function buscar($string){
 
         $respuesta = "";
+
+
+        // SOLICITUDES Y CREDITOS
         
         if(substr($string,0,1) == "="){
 
@@ -68,6 +71,9 @@ class InicioController extends Controller
                 }
             }
         }
+
+        // USUARIOS DEL SISTEMA
+
         else if(substr($string,0,2) == "u "){
 
             $string = substr($string,2);
@@ -88,6 +94,9 @@ class InicioController extends Controller
             
 
         }
+
+        // RECIBOS DE PAGO
+
         else if(substr($string,0,1) == "*"){
             $string = substr($string,1);
 
@@ -138,6 +147,9 @@ class InicioController extends Controller
                 }
             }
         }
+
+        // TELEFONO
+
         else if(substr($string,0,1) == ":"){
             $string = substr($string,1);
 
@@ -184,6 +196,9 @@ class InicioController extends Controller
             }
 
         }
+
+        // PLACA
+
         else if(substr($string,0,1) == "+"){
             $string = substr($string,1);
 
@@ -217,7 +232,10 @@ class InicioController extends Controller
                     }
                 }
             }
-        }        
+        } 
+
+        // NOMBRE CLIENTE
+        
         else{
             $nombre_clientes    = DB::table('clientes')->where('nombre','like','%'.$string.'%')->get();
             $doc_clientes       = DB::table('clientes')->where('num_doc','like','%'.$string.'%')->get();
@@ -234,6 +252,9 @@ class InicioController extends Controller
                                     <a href=".route('start.clientes.upload_document',$cliente->id).">Cargar documento</a></p>";  
                 }   
             }
+
+            // DOCUMENTO CLIENTE
+
             if(count($doc_clientes) > 0){
                 foreach($doc_clientes as $cliente){  
                     $respuesta .= "<p><strong>Cliente: </strong>".

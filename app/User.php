@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Contracts\UserResolver;
 use Auth;
@@ -11,14 +12,20 @@ class User extends Authenticatable  implements Auditable, UserResolver
 {
 
     use \OwenIt\Auditing\Auditable;
+    use EntrustUserTrait;
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'estado' , 'rol' , 'email', 'password','punto_id', 'banco_id', 'num_cuenta'
+        'name', 'estado' , 'rol' , 'email', 'password','punto_id', 'banco_id', 'num_cuenta', 'rol_id'
     ];
+
+    public function role() {
+        return $this->hasOne('App\Role','id','rol_id');
+    }
 
     public function cliente_create(){
         return $this->hasOne('App\User');

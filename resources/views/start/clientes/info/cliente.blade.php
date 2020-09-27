@@ -1,6 +1,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading">
-  Información del Cliente 
+<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+  Información del Cliente ...
       
   <a href="{{route('start.clientes.edit',$cliente->id)}}" 
      class = 'btn btn-default btn-xs'  
@@ -9,22 +10,18 @@
      style="margin-left:10px;">
      <span class = "glyphicon glyphicon-pencil">
   </a>
+  
   <a href="{{route('start.clientes.destroy',$cliente->id)}}" 
      onclick="return confirm('¿Esta seguro de eliminar el usuario?')" 
      class = 'btn btn-default btn-xs' 
      data-toggle="tooltip" 
      data-placement="top" 
      title="Eliminar">
-    <span class = "glyphicon glyphicon-trash" >
+    <span class = "glyphicon glyphicon-trash">
   </a>
-  @if($cliente->conyuge)
+  
 
-  @else
-    <a href="{{route('start.conyuges.create',[$cliente->id,'cliente'])}}" 
-      class = 'btn btn-default btn-xs'>Crear conyuge
-    </a>
 
-  @endif
 </div>
 
 
@@ -37,57 +34,80 @@
         </td>
     </tr>
 
-    <tr>
-      <th scope="row" class="warning">Nombre</th>
-      <td class="warning">{{ $cliente->nombre }}</td>
+    <tr class="info">
+      <th scope="row">
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        Nombre
+      </th>
+      <td><strong>{{ $cliente->nombre }}</strong></td>
     </tr>
 
     <tr>
-      <th scope="row">Documento</th>
+      <th scope="row">
+      <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+        Documento
+      </th>
       <td> {{ $cliente->tipo_doc. ' ' .$cliente->num_doc}}</td>
     </tr>
-                
+          
     <tr>
-      <th scope="row">Fecha de Nacimiento</th>
-      <td> {{ $cliente->fecha_nacimiento }}</td>
-    </tr>
-
-    <tr>
-      <th scope="row">Dirección</th>
-      <td>{{ $cliente->direccion.' '.$cliente->barrio.' - '.$cliente->municipio->nombre.' '.$cliente->municipio->departamento }}
+      <th scope="row">
+        <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+        Telefono
+      </th>
+      <td> 
+        {{ $cliente->movil. ' - '. $cliente->fijo}}
       </td>
     </tr>
 
     <tr>
-      <th scope="row">Telefono</th>
-      <td> {{ $cliente->movil. ' - '. $cliente->fijo}}</td>
+      <th scope="row">
+        <i class="fa fa-location-arrow" aria-hidden="true"></i>
+        Dirección
+      </th>
+      <td> {{ $cliente->direccion}}</td>
     </tr>
 
+
     <tr>
-      <th scope="row">Email</th>
+      <th scope="row">
+        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+        Email
+      </th>
       <td> {{ $cliente->email}}</td>
     </tr>
 
     <tr>
+      <td colspan="2" class="info">
+        @include('start.clientes.info.personalCliente')
+      </td>
+    </tr>
+
+    <!-- <tr>
       <th scope="row">Placa</th>
       <td> {{ $cliente->placa}}</td>
-    </tr>
+    </tr> -->
+
     @if($cliente->conyuge)
       <tr>
-        <th scope="row">Conyuge</th>
-        <td>
-        @include('start.clientes.info.conyuge_cliente')
+
+        <td colspan="2" class="info">
+          @include('start.clientes.info.conyuge_cliente')
         </td>
       </tr>
     @endif
 
       <tr>
-        <th scope="row">Ocupación</th>
-        <td>@include('start.clientes.info.empresa_cliente')</td>
+        <td colspan="2" class="info">@include('start.clientes.info.empresaCliente')</td>
       </tr>
 
     <tr  style="color:#FE0000;">
-      <th scope="row">Estudio</th>
+      <th scope="row">
+          @if($cliente->estudio)
+            <span class="glyphicon glyphicon-saved" aria-hidden="true"></span>
+          @endif
+          Estudio
+      </th>
         @if($cliente->estudio == NULL)
           <td> No hay estudio..</td>
         @else
@@ -106,12 +126,18 @@
     @endif
 
     <tr>
-      <th scope="row"># de créditos</th>
+      <th scope="row">
+        <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
+          Núm. créditos
+        </th>
       <td> {{ $cliente->numero_de_creditos }}</td>
     </tr>
 
     <tr style="color:green; font-weight: bold;">
-      <th scope="row">Calificación</th>
+      <th scope="row">
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        Calificación
+      </th>
       <td> {{ $cliente->calificacion}}</td>
     </tr>
 
@@ -141,6 +167,6 @@
 
     <!-- <a href="{{route('start.clientes.edit',$cliente->id)}}">
       <button type="button" class="btn btn-danger">Editar</button>
-  </a> -->
+    </a> -->
 
 </center>

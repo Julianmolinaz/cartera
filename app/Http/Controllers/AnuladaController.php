@@ -77,17 +77,18 @@ class AnuladaController extends Controller
           // se valida si la factura a eliminar es la ultima realizada para ese crédito  
           if( $ultima_factura->id == $factura->id ){
 
-            $anulada = new Anulada();
-            $anulada->cliente_id = $factura->credito->precredito->cliente->id;
-            $anulada->factura_id = $factura->id;
-            $anulada->credito_id = $factura->credito_id;
-            $anulada->num_fact   = $factura->num_fact;
-            $anulada->fecha      = $factura->fecha;
-            $anulada->total      = $factura->total;
-            $anulada->pagos      = "";
-            $anulada->motivo_anulacion = $request->input('motivo_anulacion');
-            $anulada->user_anula = Auth::user()->id;
-            $anulada->user_create_id = $factura->user_create_id;
+            $anulada                    = new Anulada();
+            $anulada->cliente_id        = $factura->credito->precredito->cliente->id;
+            $anulada->factura_id        = $factura->id;
+            $anulada->precredito_id     = $factura->credito->precredito->id;
+            $anulada->credito_id        = $factura->credito_id;
+            $anulada->num_fact          = $factura->num_fact;
+            $anulada->fecha             = $factura->fecha;
+            $anulada->total             = $factura->total;
+            $anulada->pagos             = "";
+            $anulada->motivo_anulacion  = $request->input('motivo_anulacion');
+            $anulada->user_anula        = Auth::user()->id;
+            $anulada->user_create_id    = $factura->user_create_id;
 
 
             //loop que itera sobre los pagos de una factura
@@ -283,12 +284,6 @@ class AnuladaController extends Controller
 
     }
 
-    public function show($id){}
 
-    public function edit($id){}
-
-    public function update(Request $request, $id){}
-
-    public function destroy($id){}
 
 }

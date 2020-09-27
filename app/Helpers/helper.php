@@ -8,6 +8,15 @@ use Carbon\Carbon;
 use App\Cliente;
 use DB;
 
+function res($success,$data,$message,$status=200)
+{
+  return response()->json([
+    'success' => $success,
+    'dat'     => $data,
+    'message' => $message 
+  ], $status);
+}
+
 //funcion que invierte el formato de la fecha (dia, mes, año) a (año, mes, dia) o al contrario 
 // recibe un string
 
@@ -408,3 +417,21 @@ function bancos()
     'Apostar'
   ];
 }
+
+function log($user_id ,$action ,$desc ,$visible ,$type ,$id) {
+
+  if ($solicitud) {
+    $log = new \App\Log();
+    $log->user_create_id=$user_id;
+    $log->action=$action;
+    $log->descripcion=$desc;
+    $log->visible=$visible;
+    $log->ref_type=$type;
+    $log->ref_id=$id;
+    $log->save();
+  }
+}
+
+
+
+

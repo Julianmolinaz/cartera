@@ -26,6 +26,7 @@ class MultaController extends Controller
     {
         
         $extras = Extra::where('id','>',0)->orderBy('updated_at','desc')->get();
+
         return view('admin.multas.index')
             ->with('extras',$extras);
     }

@@ -1,5 +1,6 @@
-<script>
+<script src="/js/interfaces/filters.js"></script>
 
+<script>
 
 const monto = document.getElementById('monto');
 const meses = document.getElementById('meses');
@@ -14,7 +15,6 @@ monto.addEventListener('keyup', () => {
     } else {
 	monto_formateado.textContent = '';
     }
-	
 });
 
 
@@ -31,21 +31,6 @@ meses.addEventListener('keyup', ()=>{
         numero_de_meses.textContent = '';
     } 
 });
-
-
-function format(input){
-    var num = input.value.replace(/\./g,'');
-    if(!isNaN(num)) {
-        num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-        num = num.split('').reverse().join('').replace(/^[\.]/,'');
-        return num;
-    }
- 
-    else { alert('Solo se permiten numeros');
-        return input.value.replace(/[^\d\.]*/g,'');
-    }
-}
-
 
 
 $('#registro').click(function(){

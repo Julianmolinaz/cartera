@@ -4,24 +4,33 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- Bootstrap -->
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <link rel="shortcut icon" href="{{ asset('favicon.ico')}}" />
+
+    <!-- Bootstrap -->
     <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.css')}}" rel="stylesheet">
+
     <!-- jQuery -->
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
+
     <!-- Moment -->
     <script src="{{asset('js/moment.js')}}"></script>
 
     <!-- Datatables -->
+
     <link href="{{asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
-        <!-- bootstrap-daterangepicker -->
+
+
+    <!-- bootstrap-daterangepicker -->
     <link href="{{asset('vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 
     <!-- VUE -->
-
     <script src="{{asset('js/vue.js')}}"></script>
     
 
@@ -31,11 +40,20 @@
     <!-- mis css -->
     <link rel="stylesheet" href="{{ asset('build/css/micss.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('css/mystyles.css') }}">
+
     <!-- vee validate -->
     <script src="{{asset('js/vee.js')}}"></script>
 
     <!-- axios -->
     <script src="{{asset('js/axios.js')}}"></script>
+
+    <!-- alertify -->
+    <link rel="stylesheet" href="{{ asset('css/alertify.css') }}">
+
+    <!-- alertify -->
+    <script src="{{ asset('js/alertify.js') }}"></script>
+
 
 
     <style>
@@ -61,10 +79,9 @@
   @include('templates.navbar_principal')
 
 
-<div class="col-md-12">
-  @yield('contenido','Ingrese Contenido')
-  
-</div>
+  <div class="col-md-12">
+    @yield('contenido','Ingrese Contenido')
+  </div>
 
 
     <footer class="footer">
@@ -80,21 +97,25 @@
 
     <!-- jQuery -->
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
+
     <!-- Bootstrap -->
     <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+    
     <!-- FastClick -->
     <script src="{{asset('vendors/fastclick/lib/fastclick.js')}}"></script>
 
     <!-- Datatables -->
     <script src="{{asset('vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="{{asset('build/js/custom.min.js')}}"></script>
 
-<!-- bootstra-datepicker -->
-<script src="{{asset('vendors/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
-<!--Mask-->
-<script src="{{asset('vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
+    <!-- bootstra-datepicker -->
+    <script src="{{asset('vendors/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    
+    <!--Mask-->
+    <script src="{{asset('vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
 
     <!-- bootstrap-daterangepicker -->
     <script src="{{asset('vendors/moment/min/moment.min.js')}}"></script>

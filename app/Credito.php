@@ -12,10 +12,27 @@ class Credito extends Model implements Auditable
     protected $table = 'creditos';
 
     protected $fillable = [
-        'precredito_id' , 'cuotas_faltantes' , 'saldo' , 'estado' , 'rendimiento'  , 'valor_credito' ,  'castigada',
-        'refinanciacion', 'credito_refinanciado_id', 'end_procredito', 'end_credito','funcionario_id', 'last_llamada_id',
-        'sanciones_debe', 'sanciones_ok','sanciones_exoneradas','mes','anio'
-    ];  
+        'precredito_id' ,
+        'cuotas_faltantes', //*
+        'saldo',//*
+        'saldo_favor',//*
+        'estado' ,//*
+        'rendimiento'  ,//*
+        'valor_credito' ,//*
+        'castigada', //*        
+        'refinanciacion',
+        'credito_refinanciado_id',
+        'end_procredito',
+        'end_credito',
+        'calificacion',
+        'funcionario_id',
+        'last_llamada_id',       
+        'sanciones_debe', 
+        'sanciones_ok',
+        'sanciones_exoneradas',
+        'mes', //*
+        'anio' //*
+    ];      
 
     public function precredito(){
     	return $this->hasOne('App\Precredito','id','precredito_id');

@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Traits\ConyugeTrait;
 use App\Http\Requests;
+use App\Codeudor;
 use App\Cliente;
 use App\Conyuge;
-use App\Codeudor;
+use Validator;
 use Auth;
 use DB;
 
 class ConyugeController extends Controller
 {
+    use ConyugeTrait;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -56,45 +60,70 @@ class ConyugeController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'p_nombrey'     => 'required',
-            'p_apellidoy'   => 'required',
-            'tipo_docy'     => 'required',
-            'num_docy'      => 'required',
-            'movily'        => 'required',
-            'diry'          => 'required'
-        ],[
-            'p_nombrey.required'     => 'El primer nombre del conyuge es requerido',
-            'p_apellidoy.required'   => 'El primer apellido del conyuge es requerido',
-            'num_docy.required'      => 'El tipo de documento del conyuge es requerido',
-            'num_docy.required'      => 'El numero de documento del conyuge es requerido',
-            'movily.required'        => 'El celular del conyuge es requerido',
-            'diry.required'          => 'La dirección del conyuge es requerida'
-        ]);
+        $validator = Validator::make($request->conyuge,$this::rulesConyugeTr('create'),$this::messagesConyugeTr());
+
+        if ($validator->fails()) return res(true, $validator->errors(),'');
 
         DB::beginTransaction();
+
         try
         {
-            $conyuge = new Conyuge();
-            $conyuge->fill($request->all());
-            $conyuge->save();
+            if ( isset($request->conyuge['id']) ) {
 
-            if($request->tipo == 'cliente'){
-                $cliente = Cliente::find($request->id);
+                $conyuge = Conyuge::find($request->conyuge['id']);
+                $conyuge->fill($request->conyuge);
+                $conyuge->save();
+
+                $cliente_id = '';
+                
+                if ($request->tipo == 'cliente') {
+                    $cliente_id = $request->cliente_id;
+                } else {
+                    $codeudor = Codeudor::find($request->cliente_id);
+                    $cliente_id = $codeudor->client->id;
+                }
+
+                DB::commit();
+
+                return res(true,$cliente_id,'Conyuge editado exitosamente !!!');
+
+            } else {
+
+                $conyuge = new Conyuge();
+                $conyuge->fill($request->conyuge);
+                $conyuge->save();
+            }
+            
+            if ($request->tipo == 'cliente') {
+
+                $cliente = Cliente::find($request->cliente_id);
                 $cliente->conyuge_id = $conyuge->id;
                 $cliente->user_update_id = Auth::user()->id;
                 $cliente->save();
-            }
 
+                $cliente_id = $cliente->id;
+
+            } 
+            else if ($request->tipo == 'codeudor'){
+
+                $codeudor = Codeudor::find($request->cliente_id);
+                $codeudor->conyuge_id = $conyuge->id;
+                $codeudor->user_update_id = Auth::user()->id;
+                $codeudor->save();
+
+                $cliente_id = $codeudor->client->id;
+            }
+            
             DB::commit();
-            flash()->success('El conyuge se creó con éxito');
-            return redirect()->route('start.clientes.show',$request->id);
+
+            return res(true,$cliente_id,'Conyuge creado exitosamente !!!');
         }
         catch(\Exception $e)
         {
+            \Log::error($e);
+
             DB::rollback();
-            flash()->error('error ' . $e->getMessage());
-            return redirect()->route('start.conyuges.create',[$request->id,$tipo]);
+            return res(false,'','Error: '.$e->getMessage());
         }
 
     }
@@ -142,10 +171,10 @@ class ConyugeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'p_nombrey'     => 'required',
-            'p_apellidoy'   => 'required',
+            'p_nombrey'     => 'required|alpha',
+            'p_apellidoy'   => 'required|alpha',
             'tipo_docy'     => 'required',
-            'num_docy'      => 'required',
+            'num_docy'      => 'required|unique|numeric',
             'movily'        => 'required',
             'diry'          => 'required'
         ],[
@@ -189,6 +218,7 @@ class ConyugeController extends Controller
         }
 
     }
+
 
     /**
      * Remove the specified resource from storage.

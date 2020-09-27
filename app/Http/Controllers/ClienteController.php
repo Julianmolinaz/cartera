@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Traits\ClientesClass;
+use App\Traits\CastClienteTrait;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,18 +16,23 @@ use App\Codeudor;
 use App\Cliente;
 use App\Conyuge;
 use App\Estudio;
+use Datatables;
+use Validator;
 use App\Soat;
+use App as _;
 use Auth;
 use DB;
 
 class ClienteController extends Controller
 {
-
     use ClientesClass;
+    use CastClienteTrait;
+
+    public $cliente;
 
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -34,48 +40,46 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
-    {         
-        $clientes_qwery = 
-        DB::table('clientes')
-            ->join('codeudores','clientes.codeudor_id','=','codeudores.id')
-            ->join('users','clientes.user_create_id','=','users.id')
-            ->select('clientes.id as id',
-                     'clientes.nombre as nombre',
-                     'clientes.num_doc as num_doc',
-                     'clientes.fecha_nacimiento as fecha_nacimiento',
-                     'clientes.movil as movil',
-                     'clientes.fijo as fijo',
-                     'codeudores.nombrec as codeudor',
-                     'codeudores.movilc as movilc',
-                     'codeudores.fijoc as fijoc',
-                     'users.name as user_create',
-                     'clientes.created_at as created_at',
-                     'clientes.updated_at as updated_at')
-            ->orderBy('clientes.updated_at','desc')
-            ->paginate(50);
+    {       
+        return view('start.clientes.index');
+    }
 
+    public function list()
+    {
+        $clientes = DB::table('clientes')
+            ->orderBy('updated_at','desc')
+            ->select([
+                'id','num_doc','nombre','movil'
+            ]);
 
-        return view('start.clientes.index')
-            ->with('clientes',$clientes_qwery);
+        return Datatables::of($clientes)
+            ->addColumn('btn', function($cliente) {
 
+                $route = route('start.clientes.show',$cliente->id);
+
+                return '<a href="'.$route.'" class="btn btn-default btn-xs ver">
+                              <span class="glyphicon glyphicon-eye-open"></span></a>';
+            })
+            ->make(true);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * $tipo = cliente, codeudor
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
-        $tipos_documento    = getEnumValues('clientes','tipo_doc');
-        $tipos_documentoy   = getEnumValues('conyuges','tipo_docy');
 
+    public function create($cliente_id = false)
+    {
         return view('start.clientes.create')
-            ->with('tipo_actividades',$tipo_actividades)
-            ->with('tipos_documento', $tipos_documento)
-            ->with('tipos_documentoy',$tipos_documentoy);
+            ->with('municipios',Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get())
+            ->with('data',$this->getData())
+            ->with('estado','creacion')
+            ->with('cliente',[])
+            ->with('cliente_id',$cliente_id)
+            ->with('tipo','cliente');
     }
 
     /**
@@ -84,45 +88,49 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        // REGLAS DE VALIDACION 
+    // public function store()
 
-        $rules_cliente    = $this->rules_cliente('crear');
-        $message_cliente  = $this->messages_cliente('crear');
+    public function store(Request $request)   
+    {               
+        $rq      = [];
+        $cliente = (object) $request->cliente;
 
-        $this->validate($request,$rules_cliente,$message_cliente);
-        
+        if ( is_array($cliente->info_personal  ) ) { $rq = array_merge($rq, $cliente->info_personal);  } 
+        if ( is_array($cliente->info_ubicacion ) ) { $rq = array_merge($rq, $cliente->info_ubicacion); } 
+        if ( is_array($cliente->info_economica ) ) { $rq = array_merge($rq, $cliente->info_economica); } 
+
+        $validator = Validator::make($rq, $this->rules_cliente('crear'),$this->messages_cliente());
+
+        if ($validator->fails()) return res( true,$validator->errors(),'');
+
         DB::beginTransaction();
 
-        try{
-            // CREACION DEL CLIENTE
+        try {
 
             $cliente = new Cliente();
-            $cliente->fill($request->all());    
-            $cliente->fecha_nacimiento = inv_fech($request->fecha_nacimiento);         
-            $cliente->user_create_id  = Auth::user()->id;
-
+            $cliente->fill($rq);
+            $cliente->version = 2;
+            $cliente->user_create_id = Auth::user()->id;            
             $cliente->save();
-
-            //CREACION REGISTRO VENCIMIENTO SOAT
-
-            if( $request->soat ){
-                $this->createSoat($cliente, 'cliente', $request);
-            }
 
             DB::commit();
 
-            flash()->info('El cliente ('.$cliente->id.') '.$cliente->nombre. ' se creo con éxito!');
-            return redirect()->route('start.clientes.show',$cliente->id);
-        }//.try
-        catch(\Exception $e){
-            DB::rollback();
-            flash()->error($e->getMessage());
-            return redirect()->route('start.clientes.create');                    
-        }
+            $data = [ 
+                'ref_cliente' => $cliente->id,
+                'cliente_id'  => $cliente->id
+            ];
 
-     }
+            DB::commit();
+
+            return res(true,$data,'El cliente se creó exitosamente !!!');
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+            return res(false,'',$e->getMessage());
+        }
+        
+    }//.store
 
     /**
      * show permite consultar la información del cliente
@@ -131,18 +139,17 @@ class ClienteController extends Controller
 
     public function show($id)
     {
-        $cliente        = Cliente::find($id);
+        $cliente = Cliente::find($id);
 
-        if($cliente->codeudor && $cliente->codeudor->id == 100){
+        if(isset($cliente->codeudor) && $cliente->codeudor->id == 100){
             $cliente->codeudor_id = null;
             $cliente->save();
         }
 
-        $cliente = Cliente::find($id);
-
         $precreditos    = Precredito::where('cliente_id',$id)
                             ->orderBy('updated_at','desc')
                             ->get();
+                            
         $calificaciones = getEnumValues('clientes', 'calificacion');                 
 
         return view('start.clientes.show')
@@ -154,30 +161,44 @@ class ClienteController extends Controller
 
     public function edit($id)
     {
+        $municipios    = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
+        $this->cliente = Cliente::find($id);
 
-        $municipios         = Municipio::where('id', '!=', 100)->orderBy('departamento','asc')->get();
-        $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
-        $cliente            = Cliente::find($id);
-        $tipos_documento    = getEnumValues('clientes','tipo_doc');
-        $cliente->fecha_nacimiento = inv_fech2($cliente->fecha_nacimiento);
-        
-        if($cliente->soat){
-            $cliente->soat->vencimiento = inv_fech2($cliente->soat->vencimiento);
+        if($this->cliente->soat){
+            $this->cliente->soat->vencimiento = inv_fech2($this->cliente->soat->vencimiento);
         }
+        
+        if ($this->cliente->version == 1) {
+            
+            $tipos_documento    = getEnumValues('clientes','tipo_doc');
+            $this->cliente->fecha_nacimiento = inv_fech2($this->cliente->fecha_nacimiento);
+            $tipo_actividades   = getEnumValues('clientes','tipo_actividad');
 
-        return view('start.clientes.edit')
-            ->with('cliente',$cliente)
-            ->with('municipios',$municipios)
-            ->with('tipo_actividades',$tipo_actividades)
-            ->with('tipos_documento',$tipos_documento);
+            return view('start.clientes.edit')
+                ->with('cliente',$this->cliente)
+                ->with('municipios',$municipios)
+                ->with('tipo_actividades',$tipo_actividades)
+                ->with('tipos_documento',$tipos_documento);
+        } 
+        else if ($this->cliente->version == 2) {
+
+            $cliente = $this->cast_cliente();
+
+            return view('start.clientes.create')
+                ->with('cliente_id', $this->cliente->id)
+                // ->with('tipo',$cliente['tipo'])
+                ->with('tipo', 'cliente')
+                ->with('cliente',$cliente)
+                ->with('municipios',$municipios)
+                ->with('data',$this->getData())
+                ->with('estado','edicion');
+        }
     }
-
-
 
     public function update(Request $request, $id)
     {  
-        $rules_cliente    = $this->rules_cliente('editar');
-        $message_cliente  = $this->messages_cliente('editar');
+        $rules_cliente    = $this->rules_cliente('editar'); // ClientesClass
+        $message_cliente  = $this->messages_cliente('editar'); // ClientesClass
   
         //ACTUALIZAR CLIENTE CON CODEUDOR
         $this->validate($request,$rules_cliente,$message_cliente);
@@ -228,8 +249,15 @@ class ClienteController extends Controller
             }
             DB::commit();
 
-            flash()->info('El cliente ('.$cliente->id.') '.$cliente->nombre. ' se editó con éxito!');
-            return redirect()->route('start.clientes.show',$cliente->id);            
+            if($cliente->tipo == 'codeudor'){
+                flash()->info('El codeudor ('.$cliente->id.') '.$cliente->nombre. ' se editó con éxito!');
+                return redirect()->route('start.clientes.show',$cliente->deudor->id);            
+            } else {
+
+                flash()->info('El cliente ('.$cliente->id.') '.$cliente->nombre. ' se editó con éxito!');
+                return redirect()->route('start.clientes.show',$cliente->id);            
+            }
+
 
         }
         catch(\Exception $e)
@@ -237,6 +265,40 @@ class ClienteController extends Controller
             DB::rollback();
             flash()->error($e->getMessage());
             return redirect()->route('start.clientes.edit',$id);     
+        }
+    }
+
+    public function updateV2(Request $request)
+    {
+        $rq = [];   
+        
+        if ( is_array($request->info_personal  ) ) { $rq = array_merge($rq, $request->info_personal);  } 
+        if ( is_array($request->info_ubicacion ) ) { $rq = array_merge($rq, $request->info_ubicacion); } 
+        if ( is_array($request->info_economica ) ) { $rq = array_merge($rq, $request->info_economica); }        
+        
+        $validator = Validator::make($rq, $this->rules_cliente('editar'),$this->messages_cliente());
+        
+        if ($validator->fails()) return res( false,$validator->errors(),'');
+
+        DB::beginTransaction();
+
+        try {
+
+            $cliente = Cliente::find($request->id);
+            $cliente->fill($rq);
+            $cliente->user_update_id = Auth::user()->id;
+            $cliente->save();
+
+            $id = $cliente->id;
+
+            if ($cliente->tipo == 'codeudor') $id = $cliente->deudor->id;
+    
+            DB::commit();
+            return res(true, $id, 'El cliente se editó exitosamente !!!');
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return res(false,'',$e->getMessage());
         }
     }
 
@@ -286,4 +348,61 @@ class ClienteController extends Controller
         return view('start.clientes.upload.create')
             ->with('cliente',$cliente);
     }
+
+    /**
+     * Valida que un cliente no se repita, utilizando
+     * la cedula como elemento unico 
+     * para los codeudores no aplica
+     */
+
+
+    public function validate_document(Request $request) 
+    {
+        try {
+
+            // Validación si es codeudor
+
+            if ($request->tipo == 'codeudor') return res(false,'','');
+
+            // Validación si es cliente
+    
+            if ($request->id) {
+                $cliente = Cliente::where('tipo_doc', $request->info_personal['tipo_doc'])
+                    ->where('num_doc', $request->info_personal['num_doc'])
+                    ->where('id','<>',$request->id)
+                    ->count();
+            } else {
+                $cliente = Cliente::where('tipo_doc', $request->info_personal['tipo_doc'])
+                    ->where('num_doc', $request->info_personal['num_doc'])
+                    ->count();
+            }
+    
+            if ($cliente > 0) {
+                return res(false,true,'Ya existe un cliente con este número de documento');
+            } else {
+                return res(true,'','');
+            }
+        } catch (Exception $e) {
+            return res(false, '', $e->getMessage());
+        }
+    }
+
+
+    public function getData()
+    {
+        return [  
+            'tipo_doc'              => getEnumValues('clientes','tipo_doc'),    
+            'estado_civil'          => getEnumValues('clientes','estado_civil'),
+            'nivel_estudios'        => getEnumValues('clientes','nivel_estudios'),
+            'envio_correspondencia' => getEnumValues('clientes','envio_correspondencia'),
+            'estrato'               => getEnumValues('clientes','estrato'),
+            'tipo_vivienda'         => getEnumValues('clientes','tipo_vivienda'),
+            'tipo_actividad'        => getEnumValues('clientes','tipo_actividad'),
+            'generos'               => getEnumValues('clientes','genero'),
+            'oficios'               => \App\Oficio::orderBy('nombre')->get(),
+            'tipo_contrato'         => getEnumValues('clientes','tipo_contrato'),
+            'calificacion'          => getEnumValues('clientes','calificacion')
+        ];
+    }
+
 }

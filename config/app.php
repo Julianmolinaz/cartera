@@ -14,7 +14,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'file'),
-
+    'cipher'=> 'AES-256-CBC',
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -161,6 +161,10 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Way\Generators\GeneratorsServiceProvider::class,
+        Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
+        Zizaco\Entrust\EntrustServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class
         
     ],
 
@@ -214,6 +218,9 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Filter' => App\MyService\Access::class,
+        'c'   => Zizaco\Entrust\EntrustFacade::class,
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+
 
     ],
 
