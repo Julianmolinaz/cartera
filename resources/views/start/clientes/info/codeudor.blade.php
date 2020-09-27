@@ -74,7 +74,7 @@
                 <td> {{ ($cliente->codeudor) ? $cliente->codeudor->placac : ''}}</td>
             </tr>
 
-            @if( $cliente->codeudor->conyuge || $cliente->cdeudor->conyuge )
+            @if( $cliente->codeudor->conyuge )
                 <tr>
                 <th scope="row">Conyuge codeudor</th>
                 <td>@include('start.clientes.info.conyuge_codeudor')</td>
@@ -84,15 +84,6 @@
             <tr>
                 <th scope="row">Ocupación</th>
                 <td>@include('start.clientes.info.empresa_codeudor')</td>
-            </tr>
-
-            <tr  style="color:#FE0000;">
-                <th scope="row">Estudio</th>
-                @if($cliente->codeudor && $cliente->codeudor->estudio)
-                <td> {{($cliente->codeudor && $cliente->codeudor->estudio) ? $cliente->codeudor->estudio->cal_estudio : ''}} </td>
-                @else
-                <td></td>
-                @endif
             </tr>
 
             @if($cliente->codeudor && $cliente->codeudor->soat)
