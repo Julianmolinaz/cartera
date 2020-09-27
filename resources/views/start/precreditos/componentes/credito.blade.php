@@ -50,7 +50,7 @@
                 <!-- Saldo -->
 
                 <div v-bind:class="['form-group has-success','col-md-3',errors.first(rules.saldo.name) ? 'has-error' :'']">
-                    <label class="control-label">Saldo @{{ rules.saldo.required }}</label>
+                    <label class="control-label">Saldo deuda @{{ rules.saldo.required }}</label>
                     <input 
                         type="text" 
                         class="form-control" 

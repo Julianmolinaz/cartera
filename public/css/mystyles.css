@@ -8,6 +8,11 @@
   src: url("/fonts/Amatic_SC/AmaticSC-Bold.ttf");
 }
 
+@font-face {
+  font-family: "special-elite";
+  src: url("/fonts/Special_Elite/SpecialElite-Regular.ttf");
+}
+
 .input-solicitud {
   font-size: 11px;
 }
