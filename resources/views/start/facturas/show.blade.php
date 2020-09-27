@@ -70,7 +70,7 @@
 
       <a href="javascript:window.history.back();">
         <button class="btn btn-default" id="btn_volver" style="margin-right: 5px; ">
-        <i class="glyphicon glyphicon-arrow-left"></i>&nbsp;&nbsp;Volver7&nbsp;&nbsp;
+        <i class="glyphicon glyphicon-arrow-left"></i>&nbsp;&nbsp;Volver&nbsp;&nbsp;
         </button>
       </a>
 
