@@ -41,19 +41,19 @@
 
 <script>
 
-window.onload = function() {
-    document.getElementById("string").focus();
-};
+    window.onload = function() {
+        document.getElementById("string").focus();
+    };
 
-//Permiter hacer la busqueda pulsando enter
-document.onkeypress = function(){
-  var tecla;
-  tecla = (document.all) ? event.keyCode : event.which;
-  if(tecla == 13){
-    Buscar();
-    return (tecla!=13);
-  }
-}
+    //Permiter hacer la busqueda pulsando enter
+    document.onkeypress = function(){
+    var tecla;
+    tecla = (document.all) ? event.keyCode : event.which;
+        if(tecla == 13){
+            Buscar();
+            return (tecla!=13);
+        }
+    }
 
     const day = moment().day();
 
@@ -91,17 +91,20 @@ document.onkeypress = function(){
 
         $('#resultado').empty();
 
+        if (!string) {
+            alertify.notify('Ningun dato en el buscador ={', 'error', 5);
+            return false;
+        }
+
         $.get(route, function(res){
-            
-            $('#resultado').append( res );
+            if (res) {
+                $('#resultado').append( res );
+            } else {
+                alertify.notify('No se encontraron resultados =]', 'success', 5);
+            }
         })
         .fail( function(error){
-          error_ = error
-          if (error.responseText == "Unauthorized.") {
-            // window.location.href = "{{url('/log')}}";
-          } else {
-            alert('Ha ocurrido un error !!!');
-          }
+            alertify.notify('Ocurrió un error inesperado =(', 'error', 5, ()=> {console.log(error)});
         })
         
     }
