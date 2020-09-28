@@ -190,22 +190,19 @@ class UserController extends Controller
             }
 
             $role_user = \DB::table('role_user')->where('user_id',$user->id)->get();
-
-            if ($role_user) {
-
-                \DB::table('role_user')->update([
-                    'user_id' => $user->id,
-                    'role_id' => $request->rol_id
-                ])->where('user_id',$user->id);        
-
+            
+	    if ($role_user) {
+	
+        	\DB::table('role_user')
+		    ->where('user_id', $user->id)
+                    ->update(['role_id' => $request->rol_id]); 
+		  
             } else {
-                $role_user = \DB::table('role_user')->insert([
+                \DB::table('role_user')->insert([
                     'user_id' => $user->id,
                     'role_id' => $request->rol_id
                 ]);
-                
             }
-    
     
             $user->save();
 
@@ -216,7 +213,6 @@ class UserController extends Controller
         
         } catch (\Exception $e) {
             \DB::rollback();
-
             flash()->success('Error: '.$e->getMessage());
             return redirect()->route('admin.users.edit', $user->id);
         }
