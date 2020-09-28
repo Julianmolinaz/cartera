@@ -100,7 +100,7 @@
             if (res) {
                 $('#resultado').append( res );
             } else {
-                alertify.notify('No se encontraron resultados =]', 'success', 5);
+                alertify.notify('No se encontraron resultados =]', 'error', 5);
             }
         })
         .fail( function(error){
