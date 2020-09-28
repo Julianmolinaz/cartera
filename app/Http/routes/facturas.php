@@ -55,7 +55,10 @@ Route::get('start/invoice-print/{factura_id}',[
     'as'   => 'start.factura.print']);
 
 
-Route::get('start/facturas/{id}/consultar_factura','FacturaController@consultar_factura');
+Route::get('start/facturas/{id}/consultar_factura',[
+    'middleware' => ['permission:hacer_pago'],
+    'uses' => 'FacturaController@consultar_factura'
+]);
 
 Route::post('start/facturas/fecha_pago','FacturaController@fecha_pago');
 
