@@ -102,8 +102,8 @@
 
     <center>
     @if($cliente->codeudor)
-    <a href="{{route('start.estudios.create',[$cliente->id, $cliente->codeudor->id, 'codeudor'])}}">
-        <button type="button" class="btn btn-primary">Estudio</button>
-    </a>
+        <a href="{{route('start.estudios.create',[$cliente->id, $cliente->codeudor->id, 'codeudor'])}}">
+            <button type="button" class="btn btn-primary">Estudio</button>
+        </a>
     @endif
     </center>

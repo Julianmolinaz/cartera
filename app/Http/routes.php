@@ -24,6 +24,8 @@ require __DIR__ . '/routes/precreditos.php';
 
 require __DIR__ . '/routes/estudios.php';
 
+require __DIR__ . '/routes/facturas.php';
+
 require __DIR__ . '/routes/pago_creditos.php';
 
 require __DIR__ . '/routes/ref_productos.php';
