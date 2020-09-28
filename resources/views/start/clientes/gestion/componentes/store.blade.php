@@ -69,14 +69,24 @@
                 if ( state.cliente.tipo == 'cliente' ) {
                     route = '/start/clientes/updateV2';
                     res = await axios.post(route, state.cliente);
-                    if (res.data.success) document.location.href= "/start/clientes/"+res.data.dat 
-                    else alert(res.data.message);
+                    if (res.data.success) {
+                        alertify.notify(res.data.message, 'success', 2, () => {
+                            document.location.href= "/start/clientes/"+res.data.dat 
+                        });
+                    } else {
+                        alertify.alert('Error =(', res.data.message);
+                    }
                 } 
                 else if (state.cliente.tipo == 'codeudor') {
                     route = '/start/codeudores/updateV2/' + state.cliente_id;
                     res = await axios.put(route, state.cliente);
-                    if (res.data.success) document.location.href= "/start/clientes/"+res.data.dat 
-                    else alert(res.data.message);
+                    if (res.data.success) {
+                        alertify.notify(res.data.message, 'success', 2, () => {
+                            document.location.href= "/start/clientes/"+res.data.dat 
+                        });
+                    } else {
+                        alertify.alert('Error =(', res.data.message);
+                    }
                 }
             }
         }

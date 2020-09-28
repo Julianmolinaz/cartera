@@ -51,18 +51,22 @@
                     cliente_id: this.$store.state.cliente_id,
                 });
 
-                alert(res.data.message);
+                // alert(res.data.message);
 
                 if (res.data.success) {
 
                     if (action == 'continuar') { 
                         await this.$store.commit('setClienteId',res.data.dat.cliente_id)
                         await this.continuar()
-                    } else {     
-                        document.location.href= "/start/clientes/"+res.data.dat.ref_cliente
+                    } else {  
+                        alertify.notify(res.data.message, 'success', 2, () => {   
+                            document.location.href= "/start/clientes/"+res.data.dat.ref_cliente
+                        });
                     }
 
                 } else {
+                    alertify.notify(res.data.message, 'error', 5, function(){  console.log('dismissed'); });
+
                     this.message = res.data.message
                 }
             },

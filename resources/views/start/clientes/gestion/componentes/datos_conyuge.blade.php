@@ -179,7 +179,7 @@
                     this.alert = true
                 }
 
-                alertify.set('notifier','position', 'top-right');
+                // alertify.set('notifier','position', 'top-right');
 
                 if (valid) {
 
@@ -190,8 +190,9 @@
                     });
 
                     if (res.data.success) {
-                        alertify.notify(res.data.message, 'error', 5, function(){  console.log(''); });
-                        document.location.href= "/start/clientes/"+res.data.dat        
+                        alertify.notify(res.data.message, 'success', 2, function(){ 
+                            document.location.href= "/start/clientes/"+res.data.dat        
+                         });
                     }
                 } 
                 else {

@@ -186,6 +186,7 @@
             var self = this
             Bus.$on('setOficio', () => {
                 self.showModal()
+                self.getOficios()
             })
         },
         mounted() {

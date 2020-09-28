@@ -171,23 +171,56 @@ class UserController extends Controller
 
         $this->validate($request,$rules_user,$rules_message); 
 
-        $user = User::find($id);
-        $user->name     = strtoupper($request->input('name'));
-        $user->estado   = $request->input('estado');
-        $user->rol_id      = $request->input('rol_id');
-        $user->email    = $request->input('email');
-        $user->punto_id = $request->input('punto_id');
-        $user->banco_id = $request->input('banco_id');
-        $user->num_cuenta = $request->input('num_cuenta');
 
-        if($request->input('password') != $user->password ) {
-            $user->password = bcrypt($request->password); 
+        \DB::beginTransaction();
+
+        try {
+
+            $user = User::find($id);
+            $user->name     = strtoupper($request->input('name'));
+            $user->estado   = $request->input('estado');
+            $user->rol_id      = $request->input('rol_id');
+            $user->email    = $request->input('email');
+            $user->punto_id = $request->input('punto_id');
+            $user->banco_id = $request->input('banco_id');
+            $user->num_cuenta = $request->input('num_cuenta');
+    
+            if ($request->input('password') != $user->password ) {
+                $user->password = bcrypt($request->password); 
+            }
+
+            $role_user = \DB::table('role_user')->where('user_id',$user->id)->get();
+
+            if ($role_user) {
+
+                \DB::table('role_user')->update([
+                    'user_id' => $user->id,
+                    'role_id' => $request->rol_id
+                ])->where('user_id',$user->id);        
+
+            } else {
+                $role_user = \DB::table('role_user')->insert([
+                    'user_id' => $user->id,
+                    'role_id' => $request->rol_id
+                ]);
+                
+            }
+    
+    
+            $user->save();
+
+            \DB::commit();
+    
+            flash()->success($user->id.' -El usuario '.$user->name. ' se editó con éxito!');
+            return redirect()->route('admin.users.index');
+        
+        } catch (\Exception $e) {
+            \DB::rollback();
+
+            flash()->success('Error: '.$e->getMessage());
+            return redirect()->route('admin.users.edit', $user->id);
         }
 
-        $user->save();
-
-        flash()->success($user->id.' -El usuario '.$user->name. ' se editó con éxito!');
-        return redirect()->route('admin.users.index');
     }
 
     /**
