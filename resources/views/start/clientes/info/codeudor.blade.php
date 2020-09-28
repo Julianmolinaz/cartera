@@ -86,15 +86,6 @@
                 <td>@include('start.clientes.info.empresa_codeudor')</td>
             </tr>
 
-            <tr  style="color:#FE0000;">
-                <th scope="row">Estudio</th>
-                @if($cliente->codeudor && $cliente->codeudor->estudio)
-                <td> {{($cliente->codeudor && $cliente->codeudor->estudio) ? $cliente->codeudor->estudio->cal_estudio : ''}} </td>
-                @else
-                <td></td>
-                @endif
-            </tr>
-
             @if($cliente->codeudor && $cliente->codeudor->soat)
             <tr>
                 <th scope="row">Vencimiento SOAT</th>

@@ -2,8 +2,11 @@
   <div class="">
     <div role="tab" id="headingEmpresaCodeudor">
       <p>
-        <a  role="button" data-toggle="collapse" data-parent="#accordion3" 
-            href="#collapseEmpresaCodeudor" aria-expanded="true" aria-controls="collapseThree" 
+        <a  role="button" data-toggle="collapse" 
+            data-parent="#accordion3" 
+            href="#collapseEmpresaCodeudor" 
+            aria-expanded="true" 
+            aria-controls="collapseThree" 
             style="font-size:12px;color:black;"
             id="btn-show_empresaCodeudor">
 

@@ -2,35 +2,35 @@
 // PANTALLA DE INICIO
 
 Route::get('admin/roles',[
-    // 'middleware' => ['permission:consultar_permisos'],
+    'middleware' => ['permission:consultar_permisos'],
     'uses' => 'RolController@index',
     'as' => 'admin.roles.index'
 ]);
 // CREAR
 
 Route::get('admin/roles/create',[
-    // 'middleware' => ['permission:crear_permisos'],
+    'middleware' => ['permission:modificar_permisos'],
     'uses' => 'RolController@create',
     'as' => 'admin.roles.create'
 ]);
 
 // GUARDAR ROLF
 Route::post('admin/roles',[
-    // 'middleware' => ['permission:crear_permisos'],
+    'middleware' => ['permission:modificar_permisos'],
     'uses' => 'RolController@store',
     'as' => 'admin.roles.store'
 ]);
 
 // VER ROLES
 Route::get('admin/roles/show',[
-    // 'middleware' => ['permission:consultar_permisos'],
+    'middleware' => ['permission:consultar_permisos'],
     'uses' => 'RolController@show',
     'as' => 'admin.roles.show'
 ]);
 
 //ACTUALIZAR ROL
 Route::put('admin/roles/{role_id}',[
-    // 'middleware' => ['permission:modificar_permisos'],
+    'middleware' => ['permission:modificar_permisos'],
     'uses' => 'RolController@update',
     'as' => 'admin.roles.update'
 ]);
