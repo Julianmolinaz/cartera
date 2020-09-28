@@ -240,7 +240,8 @@ class InicioController extends Controller
             $nombre_clientes    = DB::table('clientes')->where('nombre','like','%'.$string.'%')->get();
             $doc_clientes       = DB::table('clientes')->where('num_doc','like','%'.$string.'%')->get();
             $nombre_codeudores  = DB::table('codeudores')->where('nombrec','like','%'.$string.'%')->get();
-            $doc_codeudores     = DB::table('codeudores')->where('num_docc','like','%'.$string.'%')->get();
+            $doc_codeudores     = DB::table('codeudores')->where('num_docc','like','%'.$string.'%')
+					->orWhere('num_doc','like','%'.$string.'%')->get();
 
             if(count($nombre_clientes) > 0){
                 foreach($nombre_clientes as $cliente){  

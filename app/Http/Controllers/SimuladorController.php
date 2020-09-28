@@ -50,8 +50,8 @@ class SimuladorController extends Controller
             $monto = $request->input('monto');
             $meses = $request->input('meses');
             switch ($meses) {
-		        case 1:
-		            $factor = 1.10006;
+		case 1:
+		    $factor = 1.10006;
                     break; 
                 case 2:
                     $factor = 1.20016;
@@ -72,7 +72,7 @@ class SimuladorController extends Controller
                     $factor = 1.49996;
                     break;   
                 case 8:
-                    $factor = 0.1875;
+                    $factor = 1.5; 
                     break;
                 default:
                     $factor = 0;
