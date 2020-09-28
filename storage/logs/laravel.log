@@ -5044,3 +5044,10 @@ Stack trace:
 #67 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #68 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/server.php(21): require_once('/home/lenovo/Do...')
 #69 {main}  
+[2020-09-28 16:36:56] local.INFO: array (
+  'efectiva' => '0',
+  'credito_id' => '11932',
+  'criterio_id' => '21',
+  'observaciones' => 'cliente paga adelantado, se corrige fecha, dice que mañana cancelela de octubre',
+  'agenda' => '29-09-2020',
+)  
