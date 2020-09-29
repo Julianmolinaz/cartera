@@ -100,11 +100,11 @@ trait FacturaTrait
 						<p>Sucursal: '.$factura->user_create->punto->nombre.'
 						<p>Dir: '.$factura->user_create->punto->direccion.'</p>
 						<p>Tel: '. $factura->user_create->punto->telefono .'</p>
-						<p>Fecha: '. $now->format('d-m-Y H:i') .'</p>
+						<p>Se imprime el: '. $now->format('d-m-Y H:i') .'</p>
 					</div>
 					<div id="datos_cliente" class="contenido">
 						<br>
-						<p>Expedida: '. $factura->created_at->format('d-m-Y H:i').'</p>
+						<p>Fecha de pago: '. $factura->fecha.'</p>
 						<p id="asesor">Asesor: '. ucwords(strtolower($factura->user_create->name)) .'</p>
 						<p id="cliente">Cliente: '. $factura->credito->precredito->cliente->nombre .'</p>
 						<p>Doc: '. $factura->credito->precredito->cliente->num_doc .'</p>

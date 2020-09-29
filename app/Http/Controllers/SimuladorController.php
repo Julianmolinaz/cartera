@@ -70,17 +70,20 @@ class SimuladorController extends Controller
                     break;
                 case 7:
                     $factor = 1.49996;
-                    break;    
+                    break;   
+                case 8:
+                    $factor = 1.5; 
+                    break;
                 default:
                     $factor = 0;
                     break;
             }
             if($request->input('periodo') == 'Quincenal'){
                 $quincenas = $meses * 2;
-		$resultado = $monto * $factor / $quincenas;
+		        $resultado = $monto * $factor / $quincenas;
             }
-	    else {
-	    	$resultado = $monto * $factor / $meses;
+            else {
+                $resultado = $monto * $factor / $meses;
             }
 
             return response()->json($resultado);

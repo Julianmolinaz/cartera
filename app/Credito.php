@@ -24,6 +24,7 @@ class Credito extends Model implements Auditable
         'credito_refinanciado_id',
         'end_procredito',
         'end_credito',
+        'calificacion',
         'funcionario_id',
         'last_llamada_id',       
         'sanciones_debe', 

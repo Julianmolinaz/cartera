@@ -68,11 +68,12 @@
                 let res = await axios.post('/start/precreditos', dat);
 
                 alertify.set('notifier','position', 'top-right');
+
+                console.log(res);
                 
                 if (res.data.success) {
-                    alertify.notify(res.data.message, 'success', 1, () => {
-                        // res.data.dat.id = precredito_id
-                        window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.id+'/ver';
+                    alertify.notify(res.data.message, 'success', 2, () => {
+                        // window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.id+'/ver';
                     });
                 } else {
                     if (res.data.dat == 'validation') {
@@ -100,13 +101,13 @@
 
                 let res = await axios.post('/start/precreditos/updateV2', dat);
 
-                console.log({res});
-
                 alertify.set('notifier','position', 'top-right');
+
+                console.log(res);
                 
                 if (res.data.success) {
-                    alertify.notify(res.data.message, 'success', 1, () => {
-                        window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.id+'/ver';
+                    alertify.notify(res.data.message, 'success', 2, () => {
+                        // window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.id+'/ver';
                     });
                 } else {
                     if (res.data.dat == 'validation') {
@@ -132,17 +133,17 @@
                     solicitud     : state.solicitud,
                     fecha_pago    : state.fecha_pago,
                     producto      : state.producto
-                };
-
-                console.log(this.getters['getData']);
+                }
 
                 let res = await axios.post('/start/creditos/updateV2', this.getters['getData']);
+
+                console.log(res);
 
                 alertify.set('notifier','position', 'top-right');
                 
                 if (res.data.success) {
                     alertify.notify(res.data.message, 'success', 2, () => {
-                        window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.precredito_id+'/ver';
+                        // window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.precredito_id+'/ver';
                     });
                 } else {
                     if (res.data.dat == 'validation') {
@@ -152,7 +153,6 @@
                         for(var j = 0; j < res.data.message.length; j++) {
                             for(var key in res.data.message[j]) {
                                 $temp += res.data.message[j][key][0] + '<br>';
-                       
                             }
                         }
                         state.message = $temp;
@@ -160,7 +160,7 @@
                         alertify.alert('Error =(', res.data.message);
                     }
                 }
-            }   
+            }
         }
     })
 </script>

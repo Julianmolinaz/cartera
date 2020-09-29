@@ -14,7 +14,6 @@ use DB;
 
 class PagoMasivoController extends Controller
 {
-
     public $report;
     public $data;
     public $arr_error = [];
@@ -30,7 +29,7 @@ class PagoMasivoController extends Controller
     public function index() 
     {
         return view('admin.masivos.index')
-            ->with('err', null);
+            ->with('err', []);
     }
 
     /**
@@ -42,7 +41,6 @@ class PagoMasivoController extends Controller
 
     public function store(Request $request) 
     {
-
         $this->validate($request, ['archivo'=>'required']);
 
         if ($request->hasFile('archivo'))
@@ -68,12 +66,8 @@ class PagoMasivoController extends Controller
                 if ($this->arr_error) 
                     return view('admin.masivos.index')->with('err', $this->arr_error);
 
-
-                // validar pagos
-
-                $this->rulesPay();
+                $this->rulesPay(); // validar pagos
  
-
             } 
             else {
                 $this->arr_error = ['Formato no soportado'];
@@ -84,17 +78,24 @@ class PagoMasivoController extends Controller
         }
     }
 
-    // declarar a rulesPay(...)
+    /**
+     * REGLAS PARA REALIZAR EL PAGO
+     */
+    
     public function rulesPay() 
     {
-
         for ($this->index = 0; $this->index < count($this->data); $this->index ++) {
+
             $this->ruleCliente($this->data[$this->index]);
             $this->ruleObligacion($this->data[$this->index]);
             $this->validAcuerdo($this->data[$this->index]);
         }
         // dd($this->err);
     }
+
+    /**
+     * REGLAS DE CLIENTE
+     */
 
     public function ruleCliente($pay) 
     {
@@ -113,20 +114,27 @@ class PagoMasivoController extends Controller
         }
     }
 
+    /**
+     * REGLAS DE OBLICAGIÓN
+     */
+
     public function ruleObligacion($pay)
     {
         if ($pay['cliente_id']) {
             $credito = DB::table('creditos')
-            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-            ->join('clientes','precreditos.cliente_id','=','clientes.id')
-            ->select('creditos.id')
-            ->whereNotIn('creditos.estado',['Cancelados','Cancelado por refinanciacion'])
-            ->where('clientes.id',$pay['cliente_id'])
-            ->first();
+                ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+                ->join('clientes','precreditos.cliente_id','=','clientes.id')
+                ->select('creditos.id')
+                ->whereNotIn('creditos.estado',['Cancelados','Cancelado por refinanciacion'])
+                ->where('clientes.id',$pay['cliente_id'])
+                ->first();
 
             if (isset($credito->id)) {
+
                 $this->data[$this->index]['credito_id'] = $credito->id;
+
             } else {
+                
                 $this->data[$this->index]['credito_id'] = null;
             }
 
@@ -136,18 +144,21 @@ class PagoMasivoController extends Controller
                     'message' => "No se encuentra una solicitud o un crédito activo para el documento $pay->documento"
                 ];
             }
-
-            // dd($this->err);
         } 
     }
+
+    /**
+     * VALIDACION DE ACUERDOS DE PAGO
+     */
 
     public function validAcuerdo()
     {
         $credito_id = $this->data[$this->index];
+
         $acuerdo = DB::table('acuerdos')
-        ->where('credito_id',$credito_id)
-        ->where('estado','Abierto')
-        ->get();
+            ->where('credito_id',$credito_id)
+            ->where('estado','Abierto')
+            ->get();
 
         if ($acuerdo) {
             $this->err[] = [
@@ -163,6 +174,10 @@ class PagoMasivoController extends Controller
     {
            
     }
+
+    /**
+     * VALIDACION ENCABEZADO  DE TABLA
+     */
 
     public function validate_heading() 
     {
@@ -200,6 +215,10 @@ class PagoMasivoController extends Controller
         }
     }
 
+    /**
+     * VALIDACION DE INTEGRIDAD DE DATOS
+     */
+
 
     public function validation()
     {
@@ -209,8 +228,6 @@ class PagoMasivoController extends Controller
         foreach ($this->data as $item) 
         {
             $this->index ++;
-
-            // dd($item->toArray());
 
             $validation = Validator::make($item->toArray(), [
                 'documento'     => 'required|integer|min:1',
@@ -243,6 +260,11 @@ class PagoMasivoController extends Controller
         }    
     }
 
+    /**
+     * VALIDACION DE LA EXISTENCIA DEL BANCO O 
+     * PUNTO DE RECAUDO
+     */
+
     public function validate_banco($item)
     {
         $flag = false;
@@ -252,10 +274,12 @@ class PagoMasivoController extends Controller
             if (strtolower($banco->nombre) == strtolower($item->entidad)) $flag = true; 
         }
 
-        if (!$flag) $this->arr_error[] = [
-            'line' => $this->index,
-            'message' => 'EL nombre de la entidad en la linea '.$this->index.' no coincide con nuestros registros'
-        ];
+        if (!$flag) {
+            $this->arr_error[] = [
+                'line' => $this->index,
+                'message' => 'EL nombre de la entidad en la linea '.$this->index.' no coincide con nuestros registros'
+            ];
+        }
    
 
     }

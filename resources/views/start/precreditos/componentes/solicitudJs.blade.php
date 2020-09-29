@@ -67,17 +67,18 @@
                 return true;
             },
             validar_negocio() {
-
+                    
                 if (this.solicitud.vlr_fin && this.solicitud.cuotas && this.solicitud.vlr_cuota ) {
 
                     const sumatoria = this.solicitud.cuotas *  this.solicitud.vlr_cuota;
 
-                    if ( sumatoria <= (this.solicitud.vlr_fin * 1)) {
-                        // alertify.notify('La sumatoria de cuotas no coincide con el valor del centro de costos', 'error', 5)
+                    if ( sumatoria < (this.solicitud.vlr_fin * 1)) {
+                        alertify.alert('Error de validación =(','La sumatoria de cuotas no coincide con el valor del centro de costos', 'error')
                     } else {
-                        alertify.notify('El resultado es válido', 'success', 10)
+                        alertify.notify('Los valores son correctos', 'success', 5, function(){  });
                     }
                 }
+
             },
             async setup(){
 
@@ -93,6 +94,8 @@
                 }
 
                 if (this.solicitud.p_fecha) await this.setRango2()
+
+                await this.validar_negocio();
             },
             setRango2(){
 

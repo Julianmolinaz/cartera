@@ -126,9 +126,14 @@
         },
         created(){
             Bus.$on('assign_producto', () => {
-                console.log('view producto');
                 this.assignData();
             });
+
+            if (this.$store.state.status == 'edit_cred') {
+                console.log('edit_cred');
+                this.rules.fecha_exp.rule = 'required',
+                this.rules.fecha_exp.required = '*';
+            }
         }
     });
 

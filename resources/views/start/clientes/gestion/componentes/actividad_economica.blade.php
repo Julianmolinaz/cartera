@@ -65,7 +65,7 @@
                 <!-- Direccion empresa -->
 
                 <div v-bind:class="['form-group','col-md-6',errors.first(rules.dir_empresa.name) ? 'has-error' :'']">
-                    <label>Direccion @{{rules.dir_empresa.required}}</label>
+                    <label>Dirección @{{rules.dir_empresa.required}}</label>
                     <input type="text" 
                         class="text form-control"
                         name="direccion empresa"

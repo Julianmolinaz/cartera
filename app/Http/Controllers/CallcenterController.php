@@ -66,6 +66,7 @@ class CallcenterController extends Controller
                  creditos.refinanciacion     as refinanciado,
                  creditos.credito_refinanciado_id as credito_refinanciado_id,
                  precreditos.vlr_fin         as valor_financiar,
+		 precreditos.id              as precredito_id,
                  municipios.nombre           as municipio,
                  municipios.departamento     as departamento,
                  creditos.estado             as estado,

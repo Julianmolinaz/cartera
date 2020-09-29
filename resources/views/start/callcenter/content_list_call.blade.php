@@ -128,6 +128,13 @@
               <span class = "glyphicon glyphicon-tasks" data-toggle="tooltip" data-placement="top" title="Información del crédito"></span>
             </a>
 
+           <a href="{{route('start.precreditos.ver',$credito->precredito_id)}}" 
+                class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top"
+                title="Ver crédito">
+                <span class="glyphicon glyphicon-eye-open"></span>
+           </a>
+
+
           </td>
           </tr>
         @endforeach
@@ -222,6 +229,12 @@
                   <a href="#" OnClick="infoDesdeListado({{$credito->id}});"  class = 'btn btn-default btn-xs'>
                     <span class = "glyphicon glyphicon-tasks" data-toggle="tooltip" data-placement="top" title="Información del crédito"></span>
                   </a>
+                   
+                  <a href="{{route('start.precreditos.ver',$credito->precredito_id)}}" 
+	                class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top"
+        	        title="Ver crédito">
+                	<span class="glyphicon glyphicon-eye-open"></span>
+          	 </a>
 
                 </td>
               </tr>

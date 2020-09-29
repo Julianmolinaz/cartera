@@ -31,8 +31,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->everyMinute();
-        //  $schedule->command('generar:sanciones') 
-        //           ->cron('01 01 * * *');  
+          $schedule->command('generar:sanciones') 
+                   ->cron('01 01 * * *');  
+
          $schedule->command('generar:reporteVentas')
                   ->monthlyOn(1, '23:59');
          $schedule->command('generar:cumpleanos')

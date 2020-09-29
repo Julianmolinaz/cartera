@@ -137,11 +137,15 @@
 <center>
 
     <a href="javascript:window.history.back();">
-      <button type="button" class="btn btn-primary  ">
+      <button type="button" class="btn btn-default">
       &nbsp;&nbsp;&nbsp;&nbsp;Volver&nbsp;&nbsp;&nbsp;&nbsp;</button>
     </a>
-
-
+    
+    @if($cliente->codeudor)
+    <a href="{{route('start.estudios.create',[$cliente->id, $cliente->codeudor->id, 'codeudor'])}}">
+        <button type="button" class="btn btn-primary">Estudio</button>
+    </a>
+    @endif
     <!-- <a href="{{route('start.clientes.edit',$cliente->id)}}">
       <button type="button" class="btn btn-danger">Editar</button>
   </a> -->

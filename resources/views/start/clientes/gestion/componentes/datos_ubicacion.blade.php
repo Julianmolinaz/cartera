@@ -284,7 +284,8 @@
                 let valid = await this.$validator.validate()
 
                 if (!valid) {
-                    alert('Por favor complete la informacion requerida');
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
                     return false;
                 }
                 

@@ -23,7 +23,8 @@ class CreateCreditosTable extends Migration {
 			$table->float('rendimiento', 10, 0);
 			$table->float('valor_credito', 10, 0);
 			$table->enum('castigada', array('Si','No'))->nullable();
-			$table->enum('refinanciacion', array('Si','No'))->default('No');
+            $table->enum('refinanciacion', array('Si','No'))->default('No');
+            $table->enum('calificacion', ['BB','B','M','MM','CASTIGADA'])->nullable();
 			$table->integer('end_procredito');
 			$table->integer('end_datacredito');
 			$table->integer('credito_refinanciado_id')->unsigned()->nullable()->index('creditos_credito_refinanciado_id_foreign');

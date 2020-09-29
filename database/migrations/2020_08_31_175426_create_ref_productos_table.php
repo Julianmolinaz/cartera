@@ -28,9 +28,6 @@ class CreateRefProductosTable extends Migration
             $table->integer('vehiculo_id')->unsigned();
             $table->foreign('vehiculo_id')->references('id')->on('vehiculos');
 
-            // $table->integer('proveedor_id')->unsigned();
-            // $table->foreign('proveedor_id')->references('id')->on('terceros');
-
             $table->integer('producto_id')->unsigned();
             $table->foreign('producto_id')->references('id')->on('productos');
            

@@ -6,6 +6,33 @@ trait DatatableCreditoTrait
 {
     public function list()
     {
+        try {
+            $creditos = \DB::table('precreditos')
+                ->join('creditos','precreditos.id','=','creditos.precredito_id')
+                ->join('clientes','precreditos.cliente_id','=','clientes.id')
+                ->join('carteras','precreditos.cartera_id','=','carteras.id')
+                ->select([
+                    'creditos.id',
+                    'carteras.nombre as cartera',
+                    'clientes.nombre',
+                    'precreditos.vlr_fin as cc',
+                    'clientes.num_doc',
+                    'creditos.estado',
+                    'creditos.sanciones_debe as sanciones',
+                    'precreditos.id as precredito_id',
+                    'clientes.id as cliente_id'
+                    ]);
+    
+            return $this->getDataTableData($creditos);
+            
+        } catch (\Exception $e) {
+            \Log::error($e);
+        }
+    }
+
+
+    public function listMisCreditos()
+    {
         $creditos = \DB::table('creditos')
           ->join('precreditos','creditos.precredito_id','=','precreditos.id')
           ->join('clientes','precreditos.cliente_id','=','clientes.id')
@@ -13,10 +40,13 @@ trait DatatableCreditoTrait
           ->select('creditos.id','carteras.nombre as cartera','clientes.nombre','precreditos.vlr_fin as cc',
                     'clientes.num_doc','creditos.estado','creditos.sanciones_debe as sanciones',
                     'precreditos.id as precredito_id','clientes.id as cliente_id')
-          ->where('precreditos.user_create_id',\Auth::user()->id);
- 
+          ->where('precreditos.user_create_id',\Auth::user()->id);        
+    }   
 
+    public function getDataTableData($creditos)
+    {
         return \Datatables::of($creditos)
+            
             ->addColumn('btn', function($creditos) {
 
                 $route_ver = route('start.precreditos.ver',$creditos->precredito_id);
@@ -56,6 +86,5 @@ trait DatatableCreditoTrait
             })
             ->make(true);
 
-        return $creditos;
-    }   
+    }
 }

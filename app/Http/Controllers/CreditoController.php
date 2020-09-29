@@ -39,7 +39,8 @@ class CreditoController extends Controller
     use SolicitudUpdateTrait, SolicitudTrait;
     use DatatableCreditoTrait;
 
-    public function __construct(CreditoRepository $creditos){
+    public function __construct(CreditoRepository $creditos)
+    {
       $this->creditos = $creditos;
       $this->middleware('auth');
     }
@@ -127,7 +128,6 @@ class CreditoController extends Controller
 
     public function create($id, $mes, $anio)
     {
-
        $precredito = Precredito::find($id);
 
        //validacion del pago de estudio de crédito
@@ -143,7 +143,6 @@ class CreditoController extends Controller
           flash()->error('Se requiere el pago completo de la cuota inicial !');
           return redirect()->route('start.precreditos.ver',$precredito->id);
        }
-
 
        //valida que no existan creditos vigentes o que la solicitud actual no este aprobada
 
@@ -342,6 +341,9 @@ class CreditoController extends Controller
 
             $data_credito = $this->obtener_data_para_editar_credito($credito);
 
+            $credito_ = DB::table('creditos')->where('id',$credito->id)->first();
+            $credito_->calificacion = '';
+
             return view('start.precreditos.create')
                 ->with('fecha_pago', $credito->fecha_pago->fecha_pago)
                 ->with('ref_productos', $ref_productos)
@@ -349,7 +351,7 @@ class CreditoController extends Controller
                 ->with('producto',$credito->precredito->producto)
                 ->with('producto_id',$credito->precredito->producto_id)
                 ->with('data_credito', $data_credito)
-                ->with('credito', DB::table('creditos')->where('id',$credito->id)->first())
+                ->with('credito', $credito_)
                 ->with('data', $data);
         }
     }//.edit
@@ -480,7 +482,7 @@ class CreditoController extends Controller
 
             // calificación del cliente 
 
-            if($request->input('calificacion') != ""){
+            if ($request->input('calificacion') != "") {
                 $cliente->calificacion    = $request->input('calificacion');
                 $cliente->user_update_id  = Auth::user()->id;
                 $cliente->save();
@@ -514,6 +516,7 @@ class CreditoController extends Controller
             // Guardar credito
 
             $credito = Credito::find($request->credito['id']);
+            $anterior  = $credito->castigada;
             $credito->fill($request->credito);
     
             if ($credito->isDirty()) {
@@ -537,18 +540,19 @@ class CreditoController extends Controller
             $fecha_pago = _\FechaCobro::find($credito->fecha_pago->id);
             $fecha_pago->fecha_pago = $request->fecha_pago;
 
-            if ($fecha_pago->isDirty()) {
-                $fecha_pago->save();
-            }
+            if ($fecha_pago->isDirty()) $fecha_pago->save();
 
             // Guardar RefProductos
 
             $this->saveRefProductosTrV2($request, $old_producto_id); // Creditos/CreditoUpdateTraitV2
 
             // Castigar
-
+            
+            $this->castigar($credito,$request->credito['castigada'],$anterior);
 
             // Calificar
+
+
 
             DB::commit();
 
@@ -558,19 +562,11 @@ class CreditoController extends Controller
 
             DB::rollback();
 
-            return res(false, '', "Se ha generado un error: $e->getMessage()");
+            \Log::error($e);
+
+            return res(false, '', "Se ha generado un error: " . $e->getMessage());
 
         } 
-
-
-
-
-
-
-        
-
-
-
     }
 
 
@@ -591,20 +587,19 @@ class CreditoController extends Controller
 
     private function castigar($credito, $castigada_in, $anterior)
     { 
-      if($anterior <> $castigada_in){
-        if($castigada_in == 'Si'){
-          $castigada                  = new Castigada();
-          $castigada->credito_id      = $credito->id;
-          $castigada->fecha_limite    = $credito->fecha_pago->fecha_pago;
-          $castigada->saldo           = $credito->saldo;
-          $castigada->user_create_id  = Auth::user()->id;
-          $castigada->user_update_id  = Auth::user()->id;
-          $castigada->save();
-        }
+        if($anterior <> $castigada_in){
+            if($castigada_in == 'Si'){
+                $castigada                  = new Castigada();
+                $castigada->credito_id      = $credito->id;
+                $castigada->fecha_limite    = $credito->fecha_pago->fecha_pago;
+                $castigada->saldo           = $credito->saldo;
+                $castigada->user_create_id  = Auth::user()->id;
+                $castigada->user_update_id  = Auth::user()->id;
+                $castigada->save();
+            }
         else{
-          $castigada = Castigada::where('credito_id',$credito->id)->get();
-          $castigada[0]->delete();
-          
+            $castigada = Castigada::where('credito_id',$credito->id)->get();
+            $castigada[0]->delete();
         }
       }
       else{ // cuando no hay cambio en castigada solo se actulizan los datos necesarios

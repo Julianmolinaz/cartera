@@ -244,7 +244,7 @@
             },
             async save() {
 
-                // if (!this.validation) return false;
+                if (!this.validation) return false;
 
                 await this.$store.commit('setPersonal',this.personal)
                 var res = this.$store.dispatch('update');

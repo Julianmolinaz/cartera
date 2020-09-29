@@ -1,3 +1,4 @@
+
 @extends('templates.main2')
 
 @section('title','crear cliente') 
@@ -13,9 +14,21 @@
             <i class="fa fa-user" aria-hidden="true" style="color:gray;"></i>
             {{ $tipo }} <span style="font-size: 0.6em;color: #9e9a9a;" v-text="$store.state.estado"></span>
 
-            <a href="{{route('start.inicio.index')}}" class="btn btn-default" style="float:right;margin:12px 50px 0px 0px;">
-                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        Salir</a>
+            <a  v-if="$store.state.status == 'creacion'"
+                href="{{route('start.inicio.index')}}" 
+                class="btn btn-default" 
+                style="float:right;margin:12px 50px 0px 0px;">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                Salir
+            </a>
+            <a  v-else
+                href="{{route('start.clientes.show', $cliente_id)}}" 
+                class="btn btn-default" 
+                style="float:right;margin:12px 50px 0px 0px;">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                Salir
+            </a>
+
         </h1>
     
         <!-- Nav tabs -->

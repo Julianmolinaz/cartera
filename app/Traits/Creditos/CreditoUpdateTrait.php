@@ -87,7 +87,8 @@ trait CreditoUpdateTrait
             'estados' => _\Http\Controllers\getEnumValues('creditos','estado'),
             'estados_castigada' => _\Http\Controllers\getEnumValues('creditos','castigada'),
             'anios' => $anios,
-            'meses' => ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+            'meses' => ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+            'calificaciones' => _\Http\Controllers\getEnumValues('clientes','calificacion')
         ];   
     }
 

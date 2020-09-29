@@ -66,8 +66,6 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        \Log::info($request->all());
-
         $validator = $this->validationRole($request->role);
 
         if ($validator->fails()) {
@@ -87,7 +85,7 @@ class RolController extends Controller
             $rol->description = $request->role['description']; 
             $rol->save();
 
-            foreach($request->categorias as $categoria) {
+            foreach ($request->categorias as $categoria) {
 
                 foreach ($categoria['permisos'] as $permiso) {
 
@@ -99,8 +97,6 @@ class RolController extends Controller
                         ]);
                     }
                 }
-
-
             }
 
             DB::commit();
@@ -112,8 +108,6 @@ class RolController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-
-            \Log::error($e);
 
             return response()->json([
                 'success' => false,
@@ -208,11 +202,7 @@ class RolController extends Controller
             ]);
 
         }
- 
 
-
-
-        \Log::info( $request->all() );
     }
 
     /**
@@ -296,13 +286,12 @@ class RolController extends Controller
 
     public function validationRole($data_role){
         $rules = [
-            'name' => 'required|unique:roles',
-            'description' => 'required'
+            'display_name' => 'required|unique:roles',
+            'description' => ''
         ];
 
         $messages = [
-            'name.required' => 'El nombre es requerido',
-            'description.required' => 'La descripción es requerida'
+            'display_name.required' => 'El nombre es requerido'
         ];
 
         $validator = Validator::make( $data_role , $rules, $messages);
