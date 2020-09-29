@@ -1,7 +1,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading">
 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-  Información del Cliente ...
+  Información del Cliente @if($cliente->version == 1).@elseif($cliente->version == 2) .. @else ... @endif
       
   <a href="{{route('start.clientes.edit',$cliente->id)}}" 
      class = 'btn btn-default btn-xs'  
@@ -19,8 +19,13 @@
      title="Eliminar">
     <span class = "glyphicon glyphicon-trash">
   </a>
-  
+    @if($cliente->version == 1 && !$cliente->conyuge)
 
+        <a href="{{route('start.conyuges.create',[$cliente->id,'cliente'])}}" 
+            class = 'btn btn-default btn-xs'>Crear conyuge
+        </a>
+
+    @endif
 
 </div>
 
@@ -35,11 +40,11 @@
     </tr>
 
     <tr class="info">
-      <th scope="row">
-        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-        Nombre
-      </th>
-      <td><strong>{{ $cliente->nombre }}</strong></td>
+        <th scope="row">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            Nombre
+        </th>
+        <td><strong>{{ $cliente->nombre }}</strong></td>
     </tr>
 
     <tr>
@@ -155,18 +160,20 @@
 </div> <!--.panel-->
 
 <center>
-
-    <a href="javascript:window.history.back();">
-      <button type="button" class="btn btn-primary  ">
-      &nbsp;&nbsp;&nbsp;&nbsp;Volver&nbsp;&nbsp;&nbsp;&nbsp;</button>
+  
+    <a href="javascript:window.history.back();" class="btn btn-default">
+        <i class="fa fa-backward" aria-hidden="true"></i>
+        Volver
     </a>
 
-    <a href="{{route('start.estudios.create',[$cliente->id,'0', 'cliente'])}}">
-      <button type="button" class="btn btn-danger">Estudio</button>
+    <a href="{{route('start.estudios.create',[$cliente->id,'0', 'cliente'])}}" class="btn btn-success">
+        <i class="fa fa-stethoscope" aria-hidden="true"></i>
+        Estudio
     </a>
-
-    <!-- <a href="{{route('start.clientes.edit',$cliente->id)}}">
-      <button type="button" class="btn btn-danger">Editar</button>
-    </a> -->
+    
+    <a href="{{route('start.clientes.edit',$cliente->id)}}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        Editar
+    </a>
 
 </center>

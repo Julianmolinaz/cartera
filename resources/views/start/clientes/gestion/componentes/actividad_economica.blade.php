@@ -165,12 +165,15 @@
                     <a class="btn btn-default" v-if="estado == 'creacion'" @click="volver">
                         <i class="fa fa-backward" aria-hidden="true"></i>
                         Volver</a>
-                    <button class="btn btn-primary" @click="onSubmit('salvar')">
-                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                        Salvar</button>
-                    <button class="btn btn-primary" @click="onSubmit('continuar')" v-if="estado=='creacion'">
-                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                        Salvar y Continuar</button>
+
+                    <template v-if="show_btn">
+                        <button class="btn btn-primary" @click="onSubmit('salvar')">
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                            Salvar</button>
+                        <button class="btn btn-primary" @click="onSubmit('continuar')" v-if="estado=='creacion'">
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                            Salvar y Continuar</button>
+                    </template>
                     <button class="btn btn-default" @click="continuar" v-if="estado=='edicion'">
                         <i class="fa fa-forward" aria-hidden="true"></i>
                         Continuar</button>

@@ -7,13 +7,6 @@ Route::get('start/pagos/inicio',[
 ]);
 
 
-//PAGOS LISTAR
-
-Route::get('start/pagos',[
-    'middleware' => ['permission:ver_pagos_credito'],
-    'uses' => 'FacturaController@pagos',
-    'as'   => 'start.pagos'
-]); //*
 
 
 // ANULADA facturas

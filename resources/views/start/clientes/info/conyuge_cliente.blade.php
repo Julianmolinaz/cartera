@@ -34,6 +34,23 @@
               <dt>Dirección:</dt>
               <dd>{{ $cliente->conyuge->diry }}</dd>
 
+              <dt>Acciones</dt>
+              <dd>
+                <p>
+                    <a href="{{route('start.conyuges.edit',[$cliente->id,'cliente'])}}" 
+                        class = 'btn btn-default btn-xs'><span class = "glyphicon glyphicon-pencil">
+                    </a>
+                    <a href="{{route('start.conyuges.destroy',[$cliente->id, 'cliente'])}}" 
+                        onclick="return confirm('¿Esta seguro de eliminar el conyuge?')" 
+                        class = 'btn btn-default btn-xs' 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Eliminar">
+                        <span class = "glyphicon glyphicon-trash" >
+                    </a>
+                </p>
+              </dd>
+
             </dl>
       </div>
     </div>

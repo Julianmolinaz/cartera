@@ -135,7 +135,7 @@
                     Volver</a>
                 <button class="btn btn-primary">
                     <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                    Salvar</button>
+                    Salvar Conyuge</button>
             </center>
         </div>
     
@@ -183,7 +183,7 @@
 
                 if (valid) {
 
-                    let res = await axios.post('/start/conyuges',{
+                    let res = await axios.post('/start/conyugesV2',{
                         cliente_id : cliente.id,
                         tipo       : cliente.tipo,
                         conyuge    : this.conyuge

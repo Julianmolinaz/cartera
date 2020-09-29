@@ -64,14 +64,16 @@
                             <!-- NUMERO DE FACTURA  -->
 
                             <div v-bind:class="['form-group','col-md-2',errors.first(rules.num_fact.name) ? 'has-error' :'']">
-                                <label class="input-solicitud">Num Factura @{{element.nombre }} @{{ rules.num_fact.required }}</label>  
+                                <label class="input-solicitud">Número Factura @{{element.nombre }} @{{ rules.num_fact.required }}</label>  
                                 <input 
                                     :disabled="element.estado != 'En proceso'"
                                     class="form-control input-solicitud"
                                     v-model="element.num_fact" 
                                     v-validate="rules.num_fact.rule"
                                     :name="rules.num_fact.name">  
-                                <span class="help-block">@{{ errors.first(rules.num_fact.name) }}</span>                        
+                                <span class="help-block" v-if="errors.first(rules.num_fact.name)">@{{ errors.first(rules.num_fact.name) }}</span> 
+                                <span class="help-block" v-else><small>Ver factura ...</small></span> 
+
                             </div> 
 
                             <!-- FECHA DE EXPEDICION  -->
@@ -85,7 +87,8 @@
                                     v-model="element.fecha_exp"
                                     v-validate="rules.fecha_exp.rule"
                                     :name="rules.fecha_exp.name">  
-                                <span class="help-block">@{{ errors.first(rules.fecha_exp.name) }}</span>                           
+                                <span class="help-block" v-if="errors.first(rules.fecha_exp.name)">@{{ errors.first(rules.fecha_exp.name) }}</span>      
+                                <span class="help-block"><small>Ver factura ...</small></span>                           
                             </div>
 
 
@@ -115,6 +118,7 @@
                                     v-validate="rules.iva.rule"
                                     :name="rules.iva.name"> 
                                 <span class="help-block" v-if="element.iva > 0">$ @{{ element.iva | formatPrice }}</span> 
+                                <span class="help-block" v-if="element.iva <= 0"><small>Ver factura ...</small></span> 
                                 <span class="help-block">@{{ errors.first(rules.iva.name) }}</span>                          
                             </div>
 

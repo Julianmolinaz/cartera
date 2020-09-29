@@ -60,9 +60,21 @@ Route::get('start/facturas/{id}/consultar_factura',[
     'uses' => 'FacturaController@consultar_factura'
 ]);
 
+
+//PAGOS LISTAR
+
+Route::get('start/pagos',[
+    'middleware' => ['permission:ver_pagos_credito'],
+    'uses' => 'FacturaController@pagos',
+    'as'   => 'start.pagos'
+]); //*
+
+
+
+
+Route::get('start/factura_pdf/{factura_id}',
+	['uses' => 'FacturaController@get_pdf','as' => 'start.facturas.pdf']);
+
 Route::post('start/facturas/fecha_pago','FacturaController@fecha_pago');
-
-Route::post('start/facturas/abonos','FacturaController@abonos');
-
     
 
