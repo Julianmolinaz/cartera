@@ -88,9 +88,7 @@
         el: '#principal',
         store,
         data: {
-            view: 'producto',
-            permission: {!! \Auth::user()->can('aprobar_solicitudes') || 
-                    \Auth::user()->can('editar_solicitudes_solo_producto') !!}
+            view: 'producto'
         },
         methods: {
             async go(view){
