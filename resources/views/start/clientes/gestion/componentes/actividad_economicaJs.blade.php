@@ -10,7 +10,8 @@
                 data            : this.$store.state.data,
                 danger_message  : false,
                 arr_messages    : '',
-                oficios         : this.$store.state.data.oficios
+                oficios         : this.$store.state.data.oficios,
+                show_btn        : true
             }
         },
         methods: {
@@ -46,16 +47,17 @@
 
                 let route = (tipo == 'cliente') ? '/start/clientes' : '/start/codeudores';
                 
-                let res = await axios.post(route,{
+                var res = await axios.post(route,{
                     cliente: this.$store.state.cliente,
                     cliente_id: this.$store.state.cliente_id,
                 });
 
-                // alert(res.data.message);
-
                 if (res.data.success) {
 
+                    this.show_btn  = false;
+
                     if (action == 'continuar') { 
+                        
                         await this.$store.commit('setClienteId',res.data.dat.cliente_id)
                         await this.continuar()
                     } else {  

@@ -19,6 +19,12 @@
                 title="Eliminar">
                 <span class = "glyphicon glyphicon-trash" >
             </a>
+            @if($cliente->version == 1 && $cliente->codeudor && !$cliente->codeudor->conyuge)
+                <a href="{{route('start.conyuges.create',[$cliente->id,'codeudor'])}}" 
+                    class = 'btn btn-default btn-xs'>Crear conyuge
+                </a>
+
+            @endif
 
         </div>
 
@@ -74,10 +80,10 @@
                 <td> {{ ($cliente->codeudor) ? $cliente->codeudor->placac : ''}}</td>
             </tr>
 
-            @if( $cliente->codeudor->conyuge )
+            @if($cliente->codeudor && $cliente->codeudor->conyuge)
                 <tr>
-                <th scope="row">Conyuge codeudor</th>
-                <td>@include('start.clientes.info.conyuge_codeudor')</td>
+                    <th scope="row">Conyuge codeudor</th>
+                    <td>@include('start.clientes.info.conyuge_codeudor')</td>
                 </tr>
             @endif
 

@@ -35,7 +35,9 @@
                     v-model="solicitud.num_fact"
                     v-validate="rules.num_fact.rule"
                     :name="rules.num_fact.name">  
-                <span class="help-block">@{{ errors.first(rules.num_fact.name) }}</span>                   
+                <span class="help-block" v-if="errors.first(rules.num_fact.name) ">@{{ errors.first(rules.num_fact.name) }}</span>   
+                <span class="help-block" v-else>Número del formulario</span>   
+
             </div>
 
 

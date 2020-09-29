@@ -24,10 +24,14 @@
         },
         methods: {
             async cargarProducto() {
+		
                 this.producto = await this.productos.find(producto => producto.id ==  this.producto_id);
+		console.log(this.producto);
                 await this.$store.commit('setProductoId', this.producto.id);
                 await this.$store.commit('setProducto',this.producto);
+		
                 this.ref_productos = await getProductos(this.producto);
+		console.log(this.ref_productos);
             },
             check(index) {
 
