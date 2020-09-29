@@ -96,12 +96,12 @@
 
     <footer class="footer">
         <section class="footer">
-            <p>Facilitador PPC 312 254 9281 | Dinamizadora 311 627 9502 | Verificación Créditos 310 444 2464 | Cartera 310 445 0956</p>
-            <P>PBX 317 2520 Ext. 2 | www.inversionesgora.com | servicioalcliente@inversionesgora.com</P>
-            <p style="font-size:15;">Cra. 6 No. 17-62 Edificio Fegove Oficina 203</p>
+            <p>Facilitador PPC 312 254 9281 | Dinamizadora 311 627 9502 | Analisis de negocios 310 444 2464 | Cartera 310 445 0956</p>
+            <P>PBX 036 334 0898 | www.inversionesgora.com | servicioalcliente@inversionesgora.com</P>
+            <p>Cra. 6 No. 17-62 Edificio Fegove. Oficina 203-201. Pereira/Risaralda</p>
         </section>    
     </footer>
-</body>
+</body> 
 
 
 </html>

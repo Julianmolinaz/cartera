@@ -28,13 +28,6 @@ Route::get('call/miscall',[
 	'as'	=> 'call.miscall'
 ]); //*
 
-//CALLCENTER VER
-Route::get('call/{call}',[
-    'middleware' => ['permission:consultar'],
-    'uses'  => 'CallcenterController@show',
-    'as'    => 'call.show'
-]); //*
-
 //CALLCENTER CREAR
 
 Route::post('call/call_create',[
@@ -42,6 +35,12 @@ Route::post('call/call_create',[
     'uses'  =>'CallcenterController@call_create'
 ]); //*
 
+//CALLCENTER VER
+Route::get('call/{call}',[
+    'middleware' => ['permission:consultar'],
+    'uses'  => 'CallcenterController@show',
+    'as'    => 'call.show'
+]); //*
 
 Route::get('call/{tipo}/busqueda',[ 
     'middleware' => ['permission:consultar'],

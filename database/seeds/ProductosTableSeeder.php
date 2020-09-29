@@ -143,6 +143,7 @@ class ProductosTableSeeder extends Seeder
                 'created_at' => '2017-07-24 07:22:40',
                 'updated_at' => '2017-07-24 07:22:52',
             ),
+            
         ));
         
         
