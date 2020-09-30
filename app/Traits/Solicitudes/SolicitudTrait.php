@@ -43,7 +43,7 @@ trait SolicitudTrait
         }
 
         return [
-            'productos'            => _\Producto::orderBy('nombre','DESC')->get(),
+            'productos'            => _\Producto::orderBy('nombre')->get(),
             'carteras'             => _\Cartera::where('estado','Activo')->orderBy('nombre')->get(),
             'proveedores'          => _\MyService\Proveedor::getProveedores(),
             'variables'            => _\Variable::find(1),
