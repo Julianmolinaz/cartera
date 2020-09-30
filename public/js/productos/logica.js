@@ -35,6 +35,28 @@ function getProductos(producto) {
                 new Producto(producto.id, "R.T.M"),
             ];
             break;
+        case 17:
+            return [
+                new Producto(producto.id, "SOAT"),
+                new Producto(producto.id, "R.T.M"),
+                new Producto(producto.id, "SOAT"),
+                new Producto(producto.id, "R.T.M"),
+            ];
+            break;
+        case 18:
+            return [
+                new Producto(producto.id, "SOAT"),
+                new Producto(producto.id, "SOAT"),
+                new Producto(producto.id, "R.T.M"),
+            ];
+            break;
+        case 19:
+            return [
+                new Producto(producto.id, "SOAT"),
+                new Producto(producto.id, "R.T.M"),
+                new Producto(producto.id, "R.T.M"),
+            ];
+            break;
 
         default:
             return false;
