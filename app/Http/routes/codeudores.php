@@ -37,7 +37,7 @@ Route::get('start/codeudores/{cliente_id}/edit',[
 // Editar
 
 Route::put('start/codeudores/{cliente_id}/update',[
-	'middleware' => ['permission:editar_codeudor'],
+	//'middleware' => ['permission:editar_codeudor'],
 	'uses' => 'CodeudorController@update',
 	'as' => 'start.codeudores.update'
 ]);
@@ -45,7 +45,7 @@ Route::put('start/codeudores/{cliente_id}/update',[
 // Eliminar
 
 Route::get('start/codeudores/destroy/{cliente_id}',[
-	'middleware' => ['permission:eliminar_codeudor'],
+	//'middleware' => ['permission:eliminar_codeudor'],
 	'uses' => 'CodeudorController@destroy',
 	'as' => 'start.codeudores.destroy'
 ]);
