@@ -7,7 +7,6 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="panel panel-default">
       <div class="panel-heading"><b>Puntos de pago</b>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         
         <button type="button" class="btn btn-default" data-toggle='modal' data-target='#myModalCrearPunto' onClick="hola();">
           Crear Punto
@@ -16,9 +15,9 @@
       </div>
       <div class="panel-body">
 
-			  <div id="msj-success" class="alert alert-success alert-dismissible" role ="alert" style="display:none">
-			    <strong id="mensaje"></strong>
-			  </div>
+            <div id="msj-success" class="alert alert-success alert-dismissible" role ="alert" style="display:none">
+            <strong id="mensaje"></strong>
+            </div>
 
       	<div id="list_puntos">
       	</div>	
