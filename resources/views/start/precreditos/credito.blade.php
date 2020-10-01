@@ -108,7 +108,7 @@
 				</tr>
 				<tr class="danger">  
 					<th scope="row">Saldo Deuda </th>
-					<td> <span class="label label-danger" style="font-size:1em">{{'$ '.number_format($precredito->credito->saldo,0,",",".")}}</span></td>
+					<td style="color:red;font-weight:bold;">{{'$ '.number_format($precredito->credito->saldo,0,",",".")}}</td>
 				</tr>  
 				<tr>  
 					<th scope="row">Rendimiento </th>
