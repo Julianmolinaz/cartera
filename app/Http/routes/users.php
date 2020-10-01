@@ -17,6 +17,14 @@ Route::get('admin/users/create',[
      'as'	=> 'admin.users.create'
 ]);
 
+
+// get users json (ruta utilizada para egresos)
+
+Route::get('admin/users/get_users',[
+    'middleware' => ['permission:crear_egresos'],
+     'uses'	=> 'UserController@getUsers'
+]);
+
 // ACTUALIZAR NEGOCIOS
 
 Route::post('admin/users/store',[
