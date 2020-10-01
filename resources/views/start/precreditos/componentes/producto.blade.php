@@ -35,7 +35,7 @@
                             <!-- FACTURACION DEL PRODUCTO  -->
                             
                             <div class="form-group col-md-12">
-                                <h4 style="display:inline-block; margin-right:10px;">@{{ element.nombre }}</h4>
+                                <h4 style="display:inline-block; margin-right:10px;">@{{ index + 1 +'-'+element.nombre }}</h4>
                                 <div class="checkbox" style="display:inline-block" v-if="index > 0">
                                     <label>
                                         <input type="checkbox" @change="check(index)" :id="'check'+index" value="false"> Clonar vehiculo
@@ -44,10 +44,21 @@
                                 <hr>
                             </div>
 
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label class="input-solicitud">Expedido a: </label>
+                                <select v-model="element.expedido_a" class="form-control">
+                                    <option selected disabled>--</option>
+                                    <option :value="cliente" v-for="cliente in $store.state.data.clientes">@{{ cliente }}</option>
+                                </select>
+                            </div>
+                        
 
                             <!-- PROVEEDOR  -->
                         
-                            <div class="form-group col-md-2" :id="'div-proveedor'+index">
+                            <div class="form-group col-md-4" :id="'div-proveedor'+index">
                                 <label class="input-solicitud">Proveedor @{{element.nombre }} *</label>  
                                 <select
                                     :disabled="element.estado != 'En proceso'"
@@ -60,6 +71,24 @@
                                 </select>
                                 <span class="help-block" :id="'span-proveedor'+index"></span>
                             </div>
+
+                            <!-- COSTO  -->
+
+                            <div v-bind:class="['form-group','col-md-4',errors.first(rules.costo.name+index) ? 'has-error' :'']">
+                                <label class="input-solicitud">Costo @{{element.nombre }} @{{ rules.costo.required }}</label> 
+                                <input type="text" 
+                                    :disabled="element.estado != 'En proceso'"
+                                    class="form-control input-solicitud" 
+                                    v-model="element.costo"
+                                    v-validate="rules.costo.rule"
+                                    :name="rules.costo.name+index">  
+                                <span class="help-block" v-if="element.costo > 0">$ @{{ element.costo | formatPrice }}</span>
+                                <span class="help-block">@{{ errors.first(rules.costo.name+index) }}</span>  
+
+                            </div>
+                        </div>
+
+                        <div class="row">    
 
                             <!-- NUMERO DE FACTURA  -->
 
@@ -78,7 +107,7 @@
 
                             <!-- FECHA DE EXPEDICION  -->
 
-                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','col-md-3',errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
                                 <label class="input-solicitud">Fecha de Expedicion @{{ rules.fecha_exp.required }}</label> 
                                 <input 
                                     :disabled="element.estado != 'En proceso'"
@@ -91,21 +120,6 @@
                                 <span class="help-block"><small>Ver factura ...</small></span>                           
                             </div>
 
-
-                            <!-- COSTO  -->
-
-                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.costo.name+index) ? 'has-error' :'']">
-                                <label class="input-solicitud">Costo @{{element.nombre }} @{{ rules.costo.required }}</label> 
-                                <input type="text" 
-                                    :disabled="element.estado != 'En proceso'"
-                                    class="form-control input-solicitud" 
-                                    v-model="element.costo"
-                                    v-validate="rules.costo.rule"
-                                    :name="rules.costo.name+index">  
-                                <span class="help-block" v-if="element.costo > 0">$ @{{ element.costo | formatPrice }}</span>
-                                <span class="help-block">@{{ errors.first(rules.costo.name+index) }}</span>  
-
-                            </div>
 
                             <!-- IVA  -->
 
@@ -122,6 +136,21 @@
                                 <span class="help-block">@{{ errors.first(rules.iva.name) }}</span>                          
                             </div>
 
+
+
+                            <!-- COSTO  -->
+
+                            <div v-bind:class="['form-group','col-md-3',errors.first(rules.otros.name+index) ? 'has-error' :'']">
+                                <label class="input-solicitud">Otros @{{element.nombre }} @{{ rules.otros.required }}</label> 
+                                <input type="text" 
+                                    class="form-control input-solicitud" 
+                                    v-model="element.otros"
+                                    v-validate="rules.otros.rule"
+                                    :name="rules.otros.name+index">  
+                                <span class="help-block" v-if="element.otros > 0">$ @{{ element.otros | formatPrice }}</span>
+                                <span class="help-block">@{{ errors.first(rules.otros.name+index) }}</span>  
+
+                            </div>
 
                             <!-- ESTADO -->
                             <div v-bind:class="['form-group','col-md-2',errors.first(rules.estado.name) ? 'has-error' :'']">

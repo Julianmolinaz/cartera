@@ -329,6 +329,8 @@ class CreditoController extends Controller
                     'fecha_exp' => $ref_producto->fecha_exp,
                     'costo' => $ref_producto->costo,
                     'estado' => $ref_producto->estado,
+                    'otros' => $ref_producto->otros,
+                    'expedido_a' => $ref_producto->expedido_a,
                     'iva' => $ref_producto->iva,
                     'observaciones' => $ref_producto->observaciones,
                     '_vehiculo_id' => $ref_producto->vehiculo->id,
