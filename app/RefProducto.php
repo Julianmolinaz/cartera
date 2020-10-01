@@ -11,6 +11,7 @@ class RefProducto extends Model
     protected $fillable = [
 
         'nombre',
+        'expedido_a',
         'estado',
         'fecha_exp',
         'costo',

@@ -14,13 +14,15 @@ class CreateRefProductosTable extends Migration
     {
         Schema::create('ref_productos', function (Blueprint $table) {
             $table->integer('id', true);
-			$table->string('nombre', 100);
+            $table->string('nombre', 100);
+            $table->enum('expedido_a',['Cliente','Gora']);
 			$table->enum('estado', ['En proceso','Liquidado'])->nullable()->default('En Proceso');
 			$table->date('fecha_exp')->nullable();
 			$table->float('costo', 10, 0)->nullable();
-			$table->float('iva', 10, 0)->nullable();
+            $table->float('iva', 10, 0)->nullable();
+            $table->float('comision', 10, 0)->nullable();
 			$table->string('num_fact', 60)->nullable();
-			$table->text('extra')->nullable();
+			$table->float('extra', 10, 2)->nullable();
 			$table->longText('observaciones')->nullable();
       
             // Referenciass
