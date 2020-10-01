@@ -24,12 +24,9 @@ class InicioController extends Controller
         return view('start.inicio.index');
     }
 
-    function buscar($string){
+    function buscar($string) {
 
         $respuesta = "";
-
-
-        // SOLICITUDES Y CREDITOS
         
         if(substr($string,0,1) == "="){
 

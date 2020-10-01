@@ -17,7 +17,7 @@ class RefProducto extends Model
         'costo',
         'iva',
         'num_fact',
-        'extra',
+        'otros',
         'observaciones',
   
         // Referenciass

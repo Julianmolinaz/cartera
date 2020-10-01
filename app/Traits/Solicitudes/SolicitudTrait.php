@@ -56,7 +56,8 @@ trait SolicitudTrait
             'cliente'              => _\Cliente::find($cliente_id),
             'proveedores'          => _\Tercero::where('tipo','Proveedor')->orderBy('razon_social')->get(),
             'vendedores'           => _\User::orderBy('name')->where('estado','activo')->where('id','<>',1)->get(),
-            'rango_meses'          => $range
+            'rango_meses'          => $range,
+            'clientes'             => _\Http\Controllers\getEnumValues('ref_productos', 'expedido_a'),
          ];
 
     }

@@ -20,12 +20,11 @@ class CreateRefProductosTable extends Migration
 			$table->date('fecha_exp')->nullable();
 			$table->float('costo', 10, 0)->nullable();
             $table->float('iva', 10, 0)->nullable();
-            $table->float('comision', 10, 0)->nullable();
 			$table->string('num_fact', 60)->nullable();
-			$table->float('extra', 10, 2)->nullable();
+			$table->float('otros', 10, 2)->nullable();
 			$table->longText('observaciones')->nullable();
       
-            // Referenciass
+            // Referencias
 
             $table->integer('vehiculo_id')->unsigned();
             $table->foreign('vehiculo_id')->references('id')->on('vehiculos');

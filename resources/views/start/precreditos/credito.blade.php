@@ -100,15 +100,15 @@
 				</tr>
 				<tr>  
 					<th scope="row">Fecha límite de pago </th>
-					<td style="color:red;"> {{$precredito->credito->fecha_pago->fecha_pago}}</td>
+					<td style="color:red;"> {{ $precredito->credito->fecha_pago->fecha_pago}}</td>
 				</tr>        
 				<tr>  
 					<th scope="row">Valor Total Crédito </th>
 					<td> {{'$ '.number_format($precredito->credito->valor_credito,0,",",".")}}</td>
 				</tr>
-				<tr>  
+				<tr class="danger">  
 					<th scope="row">Saldo Deuda </th>
-					<td> {{'$ '.number_format($precredito->credito->saldo,0,",",".")}}</td>
+					<td> <span class="label label-danger" style="font-size:1em">{{'$ '.number_format($precredito->credito->saldo,0,",",".")}}</span></td>
 				</tr>  
 				<tr>  
 					<th scope="row">Rendimiento </th>

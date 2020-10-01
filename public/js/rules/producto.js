@@ -29,10 +29,10 @@ const rules_producto = {
     rule: "required|decimal",
     required: "*",
   },
-  extra: {
+  otros: {
     name: "otros",
-    rule: "required|decimal",
-    required: "*",
+    rule: "decimal",
+    required: "",
   },
   estado: {
     name: "estado",

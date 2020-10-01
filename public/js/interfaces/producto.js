@@ -2,6 +2,8 @@ class Producto {
   constructor(producto_id, nombre) {
     this.id = "";
     this.producto_id = producto_id;
+    this.otro = 0;
+    this.expedido_a = "";
     this.nombre = nombre;
     this.precredito_id = "";
     this.proveedor_id = "";

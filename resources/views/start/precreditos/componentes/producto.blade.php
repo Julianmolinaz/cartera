@@ -48,10 +48,10 @@
 
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label class="input-solicitud">A quien se le expide: </label>
-                                <select name="" id="" class="form-control">
-                                    <option value=""></option>
-                                    <option value=""></option>
+                                <label class="input-solicitud">Expedido a: </label>
+                                <select v-model="element.expedido_a" class="form-control">
+                                    <option selected disabled>--</option>
+                                    <option :value="cliente" v-for="cliente in $store.state.data.clientes">@{{ cliente }}</option>
                                 </select>
                             </div>
                         
@@ -140,16 +140,15 @@
 
                             <!-- COSTO  -->
 
-                            <div v-bind:class="['form-group','col-md-3',errors.first(rules.costo.name+index) ? 'has-error' :'']">
-                                <label class="input-solicitud">Comisión @{{element.nombre }} @{{ rules.costo.required }}</label> 
+                            <div v-bind:class="['form-group','col-md-3',errors.first(rules.otros.name+index) ? 'has-error' :'']">
+                                <label class="input-solicitud">Otros @{{element.nombre }} @{{ rules.otros.required }}</label> 
                                 <input type="text" 
-                                    :disabled="element.estado != 'En proceso'"
                                     class="form-control input-solicitud" 
-                                    v-model="element.costo"
-                                    v-validate="rules.costo.rule"
-                                    :name="rules.costo.name+index">  
-                                <span class="help-block" v-if="element.costo > 0">$ @{{ element.costo | formatPrice }}</span>
-                                <span class="help-block">@{{ errors.first(rules.costo.name+index) }}</span>  
+                                    v-model="element.otros"
+                                    v-validate="rules.otros.rule"
+                                    :name="rules.otros.name+index">  
+                                <span class="help-block" v-if="element.otros > 0">$ @{{ element.otros | formatPrice }}</span>
+                                <span class="help-block">@{{ errors.first(rules.otros.name+index) }}</span>  
 
                             </div>
 
