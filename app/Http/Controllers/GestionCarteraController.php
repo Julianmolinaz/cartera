@@ -106,6 +106,7 @@ class GestionCarteraController extends Controller
             ->join('users','precreditos.user_create_id','=','users.id')
             ->whereNotIn('users.punto_id',['36'])
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+	    ->whereNotIn('users.punto_id',['48'])
             ->select('creditos.*',
                     'precreditos.*',
                     'creditos.id as credito_id',
