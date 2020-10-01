@@ -11,7 +11,7 @@
             <span class = "glyphicon glyphicon-pencil">
         </a>
         
-        <a href="{{route('start.clientes.destroy',$cliente->id)}}" 
+        <a href="{{route('start.codeudores.destroy',$cliente->id)}}" 
             onclick="return confirm('¿Esta seguro de eliminar el usuario?')" 
             class = 'btn btn-default btn-xs' 
             data-toggle="tooltip" 
