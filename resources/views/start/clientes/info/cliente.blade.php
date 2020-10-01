@@ -88,10 +88,10 @@
       </td>
     </tr>
 
-    <!-- <tr>
+    <tr>
       <th scope="row">Placa</th>
       <td> {{ $cliente->placa}}</td>
-    </tr> -->
+    </tr>
 
     @if($cliente->conyuge)
       <tr>
