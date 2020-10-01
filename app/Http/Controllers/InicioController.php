@@ -201,6 +201,13 @@ class InicioController extends Controller
 
             $clientes    = DB::table('clientes')->where('placa','like','%'.$string.'%')->get();
             $codeudores  = DB::table('codeudores')->where('placac','like','%'.$string.'%')->get();
+            // $vehiculos   = DB::table('vehiculos')
+            //     ->join('ref_productos','vehiculos.id','=','ref_productos.vehiculo_id')
+            //     ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
+            //     ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            //     ->select('vehiculos.placa','clientes.nombre as cliente','clientes.tipo_doc',)
+            //     ->where('placa','like','%'.$string.'%')
+            //     ->get();
 
             if(count($clientes) > 0){
                 foreach($clientes as $cliente){  

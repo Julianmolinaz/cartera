@@ -7,7 +7,7 @@ class Producto {
     this.nombre = nombre;
     this.precredito_id = "";
     this.proveedor_id = "";
-    this.num_fact = "";
+    this.num_fact = null;
     this.fecha_exp = "";
     this.costo = "";
     this.estado = "En proceso";

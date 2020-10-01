@@ -50,10 +50,32 @@
     <td>{{'$ '.number_format($precredito->cuota_inicial,0,",",".")}} </td>
     </tr>
     <tr>
-    <th scope="row">Calificación cliente</th>
-    <td> {{$precredito->cliente->calificacion}}</td>
-    <th scope="row"></th>
-    <td></td>
+    @if($precredito->version == 1)
+        <th scope="row">Calificación cliente</th>
+        <td> {{$precredito->cliente->calificacion}}</td>
+        <th scope="row"></th>
+        <td></td>
+    @elseif($precredito->version == 2)
+        <th scope="row">Placa</th>
+        <td colspan="4"> 
+            @foreach($precredito->ref_productos as $ref)
+                <span class="label label-warning" style="color:black;font-size:1em;margin-left:1px;">
+                        @if($ref->vehiculo->tipo_vehiculo_id == 2) <i class="fa fa-motorcycle" aria-hidden="true"></i>
+                    @elseif($ref->vehiculo->tipo_vehiculo_id == 3) <i class="fa fa-motorcycle" aria-hidden="true"></i>
+                    @elseif($ref->vehiculo->tipo_vehiculo_id == 4) <i class="fa fa-car" aria-hidden="true"></i>
+                    @elseif($ref->vehiculo->tipo_vehiculo_id == 5) <i class="fa fa-truck" aria-hidden="true"></i>
+                    @elseif($ref->vehiculo->tipo_vehiculo_id == 6) OFICIAL |
+                    @elseif($ref->vehiculo->tipo_vehiculo_id == 7) <i class="fa fa-car" aria-hidden="true"></i>
+                    @elseif($ref->vehiculo->tipo_vehiculo_id == 8) <i class="fa fa-bus" aria-hidden="true"></i>
+                    @elseif($ref->vehiculo->tipo_vehiculo_id == 9) <i class="fa fa-taxi" aria-hidden="true"></i>
+                    @elseif($ref->vehiculo->tipo_vehiculo_id == 10) <i class="fa fa-bus" aria-hidden="true"></i>
+                    @elseif($ref->vehiculo->tipo_vehiculo_id == 11) <i class="fa fa-bus" aria-hidden="true"></i>
+                    @endif
+                    {{ $ref->vehiculo->placa }}
+                </span>
+            @endforeach
+        </td>
+    @endif
     </tr>
     <tr>
     <th scope="row">Registró</th>

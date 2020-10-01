@@ -19,4 +19,9 @@ class Vehiculo extends Model
     public function setPlacaAttribute($value) {
         $this->attributes['placa'] = strtoupper($value);
     }
+
+    public function ref_producto()
+    {
+        return $this->hasOne('App\RefProducto','vehiculo_id','id');
+    }
 }
