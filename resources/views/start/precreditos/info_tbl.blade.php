@@ -71,7 +71,7 @@
                     @elseif($ref->vehiculo->tipo_vehiculo_id == 10) <i class="fa fa-bus" aria-hidden="true"></i>
                     @elseif($ref->vehiculo->tipo_vehiculo_id == 11) <i class="fa fa-bus" aria-hidden="true"></i>
                     @endif
-                    {{ $ref->vehiculo->placa }}
+                    {{ $ref->vehiculo->placa}} <span style="font-size:0.5em;">{{$ref->nombre}}</span>
                 </span>
             @endforeach
         </td>
