@@ -39,7 +39,7 @@ class RefProducto extends Model
     }
 
     public function proveedor() {
-        return $this->hasOne('App\Tercero','id','tercero_id');
+        return $this->hasOne('App\Tercero','id','proveedor_id');
     }
 
     public function producto() {
