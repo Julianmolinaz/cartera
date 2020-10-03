@@ -8,7 +8,7 @@
                 <!-- PRODUCTO  -->
 
                 <div v-bind:class="['form-group','col-md-4',errors.first(rules.producto_id.name) ? 'has-error' :'']">
-                    <label for="">Nombre del Producto @{{ rules.producto_id.required }}</label>  
+                    <label for="">Nombre del Producto @{{ rules.producto_id.required }} <span></span></label>  
                     <select 
                         :disabled="$store.state.data.status == 'edit cred'"
                         @change="cargarProducto()"
@@ -35,7 +35,9 @@
                             <!-- FACTURACION DEL PRODUCTO  -->
                             
                             <div class="form-group col-md-12">
-                                <h4 style="display:inline-block; margin-right:10px;">@{{ index + 1 +'-'+element.nombre }}</h4>
+                                <h4 style="display:inline-block; margin-right:10px;">@{{ index + 1 +'-'+element.nombre }}
+                                    <span style="margin-left: 10px;color:gray"> Total: $@{{ parseInt(element.costo) + parseInt(element.iva) + parseInt(element.otros) | formatPrice}}</span>
+                                </h4>
                                 <div class="checkbox" style="display:inline-block" v-if="index > 0">
                                     <label>
                                         <input type="checkbox" @change="check(index)" :id="'check'+index" value="false"> Clonar vehiculo
@@ -135,7 +137,6 @@
                                 <span class="help-block" v-if="element.iva <= 0"><small>Ver factura ...</small></span> 
                                 <span class="help-block">@{{ errors.first(rules.iva.name) }}</span>                          
                             </div>
-
 
 
                             <!-- COSTO  -->

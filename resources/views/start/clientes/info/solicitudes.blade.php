@@ -49,7 +49,7 @@
                 @if($precredito->version == 2)
                     <td>  
                         @foreach($precredito->ref_productos as $ref)
-                            [{{ $ref->vehiculo->placa }}]
+                            [{{ $ref->vehiculo->placa }} <span style="font-size:0.6em;">{{$ref->nombre}}</span>]
                         @endforeach
                     </td>
                 @else 

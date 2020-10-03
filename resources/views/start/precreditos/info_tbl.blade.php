@@ -1,3 +1,5 @@
+
+
 <table class="table" style="font-size:12px">
 
     <tr>
@@ -59,7 +61,8 @@
         <th scope="row">Placa</th>
         <td colspan="4"> 
             @foreach($precredito->ref_productos as $ref)
-                <span class="label label-warning" style="color:black;font-size:1em;margin-left:1px;">
+                <span class="label label-warning" style="color:black;font-size:1em;margin-left:1px;" 
+                    data-toggle="tooltip" data-placement="top" title="{{ $ref->vehiculo->placa}} \n 123">
                         @if($ref->vehiculo->tipo_vehiculo_id == 2) <i class="fa fa-motorcycle" aria-hidden="true"></i>
                     @elseif($ref->vehiculo->tipo_vehiculo_id == 3) <i class="fa fa-motorcycle" aria-hidden="true"></i>
                     @elseif($ref->vehiculo->tipo_vehiculo_id == 4) <i class="fa fa-car" aria-hidden="true"></i>
@@ -72,26 +75,30 @@
                     @elseif($ref->vehiculo->tipo_vehiculo_id == 11) <i class="fa fa-bus" aria-hidden="true"></i>
                     @endif
                     {{ $ref->vehiculo->placa}} <span style="font-size:0.5em;">{{$ref->nombre}}</span>
+                    
                 </span>
+                
             @endforeach
         </td>
     @endif
     </tr>
+
+    
     <tr>
-    <th scope="row">Registró</th>
-    <td> {{$precredito->user_create->name}}</td>
-    <th scope="row">Fecha</th>
-    <td> {{$precredito->created_at}}</td>
+        <th scope="row">Registró</th>
+        <td> {{$precredito->user_create->name}}</td>
+        <th scope="row">Fecha</th>
+        <td> {{$precredito->created_at}}</td>
     </tr>
     <tr>
-    <th scope="row">Actualizó</th>
-    <td> {{($precredito->user_update) ? $precredito->user_update->name : ''}}</td>
-    <th scope="row">Fecha</th>
-    <td> {{ ($precredito->user_update) ? $precredito->updated_at : ''}}</td>
+        <th scope="row">Actualizó</th>
+        <td> {{($precredito->user_update) ? $precredito->user_update->name : ''}}</td>
+        <th scope="row">Fecha</th>
+        <td> {{ ($precredito->user_update) ? $precredito->updated_at : ''}}</td>
     </tr>
     <tr>
-    <th scope="row">Observaciones</th>
-    <td colspan="3"> {{$precredito->observaciones}}</td>
+        <th scope="row">Observaciones</th>
+        <td colspan="3"> {{$precredito->observaciones}}</td>
     </tr>
 
 </table>

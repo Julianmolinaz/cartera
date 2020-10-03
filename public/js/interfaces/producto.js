@@ -2,16 +2,16 @@ class Producto {
   constructor(producto_id, nombre) {
     this.id = "";
     this.producto_id = producto_id;
-    this.otro = 0;
+    this.otros = 0;
     this.expedido_a = "";
     this.nombre = nombre;
     this.precredito_id = "";
     this.proveedor_id = "";
     this.num_fact = null;
     this.fecha_exp = "";
-    this.costo = "";
+    this.costo = 0;
     this.estado = "En proceso";
-    this.iva = "";
+    this.iva = 0;
     this.observaciones = "";
     this._tipo_vehiculo_id = "";
     this._placa = "";
