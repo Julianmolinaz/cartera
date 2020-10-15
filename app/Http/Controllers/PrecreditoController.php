@@ -82,6 +82,8 @@ class PrecreditoController extends Controller
             }
 
             $solicitud = $this->saveSolicitudCreateTr($request->solicitud); // SolicitudCreateTrait.php
+
+            log(Auth::user()->id ,'creacion' ,'Creación solicitud de crédito' ,1 ,'App\\Precredito' ,$solicitud->id); 
             
             if ($request->producto['min_vehiculos'] && $request->ref_productos) {
 
@@ -503,6 +505,10 @@ class PrecreditoController extends Controller
 
     public function updateV2(Request $request) 
     {  
+
+        \Log::error($request->all());
+        \Log::info('updateV2');
+
         $validator = $this->validateSolicitudUpdateTr($request->solicitud);
 
         if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');

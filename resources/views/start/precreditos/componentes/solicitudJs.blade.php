@@ -35,22 +35,29 @@
             },
             async onSubmit() {
 
-                if (! await this.validation()) return false;
-                
-                await this.assignData();
+                try {
 
-                var status = await this.$store.state.data.status;
+                    if (! await this.validation()) return false;
+                    
+                    await this.assignData();
 
-                console.log({status});
+                    var status = await this.$store.state.data.status;
 
-                if (status == 'create') 
-                    await this.$store.dispatch('createSolicitud');
+                    if (status == 'create') 
+                        await this.$store.dispatch('createSolicitud');
 
-                else if (status == 'edit')
-                    await this.$store.dispatch('updateSolicitud');
+                    else if (status == 'edit')
+                        await this.$store.dispatch('updateSolicitud');
 
-                else if (status == 'edit cred')
-                    await this.$store.dispatch('updateCredito');
+                    else if (status == 'edit cred')
+                        await this.$store.dispatch('updateCredito');
+
+                } catch (e) {
+
+                    console.log({e})
+                    alertify.alert('Error inesperado','Ocurrió un error interno', 'error')
+                }
+
             }, 
             async assignData() {
                 console.log('Assign data');

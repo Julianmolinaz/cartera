@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\MyService\PagosSolicitudService;
 use App\PagoMasivo; 
 use Carbon\Carbon;
 use Validator;
@@ -99,6 +100,8 @@ class PagoMasivoController extends Controller
 
     public function ruleCliente($pay) 
     {
+        // dd($pay->documento);
+
         $cliente = DB::table('clientes')
             ->where('num_doc', $pay->documento)
             ->first();
@@ -121,13 +124,8 @@ class PagoMasivoController extends Controller
     public function ruleObligacion($pay)
     {
         if ($pay['cliente_id']) {
-            $credito = DB::table('creditos')
-                ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-                ->join('clientes','precreditos.cliente_id','=','clientes.id')
-                ->select('creditos.id')
-                ->whereNotIn('creditos.estado',['Cancelados','Cancelado por refinanciacion'])
-                ->where('clientes.id',$pay['cliente_id'])
-                ->first();
+
+            $credito = $this->getCreditosActivo($pay['cliente_id']);
 
             if (isset($credito->id)) {
 
@@ -135,6 +133,58 @@ class PagoMasivoController extends Controller
 
             } else {
                 
+                $solicitud = $this->lastSolicitud($pay['cliente_id']);
+
+                if ($solicitud) {
+
+                    $conceptos_pagados = $this->getPagosSolicitud($solicitud->id);
+
+                    $conceptos = collect(DB::table('fact_precred_conceptos')->get());
+
+                    if (empty($conceptos_pagados)) {
+
+                        $conceptos = $conceptos->filter(function ($concepto, $key) use($conceptos_pagados){
+                            foreach($conceptos_pagados as $concepto_pago) {
+                                return $concepto->nombre != $concepto_pago;
+                            }
+                        });
+                    }
+
+                    $concepto_filtrado = $conceptos->where('valor',$pay->monto);
+
+                    if (count($concepto_filtrado)) {
+
+                        $concepto_filtrado = $concepto_filtrado->all()[0];
+
+                        // hacer pago por el concepto
+                        $pago_solicitud = new PagosSolicitudService();
+
+                        $recibo = [ 
+                            'fecha' => $pay->fecha,
+                            'tipo' => 'Consignación',
+                            'ref' => $pay->referencia,
+                            'precredito_id' => $solicitud->id,
+                            'total' => $pay->monto  
+                        ];
+
+                        $pagos = [
+                            [
+                                'concepto_id' => $concepto_filtrado->id,
+                                'precredito_id' => $solicitud->id,
+                                'subtotal' => $pay->monto
+                            ]
+                        ];
+
+                        $pago_solicitud->make($recibo, $pagos);
+
+                    } else {
+                        // pago no fue realizado
+                    }
+                    
+                } else {
+                    // pago no fue realizado
+                }
+
                 $this->data[$this->index]['credito_id'] = null;
             }
 
@@ -146,6 +196,38 @@ class PagoMasivoController extends Controller
             }
         } 
     }
+
+    public function getPagosSolicitud($solicitud_id)
+    {
+        return collect(DB::table('precred_pagos')
+            ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
+            ->select('fact_precred_conceptos.nombre')
+            ->where('precredito_id',$solicitud_id)
+            ->get())->pluck('nombre');
+    }
+
+
+    public function getCreditosActivo($cliente_id) 
+    {
+        return DB::table('creditos')
+            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+            ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->select('creditos.id')
+            ->whereNotIn('creditos.estado',['Cancelados','Cancelado por refinanciacion'])
+            ->where('clientes.id',$cliente_id)
+            ->first();
+    }
+
+    public function lastSolicitud($cliente_id)
+    {
+        return DB::table('precreditos')
+            ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->select('precreditos.*')
+            ->where('clientes.id',$cliente_id)
+            ->orderBy('precreditos.id','DESC')
+            ->first();
+    }
+
 
     /**
      * VALIDACION DE ACUERDOS DE PAGO
@@ -182,7 +264,7 @@ class PagoMasivoController extends Controller
     public function validate_heading() 
     {
         $keys = $this->data[0]->keys();
-        dd($keys);
+
         if ($keys->all()[0] != 'fecha' ) {
             $this->arr_error[] =  [
                 'line'      => 1,

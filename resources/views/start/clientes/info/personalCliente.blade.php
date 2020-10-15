@@ -21,13 +21,13 @@
                 <dd>{{ $cliente->lugar_exp}}</dd>
 
                 <dt>Fecha de exp. doc:</dt>
-                <dd>{{  \Carbon\Carbon::parse($cliente->fecha_exp)->format('d-m-Y') }}</dd>
+                <dd>{{   $cliente->fecha_exp }}</dd>
 
                 <dt>Estado civil:</dt>
                 <dd>{{ $cliente->estado_civil }}</dd>
 
                 <dt>Fecha de nacimiento</dt>
-                <dd>{{ \Carbon\Carbon::parse($cliente->fecha_nacimiento)->format('d-m-Y') }}</dd>
+                <dd>{{  $cliente->fecha_nacimiento }}</dd>
 
                 <dt>Lugar de nacimiento:</dt>
                 <dd>{{ $cliente->lugar_nacimiento }}</dd>

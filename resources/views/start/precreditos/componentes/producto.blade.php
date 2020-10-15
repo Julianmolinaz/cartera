@@ -36,7 +36,11 @@
                             
                             <div class="form-group col-md-12">
                                 <h4 style="display:inline-block; margin-right:10px;">@{{ index + 1 +'-'+element.nombre }}
-                                    <span style="margin-left: 10px;color:gray"> Total: $@{{ parseInt(element.costo) + parseInt(element.iva) + parseInt(element.otros) | formatPrice}}</span>
+                                    <span style="margin-left: 10px;color:gray"> Total: $@{{ 
+                                        parseInt(element.costo) ? parseInt(element.costo) : 0 + 
+                                        parseInt(element.iva) ? parseInt(element.iva) : 0   + 
+                                        parseInt(element.otros) ? parseInt(element.otros) : 0 
+                                        | formatPrice}}</span>
                                 </h4>
                                 <div class="checkbox" style="display:inline-block" v-if="index > 0">
                                     <label>

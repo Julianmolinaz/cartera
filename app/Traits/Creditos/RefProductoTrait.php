@@ -10,6 +10,9 @@ trait RefProductoTrait
 {
     public function saveRefProductoFromProductoTr($producto, $vehiculo, $solicitud)
     {
+
+        \Log::info('saveRefProductoFromProductoTr');
+
         try {
 
             $ref_producto = new _\RefProducto();

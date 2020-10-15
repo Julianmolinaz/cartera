@@ -166,7 +166,7 @@ class FacturaController extends Controller
 //      dd($credito);
 
       return view('start.facturas.create')
-   	->with('pago_prejuridico',$pago_prejuridico)
+   	    ->with('pago_prejuridico',$pago_prejuridico)
      	->with('total_parciales',$total_parciales)
       	->with('pago_juridico',$pago_juridico)
      	->with('sum_sanciones',$sum_sanciones)
@@ -578,6 +578,8 @@ class FacturaController extends Controller
           $credito->estado = 'Cancelado';
           $credito->save();
         }
+
+        log(Auth::user()->id,'crear',"Pago # {$factura->num_fact}, realizado por valor de {$factura->total}, saldo deuda {$factura->credito->saldo}",1,'App\\Factura',$factura->id);
 
         DB::commit();
 
