@@ -18,7 +18,6 @@ class PagosSolicitudService
 
     public function make($recibo, $pagos)
     {
-        DB::beginTransaction();
 
         try {
 
@@ -29,10 +28,8 @@ class PagosSolicitudService
 
             $this->set_pagos($pagos);
 
-            DB::commit();
 
         } catch (\Exception $e) {
-            DB::rollback();
             throw new Exception($e, 1);
             
         }
