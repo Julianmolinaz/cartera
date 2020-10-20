@@ -101,6 +101,24 @@ class BancosTableSeeder extends Seeder
                 'nombre' => 'Apostar',
                 'estado' => 'Activo',
             ),
+            14 => 
+            array (
+                'id' => 15,
+                'nombre' => 'Gana Gana',
+                'estado' => 'Activo',
+            ),
+            15 => 
+            array (
+                'id' => 16,
+                'nombre' => 'Su Suerte',
+                'estado' => 'Activo',
+            ),
+            16 => 
+            array (
+                'id' => 17,
+                'nombre' => 'Asistimotos',
+                'estado' => 'Activo',
+            ),
         ));
         
         
