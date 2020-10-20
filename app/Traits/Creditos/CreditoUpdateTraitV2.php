@@ -9,55 +9,80 @@ trait CreditoUpdateTraitV2
 
     public function saveRefProductosTrV2($request, $old_producto_id)
     {
-        $solicitud = _\Precredito::find($request->solicitud['id']);
 
-        if ($request->producto['min_vehiculos'] > 0 ) {
+        \Log::error( $request->producto['id'] );
+        \Log::error( $old_producto_id );
 
-            if ($request->producto['id'] == $old_producto_id) {
+        try {
 
-                foreach ($request->ref_productos as $producto) {
+            $solicitud = _\Precredito::find($request->solicitud['id']);
     
-                    // Salvar vehiculo
-                    $this->editVehiculoFromProductoTr($producto); // Creditos/VehiculoTrait
+            if ($request->producto['min_vehiculos'] > 0 ) {
     
-                    // Salvar ref producto
-                    $this->editRefProductoFromProductoTr($producto); // Creditos/RefProductoTrait
+                if ($request->producto['id'] == $old_producto_id) {
+
+                    \Log::info('Son iguales los dos productos');
     
-                }//.foreach
-
-            } else  {
-
-                $collection_productos = collect(\DB::table('ref_productos')
-                    ->where('precredito_id',$request->solicitud['id'])
-                    ->get());
-
-                $ids_productos = $collection_productos->pluck('id');
-
-                $collection_vehiculos = collect(\DB::table('vehiculos')
-                    ->select('vehiculos.id')
-                    ->join('ref_productos','vehiculos.id','=','ref_productos.vehiculo_id')
-                    ->whereIn('ref_productos.id', $ids_productos->all())
-                    ->get());
-
-                $ids_vehiculos = $collection_vehiculos->pluck('id');
-
-                \DB::table('ref_productos')->whereIn('id', $ids_productos)->delete();
-                \DB::table('vehiculos')->whereIn('id', $ids_vehiculos)->delete();
-
-
-                foreach ($request->ref_productos as $producto) {
-   
-                    // Salvar vehiculo
-                    $vehiculo = $this->saveVehiculoFromProductoTr($producto); // Creditos/VehiculoTrait
+                    foreach ($request->ref_productos as $producto) {
+        
+                        // Salvar vehiculo
+                        $this->editVehiculoFromProductoTr($producto); // Creditos/VehiculoTrait
+        
+                        // Salvar ref producto
+                        $this->editRefProductoFromProductoTr($producto); // Creditos/RefProductoTrait
+        
+                    }//.foreach
     
-                    // Salvar ref producto
-                    $this->saveRefProductoFromProductoTr($producto, $vehiculo, $solicitud); // Creditos/RefProductoTrait
+                } else  {
     
-                }//.foreach
+                    \Log::info('ids diferentes');
+                    \Log::error($request->ref_productos);
+    
+                    $collection_productos = collect(\DB::table('ref_productos')
+                        ->where('precredito_id',$request->solicitud['id'])
+                        ->get());
+    
+                    $ids_productos = $collection_productos->pluck('id');
 
-            }
+                    \Log::info($ids_productos);
+    
+                    $collection_vehiculos = collect(\DB::table('vehiculos')
+                        ->select('vehiculos.id')
+                        ->join('ref_productos','vehiculos.id','=','ref_productos.vehiculo_id')
+                        ->whereIn('ref_productos.id', $ids_productos->all())
+                        ->get());
+    
+                    $ids_vehiculos = $collection_vehiculos->pluck('id');
+    
+                    \DB::table('ref_productos')->whereIn('id', $ids_productos)->delete();
+                    \DB::table('vehiculos')->whereIn('id', $ids_vehiculos)->delete();
+    
+                    $count = 0;
 
-        }  
+                    \Log::info($request->ref_productos);
+
+                    foreach ($request->ref_productos as $producto) {
+
+                        $count++;
+                        \Log::info($count);
+       
+                        // Salvar vehiculo
+                        $vehiculo = $this->saveVehiculoFromProductoTr($producto); // Creditos/VehiculoTrait
+        
+                        // Salvar ref producto
+                        $this->saveRefProductoFromProductoTr($producto, $vehiculo, $solicitud); // Creditos/RefProductoTrait
+        
+                    }//.foreach
+    
+                }
+    
+            }  
+        } catch (\Exception $e) {
+
+            \Log::error($e);
+            return $e;
+        }
+
     }
 
     public function validateMakeTrV2($request)

@@ -69,7 +69,7 @@
 
                 alertify.set('notifier','position', 'top-right');
 
-                console.log(res);
+                console.log({res});
                 
                 if (res.data.success) {
                     alertify.notify(res.data.message, 'success', 2, () => {
@@ -107,7 +107,7 @@
                 
                 if (res.data.success) {
                     alertify.notify(res.data.message, 'success', 2, () => {
-                        window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.id+'/ver';
+                        // window.location.href = "{{url('/start/precreditos')}}/"+res.data.dat.id+'/ver';
                     });
                 } else {
                     if (res.data.dat == 'validation') {

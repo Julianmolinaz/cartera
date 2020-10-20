@@ -20,10 +20,12 @@
                 <th>    Cartera         </th>
                 <th>    # Crédito       </th>
                 <th>    # Solicitud     </th>
-                <th>    # Factura       </th>
-                <th>    Centro de Costo </th>
+                <th><span style="font-size:0.7em;"> Consecutivo Formulario </span></th>
+                <th>    Producto        </th>
+                <th>    Placa           </th>
+                <!-- <th>    Centro de Costo </th>
                 <th>    Vlr Cuota       </th>
-                <th>    Cuotas          </th>
+                <th>    Cuotas          </th> -->
                 <th>    Aprobado?       </th>
                 <th>    Estado          </th> 
                 <th>    Acción          </th>
@@ -40,11 +42,22 @@
                 @else
                   <td style="font-weight: bold;font-size: 150%;">{{$precredito->credito->id}}</td>
                 @endif
+                
                 <td> {{$precredito->id}}   </td>
                 <td> {{$precredito->num_fact}}   </td>
-                <td align="right"> {{ number_format($precredito->vlr_fin,0,",",".")}}   </td>
+                <td> {{ $precredito->producto->nombre }}</td>
+                @if($precredito->version == 2)
+                    <td>  
+                        @foreach($precredito->ref_productos as $ref)
+                            [{{ $ref->vehiculo->placa }} <span style="font-size:0.6em;">{{$ref->nombre}}</span>]
+                        @endforeach
+                    </td>
+                @else 
+                    <td></td>
+                @endif
+                <!-- <td align="right"> {{ number_format($precredito->vlr_fin,0,",",".")}}   </td>
                 <td align="right"> {{ number_format($precredito->vlr_cuota,0,",",".")}}   </td>
-                <td> {{$precredito->cuotas}}   </td>
+                <td> {{$precredito->cuotas}}   </td> -->
                 <td> @if($precredito->aprobado == "Si")
                         <span class = "label label-danger">{{ $precredito->aprobado  }}</span>
                      @else 

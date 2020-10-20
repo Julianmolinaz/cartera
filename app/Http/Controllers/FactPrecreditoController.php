@@ -88,6 +88,7 @@ class FactPrecreditoController extends Controller
             $this->fact->user_create_id   = Auth::user()->id;
             $this->fact->save();
 
+            log(Auth::user()->id,'crear',"Pago # {$this->fact->num_fact} a solicitud, por valor de {$this->fact->total}",1,'App\\Facprecredito',$this->fact->id);
 
             //creacion de pagos ***************
             $this->set_pagos($request->factura);
@@ -174,8 +175,8 @@ class FactPrecreditoController extends Controller
      */
     public function auto()
     {
-        $punto              = Punto::find(Auth::user()->punto_id); 
-        $punto->increment   = $punto->increment + 1;   
+        $punto                 = Punto::find(Auth::user()->punto_id); 
+        $punto->increment      = $punto->increment + 1;   
         $this->fact->num_fact  = $punto->prefijo.$punto->increment;
         $this->fact->fecha     = $this->now;
         $punto->save();

@@ -11,12 +11,13 @@ class RefProducto extends Model
     protected $fillable = [
 
         'nombre',
+        'expedido_a',
         'estado',
         'fecha_exp',
         'costo',
         'iva',
         'num_fact',
-        'extra',
+        'otros',
         'observaciones',
   
         // Referenciass
@@ -38,7 +39,7 @@ class RefProducto extends Model
     }
 
     public function proveedor() {
-        return $this->hasOne('App\Tercero','id','tercero_id');
+        return $this->hasOne('App\Tercero','id','proveedor_id');
     }
 
     public function producto() {

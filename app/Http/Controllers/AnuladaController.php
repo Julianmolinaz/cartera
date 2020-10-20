@@ -105,8 +105,6 @@ class AnuladaController extends Controller
 
                 if ($pago->concepto == 'Cuota Parcial'){
 
-
-
                     $credito->saldo = $credito->saldo + $pago->abono;
                     if($pago->estado ==  'Ok'){ 
 
@@ -237,6 +235,8 @@ class AnuladaController extends Controller
             $anulada->pagos = $anulada->pagos.' ** Factura creada: '.$factura->created_at.' por '.$factura->user_create->name.' **';
             $anulada->save();
             $factura->delete();
+
+            log(Auth::user()->id,'eliminar',"Se anula recibo {$anulada->num_fact}",0,'App\\Anulada',$anulada->id);
 
             //busca la ultima factura vigente
 

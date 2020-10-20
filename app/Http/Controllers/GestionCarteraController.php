@@ -34,10 +34,6 @@ class GestionCarteraController extends Controller
 
     public function index()
     {
-        //MIDDLEWARE
-        if ( Filter::in(['Administrador']) ){
-            return Filter::out();
-        } 
         return view('admin.gestion_cartera.index');
     }
 
@@ -52,12 +48,7 @@ class GestionCarteraController extends Controller
     }
 
     public function getCartera($carteraId)
-    {  
-        //MIDDLEWARE
-        if ( Filter::in(['Administrador']) ){
-            return Filter::outJson();
-        }  
-          
+    {            
         try {     
             $cartera = Cartera::find($carteraId);
 
@@ -68,11 +59,10 @@ class GestionCarteraController extends Controller
             $this->analizarCartera($carteraId);
 
             $res = ['error' => false, 'dat' => $this->report];
-        }
-        catch (\Exception $e) {
+
+        } catch (\Exception $e) {
             $res = ['error' => true, 'message' => $e->getMessage()];
-        }
-        finally {
+        } finally {
             return response()->json($res);
         }
     }
@@ -85,10 +75,10 @@ class GestionCarteraController extends Controller
             ->where('precreditos.cartera_id',$carteraId)
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
             ->select('creditos.*',
-                        'precreditos.*',
-                        'creditos.id as credito_id',
-                        'precreditos.id as precredito_id',
-                        'users.punto_id as punto_id')
+                    'precreditos.*',
+                    'creditos.id as credito_id',
+                    'precreditos.id as precredito_id',
+                    'users.punto_id as punto_id')
             ->get();
 
         foreach($creditos as $credito){
@@ -109,24 +99,22 @@ class GestionCarteraController extends Controller
 
     public function getPuntos()
     {
-        //MIDDLEWARE
-        if ( Filter::in(['Administrador']) ){
-            return Filter::out();
-        }  
         $this->setPuntosStructTr();
 
         $creditos = DB::table('creditos')
             ->join('precreditos','creditos.precredito_id','=','precreditos.id')
             ->join('users','precreditos.user_create_id','=','users.id')
+            ->whereNotIn('users.punto_id',['36'])
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
+	    ->whereNotIn('users.punto_id',['48'])
             ->select('creditos.*',
-                        'precreditos.*',
-                        'creditos.id as credito_id',
-                        'precreditos.id as precredito_id',
-                        'users.punto_id as punto_id')
+                    'precreditos.*',
+                    'creditos.id as credito_id',
+                    'precreditos.id as precredito_id',
+                    'users.punto_id as punto_id')
             ->get();
 
-        foreach($creditos as $credito){
+        foreach ($creditos as $credito) {
             $this->agregarSaldoTr($credito);
         }
 

@@ -65,120 +65,116 @@ class FacturaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create($id, $origin = null)
     {
-      $hoy      = Carbon::today();
-      $credito  = Credito::find($id);
-      $updated_at = new Carbon($credito->updated_at);
-      $punto    = Punto::find(Auth::user()->punto_id);
-      $bancos   = getEnumValues('facturas', 'banco');
+        $hoy      = Carbon::today();
+        $credito  = Credito::find($id);
+        $updated_at = new Carbon($credito->updated_at);
+        $punto    = Punto::find(Auth::user()->punto_id);
+        $bancos   = getEnumValues('facturas', 'banco');
 
-      $sum_sanciones = DB::table('sanciones')
+        $sum_sanciones = DB::table('sanciones')
                           ->where([['credito_id','=',$id],['estado','Debe']])
                           ->sum('valor');
-      if($sum_sanciones == 'null'){ $sum_sanciones = 0; }
 
-      $ultimo_pago = DB::table('pagos')
+        if($sum_sanciones == 'null'){ $sum_sanciones = 0; }
+
+        $ultimo_pago = DB::table('pagos')
                           ->where([['credito_id','=',$credito->id],['concepto','=','Cuota']])
                           ->orWhere([['credito_id','=',$credito->id],['concepto','=','Cuota Parcial']])
                           ->orderBy('pago_hasta','desc')
                           ->first();
 
 
-      $cuota_parcial = DB::table('pagos') 
+        $cuota_parcial = DB::table('pagos') 
                           ->where([['credito_id','=',$id],
                             ['concepto','=','Cuota Parcial']])
                           ->orderBy('pago_hasta','desc')
                           ->get();
 
-      /******************** JURIDICO **************************/      
-      /* se valida la existencia de sanciones Juridicas en la tabla extras, si existen se valida que haya abonos en 
-      la tabla pagos en los casos de que no existan se generan los respectivos valores */
+        /******************** JURIDICO **************************/      
+        /* se valida la existencia de sanciones Juridicas en la tabla extras, si existen se valida que haya abonos en 
+        la tabla pagos en los casos de que no existan se generan los respectivos valores */
 
 
-      $juridico = 
-        Extra::where('credito_id',$id)
-          ->where('concepto','Juridico')
-          ->where('estado','Debe')->get();   
+        $juridico = 
+            Extra::where('credito_id',$id)
+            ->where('concepto','Juridico')
+            ->where('estado','Debe')->get();   
 
-      if(count($juridico) > 0){
+        if(count($juridico) > 0){
 
-        $pago_juridico = DB::table('pagos')
+            $pago_juridico = DB::table('pagos')
                           ->where([['credito_id','=',$id],
                                    ['concepto','=','Juridico'],
                                    ['estado','=','Debe']])
                           ->get();
 
-        if(count($pago_juridico) > 0){                    
-          $pago_juridico = array(
-                  'juridico' => $pago_juridico[0]->debe, 
-                  'valor'    => $juridico[0]->valor);               
+            if(count($pago_juridico) > 0){                    
+            $pago_juridico = array(
+                    'juridico' => $pago_juridico[0]->debe, 
+                    'valor'    => $juridico[0]->valor);               
+            }
+            else{
+            $pago_juridico = array('juridico' => null, 'valor' => $juridico[0]->valor);
+            }                        
         }
         else{
-          $pago_juridico = array('juridico' => null, 'valor' => $juridico[0]->valor);
-        }                        
-      }
-      else{
-        $pago_juridico = array('juridico' => 0, 'valor' => null);
-      }
+            $pago_juridico = array('juridico' => 0, 'valor' => null);
+        }
 
-      /******************** END JURIDICO **************************/  
+        /******************** END JURIDICO **************************/  
 
-      /******************** PREJURIDICO  **************************/      
-      /* se valida la existencia de sanciones Prejuridicas en la tabla extras, si existen se valida que haya abonos en 
-      la tabla pagos en los casos de que no existan se generan los respectivos valores */
+        /******************** PREJURIDICO  **************************/      
+        /* se valida la existencia de sanciones Prejuridicas en la tabla extras, si existen se valida que haya abonos en 
+        la tabla pagos en los casos de que no existan se generan los respectivos valores */
 
 
-      $prejuridico = 
-        Extra::where('credito_id',$id)
-          ->where('concepto','Prejuridico')
-          ->where('estado','Debe')->get();   
+        $prejuridico = Extra::where('credito_id',$id)->where('concepto','Prejuridico')->where('estado','Debe')->get();   
 
-      if(count($prejuridico) > 0){
+        if(count($prejuridico) > 0){
 
-        $pago_prejuridico = DB::table('pagos')
-          ->where([['credito_id','=',$id],['concepto','=','Prejuridico'],['estado','=','Debe']])
-          ->get();
+            $pago_prejuridico = DB::table('pagos')->where([['credito_id','=',$id],['concepto','=','Prejuridico'],['estado','=','Debe']])->get();
         
-        if(count($pago_prejuridico) > 0){                    
-          $pago_prejuridico = array('prejuridico' => $pago_prejuridico[0]->debe, 'valor' => $prejuridico[0]->valor);               
+            if(count($pago_prejuridico) > 0){                    
+            $pago_prejuridico = array('prejuridico' => $pago_prejuridico[0]->debe, 'valor' => $prejuridico[0]->valor);               
+            }
+            else{
+            $pago_prejuridico = array('prejuridico' => null, 'valor' => $prejuridico[0]->valor);
+            }                        
         }
         else{
-          $pago_prejuridico = array('prejuridico' => null, 'valor' => $prejuridico[0]->valor);
-        }                        
-      }
-      else{
-        $pago_prejuridico = array('prejuridico' => 0, 'valor' => null);
-      }
+            $pago_prejuridico = array('prejuridico' => 0, 'valor' => null);
+        }
 
-      /******************** END PREJURIDICO **************************/  
+        /******************** END PREJURIDICO **************************/  
 
-      /******************** PAGOS PARCIALES **************************/  
-      $total_parciales = DB::table('pagos')->where([['credito_id','=',$id],[
-        'concepto','=','Cuota Parcial'],['estado','=','Debe']])->sum('Debe');
-      /******************** PAGOS PARCIALES **************************/  
+        /******************** PAGOS PARCIALES **************************/  
+        $total_parciales = DB::table('pagos')->where([['credito_id','=',$id],[
+            'concepto','=','Cuota Parcial'],['estado','=','Debe']])->sum('Debe');
+        /******************** PAGOS PARCIALES **************************/  
 
-      $pagos = Pago::where('credito_id',$id)->orderBy('id','desc')->get();
-      $variables = Variable::all();
-      $tipo_pago  = getEnumValues('facturas','tipo');
-      $total_pagos = sum_pagos($credito);
+        $pagos = Pago::where('credito_id',$id)->orderBy('id','desc')->get();
+        $variables = Variable::all();
+        $tipo_pago  = getEnumValues('facturas','tipo');
+        $total_pagos = sum_pagos($credito);
 
-//      dd($credito);
+        //      dd($credito);
 
-      return view('start.facturas.create')
-   	->with('pago_prejuridico',$pago_prejuridico)
-     	->with('total_parciales',$total_parciales)
-      	->with('pago_juridico',$pago_juridico)
-     	->with('sum_sanciones',$sum_sanciones)
-      	->with('ultimo_pago',$ultimo_pago)
-      	->with('total_pagos',$total_pagos)
-      	->with('variables',$variables[0])
-      	->with('tipo_pago',$tipo_pago)
-      	->with('user',Auth::user())
-      	->with('credito',$credito)
-      	->with('bancos',$bancos)
-      	->with('punto',$punto)
-      	->with('pagos',$pagos);
+        return view('start.facturas.create')
+            ->with('pago_prejuridico',$pago_prejuridico)
+            ->with('total_parciales',$total_parciales)
+            ->with('pago_juridico',$pago_juridico)
+            ->with('sum_sanciones',$sum_sanciones)
+            ->with('ultimo_pago',$ultimo_pago)
+            ->with('total_pagos',$total_pagos)
+            ->with('variables',$variables[0])
+            ->with('tipo_pago',$tipo_pago)
+            ->with('user',Auth::user())
+            ->with('credito',$credito)
+            ->with('bancos',$bancos)
+            ->with('punto',$punto)
+            ->with('pagos',$pagos);
      }
 
 
@@ -207,313 +203,314 @@ class FacturaController extends Controller
 
     public function store(Request $request)
     {
-      DB::beginTransaction();
+        DB::beginTransaction();
 
-      try {
+        try {
 
-        $id         = $request->credito_id;
-        $pagos      = $request->pagos; // pagos a registrar
-        $now        = Carbon::today(); // fecha actual
-        $bandera    = 0;
+            $id         = $request->credito_id;
+            $pagos      = $request->pagos; // pagos a registrar
+            $now        = Carbon::today(); // fecha actual
+            $bandera    = 0;
 
-        if( $request->auto ){ // validacion de consecutivo automático
+            if( $request->auto ){ // validacion de consecutivo automático
 
-         if(!$request->fecha){
-              $date_time = Carbon::now(); //SE GENERA LA FECHA ACTUAL
-          } else {
-              $date_time = new Carbon($request->fecha);
-          } //SE GENERA EL CONSECUTIVO
+                if(!$request->fecha) $date_time = Carbon::now(); //SE GENERA LA FECHA ACTUAL
+                else $date_time = new Carbon($request->fecha);
 
-          $punto        = Punto::find(Auth::user()->punto_id); 
-          $prefijo      = $punto->prefijo;
-          $consecutivo  = $punto->increment + 1;
-          $punto->increment = $consecutivo; 
-          $punto->save();
+                $punto        = Punto::find(Auth::user()->punto_id); 
+                $prefijo      = $punto->prefijo;
+                $consecutivo  = $punto->increment + 1;
+                $punto->increment = $consecutivo; 
+                $punto->save();
 
-          $num_fact = $prefijo .''. $consecutivo;
-        } 
-        else { 
-          $date_time = new Carbon($request->fecha);
-        
-          if( !$date_time->equalTo($now) && (Auth::user()->rol != 'Administrador')){
-            return response()->json(['error' => true, 'mensaje' => '@=) Error en la fecha, debe ser la fecha actual @=(']);
-          }
-          $num_fact  = $request->num_fact;
-        }
+                $num_fact = $prefijo .''. $consecutivo;
 
-        //Creacion de factura
-        $factura = new Factura();
-        $factura->num_fact        = $num_fact;
-        $factura->fecha           = $date_time->format('d-m-Y');
-        $factura->credito_id      = $request->credito_id;
-        $factura->total           = $request->monto;
-        $factura->tipo            = $request->tipo_pago;
+            } else { 
 
-        if($request->tipo_pago == 'Consignacion') {
-            $factura->banco = $request->banco;
-        }
-        $factura->user_create_id  = Auth::user()->id;
-        $factura->user_update_id  = Auth::user()->id;
-        $factura->save();
+                $date_time = new Carbon($request->fecha);
                 
-        foreach ($pagos as $pay) { 
-          $credito = Credito::find($id);
+                if ( !$date_time->equalTo($now) && (Auth::user()->rol != 'Administrador') ) {
+                    return response()->json(['error' => true, 'mensaje' => '@=) Error en la fecha, debe ser la fecha actual @=(']);
+                }
 
-        /******************** JURIDICO *****************/  
+                $num_fact  = $request->num_fact;
+            }
 
-          if($pay['concepto'] == "Juridico"){
+            //Creacion de factura
+            $factura = new Factura();
+            $factura->num_fact        = $num_fact;
+            $factura->fecha           = $date_time->format('d-m-Y');
+            $factura->credito_id      = $request->credito_id;
+            $factura->total           = $request->monto;
+            $factura->tipo            = $request->tipo_pago;
+            $factura->num_consignacion= (isset($request->num_consignacion)) ? $request->num_consignacion : null;
 
-            // Consulta el cobro jurìdico que este en Debe
+            if($request->tipo_pago == 'Consignacion' || $request->tipo_pago == 'Consignación') {
+                $factura->banco = $request->banco;
+            }
 
-            $juridico = Extra::where('credito_id',$credito->id)
-                          ->where('concepto','Juridico')  
-                          ->where('estado','Debe')
-                          ->get();
+            $factura->user_create_id  = Auth::user()->id;
+            $factura->user_update_id  = Auth::user()->id;
+            $factura->save();
+                    
+            foreach ($pagos as $pay) { 
 
-            // Consulta si existen pagos de ese cobro jurídico              
+                $credito = Credito::find($id);
 
-            $pago_juridico = Pago::where('credito_id',$credito->id)
-                                ->where('concepto','Juridico')
+                /******************** JURIDICO *****************/  
+
+                if($pay['concepto'] == "Juridico"){
+
+                    // Consulta el cobro jurìdico que este en Debe
+
+                    $juridico = Extra::where('credito_id',$credito->id)
+                                ->where('concepto','Juridico')  
                                 ->where('estado','Debe')
-                                ->get(); 
+                                ->get();
 
-            $pago = new Pago();
-            $pago->factura_id = $factura->id;
-            $pago->credito_id = $credito->id;
-            $pago->concepto   = 'Juridico';  
-            $pago->abono      = $pay['subtotal'];  
+                    // Consulta si existen pagos de ese cobro jurídico              
 
-            if(count($pago_juridico) > 0){
-              $pago->debe             = $pago_juridico[0]->debe - $pay['subtotal'];
-              $pago->abono_pago_id    = 'p'.$pago_juridico[0]->id.'.m'.$juridico[0]->id; 
-              $pago_juridico          = Pago::find($pago_juridico[0]->id);
-              $pago_juridico->estado  = 'Ok'; 
-              $pago_juridico->save();
-            }
-            else{
-              $pago->debe             = $juridico[0]->valor - $pay['subtotal'];  
+                    $pago_juridico = Pago::where('credito_id',$credito->id)
+                                        ->where('concepto','Juridico')
+                                        ->where('estado','Debe')
+                                        ->get(); 
 
-            // utilizo pago abono_id de la tabla pagos para referenciar a la multa que se le esta abonando (ver tabla extras) 
-              $pago->abono_pago_id    = 'p(--)'.'.m'.$juridico[0]->id; 
-            } 
+                    $pago = new Pago();
+                    $pago->factura_id = $factura->id;
+                    $pago->credito_id = $credito->id;
+                    $pago->concepto   = 'Juridico';  
+                    $pago->abono      = $pay['subtotal'];  
 
-            if($pago->debe == 0){ 
-              $pago->estado     = 'Ok'; 
-              $juridico         = Extra::find($juridico[0]->id);
-              $juridico->estado = 'Ok';
-              $juridico->save();
-            } 
-            else { 
-              $pago->estado   = 'Debe'; 
-            }
-            $pago->pago_desde = null;
-            $pago->pago_hasta = null;
-            $pago->save();  
-            
-            $credito->saldo = $credito->saldo - $pago->abono;
-            $credito->save();
-            $bandera = 1;                                              
+                    if(count($pago_juridico) > 0){
+                        $pago->debe             = $pago_juridico[0]->debe - $pay['subtotal'];
+                        $pago->abono_pago_id    = 'p'.$pago_juridico[0]->id.'.m'.$juridico[0]->id; 
+                        $pago_juridico          = Pago::find($pago_juridico[0]->id);
+                        $pago_juridico->estado  = 'Ok'; 
+                        $pago_juridico->save();
+                    }
+                    else{
+                        $pago->debe             = $juridico[0]->valor - $pay['subtotal'];  
 
-          }
+                        // utilizo pago abono_id de la tabla pagos para referenciar a la multa que se le esta abonando (ver tabla extras) 
+                        $pago->abono_pago_id    = 'p(--)'.'.m'.$juridico[0]->id; 
+                    } 
 
-        /******************** PREJURIDICO *****************/ 
+                    if($pago->debe == 0){ 
+                        $pago->estado     = 'Ok'; 
+                        $juridico         = Extra::find($juridico[0]->id);
+                        $juridico->estado = 'Ok';
+                        $juridico->save();
+                    } 
+                    else { 
+                        $pago->estado   = 'Debe'; 
+                    }
+                    $pago->pago_desde = null;
+                    $pago->pago_hasta = null;
+                    $pago->save();  
+                    
+                    $credito->saldo = $credito->saldo - $pago->abono;
+                    $credito->save();
+                    $bandera = 1;                                              
 
-        if($pay['concepto'] == "Prejuridico"){
+                }
 
-          $prejuridico = Extra::where('credito_id',$credito->id)
-                        ->where('concepto','Prejuridico')  
-                        ->where('estado','Debe')
-                        ->get();
+                /******************** PREJURIDICO *****************/ 
 
-          $pago_prejuridico = Pago::where('credito_id',$credito->id)
-                              ->where('concepto','Prejuridico')
-                              ->where('estado','Debe')
-                              ->get(); 
+                if($pay['concepto'] == "Prejuridico"){
 
-          $pago = new Pago();
+                    $prejuridico = Extra::where('credito_id',$credito->id)
+                                    ->where('concepto','Prejuridico')  
+                                    ->where('estado','Debe')
+                                    ->get();
 
-          $pago->factura_id = $factura->id;
-          $pago->credito_id = $credito->id;
-          $pago->concepto   = 'Prejuridico';  
-          $pago->abono      = $pay['subtotal'];   
+                    $pago_prejuridico = Pago::where('credito_id',$credito->id)
+                                        ->where('concepto','Prejuridico')
+                                        ->where('estado','Debe')
+                                        ->get(); 
 
-          if(count($pago_prejuridico) > 0){
+                    $pago = new Pago();
 
-            $pago->debe          = $pago_prejuridico[0]->debe - $pay['subtotal'];
-            $pago->abono_pago_id = 'p'.$pago_prejuridico[0]->id.'.m'.$prejuridico[0]->id; 
-            $pago_prejuridico    = Pago::find($pago_prejuridico[0]->id);
-            $pago_prejuridico->estado = 'Ok'; 
-            $pago_prejuridico->save();   
-          }
-          else{
-            $pago->debe       = $prejuridico[0]->valor - $pay['subtotal'];        
-            
-            // utilizo pago abono_id de la tabla pagos para referenciar a la multa que se le esta abonando (ver tabla extras) 
-            $pago->abono_pago_id = 'p(--)'.'.m'.$prejuridico[0]->id;     
-            //$pago->abono_pago_id = null;            
-          } 
+                    $pago->factura_id = $factura->id;
+                    $pago->credito_id = $credito->id;
+                    $pago->concepto   = 'Prejuridico';  
+                    $pago->abono      = $pay['subtotal'];   
 
-          if($pago->debe == 0){ 
-            $pago->estado= 'Ok'; 
-            $prejuridico = Extra::find($prejuridico[0]->id);
-            $prejuridico->estado = 'Ok';
-            $prejuridico->save();
-          } 
-          else { 
-            $pago->estado   = 'Debe'; 
-          }
-          $pago->pago_desde = null;
-          $pago->pago_hasta = null;
-          $pago->save();  
+                    if(count($pago_prejuridico) > 0){
 
-          $credito->saldo = $credito->saldo - $pago->abono;
-          $credito->save();
-          $bandera = 1;
-        }
+                        $pago->debe          = $pago_prejuridico[0]->debe - $pay['subtotal'];
+                        $pago->abono_pago_id = 'p'.$pago_prejuridico[0]->id.'.m'.$prejuridico[0]->id; 
+                        $pago_prejuridico    = Pago::find($pago_prejuridico[0]->id);
+                        $pago_prejuridico->estado = 'Ok'; 
+                        $pago_prejuridico->save();   
+                    }
+                    else{
+                        $pago->debe       = $prejuridico[0]->valor - $pay['subtotal'];        
+                        
+                        // utilizo pago abono_id de la tabla pagos para referenciar a la multa que se le esta abonando (ver tabla extras) 
+                        $pago->abono_pago_id = 'p(--)'.'.m'.$prejuridico[0]->id;     
+                        //$pago->abono_pago_id = null;            
+                    } 
 
-        /******************** MORA  *****************/
+                    if($pago->debe == 0){ 
+                        $pago->estado= 'Ok'; 
+                        $prejuridico = Extra::find($prejuridico[0]->id);
+                        $prejuridico->estado = 'Ok';
+                        $prejuridico->save();
+                    } 
+                    else { 
+                        $pago->estado   = 'Debe'; 
+                    }
+                    
+                    $pago->pago_desde = null;
+                    $pago->pago_hasta = null;
+                    $pago->save();  
 
-        if($pay['concepto'] == "Mora"){
-          $pago                 = new Pago();
-          $pago->factura_id     = $factura->id;
-          $pago->credito_id     = $id;
-          $pago->concepto       = 'Mora';
-          $pago->abono          = $pay['subtotal'];
-          $pago->debe           = 0;
-          $pago->estado         = 'Ok';
-          $pago->pago_desde     = null;
-          $pago->pago_hasta     = null;
-          $pago->abono_pago_id  = null;
-          $pago->save();
+                    $credito->saldo = $credito->saldo - $pago->abono;
+                    $credito->save();
+                    $bandera = 1;
+                }
 
-          $num_dias_sancion = $pay['cant'];
+                /******************** MORA  *****************/
 
-          $debe_sancion = 
-          DB::table('sanciones')
-            ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
-            ->orderBy('created_at','asc')
-            ->get();
+                if($pay['concepto'] == "Mora"){
 
-          for ($i=0; $i < $num_dias_sancion; $i++) { 
-              $sancion          = Sancion::find($debe_sancion[$i]->id);
-              $sancion->pago_id = $pago->id;
-              $sancion->estado  = 'Ok';
-              $sancion->save();
+                    $pago                 = new Pago();
+                    $pago->factura_id     = $factura->id;
+                    $pago->credito_id     = $id;
+                    $pago->concepto       = 'Mora';
+                    $pago->abono          = $pay['subtotal'];
+                    $pago->debe           = 0;
+                    $pago->estado         = 'Ok';
+                    $pago->pago_desde     = null;
+                    $pago->pago_hasta     = null;
+                    $pago->abono_pago_id  = null;
+                    $pago->save();
 
-              $credito->sanciones_debe --;
-              $credito->sanciones_ok ++;
-              $credito->save();
-            }  
+                    $num_dias_sancion = $pay['cant'];
 
-          $credito->saldo = $credito->saldo - $pago->abono;
-          $credito->save();
-          $bandera = 1;
+                    $debe_sancion = 
+                        DB::table('sanciones')
+                            ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
+                            ->orderBy('created_at','asc')
+                            ->get();
 
-        } 
+                    for ($i=0; $i < $num_dias_sancion; $i++) { 
+                        $sancion          = Sancion::find($debe_sancion[$i]->id);
+                        $sancion->pago_id = $pago->id;
+                        $sancion->estado  = 'Ok';
+                        $sancion->save();
+
+                        $credito->sanciones_debe --;
+                        $credito->sanciones_ok ++;
+                        $credito->save();
+                    }  
+
+                    $credito->saldo = $credito->saldo - $pago->abono;
+                    $credito->save();
+                    $bandera = 1;
+
+                } 
 
         /******************** CUOTA PARCIAL *****************/
 
         if($pay['concepto'] == "Cuota Parcial") {
 
-          $cuota_parcial = Pago::where('credito_id',$credito->id)
-                               ->where('concepto','Cuota Parcial')
-                               ->where('estado','Debe')
-                               ->where('pago_desde',$pay['ini'])
-                               ->where('pago_hasta',$pay['fin'])
-                               ->get();
-                     
-          $pago = new Pago();
-          $pago->factura_id = $factura->id;
-          $pago->credito_id = $credito->id;
-          $pago->concepto   = 'Cuota Parcial';
-          $pago->abono      = $pay['subtotal'];
+            $cuota_parcial = Pago::where('credito_id',$credito->id)
+                ->where('concepto','Cuota Parcial')
+                ->where('estado','Debe')
+                ->where('pago_desde',$pay['ini'])
+                ->where('pago_hasta',$pay['fin'])
+                ->get();
+        
+            $pago = new Pago();
+            $pago->factura_id = $factura->id;
+            $pago->credito_id = $credito->id;
+            $pago->concepto   = 'Cuota Parcial';
+            $pago->abono      = $pay['subtotal'];
 
+            if(count($cuota_parcial) > 0){  
+                $pago->debe       = $cuota_parcial[0]->debe - $pay['subtotal'];
+                if($pago->debe == 0){
+                    $pago->estado = 'Ok';
+                    $credito->cuotas_faltantes = $credito->cuotas_faltantes - $pay['cant'];
+                }
+                else{
+                    $pago->estado = 'Debe';
+                }
+                $ini                  = new Carbon($pay['ini']);
+                $fin                  = new Carbon($pay['fin']);
 
+                $pago->pago_desde     = $ini->format('Y-m-d');
+                $pago->pago_hasta     = $fin->format('Y-m-d');
+                $pago->abono_pago_id  = $cuota_parcial[0]->id;
+                $pago->save();
 
-          if(count($cuota_parcial) > 0){  
-            $pago->debe       = $cuota_parcial[0]->debe - $pay['subtotal'];
-            if($pago->debe == 0){
-              $pago->estado = 'Ok';
-              $credito->cuotas_faltantes = $credito->cuotas_faltantes - $pay['cant'];
+                $cuota_parcial        = Pago::find($cuota_parcial[0]->id);
+                $cuota_parcial->estado= 'Ok';
+                $cuota_parcial->save();
+
+                $credito->saldo       = $credito->saldo - $pago->abono;
+                $credito->save();
             }
             else{
-              $pago->estado = 'Debe';
+                $ini                  = new Carbon($pay['ini']);
+                $fin                  = new Carbon($pay['fin']);
+                $pago->debe           = $credito->precredito->vlr_cuota - $pay['subtotal'];
+                $pago->estado         = 'Debe';
+                $pago->pago_desde     = $ini->format('Y-m-d');
+                $pago->pago_hasta     = $fin->format('Y-m-d');
+                $pago->abono_pago_id  = null;
+                $pago->save();
+                $credito->saldo       = $credito->saldo - $pago->abono;
+                $credito->save();
             }
-            $ini                  = new Carbon($pay['ini']);
-            $fin                  = new Carbon($pay['fin']);
-
-            $pago->pago_desde     = $ini->format('Y-m-d');
-            $pago->pago_hasta     = $fin->format('Y-m-d');
-            $pago->abono_pago_id  = $cuota_parcial[0]->id;
-            $pago->save();
-
-            $cuota_parcial        = Pago::find($cuota_parcial[0]->id);
-            $cuota_parcial->estado= 'Ok';
-            $cuota_parcial->save();
-
-            $credito->saldo       = $credito->saldo - $pago->abono;
-            $credito->save();
-          }
-          else{
-            $ini                  = new Carbon($pay['ini']);
-            $fin                  = new Carbon($pay['fin']);
-
-            $pago->debe           = $credito->precredito->vlr_cuota - $pay['subtotal'];
-            $pago->estado         = 'Debe';
-            $pago->pago_desde     = $ini->format('Y-m-d');
-            $pago->pago_hasta     = $fin->format('Y-m-d');
-            $pago->abono_pago_id  = null;
-            $pago->save();
-            $credito->saldo       = $credito->saldo - $pago->abono;
-            $credito->save();
-          }
-          $bandera = 1;
+            $bandera = 1;
         }
 
-        /******************** CUOTA *****************/
+            /******************** CUOTA *****************/
 
-        if ($pay['concepto'] == "Cuota") {
+            if ($pay['concepto'] == "Cuota") {
 
-          $pago = new Pago();
-          $pago->factura_id = $factura->id;
-          $pago->credito_id = $request->credito_id;
-          $pago->concepto   = 'Cuota';
-          $pago->abono      = $pay['subtotal'];
-          $pago->debe       = 0;
-          $pago->estado     = 'Ok';
-          $ini = new Carbon($pay['ini']);
-          $fin = new Carbon($pay['fin']);
-          $pago->pago_desde     = $ini->format('Y-m-d');
-          $pago->pago_hasta     = $fin->format('Y-m-d');
-          $pago->save();
+                $pago = new Pago();
+                $pago->factura_id = $factura->id;
+                $pago->credito_id = $request->credito_id;
+                $pago->concepto   = 'Cuota';
+                $pago->abono      = $pay['subtotal'];
+                $pago->debe       = 0;
+                $pago->estado     = 'Ok';
+                $ini = new Carbon($pay['ini']);
+                $fin = new Carbon($pay['fin']);
+                $pago->pago_desde     = $ini->format('Y-m-d');
+                $pago->pago_hasta     = $fin->format('Y-m-d');
+                $pago->save();
 
-          $credito->saldo            = $credito->saldo - $pago->abono;
-          $credito->cuotas_faltantes = $credito->cuotas_faltantes - $pay['cant'];
-          $credito->save();
+                $credito->saldo            = $credito->saldo - $pago->abono;
+                $credito->cuotas_faltantes = $credito->cuotas_faltantes - $pay['cant'];
+                $credito->save();
 
-        }
-        if ($pay['concepto'] == "Saldo a Favor") {
+            }
+            if ($pay['concepto'] == "Saldo a Favor") {
 
-          $pago = new Pago();
-          $pago->factura_id = $factura->id;
-          $pago->credito_id = $request->credito_id;
-          $pago->concepto   = 'Saldo a Favor';
-          $pago->abono      = $pay['subtotal'];
-          $pago->debe       = 0;
-          $pago->estado     = 'Ok';
-          $pago->pago_desde = null;
-          $pago->pago_hasta = null;
-          $pago->save();
+                $pago = new Pago();
+                $pago->factura_id = $factura->id;
+                $pago->credito_id = $request->credito_id;
+                $pago->concepto   = 'Saldo a Favor';
+                $pago->abono      = $pay['subtotal'];
+                $pago->debe       = 0;
+                $pago->estado     = 'Ok';
+                $pago->pago_desde = null;
+                $pago->pago_hasta = null;
+                $pago->save();
 
-          $credito->saldo_favor      = $credito->saldo_favor + $pago->abono;
-          $credito->save();
-        }
-        if ($pay['concepto'] == "Total:"){
-          $factura->total  = $pay['subtotal'];
-          $factura->save();
-        } 
+                $credito->saldo_favor      = $credito->saldo_favor + $pago->abono;
+                $credito->save();
+            }
+            if ($pay['concepto'] == "Total:"){
+                $factura->total  = $pay['subtotal'];
+                $factura->save();
+            } 
 
-      }//////////////////////////////////////////
+        }//////////////////////////////////////////
        //definir fecha proxima de pago
 
         $ultima_cuota = 
@@ -557,34 +554,57 @@ class FacturaController extends Controller
         }
 
         $fecha_cobro = FechaCobro::where('credito_id',$credito->id)->get();
-        if(count($fecha_cobro) > 0){
-          $fecha_cobro = FechaCobro::find($fecha_cobro[0]->id);
-          $fecha_cobro->credito_id = $credito->id;
-          $fecha_cobro->fecha_pago = $n;
-          $fecha_cobro->save();
-          $factura->fecha_proximo_pago = $fecha_cobro->fecha_pago;
-          $factura->save();
+
+        if (count($fecha_cobro) > 0) {
+            $fecha_cobro = FechaCobro::find($fecha_cobro[0]->id);
+            $fecha_cobro->credito_id = $credito->id;
+            $fecha_cobro->fecha_pago = $n;
+            $fecha_cobro->save();
+            $factura->fecha_proximo_pago = $fecha_cobro->fecha_pago;
+            $factura->save();
         }
         else{
-          $fecha_cobro = new FechaCobro();
-          $fecha_cobro->credito_id = $credito->id;
-          $fecha_cobro->fecha_pago = $n;
-          $fecha_cobro->save();
-          $factura->fecha_proximo_pago = $fecha_cobro->fecha_pago;
-          $factura->save();
+            $fecha_cobro = new FechaCobro();
+            $fecha_cobro->credito_id = $credito->id;
+            $fecha_cobro->fecha_pago = $n;
+            $fecha_cobro->save();
+            $factura->fecha_proximo_pago = $fecha_cobro->fecha_pago;
+            $factura->save();
         }  
 
+        // Cancelar crédito
         if($credito->cuotas_faltantes == 0 && $credito->saldo <= 0){
-          $credito->estado = 'Cancelado';
-          $credito->save();
+            $credito->estado = 'Cancelado';
+            $credito->save();
         }
+
+        // Saldo a favor
+        if ($credito->saldo < 0) {
+            $credito->saldo = 0;
+            $credito->saldo_favor = abs($credito->saldo);
+        }
+
+        // Cerrar acuerdo de pago
+        if (isset($credito->acuerdo) && $credito->acuerdo == 'Abierto') 
+            $credito->acuerdo = 'Cerrado';
+
+        // crear log del pago
+        log(Auth::user()->id,'crear',
+            "Pago # {$factura->num_fact}, realizado por valor de {$factura->total}, saldo deuda {$factura->credito->saldo}",
+            1,'App\\Factura',$factura->id);
 
         DB::commit();
 
-      return response()->json([
-        "error"   => false,
-        "mensaje" => "Se generaron los pagos Éxitosamente !!!"
-      ]); 
+        // Si el pago se hace masivamente
+        if (isset($request->interno)) return $factura;
+
+        // Si tiene acuerdo de pago se desactiva
+
+
+        return response()->json([
+            "error"   => false,
+            "mensaje" => "Se generaron los pagos Éxitosamente !!!"
+        ]); 
     } catch(\Exception $e){
 
         DB::rollback();
@@ -664,273 +684,278 @@ class FacturaController extends Controller
 
     public function abonos(Request $request)
     {
+        $monto      = $request->monto;
+        $credito    = Credito::find($request->credito_id);
 
-      $monto      = $request->monto;
-      $credito    = Credito::find($request->credito_id);
-      $contenedor = [];  // almacena los pagos 
+        $contenedor = [];  // almacena los pagos 
 
-      $sanciones  = $this->repo->getDebeDeSanciones($credito->id);
+        $sanciones  = $this->repo->getDebeDeSanciones($credito->id);
 
-      $hay_sanciones          = count($sanciones) > 0;
-      $dia_sancion            = Variable::find(1)->vlr_dia_sancion;
-      $monto_por_sancion      = 0;
-      $contador               = 0;
-      $fila                   = "";
-      $fila_monto             = "";
-      $fila_saldo             = "";
-      $fila_juridico          = "";
-      $fila_prejuridico       = "";
-      $fila_cuotas_completas  = "";
-      $fila_cuotas_incompletas= "";
-      $fila_pagos_parciales   = "";
-      $sin_mover_fecha        = []; //array donde se almacena Cuota Parcial sin movimiento de fecha (pago_hasta)
-      $date_ini               = $credito->fecha_pago->fecha_pago; //fecha de referencia inicial para cuota parcial sin cambio de fecha
+        $hay_sanciones          = count($sanciones) > 0;
+        $dia_sancion            = Variable::find(1)->vlr_dia_sancion;
+        $monto_por_sancion      = 0;
+        $contador               = 0;
+        $fila                   = "";
+        $fila_monto             = "";
+        $fila_saldo             = "";
+        $fila_juridico          = "";
+        $fila_prejuridico       = "";
+        $fila_cuotas_completas  = "";
+        $fila_cuotas_incompletas= "";
+        $fila_pagos_parciales   = "";
+        $sin_mover_fecha        = []; //array donde se almacena Cuota Parcial sin movimiento de fecha (pago_hasta)
+        $date_ini               = $credito->fecha_pago->fecha_pago; //fecha de referencia inicial para cuota parcial sin cambio de fecha
 
 
-      /****************************** JURIDICO **************************************/
-      if($monto > 0){
+        /****************************** JURIDICO **************************************/
+        if($monto > 0){
 
-        $sancion_juridico = $this->repo->getDebeDeJuridicos($credito->id);
+            $sancion_juridico = $this->repo->getDebeDeJuridicos($credito->id);
 
-        if(count($sancion_juridico) > 0){
-          
-          $juridico =   $this->repo->getDebeJuridicos($credito->id);
+            if(count($sancion_juridico) > 0){
+            
+            $juridico =   $this->repo->getDebeJuridicos($credito->id);
 
-          if(count($juridico) > 0 ){ 
+            if(count($juridico) > 0 ){ 
 
-            if($monto > $juridico[0]->debe){ 
-              $abono = $juridico[0]->debe;
-              $monto = $monto - $abono; 
-            }
+                if($monto > $juridico[0]->debe){ 
+                $abono = $juridico[0]->debe;
+                $monto = $monto - $abono; 
+                }
+                else{
+                $abono = $monto;
+                $monto = 0; 
+                }
+            }  
             else{
-              $abono = $monto;
-              $monto = 0; 
+                if($monto > $sancion_juridico[0]->valor){
+                $abono = $sancion_juridico[0]->valor;
+                $monto = $monto - $abono; }
+                else{
+                $abono = $monto;
+                $monto = 0; }           
             }
-          }  
-          else{
-            if($monto > $sancion_juridico[0]->valor){
-              $abono = $sancion_juridico[0]->valor;
-              $monto = $monto - $abono; }
-            else{
-              $abono = $monto;
-              $monto = 0; }           
-          }
 
-          $temp = [ 'cant' => 1, 
-                    'concepto' => 'Juridico', 
-                    'ini' => '', 
-                    'fin' => '', 
-                    'subtotal' => $abono,
-                    'marcado' => false ];
-                    
-          array_push($contenedor, $temp);
-      }
+            $temp = [ 'cant' => 1, 
+                        'concepto' => 'Juridico', 
+                        'ini' => '', 
+                        'fin' => '', 
+                        'subtotal' => $abono,
+                        'marcado' => false ];
+                        
+            array_push($contenedor, $temp);
+        }
     }    
     /****************************** PREJURIDICO **************************************/
     if($monto > 0){
-      $sancion_prejuridico = $this->repo->getDebePrejuridico($request->credito_id);
+        $sancion_prejuridico = $this->repo->getDebePrejuridico($request->credito_id);
 
+        if (count($sancion_prejuridico) > 0) {
 
-      if(count($sancion_prejuridico) > 0){
-        $prejuridico = $this->repo->getDebeExcedentesPrejuridico($request->credito_id);
+            $prejuridico = $this->repo->getDebeExcedentesPrejuridico($request->credito_id);
 
-        if(count($prejuridico) > 0 ){                               
-          if($monto > $prejuridico[0]->debe){ 
-            $abono = $prejuridico[0]->debe;
-            $monto = $monto - $abono; }
-          else{
-            $abono = $monto;
-            $monto = 0; }
-        }  
-        else{
-          if($monto > $sancion_prejuridico[0]->valor){
-            $abono = $sancion_prejuridico[0]->valor;
-            $monto = $monto - $abono; }
-          else{
-            $abono = $monto;
-            $monto = 0; }           
-        }
+            if(count($prejuridico) > 0 ){                               
+                if($monto > $prejuridico[0]->debe){ 
+                    $abono = $prejuridico[0]->debe;
+                    $monto = $monto - $abono; }
+                    else{
+                    $abono = $monto;
+                    $monto = 0; 
+                }
+            } else {
+
+                if ($monto > $sancion_prejuridico[0]->valor) {
+                    $abono = $sancion_prejuridico[0]->valor;
+                    $monto = $monto - $abono; 
+                } else {
+                    $abono = $monto;
+                    $monto = 0; }           
+                }
         
-        $temp = [ 'cant' => 1, 
-                  'concepto' => 'Prejuridico', 
-                  'ini' => '', 
-                  'fin' => '', 
-                  'subtotal' => $abono, 
-                  'marcado' => false ];
+                $temp = [ 'cant' => 1, 
+                    'concepto' => 'Prejuridico', 
+                    'ini' => '', 
+                    'fin' => '', 
+                    'subtotal' => $abono, 
+                    'marcado' => false ];
 
-        array_push($contenedor, $temp);        
-    }
-  }
-  /****************************** SANCIONES **************************************/
-  if($monto > 0){
-    if($hay_sanciones){
-      foreach ($sanciones as $sancion) {
-        if($monto >= $dia_sancion){
-          $monto_por_sancion = $monto_por_sancion + $dia_sancion;
-          $monto = $monto - $sancion->valor;
-          $contador++;
+                array_push($contenedor, $temp);        
+            }
         }
-      }
+        /****************************** SANCIONES **************************************/
+        if($monto > 0){
+            if($hay_sanciones){
 
-      $temp = [ 'cant' => $contador, 
-                'concepto' => 'Mora',  
-                'ini' => '', 
+                foreach ($sanciones as $sancion) {
+                    if($monto >= $dia_sancion){
+                        $monto_por_sancion = $monto_por_sancion + $dia_sancion;
+                        $monto = $monto - $sancion->valor;
+                        $contador++;
+                    }
+                }
+
+                $temp = [ 'cant' => $contador, 
+                    'concepto' => 'Mora',  
+                    'ini' => '', 
+                    'fin' => '', 
+                    'subtotal' => $monto_por_sancion, 
+                    'marcado' => false];
+
+                array_push($contenedor, $temp);
+            }
+        }  
+
+
+        /****************************** CUOTAS INCOMPLETAS SEGUNDA VEZ *************************************/  
+        /* Cuando inicialmente se abona al excedente de una cuota parcial no se mueve la fecha */
+
+        if ($monto > 0) {
+            $pagos_parciales = DB::table('pagos')
+                ->where([['credito_id','=',$request->credito_id],
+                        ['concepto','=','Cuota Parcial'],
+                        ['estado','=','Debe']])
+                ->orderBy('pago_hasta','asc')
+                ->get();
+
+            if (count($pagos_parciales) > 0) {  
+                foreach ($pagos_parciales as $pago) {
+
+                    if ($monto > $pago->debe) {
+                        $abono = $pago->debe; 
+                        $monto = $monto - $abono; 
+                    }
+                    else {
+                        $abono = $monto;
+                        $monto = 0; 
+                    }
+
+                    $temp = [ 'cant'  => 1, 
+                            'concepto' => 'Cuota Parcial', 
+                            'ini' => $pago->pago_desde, 
+                            'fin'   => $pago->pago_hasta, 
+                            'subtotal' => $abono, 
+                            'marcado' => false ];
+
+                    array_push($contenedor, $temp);
+                    $date_ini = $pago->pago_desde;
+                }               
+            }  
+        }
+        /****************************** CUOTA COMPLETA **************************************/      
+        /* Se mueve la fecha sin novedad cuando la cuota es completa */
+        if ($monto > 0) {
+
+            $cuotas = $monto / $credito->precredito->vlr_cuota;
+
+            if ($cuotas > $credito->cuotas_faltantes ) {
+                $cuotas = $credito->cuotas_faltantes;
+            }
+
+            $cuotas_completas   = intval($cuotas);
+            $cuotas_incompletas = ceil($cuotas) - $cuotas_completas;
+            $date = $credito->fecha_pago->fecha_pago;
+
+            if ($cuotas_completas > 0) {
+
+                $fecha = calcularFecha($credito->fecha_pago->fecha_pago, $credito->precredito->periodo, 
+                        $cuotas_completas, $credito->precredito->p_fecha, $credito->precredito->s_fecha, false);
+
+                $monto_cuota    = $cuotas_completas * $credito->precredito->vlr_cuota;
+                $monto          = $monto - $monto_cuota;
+
+                $temp = [ 'cant'      => $cuotas_completas,  
+                    'concepto'  => 'Cuota', 
+                    'ini'       => $fecha['fecha_ini'], 
+                    'fin'       => $fecha['fecha_fin'], 
+                    'subtotal'  => $monto_cuota,       
+                    'marcado'   => false ];
+
+                array_push($contenedor, $temp);
+
+                $date           = $fecha['fecha_fin']; 
+                $date_ini       = $fecha['fecha_ini'];
+                $primera_cuota  = false;
+            }
+
+            /********************************CTaS INCOMPLETAs PRIMERA VEZ*********************************/
+
+            if ($cuotas_incompletas > 0) {
+                $fecha = calcularFecha($date, $credito->precredito->periodo, $cuotas_incompletas, 
+                $credito->precredito->p_fecha, $credito->precredito->s_fecha,false );
+
+                // CALCULAR PORCENTAJE
+                $vlr_cuota = $credito->precredito->vlr_cuota;
+                $vlr_monto_permitido = $vlr_cuota * intval($credito->precredito->cartera->porcentaje_pago_parcial) / 100; 
+                
+                if ($monto >= $vlr_monto_permitido || $credito->permitir_mover_fecha) {
+                    $temp = [ 
+                            'cant'      => $cuotas_incompletas,
+                            'concepto'  => 'Cuota Parcial', 
+                            'ini'       => inv_fech($fecha['fecha_ini']),
+                            'fin'       => inv_fech($fecha['fecha_fin']), 
+                            'subtotal'  => $monto,             
+                            'marcado'   => false 
+                        ];
+
+                } else {
+                    $temp =  [
+                        'cant'      => $cuotas_incompletas,
+                        'concepto'  => 'Cuota Parcial', 
+                        'ini'       => $date_ini,                 
+                        'fin'       => $date, 
+                        'subtotal'  => $monto,             
+                        'marcado'   => true 
+                    ];  
+                }
+
+                array_push($contenedor, $temp);
+
+
+                $sin_mover_fecha =  [ 'cant'      => $cuotas_incompletas,
+                                    'concepto'  => 'Cuota Parcial', 
+                                    'ini'       => $date_ini,                 
+                                    'fin'       => $date, 
+                                    'subtotal'  => $monto,             
+                                    'marcado'   => true ];         
+                $monto = 0;  
+            }
+        }
+
+        $temp = [ 
+            'cant' => '', 
+            'concepto'  => 'Total',
+            'ini' => '',
+            'fin' => '', 
+            'subtotal'  => $request->monto, 
+            'marcado' => false 
+        ];
+
+        array_push($contenedor, $temp);
+
+        if ($monto > 0) {
+            $temp = [ 
+                'cant' => '', 
+                'concepto'  => 'Saldo a favor',
+                'ini' => '',
                 'fin' => '', 
-                'subtotal' => $monto_por_sancion, 
-                'marcado' => false];
+                'subtotal'  => $monto, 
+                'marcado' => false 
+            ];
 
-      array_push($contenedor, $temp);
-  }
+            array_push($contenedor, $temp); 
+        }
 
-}  
+        $res = [
+            'error' => false, 
+            'data' => $contenedor, 
+            'cta_parcial_sin_movimiento_de_fecha' => $sin_mover_fecha
+        ];
 
+        if (isset($request->interno) ) {
+            return $res;
+        }
 
-/****************************** CUOTAS INCOMPLETAS SEGUNDA VEZ *************************************/  
-/* Cuando inicialmente se abona al excedente de una cuota parcial no se mueve la fecha */
-
-if($monto > 0){
-  $pagos_parciales = 
-    DB::table('pagos')
-    ->where([['credito_id','=',$request->credito_id],
-             ['concepto','=','Cuota Parcial'],
-             ['estado','=','Debe']])
-    ->orderBy('pago_hasta','asc')
-    ->get();
-
-  if(count($pagos_parciales) > 0){  
-    foreach ($pagos_parciales as $pago) {
-
-      if ($monto > $pago->debe) {
-        $abono = $pago->debe; 
-        $monto = $monto - $abono; 
-      }
-      else {
-        $abono = $monto;
-        $monto = 0; 
-      }
-
-      $temp = [ 'cant'  => 1, 
-                'concepto' => 'Cuota Parcial', 
-                'ini' => $pago->pago_desde, 
-                'fin'   => $pago->pago_hasta, 
-                'subtotal' => $abono, 
-                'marcado' => false ];
-
-      array_push($contenedor, $temp);
-      $date_ini = $pago->pago_desde;
-    }               
-  }  
-}
-/****************************** CUOTA COMPLETA **************************************/      
-/* Se mueve la fecha sin novedad cuando la cuota es completa */
-if($monto > 0){
-
-  $cuotas = $monto / $credito->precredito->vlr_cuota;
-
-  if($cuotas > $credito->cuotas_faltantes ) {
-    $cuotas = $credito->cuotas_faltantes;
-  }
-
-  $cuotas_completas   = intval($cuotas);
-  $cuotas_incompletas = ceil($cuotas) - $cuotas_completas;
-  $date = $credito->fecha_pago->fecha_pago;
-
-  if($cuotas_completas > 0){
-    $fecha = calcularFecha($credito->fecha_pago->fecha_pago, $credito->precredito->periodo, 
-                  $cuotas_completas, $credito->precredito->p_fecha, $credito->precredito->s_fecha, false);
-
-    $monto_cuota    = $cuotas_completas * $credito->precredito->vlr_cuota;
-    $monto          = $monto - $monto_cuota;
-
-    $temp = [ 'cant'      => $cuotas_completas,  
-              'concepto'  => 'Cuota', 
-              'ini'       => $fecha['fecha_ini'], 
-              'fin'       => $fecha['fecha_fin'], 
-              'subtotal'  => $monto_cuota,       
-              'marcado'   => false ];
-
-    array_push($contenedor, $temp);
-
-  $date           = $fecha['fecha_fin']; 
-  $date_ini       = $fecha['fecha_ini'];
-  $primera_cuota  = false;
-}
-
-/********************************CTaS INCOMPLETAs PRIMERA VEZ*********************************/
-
-  if($cuotas_incompletas > 0){
-    $fecha = calcularFecha($date, $credito->precredito->periodo, $cuotas_incompletas, 
-      $credito->precredito->p_fecha, $credito->precredito->s_fecha,false );
-
-    // CALCULAR PORCENTAJE
-    $vlr_cuota = $credito->precredito->vlr_cuota;
-    $vlr_monto_permitido = $vlr_cuota * intval($credito->precredito->cartera->porcentaje_pago_parcial) / 100; 
-    
-    if ($monto >= $vlr_monto_permitido || $credito->permitir_mover_fecha) {
-      $temp = [ 
-                'cant'      => $cuotas_incompletas,
-                'concepto'  => 'Cuota Parcial', 
-                'ini'       => inv_fech($fecha['fecha_ini']),
-                'fin'       => inv_fech($fecha['fecha_fin']), 
-                'subtotal'  => $monto,             
-                'marcado'   => false 
-              ];
-
-    } else {
-      $temp =  [
-                'cant'      => $cuotas_incompletas,
-                'concepto'  => 'Cuota Parcial', 
-                'ini'       => $date_ini,                 
-                'fin'       => $date, 
-                'subtotal'  => $monto,             
-                'marcado'   => true 
-              ];  
-    }
-
-    array_push($contenedor, $temp);
-
-
-    $sin_mover_fecha =  [ 'cant'      => $cuotas_incompletas,
-                          'concepto'  => 'Cuota Parcial', 
-                          'ini'       => $date_ini,                 
-                          'fin'       => $date, 
-                          'subtotal'  => $monto,             
-                          'marcado'   => true ];         
-    $monto = 0;  
-  }
-}
-
-    $temp = [ 
-      'cant' => '', 
-      'concepto'  => 'Total',
-      'ini' => '',
-      'fin' => '', 
-      'subtotal'  => $request->monto, 
-      'marcado' => false 
-    ];
-
-    array_push($contenedor, $temp);
-
-    if($monto > 0){
-      $temp = [ 
-        'cant' => '', 
-        'concepto'  => 'Saldo a favor',
-        'ini' => '',
-        'fin' => '', 
-        'subtotal'  => $monto, 
-        'marcado' => false 
-      ];
-
-      array_push($contenedor, $temp); 
-    }
-
-    $res = [
-      'error' => false, 
-      'data' => $contenedor, 
-      'cta_parcial_sin_movimiento_de_fecha' => $sin_mover_fecha
-    ];
-
-    return response()->json($res);
+        return response()->json($res);
   }
 
 

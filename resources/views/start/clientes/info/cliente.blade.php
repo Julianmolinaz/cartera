@@ -70,7 +70,7 @@
         <i class="fa fa-location-arrow" aria-hidden="true"></i>
         Dirección
       </th>
-      <td> {{ $cliente->direccion}}</td>
+      <td> {{ $cliente->direccion .' - '.$cliente->municipio->nombre}}</td>
     </tr>
 
 
@@ -88,10 +88,10 @@
       </td>
     </tr>
 
-    <!-- <tr>
+    <tr>
       <th scope="row">Placa</th>
       <td> {{ $cliente->placa}}</td>
-    </tr> -->
+    </tr>
 
     @if($cliente->conyuge)
       <tr>

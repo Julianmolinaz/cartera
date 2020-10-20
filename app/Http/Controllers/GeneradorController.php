@@ -52,8 +52,8 @@ class GeneradorController extends Controller
     public function getSancionesExoneradas($credito)
     {
         return DB::table('sanciones')
-        ->where('credito_id',$credito->id)
-        ->where('estado','Exonerada')
-        ->count();        
+            ->where('credito_id',$credito->id)
+            ->where('estado','Exonerada')
+            ->count();        
     }
 }

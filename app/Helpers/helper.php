@@ -418,18 +418,16 @@ function bancos()
   ];
 }
 
-function log($user_id ,$action ,$desc ,$visible ,$type ,$id) {
-
-  if ($solicitud) {
+function log($user_id ,$action ,$description ,$visible ,$ref_type ,$ref_id) 
+{
     $log = new \App\Log();
-    $log->user_create_id=$user_id;
-    $log->action=$action;
-    $log->descripcion=$desc;
-    $log->visible=$visible;
-    $log->ref_type=$type;
-    $log->ref_id=$id;
+    $log->user_create_id = $user_id;
+    $log->action = $action;
+    $log->description = $description;
+    $log->visible = $visible;
+    $log->ref_type = $ref_type;
+    $log->ref_id = $ref_id;
     $log->save();
-  }
 }
 
 

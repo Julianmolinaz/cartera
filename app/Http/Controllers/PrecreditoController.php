@@ -11,20 +11,11 @@ use App\Traits\Creditos\VehiculoTrait;
 use App\Traits\Creditos\RefProductoTrait;
 use App\Traits\Creditos\CreditoUpdateTraitV2;
 use App\Traits\MensajeTrait;
-use App\Http\Requests;
-use App\Precredito;
-use Carbon\Carbon;
-use App\Variable;
-use App\Producto;
-use App\Cliente;
-use App\Cartera;
-use App\Credito;
-use App\Extra;
-use Validator;
-use App\User;
-use App as _;
-use Auth;
-use DB;
+use App\Http\Requests, App\Precredito;
+use Carbon\Carbon, App\Variable, App\Producto;
+use App\Cliente, App\Cartera, App\Credito;
+use App\Extra, Validator, App\User;
+use App as _, Auth, DB;
 
 class PrecreditoController extends Controller
 {
@@ -33,7 +24,7 @@ class PrecreditoController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function index()
@@ -49,8 +40,6 @@ class PrecreditoController extends Controller
     /**
      * Permite crear solicitudes
      */
-
-
     public function create($cliente_id)
     {
         //validar que un cliente no tenga mas precréditos o créditos en proceso
@@ -93,6 +82,8 @@ class PrecreditoController extends Controller
             }
 
             $solicitud = $this->saveSolicitudCreateTr($request->solicitud); // SolicitudCreateTrait.php
+
+            log(Auth::user()->id ,'creacion' ,'Creación solicitud de crédito' ,1 ,'App\\Precredito' ,$solicitud->id); 
             
             if ($request->producto['min_vehiculos'] && $request->ref_productos) {
 
@@ -107,9 +98,6 @@ class PrecreditoController extends Controller
             return res(true, $solicitud, 'Se creó la solicitud con éxito !!!');
 
         } catch(\Exception $e){
-
-            \Log::info($e);
-
             DB::rollback();
             return res(false, '', 'Ocurrió un error: '.$e->getMessage());
         }
@@ -169,6 +157,8 @@ class PrecreditoController extends Controller
                     'fecha_exp' => $ref_producto->fecha_exp,
                     'costo' => $ref_producto->costo,
                     'estado' => $ref_producto->estado,
+                    'otros' => $ref_producto->otros,
+                    'expedido_a' => $ref_producto->expedido_a,
                     'iva' => $ref_producto->iva,
                     'observaciones' => $ref_producto->observaciones,
                     '_vehiculo_id' => $ref_producto->vehiculo->id,
@@ -515,6 +505,10 @@ class PrecreditoController extends Controller
 
     public function updateV2(Request $request) 
     {  
+
+        \Log::error($request->all());
+        \Log::info('updateV2');
+
         $validator = $this->validateSolicitudUpdateTr($request->solicitud);
 
         if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');

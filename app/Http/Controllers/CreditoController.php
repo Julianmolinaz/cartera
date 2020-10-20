@@ -175,6 +175,8 @@ class CreditoController extends Controller
              $credito->user_update_id   = Auth::user()->id;
              $credito->save();
 
+             log(Auth::user()->id,'crear','Activación del crédito',1,'App\\Credito',$credito->id);
+
              // SE INCREMENTA EN UNO EL NUMERO DE CREDITOS DEL CLIENTE
 
              $cliente = Cliente::find($precredito->cliente_id);
@@ -329,6 +331,8 @@ class CreditoController extends Controller
                     'fecha_exp' => $ref_producto->fecha_exp,
                     'costo' => $ref_producto->costo,
                     'estado' => $ref_producto->estado,
+                    'otros' => $ref_producto->otros,
+                    'expedido_a' => $ref_producto->expedido_a,
                     'iva' => $ref_producto->iva,
                     'observaciones' => $ref_producto->observaciones,
                     '_vehiculo_id' => $ref_producto->vehiculo->id,

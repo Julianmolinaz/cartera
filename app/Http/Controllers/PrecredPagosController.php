@@ -40,6 +40,8 @@ class PrecredPagosController extends Controller
             foreach($factura->pagos as $pago) {
                 $pago = DB::table('precred_pagos')->where('id','=',$pago->id)->delete();
             }
+
+            log(Auth::user()->id,'eliminar',"Se anula recibo {$num_fact}",0,'App\\Precredito',$precredito_id);
     
             $factura->delete();
             DB::commit();

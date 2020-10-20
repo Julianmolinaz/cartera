@@ -66,7 +66,7 @@
 
             <tr>
                 <th scope="row">Dirección</th>
-                <td> {{ $cliente->codeudor->direccionc }}</td>
+                <td> {{ $cliente->codeudor->direccionc .' - '. $cliente->codeudor->municipio->nombre }}</td>
             </tr>
             
 

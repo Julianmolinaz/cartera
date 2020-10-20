@@ -39,6 +39,7 @@
 
                         <label>Municipio*</label>
                         <input type="text" 
+                            autocomplete="off"
                             class="text form-control"
                             ref="mun"
                             name="municipio"
