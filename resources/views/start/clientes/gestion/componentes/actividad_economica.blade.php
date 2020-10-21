@@ -54,7 +54,8 @@
 
                 <div v-bind:class="['form-group','col-md-6',errors.first(rules.empresa.name) ? 'has-error' :'']">
                     <label>Nombre empresa @{{rules.empresa.required}} </label>
-                    <input type="text" 
+                    <input type="text"
+                        autocomplete="off" 
                         class="text form-control"
                         name="nombre empresa"
                         v-model="economia.empresa"
@@ -66,7 +67,8 @@
 
                 <div v-bind:class="['form-group','col-md-6',errors.first(rules.dir_empresa.name) ? 'has-error' :'']">
                     <label>Dirección @{{rules.dir_empresa.required}}</label>
-                    <input type="text" 
+                    <input type="text"
+                        autocomplete="off" 
                         class="text form-control"
                         name="direccion empresa"
                         v-model="economia.dir_empresa"
@@ -81,7 +83,8 @@
 
                 <div v-bind:class="['form-group','col-md-4',errors.first(rules.doc_empresa.name) ? 'has-error' :'']">
                     <label>Nit/Cédula @{{rules.doc_empresa.required}}</label>
-                    <input type="text" 
+                    <input type="text"
+                        autocomplete="off" 
                         class="text form-control"
                         name="identificacion empresa"
                         v-model="economia.doc_empresa"
@@ -107,7 +110,8 @@
 
                 <div v-bind:class="['form-group','col-md-4',errors.first(rules.cargo.name) ? 'has-error' :'']">
                     <label>Cargo @{{rules.cargo.required}}</label>
-                    <input type="text" 
+                    <input type="text"
+                        autocomplete="off" 
                         class="text form-control"
                         name="cargo"
                         v-model="economia.cargo"
@@ -123,7 +127,8 @@
 
                 <div v-bind:class="['form-group','col-md-6',errors.first(rules.tel_empresa.name) ? 'has-error' :'']">
                     <label>Teléfono empresa @{{rules.tel_empresa.required}}</label>
-                    <input type="text" 
+                    <input type="text"
+                        autocomplete="off" 
                         class="text form-control"
                         name="telefono empresa"
                         v-model="economia.tel_empresa"
@@ -135,7 +140,8 @@
             
                 <div v-bind:class="['form-group','col-md-6',errors.first(rules.fecha_vinculacion.name) ? 'has-error' :'']">
                     <label>Fecha de vinculación @{{rules.fecha_vinculacion.required}}</label>
-                    <input type="date" name="" id="" 
+                    <input type="date"
+                        autocomplete="off" name="" id="" 
                         class="form-control"
                         name="fecha de vinculacion"
                         v-model="economia.fecha_vinculacion"

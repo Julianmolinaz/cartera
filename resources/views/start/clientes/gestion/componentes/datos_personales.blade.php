@@ -12,7 +12,8 @@
 
                 <div v-bind:class="['form-group','col-md-3',errors.first(rules.primer_nombre.name) ? 'has-error' :'']">
                     <label>Primer nombre *</label>
-                    <input type="text" 
+                    <input type="text"
+                        autocomplete="off" 
                         class="form-control"
                         name="primer nombre"
                         v-model="personal.primer_nombre"
@@ -24,7 +25,8 @@
                 
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.segundo_nombre.name) ? 'has-error' :'']">
                     <label>Segundo nombre</label>
-                    <input type="text" class="form-control"
+                    <input type="text"
+                        autocomplete="off" class="form-control"
                         name="segundo nombre"
                         v-model="personal.segundo_nombre"
                         v-validate="rules.segundo_nombre.rule">
@@ -35,7 +37,8 @@
 
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.primer_apellido.name) ? 'has-error' :'']">
                     <label>Primer apellido *</label>
-                    <input type="text" class="form-control"
+                    <input type="text"
+                        autocomplete="off" class="form-control"
                         name="primer apellido"
                         v-model="personal.primer_apellido"
                         v-validate="rules.primer_apellido.rule">
@@ -46,7 +49,8 @@
                 
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.segundo_apellido.name) ? 'has-error' :'']">
                     <label>Segundo apellido</label>
-                    <input type="text" 
+                    <input type="text"
+                        autocomplete="off" 
                         class="form-control"
                         name="segundo Apellido"
                         v-model="personal.segundo_apellido"
@@ -76,7 +80,8 @@
 
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.num_doc.name) ? 'has-error' :'']">
                     <label>Núm de documento *</label>
-                    <input type="text" class="form-control"
+                    <input type="text"
+                        autocomplete="off" class="form-control"
                         name="numero de documento"
                         placeholder="Número de documento"
                         v-model="personal.num_doc"
@@ -88,7 +93,8 @@
                
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.lugar_exp.name) ? 'has-error' :'']">
                     <label>Lugar de expedición *</label>
-                    <input type="text" class="form-control"
+                    <input type="text"
+                        autocomplete="off" class="form-control"
                         name="lugar de expedicion"
                         placeholder="Ciudad donde se expidió el documento"
                         v-model="personal.lugar_exp"
@@ -100,7 +106,8 @@
 
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
                     <label>F. de expedición *</label>
-                    <input type="date" 
+                    <input type="date"
+                        autocomplete="off" 
                         name="fecha de expedicion"
                         class="form-control"
                         v-model="personal.fecha_exp"
@@ -116,7 +123,8 @@
 
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.fecha_nacimiento.name) ? 'has-error' :'']">
                     <label>F. de nacimiento *</label>
-                    <input type="date" 
+                    <input type="date"
+                        autocomplete="off" 
                         name="fecha de nacimiento" 
                         v-model="personal.fecha_nacimiento"
                         class="form-control"
@@ -128,7 +136,8 @@
 
                 <div v-bind:class="['form-group','col-md-3', errors.first(rules.lugar_nacimiento.name) ? 'has-error' :'']">
                     <label>Lugar de nacimiento *</label>
-                    <input type="text" 
+                    <input type="text"
+                        autocomplete="off" 
                         name="lugar de nacimiento" 
                         class="form-control"
                         v-model="personal.lugar_nacimiento"

@@ -77,7 +77,7 @@ class PagoMasivoController extends Controller
 
                 $this->makePayments();
 
-                dd($this->arr_error);
+                // dd($this->arr_error);
  
             } 
             else {
@@ -308,7 +308,7 @@ class PagoMasivoController extends Controller
             } else {
                 $this->arr_error[] = [
                     'line' => $this->index + 2,
-                    'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitu->id)"
+                    'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitud->id)"
                 ];
             }
         }
