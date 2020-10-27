@@ -34,9 +34,9 @@ class DatabaseSeeder extends Seeder
         $this->call('ExtrasTableSeeder');
         $this->call('FacturasTableSeeder');
         $this->call('PagosTableSeeder');
-        $this->call('SancionesTableSeeder');
+        // $this->call('SancionesTableSeeder');
         $this->call('CriteriosTableSeeder');
-        $this->call('LlamadasTableSeeder');
+        // $this->call('LlamadasTableSeeder');
         $this->call('FechaCobrosTableSeeder');
         $this->call('AuditoriasTableSeeder');
         $this->call('OtrosPagosTableSeeder');
