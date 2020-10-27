@@ -56,3 +56,7 @@ Route::get('admin/users/destroy/{user_id}',[
     'uses'	=> 'UserController@destroy',
     'as'	=> 'admin.users.destroy'
 ]);
+
+
+Route::get('admin/users/account','UserController@account')
+    ->name('admin.users.account');
