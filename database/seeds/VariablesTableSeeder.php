@@ -12,7 +12,7 @@ class VariablesTableSeeder extends Seeder
      */
     public function run()
     {
-        // CONFIGURACION
+        
 
         \DB::table('variables')->delete();
         

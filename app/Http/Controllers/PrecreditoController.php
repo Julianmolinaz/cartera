@@ -104,7 +104,6 @@ class PrecreditoController extends Controller
 
     }
 
-
     public function edit($precredito_id)
     {
         $precredito = Precredito::find($precredito_id);
@@ -505,10 +504,6 @@ class PrecreditoController extends Controller
 
     public function updateV2(Request $request) 
     {  
-
-        \Log::error($request->all());
-        \Log::info('updateV2');
-
         $validator = $this->validateSolicitudUpdateTr($request->solicitud);
 
         if ( $validator->fails() ) return res(false,$validator->errors(),'Error en la validación');
@@ -516,7 +511,6 @@ class PrecreditoController extends Controller
         DB::beginTransaction();
 
         try {
-
             // Update producto
 
             $solicitud = Precredito::find($request->solicitud['id']);
@@ -529,7 +523,6 @@ class PrecreditoController extends Controller
             }
 
             // Edit ref productos
-            
             $this->saveRefProductosTrV2($request, $old_producto_id);
 
             DB::commit();

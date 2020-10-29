@@ -9,6 +9,7 @@ use App\Http\Controllers\FacturaController;
 use App\Repositories\PagoRepository;
 use App\PagoMasivo; 
 use Carbon\Carbon;
+use Datatables;
 use Validator;
 use Excel;
 use File;
@@ -24,17 +25,50 @@ class PagoMasivoController extends Controller
     public $arr_error = [];
     public $bancos;
     public $index = 0;
+    public $filename = '';
+    public $load = '';
+    public $factura;
 
     public function __construct()
     {
         $this->bancos = DB::table('bancos')->get();
     }
 
-
     public function index() 
     {
-        return view('admin.masivos.index')
-            ->with('err', []);
+        return view('admin.masivos.index');
+    }
+
+    public function list()
+    {
+        $loads = \DB::table('loads')
+            ->join('users', 'loads.created_by', '=', 'users.id')
+            ->select('loads.*', 'users.name as user');
+        
+         return Datatables::of($loads)
+            ->addColumn('btn', function($load) {
+
+                $route = route('admin.pagos_masivos.list_masivos',$load->id);
+
+                return '<a href="'.$route.'" class="btn btn-default btn-xs ver">
+                              <span class="glyphicon glyphicon-eye-open"></span></a>';
+            })
+            ->make(true);
+    }
+
+    public function listMasivos($load_id)
+    {
+        $load = _\Load::find($load_id);
+
+        return view('admin.masivos.cargue.masivos')
+            ->with('load',$load);
+    }
+
+    public function cargarMasivos() 
+    {
+        return view('admin.masivos.cargue.index')
+            ->with('err', [])
+            ->with('load','');
     }
 
     /**
@@ -50,9 +84,16 @@ class PagoMasivoController extends Controller
 
         if ($request->hasFile('archivo'))
         {
+
+            $this->filename = $request->archivo->getClientOriginalName();
+
             $extension = File::extension($request->archivo->getClientOriginalName());
 
-            if ($extension == "xlsx" || $extension == "xls" || $extension == "csv")
+            $exist_log = \DB::table('loads')->where('filename', $this->filename)->count();
+
+
+            if ( ($extension == "xlsx" || $extension == "xls" || $extension == "csv") &&
+                  ! $exist_log  )
             {
                 $path = $request->archivo->getRealPath();
 
@@ -61,30 +102,40 @@ class PagoMasivoController extends Controller
                 // ****** Validaciones de encabezado *******
 
                 $this->validate_heading(); 
-                if ($this->arr_error) return view('admin.masivos.index')->with('err', $this->arr_error);
+                if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
 
                 // ****** Validaciones de formato *******
 
                 $this->validation();
-                if ($this->arr_error) return view('admin.masivos.index')->with('err', $this->arr_error);
+                if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
 
                 // ****** Valida si existen el cliente, credito o solicitud *******
 
                 $this->rulesBeforePay(); 
-                if ($this->arr_error) return view('admin.masivos.index')->with('err', $this->arr_error);
+                if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
 
                 // ****** Realizar Pagos *******
 
                 $this->makePayments();
 
-                dd($this->arr_error);
+                if ($this->arr_error) {
+                    return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
+                } else {
+
+                    return view('admin.masivos.cargue.index')
+                        ->with('err',null)
+                        ->with('load', _\Load::find($this->load->id));
+                }
  
             } 
             else {
-                $this->arr_error = ['Formato no soportado'];
+                $this->arr_error[] = [
+                    'line' => '',
+                    'message' => 'Formato o nombre no soportado'
+                ];
             }
 
-            return view('admin.masivos.index')
+            return view('admin.masivos.cargue.index')
                 ->with('err', $this->arr_error);
         }
     }
@@ -105,9 +156,14 @@ class PagoMasivoController extends Controller
 
         try {
 
+            $this->load = new _\Load();
+            $this->load->filename = $this->filename;
+            $this->load->created_by = Auth::user()->id;
+            $this->load->save();
+
             for ($this->index = 0; $this->index < count($this->data); $this->index ++) {
        
-                if ($this->data[$this->index]['credito_id'] != null) {
+                if ($this->data[$this->index]['credito_id'] != null ) {
                     
                     $this->pagoCredito();
     
@@ -118,6 +174,7 @@ class PagoMasivoController extends Controller
             }
 
             DB::commit();
+
         } catch ( \Exception $e) {
             DB::rollback();
             dd($e);
@@ -259,8 +316,8 @@ class PagoMasivoController extends Controller
                         'efectivo' => true,
                         'ref_type' => 'App\\Precredito',
                         'ref_id' => $this->data[$this->index]['solicitud_id'],
-                        'created_by' => Auth::user()->id,
-                        'created_at' => Carbon::now()
+                        'ref_recibo_id' => $recibo->id,
+                        'load_id' => $this->load->id
                     ]);
         
                 } else {
@@ -297,6 +354,21 @@ class PagoMasivoController extends Controller
                     $pago->subtotal = $this->data[$this->index]['monto'];
                     $pago->user_create_id = Auth::user()->id;
                     $pago->save();
+
+                    // Guardar soporte del cargue a masivos
+
+                    $masivo = DB::table('masivos')->insert([
+                        'fecha' => $this->data[$this->index]['fecha'],
+                        'documento' => $this->data[$this->index]['documento'],
+                        'referencia' => $this->data[$this->index]['referencia'],
+                        'monto' => $this->data[$this->index]['monto'],
+                        'entidad' => $this->data[$this->index]['entidad'],
+                        'efectivo' => true,
+                        'ref_type' => 'App\\Precredito',
+                        'ref_id' => $this->data[$this->index]['solicitud_id'],
+                        'ref_recibo_id' => $recibo->id,
+                        'load_id' => $this->load->id    
+                    ]);
                 
                 } else {
                 
@@ -350,9 +422,9 @@ class PagoMasivoController extends Controller
 
         $request_pago->replace($general);
 
-        $factura = $factura->store($request_pago);
+        $factura_id = $factura->store($request_pago);
 
-        $masivo = DB::table('masivos')->insert([
+        $dat = [
             'fecha' => $this->data[$this->index]['fecha'],
             'documento' => $this->data[$this->index]['documento'],
             'referencia' => $this->data[$this->index]['referencia'],
@@ -361,9 +433,11 @@ class PagoMasivoController extends Controller
             'efectivo' => true,
             'ref_type' => 'App\\Credito',
             'ref_id' => $this->data[$this->index]['credito_id'],
-            'created_by' => Auth::user()->id,
-            'created_at' => Carbon::now()
-        ]);
+            'ref_recibo_id' => $factura_id,
+            'load_id' => $this->load->id
+        ];
+
+        $masivo = DB::table('masivos')->insert($dat);
         
     }
 
@@ -573,7 +647,7 @@ class PagoMasivoController extends Controller
         $arr[] = $header;
         $arr[] = $datos_prueba; 
 
-        Excel::create('plantilla_pagos_masivos',function($excel) use ($arr){
+        Excel::create('pagos_masivos_'.strtotime(Carbon::now()),function($excel) use ($arr){
             
             $excel->sheet('Sheetname',function($sheet) use ($arr){       
                 

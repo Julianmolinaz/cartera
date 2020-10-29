@@ -8,7 +8,7 @@ class Masivo extends Model
 {
     protected $fillable = [
         'id',
-        'fecha',
+        'fecha',    
         'documento',
         'referencia',
         'monto',
@@ -16,7 +16,42 @@ class Masivo extends Model
         'efectivo',
         'ref_type',
         'ref_id',
-        'created_by',
+        'ref_pago_id',
         'created_at'
     ];
+
+    public function getCreditoAttribute() {
+
+        if ($this->ref_type == 'App\\Credito') {
+
+            return Credito::where('id', $this->ref_id)
+                ->first();
+        } else {
+            return null;
+        }
+
+    }
+
+    public function getPrecreditoAttribute() {
+
+        if ($this->ref_type == 'App\\Precredito') {
+
+            return Precredito::where('id', $this->ref_id)
+                ->first();
+        } else {
+            return null;
+        }
+
+    }   
+
+    public function getPagoAttribute() {
+
+        if ($this->ref_type == 'App\\Credito') {
+
+            return Factura::where('id', $this->ref_recibo_id)->first();
+        } else {
+            return FactPrecredito::where('id', $this->ref_recibo_id)->first();
+        }
+
+    }
 }

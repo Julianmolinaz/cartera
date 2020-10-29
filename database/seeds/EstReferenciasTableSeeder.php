@@ -12,7 +12,7 @@ class EstReferenciasTableSeeder extends Seeder
      */
     public function run()
     {
-        // CONFIGURACION
+        
 
         \DB::table('est_referencias')->delete();
         

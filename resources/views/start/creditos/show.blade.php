@@ -1,3 +1,5 @@
+@extends('templates.main')
+
 @section('title','ver solicitud')
 
 @section('contenido')
@@ -126,6 +128,5 @@
 </div>
 </div>
 
-@endsection
 @section('proceso','Crear cliente')
-@include('templates.main')
+@endsection

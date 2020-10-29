@@ -12,7 +12,7 @@ class MunicipiosTableSeeder extends Seeder
      */
     public function run()
     {
-        // CONFIGURACION
+        
 
         \DB::table('municipios')->delete();
         

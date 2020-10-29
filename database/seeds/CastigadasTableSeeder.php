@@ -43,10 +43,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 5,
                 'credito_id' => 1235,
-                'fecha_limite' => '2016-01-20',
-                'saldo' => 1670200.0,
+                'fecha_limite' => '2020-11-05',
+                'saldo' => 0.0,
                 'user_create_id' => 30,
-                'user_update_id' => 8,
+                'user_update_id' => 118,
                 'created_at' => '2017-10-27 09:49:55',
                 'updated_at' => '2017-10-27 09:49:55',
             ),
@@ -175,8 +175,8 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 31,
                 'credito_id' => 1302,
-                'fecha_limite' => '2016-08-20',
-                'saldo' => 1367240.0,
+                'fecha_limite' => '2019-11-05',
+                'saldo' => 2063224.0,
                 'user_create_id' => 30,
                 'user_update_id' => 8,
                 'created_at' => '2017-10-31 08:21:58',
@@ -461,10 +461,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 60,
                 'credito_id' => 1381,
-                'fecha_limite' => '2014-03-17',
-                'saldo' => 2430500.0,
+                'fecha_limite' => '2020-06-17',
+                'saldo' => 0.0,
                 'user_create_id' => 30,
-                'user_update_id' => 8,
+                'user_update_id' => 118,
                 'created_at' => '2017-11-07 10:18:50',
                 'updated_at' => '2017-11-07 10:18:50',
             ),
@@ -748,7 +748,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 89,
                 'credito_id' => 1434,
                 'fecha_limite' => '2014-10-05',
-                'saldo' => 1824000.0,
+                'saldo' => 2957000.0,
                 'user_create_id' => 30,
                 'user_update_id' => 8,
                 'created_at' => '2017-11-08 12:35:28',
@@ -1056,7 +1056,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 121,
                 'credito_id' => 617,
                 'fecha_limite' => '2017-08-15',
-                'saldo' => 100000.0,
+                'saldo' => 0.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-01-24 12:49:57',
@@ -1374,10 +1374,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 151,
                 'credito_id' => 613,
-                'fecha_limite' => '2017-07-17',
-                'saldo' => 1348000.0,
+                'fecha_limite' => '2020-07-20',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 118,
                 'created_at' => '2018-01-31 08:15:59',
                 'updated_at' => '2018-01-31 08:15:59',
             ),
@@ -1451,10 +1451,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 159,
                 'credito_id' => 1334,
-                'fecha_limite' => '2017-01-15',
-                'saldo' => 1712060.0,
+                'fecha_limite' => '2020-06-30',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 102,
                 'created_at' => '2018-01-31 12:45:08',
                 'updated_at' => '2018-01-31 12:45:08',
             ),
@@ -1506,8 +1506,8 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 164,
                 'credito_id' => 1336,
-                'fecha_limite' => '2017-01-30',
-                'saldo' => 1852439.0,
+                'fecha_limite' => '2020-05-30',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-02-15 08:07:42',
@@ -1847,10 +1847,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 197,
                 'credito_id' => 1400,
-                'fecha_limite' => '2018-06-16',
-                'saldo' => 1247250.0,
+                'fecha_limite' => '2019-02-16',
+                'saldo' => 1782186.0,
                 'user_create_id' => 8,
-                'user_update_id' => 48,
+                'user_update_id' => 8,
                 'created_at' => '2018-02-25 19:34:41',
                 'updated_at' => '2018-02-25 19:34:41',
             ),
@@ -1925,7 +1925,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 205,
                 'credito_id' => 1451,
                 'fecha_limite' => '2016-07-03',
-                'saldo' => 1495000.0,
+                'saldo' => 2238000.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-02-26 09:11:21',
@@ -1969,7 +1969,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 210,
                 'credito_id' => 1472,
                 'fecha_limite' => '2018-09-01',
-                'saldo' => 788395.0,
+                'saldo' => 1424395.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-02-26 09:22:40',
@@ -2046,7 +2046,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 217,
                 'credito_id' => 1281,
                 'fecha_limite' => '2017-01-05',
-                'saldo' => 689600.0,
+                'saldo' => 1822600.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-03-01 17:04:11',
@@ -2122,10 +2122,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 225,
                 'credito_id' => 730,
-                'fecha_limite' => '2018-03-16',
-                'saldo' => 598650.0,
+                'fecha_limite' => '2020-09-01',
+                'saldo' => 554650.0,
                 'user_create_id' => 8,
-                'user_update_id' => 48,
+                'user_update_id' => 118,
                 'created_at' => '2018-03-14 10:26:38',
                 'updated_at' => '2018-03-14 10:26:38',
             ),
@@ -2167,7 +2167,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 230,
                 'credito_id' => 1299,
                 'fecha_limite' => '2017-04-06',
-                'saldo' => 1407100.0,
+                'saldo' => 1940100.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-04-16 19:36:41',
@@ -2189,9 +2189,9 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 232,
                 'credito_id' => 1086,
                 'fecha_limite' => '2019-04-02',
-                'saldo' => 216220.0,
+                'saldo' => 522220.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 8,
                 'created_at' => '2018-04-16 19:42:00',
                 'updated_at' => '2018-04-16 19:42:00',
             ),
@@ -2265,8 +2265,8 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 241,
                 'credito_id' => 158,
-                'fecha_limite' => '2018-05-01',
-                'saldo' => 1354834.0,
+                'fecha_limite' => '2019-11-01',
+                'saldo' => 333000.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-04-17 09:53:07',
@@ -2375,10 +2375,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 252,
                 'credito_id' => 214,
-                'fecha_limite' => '2017-12-20',
-                'saldo' => 729000.0,
+                'fecha_limite' => '2020-08-20',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 102,
                 'created_at' => '2018-05-27 21:13:44',
                 'updated_at' => '2018-05-27 21:13:44',
             ),
@@ -2519,9 +2519,9 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 265,
                 'credito_id' => 1776,
                 'fecha_limite' => '2018-01-03',
-                'saldo' => 1908800.0,
+                'saldo' => 2543800.0,
                 'user_create_id' => 8,
-                'user_update_id' => 20,
+                'user_update_id' => 118,
                 'created_at' => '2018-05-27 22:07:13',
                 'updated_at' => '2018-05-27 22:07:13',
             ),
@@ -3003,7 +3003,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 313,
                 'credito_id' => 1286,
                 'fecha_limite' => '2017-05-16',
-                'saldo' => 1598600.0,
+                'saldo' => 1814600.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-06-17 17:09:17',
@@ -3057,8 +3057,8 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 320,
                 'credito_id' => 699,
-                'fecha_limite' => '2018-02-22',
-                'saldo' => 1094400.0,
+                'fecha_limite' => '2020-02-22',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-06-17 21:15:47',
@@ -3608,9 +3608,9 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 381,
                 'credito_id' => 919,
                 'fecha_limite' => '2018-10-20',
-                'saldo' => 1790600.0,
+                'saldo' => 2077600.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 8,
                 'created_at' => '2018-06-27 21:26:42',
                 'updated_at' => '2018-06-27 21:26:42',
             ),
@@ -3982,7 +3982,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 421,
                 'credito_id' => 1212,
                 'fecha_limite' => '2017-12-30',
-                'saldo' => 952776.0,
+                'saldo' => 1510776.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-08-07 21:25:10',
@@ -4246,7 +4246,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 448,
                 'credito_id' => 2304,
                 'fecha_limite' => '2018-06-20',
-                'saldo' => 838300.0,
+                'saldo' => 1187300.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-09-30 08:58:12',
@@ -4510,7 +4510,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 474,
                 'credito_id' => 1509,
                 'fecha_limite' => '2018-07-02',
-                'saldo' => 2670700.0,
+                'saldo' => 3054700.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-10-07 12:08:19',
@@ -4554,7 +4554,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 479,
                 'credito_id' => 31,
                 'fecha_limite' => '2017-11-26',
-                'saldo' => 6313000.0,
+                'saldo' => 6795000.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-10-07 13:42:47',
@@ -4587,7 +4587,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 485,
                 'credito_id' => 102,
                 'fecha_limite' => '2017-09-28',
-                'saldo' => 2942000.0,
+                'saldo' => 3460000.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-10-16 23:05:07',
@@ -4686,7 +4686,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 496,
                 'credito_id' => 573,
                 'fecha_limite' => '2018-03-30',
-                'saldo' => 713640.0,
+                'saldo' => 1295640.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-10-24 16:11:19',
@@ -4752,7 +4752,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 504,
                 'credito_id' => 1980,
                 'fecha_limite' => '2018-07-14',
-                'saldo' => 2487400.0,
+                'saldo' => 2660400.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-10-24 17:43:55',
@@ -4773,10 +4773,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 506,
                 'credito_id' => 2133,
-                'fecha_limite' => '2018-04-10',
-                'saldo' => 676200.0,
+                'fecha_limite' => '2020-09-10',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 118,
                 'created_at' => '2018-11-13 19:44:13',
                 'updated_at' => '2018-11-13 19:44:13',
             ),
@@ -4784,10 +4784,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 507,
                 'credito_id' => 2124,
-                'fecha_limite' => '2018-04-30',
-                'saldo' => 477400.0,
+                'fecha_limite' => '2020-08-30',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 118,
                 'created_at' => '2018-11-13 21:24:24',
                 'updated_at' => '2018-11-13 21:24:24',
             ),
@@ -4861,8 +4861,8 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 514,
                 'credito_id' => 2786,
-                'fecha_limite' => '2018-06-18',
-                'saldo' => 1231500.0,
+                'fecha_limite' => '2020-03-03',
+                'saldo' => 1700500.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2018-11-18 11:29:48',
@@ -4928,7 +4928,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 520,
                 'credito_id' => 1737,
                 'fecha_limite' => '2018-06-03',
-                'saldo' => 1109890.0,
+                'saldo' => 1514890.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-01-09 16:28:58',
@@ -4939,7 +4939,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 521,
                 'credito_id' => 3181,
                 'fecha_limite' => '2018-06-25',
-                'saldo' => 883700.0,
+                'saldo' => 1267700.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-01-09 16:33:24',
@@ -4983,7 +4983,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 525,
                 'credito_id' => 2253,
                 'fecha_limite' => '2018-06-05',
-                'saldo' => 750090.0,
+                'saldo' => 1631090.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-01-09 18:09:08',
@@ -4994,7 +4994,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 526,
                 'credito_id' => 2456,
                 'fecha_limite' => '2018-08-05',
-                'saldo' => 939360.0,
+                'saldo' => 1562360.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-01-09 18:15:16',
@@ -5038,7 +5038,7 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 530,
                 'credito_id' => 3899,
                 'fecha_limite' => '2018-09-05',
-                'saldo' => 847000.0,
+                'saldo' => 1701000.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-01-16 16:57:13',
@@ -5158,10 +5158,10 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 547,
                 'credito_id' => 157,
-                'fecha_limite' => '2018-03-01',
-                'saldo' => 858820.0,
+                'fecha_limite' => '2020-07-01',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 101,
                 'created_at' => '2019-01-16 19:29:59',
                 'updated_at' => '2019-01-16 19:29:59',
             ),
@@ -5235,8 +5235,8 @@ class CastigadasTableSeeder extends Seeder
             array (
                 'id' => 555,
                 'credito_id' => 4074,
-                'fecha_limite' => '2018-09-20',
-                'saldo' => 851950.0,
+                'fecha_limite' => '2019-04-20',
+                'saldo' => 1522950.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-02-14 09:05:36',
@@ -5247,24 +5247,13 @@ class CastigadasTableSeeder extends Seeder
                 'id' => 556,
                 'credito_id' => 5551,
                 'fecha_limite' => '2019-04-01',
-                'saldo' => 1000000.0,
+                'saldo' => 1440000.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-02-25 09:58:57',
                 'updated_at' => '2019-02-25 09:58:57',
             ),
             476 => 
-            array (
-                'id' => 558,
-                'credito_id' => 3398,
-                'fecha_limite' => '2018-11-25',
-                'saldo' => 2042900.0,
-                'user_create_id' => 8,
-                'user_update_id' => 8,
-                'created_at' => '2019-02-28 17:33:52',
-                'updated_at' => '2019-02-28 17:33:52',
-            ),
-            477 => 
             array (
                 'id' => 559,
                 'credito_id' => 2155,
@@ -5275,7 +5264,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-05 14:11:57',
                 'updated_at' => '2019-03-05 14:11:57',
             ),
-            478 => 
+            477 => 
             array (
                 'id' => 560,
                 'credito_id' => 1220,
@@ -5286,7 +5275,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-05 16:10:10',
                 'updated_at' => '2019-03-05 16:10:10',
             ),
-            479 => 
+            478 => 
             array (
                 'id' => 562,
                 'credito_id' => 4012,
@@ -5297,7 +5286,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-05 18:20:17',
                 'updated_at' => '2019-03-05 18:20:17',
             ),
-            480 => 
+            479 => 
             array (
                 'id' => 563,
                 'credito_id' => 3914,
@@ -5308,29 +5297,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-05 19:17:24',
                 'updated_at' => '2019-03-05 19:17:24',
             ),
-            481 => 
+            480 => 
             array (
                 'id' => 564,
                 'credito_id' => 3722,
                 'fecha_limite' => '2018-11-05',
-                'saldo' => 1835960.0,
+                'saldo' => 2499960.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 8,
                 'created_at' => '2019-03-06 09:20:50',
                 'updated_at' => '2019-03-06 09:20:50',
             ),
-            482 => 
-            array (
-                'id' => 566,
-                'credito_id' => 2964,
-                'fecha_limite' => '2018-11-15',
-                'saldo' => 954850.0,
-                'user_create_id' => 8,
-                'user_update_id' => 8,
-                'created_at' => '2019-03-07 11:31:07',
-                'updated_at' => '2019-03-07 11:31:07',
-            ),
-            483 => 
+            481 => 
             array (
                 'id' => 567,
                 'credito_id' => 2194,
@@ -5341,7 +5319,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-07 12:29:45',
                 'updated_at' => '2019-03-07 12:29:45',
             ),
-            484 => 
+            482 => 
             array (
                 'id' => 568,
                 'credito_id' => 4341,
@@ -5352,18 +5330,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-07 16:40:04',
                 'updated_at' => '2019-03-07 16:40:04',
             ),
-            485 => 
+            483 => 
             array (
                 'id' => 569,
                 'credito_id' => 4283,
                 'fecha_limite' => '2018-11-30',
-                'saldo' => 2972500.0,
+                'saldo' => 3391500.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-07 18:51:54',
                 'updated_at' => '2019-03-07 18:51:54',
             ),
-            486 => 
+            484 => 
             array (
                 'id' => 570,
                 'credito_id' => 4231,
@@ -5374,29 +5352,29 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-07 18:53:04',
                 'updated_at' => '2019-03-07 18:53:04',
             ),
-            487 => 
+            485 => 
             array (
                 'id' => 571,
                 'credito_id' => 2705,
                 'fecha_limite' => '2018-08-02',
-                'saldo' => 644750.0,
+                'saldo' => 1402750.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-07 21:12:18',
                 'updated_at' => '2019-03-07 21:12:18',
             ),
-            488 => 
+            486 => 
             array (
                 'id' => 572,
                 'credito_id' => 4150,
                 'fecha_limite' => '2018-10-05',
-                'saldo' => 1655300.0,
+                'saldo' => 2116300.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-11 18:34:57',
                 'updated_at' => '2019-03-11 18:34:57',
             ),
-            489 => 
+            487 => 
             array (
                 'id' => 573,
                 'credito_id' => 3746,
@@ -5407,18 +5385,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-12 09:21:57',
                 'updated_at' => '2019-03-12 09:21:57',
             ),
-            490 => 
+            488 => 
             array (
                 'id' => 574,
                 'credito_id' => 5853,
                 'fecha_limite' => '2019-04-19',
-                'saldo' => 3563000.0,
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 118,
                 'created_at' => '2019-03-18 18:05:14',
                 'updated_at' => '2019-03-18 18:05:14',
             ),
-            491 => 
+            489 => 
             array (
                 'id' => 575,
                 'credito_id' => 1698,
@@ -5429,29 +5407,29 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-18 19:19:32',
                 'updated_at' => '2019-03-18 19:19:32',
             ),
-            492 => 
+            490 => 
             array (
                 'id' => 576,
                 'credito_id' => 4624,
                 'fecha_limite' => '2018-11-20',
-                'saldo' => 1158940.0,
+                'saldo' => 1806940.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-20 18:29:25',
                 'updated_at' => '2019-03-20 18:29:25',
             ),
-            493 => 
+            491 => 
             array (
                 'id' => 577,
                 'credito_id' => 3954,
                 'fecha_limite' => '2018-11-03',
-                'saldo' => 1316900.0,
+                'saldo' => 1767900.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-21 18:41:27',
                 'updated_at' => '2019-03-21 18:41:27',
             ),
-            494 => 
+            492 => 
             array (
                 'id' => 578,
                 'credito_id' => 3541,
@@ -5462,18 +5440,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-24 18:02:27',
                 'updated_at' => '2019-03-24 18:02:27',
             ),
-            495 => 
+            493 => 
             array (
                 'id' => 579,
                 'credito_id' => 3674,
                 'fecha_limite' => '2018-10-16',
-                'saldo' => 1279440.0,
+                'saldo' => 1727440.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-24 18:34:04',
                 'updated_at' => '2019-03-24 18:34:04',
             ),
-            496 => 
+            494 => 
             array (
                 'id' => 580,
                 'credito_id' => 3413,
@@ -5484,7 +5462,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-24 19:02:21',
                 'updated_at' => '2019-03-24 19:02:21',
             ),
-            497 => 
+            495 => 
             array (
                 'id' => 581,
                 'credito_id' => 3319,
@@ -5495,7 +5473,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-25 12:00:22',
                 'updated_at' => '2019-03-25 12:00:22',
             ),
-            498 => 
+            496 => 
             array (
                 'id' => 582,
                 'credito_id' => 3260,
@@ -5506,7 +5484,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-25 12:03:36',
                 'updated_at' => '2019-03-25 12:03:36',
             ),
-            499 => 
+            497 => 
             array (
                 'id' => 583,
                 'credito_id' => 3268,
@@ -5517,20 +5495,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-25 13:12:15',
                 'updated_at' => '2019-03-25 13:12:15',
             ),
-        ));
-        \DB::table('castigadas')->insert(array (
-            0 => 
+            498 => 
             array (
                 'id' => 584,
                 'credito_id' => 4028,
                 'fecha_limite' => '2018-10-30',
-                'saldo' => 1292520.0,
+                'saldo' => 1948520.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-25 14:44:03',
                 'updated_at' => '2019-03-25 14:44:03',
             ),
-            1 => 
+            499 => 
             array (
                 'id' => 585,
                 'credito_id' => 4185,
@@ -5541,7 +5517,9 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-25 15:32:55',
                 'updated_at' => '2019-03-25 15:32:55',
             ),
-            2 => 
+        ));
+        \DB::table('castigadas')->insert(array (
+            0 => 
             array (
                 'id' => 586,
                 'credito_id' => 2850,
@@ -5552,7 +5530,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 16:32:14',
                 'updated_at' => '2019-03-28 16:32:14',
             ),
-            3 => 
+            1 => 
             array (
                 'id' => 587,
                 'credito_id' => 364,
@@ -5563,18 +5541,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 18:51:16',
                 'updated_at' => '2019-03-28 18:51:16',
             ),
-            4 => 
+            2 => 
             array (
                 'id' => 588,
                 'credito_id' => 4206,
                 'fecha_limite' => '2018-10-15',
-                'saldo' => 1663500.0,
+                'saldo' => 2061500.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-28 18:58:28',
                 'updated_at' => '2019-03-28 18:58:28',
             ),
-            5 => 
+            3 => 
             array (
                 'id' => 589,
                 'credito_id' => 2029,
@@ -5585,18 +5563,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 19:02:59',
                 'updated_at' => '2019-03-28 19:02:59',
             ),
-            6 => 
+            4 => 
             array (
                 'id' => 590,
                 'credito_id' => 970,
-                'fecha_limite' => '2018-08-17',
-                'saldo' => 1074097.0,
+                'fecha_limite' => '2020-03-17',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 102,
                 'created_at' => '2019-03-28 19:11:06',
                 'updated_at' => '2019-03-28 19:11:06',
             ),
-            7 => 
+            5 => 
             array (
                 'id' => 591,
                 'credito_id' => 1002,
@@ -5607,7 +5585,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 19:14:45',
                 'updated_at' => '2019-03-28 19:14:45',
             ),
-            8 => 
+            6 => 
             array (
                 'id' => 592,
                 'credito_id' => 852,
@@ -5618,7 +5596,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 19:18:56',
                 'updated_at' => '2019-03-28 19:18:56',
             ),
-            9 => 
+            7 => 
             array (
                 'id' => 593,
                 'credito_id' => 742,
@@ -5629,7 +5607,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 19:33:52',
                 'updated_at' => '2019-03-28 19:33:52',
             ),
-            10 => 
+            8 => 
             array (
                 'id' => 594,
                 'credito_id' => 706,
@@ -5640,18 +5618,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 19:38:14',
                 'updated_at' => '2019-03-28 19:38:14',
             ),
-            11 => 
+            9 => 
             array (
                 'id' => 595,
                 'credito_id' => 731,
                 'fecha_limite' => '2018-11-02',
-                'saldo' => 1370830.0,
+                'saldo' => 1737830.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-28 19:42:28',
                 'updated_at' => '2019-03-28 19:42:28',
             ),
-            12 => 
+            10 => 
             array (
                 'id' => 596,
                 'credito_id' => 628,
@@ -5662,7 +5640,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 19:47:28',
                 'updated_at' => '2019-03-28 19:47:28',
             ),
-            13 => 
+            11 => 
             array (
                 'id' => 597,
                 'credito_id' => 697,
@@ -5673,7 +5651,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 19:51:21',
                 'updated_at' => '2019-03-28 19:51:21',
             ),
-            14 => 
+            12 => 
             array (
                 'id' => 598,
                 'credito_id' => 1296,
@@ -5684,7 +5662,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 19:54:25',
                 'updated_at' => '2019-03-28 19:54:25',
             ),
-            15 => 
+            13 => 
             array (
                 'id' => 599,
                 'credito_id' => 1166,
@@ -5695,7 +5673,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 19:58:16',
                 'updated_at' => '2019-03-28 19:58:16',
             ),
-            16 => 
+            14 => 
             array (
                 'id' => 600,
                 'credito_id' => 1019,
@@ -5706,18 +5684,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 20:03:44',
                 'updated_at' => '2019-03-28 20:03:44',
             ),
-            17 => 
+            15 => 
             array (
                 'id' => 601,
                 'credito_id' => 1058,
                 'fecha_limite' => '2017-11-23',
-                'saldo' => 1399350.0,
+                'saldo' => 1843350.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-28 20:09:31',
                 'updated_at' => '2019-03-28 20:09:31',
             ),
-            18 => 
+            16 => 
             array (
                 'id' => 603,
                 'credito_id' => 2940,
@@ -5728,7 +5706,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 20:17:25',
                 'updated_at' => '2019-03-28 20:17:25',
             ),
-            19 => 
+            17 => 
             array (
                 'id' => 604,
                 'credito_id' => 2383,
@@ -5739,7 +5717,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 20:25:05',
                 'updated_at' => '2019-03-28 20:25:05',
             ),
-            20 => 
+            18 => 
             array (
                 'id' => 605,
                 'credito_id' => 2495,
@@ -5750,7 +5728,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 20:28:37',
                 'updated_at' => '2019-03-28 20:28:37',
             ),
-            21 => 
+            19 => 
             array (
                 'id' => 606,
                 'credito_id' => 1748,
@@ -5761,7 +5739,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 20:32:39',
                 'updated_at' => '2019-03-28 20:32:39',
             ),
-            22 => 
+            20 => 
             array (
                 'id' => 607,
                 'credito_id' => 2164,
@@ -5772,7 +5750,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 20:46:12',
                 'updated_at' => '2019-03-28 20:46:12',
             ),
-            23 => 
+            21 => 
             array (
                 'id' => 608,
                 'credito_id' => 2152,
@@ -5783,18 +5761,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 20:49:00',
                 'updated_at' => '2019-03-28 20:49:00',
             ),
-            24 => 
+            22 => 
             array (
                 'id' => 609,
                 'credito_id' => 3335,
                 'fecha_limite' => '2018-08-03',
-                'saldo' => 1425280.0,
+                'saldo' => 1823280.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-03-28 20:52:21',
                 'updated_at' => '2019-03-28 20:52:21',
             ),
-            25 => 
+            23 => 
             array (
                 'id' => 610,
                 'credito_id' => 3341,
@@ -5805,7 +5783,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 20:55:11',
                 'updated_at' => '2019-03-28 20:55:11',
             ),
-            26 => 
+            24 => 
             array (
                 'id' => 611,
                 'credito_id' => 3075,
@@ -5816,62 +5794,62 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-03-28 20:56:48',
                 'updated_at' => '2019-03-28 20:56:48',
             ),
-            27 => 
+            25 => 
             array (
                 'id' => 612,
                 'credito_id' => 2126,
                 'fecha_limite' => '2018-07-03',
-                'saldo' => 1242800.0,
+                'saldo' => 1681800.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-02 18:06:53',
                 'updated_at' => '2019-04-02 18:06:53',
             ),
-            28 => 
+            26 => 
             array (
                 'id' => 614,
                 'credito_id' => 4299,
                 'fecha_limite' => '2018-11-25',
-                'saldo' => 1332200.0,
+                'saldo' => 1771200.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-02 18:39:46',
                 'updated_at' => '2019-04-02 18:39:46',
             ),
-            29 => 
+            27 => 
             array (
                 'id' => 615,
                 'credito_id' => 3972,
                 'fecha_limite' => '2018-10-10',
-                'saldo' => 1413960.0,
+                'saldo' => 1852960.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-02 18:43:44',
                 'updated_at' => '2019-04-02 18:43:44',
             ),
-            30 => 
+            28 => 
             array (
                 'id' => 616,
                 'credito_id' => 2923,
                 'fecha_limite' => '2018-08-05',
-                'saldo' => 718550.0,
+                'saldo' => 1515550.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-02 18:55:57',
                 'updated_at' => '2019-04-02 18:55:57',
             ),
-            31 => 
+            29 => 
             array (
                 'id' => 617,
                 'credito_id' => 4465,
                 'fecha_limite' => '2018-12-05',
-                'saldo' => 802200.0,
+                'saldo' => 1560200.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-02 19:07:17',
                 'updated_at' => '2019-04-02 19:07:17',
             ),
-            32 => 
+            30 => 
             array (
                 'id' => 619,
                 'credito_id' => 3038,
@@ -5882,7 +5860,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-02 19:36:33',
                 'updated_at' => '2019-04-02 19:36:33',
             ),
-            33 => 
+            31 => 
             array (
                 'id' => 620,
                 'credito_id' => 2158,
@@ -5893,7 +5871,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-02 19:46:12',
                 'updated_at' => '2019-04-02 19:46:12',
             ),
-            34 => 
+            32 => 
             array (
                 'id' => 621,
                 'credito_id' => 2713,
@@ -5904,7 +5882,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-02 19:51:40',
                 'updated_at' => '2019-04-02 19:51:40',
             ),
-            35 => 
+            33 => 
             array (
                 'id' => 622,
                 'credito_id' => 834,
@@ -5915,29 +5893,29 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-02 19:55:35',
                 'updated_at' => '2019-04-02 19:55:35',
             ),
-            36 => 
+            34 => 
             array (
                 'id' => 623,
                 'credito_id' => 2247,
-                'fecha_limite' => '2019-07-15',
-                'saldo' => 1300150.0,
+                'fecha_limite' => '2020-10-15',
+                'saldo' => 1310150.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 118,
                 'created_at' => '2019-04-02 20:05:49',
                 'updated_at' => '2019-04-02 20:05:49',
             ),
-            37 => 
+            35 => 
             array (
                 'id' => 624,
                 'credito_id' => 4654,
                 'fecha_limite' => '2018-11-20',
-                'saldo' => 1209340.0,
+                'saldo' => 1602340.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-02 20:45:01',
                 'updated_at' => '2019-04-02 20:45:01',
             ),
-            38 => 
+            36 => 
             array (
                 'id' => 626,
                 'credito_id' => 3940,
@@ -5948,18 +5926,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-02 20:53:56',
                 'updated_at' => '2019-04-02 20:53:56',
             ),
-            39 => 
+            37 => 
             array (
                 'id' => 627,
                 'credito_id' => 4643,
                 'fecha_limite' => '2018-11-20',
-                'saldo' => 1131800.0,
+                'saldo' => 1523800.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-03 12:38:01',
                 'updated_at' => '2019-04-03 12:38:01',
             ),
-            40 => 
+            38 => 
             array (
                 'id' => 628,
                 'credito_id' => 2017,
@@ -5970,7 +5948,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-03 16:04:32',
                 'updated_at' => '2019-04-03 16:04:32',
             ),
-            41 => 
+            39 => 
             array (
                 'id' => 630,
                 'credito_id' => 4228,
@@ -5981,18 +5959,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-03 19:09:00',
                 'updated_at' => '2019-04-03 19:09:00',
             ),
-            42 => 
+            40 => 
             array (
                 'id' => 631,
                 'credito_id' => 2024,
                 'fecha_limite' => '2018-10-12',
-                'saldo' => 829080.0,
+                'saldo' => 1221080.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-03 19:22:54',
                 'updated_at' => '2019-04-03 19:22:54',
             ),
-            43 => 
+            41 => 
             array (
                 'id' => 632,
                 'credito_id' => 1609,
@@ -6003,18 +5981,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-03 19:27:58',
                 'updated_at' => '2019-04-03 19:27:58',
             ),
-            44 => 
+            42 => 
             array (
                 'id' => 633,
                 'credito_id' => 1903,
                 'fecha_limite' => '2018-08-20',
-                'saldo' => 1136865.0,
+                'saldo' => 1392865.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-03 19:41:24',
                 'updated_at' => '2019-04-03 19:41:24',
             ),
-            45 => 
+            43 => 
             array (
                 'id' => 634,
                 'credito_id' => 4024,
@@ -6025,7 +6003,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-03 19:43:29',
                 'updated_at' => '2019-04-03 19:43:29',
             ),
-            46 => 
+            44 => 
             array (
                 'id' => 636,
                 'credito_id' => 3281,
@@ -6036,18 +6014,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-03 20:02:06',
                 'updated_at' => '2019-04-03 20:02:06',
             ),
-            47 => 
+            45 => 
             array (
                 'id' => 638,
                 'credito_id' => 4058,
                 'fecha_limite' => '2019-06-05',
-                'saldo' => 1519700.0,
+                'saldo' => 1825700.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 8,
                 'created_at' => '2019-04-03 20:11:24',
                 'updated_at' => '2019-04-03 20:11:24',
             ),
-            48 => 
+            46 => 
             array (
                 'id' => 639,
                 'credito_id' => 4078,
@@ -6058,7 +6036,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-03 20:24:07',
                 'updated_at' => '2019-04-03 20:24:07',
             ),
-            49 => 
+            47 => 
             array (
                 'id' => 640,
                 'credito_id' => 4144,
@@ -6069,7 +6047,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-03 20:26:18',
                 'updated_at' => '2019-04-03 20:26:18',
             ),
-            50 => 
+            48 => 
             array (
                 'id' => 641,
                 'credito_id' => 5986,
@@ -6080,29 +6058,29 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-05 07:56:13',
                 'updated_at' => '2019-04-05 07:56:13',
             ),
-            51 => 
+            49 => 
             array (
                 'id' => 642,
                 'credito_id' => 3619,
                 'fecha_limite' => '2018-08-10',
-                'saldo' => 1363700.0,
+                'saldo' => 1748700.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-10 17:16:30',
                 'updated_at' => '2019-04-10 17:16:30',
             ),
-            52 => 
+            50 => 
             array (
                 'id' => 644,
                 'credito_id' => 4202,
                 'fecha_limite' => '2018-12-02',
-                'saldo' => 1197650.0,
+                'saldo' => 1891650.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-10 17:26:53',
                 'updated_at' => '2019-04-10 17:26:53',
             ),
-            53 => 
+            51 => 
             array (
                 'id' => 645,
                 'credito_id' => 4027,
@@ -6113,7 +6091,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-11 09:02:47',
                 'updated_at' => '2019-04-11 09:02:47',
             ),
-            54 => 
+            52 => 
             array (
                 'id' => 646,
                 'credito_id' => 3166,
@@ -6124,18 +6102,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-11 09:29:52',
                 'updated_at' => '2019-04-11 09:29:52',
             ),
-            55 => 
+            53 => 
             array (
                 'id' => 647,
                 'credito_id' => 3906,
                 'fecha_limite' => '2018-11-01',
-                'saldo' => 1258035.0,
+                'saldo' => 1515035.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 8,
                 'created_at' => '2019-04-11 09:40:00',
                 'updated_at' => '2019-04-11 09:40:00',
             ),
-            56 => 
+            54 => 
             array (
                 'id' => 648,
                 'credito_id' => 2698,
@@ -6146,18 +6124,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-11 14:54:26',
                 'updated_at' => '2019-04-11 14:54:26',
             ),
-            57 => 
+            55 => 
             array (
                 'id' => 649,
                 'credito_id' => 3718,
                 'fecha_limite' => '2018-12-05',
-                'saldo' => 1010548.0,
+                'saldo' => 1238548.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-11 15:15:19',
                 'updated_at' => '2019-04-11 15:15:19',
             ),
-            58 => 
+            56 => 
             array (
                 'id' => 650,
                 'credito_id' => 4868,
@@ -6168,18 +6146,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-11 15:29:08',
                 'updated_at' => '2019-04-11 15:29:08',
             ),
-            59 => 
+            57 => 
             array (
                 'id' => 651,
                 'credito_id' => 542,
                 'fecha_limite' => '2018-11-02',
-                'saldo' => 2340985.0,
+                'saldo' => 2713985.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-22 15:22:28',
                 'updated_at' => '2019-04-22 15:22:28',
             ),
-            60 => 
+            58 => 
             array (
                 'id' => 652,
                 'credito_id' => 2023,
@@ -6190,7 +6168,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-28 13:14:25',
                 'updated_at' => '2019-04-28 13:14:25',
             ),
-            61 => 
+            59 => 
             array (
                 'id' => 653,
                 'credito_id' => 1994,
@@ -6201,18 +6179,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-28 13:20:02',
                 'updated_at' => '2019-04-28 13:20:02',
             ),
-            62 => 
+            60 => 
             array (
                 'id' => 654,
                 'credito_id' => 2208,
                 'fecha_limite' => '2018-06-30',
-                'saldo' => 1082735.0,
+                'saldo' => 1449735.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-28 14:06:44',
                 'updated_at' => '2019-04-28 14:06:44',
             ),
-            63 => 
+            61 => 
             array (
                 'id' => 655,
                 'credito_id' => 1765,
@@ -6223,7 +6201,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-28 14:12:28',
                 'updated_at' => '2019-04-28 14:12:28',
             ),
-            64 => 
+            62 => 
             array (
                 'id' => 656,
                 'credito_id' => 2821,
@@ -6234,7 +6212,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-28 14:17:43',
                 'updated_at' => '2019-04-28 14:17:43',
             ),
-            65 => 
+            63 => 
             array (
                 'id' => 657,
                 'credito_id' => 5720,
@@ -6245,29 +6223,29 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-28 14:21:34',
                 'updated_at' => '2019-04-28 14:21:34',
             ),
-            66 => 
+            64 => 
             array (
                 'id' => 658,
                 'credito_id' => 5933,
                 'fecha_limite' => '2019-04-04',
-                'saldo' => 1114900.0,
+                'saldo' => 1527900.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-04-28 14:55:28',
                 'updated_at' => '2019-04-28 14:55:28',
             ),
-            67 => 
+            65 => 
             array (
                 'id' => 659,
                 'credito_id' => 767,
-                'fecha_limite' => '2018-11-30',
-                'saldo' => 3457400.0,
+                'fecha_limite' => '2021-03-05',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 118,
                 'created_at' => '2019-04-28 14:58:49',
                 'updated_at' => '2019-04-28 14:58:49',
             ),
-            68 => 
+            66 => 
             array (
                 'id' => 661,
                 'credito_id' => 3280,
@@ -6278,7 +6256,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-04-28 15:22:39',
                 'updated_at' => '2019-04-28 15:22:39',
             ),
-            69 => 
+            67 => 
             array (
                 'id' => 662,
                 'credito_id' => 593,
@@ -6289,18 +6267,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-03 13:02:24',
                 'updated_at' => '2019-05-03 13:02:24',
             ),
-            70 => 
+            68 => 
             array (
                 'id' => 665,
                 'credito_id' => 4137,
                 'fecha_limite' => '2018-09-30',
-                'saldo' => 1944080.0,
+                'saldo' => 2349080.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-05-06 18:06:41',
                 'updated_at' => '2019-05-06 18:06:41',
             ),
-            71 => 
+            69 => 
             array (
                 'id' => 666,
                 'credito_id' => 595,
@@ -6311,7 +6289,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-06 19:09:13',
                 'updated_at' => '2019-05-06 19:09:13',
             ),
-            72 => 
+            70 => 
             array (
                 'id' => 667,
                 'credito_id' => 3975,
@@ -6322,7 +6300,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-06 19:44:35',
                 'updated_at' => '2019-05-06 19:44:35',
             ),
-            73 => 
+            71 => 
             array (
                 'id' => 668,
                 'credito_id' => 2506,
@@ -6333,29 +6311,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-06 20:20:59',
                 'updated_at' => '2019-05-06 20:20:59',
             ),
-            74 => 
+            72 => 
             array (
                 'id' => 669,
                 'credito_id' => 2444,
                 'fecha_limite' => '2018-05-18',
-                'saldo' => 1292895.0,
+                'saldo' => 1589895.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 8,
                 'created_at' => '2019-05-06 20:24:19',
                 'updated_at' => '2019-05-06 20:24:19',
             ),
-            75 => 
-            array (
-                'id' => 670,
-                'credito_id' => 2198,
-                'fecha_limite' => '2018-06-17',
-                'saldo' => 1947810.0,
-                'user_create_id' => 8,
-                'user_update_id' => 8,
-                'created_at' => '2019-05-06 20:40:54',
-                'updated_at' => '2019-05-06 20:40:54',
-            ),
-            76 => 
+            73 => 
             array (
                 'id' => 671,
                 'credito_id' => 972,
@@ -6366,7 +6333,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-06 20:45:18',
                 'updated_at' => '2019-05-06 20:45:18',
             ),
-            77 => 
+            74 => 
             array (
                 'id' => 673,
                 'credito_id' => 1753,
@@ -6377,7 +6344,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-07 17:41:56',
                 'updated_at' => '2019-05-07 17:41:56',
             ),
-            78 => 
+            75 => 
             array (
                 'id' => 674,
                 'credito_id' => 1352,
@@ -6388,7 +6355,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-07 17:57:58',
                 'updated_at' => '2019-05-07 17:57:58',
             ),
-            79 => 
+            76 => 
             array (
                 'id' => 676,
                 'credito_id' => 1287,
@@ -6399,7 +6366,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-07 18:06:09',
                 'updated_at' => '2019-05-07 18:06:09',
             ),
-            80 => 
+            77 => 
             array (
                 'id' => 679,
                 'credito_id' => 1163,
@@ -6410,18 +6377,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-07 18:54:53',
                 'updated_at' => '2019-05-07 18:54:53',
             ),
-            81 => 
+            78 => 
             array (
                 'id' => 680,
                 'credito_id' => 760,
                 'fecha_limite' => '2018-11-03',
-                'saldo' => 686900.0,
+                'saldo' => 1370900.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-05-07 19:13:03',
                 'updated_at' => '2019-05-07 19:13:03',
             ),
-            82 => 
+            79 => 
             array (
                 'id' => 681,
                 'credito_id' => 1823,
@@ -6432,7 +6399,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-07 19:21:07',
                 'updated_at' => '2019-05-07 19:21:07',
             ),
-            83 => 
+            80 => 
             array (
                 'id' => 682,
                 'credito_id' => 3140,
@@ -6443,18 +6410,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-07 19:25:59',
                 'updated_at' => '2019-05-07 19:25:59',
             ),
-            84 => 
+            81 => 
             array (
                 'id' => 683,
                 'credito_id' => 4355,
                 'fecha_limite' => '2018-10-18',
-                'saldo' => 3498200.0,
+                'saldo' => 3902200.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-05-07 19:33:40',
                 'updated_at' => '2019-05-07 19:33:40',
             ),
-            85 => 
+            82 => 
             array (
                 'id' => 684,
                 'credito_id' => 3107,
@@ -6465,7 +6432,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-07 19:41:25',
                 'updated_at' => '2019-05-07 19:41:25',
             ),
-            86 => 
+            83 => 
             array (
                 'id' => 685,
                 'credito_id' => 196,
@@ -6476,29 +6443,29 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-07 20:03:56',
                 'updated_at' => '2019-05-07 20:03:56',
             ),
-            87 => 
+            84 => 
             array (
                 'id' => 686,
                 'credito_id' => 248,
                 'fecha_limite' => '2018-11-25',
-                'saldo' => 860170.0,
+                'saldo' => 1264170.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-05-07 20:06:01',
                 'updated_at' => '2019-05-07 20:06:01',
             ),
-            88 => 
+            85 => 
             array (
                 'id' => 687,
                 'credito_id' => 560,
                 'fecha_limite' => '2018-10-06',
-                'saldo' => 842500.0,
+                'saldo' => 1200500.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-05-07 20:07:55',
                 'updated_at' => '2019-05-07 20:07:55',
             ),
-            89 => 
+            86 => 
             array (
                 'id' => 688,
                 'credito_id' => 4573,
@@ -6509,7 +6476,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-14 16:18:28',
                 'updated_at' => '2019-05-14 16:18:28',
             ),
-            90 => 
+            87 => 
             array (
                 'id' => 689,
                 'credito_id' => 3748,
@@ -6520,7 +6487,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-15 15:02:52',
                 'updated_at' => '2019-05-15 15:02:52',
             ),
-            91 => 
+            88 => 
             array (
                 'id' => 690,
                 'credito_id' => 2706,
@@ -6531,7 +6498,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-15 15:31:41',
                 'updated_at' => '2019-05-15 15:31:41',
             ),
-            92 => 
+            89 => 
             array (
                 'id' => 691,
                 'credito_id' => 1643,
@@ -6542,7 +6509,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-15 15:41:34',
                 'updated_at' => '2019-05-15 15:41:34',
             ),
-            93 => 
+            90 => 
             array (
                 'id' => 692,
                 'credito_id' => 1733,
@@ -6553,18 +6520,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-21 10:11:48',
                 'updated_at' => '2019-05-21 10:11:48',
             ),
-            94 => 
+            91 => 
             array (
                 'id' => 693,
                 'credito_id' => 4722,
                 'fecha_limite' => '2019-03-30',
-                'saldo' => 1037260.0,
+                'saldo' => 1685260.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-05-27 18:49:49',
                 'updated_at' => '2019-05-27 18:49:49',
             ),
-            95 => 
+            92 => 
             array (
                 'id' => 694,
                 'credito_id' => 3031,
@@ -6575,7 +6542,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-05-27 19:18:15',
                 'updated_at' => '2019-05-27 19:18:15',
             ),
-            96 => 
+            93 => 
             array (
                 'id' => 697,
                 'credito_id' => 3864,
@@ -6586,18 +6553,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 11:50:17',
                 'updated_at' => '2019-06-03 11:50:17',
             ),
-            97 => 
+            94 => 
             array (
                 'id' => 699,
                 'credito_id' => 4051,
                 'fecha_limite' => '2019-03-20',
-                'saldo' => 1007940.0,
+                'saldo' => 1738940.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-06-03 11:56:10',
                 'updated_at' => '2019-06-03 11:56:10',
             ),
-            98 => 
+            95 => 
             array (
                 'id' => 700,
                 'credito_id' => 4309,
@@ -6608,7 +6575,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 11:58:59',
                 'updated_at' => '2019-06-03 11:58:59',
             ),
-            99 => 
+            96 => 
             array (
                 'id' => 701,
                 'credito_id' => 3743,
@@ -6619,7 +6586,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 12:03:29',
                 'updated_at' => '2019-06-03 12:03:29',
             ),
-            100 => 
+            97 => 
             array (
                 'id' => 702,
                 'credito_id' => 3443,
@@ -6630,7 +6597,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 12:09:03',
                 'updated_at' => '2019-06-03 12:09:03',
             ),
-            101 => 
+            98 => 
             array (
                 'id' => 703,
                 'credito_id' => 403,
@@ -6641,51 +6608,51 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 12:15:41',
                 'updated_at' => '2019-06-03 12:15:41',
             ),
-            102 => 
+            99 => 
             array (
                 'id' => 704,
                 'credito_id' => 4482,
                 'fecha_limite' => '2019-07-22',
-                'saldo' => 1040790.0,
+                'saldo' => 1300790.0,
                 'user_create_id' => 8,
-                'user_update_id' => 109,
+                'user_update_id' => 8,
                 'created_at' => '2019-06-03 12:22:43',
                 'updated_at' => '2019-06-03 12:22:43',
             ),
-            103 => 
+            100 => 
             array (
                 'id' => 705,
                 'credito_id' => 546,
                 'fecha_limite' => '2018-09-03',
-                'saldo' => 1158315.0,
+                'saldo' => 1535315.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-06-03 12:27:14',
                 'updated_at' => '2019-06-03 12:27:14',
             ),
-            104 => 
+            101 => 
             array (
                 'id' => 706,
                 'credito_id' => 770,
                 'fecha_limite' => '2018-03-04',
-                'saldo' => 1530336.0,
+                'saldo' => 1861336.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-06-03 12:32:48',
                 'updated_at' => '2019-06-03 12:32:48',
             ),
-            105 => 
+            102 => 
             array (
                 'id' => 707,
                 'credito_id' => 2263,
                 'fecha_limite' => '2018-10-19',
-                'saldo' => 2018600.0,
+                'saldo' => 2349600.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-06-03 12:49:13',
                 'updated_at' => '2019-06-03 12:49:13',
             ),
-            106 => 
+            103 => 
             array (
                 'id' => 708,
                 'credito_id' => 1615,
@@ -6696,7 +6663,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 12:56:46',
                 'updated_at' => '2019-06-03 12:56:46',
             ),
-            107 => 
+            104 => 
             array (
                 'id' => 709,
                 'credito_id' => 486,
@@ -6707,7 +6674,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 12:59:18',
                 'updated_at' => '2019-06-03 12:59:18',
             ),
-            108 => 
+            105 => 
             array (
                 'id' => 710,
                 'credito_id' => 520,
@@ -6718,7 +6685,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 13:04:34',
                 'updated_at' => '2019-06-03 13:04:34',
             ),
-            109 => 
+            106 => 
             array (
                 'id' => 711,
                 'credito_id' => 538,
@@ -6729,7 +6696,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 13:05:53',
                 'updated_at' => '2019-06-03 13:05:53',
             ),
-            110 => 
+            107 => 
             array (
                 'id' => 712,
                 'credito_id' => 541,
@@ -6740,7 +6707,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 13:12:51',
                 'updated_at' => '2019-06-03 13:12:51',
             ),
-            111 => 
+            108 => 
             array (
                 'id' => 713,
                 'credito_id' => 766,
@@ -6751,18 +6718,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 13:34:48',
                 'updated_at' => '2019-06-03 13:34:48',
             ),
-            112 => 
+            109 => 
             array (
                 'id' => 714,
                 'credito_id' => 3282,
                 'fecha_limite' => '2018-09-20',
-                'saldo' => 1794620.0,
+                'saldo' => 2171620.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-06-03 13:38:57',
                 'updated_at' => '2019-06-03 13:38:57',
             ),
-            113 => 
+            110 => 
             array (
                 'id' => 715,
                 'credito_id' => 195,
@@ -6773,7 +6740,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-03 15:36:54',
                 'updated_at' => '2019-06-03 15:36:54',
             ),
-            114 => 
+            111 => 
             array (
                 'id' => 716,
                 'credito_id' => 5544,
@@ -6784,7 +6751,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-04 10:24:12',
                 'updated_at' => '2019-06-04 10:24:12',
             ),
-            115 => 
+            112 => 
             array (
                 'id' => 717,
                 'credito_id' => 1076,
@@ -6795,7 +6762,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-07 11:21:03',
                 'updated_at' => '2019-06-07 11:21:03',
             ),
-            116 => 
+            113 => 
             array (
                 'id' => 718,
                 'credito_id' => 1029,
@@ -6806,7 +6773,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-07 11:38:23',
                 'updated_at' => '2019-06-07 11:38:23',
             ),
-            117 => 
+            114 => 
             array (
                 'id' => 719,
                 'credito_id' => 2174,
@@ -6817,7 +6784,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-07 11:47:14',
                 'updated_at' => '2019-06-07 11:47:14',
             ),
-            118 => 
+            115 => 
             array (
                 'id' => 720,
                 'credito_id' => 145,
@@ -6828,7 +6795,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-07 12:06:33',
                 'updated_at' => '2019-06-07 12:06:33',
             ),
-            119 => 
+            116 => 
             array (
                 'id' => 721,
                 'credito_id' => 651,
@@ -6839,7 +6806,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-07 12:21:46',
                 'updated_at' => '2019-06-07 12:21:46',
             ),
-            120 => 
+            117 => 
             array (
                 'id' => 722,
                 'credito_id' => 1910,
@@ -6850,7 +6817,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-11 12:17:31',
                 'updated_at' => '2019-06-11 12:17:31',
             ),
-            121 => 
+            118 => 
             array (
                 'id' => 723,
                 'credito_id' => 2391,
@@ -6861,7 +6828,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-11 13:26:51',
                 'updated_at' => '2019-06-11 13:26:51',
             ),
-            122 => 
+            119 => 
             array (
                 'id' => 724,
                 'credito_id' => 1914,
@@ -6872,7 +6839,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-12 17:27:13',
                 'updated_at' => '2019-06-12 17:27:13',
             ),
-            123 => 
+            120 => 
             array (
                 'id' => 725,
                 'credito_id' => 705,
@@ -6883,18 +6850,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-06-19 13:16:24',
                 'updated_at' => '2019-06-19 13:16:24',
             ),
-            124 => 
+            121 => 
             array (
                 'id' => 726,
                 'credito_id' => 2132,
                 'fecha_limite' => '2018-09-16',
-                'saldo' => 1472260.0,
+                'saldo' => 1782260.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-06-24 15:16:17',
                 'updated_at' => '2019-06-24 15:16:17',
             ),
-            125 => 
+            122 => 
             array (
                 'id' => 727,
                 'credito_id' => 1968,
@@ -6905,7 +6872,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-10 11:56:04',
                 'updated_at' => '2019-07-10 11:56:04',
             ),
-            126 => 
+            123 => 
             array (
                 'id' => 728,
                 'credito_id' => 4261,
@@ -6916,7 +6883,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-10 12:46:24',
                 'updated_at' => '2019-07-10 12:46:24',
             ),
-            127 => 
+            124 => 
             array (
                 'id' => 729,
                 'credito_id' => 4018,
@@ -6927,7 +6894,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-10 15:29:14',
                 'updated_at' => '2019-07-10 15:29:14',
             ),
-            128 => 
+            125 => 
             array (
                 'id' => 730,
                 'credito_id' => 2434,
@@ -6938,7 +6905,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-16 10:18:37',
                 'updated_at' => '2019-07-16 10:18:37',
             ),
-            129 => 
+            126 => 
             array (
                 'id' => 731,
                 'credito_id' => 2382,
@@ -6949,7 +6916,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-16 10:23:21',
                 'updated_at' => '2019-07-16 10:23:21',
             ),
-            130 => 
+            127 => 
             array (
                 'id' => 732,
                 'credito_id' => 2472,
@@ -6960,7 +6927,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-16 10:32:35',
                 'updated_at' => '2019-07-16 10:32:35',
             ),
-            131 => 
+            128 => 
             array (
                 'id' => 733,
                 'credito_id' => 3559,
@@ -6971,7 +6938,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-16 11:17:27',
                 'updated_at' => '2019-07-16 11:17:27',
             ),
-            132 => 
+            129 => 
             array (
                 'id' => 734,
                 'credito_id' => 4151,
@@ -6982,18 +6949,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-16 11:25:58',
                 'updated_at' => '2019-07-16 11:25:58',
             ),
-            133 => 
+            130 => 
             array (
                 'id' => 735,
                 'credito_id' => 4227,
                 'fecha_limite' => '2018-12-15',
-                'saldo' => 3988450.0,
+                'saldo' => 4227450.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-07-16 11:45:40',
                 'updated_at' => '2019-07-16 11:45:40',
             ),
-            134 => 
+            131 => 
             array (
                 'id' => 736,
                 'credito_id' => 4725,
@@ -7004,7 +6971,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-16 11:53:27',
                 'updated_at' => '2019-07-16 11:53:27',
             ),
-            135 => 
+            132 => 
             array (
                 'id' => 737,
                 'credito_id' => 5118,
@@ -7015,40 +6982,40 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-16 12:46:19',
                 'updated_at' => '2019-07-16 12:46:19',
             ),
-            136 => 
+            133 => 
             array (
                 'id' => 738,
                 'credito_id' => 4282,
-                'fecha_limite' => '2019-02-02',
-                'saldo' => 943115.0,
+                'fecha_limite' => '2020-05-17',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-07-19 16:49:05',
                 'updated_at' => '2019-07-19 16:49:05',
             ),
-            137 => 
+            134 => 
             array (
                 'id' => 739,
                 'credito_id' => 2881,
-                'fecha_limite' => '2019-07-03',
-                'saldo' => 1127822.0,
+                'fecha_limite' => '2020-08-18',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-07-19 17:16:33',
                 'updated_at' => '2019-07-19 17:16:33',
             ),
-            138 => 
+            135 => 
             array (
                 'id' => 740,
                 'credito_id' => 2906,
                 'fecha_limite' => '2018-09-17',
-                'saldo' => 883400.0,
+                'saldo' => 1168400.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-07-19 18:11:53',
                 'updated_at' => '2019-07-19 18:11:53',
             ),
-            139 => 
+            136 => 
             array (
                 'id' => 741,
                 'credito_id' => 4497,
@@ -7059,18 +7026,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-19 18:24:20',
                 'updated_at' => '2019-07-19 18:24:20',
             ),
-            140 => 
+            137 => 
             array (
                 'id' => 742,
                 'credito_id' => 3767,
                 'fecha_limite' => '2018-10-11',
-                'saldo' => 1219900.0,
+                'saldo' => 1504900.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-07-19 18:43:36',
                 'updated_at' => '2019-07-19 18:43:36',
             ),
-            141 => 
+            138 => 
             array (
                 'id' => 743,
                 'credito_id' => 4501,
@@ -7081,51 +7048,51 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-07-20 10:18:20',
                 'updated_at' => '2019-07-20 10:18:20',
             ),
-            142 => 
+            139 => 
             array (
                 'id' => 745,
                 'credito_id' => 2103,
                 'fecha_limite' => '2018-07-17',
-                'saldo' => 1198700.0,
+                'saldo' => 1528700.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-07-20 11:31:25',
                 'updated_at' => '2019-07-20 11:31:25',
             ),
-            143 => 
+            140 => 
             array (
                 'id' => 746,
                 'credito_id' => 4092,
                 'fecha_limite' => '2019-05-30',
-                'saldo' => 1434400.0,
+                'saldo' => 1718400.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-07-20 11:47:07',
                 'updated_at' => '2019-07-20 11:47:07',
             ),
-            144 => 
+            141 => 
             array (
                 'id' => 748,
                 'credito_id' => 3377,
-                'fecha_limite' => '2019-04-03',
-                'saldo' => 1252670.0,
+                'fecha_limite' => '2019-10-03',
+                'saldo' => 1221670.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-07-20 13:28:13',
                 'updated_at' => '2019-07-20 13:28:13',
             ),
-            145 => 
+            142 => 
             array (
                 'id' => 749,
                 'credito_id' => 2759,
                 'fecha_limite' => '2019-04-17',
-                'saldo' => 1465212.0,
+                'saldo' => 1749212.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-07-20 13:42:30',
                 'updated_at' => '2019-07-20 13:42:30',
             ),
-            146 => 
+            143 => 
             array (
                 'id' => 750,
                 'credito_id' => 2608,
@@ -7136,18 +7103,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-18 18:43:00',
                 'updated_at' => '2019-08-18 18:43:00',
             ),
-            147 => 
+            144 => 
             array (
                 'id' => 751,
                 'credito_id' => 3437,
                 'fecha_limite' => '2019-04-05',
-                'saldo' => 1429520.0,
+                'saldo' => 1718520.0,
                 'user_create_id' => 8,
-                'user_update_id' => 118,
+                'user_update_id' => 8,
                 'created_at' => '2019-08-18 19:04:11',
                 'updated_at' => '2019-08-18 19:04:11',
             ),
-            148 => 
+            145 => 
             array (
                 'id' => 752,
                 'credito_id' => 5615,
@@ -7158,7 +7125,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-18 19:16:34',
                 'updated_at' => '2019-08-18 19:16:34',
             ),
-            149 => 
+            146 => 
             array (
                 'id' => 753,
                 'credito_id' => 3741,
@@ -7169,7 +7136,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-18 19:19:01',
                 'updated_at' => '2019-08-18 19:19:01',
             ),
-            150 => 
+            147 => 
             array (
                 'id' => 754,
                 'credito_id' => 3836,
@@ -7180,18 +7147,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-18 19:20:48',
                 'updated_at' => '2019-08-18 19:20:48',
             ),
-            151 => 
+            148 => 
             array (
                 'id' => 755,
                 'credito_id' => 517,
                 'fecha_limite' => '2018-07-13',
-                'saldo' => 1125484.0,
+                'saldo' => 1825484.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-08-19 07:23:36',
                 'updated_at' => '2019-08-19 07:23:36',
             ),
-            152 => 
+            149 => 
             array (
                 'id' => 756,
                 'credito_id' => 1911,
@@ -7202,29 +7169,29 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-19 08:39:12',
                 'updated_at' => '2019-08-19 08:39:12',
             ),
-            153 => 
+            150 => 
             array (
                 'id' => 757,
                 'credito_id' => 3784,
                 'fecha_limite' => '2018-11-17',
-                'saldo' => 1152920.0,
+                'saldo' => 1806920.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-08-19 09:03:36',
                 'updated_at' => '2019-08-19 09:03:36',
             ),
-            154 => 
+            151 => 
             array (
                 'id' => 758,
                 'credito_id' => 4252,
-                'fecha_limite' => '2018-10-04',
-                'saldo' => 1417400.0,
+                'fecha_limite' => '2020-01-19',
+                'saldo' => 1706700.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-08-19 09:17:32',
                 'updated_at' => '2019-08-19 09:17:32',
             ),
-            155 => 
+            152 => 
             array (
                 'id' => 759,
                 'credito_id' => 4097,
@@ -7235,7 +7202,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-19 09:52:44',
                 'updated_at' => '2019-08-19 09:52:44',
             ),
-            156 => 
+            153 => 
             array (
                 'id' => 760,
                 'credito_id' => 3216,
@@ -7246,7 +7213,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-24 18:53:21',
                 'updated_at' => '2019-08-24 18:53:21',
             ),
-            157 => 
+            154 => 
             array (
                 'id' => 761,
                 'credito_id' => 6756,
@@ -7257,18 +7224,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-24 18:57:05',
                 'updated_at' => '2019-08-24 18:57:05',
             ),
-            158 => 
+            155 => 
             array (
                 'id' => 762,
                 'credito_id' => 3013,
                 'fecha_limite' => '2019-06-26',
-                'saldo' => 1458280.0,
+                'saldo' => 1747280.0,
                 'user_create_id' => 8,
-                'user_update_id' => 118,
+                'user_update_id' => 8,
                 'created_at' => '2019-08-25 11:29:10',
                 'updated_at' => '2019-08-25 11:29:10',
             ),
-            159 => 
+            156 => 
             array (
                 'id' => 763,
                 'credito_id' => 2273,
@@ -7279,7 +7246,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-25 11:51:02',
                 'updated_at' => '2019-08-25 11:51:02',
             ),
-            160 => 
+            157 => 
             array (
                 'id' => 764,
                 'credito_id' => 3356,
@@ -7290,18 +7257,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-08-25 12:09:49',
                 'updated_at' => '2019-08-25 12:09:49',
             ),
-            161 => 
+            158 => 
             array (
                 'id' => 765,
                 'credito_id' => 2984,
                 'fecha_limite' => '2018-12-10',
-                'saldo' => 784054.0,
+                'saldo' => 1432054.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-08-25 13:32:29',
                 'updated_at' => '2019-08-25 13:32:29',
             ),
-            162 => 
+            159 => 
             array (
                 'id' => 766,
                 'credito_id' => 1992,
@@ -7312,7 +7279,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-01 09:33:17',
                 'updated_at' => '2019-09-01 09:33:17',
             ),
-            163 => 
+            160 => 
             array (
                 'id' => 767,
                 'credito_id' => 2216,
@@ -7323,7 +7290,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-01 09:36:47',
                 'updated_at' => '2019-09-01 09:36:47',
             ),
-            164 => 
+            161 => 
             array (
                 'id' => 768,
                 'credito_id' => 2573,
@@ -7334,7 +7301,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-01 09:45:54',
                 'updated_at' => '2019-09-01 09:45:54',
             ),
-            165 => 
+            162 => 
             array (
                 'id' => 769,
                 'credito_id' => 2644,
@@ -7345,7 +7312,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-01 09:48:57',
                 'updated_at' => '2019-09-01 09:48:57',
             ),
-            166 => 
+            163 => 
             array (
                 'id' => 770,
                 'credito_id' => 3284,
@@ -7356,7 +7323,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-01 10:07:31',
                 'updated_at' => '2019-09-01 10:07:31',
             ),
-            167 => 
+            164 => 
             array (
                 'id' => 771,
                 'credito_id' => 3301,
@@ -7367,7 +7334,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-01 10:09:56',
                 'updated_at' => '2019-09-01 10:09:56',
             ),
-            168 => 
+            165 => 
             array (
                 'id' => 772,
                 'credito_id' => 3509,
@@ -7378,7 +7345,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-01 10:35:22',
                 'updated_at' => '2019-09-01 10:35:22',
             ),
-            169 => 
+            166 => 
             array (
                 'id' => 773,
                 'credito_id' => 4425,
@@ -7389,7 +7356,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-01 11:06:17',
                 'updated_at' => '2019-09-01 11:06:17',
             ),
-            170 => 
+            167 => 
             array (
                 'id' => 774,
                 'credito_id' => 953,
@@ -7400,7 +7367,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-15 08:06:36',
                 'updated_at' => '2019-09-15 08:06:36',
             ),
-            171 => 
+            168 => 
             array (
                 'id' => 776,
                 'credito_id' => 3346,
@@ -7411,18 +7378,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-15 09:24:25',
                 'updated_at' => '2019-09-15 09:24:25',
             ),
-            172 => 
+            169 => 
             array (
                 'id' => 777,
                 'credito_id' => 956,
                 'fecha_limite' => '2018-12-16',
-                'saldo' => 823715.0,
+                'saldo' => 1496715.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-09-15 10:17:22',
                 'updated_at' => '2019-09-15 10:17:22',
             ),
-            173 => 
+            170 => 
             array (
                 'id' => 778,
                 'credito_id' => 3123,
@@ -7433,18 +7400,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-15 10:33:59',
                 'updated_at' => '2019-09-15 10:33:59',
             ),
-            174 => 
+            171 => 
             array (
                 'id' => 780,
                 'credito_id' => 3469,
                 'fecha_limite' => '2019-02-18',
-                'saldo' => 688720.0,
+                'saldo' => 1311720.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-09-19 12:49:33',
                 'updated_at' => '2019-09-19 12:49:33',
             ),
-            175 => 
+            172 => 
             array (
                 'id' => 781,
                 'credito_id' => 8766,
@@ -7455,18 +7422,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-20 10:53:18',
                 'updated_at' => '2019-09-20 10:53:18',
             ),
-            176 => 
+            173 => 
             array (
                 'id' => 782,
                 'credito_id' => 8767,
-                'fecha_limite' => '2016-08-30',
-                'saldo' => 5540000.0,
+                'fecha_limite' => '2020-10-25',
+                'saldo' => 9198000.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 10,
                 'created_at' => '2019-09-20 10:54:54',
                 'updated_at' => '2019-09-20 10:54:54',
             ),
-            177 => 
+            174 => 
             array (
                 'id' => 783,
                 'credito_id' => 3985,
@@ -7477,7 +7444,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-30 11:35:23',
                 'updated_at' => '2019-09-30 11:35:23',
             ),
-            178 => 
+            175 => 
             array (
                 'id' => 784,
                 'credito_id' => 570,
@@ -7488,7 +7455,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-30 11:36:39',
                 'updated_at' => '2019-09-30 11:36:39',
             ),
-            179 => 
+            176 => 
             array (
                 'id' => 785,
                 'credito_id' => 2319,
@@ -7499,7 +7466,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-30 11:41:44',
                 'updated_at' => '2019-09-30 11:41:44',
             ),
-            180 => 
+            177 => 
             array (
                 'id' => 786,
                 'credito_id' => 5168,
@@ -7510,18 +7477,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-09-30 17:51:49',
                 'updated_at' => '2019-09-30 17:51:49',
             ),
-            181 => 
+            178 => 
             array (
                 'id' => 787,
                 'credito_id' => 1850,
                 'fecha_limite' => '2018-06-18',
-                'saldo' => 2078921.0,
+                'saldo' => 2335921.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-10-01 08:00:37',
                 'updated_at' => '2019-10-01 08:00:37',
             ),
-            182 => 
+            179 => 
             array (
                 'id' => 788,
                 'credito_id' => 1764,
@@ -7532,7 +7499,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-01 08:41:49',
                 'updated_at' => '2019-10-01 08:41:49',
             ),
-            183 => 
+            180 => 
             array (
                 'id' => 789,
                 'credito_id' => 2647,
@@ -7543,7 +7510,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-01 08:54:45',
                 'updated_at' => '2019-10-01 08:54:45',
             ),
-            184 => 
+            181 => 
             array (
                 'id' => 790,
                 'credito_id' => 2832,
@@ -7554,7 +7521,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-01 08:58:06',
                 'updated_at' => '2019-10-01 08:58:06',
             ),
-            185 => 
+            182 => 
             array (
                 'id' => 791,
                 'credito_id' => 1892,
@@ -7565,7 +7532,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-02 16:55:19',
                 'updated_at' => '2019-10-02 16:55:19',
             ),
-            186 => 
+            183 => 
             array (
                 'id' => 792,
                 'credito_id' => 82,
@@ -7576,7 +7543,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-02 17:53:49',
                 'updated_at' => '2019-10-02 17:53:49',
             ),
-            187 => 
+            184 => 
             array (
                 'id' => 794,
                 'credito_id' => 3464,
@@ -7587,7 +7554,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-03 08:20:48',
                 'updated_at' => '2019-10-03 08:20:48',
             ),
-            188 => 
+            185 => 
             array (
                 'id' => 795,
                 'credito_id' => 4230,
@@ -7598,18 +7565,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-03 08:22:26',
                 'updated_at' => '2019-10-03 08:22:26',
             ),
-            189 => 
+            186 => 
             array (
                 'id' => 796,
                 'credito_id' => 4442,
                 'fecha_limite' => '2018-12-20',
-                'saldo' => 874920.0,
+                'saldo' => 1489920.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 118,
                 'created_at' => '2019-10-03 08:23:57',
                 'updated_at' => '2019-10-03 08:23:57',
             ),
-            190 => 
+            187 => 
             array (
                 'id' => 797,
                 'credito_id' => 3155,
@@ -7620,7 +7587,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-03 08:24:27',
                 'updated_at' => '2019-10-03 08:24:27',
             ),
-            191 => 
+            188 => 
             array (
                 'id' => 798,
                 'credito_id' => 3953,
@@ -7631,7 +7598,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-29 14:43:57',
                 'updated_at' => '2019-10-29 14:43:57',
             ),
-            192 => 
+            189 => 
             array (
                 'id' => 799,
                 'credito_id' => 7187,
@@ -7642,7 +7609,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-10-30 14:35:33',
                 'updated_at' => '2019-10-30 14:35:33',
             ),
-            193 => 
+            190 => 
             array (
                 'id' => 802,
                 'credito_id' => 3668,
@@ -7653,7 +7620,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:39:23',
                 'updated_at' => '2019-11-21 10:39:23',
             ),
-            194 => 
+            191 => 
             array (
                 'id' => 803,
                 'credito_id' => 3967,
@@ -7664,18 +7631,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:40:25',
                 'updated_at' => '2019-11-21 10:40:25',
             ),
-            195 => 
+            192 => 
             array (
                 'id' => 804,
                 'credito_id' => 4921,
-                'fecha_limite' => '2019-06-02',
-                'saldo' => 337570.0,
+                'fecha_limite' => '2020-03-02',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 102,
                 'created_at' => '2019-11-21 10:41:26',
                 'updated_at' => '2019-11-21 10:41:26',
             ),
-            196 => 
+            193 => 
             array (
                 'id' => 805,
                 'credito_id' => 4550,
@@ -7686,7 +7653,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:42:11',
                 'updated_at' => '2019-11-21 10:42:11',
             ),
-            197 => 
+            194 => 
             array (
                 'id' => 806,
                 'credito_id' => 4565,
@@ -7697,7 +7664,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:42:44',
                 'updated_at' => '2019-11-21 10:42:44',
             ),
-            198 => 
+            195 => 
             array (
                 'id' => 807,
                 'credito_id' => 4917,
@@ -7708,7 +7675,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:43:42',
                 'updated_at' => '2019-11-21 10:43:42',
             ),
-            199 => 
+            196 => 
             array (
                 'id' => 808,
                 'credito_id' => 4960,
@@ -7719,7 +7686,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:44:51',
                 'updated_at' => '2019-11-21 10:44:51',
             ),
-            200 => 
+            197 => 
             array (
                 'id' => 809,
                 'credito_id' => 3182,
@@ -7730,7 +7697,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:45:31',
                 'updated_at' => '2019-11-21 10:45:31',
             ),
-            201 => 
+            198 => 
             array (
                 'id' => 810,
                 'credito_id' => 3193,
@@ -7741,7 +7708,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:47:05',
                 'updated_at' => '2019-11-21 10:47:05',
             ),
-            202 => 
+            199 => 
             array (
                 'id' => 811,
                 'credito_id' => 1623,
@@ -7752,7 +7719,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:48:53',
                 'updated_at' => '2019-11-21 10:48:53',
             ),
-            203 => 
+            200 => 
             array (
                 'id' => 812,
                 'credito_id' => 2038,
@@ -7763,84 +7730,84 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 10:49:23',
                 'updated_at' => '2019-11-21 10:49:23',
             ),
-            204 => 
+            201 => 
             array (
                 'id' => 815,
                 'credito_id' => 2111,
                 'fecha_limite' => '2019-05-02',
-                'saldo' => 1327430.0,
+                'saldo' => 1844430.0,
                 'user_create_id' => 137,
-                'user_update_id' => 118,
+                'user_update_id' => 8,
                 'created_at' => '2019-11-21 14:17:44',
                 'updated_at' => '2019-11-21 14:17:44',
             ),
-            205 => 
+            202 => 
             array (
                 'id' => 820,
                 'credito_id' => 3644,
-                'fecha_limite' => '2019-05-15',
-                'saldo' => 1014708.0,
+                'fecha_limite' => '2020-11-15',
+                'saldo' => 0.0,
                 'user_create_id' => 137,
-                'user_update_id' => 118,
+                'user_update_id' => 227,
                 'created_at' => '2019-11-21 14:38:59',
                 'updated_at' => '2019-11-21 14:38:59',
             ),
-            206 => 
+            203 => 
             array (
                 'id' => 821,
                 'credito_id' => 3025,
                 'fecha_limite' => '2018-08-03',
-                'saldo' => 1351840.0,
+                'saldo' => 2110840.0,
                 'user_create_id' => 137,
-                'user_update_id' => 118,
+                'user_update_id' => 8,
                 'created_at' => '2019-11-21 14:40:30',
                 'updated_at' => '2019-11-21 14:40:30',
             ),
-            207 => 
+            204 => 
             array (
                 'id' => 822,
                 'credito_id' => 4471,
                 'fecha_limite' => '2019-03-13',
-                'saldo' => 961940.0,
+                'saldo' => 1520940.0,
                 'user_create_id' => 137,
-                'user_update_id' => 118,
+                'user_update_id' => 8,
                 'created_at' => '2019-11-21 14:58:12',
                 'updated_at' => '2019-11-21 14:58:12',
             ),
-            208 => 
+            205 => 
             array (
                 'id' => 823,
                 'credito_id' => 843,
                 'fecha_limite' => '2017-11-17',
-                'saldo' => 1638160.0,
+                'saldo' => 2197160.0,
                 'user_create_id' => 137,
-                'user_update_id' => 118,
+                'user_update_id' => 8,
                 'created_at' => '2019-11-21 15:00:32',
                 'updated_at' => '2019-11-21 15:00:32',
             ),
-            209 => 
+            206 => 
             array (
                 'id' => 824,
                 'credito_id' => 4958,
                 'fecha_limite' => '2019-04-03',
-                'saldo' => 1100180.0,
+                'saldo' => 1659180.0,
                 'user_create_id' => 137,
-                'user_update_id' => 118,
+                'user_update_id' => 8,
                 'created_at' => '2019-11-21 15:03:58',
                 'updated_at' => '2019-11-21 15:03:58',
             ),
-            210 => 
+            207 => 
             array (
                 'id' => 825,
                 'credito_id' => 4081,
                 'fecha_limite' => '2018-10-10',
-                'saldo' => 1078000.0,
+                'saldo' => 1637000.0,
                 'user_create_id' => 137,
-                'user_update_id' => 118,
+                'user_update_id' => 8,
                 'created_at' => '2019-11-21 15:09:08',
                 'updated_at' => '2019-11-21 15:09:08',
             ),
-            211 => 
+            208 => 
             array (
                 'id' => 826,
                 'credito_id' => 4657,
@@ -7851,7 +7818,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 15:23:32',
                 'updated_at' => '2019-11-21 15:23:32',
             ),
-            212 => 
+            209 => 
             array (
                 'id' => 827,
                 'credito_id' => 4655,
@@ -7862,7 +7829,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 15:23:56',
                 'updated_at' => '2019-11-21 15:23:56',
             ),
-            213 => 
+            210 => 
             array (
                 'id' => 828,
                 'credito_id' => 4077,
@@ -7873,18 +7840,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 15:26:17',
                 'updated_at' => '2019-11-21 15:26:17',
             ),
-            214 => 
+            211 => 
             array (
                 'id' => 829,
                 'credito_id' => 4158,
-                'fecha_limite' => '2019-04-06',
-                'saldo' => 971830.0,
+                'fecha_limite' => '2020-04-06',
+                'saldo' => 0.0,
                 'user_create_id' => 137,
                 'user_update_id' => 118,
                 'created_at' => '2019-11-21 15:35:58',
                 'updated_at' => '2019-11-21 15:35:58',
             ),
-            215 => 
+            212 => 
             array (
                 'id' => 830,
                 'credito_id' => 3798,
@@ -7895,7 +7862,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 15:38:47',
                 'updated_at' => '2019-11-21 15:38:47',
             ),
-            216 => 
+            213 => 
             array (
                 'id' => 831,
                 'credito_id' => 3676,
@@ -7906,7 +7873,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 15:39:34',
                 'updated_at' => '2019-11-21 15:39:34',
             ),
-            217 => 
+            214 => 
             array (
                 'id' => 832,
                 'credito_id' => 3706,
@@ -7917,7 +7884,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 15:43:07',
                 'updated_at' => '2019-11-21 15:43:07',
             ),
-            218 => 
+            215 => 
             array (
                 'id' => 833,
                 'credito_id' => 4014,
@@ -7928,29 +7895,29 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-11-21 15:50:06',
                 'updated_at' => '2019-11-21 15:50:06',
             ),
-            219 => 
+            216 => 
             array (
                 'id' => 834,
                 'credito_id' => 3628,
                 'fecha_limite' => '2019-06-18',
-                'saldo' => 924959.0,
+                'saldo' => 1483959.0,
                 'user_create_id' => 118,
-                'user_update_id' => 118,
+                'user_update_id' => 8,
                 'created_at' => '2019-11-21 17:10:27',
                 'updated_at' => '2019-11-21 17:10:27',
             ),
-            220 => 
+            217 => 
             array (
                 'id' => 835,
                 'credito_id' => 4935,
-                'fecha_limite' => '2019-01-15',
-                'saldo' => 946200.0,
+                'fecha_limite' => '2020-09-30',
+                'saldo' => 0.0,
                 'user_create_id' => 118,
-                'user_update_id' => 118,
+                'user_update_id' => 10,
                 'created_at' => '2019-11-21 17:20:07',
                 'updated_at' => '2019-11-21 17:20:07',
             ),
-            221 => 
+            218 => 
             array (
                 'id' => 836,
                 'credito_id' => 3987,
@@ -7961,7 +7928,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-09 09:52:45',
                 'updated_at' => '2019-12-09 09:52:45',
             ),
-            222 => 
+            219 => 
             array (
                 'id' => 837,
                 'credito_id' => 3726,
@@ -7972,7 +7939,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-09 10:47:39',
                 'updated_at' => '2019-12-09 10:47:39',
             ),
-            223 => 
+            220 => 
             array (
                 'id' => 838,
                 'credito_id' => 4853,
@@ -7983,7 +7950,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-09 12:17:40',
                 'updated_at' => '2019-12-09 12:17:40',
             ),
-            224 => 
+            221 => 
             array (
                 'id' => 839,
                 'credito_id' => 4749,
@@ -7994,7 +7961,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-09 12:21:47',
                 'updated_at' => '2019-12-09 12:21:47',
             ),
-            225 => 
+            222 => 
             array (
                 'id' => 840,
                 'credito_id' => 4065,
@@ -8005,7 +7972,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-09 13:20:43',
                 'updated_at' => '2019-12-09 13:20:43',
             ),
-            226 => 
+            223 => 
             array (
                 'id' => 841,
                 'credito_id' => 3273,
@@ -8016,7 +7983,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-10 19:37:05',
                 'updated_at' => '2019-12-10 19:37:05',
             ),
-            227 => 
+            224 => 
             array (
                 'id' => 842,
                 'credito_id' => 3991,
@@ -8027,7 +7994,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-10 20:13:27',
                 'updated_at' => '2019-12-10 20:13:27',
             ),
-            228 => 
+            225 => 
             array (
                 'id' => 843,
                 'credito_id' => 3756,
@@ -8038,7 +8005,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-10 20:20:06',
                 'updated_at' => '2019-12-10 20:20:06',
             ),
-            229 => 
+            226 => 
             array (
                 'id' => 844,
                 'credito_id' => 4073,
@@ -8049,7 +8016,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-10 20:23:33',
                 'updated_at' => '2019-12-10 20:23:33',
             ),
-            230 => 
+            227 => 
             array (
                 'id' => 845,
                 'credito_id' => 4237,
@@ -8060,7 +8027,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-23 11:34:02',
                 'updated_at' => '2019-12-23 11:34:02',
             ),
-            231 => 
+            228 => 
             array (
                 'id' => 846,
                 'credito_id' => 5946,
@@ -8071,18 +8038,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-23 11:56:18',
                 'updated_at' => '2019-12-23 11:56:18',
             ),
-            232 => 
+            229 => 
             array (
                 'id' => 847,
                 'credito_id' => 2552,
                 'fecha_limite' => '2019-01-30',
-                'saldo' => 625226.0,
+                'saldo' => 756226.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2019-12-23 12:08:26',
                 'updated_at' => '2019-12-23 12:08:26',
             ),
-            233 => 
+            230 => 
             array (
                 'id' => 848,
                 'credito_id' => 5515,
@@ -8093,7 +8060,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-23 16:37:39',
                 'updated_at' => '2019-12-23 16:37:39',
             ),
-            234 => 
+            231 => 
             array (
                 'id' => 849,
                 'credito_id' => 5388,
@@ -8104,7 +8071,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-23 17:56:19',
                 'updated_at' => '2019-12-23 17:56:19',
             ),
-            235 => 
+            232 => 
             array (
                 'id' => 850,
                 'credito_id' => 5555,
@@ -8115,7 +8082,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-23 18:04:43',
                 'updated_at' => '2019-12-23 18:04:43',
             ),
-            236 => 
+            233 => 
             array (
                 'id' => 851,
                 'credito_id' => 5457,
@@ -8126,7 +8093,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-23 18:13:04',
                 'updated_at' => '2019-12-23 18:13:04',
             ),
-            237 => 
+            234 => 
             array (
                 'id' => 852,
                 'credito_id' => 5517,
@@ -8137,7 +8104,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-23 18:22:05',
                 'updated_at' => '2019-12-23 18:22:05',
             ),
-            238 => 
+            235 => 
             array (
                 'id' => 853,
                 'credito_id' => 5365,
@@ -8148,7 +8115,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-23 18:23:28',
                 'updated_at' => '2019-12-23 18:23:28',
             ),
-            239 => 
+            236 => 
             array (
                 'id' => 854,
                 'credito_id' => 5071,
@@ -8159,7 +8126,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-26 16:31:09',
                 'updated_at' => '2019-12-26 16:31:09',
             ),
-            240 => 
+            237 => 
             array (
                 'id' => 855,
                 'credito_id' => 4681,
@@ -8170,7 +8137,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-26 17:59:03',
                 'updated_at' => '2019-12-26 17:59:03',
             ),
-            241 => 
+            238 => 
             array (
                 'id' => 856,
                 'credito_id' => 4124,
@@ -8181,7 +8148,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-26 18:23:56',
                 'updated_at' => '2019-12-26 18:23:56',
             ),
-            242 => 
+            239 => 
             array (
                 'id' => 857,
                 'credito_id' => 4469,
@@ -8192,7 +8159,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-26 18:25:11',
                 'updated_at' => '2019-12-26 18:25:11',
             ),
-            243 => 
+            240 => 
             array (
                 'id' => 858,
                 'credito_id' => 5085,
@@ -8203,7 +8170,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2019-12-26 19:05:05',
                 'updated_at' => '2019-12-26 19:05:05',
             ),
-            244 => 
+            241 => 
             array (
                 'id' => 859,
                 'credito_id' => 5126,
@@ -8214,7 +8181,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:01:40',
                 'updated_at' => '2020-01-16 19:01:40',
             ),
-            245 => 
+            242 => 
             array (
                 'id' => 860,
                 'credito_id' => 3418,
@@ -8225,7 +8192,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:14:36',
                 'updated_at' => '2020-01-16 19:14:36',
             ),
-            246 => 
+            243 => 
             array (
                 'id' => 861,
                 'credito_id' => 4133,
@@ -8236,7 +8203,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:16:28',
                 'updated_at' => '2020-01-16 19:16:28',
             ),
-            247 => 
+            244 => 
             array (
                 'id' => 862,
                 'credito_id' => 5246,
@@ -8247,7 +8214,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:26:56',
                 'updated_at' => '2020-01-16 19:26:56',
             ),
-            248 => 
+            245 => 
             array (
                 'id' => 863,
                 'credito_id' => 5324,
@@ -8258,7 +8225,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:33:06',
                 'updated_at' => '2020-01-16 19:33:06',
             ),
-            249 => 
+            246 => 
             array (
                 'id' => 864,
                 'credito_id' => 5021,
@@ -8269,7 +8236,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:37:34',
                 'updated_at' => '2020-01-16 19:37:34',
             ),
-            250 => 
+            247 => 
             array (
                 'id' => 865,
                 'credito_id' => 5332,
@@ -8280,7 +8247,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:42:02',
                 'updated_at' => '2020-01-16 19:42:02',
             ),
-            251 => 
+            248 => 
             array (
                 'id' => 866,
                 'credito_id' => 5614,
@@ -8291,7 +8258,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:50:06',
                 'updated_at' => '2020-01-16 19:50:06',
             ),
-            252 => 
+            249 => 
             array (
                 'id' => 867,
                 'credito_id' => 5583,
@@ -8302,7 +8269,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:53:32',
                 'updated_at' => '2020-01-16 19:53:32',
             ),
-            253 => 
+            250 => 
             array (
                 'id' => 868,
                 'credito_id' => 5684,
@@ -8313,7 +8280,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 19:56:59',
                 'updated_at' => '2020-01-16 19:56:59',
             ),
-            254 => 
+            251 => 
             array (
                 'id' => 869,
                 'credito_id' => 5715,
@@ -8324,7 +8291,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 20:01:25',
                 'updated_at' => '2020-01-16 20:01:25',
             ),
-            255 => 
+            252 => 
             array (
                 'id' => 870,
                 'credito_id' => 5719,
@@ -8335,29 +8302,29 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 20:10:23',
                 'updated_at' => '2020-01-16 20:10:23',
             ),
-            256 => 
+            253 => 
             array (
                 'id' => 871,
                 'credito_id' => 6603,
                 'fecha_limite' => '2019-07-21',
-                'saldo' => 1172480.0,
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 102,
                 'created_at' => '2020-01-16 20:19:11',
                 'updated_at' => '2020-01-16 20:19:11',
             ),
-            257 => 
+            254 => 
             array (
                 'id' => 872,
                 'credito_id' => 6108,
                 'fecha_limite' => '2019-07-18',
-                'saldo' => 881750.0,
+                'saldo' => 1031750.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2020-01-16 20:22:14',
                 'updated_at' => '2020-01-16 20:22:14',
             ),
-            258 => 
+            255 => 
             array (
                 'id' => 873,
                 'credito_id' => 5817,
@@ -8368,7 +8335,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 20:26:01',
                 'updated_at' => '2020-01-16 20:26:01',
             ),
-            259 => 
+            256 => 
             array (
                 'id' => 874,
                 'credito_id' => 5759,
@@ -8379,7 +8346,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 20:42:46',
                 'updated_at' => '2020-01-16 20:42:46',
             ),
-            260 => 
+            257 => 
             array (
                 'id' => 875,
                 'credito_id' => 6872,
@@ -8390,7 +8357,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 20:44:47',
                 'updated_at' => '2020-01-16 20:44:47',
             ),
-            261 => 
+            258 => 
             array (
                 'id' => 876,
                 'credito_id' => 3640,
@@ -8401,7 +8368,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 20:57:31',
                 'updated_at' => '2020-01-16 20:57:31',
             ),
-            262 => 
+            259 => 
             array (
                 'id' => 877,
                 'credito_id' => 7006,
@@ -8412,7 +8379,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 21:00:51',
                 'updated_at' => '2020-01-16 21:00:51',
             ),
-            263 => 
+            260 => 
             array (
                 'id' => 878,
                 'credito_id' => 3094,
@@ -8423,7 +8390,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 21:09:38',
                 'updated_at' => '2020-01-16 21:09:38',
             ),
-            264 => 
+            261 => 
             array (
                 'id' => 879,
                 'credito_id' => 3417,
@@ -8434,18 +8401,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 21:11:26',
                 'updated_at' => '2020-01-16 21:11:26',
             ),
-            265 => 
+            262 => 
             array (
                 'id' => 880,
                 'credito_id' => 4687,
-                'fecha_limite' => '2019-06-20',
-                'saldo' => 348400.0,
+                'fecha_limite' => '2020-02-20',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 102,
                 'created_at' => '2020-01-16 21:15:43',
                 'updated_at' => '2020-01-16 21:15:43',
             ),
-            266 => 
+            263 => 
             array (
                 'id' => 881,
                 'credito_id' => 3124,
@@ -8456,7 +8423,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 21:21:27',
                 'updated_at' => '2020-01-16 21:21:27',
             ),
-            267 => 
+            264 => 
             array (
                 'id' => 882,
                 'credito_id' => 4010,
@@ -8467,18 +8434,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 21:25:04',
                 'updated_at' => '2020-01-16 21:25:04',
             ),
-            268 => 
+            265 => 
             array (
                 'id' => 883,
                 'credito_id' => 4867,
-                'fecha_limite' => '2019-02-06',
-                'saldo' => 1316010.0,
+                'fecha_limite' => '2020-09-21',
+                'saldo' => 0.0,
                 'user_create_id' => 8,
-                'user_update_id' => 8,
+                'user_update_id' => 227,
                 'created_at' => '2020-01-16 21:36:12',
                 'updated_at' => '2020-01-16 21:36:12',
             ),
-            269 => 
+            266 => 
             array (
                 'id' => 884,
                 'credito_id' => 4383,
@@ -8489,7 +8456,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 21:38:13',
                 'updated_at' => '2020-01-16 21:38:13',
             ),
-            270 => 
+            267 => 
             array (
                 'id' => 885,
                 'credito_id' => 4326,
@@ -8500,7 +8467,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-16 21:39:48',
                 'updated_at' => '2020-01-16 21:39:48',
             ),
-            271 => 
+            268 => 
             array (
                 'id' => 886,
                 'credito_id' => 4364,
@@ -8511,7 +8478,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 17:59:48',
                 'updated_at' => '2020-01-20 17:59:48',
             ),
-            272 => 
+            269 => 
             array (
                 'id' => 887,
                 'credito_id' => 4076,
@@ -8522,7 +8489,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:06:29',
                 'updated_at' => '2020-01-20 18:06:29',
             ),
-            273 => 
+            270 => 
             array (
                 'id' => 888,
                 'credito_id' => 3720,
@@ -8533,7 +8500,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:13:09',
                 'updated_at' => '2020-01-20 18:13:09',
             ),
-            274 => 
+            271 => 
             array (
                 'id' => 889,
                 'credito_id' => 3751,
@@ -8544,7 +8511,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:26:21',
                 'updated_at' => '2020-01-20 18:26:21',
             ),
-            275 => 
+            272 => 
             array (
                 'id' => 890,
                 'credito_id' => 3431,
@@ -8555,7 +8522,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:30:13',
                 'updated_at' => '2020-01-20 18:30:13',
             ),
-            276 => 
+            273 => 
             array (
                 'id' => 891,
                 'credito_id' => 3286,
@@ -8566,7 +8533,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:33:32',
                 'updated_at' => '2020-01-20 18:33:32',
             ),
-            277 => 
+            274 => 
             array (
                 'id' => 892,
                 'credito_id' => 1625,
@@ -8577,7 +8544,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:41:41',
                 'updated_at' => '2020-01-20 18:41:41',
             ),
-            278 => 
+            275 => 
             array (
                 'id' => 893,
                 'credito_id' => 3274,
@@ -8588,7 +8555,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:43:42',
                 'updated_at' => '2020-01-20 18:43:42',
             ),
-            279 => 
+            276 => 
             array (
                 'id' => 894,
                 'credito_id' => 5110,
@@ -8599,7 +8566,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:47:29',
                 'updated_at' => '2020-01-20 18:47:29',
             ),
-            280 => 
+            277 => 
             array (
                 'id' => 895,
                 'credito_id' => 5086,
@@ -8610,18 +8577,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:50:27',
                 'updated_at' => '2020-01-20 18:50:27',
             ),
-            281 => 
+            278 => 
             array (
                 'id' => 896,
                 'credito_id' => 5519,
                 'fecha_limite' => '2019-04-18',
-                'saldo' => 1365600.0,
+                'saldo' => 1416600.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2020-01-20 18:52:54',
                 'updated_at' => '2020-01-20 18:52:54',
             ),
-            282 => 
+            279 => 
             array (
                 'id' => 897,
                 'credito_id' => 5597,
@@ -8632,7 +8599,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 18:55:56',
                 'updated_at' => '2020-01-20 18:55:56',
             ),
-            283 => 
+            280 => 
             array (
                 'id' => 898,
                 'credito_id' => 6752,
@@ -8643,7 +8610,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 19:02:14',
                 'updated_at' => '2020-01-20 19:02:14',
             ),
-            284 => 
+            281 => 
             array (
                 'id' => 899,
                 'credito_id' => 6835,
@@ -8654,7 +8621,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 19:06:03',
                 'updated_at' => '2020-01-20 19:06:03',
             ),
-            285 => 
+            282 => 
             array (
                 'id' => 900,
                 'credito_id' => 7048,
@@ -8665,18 +8632,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 19:16:00',
                 'updated_at' => '2020-01-20 19:16:00',
             ),
-            286 => 
+            283 => 
             array (
                 'id' => 901,
                 'credito_id' => 7400,
                 'fecha_limite' => '2019-08-10',
-                'saldo' => 1423000.0,
+                'saldo' => 1474000.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2020-01-20 19:31:12',
                 'updated_at' => '2020-01-20 19:31:12',
             ),
-            287 => 
+            284 => 
             array (
                 'id' => 902,
                 'credito_id' => 7395,
@@ -8687,7 +8654,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 19:43:22',
                 'updated_at' => '2020-01-20 19:43:22',
             ),
-            288 => 
+            285 => 
             array (
                 'id' => 903,
                 'credito_id' => 3367,
@@ -8698,18 +8665,18 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 19:49:56',
                 'updated_at' => '2020-01-20 19:49:56',
             ),
-            289 => 
+            286 => 
             array (
                 'id' => 904,
                 'credito_id' => 3926,
                 'fecha_limite' => '2019-03-05',
-                'saldo' => 1192250.0,
+                'saldo' => 1243250.0,
                 'user_create_id' => 8,
                 'user_update_id' => 8,
                 'created_at' => '2020-01-20 19:53:30',
                 'updated_at' => '2020-01-20 19:53:30',
             ),
-            290 => 
+            287 => 
             array (
                 'id' => 905,
                 'credito_id' => 3883,
@@ -8720,18 +8687,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 19:59:29',
                 'updated_at' => '2020-01-20 19:59:29',
             ),
-            291 => 
-            array (
-                'id' => 906,
-                'credito_id' => 4750,
-                'fecha_limite' => '2018-12-16',
-                'saldo' => 1349460.0,
-                'user_create_id' => 8,
-                'user_update_id' => 8,
-                'created_at' => '2020-01-20 20:01:53',
-                'updated_at' => '2020-01-20 20:01:53',
-            ),
-            292 => 
+            288 => 
             array (
                 'id' => 907,
                 'credito_id' => 5480,
@@ -8742,7 +8698,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 20:06:06',
                 'updated_at' => '2020-01-20 20:06:06',
             ),
-            293 => 
+            289 => 
             array (
                 'id' => 908,
                 'credito_id' => 11487,
@@ -8753,7 +8709,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 20:23:03',
                 'updated_at' => '2020-01-20 20:23:03',
             ),
-            294 => 
+            290 => 
             array (
                 'id' => 909,
                 'credito_id' => 8772,
@@ -8764,7 +8720,7 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 20:29:44',
                 'updated_at' => '2020-01-20 20:29:44',
             ),
-            295 => 
+            291 => 
             array (
                 'id' => 910,
                 'credito_id' => 11258,
@@ -8775,16 +8731,1292 @@ class CastigadasTableSeeder extends Seeder
                 'created_at' => '2020-01-20 21:13:54',
                 'updated_at' => '2020-01-20 21:13:54',
             ),
-            296 => 
+            292 => 
+            array (
+                'id' => 911,
+                'credito_id' => 12019,
+                'fecha_limite' => '2020-03-08',
+                'saldo' => 3093000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-02-13 08:47:42',
+                'updated_at' => '2020-02-13 08:47:42',
+            ),
+            293 => 
+            array (
+                'id' => 912,
+                'credito_id' => 12018,
+                'fecha_limite' => '2020-03-08',
+                'saldo' => 2279000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-02-13 08:49:15',
+                'updated_at' => '2020-02-13 08:49:15',
+            ),
+            294 => 
             array (
                 'id' => 913,
-                'credito_id' => 11929,
-                'fecha_limite' => '2020-01-16',
-                'saldo' => 800000.0,
-                'user_create_id' => 2,
-                'user_update_id' => 2,
-                'created_at' => '2020-03-12 22:02:11',
-                'updated_at' => '2020-03-12 22:02:11',
+                'credito_id' => 12025,
+                'fecha_limite' => '2020-03-01',
+                'saldo' => 1349000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-02-13 12:23:50',
+                'updated_at' => '2020-02-13 12:23:50',
+            ),
+            295 => 
+            array (
+                'id' => 914,
+                'credito_id' => 12026,
+                'fecha_limite' => '2020-03-10',
+                'saldo' => 1857000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-02-13 12:30:09',
+                'updated_at' => '2020-02-13 12:30:09',
+            ),
+            296 => 
+            array (
+                'id' => 915,
+                'credito_id' => 12027,
+                'fecha_limite' => '2020-03-10',
+                'saldo' => 1280000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-02-13 12:37:42',
+                'updated_at' => '2020-02-13 12:37:42',
+            ),
+            297 => 
+            array (
+                'id' => 916,
+                'credito_id' => 3960,
+                'fecha_limite' => '2019-07-05',
+                'saldo' => 1073410.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-11 16:18:51',
+                'updated_at' => '2020-03-11 16:18:51',
+            ),
+            298 => 
+            array (
+                'id' => 917,
+                'credito_id' => 686,
+                'fecha_limite' => '2019-09-17',
+                'saldo' => 716525.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 11:21:02',
+                'updated_at' => '2020-03-17 11:21:02',
+            ),
+            299 => 
+            array (
+                'id' => 918,
+                'credito_id' => 7259,
+                'fecha_limite' => '2019-08-03',
+                'saldo' => 990100.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 11:26:20',
+                'updated_at' => '2020-03-17 11:26:20',
+            ),
+            300 => 
+            array (
+                'id' => 919,
+                'credito_id' => 2414,
+                'fecha_limite' => '2019-08-20',
+                'saldo' => 625360.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 12:15:20',
+                'updated_at' => '2020-03-17 12:15:20',
+            ),
+            301 => 
+            array (
+                'id' => 920,
+                'credito_id' => 1023,
+                'fecha_limite' => '2019-08-05',
+                'saldo' => 3243006.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 12:28:22',
+                'updated_at' => '2020-03-17 12:28:22',
+            ),
+            302 => 
+            array (
+                'id' => 921,
+                'credito_id' => 2030,
+                'fecha_limite' => '2019-07-06',
+                'saldo' => 423203.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 14:25:53',
+                'updated_at' => '2020-03-17 14:25:53',
+            ),
+            303 => 
+            array (
+                'id' => 922,
+                'credito_id' => 5311,
+                'fecha_limite' => '2019-06-05',
+                'saldo' => 701950.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 15:10:58',
+                'updated_at' => '2020-03-17 15:10:58',
+            ),
+            304 => 
+            array (
+                'id' => 923,
+                'credito_id' => 992,
+                'fecha_limite' => '2019-07-10',
+                'saldo' => 569304.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 15:13:18',
+                'updated_at' => '2020-03-17 15:13:18',
+            ),
+            305 => 
+            array (
+                'id' => 924,
+                'credito_id' => 9540,
+                'fecha_limite' => '2019-11-10',
+                'saldo' => 3008000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 15:27:28',
+                'updated_at' => '2020-03-17 15:27:28',
+            ),
+            306 => 
+            array (
+                'id' => 925,
+                'credito_id' => 5465,
+                'fecha_limite' => '2019-09-01',
+                'saldo' => 2005000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 15:28:09',
+                'updated_at' => '2020-03-17 15:28:09',
+            ),
+            307 => 
+            array (
+                'id' => 926,
+                'credito_id' => 6781,
+                'fecha_limite' => '2019-11-03',
+                'saldo' => 1968000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 15:58:12',
+                'updated_at' => '2020-03-17 15:58:12',
+            ),
+            308 => 
+            array (
+                'id' => 927,
+                'credito_id' => 9541,
+                'fecha_limite' => '2019-11-10',
+                'saldo' => 3038000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 17:05:48',
+                'updated_at' => '2020-03-17 17:05:48',
+            ),
+            309 => 
+            array (
+                'id' => 928,
+                'credito_id' => 6782,
+                'fecha_limite' => '2019-11-03',
+                'saldo' => 2959000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-17 17:06:51',
+                'updated_at' => '2020-03-17 17:06:51',
+            ),
+            310 => 
+            array (
+                'id' => 930,
+                'credito_id' => 2470,
+                'fecha_limite' => '2020-10-20',
+                'saldo' => 0.0,
+                'user_create_id' => 8,
+                'user_update_id' => 227,
+                'created_at' => '2020-03-18 14:53:08',
+                'updated_at' => '2020-03-18 14:53:08',
+            ),
+            311 => 
+            array (
+                'id' => 931,
+                'credito_id' => 5384,
+                'fecha_limite' => '2019-06-30',
+                'saldo' => 914140.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-18 16:46:07',
+                'updated_at' => '2020-03-18 16:46:07',
+            ),
+            312 => 
+            array (
+                'id' => 932,
+                'credito_id' => 3132,
+                'fecha_limite' => '2019-07-15',
+                'saldo' => 896600.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-18 16:47:31',
+                'updated_at' => '2020-03-18 16:47:31',
+            ),
+            313 => 
+            array (
+                'id' => 933,
+                'credito_id' => 4563,
+                'fecha_limite' => '2019-06-30',
+                'saldo' => 1694070.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-18 16:50:57',
+                'updated_at' => '2020-03-18 16:50:57',
+            ),
+            314 => 
+            array (
+                'id' => 934,
+                'credito_id' => 3295,
+                'fecha_limite' => '2019-04-04',
+                'saldo' => 1643260.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-18 16:52:19',
+                'updated_at' => '2020-03-18 16:52:19',
+            ),
+            315 => 
+            array (
+                'id' => 935,
+                'credito_id' => 5467,
+                'fecha_limite' => '2019-03-10',
+                'saldo' => 3438300.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-18 17:39:41',
+                'updated_at' => '2020-03-18 17:39:41',
+            ),
+            316 => 
+            array (
+                'id' => 936,
+                'credito_id' => 7120,
+                'fecha_limite' => '2019-09-02',
+                'saldo' => 561080.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-18 19:12:34',
+                'updated_at' => '2020-03-18 19:12:34',
+            ),
+            317 => 
+            array (
+                'id' => 937,
+                'credito_id' => 6452,
+                'fecha_limite' => '2019-06-02',
+                'saldo' => 1856500.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-18 19:15:17',
+                'updated_at' => '2020-03-18 19:15:17',
+            ),
+            318 => 
+            array (
+                'id' => 938,
+                'credito_id' => 1300,
+                'fecha_limite' => '2018-01-03',
+                'saldo' => 1754800.0,
+                'user_create_id' => 118,
+                'user_update_id' => 118,
+                'created_at' => '2020-03-19 09:31:17',
+                'updated_at' => '2020-03-19 09:31:17',
+            ),
+            319 => 
+            array (
+                'id' => 939,
+                'credito_id' => 92,
+                'fecha_limite' => '2019-09-20',
+                'saldo' => 3906980.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-20 11:52:21',
+                'updated_at' => '2020-03-20 11:52:21',
+            ),
+            320 => 
+            array (
+                'id' => 940,
+                'credito_id' => 10353,
+                'fecha_limite' => '2019-12-20',
+                'saldo' => 1976000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-03-20 12:24:24',
+                'updated_at' => '2020-03-20 12:24:24',
+            ),
+            321 => 
+            array (
+                'id' => 941,
+                'credito_id' => 1158,
+                'fecha_limite' => '2020-02-18',
+                'saldo' => 1885400.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-07-10 19:35:29',
+                'updated_at' => '2020-07-10 19:35:29',
+            ),
+            322 => 
+            array (
+                'id' => 942,
+                'credito_id' => 1773,
+                'fecha_limite' => '2019-10-03',
+                'saldo' => 1800623.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-07-10 19:38:23',
+                'updated_at' => '2020-07-10 19:38:23',
+            ),
+            323 => 
+            array (
+                'id' => 943,
+                'credito_id' => 1213,
+                'fecha_limite' => '2019-11-22',
+                'saldo' => 1610520.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-07-10 20:05:22',
+                'updated_at' => '2020-07-10 20:05:22',
+            ),
+            324 => 
+            array (
+                'id' => 944,
+                'credito_id' => 6431,
+                'fecha_limite' => '2020-03-07',
+                'saldo' => 874600.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-07-10 20:28:12',
+                'updated_at' => '2020-07-10 20:28:12',
+            ),
+            325 => 
+            array (
+                'id' => 946,
+                'credito_id' => 3512,
+                'fecha_limite' => '2019-12-02',
+                'saldo' => 2543960.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-07-10 20:42:36',
+                'updated_at' => '2020-07-10 20:42:36',
+            ),
+            326 => 
+            array (
+                'id' => 947,
+                'credito_id' => 1092,
+                'fecha_limite' => '2020-08-07',
+                'saldo' => 0.0,
+                'user_create_id' => 8,
+                'user_update_id' => 102,
+                'created_at' => '2020-07-16 15:36:51',
+                'updated_at' => '2020-07-16 15:36:51',
+            ),
+            327 => 
+            array (
+                'id' => 948,
+                'credito_id' => 696,
+                'fecha_limite' => '2020-11-02',
+                'saldo' => 0.0,
+                'user_create_id' => 8,
+                'user_update_id' => 101,
+                'created_at' => '2020-08-25 08:08:37',
+                'updated_at' => '2020-08-25 08:08:37',
+            ),
+            328 => 
+            array (
+                'id' => 949,
+                'credito_id' => 1735,
+                'fecha_limite' => '2018-09-18',
+                'saldo' => 1751846.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 10:19:10',
+                'updated_at' => '2020-08-25 10:19:10',
+            ),
+            329 => 
+            array (
+                'id' => 950,
+                'credito_id' => 8729,
+                'fecha_limite' => '2019-10-01',
+                'saldo' => 857000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 11:48:25',
+                'updated_at' => '2020-08-25 11:48:25',
+            ),
+            330 => 
+            array (
+                'id' => 951,
+                'credito_id' => 5914,
+                'fecha_limite' => '2019-06-15',
+                'saldo' => 1159400.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:22:27',
+                'updated_at' => '2020-08-25 13:22:27',
+            ),
+            331 => 
+            array (
+                'id' => 952,
+                'credito_id' => 5714,
+                'fecha_limite' => '2020-10-05',
+                'saldo' => 1066300.0,
+                'user_create_id' => 8,
+                'user_update_id' => 118,
+                'created_at' => '2020-08-25 13:24:49',
+                'updated_at' => '2020-08-25 13:24:49',
+            ),
+            332 => 
+            array (
+                'id' => 953,
+                'credito_id' => 5640,
+                'fecha_limite' => '2019-06-05',
+                'saldo' => 1529090.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:31:06',
+                'updated_at' => '2020-08-25 13:31:06',
+            ),
+            333 => 
+            array (
+                'id' => 954,
+                'credito_id' => 5510,
+                'fecha_limite' => '2019-05-19',
+                'saldo' => 1605900.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:33:21',
+                'updated_at' => '2020-08-25 13:33:21',
+            ),
+            334 => 
+            array (
+                'id' => 955,
+                'credito_id' => 5206,
+                'fecha_limite' => '2019-05-30',
+                'saldo' => 862490.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:38:24',
+                'updated_at' => '2020-08-25 13:38:24',
+            ),
+            335 => 
+            array (
+                'id' => 956,
+                'credito_id' => 9542,
+                'fecha_limite' => '2019-11-10',
+                'saldo' => 2317000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:40:58',
+                'updated_at' => '2020-08-25 13:40:58',
+            ),
+            336 => 
+            array (
+                'id' => 957,
+                'credito_id' => 5092,
+                'fecha_limite' => '2019-06-10',
+                'saldo' => 734900.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:47:41',
+                'updated_at' => '2020-08-25 13:47:41',
+            ),
+            337 => 
+            array (
+                'id' => 958,
+                'credito_id' => 5199,
+                'fecha_limite' => '2019-07-20',
+                'saldo' => 459330.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:51:49',
+                'updated_at' => '2020-08-25 13:51:49',
+            ),
+            338 => 
+            array (
+                'id' => 959,
+                'credito_id' => 5088,
+                'fecha_limite' => '2019-06-30',
+                'saldo' => 550300.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:53:03',
+                'updated_at' => '2020-08-25 13:53:03',
+            ),
+            339 => 
+            array (
+                'id' => 960,
+                'credito_id' => 5020,
+                'fecha_limite' => '2019-01-10',
+                'saldo' => 1832600.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:54:35',
+                'updated_at' => '2020-08-25 13:54:35',
+            ),
+            340 => 
+            array (
+                'id' => 961,
+                'credito_id' => 5002,
+                'fecha_limite' => '2019-04-15',
+                'saldo' => 1180290.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 13:56:44',
+                'updated_at' => '2020-08-25 13:56:44',
+            ),
+            341 => 
+            array (
+                'id' => 962,
+                'credito_id' => 4810,
+                'fecha_limite' => '2019-02-25',
+                'saldo' => 1104420.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:02:14',
+                'updated_at' => '2020-08-25 14:02:14',
+            ),
+            342 => 
+            array (
+                'id' => 963,
+                'credito_id' => 4783,
+                'fecha_limite' => '2019-08-18',
+                'saldo' => 473300.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:04:40',
+                'updated_at' => '2020-08-25 14:04:40',
+            ),
+            343 => 
+            array (
+                'id' => 964,
+                'credito_id' => 4429,
+                'fecha_limite' => '2020-11-04',
+                'saldo' => 814300.0,
+                'user_create_id' => 8,
+                'user_update_id' => 118,
+                'created_at' => '2020-08-25 14:25:55',
+                'updated_at' => '2020-08-25 14:25:55',
+            ),
+            344 => 
+            array (
+                'id' => 965,
+                'credito_id' => 4985,
+                'fecha_limite' => '2019-05-02',
+                'saldo' => 865750.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:28:49',
+                'updated_at' => '2020-08-25 14:28:49',
+            ),
+            345 => 
+            array (
+                'id' => 966,
+                'credito_id' => 4455,
+                'fecha_limite' => '2019-05-03',
+                'saldo' => 1297300.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:32:21',
+                'updated_at' => '2020-08-25 14:32:21',
+            ),
+            346 => 
+            array (
+                'id' => 967,
+                'credito_id' => 4397,
+                'fecha_limite' => '2019-08-05',
+                'saldo' => 1007950.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:35:37',
+                'updated_at' => '2020-08-25 14:35:37',
+            ),
+            347 => 
+            array (
+                'id' => 968,
+                'credito_id' => 4372,
+                'fecha_limite' => '2019-05-06',
+                'saldo' => 795250.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:37:02',
+                'updated_at' => '2020-08-25 14:37:02',
+            ),
+            348 => 
+            array (
+                'id' => 969,
+                'credito_id' => 4321,
+                'fecha_limite' => '2019-09-05',
+                'saldo' => 373705.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:40:03',
+                'updated_at' => '2020-08-25 14:40:03',
+            ),
+            349 => 
+            array (
+                'id' => 970,
+                'credito_id' => 3659,
+                'fecha_limite' => '2019-03-30',
+                'saldo' => 1293040.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:41:21',
+                'updated_at' => '2020-08-25 14:41:21',
+            ),
+            350 => 
+            array (
+                'id' => 971,
+                'credito_id' => 3473,
+                'fecha_limite' => '2019-07-18',
+                'saldo' => 1083165.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:43:14',
+                'updated_at' => '2020-08-25 14:43:14',
+            ),
+            351 => 
+            array (
+                'id' => 972,
+                'credito_id' => 1697,
+                'fecha_limite' => '2018-12-07',
+                'saldo' => 1007080.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:44:40',
+                'updated_at' => '2020-08-25 14:44:40',
+            ),
+            352 => 
+            array (
+                'id' => 973,
+                'credito_id' => 4117,
+                'fecha_limite' => '2019-06-16',
+                'saldo' => 1676407.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 14:52:20',
+                'updated_at' => '2020-08-25 14:52:20',
+            ),
+            353 => 
+            array (
+                'id' => 974,
+                'credito_id' => 3986,
+                'fecha_limite' => '2019-06-23',
+                'saldo' => 1389800.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:01:59',
+                'updated_at' => '2020-08-25 15:01:59',
+            ),
+            354 => 
+            array (
+                'id' => 975,
+                'credito_id' => 4244,
+                'fecha_limite' => '2019-03-20',
+                'saldo' => 1581350.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:13:13',
+                'updated_at' => '2020-08-25 15:13:13',
+            ),
+            355 => 
+            array (
+                'id' => 976,
+                'credito_id' => 4683,
+                'fecha_limite' => '2018-12-20',
+                'saldo' => 1660350.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:15:54',
+                'updated_at' => '2020-08-25 15:15:54',
+            ),
+            356 => 
+            array (
+                'id' => 977,
+                'credito_id' => 3157,
+                'fecha_limite' => '2019-04-15',
+                'saldo' => 1171532.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:19:13',
+                'updated_at' => '2020-08-25 15:19:13',
+            ),
+            357 => 
+            array (
+                'id' => 978,
+                'credito_id' => 6713,
+                'fecha_limite' => '2019-07-20',
+                'saldo' => 921240.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:20:42',
+                'updated_at' => '2020-08-25 15:20:42',
+            ),
+            358 => 
+            array (
+                'id' => 979,
+                'credito_id' => 3229,
+                'fecha_limite' => '2019-05-03',
+                'saldo' => 568200.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:25:22',
+                'updated_at' => '2020-08-25 15:25:22',
+            ),
+            359 => 
+            array (
+                'id' => 980,
+                'credito_id' => 7352,
+                'fecha_limite' => '2019-07-15',
+                'saldo' => 1294200.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:29:10',
+                'updated_at' => '2020-08-25 15:29:10',
+            ),
+            360 => 
+            array (
+                'id' => 981,
+                'credito_id' => 5602,
+                'fecha_limite' => '2019-03-03',
+                'saldo' => 1427940.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:31:48',
+                'updated_at' => '2020-08-25 15:31:48',
+            ),
+            361 => 
+            array (
+                'id' => 982,
+                'credito_id' => 3375,
+                'fecha_limite' => '2019-07-05',
+                'saldo' => 838620.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:36:15',
+                'updated_at' => '2020-08-25 15:36:15',
+            ),
+            362 => 
+            array (
+                'id' => 983,
+                'credito_id' => 1767,
+                'fecha_limite' => '2019-06-05',
+                'saldo' => 1220560.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-25 15:49:00',
+                'updated_at' => '2020-08-25 15:49:00',
+            ),
+            363 => 
+            array (
+                'id' => 984,
+                'credito_id' => 11476,
+                'fecha_limite' => '2020-08-22',
+                'saldo' => 496200.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-26 11:54:50',
+                'updated_at' => '2020-08-26 11:54:50',
+            ),
+            364 => 
+            array (
+                'id' => 985,
+                'credito_id' => 10334,
+                'fecha_limite' => '2020-01-08',
+                'saldo' => 1913050.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-08-26 11:57:18',
+                'updated_at' => '2020-08-26 11:57:18',
+            ),
+            365 => 
+            array (
+                'id' => 986,
+                'credito_id' => 4200,
+                'fecha_limite' => '2019-08-17',
+                'saldo' => 473560.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:28:47',
+                'updated_at' => '2020-09-28 11:28:47',
+            ),
+            366 => 
+            array (
+                'id' => 987,
+                'credito_id' => 4118,
+                'fecha_limite' => '2019-03-16',
+                'saldo' => 1037160.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:31:12',
+                'updated_at' => '2020-09-28 11:31:12',
+            ),
+            367 => 
+            array (
+                'id' => 988,
+                'credito_id' => 3981,
+                'fecha_limite' => '2019-08-17',
+                'saldo' => 650610.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:34:19',
+                'updated_at' => '2020-09-28 11:34:19',
+            ),
+            368 => 
+            array (
+                'id' => 989,
+                'credito_id' => 3957,
+                'fecha_limite' => '2019-04-05',
+                'saldo' => 990300.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:37:10',
+                'updated_at' => '2020-09-28 11:37:10',
+            ),
+            369 => 
+            array (
+                'id' => 990,
+                'credito_id' => 2047,
+                'fecha_limite' => '2019-01-21',
+                'saldo' => 919408.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:39:04',
+                'updated_at' => '2020-09-28 11:39:04',
+            ),
+            370 => 
+            array (
+                'id' => 991,
+                'credito_id' => 3884,
+                'fecha_limite' => '2019-06-17',
+                'saldo' => 1131220.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:40:17',
+                'updated_at' => '2020-09-28 11:40:17',
+            ),
+            371 => 
+            array (
+                'id' => 992,
+                'credito_id' => 5481,
+                'fecha_limite' => '2019-03-02',
+                'saldo' => 3215000.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:43:19',
+                'updated_at' => '2020-09-28 11:43:19',
+            ),
+            372 => 
+            array (
+                'id' => 993,
+                'credito_id' => 6871,
+                'fecha_limite' => '2019-06-26',
+                'saldo' => 1106100.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:45:30',
+                'updated_at' => '2020-09-28 11:45:30',
+            ),
+            373 => 
+            array (
+                'id' => 994,
+                'credito_id' => 6706,
+                'fecha_limite' => '2019-05-28',
+                'saldo' => 1362560.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:47:20',
+                'updated_at' => '2020-09-28 11:47:20',
+            ),
+            374 => 
+            array (
+                'id' => 995,
+                'credito_id' => 6655,
+                'fecha_limite' => '2019-01-05',
+                'saldo' => 363800.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:48:09',
+                'updated_at' => '2020-09-28 11:48:09',
+            ),
+            375 => 
+            array (
+                'id' => 996,
+                'credito_id' => 6625,
+                'fecha_limite' => '2019-05-30',
+                'saldo' => 1105125.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:48:59',
+                'updated_at' => '2020-09-28 11:48:59',
+            ),
+            376 => 
+            array (
+                'id' => 997,
+                'credito_id' => 6698,
+                'fecha_limite' => '2019-11-07',
+                'saldo' => 703450.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:50:06',
+                'updated_at' => '2020-09-28 11:50:06',
+            ),
+            377 => 
+            array (
+                'id' => 998,
+                'credito_id' => 9684,
+                'fecha_limite' => '2019-12-05',
+                'saldo' => 1787900.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:54:06',
+                'updated_at' => '2020-09-28 11:54:06',
+            ),
+            378 => 
+            array (
+                'id' => 999,
+                'credito_id' => 7060,
+                'fecha_limite' => '2019-07-04',
+                'saldo' => 577980.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:55:31',
+                'updated_at' => '2020-09-28 11:55:31',
+            ),
+            379 => 
+            array (
+                'id' => 1000,
+                'credito_id' => 7087,
+                'fecha_limite' => '2019-07-05',
+                'saldo' => 1062800.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:57:05',
+                'updated_at' => '2020-09-28 11:57:05',
+            ),
+            380 => 
+            array (
+                'id' => 1001,
+                'credito_id' => 7103,
+                'fecha_limite' => '2019-12-18',
+                'saldo' => 720200.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 11:58:59',
+                'updated_at' => '2020-09-28 11:58:59',
+            ),
+            381 => 
+            array (
+                'id' => 1002,
+                'credito_id' => 7136,
+                'fecha_limite' => '2019-09-05',
+                'saldo' => 827300.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:22:44',
+                'updated_at' => '2020-09-28 12:22:44',
+            ),
+            382 => 
+            array (
+                'id' => 1003,
+                'credito_id' => 7140,
+                'fecha_limite' => '2019-07-05',
+                'saldo' => 1198200.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:25:10',
+                'updated_at' => '2020-09-28 12:25:10',
+            ),
+            383 => 
+            array (
+                'id' => 1004,
+                'credito_id' => 7149,
+                'fecha_limite' => '2019-10-18',
+                'saldo' => 897500.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:28:18',
+                'updated_at' => '2020-09-28 12:28:18',
+            ),
+            384 => 
+            array (
+                'id' => 1005,
+                'credito_id' => 7180,
+                'fecha_limite' => '2019-07-10',
+                'saldo' => 912200.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:30:52',
+                'updated_at' => '2020-09-28 12:30:52',
+            ),
+            385 => 
+            array (
+                'id' => 1006,
+                'credito_id' => 7198,
+                'fecha_limite' => '2019-10-30',
+                'saldo' => 907600.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:32:33',
+                'updated_at' => '2020-09-28 12:32:33',
+            ),
+            386 => 
+            array (
+                'id' => 1007,
+                'credito_id' => 7199,
+                'fecha_limite' => '2019-08-03',
+                'saldo' => 1231900.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:33:50',
+                'updated_at' => '2020-09-28 12:33:50',
+            ),
+            387 => 
+            array (
+                'id' => 1008,
+                'credito_id' => 7249,
+                'fecha_limite' => '2019-09-15',
+                'saldo' => 984900.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:40:35',
+                'updated_at' => '2020-09-28 12:40:35',
+            ),
+            388 => 
+            array (
+                'id' => 1009,
+                'credito_id' => 7059,
+                'fecha_limite' => '2019-09-03',
+                'saldo' => 787050.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:42:49',
+                'updated_at' => '2020-09-28 12:42:49',
+            ),
+            389 => 
+            array (
+                'id' => 1010,
+                'credito_id' => 7044,
+                'fecha_limite' => '2019-10-30',
+                'saldo' => 597650.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:44:03',
+                'updated_at' => '2020-09-28 12:44:03',
+            ),
+            390 => 
+            array (
+                'id' => 1011,
+                'credito_id' => 7043,
+                'fecha_limite' => '2019-09-07',
+                'saldo' => 888310.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:45:18',
+                'updated_at' => '2020-09-28 12:45:18',
+            ),
+            391 => 
+            array (
+                'id' => 1012,
+                'credito_id' => 6037,
+                'fecha_limite' => '2019-05-20',
+                'saldo' => 888200.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:46:53',
+                'updated_at' => '2020-09-28 12:46:53',
+            ),
+            392 => 
+            array (
+                'id' => 1013,
+                'credito_id' => 6149,
+                'fecha_limite' => '2019-05-02',
+                'saldo' => 1262430.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:49:20',
+                'updated_at' => '2020-09-28 12:49:20',
+            ),
+            393 => 
+            array (
+                'id' => 1014,
+                'credito_id' => 5944,
+                'fecha_limite' => '2019-05-01',
+                'saldo' => 1338530.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:50:33',
+                'updated_at' => '2020-09-28 12:50:33',
+            ),
+            394 => 
+            array (
+                'id' => 1015,
+                'credito_id' => 5553,
+                'fecha_limite' => '2019-05-20',
+                'saldo' => 856200.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:56:39',
+                'updated_at' => '2020-09-28 12:56:39',
+            ),
+            395 => 
+            array (
+                'id' => 1016,
+                'credito_id' => 5548,
+                'fecha_limite' => '2019-10-16',
+                'saldo' => 932700.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:57:44',
+                'updated_at' => '2020-09-28 12:57:44',
+            ),
+            396 => 
+            array (
+                'id' => 1017,
+                'credito_id' => 5241,
+                'fecha_limite' => '2019-10-07',
+                'saldo' => 797460.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 12:58:51',
+                'updated_at' => '2020-09-28 12:58:51',
+            ),
+            397 => 
+            array (
+                'id' => 1018,
+                'credito_id' => 5501,
+                'fecha_limite' => '2019-10-03',
+                'saldo' => 649575.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:00:00',
+                'updated_at' => '2020-09-28 13:00:00',
+            ),
+            398 => 
+            array (
+                'id' => 1019,
+                'credito_id' => 7031,
+                'fecha_limite' => '2019-01-10',
+                'saldo' => 609050.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:01:07',
+                'updated_at' => '2020-09-28 13:01:07',
+            ),
+            399 => 
+            array (
+                'id' => 1020,
+                'credito_id' => 6991,
+                'fecha_limite' => '2019-11-20',
+                'saldo' => 1744050.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:02:52',
+                'updated_at' => '2020-09-28 13:02:52',
+            ),
+            400 => 
+            array (
+                'id' => 1021,
+                'credito_id' => 6875,
+                'fecha_limite' => '2019-09-17',
+                'saldo' => 796910.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:04:07',
+                'updated_at' => '2020-09-28 13:04:07',
+            ),
+            401 => 
+            array (
+                'id' => 1022,
+                'credito_id' => 6358,
+                'fecha_limite' => '2019-04-20',
+                'saldo' => 1456360.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:05:17',
+                'updated_at' => '2020-09-28 13:05:17',
+            ),
+            402 => 
+            array (
+                'id' => 1023,
+                'credito_id' => 3479,
+                'fecha_limite' => '2019-03-02',
+                'saldo' => 1315438.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:06:02',
+                'updated_at' => '2020-09-28 13:06:02',
+            ),
+            403 => 
+            array (
+                'id' => 1024,
+                'credito_id' => 4219,
+                'fecha_limite' => '2019-07-03',
+                'saldo' => 1211624.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:06:46',
+                'updated_at' => '2020-09-28 13:06:46',
+            ),
+            404 => 
+            array (
+                'id' => 1025,
+                'credito_id' => 10314,
+                'fecha_limite' => '2020-01-08',
+                'saldo' => 2055360.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:12:35',
+                'updated_at' => '2020-09-28 13:12:35',
+            ),
+            405 => 
+            array (
+                'id' => 1026,
+                'credito_id' => 9846,
+                'fecha_limite' => '2019-12-20',
+                'saldo' => 1993160.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:14:26',
+                'updated_at' => '2020-09-28 13:14:26',
+            ),
+            406 => 
+            array (
+                'id' => 1027,
+                'credito_id' => 10341,
+                'fecha_limite' => '2020-02-10',
+                'saldo' => 1598420.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:16:04',
+                'updated_at' => '2020-09-28 13:16:04',
+            ),
+            407 => 
+            array (
+                'id' => 1028,
+                'credito_id' => 8770,
+                'fecha_limite' => '2019-10-25',
+                'saldo' => 4489584.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:20:56',
+                'updated_at' => '2020-09-28 13:20:56',
+            ),
+            408 => 
+            array (
+                'id' => 1029,
+                'credito_id' => 8206,
+                'fecha_limite' => '2020-01-21',
+                'saldo' => 1427388.0,
+                'user_create_id' => 8,
+                'user_update_id' => 8,
+                'created_at' => '2020-09-28 13:23:07',
+                'updated_at' => '2020-09-28 13:23:07',
             ),
         ));
         

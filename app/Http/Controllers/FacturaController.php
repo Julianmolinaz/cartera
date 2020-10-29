@@ -596,10 +596,11 @@ class FacturaController extends Controller
         DB::commit();
 
         // Si el pago se hace masivamente
-        if (isset($request->interno)) return $factura;
+        if (isset($request->interno)) {
+            return $factura->id;
+        }
 
         // Si tiene acuerdo de pago se desactiva
-
 
         return response()->json([
             "error"   => false,
