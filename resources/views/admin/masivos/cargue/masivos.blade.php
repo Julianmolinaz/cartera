@@ -73,6 +73,11 @@
                                     <span class="glyphicon glyphicon-eye-open"  data-toggle="tooltip" data-placement="top" title="Ver Factura"></span>
                                 </a>
                             @endif
+                            @if($item->credito)
+                                <a href="{{route('start.creditos.show', [$item->credito])}}" target="_blank" class='btn btn-default btn-xs'>
+                                    <span class="glyphicon glyphicon-sunglasses" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
+                                </a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

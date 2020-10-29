@@ -84,13 +84,13 @@ class PagoMasivoController extends Controller
 
         if ($request->hasFile('archivo'))
         {
-
             $this->filename = $request->archivo->getClientOriginalName();
 
             $extension = File::extension($request->archivo->getClientOriginalName());
 
             $exist_log = \DB::table('loads')->where('filename', $this->filename)->count();
 
+            // Validacion del formato y nombre del archivo único
 
             if ( ($extension == "xlsx" || $extension == "xls" || $extension == "csv") &&
                   ! $exist_log  )
@@ -103,17 +103,18 @@ class PagoMasivoController extends Controller
 
                 $this->validate_heading(); 
                 if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
-
+                
+                
                 // ****** Validaciones de formato *******
-
+                
                 $this->validation();
                 if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
-
+                
                 // ****** Valida si existen el cliente, credito o solicitud *******
-
+                
                 $this->rulesBeforePay(); 
                 if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
-
+                
                 // ****** Realizar Pagos *******
 
                 $this->makePayments();
@@ -129,6 +130,7 @@ class PagoMasivoController extends Controller
  
             } 
             else {
+                
                 $this->arr_error[] = [
                     'line' => '',
                     'message' => 'Formato o nombre no soportado'
@@ -151,7 +153,6 @@ class PagoMasivoController extends Controller
 
     public function makePayments()
     {
-
         DB::beginTransaction();
 
         try {
@@ -182,6 +183,10 @@ class PagoMasivoController extends Controller
 
     }
 
+    /**
+     * Revisa la existencia de cliente, solicitud o crédito
+     */
+
     
     public function rulesBeforePay() 
     {
@@ -194,7 +199,6 @@ class PagoMasivoController extends Controller
             $this->ruleCliente();
             $this->ruleObligacion();
         }
-        // dd($this->err);
     }
 
     /**
@@ -220,22 +224,26 @@ class PagoMasivoController extends Controller
 
     /**
      * VALIDACIÓN EXISTENCIA DE OBLIGACIÓN
+     * CRÉDITO O SOLICITUD
      */
 
     public function ruleObligacion()
     {
         $credito = $this->getCreditosActivo($this->data[$this->index]['cliente_id']);
 
+        
         // Si tiene crédito activo
-
+        
         if (isset($credito)) {
+
+            $acuerdos = \DB::table('acuerdos')->where('credito_id',$credito->id)->where('estado','Abierto')->count();
 
             $this->data[$this->index]['credito_id'] = $credito->id;
 
             // VALIDACIÓN DE ACUERDO DE PAGO
 
-            if (isset($credito->acuerdo) && $credito->acuerdo == 'Abierto') {
-                $this->arr_error = [
+            if ($acuerdos) {
+                $this->arr_error[] = [
                     'line' => $this->index + 2,
                     'message' => "El credito $credito->id, tiene acuerdo de pago, recomendamos hacer el pago manual"
                 ];
@@ -261,6 +269,7 @@ class PagoMasivoController extends Controller
             ];
         }
     }
+    
 
     /**
      * REALIZAR PAGOS A SOLICITUD SI ESTA EXISTE
@@ -457,8 +466,7 @@ class PagoMasivoController extends Controller
         return DB::table('creditos')
             ->join('precreditos','creditos.precredito_id','=','precreditos.id')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
-            ->leftJoin('acuerdos','creditos.id','=','acuerdos.credito_id')
-            ->select('creditos.*','acuerdos.estado as acuerdo')
+            ->select('creditos.*')
             ->whereNotIn('creditos.estado',['Cancelados','Cancelado por refinanciacion'])
             ->where('clientes.id',$cliente_id)
             ->first();

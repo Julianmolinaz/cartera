@@ -27,8 +27,11 @@
         </form>
         </center>
 
-        @include('admin.masivos.cargue.errors')
+        <br><br>
 
+        @if($err)
+            @include('admin.masivos.cargue.errors')
+        @endif
     </div> 
 </div>
 

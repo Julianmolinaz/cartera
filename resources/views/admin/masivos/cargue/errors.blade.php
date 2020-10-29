@@ -6,12 +6,13 @@
         </tr>
     </head>
     <tbody>
- 
+        
         @foreach($err as $element)
         <tr>
             <td>{{ $element['line'] }}</td>
             <td>{{ $element['message'] }}</td>
         </tr>
         @endforeach
+        
     </tbody>
 </table>

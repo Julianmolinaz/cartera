@@ -104,6 +104,7 @@ class PrecreditoController extends Controller
 
     }
 
+
     public function edit($precredito_id)
     {
         $precredito = Precredito::find($precredito_id);
@@ -185,7 +186,6 @@ class PrecreditoController extends Controller
     VER MUESTRA LA INFORMACIÒN DE LA SOLICITUD QUE INTERNAMENTE LA LLAMAMOS PRECREDITO
     */
 
-
     public function ver($precredito_id)
     {
         $precredito = Precredito::find($precredito_id);
@@ -205,70 +205,67 @@ class PrecreditoController extends Controller
         la tabla pagos en los casos de que no existan se generan los respectivos valores */
 
 
-        if(count($credito) > 0){
+        if (count($credito) > 0) {
 
-        $juridico = Extra::where('credito_id',$credito[0]->id)->where('concepto','Juridico')->where('estado','Debe')->get();
+            $juridico = Extra::where('credito_id',$credito[0]->id)->where('concepto','Juridico')->where('estado','Debe')->get();
 
-        if(count($juridico) > 0){
+            if (count($juridico) > 0) {
 
-            $pago_juridico =
-            DB::table('pagos')
-                ->where([['credito_id','=',$credito[0]->id],['concepto','=','Juridico'],['estado','=','Debe']])
-                ->get();
-
-            if( count($pago_juridico) > 0 ){
-            $pago_juridico = array('juridico' => $pago_juridico[0]->debe, 'valor' => $juridico[0]->valor);
-            } else{
-            $pago_juridico = array('juridico' => 0, 'valor' => $juridico[0]->valor);
-            }
-        }
-        else {
-            $pago_juridico = array('juridico' => null, 'valor' => 0);
-        }
-
-        /******************** PREJURIDICO  **************************/
-        /* se valida la existencia de sanciones Prejuridicas en la tabla extras, si existen se valida que haya abonos en
-        la tabla pagos en los casos de que no existan se generan los respectivos valores */
-
-        $prejuridico = Extra::where('credito_id',$credito[0]->id)->where('concepto','Prejuridico')->where('estado','Debe')->get();
-
-        if(count($prejuridico) > 0){
-
-            $pago_prejuridico = DB::table('pagos')
-                    ->where([['credito_id','=',$credito[0]->id],
-                        ['concepto','=','Prejuridico'],
-                        ['estado','=','Debe']])
+                $pago_juridico =
+                DB::table('pagos')
+                    ->where([['credito_id','=',$credito[0]->id],['concepto','=','Juridico'],['estado','=','Debe']])
                     ->get();
 
-            if(count($pago_prejuridico) > 0){
-            $pago_prejuridico = array('prejuridico' => (int)$pago_prejuridico[0]->debe, 'valor' => ' de '.$prejuridico[0]->valor);
-            } else{
-            $pago_prejuridico = array('prejuridico' => 0, 'valor' => $prejuridico[0]->valor);
+                if ( count($pago_juridico) > 0 ) {
+                    $pago_juridico = array('juridico' => $pago_juridico[0]->debe, 'valor' => $juridico[0]->valor);
+                } else {
+                    $pago_juridico = array('juridico' => 0, 'valor' => $juridico[0]->valor);
+                }
             }
-        }
-        else{
-            $pago_prejuridico = array('prejuridico' => null, 'valor' => 0);
-        }
+            else {
+                $pago_juridico = array('juridico' => null, 'valor' => 0);
+            }
 
-        /******************** PAGOS PARCIALES **************************/
-        $total_parciales =
-        DB::table('pagos')
-            ->where([['credito_id','=',$credito[0]->id],['concepto','=','Cuota Parcial'],['estado','=','Debe']])
-            ->sum('Debe');
+            /******************** PREJURIDICO  **************************/
+            /* se valida la existencia de sanciones Prejuridicas en la tabla extras, si existen se valida que haya abonos en
+            la tabla pagos en los casos de que no existan se generan los respectivos valores */
 
+            $prejuridico = Extra::where('credito_id',$credito[0]->id)->where('concepto','Prejuridico')->where('estado','Debe')->get();
 
-        /*******************SANCIONES*********************************/
-        $sum_sanciones = DB::table('sanciones')
-            ->where([['credito_id','=',$credito[0]->id],['estado','Debe']])
-            ->sum('valor');
+            if (count($prejuridico) > 0) {
+
+                $pago_prejuridico = DB::table('pagos')
+                        ->where([['credito_id','=',$credito[0]->id],
+                            ['concepto','=','Prejuridico'],
+                            ['estado','=','Debe']])
+                        ->get();
+
+                if (count($pago_prejuridico) > 0) {
+                    $pago_prejuridico = array('prejuridico' => (int)$pago_prejuridico[0]->debe, 'valor' => ' de '.$prejuridico[0]->valor);
+                } else{
+                    $pago_prejuridico = array('prejuridico' => 0, 'valor' => $prejuridico[0]->valor);
+                }
+            }
+            else{
+                $pago_prejuridico = array('prejuridico' => null, 'valor' => 0);
+            }
+
+            /******************** PAGOS PARCIALES **************************/
+            $total_parciales = DB::table('pagos')
+                ->where([['credito_id','=',$credito[0]->id],['concepto','=','Cuota Parcial'],['estado','=','Debe']])
+                ->sum('Debe');
+
+            /*******************SANCIONES*********************************/
+            $sum_sanciones = DB::table('sanciones')
+                ->where([['credito_id','=',$credito[0]->id],['estado','Debe']])
+                ->sum('valor');
 
             if(!$sum_sanciones){ $sum_sanciones = 0;}
 
-        /******************FECHA LIMITE DE PAGO***********************/
-
+            /******************FECHA LIMITE DE PAGO***********************/
 
         }//end if credito
-        else{
+        else {
             $pago_juridico = array('juridico' => 0, 'valor' => 0);
             $pago_prejuridico = array('prejuridico' => 0, 'valor' => 0);
             $sum_sanciones = 0;
@@ -283,10 +280,9 @@ class PrecreditoController extends Controller
          * PABLO GONZALEZ 02-08-2018
          */
 
-        if(isset($precredito->credito->hijo)){
+        if (isset($precredito->credito->hijo)) {
             $hijo = $precredito->credito->hijo;
-        }
-        else{
+        } else{
             $hijo = null;
         }
 
