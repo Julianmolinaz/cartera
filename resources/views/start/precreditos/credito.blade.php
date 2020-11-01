@@ -44,18 +44,17 @@
 						title="Multas prejuridicas y juridicas">
 						<span class="glyphicon glyphicon-hourglass"></span>
 					</a>
-                    <a  href="javascript:void(0);" 
-						class='btn btn-default btn-xs' 
-						data-toggle="tooltip" 
-						data-placement="top" 
-                        onclick="showAcuerdo()"
-						title="Gestionar acuerdos de pago">
-						Acuerdos
-					</a>
-
 				@endif  
 
 				<!-- Botones que todos pueden visualizar  -->
+                <a  href="javascript:void(0);" 
+                    class='btn btn-default btn-xs' 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    onclick="showAcuerdo()"
+                    title="Gestionar acuerdos de pago">
+                    Acuerdos
+                </a>
 
 				<a href="{{route('call.index_unique',$precredito->credito->id)}}"
 					class='btn btn-default btn-xs'

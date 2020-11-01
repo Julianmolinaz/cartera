@@ -10,10 +10,16 @@
 
     <div class="row col-md-12">
 
-        <h3>Listado de pagos</h3>
+        <h3 style="position:absolute;">Listado de Pagos</h3>
+
+        <a href="{{ route('admin.pagos_masivos.load') }}" class="btn btn-success" style="float: right;margin-top: 20px;">
+            Cargar Pagos Masivos
+        </a>
+
+
+        <br><br><br>
 
         <hr>
-
         <div class="col-md-4">
             <dl>
                 <dt>Archivo</dt>
@@ -33,7 +39,8 @@
             </dl>
         </div>
 
-        <br>
+        <br><br>
+        <hr>
         <table class="table" style="font-size:10px;">
             <head>
                 <tr>
@@ -75,6 +82,15 @@
                             @endif
                             @if($item->credito)
                                 <a href="{{route('start.creditos.show', [$item->credito])}}" target="_blank" class='btn btn-default btn-xs'>
+                                    <span class="glyphicon glyphicon-sunglasses" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
+                                </a>
+                            @endif
+                            @if($item->ref_type == 'App\\Precredito')
+                                <a href="{{route('start.precred_pagos.show',$item->ref_recibo_id)}}" target="_blank" class='btn btn-default btn-xs'>
+                                    <span class="glyphicon glyphicon-eye-open"  data-toggle="tooltip" data-placement="top" title="Ver Factura"></span>
+                                </a>
+ 
+                                <a href="{{route('start.precreditos.ver', [$item->ref_id])}}" target="_blank" class='btn btn-default btn-xs'>
                                     <span class="glyphicon glyphicon-sunglasses" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver Crédito"></span>
                                 </a>
                             @endif

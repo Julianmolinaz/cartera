@@ -118,8 +118,6 @@
         let confirmar = confirm('Desea continuar con la transacción');
 
         console.log({general});
-
-        return false;
  
         if(confirmar){
           axios.post("{{url('start/facturas')}}",general).then(function(res){

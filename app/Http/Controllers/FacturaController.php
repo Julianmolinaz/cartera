@@ -489,7 +489,7 @@ class FacturaController extends Controller
                 $credito->save();
 
             }
-            if ($pay['concepto'] == "Saldo a Favor") {
+            if (strtolower($pay['concepto']) == "saldo a favor") {
 
                 $pago = new Pago();
                 $pago->factura_id = $factura->id;
@@ -578,7 +578,7 @@ class FacturaController extends Controller
             $credito->save();
         }
 
-        // Saldo a favor
+        // Saldo a Favor
         if ($credito->saldo < 0) {
             $credito->saldo = 0;
             $credito->saldo_favor = abs($credito->saldo);
@@ -599,8 +599,6 @@ class FacturaController extends Controller
         if (isset($request->interno)) {
             return $factura->id;
         }
-
-        // Si tiene acuerdo de pago se desactiva
 
         return response()->json([
             "error"   => false,
@@ -692,6 +690,12 @@ class FacturaController extends Controller
 
         $sanciones  = $this->repo->getDebeDeSanciones($credito->id);
 
+        $cta_parcial  = DB::table('pagos')
+            ->where('credito_id', $request->credito_id)
+            ->where('estado','Debe')
+            ->where('concepto','Cuota Parcial')
+            ->count();
+
         $hay_sanciones          = count($sanciones) > 0;
         $dia_sancion            = Variable::find(1)->vlr_dia_sancion;
         $monto_por_sancion      = 0;
@@ -737,12 +741,14 @@ class FacturaController extends Controller
                 $monto = 0; }           
             }
 
-            $temp = [ 'cant' => 1, 
-                        'concepto' => 'Juridico', 
-                        'ini' => '', 
-                        'fin' => '', 
-                        'subtotal' => $abono,
-                        'marcado' => false ];
+            $temp = [ 
+                    'cant'      => 1, 
+                    'concepto'  => 'Juridico', 
+                    'ini'       => '', 
+                    'fin'       => '', 
+                    'subtotal'  => $abono,
+                    'marcado'   => false 
+                ];
                         
             array_push($contenedor, $temp);
         }
@@ -848,6 +854,10 @@ class FacturaController extends Controller
 
             $cuotas = $monto / $credito->precredito->vlr_cuota;
 
+            if ($cta_parcial) {
+
+            }
+
             if ($cuotas > $credito->cuotas_faltantes ) {
                 $cuotas = $credito->cuotas_faltantes;
             }
@@ -858,18 +868,24 @@ class FacturaController extends Controller
 
             if ($cuotas_completas > 0) {
 
+                if ($cta_parcial) {
+                    $cuotas_completas --;
+                }
+
                 $fecha = calcularFecha($credito->fecha_pago->fecha_pago, $credito->precredito->periodo, 
                         $cuotas_completas, $credito->precredito->p_fecha, $credito->precredito->s_fecha, false);
 
                 $monto_cuota    = $cuotas_completas * $credito->precredito->vlr_cuota;
                 $monto          = $monto - $monto_cuota;
 
-                $temp = [ 'cant'      => $cuotas_completas,  
+                $temp = [ 
+                    'cant'      => $cuotas_completas,  
                     'concepto'  => 'Cuota', 
                     'ini'       => $fecha['fecha_ini'], 
                     'fin'       => $fecha['fecha_fin'], 
                     'subtotal'  => $monto_cuota,       
-                    'marcado'   => false ];
+                    'marcado'   => false 
+                ];
 
                 array_push($contenedor, $temp);
 
@@ -936,7 +952,7 @@ class FacturaController extends Controller
         if ($monto > 0) {
             $temp = [ 
                 'cant' => '', 
-                'concepto'  => 'Saldo a favor',
+                'concepto'  => 'Saldo a Favor',
                 'ini' => '',
                 'fin' => '', 
                 'subtotal'  => $monto, 

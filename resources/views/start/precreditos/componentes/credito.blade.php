@@ -92,7 +92,7 @@
                     <span class="help-block">@{{ errors.first(rules.rendimiento.name) }}</span>         
                 </div>
 
-                <!-- Saldo a favor  -->
+                <!-- Saldo a Favor  -->
 
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.saldo_favor.name) ? 'has-error' :'']">
                     <label for="">Saldo a Favor @{{ rules.saldo_favor.required }}</label>     

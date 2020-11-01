@@ -14,7 +14,9 @@ class AcuerdoController extends Controller
 
     protected function acuerdosPorCredito($credito_id)
     {
-        $acuerdos = _\Acuerdo::where('credito_id', $credito_id)->get();
+        $acuerdos = _\Acuerdo::where('credito_id', $credito_id)
+            ->orderBy('created_at','desc')
+            ->get();
         $acuerdos->map(function($acuerdo){
             $acuerdo->creator;
             $acuerdo->updator;
@@ -30,12 +32,14 @@ class AcuerdoController extends Controller
         return response()->json($acuerdos);
     }
 
-    public function store(Request $request)
+    public function store (Request $request)
     {
         $acuerdo = new _\Acuerdo();
         $acuerdo->fill($request->all());
         $acuerdo->created_by = Auth::user()->id;
         $acuerdo->save();
+        
+        $this->inactivateAcuerdos($acuerdo);
 
         $acuerdos = $this->acuerdosPorCredito($acuerdo->credito_id);
 
@@ -59,5 +63,37 @@ class AcuerdoController extends Controller
 
         return res(true,$acuerdos,'');
 
+    }
+
+    public function delete($acuerdo_id)
+    {
+
+        try {
+
+            $acuerdo = _\Acuerdo::find($acuerdo_id);
+            $credito_id = $acuerdo->credito_id;
+            $acuerdo->delete();
+
+            $acuerdos = $this->acuerdosPorCredito($credito_id);
+
+            return res(true,$acuerdos,'Se eliminó el acuerdo exitosamente');
+
+        } catch (\Exception $e) {
+            return res(false, '', $e->getMessage());
+        }
+
+    }
+
+    public function inactivateAcuerdos($acuerdo)
+    {
+        $old_acuerdos = $this->acuerdosPorCredito($acuerdo->credito_id);
+        
+        foreach ($old_acuerdos as $old_acuerdo) {
+            if ($old_acuerdo->id != $acuerdo->id) {
+                \DB::table('acuerdos')
+                    ->where('id',$old_acuerdo->id)
+                    ->update([ 'estado' => 'Cerrado']);
+            }
+        }
     }
 }

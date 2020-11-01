@@ -18,3 +18,9 @@ Route::put('start/acuerdos/{acuerdo_id}', [
     'uses' => 'AcuerdoController@update',
     'as' => 'start.acuerdos.update'
 ]);
+
+Route::get('start/acuerdos/{acuerdo_id}/delete', [
+    // 'middleware' => ['permission:anular_pago_credito'],
+    'uses' => 'AcuerdoController@delete',
+    'as' => 'start.acuerdos.delete'
+]);

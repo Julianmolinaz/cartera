@@ -28,16 +28,23 @@ class PagoMasivoController extends Controller
     public $filename = '';
     public $load = '';
     public $factura;
+    public $now;
 
     public function __construct()
     {
         $this->bancos = DB::table('bancos')->get();
+        $this->now = Carbon::now();
     }
 
     public function index() 
     {
         return view('admin.masivos.index');
     }
+
+    /**
+     * List files upload (loads)
+     * PG
+     */
 
     public function list()
     {
@@ -55,6 +62,11 @@ class PagoMasivoController extends Controller
             })
             ->make(true);
     }
+
+    /**
+     * list masivos from load id file
+     * PG
+     */
 
     public function listMasivos($load_id)
     {
@@ -120,10 +132,11 @@ class PagoMasivoController extends Controller
                 $this->makePayments();
 
                 if ($this->arr_error) {
+
                     return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
                 } else {
-
-                    return view('admin.masivos.cargue.index')
+    
+                    return view('admin.masivos.index')
                         ->with('err',null)
                         ->with('load', _\Load::find($this->load->id));
                 }
@@ -144,6 +157,20 @@ class PagoMasivoController extends Controller
 
 
     /**
+     * Save file upload
+     * PG
+     */
+
+    public function saveFileLoad()
+    {
+        $this->load = new _\Load();
+        $this->load->filename = $this->filename;
+        $this->load->created_by = Auth::user()->id;
+        $this->load->save();
+    }
+
+
+    /**
      * BUSCA QUE EXISTA EL CLIENTE
      * QUE EXISTA UN CREDITO O UNA SOLICITUD PARA HACER 
      * EL PAGO
@@ -157,24 +184,63 @@ class PagoMasivoController extends Controller
 
         try {
 
-            $this->load = new _\Load();
-            $this->load->filename = $this->filename;
-            $this->load->created_by = Auth::user()->id;
-            $this->load->save();
+            $this->saveFileLoad();
 
             for ($this->index = 0; $this->index < count($this->data); $this->index ++) {
        
-                if ($this->data[$this->index]['credito_id'] != null ) {
+                $exist_masivo = DB::table('masivos')
+                    ->join('loads','masivos.load_id','=','loads.id')
+                    ->select('masivos.*','loads.filename')
+                    ->where('referencia',$this->data[$this->index]['referencia'])
+                    ->first();
+
+                // if exist masivo reference 
+
+                if ($exist_masivo) {
+
+                    $type = ($exist_masivo->ref_type == 'App\\Precredito' ) ? 'Solicitud' : 'Crédito';
+
+                    if ($type == 'Solicitud') {
+                        $recibo = \DB::table('fact_precreditos')
+                            ->where('id',$exist_masivo->ref_recibo_id)
+                            ->first();
+                    } else {
+                        $recibo = \DB::table('facturas')
+                            ->where('id', $exist_masivo->ref_recibo_id)
+                            ->first();
+                    }
+
+                    $num_fact = (isset($recibo->num_fact)) ? $recibo->num_fact : '@=(PAGO NO ENCONTRADO)=@';
+
+                    $this->arr_error[] = [
+                        'line' => $this->index + 2,
+                        'message' => "Ya existe un cargue con esta referencia. Ver $type $exist_masivo->ref_id - Pago: $recibo->num_fact - Archivo: $exist_masivo->filename"
+                    ];
+
+                }
+                
+                // if exist credito
+                
+                else if ($this->data[$this->index]['credito_id'] != null ) {
                     
                     $this->pagoCredito();
     
-                } else if ($this->data[$this->index]['solicitud_id'] != null) {
+                } 
+                
+                // if exist solicitud
+
+                else if ($this->data[$this->index]['solicitud_id'] != null) {
                     
                     $this->pagoSolicitud();
                 }
             }
 
-            DB::commit();
+            if (DB::table('masivos')->where('load_id', $this->load->id)->count() ) {
+                DB::commit();
+            } else {
+                array_unshift($this->arr_error, ['line' => null, 'message' => 'Ningun pago registrado']);
+            }
+
 
         } catch ( \Exception $e) {
             DB::rollback();
@@ -230,7 +296,6 @@ class PagoMasivoController extends Controller
     public function ruleObligacion()
     {
         $credito = $this->getCreditosActivo($this->data[$this->index]['cliente_id']);
-
         
         // Si tiene crédito activo
         
@@ -287,7 +352,7 @@ class PagoMasivoController extends Controller
 
             // Validar si requiere pagos por estudio
 
-            if ( $solicitud->estudio === 'Tipico' && !$pagos->where('concepto_id',1)->all() ){
+            if ( $solicitud->estudio === 'Tipico' && !$pagos->where('concepto_id',1)->all() ) {
 
                 $estudio= DB::table('fact_precred_conceptos')->where('id', 1)->first();
                 
@@ -296,100 +361,101 @@ class PagoMasivoController extends Controller
                 if ($this->data[$this->index]['monto'] ==  $estudio->valor) {
             
                     // realizar pago por estudio
-                    $recibo = new _\FactPrecredito();
-                    $recibo->num_fact = $this->auto();
-                    $recibo->fecha = $this->data[$this->index]['fecha'];
-                    $recibo->tipo = 'Consignación';
-                    $recibo->ref = $this->data[$this->index]['referencia'];
-                    $recibo->precredito_id = $solicitud->id;
-                    $recibo->total =  $this->data[$this->index]['monto'];
+                    $recibo                 = new _\FactPrecredito();
+                    $recibo->num_fact       = $this->auto();
+                    $recibo->fecha          = $this->data[$this->index]['fecha'];
+                    $recibo->tipo           = 'Consignación';
+                    $recibo->precredito_id  = $solicitud->id;
+                    $recibo->total          =  $this->data[$this->index]['monto'];
                     $recibo->user_create_id = Auth::user()->id;
                     $recibo->save();
             
-                    $pago = new _\PrecreditoPago();
+                    $pago                     = new _\PrecreditoPago();
                     $pago->fact_precredito_id = $recibo->id;
-                    $pago->concepto_id = 1;
-                    $pago->precredito_id = $solicitud->id;
-                    $pago->subtotal = $this->data[$this->index]['monto'];
-                    $pago->user_create_id = Auth::user()->id;
+                    $pago->concepto_id        = 1;
+                    $pago->precredito_id      = $solicitud->id;
+                    $pago->subtotal           = $this->data[$this->index]['monto'];
+                    $pago->user_create_id     = Auth::user()->id;
                     $pago->save();
 
                     // Guardar soporte del cargue a masivos
 
                     $masivo = DB::table('masivos')->insert([
-                        'fecha' => $this->data[$this->index]['fecha'],
-                        'documento' => $this->data[$this->index]['documento'],
-                        'referencia' => $this->data[$this->index]['referencia'],
-                        'monto' => $this->data[$this->index]['monto'],
-                        'entidad' => $this->data[$this->index]['entidad'],
-                        'efectivo' => true,
-                        'ref_type' => 'App\\Precredito',
-                        'ref_id' => $this->data[$this->index]['solicitud_id'],
+                        'fecha'         => $this->data[$this->index]['fecha'],
+                        'documento'     => $this->data[$this->index]['documento'],
+                        'referencia'    => $this->data[$this->index]['referencia'],
+                        'monto'         => $this->data[$this->index]['monto'],
+                        'entidad'       => $this->data[$this->index]['entidad'],
+                        'efectivo'      => true,
+                        'ref_type'      => 'App\\Precredito',
+                        'ref_id'        => $this->data[$this->index]['solicitud_id'],
                         'ref_recibo_id' => $recibo->id,
-                        'load_id' => $this->load->id
+                        'load_id'       => $this->load->id,
+                        'created_at'    => $this->now
                     ]);
         
                 } else {
         
                     $this->arr_error[] = [
                         'line' => $this->index + 2,
-                        'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitu->id)"
+                        'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitud->id)"
                     ];
                 }
 	        }
             // verificar si requiere pago por cuota inicial
             else if ( $solicitud->cuota_inicial > 0 && !$pagos->where('concepto_id',2)->all() ) {
 
-                $inicial = DB::table('fact_precred_conceptos')->where('id',2)->get();
-
+                $solicitud = DB::table('precreditos')->where('id',$this->data[$this->index]['solicitud_id'])->first();
                 // para que cargue la inicial el valor ingresado debe ser igual al reg en la solicitud
 
-                if ($this->data[$this->index]['monto'] == $inicial->valor) {
+                if ($this->data[$this->index]['monto'] == $solicitud->cuota_inicial) {
+
+                    // make payment inicial
             
-                    $recibo = new _\FactPrecredito();
-                    $recibo->num_fact = $this->auto();
-                    $recibo->fecha = $this->data[$this->index]['fecha'];
-                    $recibo->tipo = 'Consignación';
-                    $recibo->ref = $this->data[$this->index]['referencia'];
-                    $recibo->precredito_id = $solicitud->id;
-                    $recibo->total =  $this->data[$this->index]['monto'];
+                    $recibo                 = new _\FactPrecredito();
+                    $recibo->num_fact       = $this->auto();
+                    $recibo->fecha          = $this->data[$this->index]['fecha'];
+                    $recibo->tipo           = 'Consignación';
+                    $recibo->precredito_id  = $solicitud->id;
+                    $recibo->total          =  $this->data[$this->index]['monto'];
                     $recibo->user_create_id = Auth::user()->id;
                     $recibo->save();
 
-                    $pago = new _\PrecreditoPago();
+                    $pago                   = new _\PrecreditoPago();
                     $pago->fact_precredito_id = $recibo->id;
-                    $pago->concepto_id = 2;
-                    $pago->precredito_id = $solicitud->id;
-                    $pago->subtotal = $this->data[$this->index]['monto'];
-                    $pago->user_create_id = Auth::user()->id;
+                    $pago->concepto_id      = 2;
+                    $pago->precredito_id    = $solicitud->id;
+                    $pago->subtotal         = $this->data[$this->index]['monto'];
+                    $pago->user_create_id   = Auth::user()->id;
                     $pago->save();
 
-                    // Guardar soporte del cargue a masivos
+                    // Save suport in masivos
 
                     $masivo = DB::table('masivos')->insert([
-                        'fecha' => $this->data[$this->index]['fecha'],
-                        'documento' => $this->data[$this->index]['documento'],
-                        'referencia' => $this->data[$this->index]['referencia'],
-                        'monto' => $this->data[$this->index]['monto'],
-                        'entidad' => $this->data[$this->index]['entidad'],
-                        'efectivo' => true,
-                        'ref_type' => 'App\\Precredito',
-                        'ref_id' => $this->data[$this->index]['solicitud_id'],
+                        'fecha'         => $this->data[$this->index]['fecha'],
+                        'documento'     => $this->data[$this->index]['documento'],
+                        'referencia'    => $this->data[$this->index]['referencia'],
+                        'monto'         => $this->data[$this->index]['monto'],
+                        'entidad'       => $this->data[$this->index]['entidad'],
+                        'efectivo'      => true,
+                        'ref_type'      => 'App\\Precredito',
+                        'ref_id'        => $this->data[$this->index]['solicitud_id'],
                         'ref_recibo_id' => $recibo->id,
-                        'load_id' => $this->load->id    
+                        'load_id'       => $this->load->id,
+                        'created_at'    => $this->now
                     ]);
                 
                 } else {
                 
                     $this->arr_error[] = [
                         'line' => $this->index + 2,
-                        'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitu->id)"
+                        'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitud->id)"
                     ];	
                 }
             } else {
                 $this->arr_error[] = [
                     'line' => $this->index + 2,
-                    'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitu->id)"
+                    'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitud->id)"
                 ];
             }
         }
@@ -415,35 +481,45 @@ class PagoMasivoController extends Controller
 
         $prepago = $factura->abonos($request_prepago);
 
+        if ($prepago['data']) {
+            for ($i = 0; $i < count($prepago['data']); $i++) {
+                if ($prepago['data'][$i]['ini']) {
+                    $prepago['data'][$i]['ini'] = inv_fech2($prepago['data'][$i]['ini']);
+                }
+                if ($prepago['data'][$i]['fin']) {
+                    $prepago['data'][$i]['fin'] = inv_fech2($prepago['data'][$i]['fin']);
+                }
+            } 
+        }
+
         $general = [
-            'interno' => true,
-            'auto' => false,
-            'tipo_pago' => 'Consignación',
-            'banco' => $this->data[$this->index]['entidad'],
-            'credito_id' => $this->data[$this->index]['credito_id'],
-            'monto' => $this->data[$this->index]['monto'],
-            'num_consignacion' => $this->data[$this->index]['referencia'],
-            'num_fact' => $this->auto(),
-            'pagos' => $prepago['data']
+            'interno'           => true,
+            'auto'              => false,
+            'tipo_pago'         => 'Consignación',
+            'banco'             => $this->data[$this->index]['entidad'],
+            'credito_id'        => $this->data[$this->index]['credito_id'],
+            'monto'             => $this->data[$this->index]['monto'],
+            'num_consignacion'  => $this->data[$this->index]['referencia'],
+            'num_fact'          => $this->auto(),
+            'pagos'             => $prepago['data']
         ];
 
         $request_pago = new \Illuminate\Http\Request();
-
         $request_pago->replace($general);
-
         $factura_id = $factura->store($request_pago);
 
         $dat = [
-            'fecha' => $this->data[$this->index]['fecha'],
-            'documento' => $this->data[$this->index]['documento'],
-            'referencia' => $this->data[$this->index]['referencia'],
-            'monto' => $this->data[$this->index]['monto'],
-            'entidad' => $this->data[$this->index]['entidad'],
-            'efectivo' => true,
-            'ref_type' => 'App\\Credito',
-            'ref_id' => $this->data[$this->index]['credito_id'],
+            'fecha'         => $this->data[$this->index]['fecha'],
+            'documento'     => $this->data[$this->index]['documento'],
+            'referencia'    => $this->data[$this->index]['referencia'],
+            'monto'         => $this->data[$this->index]['monto'],
+            'entidad'       => $this->data[$this->index]['entidad'],
+            'efectivo'      => true,
+            'ref_type'      => 'App\\Credito',
+            'ref_id'        => $this->data[$this->index]['credito_id'],
             'ref_recibo_id' => $factura_id,
-            'load_id' => $this->load->id
+            'load_id'       => $this->load->id,
+            'created_at'    => $this->now
         ];
 
         $masivo = DB::table('masivos')->insert($dat);
@@ -467,7 +543,7 @@ class PagoMasivoController extends Controller
             ->join('precreditos','creditos.precredito_id','=','precreditos.id')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
             ->select('creditos.*')
-            ->whereNotIn('creditos.estado',['Cancelados','Cancelado por refinanciacion'])
+            ->whereNotIn('creditos.estado',['Cancelado','Cancelado por refinanciacion'])
             ->where('clientes.id',$cliente_id)
             ->first();
     }
@@ -476,8 +552,10 @@ class PagoMasivoController extends Controller
     {
         return DB::table('precreditos')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->leftJoin('creditos','precreditos.id','=','creditos.precredito_id')
             ->select('precreditos.*')
             ->where('clientes.id',$cliente_id)
+            ->whereNull('creditos.id')
             ->orderBy('precreditos.id','DESC')
             ->first();
     }
@@ -642,7 +720,6 @@ class PagoMasivoController extends Controller
             'monto',
             'entidad'
         ];
-        // dd($header);
 
         $datos_prueba = [
             '2020-09-15',
