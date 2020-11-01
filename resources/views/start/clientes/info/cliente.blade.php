@@ -70,7 +70,7 @@
         <i class="fa fa-location-arrow" aria-hidden="true"></i>
         Dirección
       </th>
-      <td> {{ $cliente->direccion .' - '.$cliente->municipio->nombre}}</td>
+      <td> {{ $cliente->direccion .' - '. $cliente->barrio .' - '.$cliente->municipio->nombre}}</td>
     </tr>
 
 

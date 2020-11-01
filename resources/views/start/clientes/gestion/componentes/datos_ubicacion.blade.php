@@ -14,6 +14,7 @@
                             placeholder="dirección de residencia"
                             v-model="ubicacion.direccion"
                             name="direccion"
+                            autocomplete="off"
                             v-validate="rules.direccion.rule">
                         <span class="help-block">@{{ errors.first(rules.direccion.name) }}</span>
                     </div>
@@ -27,6 +28,7 @@
                             placeholder="barrio de residencia"
                             v-model="ubicacion.barrio"
                             name="barrio"
+                            autocomplete="off"
                             v-validate="rules.barrio.rule">
                         <span class="help-block">@{{ errors.first(rules.barrio.name) }}</span>
                     </div>
@@ -85,6 +87,7 @@
                             placeholder="años"
                             v-model="ubicacion.anos_residencia"
                             name="años en residencia"
+                            autocomplete="off"
                             v-validate="rules.anos_residencia.rule">
                         <span class="help-block">@{{ errors.first(rules.anos_residencia.name) }}</span>
 
@@ -99,6 +102,7 @@
                             placeholder="meses"
                             v-model="ubicacion.meses_residencia"
                             name="meses en residencia"
+                            autocomplete="off"
                             v-validate="rules.meses_residencia.rule">
                         <span class="help-block">@{{ errors.first(rules.meses_residencia.name) }}</span>
                     </div>
@@ -114,6 +118,7 @@
                             class="form-control"
                             v-model="ubicacion.movil"
                             name="celular"
+                            autocomplete="off"
                             v-validate="rules.movil.rule">
                         <span class="help-block">@{{ errors.first(rules.movil.name) }}</span>
                     </div>
@@ -126,6 +131,7 @@
                             class="form-control"
                             v-model="ubicacion.fijo"
                             name="telefono"
+                            autocomplete="off"
                             v-validate="rules.fijo.rule">
                         <span class="help-block">@{{ errors.first(rules.fijo.name) }}</span>
                     </div>
@@ -138,6 +144,7 @@
                             class="form-control"
                             v-model="ubicacion.email"
                             name="correo electronico"
+                            autocomplete="off"
                             v-validate="rules.email.rule">
                         <span class="help-block">@{{ errors.first(rules.email.name) }}</span>
                     </div>
@@ -184,6 +191,7 @@
                             class="form-control"
                             v-model="ubicacion.nombre_arrendador"
                             name="nombre arrendador"
+                            autocomplete="off"
                             v-validate="rules.nombre_arrendador.rule">
                         <span class="help-block">@{{ errors.first(rules.nombre_arrendador.name) }}</span>
                     </div>
@@ -196,6 +204,7 @@
                             class="form-control"
                             v-model="ubicacion.telefono_arrendador"
                             name="telefono arrendador"
+                            autocomplete="off"
                             v-validate="rules.telefono_arrendador.rule">
                         <span class="help-block">@{{ errors.first(rules.telefono_arrendador.name) }}</span>
                     </div>

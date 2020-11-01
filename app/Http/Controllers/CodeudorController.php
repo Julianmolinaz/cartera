@@ -253,6 +253,7 @@ class CodeudorController extends Controller
     public function destroy($cliente_id)
     {
         DB::beginTransaction();
+
         try
         {
             $cliente = Cliente::find($cliente_id);
