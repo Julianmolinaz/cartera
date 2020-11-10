@@ -10,11 +10,11 @@ use DB;
 
 function res($success,$data,$message,$status=200)
 {
-  return response()->json([
-    'success' => $success,
-    'dat'     => $data,
-    'message' => $message 
-  ], $status);
+    return response()->json([
+        'success' => $success,
+        'dat'     => $data,
+        'message' => $message 
+    ], $status);
 }
 
 //funcion que invierte el formato de la fecha (dia, mes, año) a (año, mes, dia) o al contrario 

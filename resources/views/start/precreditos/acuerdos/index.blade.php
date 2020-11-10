@@ -117,9 +117,6 @@
 
                 axios.get(`/start/acuerdos/${acuerdo.id}/delete`)
                     .then( res => {
-
-                        console.log({res})
-
                         if (res.data.success) {
                             alertify.notify(res.data.message, 'success', 5);
                             self.acuerdos = res.data.dat;

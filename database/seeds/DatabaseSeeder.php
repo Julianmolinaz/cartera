@@ -29,13 +29,13 @@ class DatabaseSeeder extends Seeder
         $this->call('EstReferenciasTableSeeder');
         $this->call('EstudiosTableSeeder');
         $this->call('CreditosTableSeeder');
-        $this->call('FacturasTableSeeder');
+        // $this->call('FacturasTableSeeder');
         $this->call('PagosTableSeeder');
         $this->call('ExtrasTableSeeder');
         $this->call('CriteriosTableSeeder');
         $this->call('FechaCobrosTableSeeder');
         $this->call('EgresosTableSeeder');
-        $this->call('OtrosPagosTableSeeder');
+        // $this->call('OtrosPagosTableSeeder');
         $this->call('CallBusquedasTableSeeder');
         $this->call('AnuladasTableSeeder');
         $this->call('CastigadasTableSeeder');        
@@ -44,5 +44,7 @@ class DatabaseSeeder extends Seeder
         $this->call('RoleUserTableSeeder');
         $this->call('PermissionRoleTableSeeder');
         $this->call('BancosTableSeeder');
+        $this->call('TipoVehiculosTableSeeder');
+        $this->call('TarifasTableSeeder');
     }
 }

@@ -17,16 +17,15 @@ class CreateTarifasTable extends Migration
             $table->tinyInteger('orden');
             $table->string('concepto');
             $table->double('valor');
-            $table->enum('estado', ['Activo','Inactivo'])->default('Activo');
-            
-            
+            $table->enum('estado', ['Activo','Inactivo'])->default('Activo')->nullable();
             $table->integer('producto_id')->unsigned();
-            $table->foreign('producto_id')->references('id')->on('productos');
-            
             $table->integer('tipo_vehiculo_id')->unsigned();           
+
+            $table->timestamps();
+            
+            $table->foreign('producto_id')->references('id')->on('productos');
             $table->foreign('tipo_vehiculo_id')->references('id')->on('tipo_vehiculos');
             
-            $table->timestamps();
         });
     }
 

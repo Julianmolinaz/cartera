@@ -50,25 +50,6 @@ Route::get('admin/estado_cuenta/{credito_id}',[
 	'as'   => 'admin.get_estado_cuenta'	
 ]);
 
-
-
-//ADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMIN
-
-
-//REPORTES
-
-// // Route::get('admin/reporte_centrales','ReporteController@centrales');
-
-
-// REPORTESHISTORIALVENTAS
-
-// // Route::post('admin/descargar_reporte_detallado_ventas','ReporteController@descargar');
-
-
-
-
-
-
 Route::resource('log','LogController');
 
 Route::get('logout',[

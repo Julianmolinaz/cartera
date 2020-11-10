@@ -12,11 +12,12 @@ class PagoRepository
         ->where([['credito_id','=',$credito_id],
                  ['concepto','=','Juridico'],
                  ['estado','=','Debe']])
-        ->get();
+        ->first();
     }
 
     public function getDebeDeSanciones($credito_id)
     {
+
         return  \App\Sancion::where('credito_id',$credito_id)
             ->where('estado','Debe')
             ->get();
@@ -28,7 +29,7 @@ class PagoRepository
           ->where([['credito_id','=',$credito_id],
                    ['concepto','=','Juridico'],
                    ['estado','=','Debe']])
-          ->get();
+          ->first();
     }
 
     public function getDebePrejuridico($credito_id)
@@ -37,7 +38,7 @@ class PagoRepository
             ->where([['credito_id','=',$credito_id],
             ['concepto','=','Prejuridico'],
             ['estado','=','Debe']])
-            ->get();    
+            ->first();    
     }
 
     public function getDebeExcedentesPrejuridico($credito_id)
@@ -46,8 +47,16 @@ class PagoRepository
             ->where([['credito_id','=',$credito_id],
             ['concepto','=','Prejuridico'],
             ['estado','=','Debe']])
-            ->get();
+            ->first();
     }
 
-    
+    public function partialPayment($credito_id)
+    {   
+        return DB::table('pagos')
+            ->where([['credito_id','=',$credito_id],
+                    ['concepto','=','Cuota Parcial'],
+                    ['estado','=','Debe']])
+            ->orderBy('pago_hasta','asc')
+            ->first();  
+    }
 }

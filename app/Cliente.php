@@ -84,10 +84,10 @@ class Cliente extends Model implements Auditable
 
     public function setNombreAttribute($value){
 
-        $_1 = ucwords(strtolower($this->primer_nombre));
-        $_2 = ' '.ucwords(strtolower($this->segundo_nombre));
-        $_3 = ' '.ucwords(strtolower($this->primer_apellido));
-        $_4 = ' '.ucwords(strtolower($this->segundo_apellido));
+        $_1 = ($this->primer_nombre) ?  ucwords(strtolower($this->primer_nombre)) : '';
+        $_2 = ($this->segundo_nombre) ? ' '.ucwords(strtolower($this->segundo_nombre)) : '';
+        $_3 = ($this->primer_apellido) ? ' '.ucwords(strtolower($this->primer_apellido)) : '';
+        $_4 = ($this->segundo_apellido) ? ' '.ucwords(strtolower($this->segundo_apellido)) : '';
 
         $this->attributes['nombre'] = trim($_1.$_2.$_3.$_4);
 

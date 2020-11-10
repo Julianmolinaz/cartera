@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\MyService\GeneradorPagos;
+use App\MyService\Payments\Payment;
 
 
 class TestController extends Controller
 {
-    public function testPagos()
+    public function make()
     {
-        $pago = new GeneradorPagos(5000000, 11629);
-        $pago->make();
+        $pay = new Payment(17630, 210000);
+        return $pay->make();
+
     }
 }

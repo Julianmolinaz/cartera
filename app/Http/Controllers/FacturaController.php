@@ -418,8 +418,8 @@ class FacturaController extends Controller
             $cuota_parcial = Pago::where('credito_id',$credito->id)
                 ->where('concepto','Cuota Parcial')
                 ->where('estado','Debe')
-                ->where('pago_desde',$pay['ini'])
-                ->where('pago_hasta',$pay['fin'])
+                ->where('pago_desde',inv_fech($pay['ini']))
+                ->where('pago_hasta',inv_fech($pay['fin']))
                 ->get();
         
             $pago = new Pago();
@@ -607,9 +607,10 @@ class FacturaController extends Controller
     } catch(\Exception $e){
 
         DB::rollback();
+
         return response()->json([
           "error"   => true,
-          "mensaje" => $e->getMessage()
+          "mensaje" => $e
         ]);
     }
 
@@ -717,53 +718,53 @@ class FacturaController extends Controller
 
             $sancion_juridico = $this->repo->getDebeDeJuridicos($credito->id);
 
-            if(count($sancion_juridico) > 0){
+            if($sancion_juridico){
             
-            $juridico =   $this->repo->getDebeJuridicos($credito->id);
+                $juridico =   $this->repo->getDebeJuridicos($credito->id);
 
-            if(count($juridico) > 0 ){ 
+                if (count($juridico) > 0 ) { 
 
-                if($monto > $juridico[0]->debe){ 
-                $abono = $juridico[0]->debe;
-                $monto = $monto - $abono; 
+                    if ($monto > $juridico[0]->debe) { 
+                        $abono = $juridico[0]->debe;
+                        $monto = $monto - $abono; 
+                    }
+                    else {
+                        $abono = $monto;
+                        $monto = 0; 
+                    }
+                }  
+                else {
+                    if ($monto > $sancion_juridico->valor) {
+                    $abono = $sancion_juridico->valor;
+                    $monto = $monto - $abono; }
+                    else{
+                    $abono = $monto;
+                    $monto = 0; }           
                 }
-                else{
-                $abono = $monto;
-                $monto = 0; 
-                }
-            }  
-            else{
-                if($monto > $sancion_juridico[0]->valor){
-                $abono = $sancion_juridico[0]->valor;
-                $monto = $monto - $abono; }
-                else{
-                $abono = $monto;
-                $monto = 0; }           
+
+                $temp = [ 
+                        'cant'      => 1, 
+                        'concepto'  => 'Juridico', 
+                        'ini'       => '', 
+                        'fin'       => '', 
+                        'subtotal'  => $abono,
+                        'marcado'   => false 
+                    ];
+                            
+                array_push($contenedor, $temp);
             }
-
-            $temp = [ 
-                    'cant'      => 1, 
-                    'concepto'  => 'Juridico', 
-                    'ini'       => '', 
-                    'fin'       => '', 
-                    'subtotal'  => $abono,
-                    'marcado'   => false 
-                ];
-                        
-            array_push($contenedor, $temp);
-        }
     }    
     /****************************** PREJURIDICO **************************************/
     if($monto > 0){
         $sancion_prejuridico = $this->repo->getDebePrejuridico($request->credito_id);
 
-        if (count($sancion_prejuridico) > 0) {
+        if ($sancion_prejuridico) {
 
             $prejuridico = $this->repo->getDebeExcedentesPrejuridico($request->credito_id);
 
             if(count($prejuridico) > 0 ){                               
-                if($monto > $prejuridico[0]->debe){ 
-                    $abono = $prejuridico[0]->debe;
+                if($monto > $prejuridico->debe){ 
+                    $abono = $prejuridico->debe;
                     $monto = $monto - $abono; }
                     else{
                     $abono = $monto;
@@ -771,8 +772,8 @@ class FacturaController extends Controller
                 }
             } else {
 
-                if ($monto > $sancion_prejuridico[0]->valor) {
-                    $abono = $sancion_prejuridico[0]->valor;
+                if ($monto > $sancion_prejuridico->valor) {
+                    $abono = $sancion_prejuridico->valor;
                     $monto = $monto - $abono; 
                 } else {
                     $abono = $monto;
@@ -854,9 +855,6 @@ class FacturaController extends Controller
 
             $cuotas = $monto / $credito->precredito->vlr_cuota;
 
-            if ($cta_parcial) {
-
-            }
 
             if ($cuotas > $credito->cuotas_faltantes ) {
                 $cuotas = $credito->cuotas_faltantes;
@@ -906,13 +904,13 @@ class FacturaController extends Controller
                 
                 if ($monto >= $vlr_monto_permitido || $credito->permitir_mover_fecha) {
                     $temp = [ 
-                            'cant'      => $cuotas_incompletas,
-                            'concepto'  => 'Cuota Parcial', 
-                            'ini'       => inv_fech($fecha['fecha_ini']),
-                            'fin'       => inv_fech($fecha['fecha_fin']), 
-                            'subtotal'  => $monto,             
-                            'marcado'   => false 
-                        ];
+                        'cant'      => $cuotas_incompletas,
+                        'concepto'  => 'Cuota Parcial', 
+                        'ini'       => inv_fech($fecha['fecha_ini']),
+                        'fin'       => inv_fech($fecha['fecha_fin']), 
+                        'subtotal'  => $monto,             
+                        'marcado'   => false 
+                    ];
 
                 } else {
                     $temp =  [

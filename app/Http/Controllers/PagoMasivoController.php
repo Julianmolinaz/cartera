@@ -73,7 +73,7 @@ class PagoMasivoController extends Controller
         $load = _\Load::find($load_id);
 
         return view('admin.masivos.cargue.masivos')
-            ->with('load',$load);
+            ->with('load', $load);
     }
 
     public function cargarMasivos() 
@@ -102,57 +102,71 @@ class PagoMasivoController extends Controller
 
             $exist_log = \DB::table('loads')->where('filename', $this->filename)->count();
 
-            // Validacion del formato y nombre del archivo único
+            // Unique file name and format validation
 
-            if ( ($extension == "xlsx" || $extension == "xls" || $extension == "csv") &&
-                  ! $exist_log  )
-            {
-                $path = $request->archivo->getRealPath();
+            if (! $exist_log) {
 
-                $this->data = collect(Excel::load($path, function($reader){})->get());
-
-                // ****** Validaciones de encabezado *******
-
-                $this->validate_heading(); 
-                if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
-                
-                
-                // ****** Validaciones de formato *******
-                
-                $this->validation();
-                if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
-                
-                // ****** Valida si existen el cliente, credito o solicitud *******
-                
-                $this->rulesBeforePay(); 
-                if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
-                
-                // ****** Realizar Pagos *******
-
-                $this->makePayments();
-
-                if ($this->arr_error) {
-
-                    return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
-                } else {
-    
-                    return view('admin.masivos.index')
-                        ->with('err',null)
-                        ->with('load', _\Load::find($this->load->id));
-                }
- 
-            } 
-            else {
-                
                 $this->arr_error[] = [
                     'line' => '',
-                    'message' => 'Formato o nombre no soportado'
+                    'message' => 'Un archivo con este mismo nombre ya fué cargado.'
                 ];
             }
 
-            return view('admin.masivos.cargue.index')
-                ->with('err', $this->arr_error);
+            //  Valid format file
+
+            else if ($extension != "xlsx" && $extension != "xls" && $extension != "csv") {
+
+                $this->arr_error[] = [
+                    'line' => '',
+                    'message' => 'Un archivo con este mismo nombre ya fué cargado.'
+                ];
+            }
+
+            if ($this->arr_error) return view('admin.masivos.cargue.index')->with('err', $this->arr_error);
+
+
+            $path = $request->archivo->getRealPath();
+
+            $this->data = collect(Excel::load($path, function($reader){})->get());
+
+
+            if (! $this->processData() ) return view('admin.masivos.cargue.index')->with('err', $this->arr_error); 
+
+                
+            return view('admin.masivos.index')
+                ->with('err',null)
+                ->with('load', _\Load::find($this->load->id));
+
         }
+    }
+
+    /**
+     * Execute validations and payments
+     */
+
+    public function processData ()
+    {
+        // ****** Validaciones de encabezado *******    
+
+        $this->validate_heading(); 
+        if ($this->arr_error) return false;
+
+        // ****** Validaciones de formato *******
+        
+        $this->validation();
+        if ($this->arr_error) return false;
+        
+        // ****** Valida si existen el cliente, credito o solicitud *******
+        
+        $this->rulesBeforePay(); 
+        if ($this->arr_error) return false;
+
+        // ****** Realizar Pagos *******
+        $this->makePayments();
+        if ($this->arr_error) return false;
+
+        return true;
+
     }
 
 
@@ -214,7 +228,7 @@ class PagoMasivoController extends Controller
 
                     $this->arr_error[] = [
                         'line' => $this->index + 2,
-                        'message' => "Ya existe un cargue con esta referencia. Ver $type $exist_masivo->ref_id - Pago: $recibo->num_fact - Archivo: $exist_masivo->filename"
+                        'message' => "Ya existe un cargue con esta referencia. Ver $type $exist_masivo->ref_id - Archivo: $exist_masivo->filename"
                     ];
 
                 }
@@ -479,6 +493,8 @@ class PagoMasivoController extends Controller
             'interno' => true
         ]);
 
+        dd($request_pago);
+
         $prepago = $factura->abonos($request_prepago);
 
         if ($prepago['data']) {
@@ -507,6 +523,8 @@ class PagoMasivoController extends Controller
         $request_pago = new \Illuminate\Http\Request();
         $request_pago->replace($general);
         $factura_id = $factura->store($request_pago);
+
+        if (!$this->data[$this->index]['fecha']) dd($this->data[$this->index]);
 
         $dat = [
             'fecha'         => $this->data[$this->index]['fecha'],
