@@ -15,13 +15,13 @@ class CreateCallBusquedasTable extends Migration {
 		Schema::create('call_busquedas', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->unsigned()->index('call_busquedas_user_id_foreign');
+			$table->integer('user_id')->unsigned();
 			$table->enum('busqueda', array('Hoy','Morosos','Todos','Antes','Agenda'))->nullable();
 			$table->date('rango_ini')->nullable();
 			$table->date('rango_fin')->nullable();
 			$table->timestamps();
 
-			$table->foreign('user_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('user_id')->references('id')->on('users');
 		});
 	}
 

@@ -30,7 +30,7 @@ class CallBusquedasTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'user_id' => 9,
+                'user_id' => 2,
                 'busqueda' => 'Morosos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -40,7 +40,7 @@ class CallBusquedasTableSeeder extends Seeder
             2 => 
             array (
                 'id' => 3,
-                'user_id' => 10,
+                'user_id' => 2,
                 'busqueda' => 'Morosos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -50,7 +50,7 @@ class CallBusquedasTableSeeder extends Seeder
             3 => 
             array (
                 'id' => 4,
-                'user_id' => 15,
+                'user_id' => 2,
                 'busqueda' => 'Morosos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -60,7 +60,7 @@ class CallBusquedasTableSeeder extends Seeder
             4 => 
             array (
                 'id' => 5,
-                'user_id' => 25,
+                'user_id' => 2,
                 'busqueda' => 'Morosos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -70,7 +70,7 @@ class CallBusquedasTableSeeder extends Seeder
             5 => 
             array (
                 'id' => 6,
-                'user_id' => 8,
+                'user_id' => 2,
                 'busqueda' => 'Todos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -80,7 +80,7 @@ class CallBusquedasTableSeeder extends Seeder
             6 => 
             array (
                 'id' => 7,
-                'user_id' => 36,
+                'user_id' => 2,
                 'busqueda' => 'Todos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -90,7 +90,7 @@ class CallBusquedasTableSeeder extends Seeder
             7 => 
             array (
                 'id' => 8,
-                'user_id' => 32,
+                'user_id' => 2,
                 'busqueda' => 'Morosos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -100,7 +100,7 @@ class CallBusquedasTableSeeder extends Seeder
             8 => 
             array (
                 'id' => 9,
-                'user_id' => 34,
+                'user_id' => 2,
                 'busqueda' => 'Morosos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -110,7 +110,7 @@ class CallBusquedasTableSeeder extends Seeder
             9 => 
             array (
                 'id' => 10,
-                'user_id' => 30,
+                'user_id' => 2,
                 'busqueda' => 'Todos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -120,7 +120,7 @@ class CallBusquedasTableSeeder extends Seeder
             10 => 
             array (
                 'id' => 11,
-                'user_id' => 20,
+                'user_id' => 2,
                 'busqueda' => 'Todos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -130,7 +130,7 @@ class CallBusquedasTableSeeder extends Seeder
             11 => 
             array (
                 'id' => 12,
-                'user_id' => 27,
+                'user_id' => 2,
                 'busqueda' => 'Todos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -140,7 +140,7 @@ class CallBusquedasTableSeeder extends Seeder
             12 => 
             array (
                 'id' => 13,
-                'user_id' => 28,
+                'user_id' => 2,
                 'busqueda' => 'Morosos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -150,7 +150,7 @@ class CallBusquedasTableSeeder extends Seeder
             13 => 
             array (
                 'id' => 14,
-                'user_id' => 33,
+                'user_id' => 2,
                 'busqueda' => 'Todos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -160,7 +160,7 @@ class CallBusquedasTableSeeder extends Seeder
             14 => 
             array (
                 'id' => 15,
-                'user_id' => 37,
+                'user_id' => 2,
                 'busqueda' => 'Todos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -170,7 +170,7 @@ class CallBusquedasTableSeeder extends Seeder
             15 => 
             array (
                 'id' => 16,
-                'user_id' => 38,
+                'user_id' => 2,
                 'busqueda' => 'Morosos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -180,7 +180,7 @@ class CallBusquedasTableSeeder extends Seeder
             16 => 
             array (
                 'id' => 17,
-                'user_id' => 41,
+                'user_id' => 2,
                 'busqueda' => 'Agenda',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -190,7 +190,7 @@ class CallBusquedasTableSeeder extends Seeder
             17 => 
             array (
                 'id' => 18,
-                'user_id' => 40,
+                'user_id' => 2,
                 'busqueda' => 'Morosos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,
@@ -200,7 +200,7 @@ class CallBusquedasTableSeeder extends Seeder
             18 => 
             array (
                 'id' => 19,
-                'user_id' => 17,
+                'user_id' => 2,
                 'busqueda' => 'Todos',
                 'rango_ini' => NULL,
                 'rango_fin' => NULL,

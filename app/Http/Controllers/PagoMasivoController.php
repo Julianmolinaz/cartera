@@ -11,6 +11,7 @@ use App\PagoMasivo;
 use Carbon\Carbon;
 use Datatables;
 use Validator;
+use Exception;
 use Excel;
 use File;
 use Auth;
@@ -29,6 +30,7 @@ class PagoMasivoController extends Controller
     public $load = '';
     public $factura;
     public $now;
+    const LIMIT_SANCIONES = 10;
 
     public function __construct()
     {
@@ -92,6 +94,8 @@ class PagoMasivoController extends Controller
 
     public function store(Request $request) 
     {
+
+        // dd($request->all());
         $this->validate($request, ['archivo'=>'required']);
 
         if ($request->hasFile('archivo'))
@@ -104,7 +108,7 @@ class PagoMasivoController extends Controller
 
             // Unique file name and format validation
 
-            if (! $exist_log) {
+            if ($exist_log) {
 
                 $this->arr_error[] = [
                     'line' => '',
@@ -129,9 +133,12 @@ class PagoMasivoController extends Controller
 
             $this->data = collect(Excel::load($path, function($reader){})->get());
 
+            // valida data to process
 
             if (! $this->processData() ) return view('admin.masivos.cargue.index')->with('err', $this->arr_error); 
 
+
+            // if no exixst errors return view
                 
             return view('admin.masivos.index')
                 ->with('err',null)
@@ -146,29 +153,223 @@ class PagoMasivoController extends Controller
 
     public function processData ()
     {
-        // ****** Validaciones de encabezado *******    
+        DB::beginTransaction();
 
-        $this->validate_heading(); 
-        if ($this->arr_error) return false;
+        try {
 
-        // ****** Validaciones de formato *******
-        
-        $this->validation();
-        if ($this->arr_error) return false;
-        
-        // ****** Valida si existen el cliente, credito o solicitud *******
-        
-        $this->rulesBeforePay(); 
-        if ($this->arr_error) return false;
+            // ****** Validaciones de encabezado *******    
+    
+            $this->validate_heading(); 
+            if ($this->arr_error) return false;
+    
+            // ****** Validaciones de formato *******
+            
+            $this->validation();
+            if ($this->arr_error) return false;
+            
+            // ****** Valida si existen el cliente, credito o solicitud *******
+            
+            $this->rulesBeforePay(); 
+            if ($this->arr_error) return false;
 
-        // ****** Realizar Pagos *******
-        $this->makePayments();
-        if ($this->arr_error) return false;
+            // ****** Realizar Pagos *******
+            $this->makePayments();
+            if ($this->arr_error) return false;
 
-        return true;
+            DB::commit();
+            return true;
+
+        } catch (Excetpion $e) {
+            \Log::info($e);
+
+            DB::rollback();
+            return false;
+        }
 
     }
 
+    /**
+     * VALIDACION ENCABEZADO  DE TABLA
+     */
+
+    public function validate_heading() 
+    {
+        $keys = $this->data[0]->keys();
+
+        if ($keys->all()[0] != 'fecha' ) {
+            $this->arr_error[] =  [
+                'line'      => 1,
+                'message'   => 'La primera columna debe llamarse fecha'
+            ];
+        }
+        if ($keys->all()[1] != 'documento') {
+            $this->arr_error[] =  [
+                'line'      => 1,
+                'message'   => 'La segunda columna debe llamarse documento'
+            ];
+        }
+        if ($keys->all()[2] != 'referencia') {
+            $this->arr_error[] = [
+                'line'      => 1,
+                'message'   => 'La tercer columna debe llamarse referencia'
+            ]; 
+        }
+        if ($keys->all()[3] != 'monto') {
+            $this->arr_error[] = [
+                'line'      => 1,
+                'message'   =>  'La cuarta columna debe llamarse monto'
+            ]; 
+        }
+        if ($keys->all()[4] != 'entidad') {
+            $this->arr_error[] = [
+                'line'      => 1,
+                'message'   => 'La quinta columna debe llamarse entidad'
+            ]; 
+        }
+    }
+
+
+    /**
+     * VALIDACION DE INTEGRIDAD DE DATOS
+     */
+
+
+    public function validation()
+    {
+
+        $this->index = 1;
+
+        foreach ($this->data as $item) 
+        {
+            $this->index ++;
+
+            $validation = Validator::make($item->toArray(), [
+                'documento'     => 'required|integer|min:1',
+                'referencia'    => 'required|alpha_num',
+                'monto'         => 'required|integer|min:1',
+                'entidad'       => 'required'
+            ],[
+                'documento.required'    => 'El campo documento es requerido',
+                'documento.integer'     => 'El campo documento debe ser un entero',
+                'documento.min'         => 'El campo documento debe ser mayor 0',
+                'referencia.required'   => 'El campo referencia es requerido',     
+                'referencia.alpha_num'  => 'El campo referencia debe contener números y/o letras',
+                'monto.required'        => 'El campo monto es requerido',
+                'monto.integer'         => 'El campo monto debe ser un entero',
+                'monto.min'             => 'El campo monto debe ser mayor 0',
+                'entidad.required'      => 'El campo entidad es requerido'
+            ]);
+
+            if ($validation->fails()) {
+
+                foreach ($validation->errors()->toArray() as $err) {
+                    $this->arr_error[] = [
+                        'line'   => $this->index,
+                        'message' => $err[0]
+                    ];
+                }
+            }   
+
+            $this->validate_banco($item);
+        }    
+    }
+
+
+    /**
+     * Revisa la existencia de cliente, solicitud o crédito
+     */
+
+    
+    public function rulesBeforePay() 
+    {
+        try  {
+
+            for ($this->index = 0; $this->index < count($this->data); $this->index ++) {
+    
+                $this->data[$this->index]['cliente_id'] = null;
+                $this->data[$this->index]['credito_id'] = null;
+                $this->data[$this->index]['solicitud_id'] = null;
+
+                
+                $this->ruleCliente();
+                $this->ruleObligacion();
+            }
+        } catch (Exception $e) {
+            throw new Exception($e, 1);
+            
+        }
+    }
+
+
+    /**
+     * BUSCA QUE EXISTA EL CLIENTE
+     * QUE EXISTA UN CREDITO O UNA SOLICITUD PARA HACER 
+     * EL PAGO
+     * 
+     * PG 17102020
+     */
+
+    public function makePayments()
+    {
+        try {
+
+            $this->saveFileLoad();
+
+            
+            for ($this->index = 0; $this->index < count($this->data); $this->index ++) {
+                
+                $exist_masivo = DB::table('masivos')
+                ->join('loads','masivos.load_id','=','loads.id')
+                ->select('masivos.*','loads.filename')
+                ->where('referencia',$this->data[$this->index]['referencia'])
+                ->first();
+                
+                // **********************************************************************
+                // if exist masivo reference 
+
+                if ($exist_masivo) {
+
+                    $type = ($exist_masivo->ref_type == 'App\\Precredito' ) ? 'Solicitud' : 'Crédito';
+
+                    if ($type == 'Solicitud') $recibo = \DB::table('fact_precreditos')->where('id',$exist_masivo->ref_recibo_id)->first();
+                    else $recibo = \DB::table('facturas')->where('id', $exist_masivo->ref_recibo_id)->first();
+
+                    $num_fact = (isset($recibo->num_fact)) ? $recibo->num_fact : '@=(PAGO NO ENCONTRADO)=@';
+
+                    $this->arr_error[] = [
+                        'line' => $this->index + 2,
+                        'message' => "Ya existe un cargue con esta referencia. Ver $type $exist_masivo->ref_id - Archivo: $exist_masivo->filename"
+                    ];
+
+                }
+                
+                // **********************************************************************
+                // if exist credito
+
+                else if ( $this->data[$this->index]['credito_id'] != null ) {
+                    try {
+                        $this->pagoCredito();
+                    } catch (Exception $e) {
+                        throw new Exception($e, 1);
+                        
+                    }
+                } 
+                
+                // if exist solicitud
+                else if ($this->data[$this->index]['solicitud_id'] != null) {
+                    $this->pagoSolicitud();
+                }
+            }
+
+            if ( !DB::table('masivos')->where('load_id', $this->load->id)->count() ) {
+                array_unshift($this->arr_error, ['line' => null, 'message' => 'Ningun pago registrado']);
+            } 
+
+        } catch ( \Exception $e) {
+            throw new Exception($e, 1);   
+        }
+
+    }
 
     /**
      * Save file upload
@@ -183,103 +384,6 @@ class PagoMasivoController extends Controller
         $this->load->save();
     }
 
-
-    /**
-     * BUSCA QUE EXISTA EL CLIENTE
-     * QUE EXISTA UN CREDITO O UNA SOLICITUD PARA HACER 
-     * EL PAGO
-     * 
-     * PG 17102020
-     */
-
-    public function makePayments()
-    {
-        DB::beginTransaction();
-
-        try {
-
-            $this->saveFileLoad();
-
-            for ($this->index = 0; $this->index < count($this->data); $this->index ++) {
-       
-                $exist_masivo = DB::table('masivos')
-                    ->join('loads','masivos.load_id','=','loads.id')
-                    ->select('masivos.*','loads.filename')
-                    ->where('referencia',$this->data[$this->index]['referencia'])
-                    ->first();
-
-                // if exist masivo reference 
-
-                if ($exist_masivo) {
-
-                    $type = ($exist_masivo->ref_type == 'App\\Precredito' ) ? 'Solicitud' : 'Crédito';
-
-                    if ($type == 'Solicitud') {
-                        $recibo = \DB::table('fact_precreditos')
-                            ->where('id',$exist_masivo->ref_recibo_id)
-                            ->first();
-                    } else {
-                        $recibo = \DB::table('facturas')
-                            ->where('id', $exist_masivo->ref_recibo_id)
-                            ->first();
-                    }
-
-                    $num_fact = (isset($recibo->num_fact)) ? $recibo->num_fact : '@=(PAGO NO ENCONTRADO)=@';
-
-                    $this->arr_error[] = [
-                        'line' => $this->index + 2,
-                        'message' => "Ya existe un cargue con esta referencia. Ver $type $exist_masivo->ref_id - Archivo: $exist_masivo->filename"
-                    ];
-
-                }
-                
-                // if exist credito
-                
-                else if ($this->data[$this->index]['credito_id'] != null ) {
-                    
-                    $this->pagoCredito();
-    
-                } 
-                
-                // if exist solicitud
-
-                else if ($this->data[$this->index]['solicitud_id'] != null) {
-                    
-                    $this->pagoSolicitud();
-                }
-            }
-
-            if (DB::table('masivos')->where('load_id', $this->load->id)->count() ) {
-                DB::commit();
-            } else {
-                array_unshift($this->arr_error, ['line' => null, 'message' => 'Ningun pago registrado']);
-            }
-
-
-        } catch ( \Exception $e) {
-            DB::rollback();
-            dd($e);
-        }
-
-    }
-
-    /**
-     * Revisa la existencia de cliente, solicitud o crédito
-     */
-
-    
-    public function rulesBeforePay() 
-    {
-        for ($this->index = 0; $this->index < count($this->data); $this->index ++) {
-
-            $this->data[$this->index]['cliente_id'] = null;
-            $this->data[$this->index]['credito_id'] = null;
-            $this->data[$this->index]['solicitud_id'] = null;
-
-            $this->ruleCliente();
-            $this->ruleObligacion();
-        }
-    }
 
     /**
      * VALIDACIÓN EXISTENCIA DEL CLIENTE
@@ -301,6 +405,7 @@ class PagoMasivoController extends Controller
             $this->data[$this->index]['cliente_id'] = null;
         }
     }
+
 
     /**
      * VALIDACIÓN EXISTENCIA DE OBLIGACIÓN
@@ -338,10 +443,9 @@ class PagoMasivoController extends Controller
 
         // si no tiene ni credito ni solicitud
 
-        if ($this->data[$this->index]['credito_id'] === null
-            && 
-            $this->data[$this->index]['solicitud_id'] === null) 
-        {
+        if ($this->data[$this->index]['credito_id'] === null && 
+            $this->data[$this->index]['solicitud_id'] === null) {
+
             $this->arr_error[] = [
                 'line' => $this->index + 2,
                 'message' => "No se encuentra una solicitud o un crédito activo para el documento ".$this->data[$this->index]['documento']
@@ -356,7 +460,9 @@ class PagoMasivoController extends Controller
 
     public function pagoSolicitud()
     {
-        $solicitud = DB::table('precreditos')->where('id',$this->data[$this->index]['solicitud_id'])->first();
+        $solicitud = DB::table('precreditos')
+            ->where('id',$this->data[$this->index]['solicitud_id'])
+            ->first();
 
         // Si existe una solicitud
 
@@ -473,6 +579,7 @@ class PagoMasivoController extends Controller
                 ];
             }
         }
+
     }
 
     /**
@@ -481,6 +588,26 @@ class PagoMasivoController extends Controller
 
     public function pagoCredito()
     {
+        $now = Carbon::now();
+        $fecha = $this->data[$this->index]['fecha'];
+        $credito = _\Credito::find($this->data[$this->index]['credito_id']);
+        $dia_sancion = _\Variable::find(1)->vlr_dia_sancion;
+
+        if ( $fecha->lt($now)) {
+
+            $diff = $fecha->diffInDays($now);
+
+            $sanciones_exoneradas = DB::table('sanciones')
+                ->where('created_at', '>=', $fecha)
+                ->where('estado','Debe')
+                ->update(['estado' => 'Exonerada']);
+
+            $credito->sanciones_exoneradas += $sanciones_exoneradas;
+            $credito->sanciones_debe       -= $sanciones_exoneradas;
+            $credito->saldo                -= $sanciones_exoneradas * $dia_sancion; 
+            $credito->save();
+        }
+
         $repo = new PagoRepository();
         $factura = new FacturaController($repo);
         $factura->create($this->data[$this->index]['credito_id'], 'interno');
@@ -488,12 +615,11 @@ class PagoMasivoController extends Controller
         $request_prepago = new \Illuminate\Http\Request();
 
         $request_prepago->replace([
+            'fecha' => $this->data[$this->index]['fecha'],
             'monto' => $this->data[$this->index]['monto'],
             'credito_id' => $this->data[$this->index]['credito_id'],
             'interno' => true
         ]);
-
-        dd($request_pago);
 
         $prepago = $factura->abonos($request_prepago);
 
@@ -510,21 +636,20 @@ class PagoMasivoController extends Controller
 
         $general = [
             'interno'           => true,
-            'auto'              => false,
+            'auto'              => true,
             'tipo_pago'         => 'Consignación',
+            'fecha'             => $this->data[$this->index]['fecha'],
             'banco'             => $this->data[$this->index]['entidad'],
             'credito_id'        => $this->data[$this->index]['credito_id'],
             'monto'             => $this->data[$this->index]['monto'],
             'num_consignacion'  => $this->data[$this->index]['referencia'],
-            'num_fact'          => $this->auto(),
+            // 'num_fact'          => $this->auto(),
             'pagos'             => $prepago['data']
         ];
 
         $request_pago = new \Illuminate\Http\Request();
         $request_pago->replace($general);
         $factura_id = $factura->store($request_pago);
-
-        if (!$this->data[$this->index]['fecha']) dd($this->data[$this->index]);
 
         $dat = [
             'fecha'         => $this->data[$this->index]['fecha'],
@@ -562,7 +687,8 @@ class PagoMasivoController extends Controller
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
             ->select('creditos.*')
             ->whereNotIn('creditos.estado',['Cancelado','Cancelado por refinanciacion'])
-            ->where('clientes.id',$cliente_id)
+            //->where('estado', 'Al dia')
+            ->where('clientes.id', $cliente_id)
             ->first();
     }
 
@@ -612,97 +738,6 @@ class PagoMasivoController extends Controller
     }
   
 
-      
-    public function validate_sanciones()
-    {
-           
-    }
-
-    /**
-     * VALIDACION ENCABEZADO  DE TABLA
-     */
-
-    public function validate_heading() 
-    {
-        $keys = $this->data[0]->keys();
-
-        if ($keys->all()[0] != 'fecha' ) {
-            $this->arr_error[] =  [
-                'line'      => 1,
-                'message'   => 'La primera columna debe llamarse fecha'
-            ];
-        }
-        if ($keys->all()[1] != 'documento') {
-            $this->arr_error[] =  [
-                'line'      => 1,
-                'message'   => 'La segunda columna debe llamarse documento'
-            ];
-        }
-        if ($keys->all()[2] != 'referencia') {
-            $this->arr_error[] = [
-                'line'      => 1,
-                'message'   => 'La tercer columna debe llamarse referencia'
-            ]; 
-        }
-        if ($keys->all()[3] != 'monto') {
-            $this->arr_error[] = [
-                'line'      => 1,
-                'message'   =>  'La cuarta columna debe llamarse monto'
-            ]; 
-        }
-        if ($keys->all()[4] != 'entidad') {
-            $this->arr_error[] = [
-                'line'      => 1,
-                'message'   => 'La quinta columna debe llamarse entidad'
-            ]; 
-        }
-    }
-
-    /**
-     * VALIDACION DE INTEGRIDAD DE DATOS
-     */
-
-
-    public function validation()
-    {
-
-        $this->index = 1;
-
-        foreach ($this->data as $item) 
-        {
-            $this->index ++;
-
-            $validation = Validator::make($item->toArray(), [
-                'documento'     => 'required|integer|min:1',
-                'referencia'    => 'required|alpha_num',
-                'monto'         => 'required|integer|min:1',
-                'entidad'       => 'required'
-            ],[
-                'documento.required'    => 'El campo documento es requerido',
-                'documento.integer'     => 'El campo documento debe ser un entero',
-                'documento.min'         => 'El campo documento debe ser mayor 0',
-                'referencia.required'   => 'El campo referencia es requerido',     
-                'referencia.alpha_num'  => 'El campo referencia debe contener números y/o letras',
-                'monto.required'        => 'El campo monto es requerido',
-                'monto.integer'         => 'El campo monto debe ser un entero',
-                'monto.min'             => 'El campo monto debe ser mayor 0',
-                'entidad.required'      => 'El campo entidad es requerido'
-            ]);
-
-            if ($validation->fails()) {
-
-                foreach ($validation->errors()->toArray() as $err) {
-                    $this->arr_error[] = [
-                        'line'   => $this->index,
-                        'message' => $err[0]
-                    ];
-                }
-            }   
-
-            $this->validate_banco($item);
-        }    
-    }
-
     /**
      * VALIDACION DE LA EXISTENCIA DEL BANCO O 
      * PUNTO DE RECAUDO
@@ -723,7 +758,6 @@ class PagoMasivoController extends Controller
                 'message' => 'EL nombre de la entidad no coincide con nuestros registros'
             ];
         }
-   
 
     }
 

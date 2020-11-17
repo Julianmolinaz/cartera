@@ -56,7 +56,6 @@ class PagoRepository
             ->where([['credito_id','=',$credito_id],
                     ['concepto','=','Cuota Parcial'],
                     ['estado','=','Debe']])
-            ->orderBy('pago_hasta','asc')
             ->first();  
     }
 }
