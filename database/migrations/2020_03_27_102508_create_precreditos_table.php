@@ -38,12 +38,12 @@ class CreatePrecreditosTable extends Migration {
 
 			$table->timestamps();
 
-			$table->foreign('cartera_id')->references('id')->on('carteras')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('funcionario_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('producto_id')->references('id')->on('productos')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('user_create_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('user_update_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('cartera_id')->references('id')->on('carteras');
+			$table->foreign('cliente_id')->references('id')->on('clientes');
+			$table->foreign('funcionario_id')->references('id')->on('users');
+			$table->foreign('producto_id')->references('id')->on('productos');
+			$table->foreign('user_create_id')->references('id')->on('users');
+			$table->foreign('user_update_id')->references('id')->on('users');
 		});
 	}
 

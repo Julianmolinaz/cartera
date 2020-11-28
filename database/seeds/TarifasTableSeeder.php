@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
+
 class TarifasTableSeeder extends Seeder
 {
     /**
@@ -1001,5 +1002,6 @@ class TarifasTableSeeder extends Seeder
                 'updated_at' => '2017-07-24 07:20:16',
             ),
         ));
+
     }
 }

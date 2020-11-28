@@ -12,7 +12,7 @@ class EstDatacreditosTableSeeder extends Seeder
      */
     public function run()
     {
-        // CONFIGURACION
+        
 
         \DB::table('est_datacreditos')->delete();
         

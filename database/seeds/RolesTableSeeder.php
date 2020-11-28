@@ -21,10 +21,10 @@ class RolesTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'name' => 'superadmin',
-                'display_name' => 'Super Administrador',
-                'description' => 'Rol de administrador del sistema, solo para alguien con conocimiento técnico del software',
+                'display_name' => 'superadmin',
+                'description' => 'Rol de administrador del sistema, solo para alguien con conocimiento tcnico del software',
                 'created_at' => NULL,
-                'updated_at' => NULL,
+                'updated_at' => '2020-09-28 10:31:34',
             ),
             1 => 
             array (
@@ -33,7 +33,7 @@ class RolesTableSeeder extends Seeder
                 'display_name' => 'administrador',
                 'description' => 'Rol de administrador empresarial para labores de gestion',
                 'created_at' => NULL,
-                'updated_at' => '2020-09-10 18:08:42',
+                'updated_at' => '2020-09-28 09:58:05',
             ),
             2 => 
             array (
@@ -42,16 +42,16 @@ class RolesTableSeeder extends Seeder
                 'display_name' => 'asesor',
                 'description' => 'Rol de ejecutivos de cuenta',
                 'created_at' => NULL,
-                'updated_at' => '2020-09-11 09:14:38',
+                'updated_at' => '2020-09-28 08:40:48',
             ),
             3 => 
             array (
                 'id' => 4,
                 'name' => 'analista',
-                'display_name' => 'Analista',
-                'description' => 'Rol de analistas de cartera',
+                'display_name' => 'analista',
+                'description' => 'Rol de analistas de aprobaciones',
                 'created_at' => NULL,
-                'updated_at' => NULL,
+                'updated_at' => '2020-09-28 08:12:12',
             ),
             4 => 
             array (
@@ -60,25 +60,61 @@ class RolesTableSeeder extends Seeder
                 'display_name' => 'callcenter',
                 'description' => 'Rol de call center',
                 'created_at' => NULL,
-                'updated_at' => '2020-09-11 10:10:30',
+                'updated_at' => '2020-09-28 09:06:55',
             ),
             5 => 
             array (
                 'id' => 6,
                 'name' => 'cartera',
-                'display_name' => 'Cartera',
+                'display_name' => 'cartera',
                 'description' => 'Rol de cartera',
                 'created_at' => NULL,
-                'updated_at' => NULL,
+                'updated_at' => '2020-09-28 09:39:00',
             ),
             6 => 
             array (
                 'id' => 7,
                 'name' => 'coordinador',
-                'display_name' => 'Coordinador',
+                'display_name' => 'coordinador',
                 'description' => 'Rol de coordinador',
                 'created_at' => NULL,
-                'updated_at' => NULL,
+                'updated_at' => '2020-10-07 12:05:08',
+            ),
+            7 => 
+            array (
+                'id' => 8,
+                'name' => 'Freelance',
+                'display_name' => 'Freelance',
+                'description' => 'Asesor externo',
+                'created_at' => '2020-09-27 21:05:51',
+                'updated_at' => '2020-09-27 21:05:51',
+            ),
+            8 => 
+            array (
+                'id' => 9,
+                'name' => 'Invitado',
+                'display_name' => 'Invitado',
+                'description' => 'Rol para personas que solo consultan',
+                'created_at' => '2020-09-28 08:29:52',
+                'updated_at' => '2020-09-28 08:29:52',
+            ),
+            9 => 
+            array (
+                'id' => 10,
+                'name' => 'Auxiliar_contable',
+                'display_name' => 'Auxiliar_contable',
+                'description' => 'Rol de Auxiliar contable',
+                'created_at' => '2020-09-28 13:45:36',
+                'updated_at' => '2020-09-28 14:10:49',
+            ),
+            10 => 
+            array (
+                'id' => 11,
+                'name' => 'Director_Cartera',
+                'display_name' => 'Director_Cartera',
+                'description' => 'Funciones administrativas de Cartera',
+                'created_at' => '2020-10-03 10:41:51',
+                'updated_at' => '2020-10-03 11:57:02',
             ),
         ));
         

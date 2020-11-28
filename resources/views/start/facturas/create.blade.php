@@ -40,7 +40,7 @@
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-10 col-sm-10 col-xs-12">
-  @include('start.facturas.facturar.pagos')
+    @include('start.facturas.facturar.pagos')
   </div>
 </div>
 

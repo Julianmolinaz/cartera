@@ -2,10 +2,10 @@
 
   	@if($precredito->credito->refinanciacion == 'No')
   	<div class="panel panel-primary">
-		@else
+	@else
 		<div class="panel panel-info">
-			@endif  
-			<div class="panel-heading" style="font-weight: bold;font-size: 150%;">Crédito{{' # '.$precredito->credito->id}}
+    @endif  
+            <div class="panel-heading" style="font-weight: bold;font-size: 150%;">Crédito{{' # '.$precredito->credito->id}}
 				
 				<!-- Para los créditos no cancelados se muestran las siguintes opciones  -->
 
@@ -21,36 +21,43 @@
 						data-toggle="tooltip" 
 						data-placement="top" 
 						title="Hacer Pago">
-						<span class = "glyphicon glyphicon-usd"></span>
+						<span class="glyphicon glyphicon-usd"></span>
 					</a>
 					<a href="{{route('start.clientes.show',$precredito->cliente->id)}}" 
-						class = 'btn btn-default btn-xs' 
+						class='btn btn-default btn-xs' 
 						data-toggle="tooltip" 
 						data-placement="top" 
 						title="Ver Cliente">
-						<span class = "glyphicon glyphicon-user" ></span>
+						<span class="glyphicon glyphicon-user" ></span>
 					</a>
 					<a href="{{route('admin.sanciones.show',$precredito->credito->id)}}" 
-						class = 'btn btn-default btn-xs' 
+						class='btn btn-default btn-xs' 
 						data-toggle="tooltip" 
 						data-placement="top" 
 						title="Sanciones diarias">
-						<span class = "glyphicon glyphicon-record" ></span>
+						<span class="glyphicon glyphicon-record" ></span>
 					</a>
 					<a  href="{{route('admin.multas.show',[$precredito->credito->id])}}" 
-						class = 'btn btn-default btn-xs' 
+						class='btn btn-default btn-xs' 
 						data-toggle="tooltip" 
 						data-placement="top" 
 						title="Multas prejuridicas y juridicas">
 						<span class="glyphicon glyphicon-hourglass"></span>
 					</a>
-
 				@endif  
 
 				<!-- Botones que todos pueden visualizar  -->
+                <a  href="javascript:void(0);" 
+                    class='btn btn-default btn-xs' 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    onclick="showAcuerdo()"
+                    title="Gestionar acuerdos de pago">
+                    Acuerdos
+                </a>
 
 				<a href="{{route('call.index_unique',$precredito->credito->id)}}"
-					class = 'btn btn-default btn-xs'
+					class='btn btn-default btn-xs'
 					data-toggle="tooltip" 
 					data-placement="top" 
 					title="Llamar">
@@ -58,14 +65,14 @@
 				</a>
 				<a href="javascript:void(0);"
 					onclick="getPazYsalvo()"
-					class = 'btn btn-default btn-xs'  
+					class='btn btn-default btn-xs'  
 					data-toggle="tooltip" 
 					data-placement="top" 
 					title="Paz y Salvo">
 					<span class = "glyphicon glyphicon-file">
 				</a>
 				<a href="{{route('admin.get_estado_cuenta',$precredito->credito->id)}}"
-					class = 'btn btn-default btn-xs'
+					class='btn btn-default btn-xs'
 					data-toggle="tooltip" 
 					data-placement="top" 
 					title="Estado de cuenta">
@@ -207,10 +214,20 @@
 				</tr>                   
 				<tr>  
 					<th scope="row">Actualizó </th>
-					<td> <small>{{$precredito->credito->user_update->name.' '.$precredito->credito->updated_at}}</small></td>
+					<td> 
+                        <small>{{$precredito->credito->user_update->name.' '.$precredito->credito->updated_at}}</small>
+                    </td>
 				</tr>  
 			</table>
 		</div>
   	</div>
+
+      @include('start.precreditos.acuerdos.index')
+
+    <script>
+        function showAcuerdo() {
+            $('#acuerdo').modal('show');
+        }
+    </script>
 
 @endif

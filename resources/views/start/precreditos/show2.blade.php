@@ -1,3 +1,5 @@
+@extends('templates.main2')
+
 @section('title','ver solicitud')
 
 @section('contenido')
@@ -218,5 +220,5 @@
 @include('start.pagos.print_js')
 @endsection
 
-@include('templates.main2')
+
 

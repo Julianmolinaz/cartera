@@ -27,8 +27,7 @@ class PagosSolicitudService
             $this->recibo->save();
 
             $this->set_pagos($pagos);
-
-
+            
         } catch (\Exception $e) {
             throw new Exception($e, 1);
             

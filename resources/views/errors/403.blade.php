@@ -43,15 +43,5 @@
                 <div class="title">ERRoR.</div>
             </div>
         </div>
-
-        <script>
-            setTimeout(() => {
-
-              window.history.back();
-              
-            }, 1000);
-        
-        </script>
-
     </body>
 </html>

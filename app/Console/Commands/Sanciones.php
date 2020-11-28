@@ -44,6 +44,7 @@ class Sanciones extends Command
     }
 
     function inv_fech($input){
+
       $caracter = substr($input,5,1);
       if ( $caracter == "/" ||  $caracter == "-"){
         $dia = substr($input,0,2);
