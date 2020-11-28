@@ -595,16 +595,24 @@ class PagoMasivoController extends Controller
 
         if ( $fecha->lt($now)) {
 
-            $diff = $fecha->diffInDays($now);
+            $diff = DB::table('sanciones')
+                ->where('created_at', '>', $fecha)
+                ->where('credito_id', $credito->id)
+                ->where('estado', 'Debe')
+                ->select('id')
+                ->get();
 
-            $sanciones_exoneradas = DB::table('sanciones')
-                ->where('created_at', '>=', $fecha)
-                ->where('estado','Debe')
-                ->update(['estado' => 'Exonerada']);
-
-            $credito->sanciones_exoneradas += $sanciones_exoneradas;
-            $credito->sanciones_debe       -= $sanciones_exoneradas;
-            $credito->saldo                -= $sanciones_exoneradas * $dia_sancion; 
+            DB::table('sanciones')
+            ->whereIn('id', collect($diff)->pluck('id'))
+            ->update(['estado' => 'Exonerada']);
+            
+            // dd(DB::table('sanciones')->where('credito_id', $credito->id)
+            //     ->select('estado', DB::raw('count(*)'))
+            //     ->groupBy('estado')->get());
+            
+            $credito->sanciones_exoneradas += count($diff);
+            $credito->sanciones_debe -= count($diff);
+            $credito->saldo = $credito->saldo - (count($diff) * $dia_sancion); 
             $credito->save();
         }
 
