@@ -66,7 +66,7 @@ class CallcenterController extends Controller
                  creditos.refinanciacion     as refinanciado,
                  creditos.credito_refinanciado_id as credito_refinanciado_id,
                  precreditos.vlr_fin         as valor_financiar,
-		 precreditos.id              as precredito_id,
+		         precreditos.id              as precredito_id,
                  municipios.nombre           as municipio,
                  municipios.departamento     as departamento,
                  creditos.estado             as estado,
@@ -330,22 +330,17 @@ class CallcenterController extends Controller
 
     public function call_create(Request $request)
     {
-        \Log::info($request->all());
        DB::beginTransaction();
 
-       try{
+       try {
             $credito = Credito::find($request->credito_id);
 
             $llamada = new Llamada();
             $llamada->credito_id    = $request->credito_id;
             $llamada->criterio_id   = $request->criterio_id;
             
-            if($request->agenda == null){
-                $llamada->agenda = null;
-            }
-            else{
-                $llamada->agenda = inv_fech($request->agenda);
-            }
+            if($request->agenda == null) $llamada->agenda = null;
+            else $llamada->agenda = inv_fech($request->agenda);
             
             $llamada->efectiva       = $request->efectiva;
             $llamada->observaciones  = $request->observaciones;

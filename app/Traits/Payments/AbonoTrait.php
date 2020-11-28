@@ -100,7 +100,7 @@ trait AbonoTrait
 
                 $prejuridico = $repo->getDebeExcedentesPrejuridico($request->credito_id);
 
-                if (count($prejuridico) > 0 ) {   
+                if ( $prejuridico ) {   
 
                     if ($monto > $prejuridico->debe){ 
                         $abono = $prejuridico->debe;

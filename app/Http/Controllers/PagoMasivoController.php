@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\MyService\PagosSolicitudService;
 use App\Http\Controllers\FacturaController;
 use App\Repositories\PagoRepository;
+use App\MyService\FormatDate;
 use App\PagoMasivo; 
 use Carbon\Carbon;
 use Datatables;
@@ -133,6 +134,7 @@ class PagoMasivoController extends Controller
 
             $this->data = collect(Excel::load($path, function($reader){})->get());
 
+
             // valida data to process
 
             if (! $this->processData() ) return view('admin.masivos.cargue.index')->with('err', $this->arr_error); 
@@ -168,7 +170,7 @@ class PagoMasivoController extends Controller
             if ($this->arr_error) return false;
             
             // ****** Valida si existen el cliente, credito o solicitud *******
-            
+                        // dd($this->data);
             $this->rulesBeforePay(); 
             if ($this->arr_error) return false;
 
@@ -244,6 +246,7 @@ class PagoMasivoController extends Controller
             $this->index ++;
 
             $validation = Validator::make($item->toArray(), [
+                'fecha'         => 'required|date',
                 'documento'     => 'required|integer|min:1',
                 'referencia'    => 'required|alpha_num',
                 'monto'         => 'required|integer|min:1',
@@ -481,7 +484,7 @@ class PagoMasivoController extends Controller
                 if ($this->data[$this->index]['monto'] ==  $estudio->valor) {
             
                     // realizar pago por estudio
-                    $recibo                 = new _\FactPrecredito();
+                    $recibo                 = new _\Factprecredito();
                     $recibo->num_fact       = $this->auto();
                     $recibo->fecha          = $this->data[$this->index]['fecha'];
                     $recibo->tipo           = 'Consignación';
@@ -532,7 +535,7 @@ class PagoMasivoController extends Controller
 
                     // make payment inicial
             
-                    $recibo                 = new _\FactPrecredito();
+                    $recibo                 = new _\Factprecredito();
                     $recibo->num_fact       = $this->auto();
                     $recibo->fecha          = $this->data[$this->index]['fecha'];
                     $recibo->tipo           = 'Consignación';
@@ -589,11 +592,20 @@ class PagoMasivoController extends Controller
     public function pagoCredito()
     {
         $now = Carbon::now();
-        $fecha = $this->data[$this->index]['fecha'];
-        $credito = _\Credito::find($this->data[$this->index]['credito_id']);
-        $dia_sancion = _\Variable::find(1)->vlr_dia_sancion;
 
-        if ( $fecha->lt($now)) {
+        $fecha = $this->data[$this->index]['fecha'];
+        $format = new FormatDate($fecha); // formated date to yyyy-mm-dd
+        $fecha = $format->carbon(); // payment day
+
+        $credito = _\Credito::find($this->data[$this->index]['credito_id']); 
+        $dia_sancion = _\Variable::find(1)->vlr_dia_sancion; // cost sancion day
+
+        
+        /*
+         ** discount sanciones
+         */
+
+        if ( $fecha && $fecha->lt($now)) {
 
             $diff = DB::table('sanciones')
                 ->where('created_at', '>', $fecha)
@@ -603,20 +615,20 @@ class PagoMasivoController extends Controller
                 ->get();
 
             DB::table('sanciones')
-            ->whereIn('id', collect($diff)->pluck('id'))
-            ->update(['estado' => 'Exonerada']);
-            
-            // dd(DB::table('sanciones')->where('credito_id', $credito->id)
-            //     ->select('estado', DB::raw('count(*)'))
-            //     ->groupBy('estado')->get());
+                ->whereIn('id', collect($diff)->pluck('id'))
+                ->update(['estado' => 'Exonerada']);
             
             $credito->sanciones_exoneradas += count($diff);
             $credito->sanciones_debe -= count($diff);
             $credito->saldo = $credito->saldo - (count($diff) * $dia_sancion); 
             $credito->save();
-        }
+        } 
 
-        $repo = new PagoRepository();
+        /**
+         * Generate payment
+         */
+
+        $repo    = new PagoRepository();
         $factura = new FacturaController($repo);
         $factura->create($this->data[$this->index]['credito_id'], 'interno');
 
@@ -651,13 +663,16 @@ class PagoMasivoController extends Controller
             'credito_id'        => $this->data[$this->index]['credito_id'],
             'monto'             => $this->data[$this->index]['monto'],
             'num_consignacion'  => $this->data[$this->index]['referencia'],
-            // 'num_fact'          => $this->auto(),
             'pagos'             => $prepago['data']
         ];
 
         $request_pago = new \Illuminate\Http\Request();
         $request_pago->replace($general);
         $factura_id = $factura->store($request_pago);
+
+        /**
+         * Register masivo executed
+         */
 
         $dat = [
             'fecha'         => $this->data[$this->index]['fecha'],

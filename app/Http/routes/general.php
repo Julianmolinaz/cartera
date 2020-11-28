@@ -6,6 +6,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test','TestController@make');
+
 //WIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKI
 
 Route::get('wiki',[

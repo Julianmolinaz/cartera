@@ -50,7 +50,7 @@ class Masivo extends Model
 
             return Factura::where('id', $this->ref_recibo_id)->first();
         } else {
-            return FactPrecredito::where('id', $this->ref_recibo_id)->first();
+            return Factprecredito::where('id', $this->ref_recibo_id)->first();
         }
 
     }

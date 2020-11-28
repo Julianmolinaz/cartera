@@ -41,7 +41,7 @@
 
         <br><br>
         <hr>
-        <table class="table" style="font-size:10px;">
+        <table class="table">
             <head>
                 <tr>
                     <th>Documento</th>
