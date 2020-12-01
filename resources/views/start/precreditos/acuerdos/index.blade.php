@@ -13,7 +13,7 @@
                         <div class="form-group">
                             <label>Fecha</label>
                             <input type="date" class="form-control" v-model="acuerdo.fecha">
-                            <p class="help-block">Agregue la fecha en que se realizó el acuerdo.</p>
+                            <p class="help-block">Agregue la fecha en la que hará el pago.</p>
                         </div>
                         <div class="form-group">
                             <label>Descripción *</label>
@@ -27,7 +27,9 @@
                             </select>
                             <p class="help-block">Puede cerrar o abrir el estado del acuerdo.</p>
                         </div>
+                        @permission('crear_acuerdo')
                         <button type="submit" class="btn btn-primary">Salvar</button>
+                        @endpermission
                     </form>
                 </div>
                 <div class="col-md-6">
@@ -36,19 +38,36 @@
                         <div class="panel-body panel-acuerdo">
                             <dl v-for="acuerdo in acuerdos" 
                                 :class="['acuerdo_box', (acuerdo.estado == 'Abierto') ? 'success_box' : 'danger_box']" 
-                                @click="edit(acuerdo)">
+                                >
+
                                 <dt>@{{acuerdo.id}}- Acuerdo (@{{acuerdo.estado}}) 
+
+                                    @permission('eliminar_acuerdo')
                                     <a  
                                         href="javascript:void(0);"
                                         style="float:right;"
-                                        @click="confirmDeleteAcuerdo(acuerdo)"
+                                        @click="deleteAcuerdo(acuerdo)"
                                         href="{{route('start.creditos.destroy',$precredito->credito->id)}}"
                                         class="btn btn-danger btn-xs float-right"
                                         data-toggle="tooltip"
                                         data-placement="top"
                                         title="Eliminar Acuerdo"> Eliminar
                                         <span class="glyphicon glyphicon-trash"></span>
-                                    </a>    
+                                    </a>  
+                                    @endpermission
+                                    @permission('editar_acuerdo')
+                                    <a  
+                                        href="javascript:void(0);"
+                                        style="float:right;margin:0 5px;"
+                                        @click="edit(acuerdo)"
+                                        href="{{route('start.creditos.destroy',$precredito->credito->id)}}"
+                                        class="btn btn-primary btn-xs float-right"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Editar Acuerdo"> Editar
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>   
+                                    @endpermission 
                                 </dt>
                                 <dd v-if="acuerdo.fecha != '0000-00-00'">Fecha: @{{acuerdo.fecha}}</dd>
                                 --------------
@@ -98,32 +117,29 @@
 
                 var self = this;
 
-                axios.get('/start/acuerdos/'+{!! json_encode($precredito->credito->id) !!})
+                axios.get('/start/acuerdos/'+ {!! json_encode($precredito->credito->id) !!})
                     .then( res => {
                         self.acuerdos = res.data;
                     })
-            },
-            confirmDeleteAcuerdo(acuerdo) {
-
-                var self = this;
-
-                alertify.confirm('Confirmar', '¿Esta seguro de borrar el acuerdo?', 
-                function () { self.deleteAcuerdo(acuerdo)}
-                ,function(){ alertify.error('Se ha cancelado la eliminación')});
             },
             deleteAcuerdo(acuerdo) {
 
                 var self = this;
 
-                axios.get(`/start/acuerdos/${acuerdo.id}/delete`)
-                    .then( res => {
-                        if (res.data.success) {
-                            alertify.notify(res.data.message, 'success', 5);
-                            self.acuerdos = res.data.dat;
-                        } else {
-                            alertify.alert('Ocurrió un error', res.data.message, function(){ alertify.success('Ok'); });
-                        }
-                    });
+                alertify.confirm('Confirmar', '¿Esta seguro de borrar el acuerdo?', 
+                function () {
+                    axios.get(`/start/acuerdos/${acuerdo.id}/delete`)
+                        .then( res => {
+                            if (res.data.success) {
+                                alertify.notify(res.data.message, 'success', 5);
+                                self.acuerdos = res.data.dat;
+                            } else {
+                                alertify.alert('Ocurrió un error', res.data.message, function(){ alertify.success('Ok'); });
+                            }
+                        });
+                }
+                ,function(){ alertify.error('Se ha cancelado la eliminación')});
+
             },
             async create() {
                 const res = await axios.post('/start/acuerdos',this.acuerdo);
@@ -164,7 +180,6 @@
     }
 
     .acuerdo_box {
-        cursor: pointer;
         padding: 11px;
     }
     .success_box {

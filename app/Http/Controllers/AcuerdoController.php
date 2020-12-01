@@ -43,6 +43,16 @@ class AcuerdoController extends Controller
 
         $acuerdos = $this->acuerdosPorCredito($acuerdo->credito_id);
 
+        $call = new _\Llamada();
+        $call->criterio_id = 15;
+        $call->agenda = $acuerdo->fecha;
+        $call->observaciones = $acuerdo->descripcion;
+        $call->credito_id = $acuerdo->credito_id;
+        $call->efectiva = 1;
+        $call->user_create_id =  Auth::user()->id;
+        $call->user_update_id   =  Auth::user()->id;
+        $call->save();
+
         return res(true,$acuerdos, 'Se creó el acuerdo exitosamente !!!');
 
     }

@@ -16,9 +16,8 @@ class PermissionsTableSeeder extends Seeder
 
         \DB::table('permissions')->delete();
         
-        \DB::table('permissions')->insert(array (
-            0 => 
-            array (
+        \DB::table('permissions')->insert([
+            [
                 'id' => 1,
                 'name' => 'simular',
                 'display_name' => 'Simulador',
@@ -29,9 +28,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Simulador',
-            ),
-            1 => 
-            array (
+            ],
+            [
                 'id' => 2,
                 'name' => 'consultar_clientes',
                 'display_name' => 'Consultar clientes',
@@ -42,9 +40,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Clientes',
-            ),
-            2 => 
-            array (
+            ],
+            [
                 'id' => 3,
                 'name' => 'crear_clientes',
                 'display_name' => 'Crear cliente',
@@ -55,9 +52,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Clientes',
-            ),
-            3 => 
-            array (
+            ],
+            [
                 'id' => 4,
                 'name' => 'editar_clientes',
                 'display_name' => 'Editar cliente',
@@ -68,9 +64,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Clientes',
-            ),
-            4 => 
-            array (
+            ],
+            [
                 'id' => 5,
                 'name' => 'eliminar_clientes',
                 'display_name' => 'Eliminar clientes',
@@ -81,9 +76,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Clientes',
-            ),
-            5 => 
-            array (
+            ],
+            [
                 'id' => 6,
                 'name' => 'crear_editar_oficios',
                 'display_name' => 'Crear y editar oficios',
@@ -94,9 +88,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Oficios',
-            ),
-            6 => 
-            array (
+            ],
+            [
                 'id' => 7,
                 'name' => 'eliminar_oficios',
                 'display_name' => 'Eliminar oficios',
@@ -107,9 +100,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Oficios',
-            ),
-            7 => 
-            array (
+            ],
+            [
                 'id' => 8,
                 'name' => 'borrar_documentos',
                 'display_name' => 'Borrar documentacion',
@@ -120,9 +112,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Clientes',
-            ),
-            8 => 
-            array (
+            ],
+            [
                 'id' => 9,
                 'name' => 'exportar_todo',
                 'display_name' => 'Exportar todos clientes',
@@ -133,9 +124,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'CallCenter',
-            ),
-            9 => 
-            array (
+            ],
+            [
                 'id' => 10,
                 'name' => 'exportar_sucursal',
                 'display_name' => 'Exportar clientes por sucursal',
@@ -146,9 +136,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'CallCenter',
-            ),
-            10 => 
-            array (
+            ],
+            [
                 'id' => 11,
                 'name' => 'consultar',
                 'display_name' => 'Consultar todos los listados',
@@ -159,9 +148,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'CallCenter',
-            ),
-            11 => 
-            array (
+            ],
+            [
                 'id' => 12,
                 'name' => 'registro_llamada',
                 'display_name' => 'Registro de llamada',
@@ -172,9 +160,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'CallCenter',
-            ),
-            12 => 
-            array (
+            ],
+            [
                 'id' => 13,
                 'name' => 'consultar_creditos',
                 'display_name' => 'Consultar creditos',
@@ -185,9 +172,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Creditos',
-            ),
-            13 => 
-            array (
+            ],
+            [
                 'id' => 14,
                 'name' => 'crear_creditos',
                 'display_name' => 'Crear crédito',
@@ -198,9 +184,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Creditos',
-            ),
-            14 => 
-            array (
+            ],
+            [
                 'id' => 15,
                 'name' => 'ver_seguimiento_proceso_prejuridico',
                 'display_name' => 'Consultar el seguimeinto a un proceso pre/jurdico',
@@ -211,9 +196,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pre/Juridicos',
-            ),
-            15 => 
-            array (
+            ],
+            [
                 'id' => 16,
                 'name' => 'crear_seguimiento_proceso_prejuridico',
                 'display_name' => 'Crear el seguimeinto a un proceso pre/jurdico',
@@ -224,9 +208,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pre/Juridicos',
-            ),
-            16 => 
-            array (
+            ],
+            [
                 'id' => 17,
                 'name' => 'editar_creditos',
                 'display_name' => 'Editar credito',
@@ -237,9 +220,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Creditos',
-            ),
-            17 => 
-            array (
+            ],
+            [
                 'id' => 18,
                 'name' => 'eliminar_credito',
                 'display_name' => 'Eliminar credito',
@@ -250,9 +232,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Creditos',
-            ),
-            18 => 
-            array (
+            ],
+            [
                 'id' => 19,
                 'name' => 'refinanciar_creditos',
                 'display_name' => 'Refinanciar credito',
@@ -263,9 +244,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Creditos',
-            ),
-            19 => 
-            array (
+            ],
+            [
                 'id' => 20,
                 'name' => 'exportar_creditos',
                 'display_name' => 'Exportar todos los creditos',
@@ -276,9 +256,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Creditos',
-            ),
-            20 => 
-            array (
+            ],
+            [
                 'id' => 21,
                 'name' => 'llamar_creditos',
                 'display_name' => 'Llamar credito',
@@ -289,9 +268,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Creditos',
-            ),
-            21 => 
-            array (
+            ],
+            [
                 'id' => 22,
                 'name' => 'consultar_solicitudes',
                 'display_name' => 'Consultar solicitud',
@@ -302,9 +280,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Solicitudes',
-            ),
-            22 => 
-            array (
+            ],
+            [
                 'id' => 23,
                 'name' => 'crear_solicitudes',
                 'display_name' => 'Crear solicitud',
@@ -315,9 +292,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Solicitudes',
-            ),
-            23 => 
-            array (
+            ],
+            [
                 'id' => 24,
                 'name' => 'editar_solicitudes',
                 'display_name' => 'Editar solicitud',
@@ -328,9 +304,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Solicitudes',
-            ),
-            24 => 
-            array (
+            ],
+            [
                 'id' => 25,
                 'name' => 'editar_producto_solicitudes',
                 'display_name' => 'Editar producto de solicitud',
@@ -341,9 +316,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Solicitudes',
-            ),
-            25 => 
-            array (
+            ],
+            [
                 'id' => 26,
                 'name' => 'aprobar_solicitudes',
                 'display_name' => 'Aprobar solicitudes',
@@ -354,9 +328,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Solicitudes',
-            ),
-            26 => 
-            array (
+            ],
+            [
                 'id' => 27,
                 'name' => 'valores_iniciales',
                 'display_name' => 'Registrar pago a solicitud',
@@ -367,9 +340,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Solicitudes',
-            ),
-            27 => 
-            array (
+            ],
+            [
                 'id' => 28,
                 'name' => 'anular_pago_solicitud',
                 'display_name' => 'Anular pago de Solicitud',
@@ -380,9 +352,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Solicitudes',
-            ),
-            28 => 
-            array (
+            ],
+            [
                 'id' => 29,
                 'name' => 'exportar_solicitudes',
                 'display_name' => 'Exportar',
@@ -393,9 +364,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Solicitudes',
-            ),
-            29 => 
-            array (
+            ],
+            [
                 'id' => 30,
                 'name' => 'consultar_cancelados',
                 'display_name' => 'Consultar créditos cancelados',
@@ -406,9 +376,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Cancelados',
-            ),
-            30 => 
-            array (
+            ],
+            [
                 'id' => 31,
                 'name' => 'consultar_sanciones',
                 'display_name' => 'Consultar Sanciones',
@@ -419,9 +388,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Sanciones',
-            ),
-            31 => 
-            array (
+            ],
+            [
                 'id' => 32,
                 'name' => 'gestionar_sanciones',
                 'display_name' => 'Gestionar Sanciones',
@@ -432,9 +400,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Sanciones',
-            ),
-            32 => 
-            array (
+            ],
+            [
                 'id' => 33,
                 'name' => 'consultar_estudio',
                 'display_name' => 'Consultar Estudio',
@@ -445,9 +412,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Estudio',
-            ),
-            33 => 
-            array (
+            ],
+            [
                 'id' => 34,
                 'name' => 'crear_estudios',
                 'display_name' => 'Crear estudio',
@@ -458,9 +424,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Estudio',
-            ),
-            34 => 
-            array (
+            ],
+            [
                 'id' => 35,
                 'name' => 'crear_referencias',
                 'display_name' => 'Crear referencias',
@@ -471,9 +436,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Estudio',
-            ),
-            35 => 
-            array (
+            ],
+            [
                 'id' => 36,
                 'name' => 'registrar_otros_ingresos',
                 'display_name' => 'Registrar otros ingresos',
@@ -484,9 +448,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Otros ingresos',
-            ),
-            36 => 
-            array (
+            ],
+            [
                 'id' => 37,
                 'name' => 'hacer_pago',
                 'display_name' => 'Hacer pago de credito',
@@ -497,9 +460,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pago credito',
-            ),
-            37 => 
-            array (
+            ],
+            [
                 'id' => 38,
                 'name' => 'ver_pagos_credito',
                 'display_name' => 'Consultar el pago de un recibo',
@@ -510,9 +472,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pago credito',
-            ),
-            38 => 
-            array (
+            ],
+            [
                 'id' => 39,
                 'name' => 'imprimir_pago_credito',
                 'display_name' => 'Imprimir recibo de pago de un credito',
@@ -523,9 +484,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pago credito',
-            ),
-            39 => 
-            array (
+            ],
+            [
                 'id' => 40,
                 'name' => 'anular_pago_credito',
                 'display_name' => 'Anular pago de un credito',
@@ -536,9 +496,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pago credito',
-            ),
-            40 => 
-            array (
+            ],
+            [
                 'id' => 41,
                 'name' => 'listar_pagos_anulados',
                 'display_name' => 'Listar pago creditos anulados',
@@ -549,9 +508,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pago credito',
-            ),
-            41 => 
-            array (
+            ],
+            [
                 'id' => 42,
                 'name' => 'pagos_masivos',
                 'display_name' => 'Cargar archivo de pagos masivos',
@@ -562,9 +520,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pago credito',
-            ),
-            42 => 
-            array (
+            ],
+            [
                 'id' => 43,
                 'name' => 'consultar_egresos',
                 'display_name' => 'Consultar Egresos',
@@ -575,9 +532,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Egresos',
-            ),
-            43 => 
-            array (
+            ],
+            [
                 'id' => 44,
                 'name' => 'crear_egresos',
                 'display_name' => 'Crear Egresos',
@@ -588,9 +544,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Egresos',
-            ),
-            44 => 
-            array (
+            ],
+            [
                 'id' => 45,
                 'name' => 'eliminar_egresos',
                 'display_name' => 'Eliminar Egresos',
@@ -601,9 +556,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Egresos',
-            ),
-            45 => 
-            array (
+            ],
+            [
                 'id' => 46,
                 'name' => 'exportar_egresos',
                 'display_name' => 'Exportar Egresos',
@@ -614,9 +568,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Egresos',
-            ),
-            46 => 
-            array (
+            ],
+            [
                 'id' => 47,
                 'name' => 'ver_proveedores',
                 'display_name' => 'Ver Proveedores',
@@ -627,9 +580,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Egresos',
-            ),
-            47 => 
-            array (
+            ],
+            [
                 'id' => 48,
                 'name' => 'crear_proveedor',
                 'display_name' => 'Crear Proveedor',
@@ -640,9 +592,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Egresos',
-            ),
-            48 => 
-            array (
+            ],
+            [
                 'id' => 49,
                 'name' => 'editar_proveedor',
                 'display_name' => 'Editar Proveedor',
@@ -653,9 +604,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Egresos',
-            ),
-            49 => 
-            array (
+            ],
+            [
                 'id' => 50,
                 'name' => 'consultar_multas',
                 'display_name' => 'Consultar Pre/Juridicos',
@@ -666,9 +616,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pre/Juridicos',
-            ),
-            50 => 
-            array (
+            ],
+            [
                 'id' => 51,
                 'name' => 'exportar_PreJuridicos',
                 'display_name' => 'Exportar Pre/Juridicos',
@@ -679,9 +628,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pre/Juridicos',
-            ),
-            51 => 
-            array (
+            ],
+            [
                 'id' => 52,
                 'name' => 'editar_PreJuridicos',
                 'display_name' => 'Editar Pre/Juridicos',
@@ -692,9 +640,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pre/Juridicos',
-            ),
-            52 => 
-            array (
+            ],
+            [
                 'id' => 53,
                 'name' => 'crear_PreJuridicos',
                 'display_name' => 'Crear Pre/Juridicos',
@@ -705,9 +652,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Pre/Juridicos',
-            ),
-            53 => 
-            array (
+            ],
+            [
                 'id' => 54,
                 'name' => 'generar_reporte',
                 'display_name' => 'Genera todos los reportes',
@@ -718,9 +664,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            54 => 
-            array (
+            ],
+            [
                 'id' => 55,
                 'name' => 'auditoria_sistema',
                 'display_name' => 'Auditoria del Sistema',
@@ -731,9 +676,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            55 => 
-            array (
+            ],
+            [
                 'id' => 56,
                 'name' => 'ver_caja',
                 'display_name' => 'Ver Caja',
@@ -744,9 +688,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            56 => 
-            array (
+            ],
+            [
                 'id' => 57,
                 'name' => 'cartera_castigada',
                 'display_name' => 'Cartera Castigada',
@@ -757,9 +700,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            57 => 
-            array (
+            ],
+            [
                 'id' => 58,
                 'name' => 'call_center',
                 'display_name' => 'Call Center',
@@ -770,9 +712,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            58 => 
-            array (
+            ],
+            [
                 'id' => 59,
                 'name' => 'egresos',
                 'display_name' => 'Egresos',
@@ -783,9 +724,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            59 => 
-            array (
+            ],
+            [
                 'id' => 60,
                 'name' => 'financiero_operativo',
                 'display_name' => 'Financiero operativo',
@@ -796,9 +736,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            60 => 
-            array (
+            ],
+            [
                 'id' => 61,
                 'name' => 'general',
                 'display_name' => 'General',
@@ -809,9 +748,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            61 => 
-            array (
+            ],
+            [
                 'id' => 62,
                 'name' => 'general_carteras',
                 'display_name' => 'General por Carteras',
@@ -822,9 +760,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            62 => 
-            array (
+            ],
+            [
                 'id' => 63,
                 'name' => 'general_funcionario',
                 'display_name' => 'General por Funcionario',
@@ -835,9 +772,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            63 => 
-            array (
+            ],
+            [
                 'id' => 64,
                 'name' => 'historial_venta_creditos',
                 'display_name' => 'Historial Venta de Creditos',
@@ -848,9 +784,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            64 => 
-            array (
+            ],
+            [
                 'id' => 65,
                 'name' => 'informe_carteras',
                 'display_name' => 'Informe Cartera',
@@ -861,9 +796,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            65 => 
-            array (
+            ],
+            [
                 'id' => 66,
                 'name' => 'morosos',
                 'display_name' => 'Morosos',
@@ -874,9 +808,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            66 => 
-            array (
+            ],
+            [
                 'id' => 67,
                 'name' => 'reporte_datacredito',
                 'display_name' => 'Reporte Datacredito',
@@ -887,9 +820,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            67 => 
-            array (
+            ],
+            [
                 'id' => 68,
                 'name' => 'reporte_procredito',
                 'display_name' => 'Reporte procredito',
@@ -900,9 +832,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            68 => 
-            array (
+            ],
+            [
                 'id' => 69,
                 'name' => 'reporte_datacredito_asistimotos',
                 'display_name' => 'Reporte Datacredito Asistimotos',
@@ -913,9 +844,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            69 => 
-            array (
+            ],
+            [
                 'id' => 70,
                 'name' => 'venta_creditos',
                 'display_name' => 'Venta de Creditos',
@@ -926,9 +856,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            70 => 
-            array (
+            ],
+            [
                 'id' => 71,
                 'name' => 'venta_credito_asesor',
                 'display_name' => 'Venta de Creditos por Asesor',
@@ -939,9 +868,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Reportes',
-            ),
-            71 => 
-            array (
+            ],
+            [
                 'id' => 72,
                 'name' => 'informes_cartera',
                 'display_name' => 'Pantalla informes cartera',
@@ -952,9 +880,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Cartera',
-            ),
-            72 => 
-            array (
+            ],
+            [
                 'id' => 73,
                 'name' => 'repote_por_carteras',
                 'display_name' => 'Reporte por carteras',
@@ -965,9 +892,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Cartera',
-            ),
-            73 => 
-            array (
+            ],
+            [
                 'id' => 74,
                 'name' => 'informe_total_por_puntos',
                 'display_name' => 'Informe total por puntos',
@@ -978,9 +904,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Cartera',
-            ),
-            74 => 
-            array (
+            ],
+            [
                 'id' => 75,
                 'name' => 'flujo_cajas',
                 'display_name' => 'Flujo de Caja',
@@ -991,9 +916,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Cartera',
-            ),
-            75 => 
-            array (
+            ],
+            [
                 'id' => 76,
                 'name' => 'financiero',
                 'display_name' => 'Informe financiero por carteras o negocios',
@@ -1004,9 +928,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Financiero',
-            ),
-            76 => 
-            array (
+            ],
+            [
                 'id' => 77,
                 'name' => 'consultar_negocios',
                 'display_name' => 'Consultar  Negocios',
@@ -1017,9 +940,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Negocios',
-            ),
-            77 => 
-            array (
+            ],
+            [
                 'id' => 78,
                 'name' => 'crear_negocios',
                 'display_name' => 'Crear Negocios',
@@ -1030,9 +952,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Negocios',
-            ),
-            78 => 
-            array (
+            ],
+            [
                 'id' => 79,
                 'name' => 'editar_negocios',
                 'display_name' => 'Editar Negocios',
@@ -1043,9 +964,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Negocios',
-            ),
-            79 => 
-            array (
+            ],
+            [
                 'id' => 80,
                 'name' => 'eliminar_negocios',
                 'display_name' => 'Eliminar Negocios',
@@ -1056,9 +976,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Negocios',
-            ),
-            80 => 
-            array (
+            ],
+            [
                 'id' => 81,
                 'name' => 'consultar_carteras',
                 'display_name' => 'Consultar carteras',
@@ -1069,9 +988,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Carteras',
-            ),
-            81 => 
-            array (
+            ],
+            [
                 'id' => 82,
                 'name' => 'crear_carteras',
                 'display_name' => 'Crear carteras',
@@ -1082,9 +1000,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Carteras',
-            ),
-            82 => 
-            array (
+            ],
+            [
                 'id' => 83,
                 'name' => 'editar_carteras',
                 'display_name' => 'Editar carteras',
@@ -1095,9 +1012,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Carteras',
-            ),
-            83 => 
-            array (
+            ],
+            [
                 'id' => 84,
                 'name' => 'eliminar_carteras',
                 'display_name' => 'Eliminar carteras',
@@ -1108,9 +1024,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Carteras',
-            ),
-            84 => 
-            array (
+            ],
+            [
                 'id' => 85,
                 'name' => 'consultar_users',
                 'display_name' => 'Consultar usuarios del sistema',
@@ -1121,9 +1036,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Users',
-            ),
-            85 => 
-            array (
+            ],
+            [
                 'id' => 86,
                 'name' => 'crear_users',
                 'display_name' => 'Crear usuario del sistema',
@@ -1134,9 +1048,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Users',
-            ),
-            86 => 
-            array (
+            ],
+            [
                 'id' => 87,
                 'name' => 'editar_users',
                 'display_name' => 'Editar usuario del sistema',
@@ -1147,9 +1060,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Users',
-            ),
-            87 => 
-            array (
+            ],
+            [
                 'id' => 88,
                 'name' => 'eliminar_users',
                 'display_name' => 'Eliminar usuarios del sistema',
@@ -1160,9 +1072,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Users',
-            ),
-            88 => 
-            array (
+            ],
+            [
                 'id' => 89,
                 'name' => 'consultar_permisos',
                 'display_name' => 'Consultar roles y permisos',
@@ -1173,9 +1084,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Rol/Permisos',
-            ),
-            89 => 
-            array (
+            ],
+            [
                 'id' => 90,
                 'name' => 'modificar_permisos',
                 'display_name' => 'Crear y modificar roles y permisos',
@@ -1186,9 +1096,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Rol/Permisos',
-            ),
-            90 => 
-            array (
+            ],
+            [
                 'id' => 91,
                 'name' => 'consultar_puntos',
                 'display_name' => 'Consultar puntos',
@@ -1199,9 +1108,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Puntos',
-            ),
-            91 => 
-            array (
+            ],
+            [
                 'id' => 92,
                 'name' => 'crear_puntos',
                 'display_name' => 'Crear Puntos',
@@ -1212,9 +1120,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Puntos',
-            ),
-            92 => 
-            array (
+            ],
+            [
                 'id' => 93,
                 'name' => 'editar_puntos',
                 'display_name' => 'Editar Puntos',
@@ -1225,9 +1132,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Puntos',
-            ),
-            93 => 
-            array (
+            ],
+            [
                 'id' => 94,
                 'name' => 'eliminar_puntos',
                 'display_name' => 'Eliminar Puntos',
@@ -1238,9 +1144,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Puntos',
-            ),
-            94 => 
-            array (
+            ],
+            [
                 'id' => 95,
                 'name' => 'crear_producto',
                 'display_name' => 'Crear Productos',
@@ -1251,9 +1156,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Productos',
-            ),
-            95 => 
-            array (
+            ],
+            [
                 'id' => 96,
                 'name' => 'consultar_productos',
                 'display_name' => 'Consultar y listar productos',
@@ -1264,9 +1168,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Productos',
-            ),
-            96 => 
-            array (
+            ],
+            [
                 'id' => 97,
                 'name' => 'editar_productos',
                 'display_name' => 'Editar Productos',
@@ -1277,9 +1180,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Productos',
-            ),
-            97 => 
-            array (
+            ],
+            [
                 'id' => 98,
                 'name' => 'ver_variables',
                 'display_name' => 'Ver Variables',
@@ -1290,9 +1192,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Variables',
-            ),
-            98 => 
-            array (
+            ],
+            [
                 'id' => 99,
                 'name' => 'editar_variables',
                 'display_name' => 'Editar Variables',
@@ -1303,9 +1204,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Variables',
-            ),
-            99 => 
-            array (
+            ],
+            [
                 'id' => 100,
                 'name' => 'crear_criteriocall',
                 'display_name' => 'Crear Criterios de llamada',
@@ -1316,9 +1216,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Criterios de llamada',
-            ),
-            100 => 
-            array (
+            ],
+            [
                 'id' => 101,
                 'name' => 'consultar_criteriocall',
                 'display_name' => 'Consultar Criterios de llamada',
@@ -1329,9 +1228,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Criterios de llamada',
-            ),
-            101 => 
-            array (
+            ],
+            [
                 'id' => 102,
                 'name' => 'editar_criteriocall',
                 'display_name' => 'Editar Criterios de llamada',
@@ -1342,9 +1240,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Criterios de llamada',
-            ),
-            102 => 
-            array (
+            ],
+            [
                 'id' => 103,
                 'name' => 'eliminar_criteriocall',
                 'display_name' => 'Eliminar criterios de llamada',
@@ -1355,9 +1252,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Criterios de llamada',
-            ),
-            103 => 
-            array (
+            ],
+            [
                 'id' => 104,
                 'name' => 'consultar_zonas',
                 'display_name' => 'Consultar las zonas',
@@ -1368,9 +1264,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Zonas',
-            ),
-            104 => 
-            array (
+            ],
+            [
                 'id' => 105,
                 'name' => 'crear_zonas',
                 'display_name' => 'Crea una zona',
@@ -1381,9 +1276,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => NULL,
                 'category' => 'Zonas',
-            ),
-            105 => 
-            array (
+            ],
+            [
                 'id' => 316,
                 'name' => 'subir_documentos',
                 'display_name' => 'Subir documentos',
@@ -1394,9 +1288,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 2,
                 'updated_by' => NULL,
                 'category' => 'Clientes',
-            ),
-            106 => 
-            array (
+            ],
+            [
                 'id' => 317,
                 'name' => 'expedir_pazysalvo',
                 'display_name' => 'Expedir paz y salvo',
@@ -1407,9 +1300,8 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 2,
                 'updated_by' => NULL,
                 'category' => 'Creditos',
-            ),
-            107 => 
-            array (
+            ],
+            [
                 'id' => 318,
                 'name' => 'consultar_documento',
                 'display_name' => 'Consultar documento',
@@ -1420,9 +1312,43 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 2,
                 'updated_by' => NULL,
                 'category' => 'Clientes',
-            ),
-        ));
-        
-        
+            ],
+            [
+                'id' => 319,
+                'name' => 'crear_acuerdo',
+                'display_name' => 'Crear acuerdo de pago',
+                'description' => 'Permite crear acuerdos de pago con los clientes',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+                'status' => 'Activo',
+                'created_by' => 2,
+                'updated_by' => NULL,
+                'category' => 'Creditos',
+            ],
+            [
+                'id' => 320,
+                'name' => 'editar_acuerdo',
+                'display_name' => 'Editar acuerdo de pago',
+                'description' => 'Permite editar acuerdos de pago con los clientes',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+                'status' => 'Activo',
+                'created_by' => 2,
+                'updated_by' => NULL,
+                'category' => 'Creditos',
+            ],
+            [
+                'id' => 321,
+                'name' => 'eliminar_acuerdo',
+                'display_name' => 'Eliminar acuerdo de pago',
+                'description' => 'Permite eliminar acuerdos de pago con los clientes',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+                'status' => 'Activo',
+                'created_by' => 2,
+                'updated_by' => NULL,
+                'category' => 'Creditos',
+            ]
+        ]);
     }
 }
