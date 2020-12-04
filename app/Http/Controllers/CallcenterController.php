@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use App\Criterio;
 use App\Credito;
 use App\Llamada;
+use App as _;
 use App\Pago;
 use Excel;
 use Auth;
@@ -66,7 +67,7 @@ class CallcenterController extends Controller
                  creditos.refinanciacion     as refinanciado,
                  creditos.credito_refinanciado_id as credito_refinanciado_id,
                  precreditos.vlr_fin         as valor_financiar,
-		 precreditos.id              as precredito_id,
+		         precreditos.id              as precredito_id,
                  municipios.nombre           as municipio,
                  municipios.departamento     as departamento,
                  creditos.estado             as estado,
@@ -330,31 +331,41 @@ class CallcenterController extends Controller
 
     public function call_create(Request $request)
     {
-        \Log::info($request->all());
        DB::beginTransaction();
 
-       try{
+       try {
             $credito = Credito::find($request->credito_id);
 
             $llamada = new Llamada();
             $llamada->credito_id    = $request->credito_id;
             $llamada->criterio_id   = $request->criterio_id;
             
-            if($request->agenda == null){
-                $llamada->agenda = null;
-            }
-            else{
-                $llamada->agenda = inv_fech($request->agenda);
-            }
-            
+            if ($request->agenda == null) $llamada->agenda = null;
+            else $llamada->agenda = inv_fech($request->agenda);
+
             $llamada->efectiva       = $request->efectiva;
             $llamada->observaciones  = $request->observaciones;
             $llamada->user_create_id = Auth::user()->id;
             $llamada->user_update_id = Auth::user()->id;
             $llamada->save();
+            
+            /**
+             * Register last call (last_llamada) intro credito
+             */
 
             $credito->last_llamada_id = $llamada->id;
             $credito->save();
+
+            
+            /**
+             * validate and create acuerdo de pago if 
+             * criterio_id == 15
+             */
+
+            if ( _\User::find(Auth::user()->id)->can('crear_acuerdo') ) {
+                $this->valideAcuerdoDePago($llamada);
+            }
+
 
             DB::commit();
 
@@ -363,7 +374,21 @@ class CallcenterController extends Controller
         } catch (\Exception $e){
 
             DB::rollback();
+            throw new \Exception($e->getMessage(), 1);
+            
 
+        }
+    }
+
+    public function valideAcuerdoDePago($call)
+    {
+        if ($call->criterio_id == 15) {
+            $acuerdo = new _\Acuerdo();
+            $acuerdo->fecha = $call->agenda;
+            $acuerdo->descripcion = $call->observaciones;
+            $acuerdo->credito_id = $call->credito_id;
+            $acuerdo->created_by = Auth::user()->id;
+            $acuerdo->save();
         }
     }
 
@@ -419,8 +444,8 @@ class CallcenterController extends Controller
                     $header = [
                         'cartera',
                         'punto',
- 			'municipio',
-			'departamento',
+                        'municipio',
+                        'departamento',
                         'credito_id',
                         'fecha_apertura',
                         'cliente',
@@ -429,11 +454,11 @@ class CallcenterController extends Controller
                         'estado',
                         'castigada',
                         'saldo deuda',
-			'total a pagar',
+			            'total a pagar',
                         'tipo moroso',
                         'sanciones que debe',
                         'sanciones pagadas',
- 			'total sanciones',
+ 			            'total sanciones',
                         'fecha próximo pago',
                         'fecha de agenda',
                         'funcionario ultima llamada',
@@ -447,9 +472,9 @@ class CallcenterController extends Controller
 
                         $temp = [
                             'cartera'            => $credito->cartera,
-			    'punto'              => $credito->punto,
-			    'municipio'          => $credito->municipio,
-			    'departamento'       => $credito->depto,
+                            'punto'              => $credito->punto,
+                            'municipio'          => $credito->municipio,
+                            'departamento'       => $credito->depto,
                             'credito_id'         => $credito->id,
                             'fecha_apertura'     => $this->ddmmyyyySlash($credito->apertura),
                             'cliente'            => $credito->cliente,
@@ -458,7 +483,7 @@ class CallcenterController extends Controller
                             'estado'             => $credito->estado,
                             'castigada'          => $credito->castigada,
                             'saldo'              => (float)$credito->saldo,
-			    'total_a_pagar'      => (float)$credito->total_a_pagar,  
+			                'total_a_pagar'      => (float)$credito->total_a_pagar,  
                             'tipo_moroso'        => $this->tipoMorosoTr($credito),
                             'sanciones_debe'     => (int)$credito->sanciones_debe,
                             'sanciones_pagadas'  => (int)$credito->sanciones_ok,

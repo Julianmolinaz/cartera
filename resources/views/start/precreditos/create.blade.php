@@ -48,14 +48,14 @@
             <!-- Tab panes -->
             <div class="tab-content" style="padding:25px">
                 <div role="tabpanel" class="tab-pane  active" id="producto">
-                    <producto-component />
+                    <producto-component v-cloack/>
                 </div>      
                 <div role="tabpanel" class="tab-pane" id="solicitud">
-                    <solicitud-component />
+                    <solicitud-component v-cloack/>
                 </div>
                 @if($credito)
                 <div role="tabpanel" class="tab-pane" id="credito">
-                    <credito-component />
+                    <credito-component v-cloack/>
                 </div>
                 @endif
                 <p class="help-block">Los campos con asterisco (*) son obligatorios</p>

@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\MyService\GeneradorPagos;
+use App\MyService\FormatDate;
 
 
 class TestController extends Controller
 {
-    public function testPagos()
+    public function make()
     {
-        $pago = new GeneradorPagos(5000000, 11629);
-        $pago->make();
+       $format = new FormatDate('12-08-2012');
+    //    return $format->getDay();
+    //    return $format->getMonth();
+    //    return $format->getYear();
+        return $format->carbon();
     }
 }

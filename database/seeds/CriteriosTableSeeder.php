@@ -12,7 +12,7 @@ class CriteriosTableSeeder extends Seeder
      */
     public function run()
     {
-        // CONFIGURACION
+        
 
         \DB::table('criterios')->delete();
         

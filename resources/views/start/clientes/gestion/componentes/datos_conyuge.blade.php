@@ -12,7 +12,8 @@
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.p_nombrey.name) ? 'has-error' :'']">
                 <label>Primer nombre *</label>
-                <input type="text" 
+                <input type="text"
+                    autocomplete="off" 
                     class="form-control"
                     name="primer nombre"
                     v-model="conyuge.p_nombrey"
@@ -24,7 +25,8 @@
             
             <div v-bind:class="['form-group','col-md-3', errors.first(rules.s_nombrey.name) ? 'has-error' :'']">
                 <label>Segundo nombre</label>
-                <input type="text" class="form-control"
+                <input type="text"
+                    autocomplete="off" class="form-control"
                     name="segundo nombre"
                     v-model="conyuge.s_nombrey"
                     v-validate="rules.s_nombrey.rule">
@@ -35,7 +37,8 @@
 
             <div v-bind:class="['form-group','col-md-3', errors.first(rules.p_apellidoy.name) ? 'has-error' :'']">
                 <label>Primer apellido *</label>
-                <input type="text" class="form-control"
+                <input type="text"
+                    autocomplete="off" class="form-control"
                     name="primer apellido"
                     v-model="conyuge.p_apellidoy"
                     v-validate="rules.p_apellidoy.rule">
@@ -46,7 +49,8 @@
             
             <div v-bind:class="['form-group','col-md-3', errors.first(rules.s_apellidoy.name) ? 'has-error' :'']">
                 <label>Segundo apellido</label>
-                <input type="text" 
+                <input type="text"
+                    autocomplete="off" 
                     class="form-control"
                     name="segundo apellido"
                     v-model="conyuge.s_apellidoy"
@@ -76,7 +80,8 @@
 
             <div v-bind:class="['form-group','col-md-3', errors.first(rules.num_docy.name) ? 'has-error' :'']">
                 <label>Núm de documento</label>
-                <input type="text" class="form-control"
+                <input type="text"
+                    autocomplete="off" class="form-control"
                     name="numero de documento"
                     placeholder="Número de documento"
                     v-model="conyuge.num_docy"
@@ -88,7 +93,8 @@
 
             <div v-bind:class="['form-group','col-md-3', errors.first(rules.movily.name) ? 'has-error' :'']">
                 <label>Celular *</label>
-                <input type="text" 
+                <input type="text"
+                    autocomplete="off" 
                     class="form-control"
                     name="celular"
                     placeholder="Celular"
@@ -101,7 +107,8 @@
 
             <div v-bind:class="['form-group','col-md-3', errors.first(rules.fijoy.name) ? 'has-error' :'']">
                 <label>Telefono</label>
-                <input type="text" 
+                <input type="text"
+                    autocomplete="off" 
                     class="form-control"
                     name="telefono"
                     placeholder="teléfono fijo/celular"
@@ -118,7 +125,8 @@
 
             <div v-bind:class="['form-group','col-md-12', errors.first(rules.diry.name) ? 'has-error' :'']">
                 <label>Dirección</label>
-                <input type="text" 
+                <input type="text"
+                    autocomplete="off" 
                     name="direccion" 
                     v-model="conyuge.diry"
                     class="form-control"

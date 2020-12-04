@@ -19,7 +19,7 @@ Route::get('start/creditos/list',[
 	'as'    => 'start.creditos.list'
 ]);
 
-Route::get('start/creditos/show',[ 
+Route::get('start/creditos/show/{credito_id}',[ 
 	'middleware' => ['permission:consultar_creditos'],   
 	'uses'  => 'CreditoController@show',
 	'as'    => 'start.creditos.show'

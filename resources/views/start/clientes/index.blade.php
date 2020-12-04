@@ -26,16 +26,13 @@
 
                         <thead>
                             <tr>
-                            <th>    Documento  </th>
-                            <th>    Nombre     </th>
-                            <th>    Teléfono   </th>
-                            <th>    Acción     </th>
-
+                                <th>    Documento  </th>
+                                <th>    Nombre     </th>
+                                <th>    Teléfono   </th>
+                                <th>    Acción     </th>
                             </tr>
                         </thead>
-                        <tbody>
-                        
-                        </tbody>
+                        <tbody></tbody>
 
                     </table>
 

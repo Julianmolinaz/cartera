@@ -62,7 +62,7 @@ Route::get('call/{id}/index_unique',[
 
 
 Route::get('call/{id}/index_unique',[
-        'middleware' => ['permission:llamar_creditos'],
+    'middleware' => ['permission:consultar'],
 	'uses' 	=> 'CallcenterController@index_unique',
 	'as'	=> 'call.index_unique'
 ]); //*

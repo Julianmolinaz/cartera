@@ -10,30 +10,44 @@ use DB;
 
 function res($success,$data,$message,$status=200)
 {
-  return response()->json([
-    'success' => $success,
-    'dat'     => $data,
-    'message' => $message 
-  ], $status);
+    return response()->json([
+        'success' => $success,
+        'dat'     => $data,
+        'message' => $message 
+    ], $status);
+}
+
+function Ymd($input) {
+    $caracter = substr($input,5,1);
+
+    if ( $caracter == "/" ||  $caracter == "-"){
+        $dia = substr($input,0,2);
+        $mes = substr($input,3,2);
+        $ano = substr($input,6,4);
+        return ($ano.'-'.$mes.'-'.$dia);
+    }
+    else{  
+        return $input;
+    }
 }
 
 //funcion que invierte el formato de la fecha (dia, mes, año) a (año, mes, dia) o al contrario 
 // recibe un string
 
 function inv_fech($input){
-  $caracter = substr($input,5,1);
-  if ( $caracter == "/" ||  $caracter == "-"){
-    $dia = substr($input,0,2);
-    $mes = substr($input,3,2);
-    $ano = substr($input,6,4);
-    return ($ano.'-'.$mes.'-'.$dia);
-  }
-  else{  
-    $dia = substr($input,8,2);
-    $mes = substr($input,5,2);
-    $ano = substr($input,0,4);
-    return ($dia.'-'.$mes.'-'.$ano);
-  }
+    $caracter = substr($input,5,1);
+    if ( $caracter == "/" ||  $caracter == "-"){
+        $dia = substr($input,0,2);
+        $mes = substr($input,3,2);
+        $ano = substr($input,6,4);
+        return ($ano.'-'.$mes.'-'.$dia);
+    }
+    else{  
+        $dia = substr($input,8,2);
+        $mes = substr($input,5,2);
+        $ano = substr($input,0,4);
+        return ($dia.'-'.$mes.'-'.$ano);
+    }
 }
 
 function inv_fech2($input){
@@ -418,18 +432,16 @@ function bancos()
   ];
 }
 
-function log($user_id ,$action ,$desc ,$visible ,$type ,$id) {
-
-  if ($solicitud) {
+function log($user_id ,$action ,$description ,$visible ,$ref_type ,$ref_id) 
+{
     $log = new \App\Log();
-    $log->user_create_id=$user_id;
-    $log->action=$action;
-    $log->descripcion=$desc;
-    $log->visible=$visible;
-    $log->ref_type=$type;
-    $log->ref_id=$id;
+    $log->user_create_id = $user_id;
+    $log->action = $action;
+    $log->description = $description;
+    $log->visible = $visible;
+    $log->ref_type = $ref_type;
+    $log->ref_id = $ref_id;
     $log->save();
-  }
 }
 
 

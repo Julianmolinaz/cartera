@@ -23,15 +23,40 @@ class CreateClientesTable extends Migration {
 			$table->string('segundo_nombre', 60)->nullable();
 			$table->string('primer_apellido', 60)->nullable();
 			$table->string('segundo_apellido', 60)->nullable();
-			$table->enum('genero', array('Femenino','Masculino'));
-			$table->enum('tipo_doc', array('Cedula Ciudadanía','Nit','Cedula de Extranjería','Pasaporte','Pase Diplomático','Carnet Diplomático','Tarjeta de Identidad','Rut','Número único de Identificación Personal','Nit de Extranjería'))->default('Cedula Ciudadanía');
+			$table->enum('genero', ['Femenino','Masculino']);
+			$table->enum('tipo_doc', [
+				'Cedula Ciudadanía',
+				'Nit',
+				'Cedula de Extranjería',
+				'Pasaporte',
+				'Pase Diplomático',
+				'Carnet Diplomático',
+				'Tarjeta de Identidad',
+				'Rut',
+				'Número único de Identificación Personal',
+				'Nit de Extranjería'
+				])->default('Cedula Ciudadanía');
 			$table->string('num_doc')->unique();
-			$table->enum('estado_civil',['Soltero/a','Casado/a','Separado/a','Viudo/a','Union libre','Otro'])->nullable(); // new
+			$table->enum('estado_civil',[
+				'Soltero/a',
+				'Casado/a',
+				'Separado/a',
+				'Viudo/a',
+				'Union libre',
+				'Otro'
+				])->nullable(); // new
 			$table->date('fecha_exp')->nullable(); // new
 			$table->string('lugar_exp')->nullable(); // new
 			$table->string('fecha_nacimiento')->nullable();
 			$table->string('lugar_nacimiento')->nullable(); // new
-			$table->enum('nivel_estudios',['Primaria','Bachiller','Tecnico','Universitario','Postgrado','Ninguno'])->nullable(); // new
+			$table->enum('nivel_estudios',[
+				'Primaria',
+				'Bachiller',
+				'Tecnico',
+				'Universitario',
+				'Postgrado',
+				'Ninguno'
+				])->nullable(); // new
 
 			//info ubicacion
 
@@ -71,27 +96,24 @@ class CreateClientesTable extends Migration {
             // referencias FK
             
             $table->integer('municipio_id')->unsigned()->nullable();
-            $table->foreign('municipio_id')->references('id')->on('municipios')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            
             $table->integer('codeudor_id')->unsigned()->nullable()->index('clientes_codeudor_id_foreign');
-            $table->foreign('codeudor_id')->references('id')->on('codeudores')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            
             $table->integer('conyuge_id')->unsigned()->nullable();
-            $table->foreign('conyuge_id')->references('id')->on('conyuges')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-
             $table->integer('user_create_id')->unsigned();
-            $table->foreign('user_create_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-
             $table->integer('user_update_id')->unsigned()->nullable();
-            $table->foreign('user_update_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 
 			// general
 
 			$table->string('placa')->nullable();
 			$table->enum('version',['1','2','3'])->default(1)->comment('1-Gofin v1.0; 2-Gofin v2.0;3-Web2.0');
+			$table->boolean('terminos')->nullable()->default(false)->comment('Aceptación de terminos y condiciones');
             
             $table->timestamps();
 					
+            $table->foreign('municipio_id')->references('id')->on('municipios');
+            $table->foreign('codeudor_id')->references('id')->on('codeudores');
+            $table->foreign('user_create_id')->references('id')->on('users');
+            $table->foreign('conyuge_id')->references('id')->on('conyuges');
+            $table->foreign('user_update_id')->references('id')->on('users');
 		});
 	}
 

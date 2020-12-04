@@ -116,6 +116,8 @@
       /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
       send: function(general){//envia la data de la factura al servidor
         let confirmar = confirm('Desea continuar con la transacción');
+
+        console.log({general});
  
         if(confirmar){
           axios.post("{{url('start/facturas')}}",general).then(function(res){

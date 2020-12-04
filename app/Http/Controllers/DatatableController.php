@@ -21,7 +21,7 @@ class DatatableController extends Controller
     public function egresos(Datatables $datatables)
     {
         
-        if(!middleware(array('Administrador'))){
+        if (!middleware(array('Administrador'))) {
             return false;
         }
 
@@ -32,15 +32,15 @@ class DatatableController extends Controller
             ->orderBy('updated_at','desc');
 
     	return DataTables::of($query)
-        ->addColumn('btn','
-            <a href="{{route(\'start.egresos.edit\',$id)}}" class = \'btn btn-default btn-xs\'>
-                <span class="glyphicon glyphicon-pencil"  title="ver"></span>
-            </a>
-            <a href="{{route(\'start.egresos.destroy\',$id)}}" 
-                onclick="return confirm(\'¿Esta seguro de eliminar el registro de egreso?\')" 
-                class = \'btn btn-default btn-xs\'>
-                <span class = "glyphicon glyphicon-trash" title="Eliminar"></span>
-            </a> ')
-    	->make(true);
+            ->addColumn('btn','
+                <a href="{{route(\'start.egresos.edit\',$id)}}" class = \'btn btn-default btn-xs\'>
+                    <span class="glyphicon glyphicon-pencil"  title="ver"></span>
+                </a>
+                <a href="{{route(\'start.egresos.destroy\',$id)}}" 
+                    onclick="return confirm(\'¿Esta seguro de eliminar el registro de egreso?\')" 
+                    class = \'btn btn-default btn-xs\'>
+                    <span class = "glyphicon glyphicon-trash" title="Eliminar"></span>
+                </a> ')
+            ->make(true);
     }
 }

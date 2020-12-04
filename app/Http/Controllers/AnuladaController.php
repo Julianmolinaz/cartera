@@ -55,142 +55,157 @@ class AnuladaController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request,
-            ['motivo_anulacion' => 'required'],
-            ['motivo_anulacion.required' => 'El Motivo de la anulación de la factura número '.$request->input('num_factura').' es requerido']);
-        
+
+        $rules = ['motivo_anulacion' => 'required'];
+        $messages = ['motivo_anulacion.required' => 'El Motivo de la anulación de la factura número '.$request->input('num_factura').' es requerido'];
+
+        $this->validate($request, $rules, $messages);
+            
         $id         = $request->input('factura_id');
         $factura    = Factura::find($id);
         $credito    = Credito::find($factura->credito_id);
+        $flat_cta_parcial = false;
 
         //Consulta la ultima factura de ese credito
-
         $ultima_factura = DB::table('facturas')
             ->where('credito_id',$factura->credito_id)
             ->orderBy('id','desc')
             ->first();
 
-          DB::beginTransaction();
+        DB::beginTransaction();
           
-          try{  
+        try {  
 
-          // se valida si la factura a eliminar es la ultima realizada para ese crédito  
-          if( $ultima_factura->id == $factura->id ){
+            // se valida si la factura a eliminar es la ultima realizada para ese crédito  
+            if ( $ultima_factura->id == $factura->id ) {
 
-            $anulada                    = new Anulada();
-            $anulada->cliente_id        = $factura->credito->precredito->cliente->id;
-            $anulada->factura_id        = $factura->id;
-            $anulada->precredito_id     = $factura->credito->precredito->id;
-            $anulada->credito_id        = $factura->credito_id;
-            $anulada->num_fact          = $factura->num_fact;
-            $anulada->fecha             = $factura->fecha;
-            $anulada->total             = $factura->total;
-            $anulada->pagos             = "";
-            $anulada->motivo_anulacion  = $request->input('motivo_anulacion');
-            $anulada->user_anula        = Auth::user()->id;
-            $anulada->user_create_id    = $factura->user_create_id;
+                $anulada                    = new Anulada();
+                $anulada->cliente_id        = $factura->credito->precredito->cliente->id;
+                $anulada->factura_id        = $factura->id;
+                $anulada->precredito_id     = $factura->credito->precredito->id;
+                $anulada->credito_id        = $factura->credito_id;
+                $anulada->num_fact          = $factura->num_fact;
+                $anulada->fecha             = $factura->fecha;
+                $anulada->total             = $factura->total;
+                $anulada->pagos             = "";
+                $anulada->motivo_anulacion  = $request->input('motivo_anulacion');
+                $anulada->user_anula        = Auth::user()->id;
+                $anulada->user_create_id    = $factura->user_create_id;
 
+                // dd(strtolower($factura->pagos[2]->concepto) == 'saldo a favor');
 
-            //loop que itera sobre los pagos de una factura
+                //loop que itera sobre los pagos de una factura
 
-            foreach($factura->pagos as $pago){
+                foreach ($factura->pagos as $pago) {
 
-                //se crea string con toda la informacion de los pagos que se guardarán en la tabla anuladas.pagos
-                
-                $detalle_del_pago = '[ ID='.$pago->id.',CONCEPTO='.$pago->concepto.',ABONO='.$pago->abono.',DEBE='.$pago->debe.',ESTADO='.$pago->estado.',DESDE='.$pago->pago_desde.',HASTA='.$pago->pago_hasta.',ABONO PAGO ID='.$pago->abono_pago_id.']';
-
-                $anulada->pagos = $anulada->pagos.$detalle_del_pago;
-
-                //Si el pago en la factura anulada es por concepto  de 'Cuota Parcial'
-
-                if ($pago->concepto == 'Cuota Parcial'){
-
-
-
-                    $credito->saldo = $credito->saldo + $pago->abono;
-                    if($pago->estado ==  'Ok'){ 
-
-                        $credito->cuotas_faltantes = $credito->cuotas_faltantes + 1; 
-                    }
-
-                    //SI EL PAGO TIENE REFERENCIA OTRO PAGO, PARA ÉL EL ESTADO DEBE CAMBIAR A DEBE
+                    //se crea string con toda la informacion de los pagos que se guardarán en la tabla anuladas.pagos
                     
-                    if($pago->abono_pago_id > 0){
+                    $detalle_del_pago = '[ ID='.$pago->id.',CONCEPTO='.$pago->concepto.',ABONO='.$pago->abono.',DEBE='.$pago->debe.',ESTADO='.$pago->estado.',DESDE='.$pago->pago_desde.',HASTA='.$pago->pago_hasta.',ABONO PAGO ID='.$pago->abono_pago_id.']';
 
-                        $pago_anterior          = Pago::find($pago->abono_pago_id);
-                        $pago_anterior->estado  = 'Debe';
-                        $pago_anterior->save();
+                    $anulada->pagos = $anulada->pagos.$detalle_del_pago;
+
+                    //PAGO POR CUOTA PARCIAL
+
+                    if ($pago->concepto == 'Cuota Parcial') {
+
+                        $credito->saldo = $credito->saldo + $pago->abono;
+
+                        if($pago->estado ==  'Ok') $credito->cuotas_faltantes = $credito->cuotas_faltantes + 1;
+
+                        //SI EL PAGO TIENE REFERENCIA OTRO PAGO, PARA ÉL EL ESTADO DEBE CAMBIAR A DEBE
+                    
+                        if ($pago->abono_pago_id > 0) {
+
+                            $pago_anterior          = Pago::find($pago->abono_pago_id);
+                            $pago_anterior->estado  = 'Debe';
+                            $pago_anterior->save();
+                        }
+                    } 
+
+                    //PAGO POR CUOTA
+
+                    else if ($pago->concepto == 'Cuota') {
+                        $credito->saldo = $credito->saldo + $pago->abono; 
+
+                        if ($pago->estado ==  'Ok') {   
+                            $cuotas_que_faltan = $credito->cuotas_faltantes;
+                            $credito->cuotas_faltantes = $cuotas_que_faltan + (int)($pago->abono / $credito->precredito->vlr_cuota);  
+                        }
                     }
 
-                } 
+                    //PAGO POR MORA
 
-                //Si el pago en la factura anulada es por concepto  de 'Cuota'
+                    else if ($pago->concepto == 'Mora') {
 
-                //CUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTA
-                //CUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTACUOTA
+                        $moras_diarias = DB::table('sanciones')->where('pago_id',$pago->id)->get();
 
-                else if($pago->concepto == 'Cuota'){
-                    $credito->saldo = $credito->saldo + $pago->abono; 
+                        foreach($moras_diarias as $mora){
 
-                    if($pago->estado ==  'Ok'){   
-                        $cuotas_que_faltan = $credito->cuotas_faltantes;
-                        $credito->cuotas_faltantes = $cuotas_que_faltan + (int)($pago->abono / $credito->precredito->vlr_cuota);  }
+                            $mora_a_modificar = Sancion::find($mora->id);
+                            $mora_a_modificar->estado = 'Debe';
+                            $mora_a_modificar->pago_id = NULL; // se borrra la referencia del pago_id
+                            $credito->saldo = $credito->saldo + $mora->valor;
+                            $mora_a_modificar->save();
+                        }
+
                     }
-                //Si el pago en la factura anulada es por concepto  de 'Mora' (ver tabla sanciones) 
+                
+                    //PAGO POR PREJURIDICO
 
-                //MORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORA
-                //MORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORAMORA
+                    else if ($pago->concepto == 'Juridico' || $pago->concepto == 'Prejuridico') {
+                    
+                        $cadena = $pago->abono_pago_id;
+                        $multa_id = "";
+                        $bandera = 0;
 
-                else if($pago->concepto == 'Mora'){
+                        for ($i = 0; $i < strlen($cadena); $i++) {
 
-                    $moras_diarias = DB::table('sanciones')->where('pago_id',$pago->id)->get();
+                            if ($cadena[$i] == '.' || $bandera == 1) {
+                                
+                                if($bandera==0){$i = $i+2;}
+                                $multa_id .= $cadena[$i];
+                                $bandera = 1;
+                            }
+                        }
 
-                    foreach($moras_diarias as $mora){
+                        $multas_vigentes = DB::table('extras')->where([['credito_id','=',$credito->id],['estado','=','Debe']])->get();
 
-                        $mora_a_modificar = Sancion::find($mora->id);
-                        $mora_a_modificar->estado = 'Debe';
-                        $mora_a_modificar->pago_id = NULL; // se borrra la referencia del pago_id
-                        $credito->saldo = $credito->saldo + $mora->valor;
-                        $mora_a_modificar->save();
-                    }
+                        // trae el pago anterior para cambiarlo de estado ok a debe    
+                        $pago_a_modificar_id  = ""; 
 
-                }
-                //PREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURI
-                //PREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURIPREYJURI
+                        for ($i = 1; $i < strlen($cadena); $i++) {
+                            if ($cadena[$i] == '.') $i = strlen($cadena);
+                            else $pago_a_modificar_id = $pago_a_modificar_id.$cadena[$i];
+                        }    
+                    
+                        //si existen multas vigentes     
 
-                else if($pago->concepto == 'Juridico' || $pago->concepto == 'Prejuridico'){
-                    $cadena = $pago->abono_pago_id;
-                    $multa_id = "";
-                    $bandera = 0;
-                    for($i = 0; $i < strlen($cadena); $i++){
-                        if($cadena[$i] == '.' || $bandera == 1){
+                        if (count($multas_vigentes) > 0) {
                             
-                            if($bandera==0){$i = $i+2;}
-                            $multa_id .= $cadena[$i];
-                            $bandera = 1;
-                        }
-                    }
-                    $multas_vigentes =
-                    DB::table('extras')
-                        ->where([['credito_id','=',$credito->id],['estado','=','Debe']])
-                        ->get();
+                            if ($multas_vigentes[0]->id == $multa_id) {
 
-                    // trae el pago anterior para cambiarlo de estado ok a debe    
-                    $pago_a_modificar_id  = ""; 
+                                $credito->saldo = $credito->saldo + $pago->abono;
 
-                    for($i = 1; $i < strlen($cadena); $i++){
-                        if($cadena[$i] == '.'){
-                            $i = strlen($cadena);
-                        } else{
-                            $pago_a_modificar_id = $pago_a_modificar_id.$cadena[$i];
-                        }
-                    }    
-                    //si existen multas vigentes     
+                                $pago_a_modificar = Pago::find($pago_a_modificar_id);
 
-                    if(count($multas_vigentes) > 0){
-                        if($multas_vigentes[0]->id == $multa_id){
+                                if ($pago_a_modificar != null) {
+                                    $pago_a_modificar->estado = 'Debe';
+                                    $pago_a_modificar->save();
+                                }
+                            } 
+                            //si hay una multa vigente diferente a la referencia del pago
+                            else {
 
+                                DB::rollback();
+                                flash()->error('Exíste una multa en "Debe" diferente de la que se quiere anular, se recomienda saldar la multa en "Debe" temporalmente para poder hacer la transacción de anulación deseada.');
+                                return redirect()->route('start.facturas.index');                            
+                            }
+                        } 
+
+                        //si no existen multas vigentes
+                        else {
                             $credito->saldo = $credito->saldo + $pago->abono;
+                            $credito->save();
 
                             $pago_a_modificar = Pago::find($pago_a_modificar_id);
 
@@ -198,56 +213,44 @@ class AnuladaController extends Controller
                                 $pago_a_modificar->estado = 'Debe';
                                 $pago_a_modificar->save();
                             }
-
-                        } 
-                        //si hay una multa vigente diferente a la referencia del pago
-                        else{
-
-                            DB::rollback();
-                            flash()->error('Exíste una multa en "Debe" diferente de la que se quiere anular, se recomienda saldar la multa en "Debe" temporalmente para poder hacer la transacción de anulación deseada.');
-                            return redirect()->route('start.facturas.index');
-
-                            
-                            //dd('existe una multa activa diferente');
-                            
+                            $multa = Extra::find($multa_id);
+                            $multa->estado = 'Debe';
+                            $multa->save();
                         }
-                    } 
-                    //si no existen multas vigentes
-                    else{
-                        $credito->saldo = $credito->saldo + $pago->abono;
+
+                    }//end else if juridico
+                    
+                    //PAGO POR SALDO A FAVOR
+                    else if ($pago->concepto == 'Saldo a Favor') {
+                        $credito->saldo_favor -= $pago->abono;
                         $credito->save();
-
-                        $pago_a_modificar = Pago::find($pago_a_modificar_id);
-
-                        if($pago_a_modificar != null){
-                            $pago_a_modificar->estado = 'Debe';
-                            $pago_a_modificar->save();
-                        }
-                        $multa = Extra::find($multa_id);
-                        $multa->estado = 'Debe';
-                        $multa->save();
                     }
 
-                }//end else if juridico
-
+                
                 $pago->delete();
             }//end foreach
-
+            
             $credito->save();
             $anulada->pagos = $anulada->pagos.' ** Factura creada: '.$factura->created_at.' por '.$factura->user_create->name.' **';
             $anulada->save();
             $factura->delete();
 
+            log(Auth::user()->id,'eliminar',"Se anula recibo {$anulada->num_fact}",0,'App\\Anulada',$anulada->id);
+
             //busca la ultima factura vigente
 
             $ultima_factura = DB::table('facturas')
-            ->where('credito_id',$factura->credito_id)
-            ->orderBy('created_at','desc')
-            ->first();
+                ->where('credito_id',$factura->credito_id)
+                ->orderBy('created_at','desc')
+                ->first();
 
-            //al anular la ultima factura se debe modificar tambien la fecha de pago en la tabla fecha_cobros.fecha_pago esta se fecha se extrae de la ultima factura vigente.
+            /**
+             * al anular la ultima factura se debe modificar tambien la fecha de pago en la tabla fecha_cobros.
+             * fecha_pago esta se fecha se extrae de la ultima factura vigente. 
+             */
+            
 
-            if($ultima_factura){
+            if ($ultima_factura) {
 
                 $fecha_cobro = FechaCobro::where('credito_id',$credito->id)->get();
                 $fecha_cobro[0]->fecha_pago = $ultima_factura->fecha_proximo_pago;
@@ -277,9 +280,9 @@ class AnuladaController extends Controller
           }  
       }//END DEL TRY
       catch(\Exception $e){
-        DB::rollback();
-        flash()->error('ERROR'.$e->getMessage());
-        return redirect()->route('start.facturas.index');
+            DB::rollback();
+            flash()->error('ERROR'.$e->getMessage());
+            return redirect()->route('start.facturas.index');
       }
 
     }

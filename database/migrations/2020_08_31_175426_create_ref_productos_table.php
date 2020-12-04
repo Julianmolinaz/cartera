@@ -23,28 +23,26 @@ class CreateRefProductosTable extends Migration
 			$table->string('num_fact', 60)->nullable();
 			$table->float('otros', 10, 2)->nullable();
 			$table->longText('observaciones')->nullable();
+            $table->integer('qty')->default(1);
       
             // Referencias
 
             $table->integer('vehiculo_id')->unsigned();
-            $table->foreign('vehiculo_id')->references('id')->on('vehiculos');
-
             $table->integer('producto_id')->unsigned();
-            $table->foreign('producto_id')->references('id')->on('productos');
-           
             $table->integer('proveedor_id')->unsigned();
-            $table->foreign('proveedor_id')->references('id')->on('terceros');
-
             $table->integer('precredito_id')->unsigned();
-            $table->foreign('precredito_id')->references('id')->on('precreditos');
-
             $table->integer('created_by')->unsigned();
-            $table->foreign('created_by')->references('id')->on('users');
-
             $table->integer('updated_by')->unsigned()->nullable();
-            $table->foreign('updated_by')->references('id')->on('users');
 
             $table->timestamps();
+
+            $table->foreign('vehiculo_id')->references('id')->on('vehiculos');
+            $table->foreign('producto_id')->references('id')->on('productos');
+            $table->foreign('proveedor_id')->references('id')->on('terceros');
+            $table->foreign('precredito_id')->references('id')->on('precreditos');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
+
         });
     }
 

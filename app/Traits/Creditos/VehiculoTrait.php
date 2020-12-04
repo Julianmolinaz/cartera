@@ -2,6 +2,7 @@
 
 namespace App\Traits\Creditos;
 use App\Exceptions\Handler;
+use Exception;
 use App as _;
 
 
@@ -36,6 +37,10 @@ trait VehiculoTrait
 
     public function editVehiculoFromProductoTr($producto) 
     {
+        \Log::info('editVehiculoFromProductoTr');
+        \Log::info($producto);
+
+
         try {
 
             $vehiculo = _\Vehiculo::find($producto['_vehiculo_id']);
@@ -52,7 +57,7 @@ trait VehiculoTrait
             return false;
 
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage(), 1);
+            throw new Exception($e->getMessage());
         }
     }
 }

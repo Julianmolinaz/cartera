@@ -6,6 +6,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test','TestController@make');
+
 //WIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKIWIKI
 
 Route::get('wiki',[
@@ -49,25 +51,6 @@ Route::get('admin/estado_cuenta/{credito_id}',[
 	'uses' => 'EstadoCuentaController@getEstadoCuenta',
 	'as'   => 'admin.get_estado_cuenta'	
 ]);
-
-
-
-//ADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMINADMIN
-
-
-//REPORTES
-
-// // Route::get('admin/reporte_centrales','ReporteController@centrales');
-
-
-// REPORTESHISTORIALVENTAS
-
-// // Route::post('admin/descargar_reporte_detallado_ventas','ReporteController@descargar');
-
-
-
-
-
 
 Route::resource('log','LogController');
 
@@ -131,22 +114,6 @@ Route::get('start/cajas',[
 Route::get('start/cajas/report/{date}','CajaController@get_cash_report');
 Route::get('start/all_cajas/report/{date}','CajaController@get_cashes_report');
 Route::get('start/ventas_mes/report/{date}','CajaController@ventas_mes');
-/*
-|--------------------------------------------------------------------------
-| PrecredPagos
-|--------------------------------------------------------------------------
-*/
-
-Route::get('start/precred_pagos/{fact_precredito_id}',[
-	'uses'   => 'PrecredPagosController@show',
-	'as' => 'start.precred_pagos.show'
-]);
-
-Route::post('start/anular_precred_pagos',[
-	'uses'   => 'PrecredPagosController@anular',
-	'as' => 'start.precred_pagos.anular'
-]);
-
 
 // MUNICIPIOS
 
