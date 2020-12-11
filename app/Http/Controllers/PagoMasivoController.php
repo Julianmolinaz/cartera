@@ -123,7 +123,7 @@ class PagoMasivoController extends Controller
 
                 $this->arr_error[] = [
                     'line' => '',
-                    'message' => 'Un archivo con este mismo nombre ya fué cargado.'
+                    'message' => 'El formato del archivo no corresponde a las permitidas.'
                 ];
             }
 
@@ -170,7 +170,7 @@ class PagoMasivoController extends Controller
             if ($this->arr_error) return false;
             
             // ****** Valida si existen el cliente, credito o solicitud *******
-                        // dd($this->data);
+            // dd($this->data);
             $this->rulesBeforePay(); 
             if ($this->arr_error) return false;
 
