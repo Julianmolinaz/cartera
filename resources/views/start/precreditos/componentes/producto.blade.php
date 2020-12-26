@@ -36,10 +36,10 @@
                             
                             <div class="form-group col-md-12">
                                 <h4 style="display:inline-block; margin-right:10px;">@{{ index + 1 +'-'+element.nombre }}
-                                    <span style="margin-left: 10px;color:gray"> Total: $@{{ 
-                                        parseInt(element.costo) ? parseInt(element.costo) : 0 + 
-                                        parseInt(element.iva) ? parseInt(element.iva) : 0   + 
-                                        parseInt(element.otros) ? parseInt(element.otros) : 0 
+                                    <span style="margin-left:10px;color:#3c763d"> Total: $@{{ 
+                                        parseInt(element.costo)+ 
+                                        parseInt(element.iva)  + 
+                                        parseInt(element.otros)
                                         | formatPrice}}</span>
                                 </h4>
                                 <div class="checkbox" style="display:inline-block" v-if="index > 0">
@@ -80,7 +80,7 @@
 
                             <!-- COSTO  -->
 
-                            <div v-bind:class="['form-group','col-md-4',errors.first(rules.costo.name+index) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','has-success','col-md-4',errors.first(rules.costo.name+index) ? 'has-error' :'']">
                                 <label class="input-solicitud">Costo @{{element.nombre }} @{{ rules.costo.required }}</label> 
                                 <input type="text" 
                                     :disabled="element.estado != 'En proceso'"
@@ -129,7 +129,7 @@
 
                             <!-- IVA  -->
 
-                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.iva.name) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','has-success','col-md-2',errors.first(rules.iva.name) ? 'has-error' :'']">
                                 <label class="input-solicitud">IVA @{{element.nombre }} @{{ rules.iva.required }}</label>   
                                 <input type="text" 
                                     :disabled="element.estado != 'En proceso'"
@@ -145,7 +145,7 @@
 
                             <!-- COSTO  -->
 
-                            <div v-bind:class="['form-group','col-md-3',errors.first(rules.otros.name+index) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','has-success','col-md-3',errors.first(rules.otros.name+index) ? 'has-error' :'']">
                                 <label class="input-solicitud">Otros @{{element.nombre }} @{{ rules.otros.required }}</label> 
                                 <input type="text" 
                                     class="form-control input-solicitud" 
