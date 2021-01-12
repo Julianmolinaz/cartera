@@ -1,1 +1,0 @@
-@extends('contabilidad.templates.main')
