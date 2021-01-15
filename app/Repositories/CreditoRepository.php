@@ -15,7 +15,7 @@ use DB;
 use Carbon\Carbon;
 use App\CallBusqueda;   
 
-class CreditoRepository{
+class CreditoRepository {
 
     public function creditosTipoCall(){
         $creditos = 

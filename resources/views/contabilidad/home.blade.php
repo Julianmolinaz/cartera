@@ -1,1 +1,1 @@
-<h1>hola mundo</h1>
+@extends('templates.main2')

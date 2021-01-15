@@ -12,21 +12,33 @@
         @include('templates.error')
       </p>
 
-        <form class="form-horizontal form-label-left"  method="POST">
+        <form 
+          class="form-horizontal form-label-left"  
+          method="POST"
+          action="{{ route('contabilidad.reportes.store') }}"
+        >
       
           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
           <div class="form-group">
 
             <div class="col-md-6" id="range">
-              <input type="text" name="daterange" id="daterange" class="form-control" value="" />  
+              <input 
+                type="text" 
+                name="daterange" 
+                id="daterange" 
+                class="form-control"
+              >  
             </div>
 
 
-         <div class="col-md-6">
-           <select name="" id="" class="form-control">
-            <option readonly disabled selected>Tipo de Reporte</option>
-           </select>
+          <div class="col-md-6">
+            <select name="report" id="report" class="form-control">
+                <option readonly disabled selected>Tipo de Reporte</option>
+                @foreach($reports as $report)
+                  <option value="{{ $report->id }}">{{ $report->name }}</option>
+                @endforeach
+            </select>
           </div>
 
         </div>  

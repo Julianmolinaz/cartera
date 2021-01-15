@@ -31,6 +31,8 @@ class DataAsisController extends Controller
 
     public function upload_excel( Request $request )
     {
+        set_time_limit(0);
+
         $f_corte = Carbon::now();
         $this->f_corte = $f_corte->subMonth()->modify('last day of this month');
 
@@ -65,6 +67,7 @@ class DataAsisController extends Controller
     {
         try {
             foreach( $this->data as $d ){
+
 
                 $contrato = $this->contrato($d);
                 $register = [

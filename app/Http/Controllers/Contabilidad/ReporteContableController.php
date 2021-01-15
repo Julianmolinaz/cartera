@@ -6,27 +6,71 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Classes\ReporteRecibosCaja;
+use App\Classes\Contabilidad\Reportes;
+use \App\Http\Controllers as ctrl;
 use Carbon\Carbon;
+use Excel;
 
 class ReporteContableController extends Controller
 {
 
-
     public function __construct()
     {
-
+        $this->middleware('auth');
     }
 
-    // public function go(Request $request)
-    public function go()
+    public function index()
     {
-        $ini = Carbon::create('2020', '01', '10');
-        $end = Carbon::create('2020', '30', '10');
-
-        $repor_caja = new ReporteRecibosCaja($ini, $end);
-
-        dd($repor_caja->make());
+        return view('contabilidad.reportes.index')
+            ->with('reports', $this->reports());
     }
 
+    public function store(Request $request) 
+    {
+        $ini = '';
+        $fin = '';
+
+        if ($request->daterange) {
+            $ini_temp = substr($request->daterange,0,10);
+            $fin_temp = substr($request->daterange,13,22);
+            $ini   = Carbon::create(ctrl\ano($ini_temp),ctrl\mes($ini_temp),ctrl\dia($ini_temp),00,00,00);
+            $end   = Carbon::create(ctrl\ano($fin_temp),ctrl\mes($fin_temp),ctrl\dia($fin_temp),23,59,59);
+        }
+
+        // dd($request->all());
+
+        if ($request->report == 'comprobantes_de_pago') {
+
+            $data = [];
+            $repor_caja = new Reportes\ComprobantesDePago($ini, $end);
+
+            
+            $data = $repor_caja->make();
+
+
+            Excel::create('comprobantes_de_pago_cont_'.$request->daterange,
+                function($excel) use($data){
+                    $excel->sheet('Sheetname',function($sheet) use($data){
+                        
+                        $sheet->fromArray($data, null, 'A1', false, false);
+                    });
+                })->download('xls');
+
+        }
+
+    }
+
+
+    public function reports()
+    {
+        return [
+            (Object)[
+                'id' => 'comprobantes_de_pago',
+                'name' => 'Comprobantes de pago',
+                'range' => true
+            ]
+        ];
+    }
+
+    
 }

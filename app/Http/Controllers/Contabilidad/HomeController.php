@@ -11,6 +11,6 @@ class HomeController extends Controller
 {
     public function home(Request $request)
     {
-        return 123;
+        return view('contabilidad.home');
     }
 }
