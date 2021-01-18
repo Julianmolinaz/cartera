@@ -13,7 +13,9 @@ class ComprobantesDePago
     protected $end;
     protected $recibo;
     protected $reporte = [];
+    protected $temporal = [];
     protected $bancos_no_encontrados;
+    protected $consecutivo;
 
     public function __construct($ini, $end)
     {
@@ -30,7 +32,13 @@ class ComprobantesDePago
 
         foreach ($ids as $e) {
 
+            $this->temporal = [];
+
             $this->recibo = _\Factura::find($e->id);
+
+            // generar el consecutivo
+
+            $this->getConsecutivo();
 
             // la cuenta de caja o bancos Debito
 
@@ -38,11 +46,61 @@ class ComprobantesDePago
 
             // conceptos Credito
 
-            $this->cuentasCredito();    
+            $this->cuentasCredito();   
+            
+            $this->validarPartida();
+
+            $this->reporte = array_merge($this->reporte, $this->temporal);
         }
         // dd($this->reporte);
         return $this->reporte;
+    }
 
+    /**
+     * Valida que la partida contable sea equilibrada
+     * si es positiva se especifica como un saldo a favor
+     * si es negativa va a una cuenta diferente
+     * si es igual a 0 la partida esta equilibrada
+     */
+
+    public function validarPartida()
+    {
+        // suma los elementos desde la posición 1
+        $suma = 0;
+
+        for ($i = 1; $i < count($this->temporal); $i++){
+            
+            $suma += $this->temporal[$i]['credito'];
+            // dd($suma);
+        }
+
+        $diferencia = $this->temporal[0]['debito'] - $suma;
+
+        if ($diferencia < 0) {
+
+            throw new Exception("El debito es mayor que el credito en: " . $this->recibo->num_fact, 1);
+            
+        } else if($diferencia > 0) {
+
+            $item = $this->struct();
+            $item->descripcion = $this->recibo->num_fact;
+            $item->fecha_elab = $this->recibo->fecha;
+            $item->iden_tercero = $this->recibo->credito->precredito->cliente->num_doc;
+            $item->cod_prod = $this->recibo->credito->precredito->producto->nombre;
+            $item->debito = $this->recibo->total;
+            $item->tipo = $this->recibo->tipo;
+            $item->banco = $this->recibo->banco;
+            $item->cod_cuenta = '23809501';
+
+            $this->temporal[] = (array) $item;
+            
+        }
+
+        // compara la sumatoria con los elemento 0
+
+        // si la diferencia es diferente de cero
+        // lanzar una excepcion 
+        // si no , continuar 
     }
 
 
@@ -52,7 +110,6 @@ class ComprobantesDePago
             throw new \Exception("No se encuentra un crédito para el recibo ". $this->recibo->id, 1);
         }
        
-        
         $pagos = $this->recibo->pagos;
         
         foreach ($pagos as $pago){     
@@ -74,23 +131,32 @@ class ComprobantesDePago
                         $this->go($pago, '13050501');
                         break;
                     case 'Saldo a Favor':
+                        $this->go($pago, '23809501');
+                        break;
+                    case 'Diferencia':
+                        $this->go($pago, '23809502');
                         break;
                 default:
                     throw new Exception('No existe el concepto: ' . $pago->concepto, 1);
                     break;
             }
-
-
-
         }
     }
-
 
     public function go($pago, $cuenta)
     {
         $item = $this->struct();
+
+        if ($cuenta == '13050501')
+        {
+            $item->prefijo = 'CC';
+            $item->consec = '1';
+            $item->no_cuota = '1';
+            $item->fecha_venc = '31/12/2020';
+        }
+
         $item->cod_cuenta = $cuenta;
-        $item->cons_comp = $this->recibo->num_fact;
+        $item->descripcion = $this->recibo->num_fact;
         $item->fecha_elab = $this->recibo->fecha;
         $item->iden_tercero = $this->recibo->credito->precredito->cliente->num_doc;
         $item->cod_prod = $this->recibo->credito->precredito->producto->nombre;  
@@ -98,7 +164,7 @@ class ComprobantesDePago
         $item->tipo = $this->recibo->tipo;
         $item->banco = $this->recibo->banco;
 
-        $this->reporte[] = (array) $item;
+        $this->temporal[] = (array) $item;
     }
 
 
@@ -121,7 +187,7 @@ class ComprobantesDePago
             $item->cod_cuenta = $this->getCuentaBanco($item->banco);
         }
 
-        $item->cons_comp = $this->recibo->num_fact;
+        $item->descripcion = $this->recibo->num_fact;
         $item->fecha_elab = $this->recibo->fecha;
         $item->iden_tercero = $this->recibo->credito->precredito->cliente->num_doc;
         $item->cod_prod = $this->recibo->credito->precredito->producto->nombre;
@@ -129,8 +195,22 @@ class ComprobantesDePago
         $item->tipo = $this->recibo->tipo;
         $item->banco = $this->recibo->banco;
 
-        $this->reporte[] = (array) $item;
+        $this->temporal[] = (array) $item;
 
+    }
+
+    public function getConsecutivo()
+    {
+        // hace la consulta y la guarda en una variable
+        $this->consecutivo = DB::table('consecutivos')
+            ->find(2)
+            ->incrementable;
+
+        // incrementa en uno la variable
+        $this->consecutivo ++;
+
+        // guarda el nuevo valor en la tabla;
+        DB::table('consecutivos')->where('id', 2)->update(['incrementable' => $this->consecutivo]);
     }
 
     public function getCuentaBanco($banco)
@@ -179,20 +259,24 @@ class ComprobantesDePago
     
     public function getIdsRecibos()
     {
-        // $ids = DB::table('facturas')
-        //     ->where('fecha', '>=', ctrl\inv_fech($this->ini))
-        //     ->where('fecha', '<=', ctrl\inv_fech($this->end))
-        //     ->whereNotNull('credito_id')
-        //     ->select('id')
-        //     ->get();
+        
+        $date_str = "CONCAT(SUBSTRING(facturas.fecha, 7,4),'-',SUBSTRING(facturas.fecha, 4,2),'-', SUBSTRING(facturas.fecha, 1,2))";
 
-        $date_str = "CONCAT(SUBSTRING(fecha, 7,4),'-',SUBSTRING(fecha, 4,2),'-', SUBSTRING(fecha, 1,2))";
-
-        $ids = DB::select("select id
-            from facturas where (
-                date_format( ".$date_str.", '%Y-%m-%d') >= ?
-                and
-                date_format( ".$date_str.", '%Y-%m-%d') <= ?)", [$this->ini, $this->end]
+        $ids = DB::select(
+            "select facturas.id
+                from facturas 
+                inner join creditos on facturas.credito_id = creditos.id
+                inner join precreditos on creditos.precredito_id = precreditos.id
+                where 
+                (   
+                    date_format( ".$date_str.", '%Y-%m-%d') >= ?
+                    and
+                    date_format( ".$date_str.", '%Y-%m-%d') <= ?    
+                )
+                    and facturas.credito_id is not null
+                    and precreditos.cartera_id in (6,32)"
+                
+                , [$this->ini, $this->end]
             );
 
         return $ids;
@@ -203,10 +287,10 @@ class ComprobantesDePago
     public function struct()
     {
         return (object)[
-            'tipo_comp' => '',
-            'cons_comp' => '',
+            'tipo_comp' => 18,
+            'cons_comp' => $this->consecutivo,
             'fecha_elab' => '',
-            'sigla_moneda' => '',
+            'sigla_moneda' => 'COP',
             'tasa_cambio' => '',
             'cod_cuenta' => '',
             'iden_tercero' => '',
