@@ -56,6 +56,19 @@ class ReporteContableController extends Controller
                     });
                 })->download('xls');
 
+        } else if ($request->report == 'compras_soat_rtm') {
+
+            $repor_compras = new Reportes\ComprasRtmSoat($ini, $end);
+
+            $data = $repor_compras->make();
+
+            Excel::create('compras_soat_rtm'.$request->daterange,
+                function($excel) use($data){
+                    $excel->sheet('Sheetname',function($sheet) use($data){
+                        
+                        $sheet->fromArray($data, null, 'A1', false, false);
+                    });
+                })->download('xls');
         }
 
     }
@@ -68,7 +81,13 @@ class ReporteContableController extends Controller
                 'id' => 'comprobantes_de_pago',
                 'name' => 'Comprobantes de pago',
                 'range' => true
-            ]
+            ],
+            (Object)[
+                'id' => 'compras_soat_rtm',
+                'name' => 'Compras SOAT RTM',
+                'range' => true
+            ],
+
         ];
     }
 

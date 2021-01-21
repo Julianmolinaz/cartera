@@ -16,6 +16,7 @@ class Tercero extends Model
         'sapellido',
         'tipo_doc',
         'num_doc',
+        'digito',
         'tel1',
         'tel2',
         'dir',
