@@ -62,18 +62,10 @@
                 <li><a href="{{route('start.creditos.index')}}">Ver Creditos</a></li>
                 <li><a href="{{route('start.precreditos.index')}}">Ver Solicitudes</a></li> 
                 <li><a href="{{route('start.creditos.cancelados')}}">Ver Cancelados</a></li>
-            </ul>
-        </li> 
-
-        <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-university" aria-hidden="true"></i>
-            Pagos 
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+  
                 <li><a href="{{route('start.pagos.inicio')}}">Hacer Pago</a></li>
                 <li><a href="{{route('admin.pagos_masivos.index')}}">Pagos Masivos</a></li>
-                <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="{{route('start.facturas.index')}}">Ver Facturas Créditos</a></li>
                 <!-- <li><a href="{{route('start.pagos')}}">Ver Pagos Créditos</a></li>  -->
@@ -82,7 +74,7 @@
                 <li><a href="{{route('start.pagos.index_otros_ingresos')}}">Ver Otros Ingresos</a></li> 
 
             </ul>
-        </li>   
+        </li> 
 
         <li class="dropdown">
             <a 
@@ -117,8 +109,6 @@
                 <li><a href="{{route('admin.productos.index')}}">Productos</a></li>
                 <li><a href="{{route('admin.variables.index')}}">Variables &nbsp;<i class="fas fa-cogs"></i></a></li>
                 <li><a href="{{route('admin.criteriocall.index')}}">Criterios de llamada</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="{{route('contabilidad.home')}}" target="_blanck">Contabilidad</a></li>
             </ul>
         </li> 
 
@@ -136,6 +126,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a href="{{ route('contabilidad.reportes.index') }}">Reportes</a></li>
+                <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
             </ul>
         </li>
 
