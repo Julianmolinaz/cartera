@@ -3,6 +3,7 @@
 namespace App\Classes\Contabilidad\Reportes;
 use \App\Http\Controllers as Ctrl;
 
+// use App\Classes\ConsolidadoComprobantesPago as Consolidado;
 use Exception;
 use App as _;
 use DB;
@@ -23,12 +24,13 @@ class ComprobantesDePago
         $this->ini = $ini;
         $this->end = $end;
 
-        $this->reporte[] = $this->header();
+        // $this->reporte[] = $this->header();
     }
 
 
     public function make()
     {
+        set_time_limit(400);
         $ids = $this->getIdsRecibos();
 
         foreach ($ids as $e) {
@@ -57,8 +59,20 @@ class ComprobantesDePago
             }
 
         }
-        //dd($this->trash);
-        return $this->reporte;
+
+        /**
+         * Descomentar para sacar consolidado
+         */
+
+        // $consolidado = new ConsolidadoComprobantesPago($this->reporte);
+
+        // $reporte_consolidado = array_merge([$this->header()], $consolidado->make());
+        
+        // return $reporte_consolidado;
+
+        // dd($reporte_consolidado);
+
+        return array_merge([$this->header()], $this->reporte);
     }
 
     /**
@@ -73,7 +87,7 @@ class ComprobantesDePago
         // suma los elementos desde la posición 1
         $suma = 0;
 
-        for ($i = 1; $i < count($this->temporal); $i++){
+        for ($i = 1; $i < count($this->temporal); $i++) {
             
             $suma += $this->temporal[$i]['credito'];
             // dd($suma);
@@ -100,8 +114,6 @@ class ComprobantesDePago
             $this->temporal[] = (array) $item;
             $this->trash[] = $this->recibo;
         }
-
-    
     }
 
 
@@ -113,30 +125,30 @@ class ComprobantesDePago
        
         $pagos = $this->recibo->pagos;
         
-        foreach ($pagos as $pago){     
+        foreach ($pagos as $pago) {     
 
             switch ($pago->concepto) {
-                    case 'Juridico':
-                        $this->go($pago,'42100503');
-                        break;
-                    case 'Prejuridico':
-                        $this->go($pago, '42100502');
-                        break;
-                    case 'Mora':
-                        $this->go($pago, '42100501');
-                        break;
-                    case 'Cuota Parcial':
-                        $this->go($pago, '13050501');
-                        break;
-                    case 'Cuota':
-                        $this->go($pago, '13050501');
-                        break;
-                    case 'Saldo a Favor':
-                        $this->go($pago, '23809501');
-                        break;
-                    case 'Diferencia':
-                        $this->go($pago, '13802005');
-                        break;
+                case 'Juridico':
+                    $this->go($pago,'42100503');
+                    break;
+                case 'Prejuridico':
+                    $this->go($pago, '42100502');
+                    break;
+                case 'Mora':
+                    $this->go($pago, '42100501');
+                    break;
+                case 'Cuota Parcial':
+                    $this->go($pago, '13050501');
+                    break;
+                case 'Cuota':
+                    $this->go($pago, '13050501');
+                    break;
+                case 'Saldo a Favor':
+                    $this->go($pago, '23809501');
+                    break;
+                case 'Diferencia':
+                    $this->go($pago, '13802005');
+                    break;
                 default:
                     throw new Exception('No existe el concepto: ' . $pago->concepto, 1);
                     break;
@@ -8671,8 +8683,8 @@ class ComprobantesDePago
         1121713017,
         1121718875,
         1121818660,
-        1121821440,
         1121823759,
+        1121821440,
         1121824147,
         1121825177,
         1121829015,
