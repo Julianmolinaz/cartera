@@ -69,7 +69,21 @@ class ReporteContableController extends Controller
                         $sheet->fromArray($data, null, 'A1', false, false);
                     });
                 })->download('xls');
-        }
+
+        } else if ($request->report == 'comprobante_ventas') {
+
+            $repor_ventas = new Reportes\ComprobanteVentas($ini, $end);
+
+            $data = $repor_ventas->make();
+
+            Excel::create('comprobante_ventas'.$request->daterange,
+                function($excel) use($data){
+                    $excel->sheet('Sheetname',function($sheet) use($data){
+                        
+                        $sheet->fromArray($data, null, 'A1', false, false);
+                    });
+                })->download('xls');
+            }
 
     }
 
@@ -85,6 +99,11 @@ class ReporteContableController extends Controller
             (Object)[
                 'id' => 'compras_soat_rtm',
                 'name' => 'Compras SOAT RTM',
+                'range' => true
+            ],
+            (Object)[
+                'id' => 'comprobante_ventas',
+                'name' => 'Comprobantes ventas',
                 'range' => true
             ],
 

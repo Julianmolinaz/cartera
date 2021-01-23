@@ -46,6 +46,7 @@ class SimuladorController extends Controller
      */
     public function store(Request $request)
     {
+        
         if($request->ajax()){
             $monto = $request->input('monto');
             $meses = $request->input('meses');

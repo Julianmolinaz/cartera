@@ -36,7 +36,7 @@ class ComprasRtmSoat
             $this->factura = $factura;
             
             if ($this->factura->expedido_a) {
-                
+
                 $this->reporFactura = [];
                 $this->getConsecutivo();
 
@@ -53,7 +53,6 @@ class ComprasRtmSoat
 
         }
 
-        // dd($this->reportConsecutivo);
         return $this->reporte;
     }
 
@@ -198,9 +197,7 @@ class ComprasRtmSoat
         $this->costoSoat();
         $this->ivaSoat();
         $this->otrosSoat();
-        $this->totalSoat();
-
-        // dd($this->reporFactura);  
+        $this->totalSoat(); 
     }
     
     public function costoSoat()
@@ -253,11 +250,6 @@ class ComprasRtmSoat
         $this->reporFactura[] = (array)$struct;
     }
 
-    public function proveedor()
-    {
-
-    }
-
     public function getConsecutivo()
     {
         // hace la consulta y la guarda en una variable
@@ -282,18 +274,18 @@ class ComprasRtmSoat
             'fecha_elab' => str_replace('-', '/', $this->factura->fecha_exp),
             'sigla_moneda' => '',
             'tasa_cambio' => '',
-            'cod_cuenta' => '', // por asignar desde la funcion
+            'cod_cuenta' => '', 
             'iden_tercero' => $this->factura->num_doc,
             'sucursal' => '',
-            'cod_prod' => '', // por asignar desde la funcion
+            'cod_prod' => '', 
             'cod_bodega' => '',
-            'accion' => '', // por asignar desde la funcion
+            'accion' => '', 
             'cant_prod' => '',
             'prefijo' => '',
             'consec' => '',
             'no_cuota' => '',
             'fecha_venc' => '',
-            'cod_impuesto' => '', // valor (1) solo para la cuenta ivaRtm
+            'cod_impuesto' => '', 
             'cod_grupo_act_fijo' => '',
             'cod_act_fijo' => '',
             'descripcion' => $this->factura->num_fact,
