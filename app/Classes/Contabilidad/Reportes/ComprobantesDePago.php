@@ -432,7 +432,6 @@ class ComprobantesDePago
         ];
     }
 
-
     public function clientes2()
     {
         return [

@@ -141,6 +141,10 @@ function reporte_datacredito($f_corte, $data_asis = null)
 
             if( $credito->precredito->cliente->codeudor && $credito->precredito->cliente->codeudor->id != '100' )
             {
+
+                
+
+                
                 $registro_info_codeudor = array(
 
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->codeudor->tipo_docc, $credito),1,'right'),
