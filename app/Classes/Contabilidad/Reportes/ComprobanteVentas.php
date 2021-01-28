@@ -11,7 +11,8 @@ class ComprobanteVentas
 {
     protected $ini;                             
     protected $end;                                                                           
-    protected $factura;                         
+    protected $factura;  
+    protected $iva;                       
     protected $facturas;
     protected $primerSoat;
     protected $consecutivo;
@@ -23,6 +24,7 @@ class ComprobanteVentas
     {
         $this->ini = $ini;
         $this->end = $end;
+        $this->iva = 0.19;
 
         $this->reporte[] = $this->header();
     }
@@ -74,6 +76,7 @@ class ComprobanteVentas
         }
     }
 
+
     /*
     |--------------------------------------------------------------------------
     | RTM EXPEDIDA A GORA 
@@ -86,18 +89,21 @@ class ComprobanteVentas
     
     public function porGora()
     {
+        if ($this->validarIntegridad(true, true, true, false)) {
 
-        $struct = $this->struct();
-        $venta = $this->getVenta();
-        $rete_iva = 1.19;
-        $struct->novedad = $this->factura->iva > 0 ? '' : 'rtm sin iva';
-
-        $struct->cod_prod = '02';
-        $struct->cod_cargo = '28';
-        $struct->vlr_form_pago = $venta;
-        $struct->vlr_und = number_format($venta - ($venta / $rete_iva),2,',','');
+            $struct = $this->struct();
+            $venta = $this->getVenta();
+            $vlr_und = $venta / ($this->iva + 1);
+            $struct->novedad = $this->factura->iva > 0 ? '' : 'rtm sin iva';
     
-        $this->reporte[] = (array)$struct;
+            $struct->cod_prod = '02';
+            $struct->cod_cargo = '28';
+            $struct->vlr_form_pago = bcdiv($venta, '1', 0);
+            $struct->vlr_und = bcdiv($vlr_und, '1', 0);
+        
+            $this->reporte[] = (array)$struct;
+        }
+       
     }
 
     /*
@@ -112,15 +118,17 @@ class ComprobanteVentas
 
     public function porCliente()
     {
-        $struct = $this->struct();
-        $venta = number_format($this->getVenta(),2,',','');
+        if ($this->validarIntegridad(true, true, true, false)) {
+            $struct = $this->struct();
+            $venta = $this->getVenta();
 
-        $struct->cod_prod = '03';
-        $struct->vlr_form_pago = $venta;
-        $struct->vlr_und = $venta;
+            $struct->cod_prod = '03';
+            $struct->vlr_form_pago = bcdiv($venta, '1', 0);
+            $struct->vlr_und = bcdiv($venta, '1', 0);
 
 
-        $this->reporte[] = (array)$struct;
+            $this->reporte[] = (array)$struct;
+        }
     }
 
     /*
@@ -134,14 +142,42 @@ class ComprobanteVentas
 
     public function soat()
     {
-        $struct = $this->struct();
-        $venta = number_format($this->getVenta(),2,',','');
+        if ($this->validarIntegridad(true, true, false, false)) {
+            $struct = $this->struct();
+            $venta = $this->getVenta();
 
-        $struct->cod_prod = '01';
-        $struct->vlr_form_pago = $venta;
-        $struct->vlr_und = $venta;
+            $struct->cod_prod = '01';
+            $struct->vlr_form_pago = bcdiv($venta, '1', 0);
+            $struct->vlr_und = bcdiv($venta, '1', 0);
 
-        $this->reporte[] = (array)$struct;
+            // dd($this->factura);
+
+            $this->reporte[] = (array)$struct;
+        }
+    }
+
+    public function validarIntegridad($costo, $fecha_exp, $iva, $otros)
+    {
+        $validado = true;
+
+        if ($costo) {
+            if (!$this->factura->costo)
+            $validado = false;
+        }
+        if ($fecha_exp) {
+            if (!$this->factura->fecha_exp || $this->factura->fecha_exp == '0000-00-00')
+            $validado = false;
+        }
+        if ($iva) {
+            if (!$this->factura->iva)
+            $validado = false;
+        }
+        if ($otros) {
+            if (!$this->factura->otros)
+            $validado = false;
+        }
+
+        return $validado;
     }
 
     /*
@@ -178,11 +214,11 @@ class ComprobanteVentas
 
                 return $this->calcularVenta($this->precredito->cuota_inicial);
 
-
             } else {
 
                 return $this->calcularVenta(0);
             }
+            
         } else {
 
             return $this->calcularVenta(0);
@@ -191,6 +227,7 @@ class ComprobanteVentas
 
     public function calcularVenta($inicial)
     {
+
         $iva = ($this->factura->nombre == 'SOAT') ? 0 : $this->factura->iva;
 
         $factor = $this->getFactor($this->precredito->cuotas, $this->precredito->periodo);
@@ -199,7 +236,9 @@ class ComprobanteVentas
         $costo = $this->factura->costo + $this->factura->iva + $this->factura->otros;
         $vlr_fin = $costo - $inicial;
         $interes = ($vlr_fin * $factor ) - $vlr_fin;
-        $venta = $costo + $interes + $inicial;
+        $venta = $costo + $interes;
+
+        // echo "inicial: {$inicial}, costo: {$this->factura->costo}, iva: {$this->factura->iva}, otros: {$this->factura->otros}<br> COSTO: {$costo}, vlr_fin:  {$vlr_fin}, interes: {$interes}, venta: {$venta}<br>";
         
         return $venta;       
     }
@@ -256,9 +295,11 @@ class ComprobanteVentas
             ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
             ->whereBetween('ref_productos.fecha_exp',[$this->ini, $this->end])
             ->whereIn('precreditos.cartera_id', [6, 32])
+            ->where('precreditos.aprobado', 'Si')
             ->select('ref_productos.precredito_id as id')
             ->groupBy('precreditos.id')
-            ->get();   
+            ->orderBy('ref_productos.fecha_exp')
+            ->get();  
     }
 
     public function getConsecutivo()
