@@ -1,4 +1,3 @@
-@extends('templates.main2')
 
     @section('title','ver solicitud')
 
@@ -37,7 +36,7 @@
         @include('start.precreditos.go_pazysalvo')
 
 @endsection
-
+@include('templates.main2')
 
 <script>
 
