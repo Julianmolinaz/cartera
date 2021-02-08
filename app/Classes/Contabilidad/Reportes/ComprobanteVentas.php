@@ -3,6 +3,7 @@
 namespace App\Classes\Contabilidad\Reportes;
 use \App\Http\Controllers as Ctrl;
 
+use Carbon\Carbon;
 use Exception;
 use App as _;
 use DB;
@@ -43,7 +44,7 @@ class ComprobanteVentas
                 
                 $this->factura = $factura;
                 
-                if ($this->factura->expedido_a) {
+                if ($this->factura->expedido_a && $this->facturaEnRango()) {
 
                     $this->getConsecutivo();
 
@@ -74,6 +75,21 @@ class ComprobanteVentas
 
             $this->porCliente();
         }
+    }
+
+
+    public function facturaEnRango()
+    {
+
+        
+        $fecha_exp = new Carbon($this->factura->fecha_exp);
+
+        if ($fecha_exp->gte($this->ini) && $fecha_exp->lte($this->end)){
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 
@@ -210,9 +226,17 @@ class ComprobanteVentas
 
             if ($this->factura->nombre == 'SOAT') {
 
-                $this->primerSoat = true;
-
-                return $this->calcularVenta($this->precredito->cuota_inicial);
+                $soats = DB::table('ref_productos')
+                    ->where('precredito_id', $this->precredito->id)
+                    ->where('fecha_exp', '<>', '0000-00-00')
+                    ->where('nombre', 'SOAT')
+                    ->orderBy('fecha_exp')
+                    ->get();
+                   
+                if ($soats && $soats[0]->id == $this->factura->id) {
+                    $this->primerSoat = true;
+                    return $this->calcularVenta($this->precredito->cuota_inicial);
+                }
 
             } else {
 
@@ -224,6 +248,7 @@ class ComprobanteVentas
             return $this->calcularVenta(0);
         }
     }
+
 
     public function calcularVenta($inicial)
     {
@@ -346,7 +371,7 @@ class ComprobanteVentas
             'cod_rete_iva'=> '',
             'cod_form_pago'=> '2',
             'vlr_form_pago'=> '',
-            'fecha_venc' => '31/12/2020',
+            'fecha_venc' => '31/12/2021',
             'obs' => '',
             'solicitud' => $this->precredito->id,
             'novedad' => ''

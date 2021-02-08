@@ -13,3 +13,6 @@ Route::post('contabilidad/reportes', [
 
 Route::get('contabilidad/reportes/test', 
     'Contabilidad\ReporteContableController@go');
+
+Route::get('contabilidad/reportes/test',
+    'TestController@some');
