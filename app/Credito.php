@@ -31,7 +31,8 @@ class Credito extends Model implements Auditable
         'sanciones_ok',
         'sanciones_exoneradas',
         'mes', //*
-        'anio' //*
+        'anio', //*
+        'cancelado_data' //*
     ];      
 
     public function precredito(){
