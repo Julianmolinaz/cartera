@@ -7917,3 +7917,48 @@ Stack trace:
 [2021-02-02 15:17:39] local.ERROR: Symfony\Component\Debug\Exception\FatalErrorException: Method App\Codeudor::__toString() must not throw an exception, caught ErrorException: Undefined index: placa in /home/lenovo/Documentos/empresas/gora/scrips/cartera2/storage/framework/views/b592b680a1cdc200e520c3397de04ef933bb6654.php:0
 Stack trace:
 #0 {main}  
+[2021-02-08 19:02:22] local.ERROR: 3  
+[2021-02-08 19:02:22] local.ERROR: 3  
+[2021-02-08 19:02:22] local.INFO: Son iguales los dos productos  
+[2021-02-08 19:02:22] local.INFO: editVehiculoFromProductoTr  
+[2021-02-08 19:02:22] local.INFO: array (
+  'ref_producto_id' => 5499,
+  'producto_id' => 3,
+  'nombre' => 'SOAT',
+  'precredito_id' => 26131,
+  'proveedor_id' => 57,
+  'num_fact' => '15116000002360',
+  'fecha_exp' => '2020-12-17',
+  'costo' => 424700,
+  'estado' => 'En proceso',
+  'otros' => 10000,
+  'expedido_a' => 'Cliente',
+  'iva' => 0,
+  'observaciones' => '',
+  '_vehiculo_id' => 5689,
+  '_tipo_vehiculo_id' => 7,
+  '_placa' => 'BJE234',
+  '_vencimiento_soat' => '2020-12-01',
+  '_vencimiento_rtm' => '2020-12-01',
+)  
+[2021-02-08 19:02:22] local.INFO: editVehiculoFromProductoTr  
+[2021-02-08 19:02:22] local.INFO: array (
+  'ref_producto_id' => 5500,
+  'producto_id' => 3,
+  'nombre' => 'R.T.M',
+  'precredito_id' => 26131,
+  'proveedor_id' => 57,
+  'num_fact' => '2690',
+  'fecha_exp' => '2020-12-18',
+  'costo' => 182800,
+  'estado' => 'En proceso',
+  'otros' => 10000,
+  'expedido_a' => 'Cliente',
+  'iva' => 27600,
+  'observaciones' => '',
+  '_vehiculo_id' => 5690,
+  '_tipo_vehiculo_id' => 7,
+  '_placa' => 'BJE234',
+  '_vencimiento_soat' => '2020-12-01',
+  '_vencimiento_rtm' => '2020-12-01',
+)  
