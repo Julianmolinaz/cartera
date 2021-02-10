@@ -67,7 +67,7 @@
 
 <center>
   <div class="product_image">
-    <img style="width:400px;" src="{{asset('images/logo_inversiones_gora.png')}}" alt="...">
+    <img style="width:400px;" src="{{asset('images/logo_gora_2021.png')}}" alt="...">
   </div> 
 </center>
             

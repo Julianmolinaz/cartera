@@ -32,14 +32,15 @@ class ComprasRtmSoat
         $this->getFacturas();
 
         foreach ($this->facturas as $factura) {
-
+            
             $this->factura = $factura;
+            
             
             if ($this->factura->expedido_a) {
 
                 $this->reporFactura = [];
                 $this->getConsecutivo();
-
+                
                 if ($this->factura->nombre === 'R.T.M') {
                     $this->rtm();
                     
@@ -49,6 +50,7 @@ class ComprasRtmSoat
                 }
     
                 $this->reporte = array_merge($this->reporte, $this->reporFactura);
+                
             }
 
         }

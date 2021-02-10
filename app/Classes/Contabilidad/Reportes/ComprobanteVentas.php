@@ -34,7 +34,6 @@ class ComprobanteVentas
     {        
         $ids_precreditos = $this->getPrecreditos();
 
-
         foreach ($ids_precreditos as $id_precredito) {
 
             $this->precredito = _\Precredito::find($id_precredito->id);

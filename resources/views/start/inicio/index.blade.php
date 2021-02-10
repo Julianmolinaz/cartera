@@ -10,7 +10,7 @@
           <div class="col-middle">
             <div class="text-center text-center">
             <div class="product_image">
-              <img src="{{asset('images/logo_inversiones_gora.png')}}" alt="..." width="300" style="margin: 20px 0px;">
+              <img src="{{asset('images/logo_gora_2021.png')}}" alt="..." width="300" style="margin: 20px 0px;">
             </div>              
               <div class="mid_center">
 	          	<div id="mandamientos" style="color: #337ab7;font-size:1.5em;margin: 0px;font-family:special-elite"></div>

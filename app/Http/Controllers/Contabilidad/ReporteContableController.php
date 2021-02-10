@@ -83,8 +83,20 @@ class ReporteContableController extends Controller
                         $sheet->fromArray($data, null, 'A1', false, false);
                     });
                 })->download('xls');
-            }
+        } else if ($request->report == 'facturas_proveedor') {
 
+            $repor_facturas_proveedor = new Reportes\FacturasProveedor($ini, $end);
+
+            $data = $repor_facturas_proveedor->make();
+
+            Excel::create('facturas_proveedor'.$request->daterange,
+                function($excel) use($data){
+                    $excel->sheet('Sheetname',function($sheet) use($data){
+                        
+                        $sheet->fromArray($data, null, 'A1', false, false);
+                    });
+                })->download('xls');
+        }        
     }
 
 
@@ -104,6 +116,11 @@ class ReporteContableController extends Controller
             (Object)[
                 'id' => 'comprobante_ventas',
                 'name' => 'Comprobantes ventas',
+                'range' => true
+            ],
+            (Object)[
+                'id' => 'facturas_proveedor',
+                'name' => 'Facturas proveedor',
                 'range' => true
             ],
 
