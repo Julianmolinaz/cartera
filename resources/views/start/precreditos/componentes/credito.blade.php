@@ -172,7 +172,7 @@
 
                 <!-- OBSERVACIONES  -->
 
-                <div v-bind:class="['form-group','col-md-6',errors.first(rules.observaciones.name) ? 'has-error' :'']">
+                <!-- <div v-bind:class="['form-group','col-md-6',errors.first(rules.observaciones.name) ? 'has-error' :'']">
                         <label for="">Observaciones @{{ rules.observaciones.required }}</label>
                         <textarea 
                             class="form-control" 
@@ -181,11 +181,11 @@
                             :name="rules.observaciones.name">
                         </textarea>
                     <span class="help-block">@{{ errors.first(rules.observaciones.name) }}</span>
-                </div>
+                </div> -->
 
                 <!-- RECORDATORIO  -->
 
-                <div v-bind:class="['form-group','col-md-6',errors.first(rules.observaciones.name) ? 'has-error' :'']">
+                <div v-bind:class="['form-group','col-md-12',errors.first(rules.observaciones.name) ? 'has-error' :'']">
                         <label for="">Recordatorio @{{ rules.recordatorio.required }}</label>
                         <textarea 
                             class="form-control" 

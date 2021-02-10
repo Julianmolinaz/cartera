@@ -17,68 +17,88 @@ class FacturasProveedor
     protected $reporFactura;
     protected $precredito;
 
-    public function __construct($ini, $end)
-    {
-        $this->ini = $ini;
-        $this->end = $end;
+    // public function __construct($ini, $end)
+    // {
+    //     $this->ini = $ini;
+    //     $this->end = $end;
 
-        $this->reporte[] = $this->header();
-    }
+    //     $this->reporte[] = $this->header();
+    // }
 
-    public function make()
-    {    
-        $ids_precreditos = $this->getPrecreditos();   
-
-        foreach ($ids_precreditos as $id_precredito) {
+    // public function make()
+    // {    
+    //     $this->facturas = $this->getFacturas();  
             
-            $this->precredito = _\Precredito::find($id_precredito->id);
+    //     foreach ($this->facturas as $factura) {
             
-            foreach ($this->precredito->ref_productos as $factura) {
-                
-                $this->factura = $factura;
-                
-                if ($this->factura) {
+    //         $this->factura = $factura;
+            
+    //         $this->reporFactura[] = (array)$struct;
+    //         dd($struct);
+            
+    //     }  
+        
+    //     // dd($this->reporte);
+    //     return $this->reporte;
+    // }
 
-                    $this->reporFactura = [];
-                    
-                    $struct = $this->struct();
-                    $this->reporFactura[] = (array)$struct;
-                    dd($struct);
-                }
-            }  
-        }
-        // dd($this->reporte);
-        return $this->reporte;
-    }
-
-    public function getPrecreditos()
+    public static function getFacturas($ini, $end)
     {
         return DB::table('ref_productos')
             ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
-            ->whereBetween('ref_productos.fecha_exp',[$this->ini, $this->end])
+            ->join('productos','ref_productos.producto_id','=','productos.id')
+            ->join('vehiculos','ref_productos.vehiculo_id','=','vehiculos.id')
+            ->join('tipo_vehiculos','vehiculos.tipo_vehiculo_id','=','tipo_vehiculos.id')
+            ->leftjoin('creditos','precreditos.id','=','creditos.precredito_id')
+            ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->join('users','precreditos.user_create_id','=','users.id')
+            ->leftjoin('terceros','ref_productos.proveedor_id','=','terceros.id')
+            ->whereBetween('ref_productos.fecha_exp',[$ini, $end])
             ->whereIn('precreditos.cartera_id', [6, 32])
             ->where('precreditos.aprobado', 'Si')
-            ->select('ref_productos.precredito_id as id')
             ->groupBy('precreditos.id')
             ->orderBy('ref_productos.fecha_exp')
-            ->get(); 
+            ->select('ref_productos.id',
+                    'ref_productos.estado',
+                    'ref_productos.fecha_exp',
+                    'ref_productos.num_fact',
+                    'ref_productos.costo',
+                    'ref_productos.iva',
+                    'ref_productos.otros',
+                    'ref_productos.expedido_a',
+                    'ref_productos.observaciones',
+                    'creditos.id as credito',
+                    'precreditos.id as solicitud',
+                    'precreditos.vlr_fin',
+                    'precreditos.cuota_inicial',
+                    'precreditos.created_at',
+                    'terceros.razon_social',
+                    'terceros.num_doc as doc',
+                    'productos.nombre as producto',
+                    'vehiculos.placa',
+                    'tipo_vehiculos.nombre',
+                    'clientes.num_doc',
+                    'clientes.nombre',
+                    'users.id',
+                    'users.name')
+            ->get();  
     }       
 
     public function struct()
     {
         return (object)[
-            'solicitud'=>$this->precredito->id,	
+            'solicitud'=>$this->factura->precredito_id,	
             'credito'=>'',
-            'centro_costos'=>$this->precredito->vlr_fin,	
-            'valor_cuota'=>$this->precredito->vlr_cuota,	
-            'cuota_inicial'=>$this->precredito->cuota_inicial,	
-            'num_fact'=>$this->factura->num_fact,
+            'centro_costos'=>'',	
+            'valor_cuota'=>'',	
+            'cuota_inicial'=>'',	
+            'num_fact'=>'',
             'producto'=>'',	
-            'fecha_exp'=>$this->factura->fecha_exp,	
-            'costo'=>$this->factura->costo,	
-            'iva'=>$this->factura->iva,	
-            'otros'=>$this->factura->otros,	
-            'expedido_a'=>$this->factura->expedido_a,	
+            'fecha_exp'=>'',	
+            'costo'=>'',	
+            'iva'=>'',	
+            'otros'=>'',	
+            'expedido_a'=>'',	
             'proveedor'=>'',	
             'doc_proveedor'=>'',	
             'placa'=>'',	
@@ -86,7 +106,7 @@ class FacturasProveedor
             'doc_cliente'=>'',	
             'ejecutivo'=>'',	
             'observaciones'=>'',	
-            'fecha solicitud'=>$this->precredito->created_at,
+            'fecha solicitud'=>'',
         ];
     }
 

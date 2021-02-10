@@ -85,17 +85,23 @@ class ReporteContableController extends Controller
                 })->download('xls');
         } else if ($request->report == 'facturas_proveedor') {
 
-            $repor_facturas_proveedor = new Reportes\FacturasProveedor($ini, $end);
+            $repor_facturas_proveedor = Reportes\FacturasProveedor::getFacturas($ini, $end);
+          
+            return view('contabilidad/reportes/factura_proveedor')
+                ->with('facturas',$repor_facturas_proveedor)
+                ->with('rango',['ini'=>$ini,'end'=>$end]);
 
-            $data = $repor_facturas_proveedor->make();
+            // $repor_facturas_proveedor = new Reportes\FacturasProveedor($ini, $end);
 
-            Excel::create('facturas_proveedor'.$request->daterange,
-                function($excel) use($data){
-                    $excel->sheet('Sheetname',function($sheet) use($data){
+            // $data = $repor_facturas_proveedor->make();
+
+            // Excel::create('facturas_proveedor'.$request->daterange,
+            //     function($excel) use($data){
+            //         $excel->sheet('Sheetname',function($sheet) use($data){
                         
-                        $sheet->fromArray($data, null, 'A1', false, false);
-                    });
-                })->download('xls');
+            //             $sheet->fromArray($data, null, 'A1', false, false);
+            //         });
+            //     })->download('xls');
         }        
     }
 
