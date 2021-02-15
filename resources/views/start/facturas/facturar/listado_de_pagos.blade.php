@@ -1,4 +1,4 @@
-        <div class="panel panel-warning">
+<div class="panel panel-warning">
           <!-- Default panel contents -->
           <div class="panel-heading" style="background-color: #FFC300;color:black;">
             <h3 class="panel-title"><i class="fas fa-shopping-cart"></i> Pagos generados</h3>
@@ -22,9 +22,9 @@
                         :class="{ danger : pago.marcado  }">
                        <td class="td-small">@{{ pago.cant }}     </td>
                        <td class="td-small">@{{ pago.concepto }} </td>
-                       <td class="td-small">@{{ pago.ini  }}     </td>
-                       <td class="td-small">@{{ pago.fin }}      </td>
-                       <td class="td-small">@{{ pago.subtotal }} </td>
+                       <td class="td-small">@{{ pago.ini | ddmmyyyy }}     </td>
+                       <td class="td-small">@{{ pago.fin | ddmmyyyy }}      </td>
+                       <td class="td-small" align="right">@{{ pago.subtotal | formatPrice }} </td>
                     </tr>
                  </tbody>
               </table>

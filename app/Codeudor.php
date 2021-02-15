@@ -130,7 +130,7 @@ class Codeudor extends Model implements Auditable
     }
 
 
-    // C
+    // Mutators
 
     public function setPrimernombrecAttribute($value){
         $this->attributes['primer_nombrec'] = ucwords(strtolower($value));
@@ -168,7 +168,209 @@ class Codeudor extends Model implements Auditable
         $this->attributes['placac'] = strtoupper($value);
     }
 
-    // relaciones
+    // Accesors
+
+    public function getPrimerNombrecAttribute() {
+        if ($this->attributes['primer_nombrec']) return trim($this->attributes['primer_nombrec']);
+        else return trim($this->attributes['primer_nombre']);
+    }
+
+    public function getPrimerNombreAttribute() {
+        if ($this->attributes['primer_nombre']) return trim($this->attributes['primer_nombre']);
+        else return trim($this->attributes['primer_nombrec']);
+    }
+
+    public function getSegundoNombrecAttribute() {
+        if ($this->attributes['segundo_nombrec']) return trim($this->attributes['segundo_nombrec']);
+        else return trim($this->attributes['segundo_nombre']);
+    }
+
+    public function getSegundoNombreAttribute() {
+        if ($this->attributes['segundo_nombre']) return trim($this->attributes['segundo_nombre']);
+        else return trim($this->attributes['segundo_nombrec']);
+    }
+
+    public function getPrimerApellidocAttribute() {
+        if ($this->attributes['primer_apellidoc']) return trim($this->attributes['primer_apellidoc']);
+        else return trim($this->attributes['primer_apellido']);
+    }
+
+    public function getPrimerApellidoAttribute() {
+        if ($this->attributes['primer_apellido']) return trim($this->attributes['primer_apellido']);
+        else return trim($this->attributes['primer_apellidoc']);
+    }
+
+    public function getSegundoApellidocAttribute() {
+        if ($this->attributes['segundo_apellidoc']) return trim($this->attributes['segundo_apellidoc']);
+        else return trim($this->attributes['segundo_apellido']);
+    }
+
+    public function getSegundoApellidoAttribute() {
+        if ($this->attributes['segundo_apellido']) return trim($this->attributes['segundo_apellido']);
+        else return trim($this->attributes['segundo_apellidoc']);
+    }
+    
+    public function getTipoDoccAttribute() {
+        if ($this->attributes['tipo_docc']) return trim($this->attributes['tipo_docc']);
+        else return trim($this->attributes['tipo_doc']);
+    }
+
+    public function getTipoDocAttribute() {
+        if ($this->attributes['tipo_doc']) return trim($this->attributes['tipo_doc']);
+        else return trim($this->attributes['tipo_docc']);
+    }
+
+    public function getNumDoccAttribute() {
+        if ($this->attributes['num_docc']) return trim($this->attributes['num_docc']);
+        else return trim($this->attributes['num_doc']);
+    }
+
+    public function getNumDocAttribute() {
+        if ($this->attributes['num_doc']) return trim($this->attributes['num_doc']);
+        else return trim($this->attributes['num_docc']);
+    }
+
+    public function getFechaNacimientocAttribute() {
+        if ($this->attributes['fecha_nacimientoc']) return trim($this->attributes['fecha_nacimientoc']);
+        else return trim($this->attributes['fecha_nacimiento']);
+    }
+
+    public function getFechaNacimientoAttribute() {
+        if ($this->attributes['fecha_nacimiento']) return trim($this->attributes['fecha_nacimiento']);
+        else return trim($this->attributes['fecha_nacimientoc']);
+    }
+
+    public function getDireccioncAttribute() {
+        if ($this->attributes['direccionc']) return trim($this->attributes['direccionc']);
+        else return trim($this->attributes['direccion']);
+    }
+
+    public function getDireccionAttribute() {
+        if ($this->attributes['direccion']) return trim($this->attributes['direccion']);
+        else return trim($this->attributes['direccionc']);
+    }
+
+    public function getBarriocAttribute() {
+        if ($this->attributes['barrioc']) return trim($this->attributes['barrioc']);
+        else return trim($this->attributes['barrio']);
+    }
+
+    public function getBarrioAttribute() {
+        if ($this->attributes['barrio']) return trim($this->attributes['barrio']);
+        else return trim($this->attributes['barrioc']);
+    }
+
+    public function getMunicipioIdAttribute() {
+        if ($this->attributes['municipio_id']) return trim($this->attributes['municipio_id']);
+        else return trim($this->attributes['municipioc_id']);
+    }
+
+    public function getMunicipiocIdAttribute() {
+        if ($this->attributes['municipioc_id']) return trim($this->attributes['municipioc_id']);
+        else return trim($this->attributes['municipio_id']);
+    }
+
+    public function getMovilcAttribute() {
+        if ($this->attributes['movilc']) return trim($this->attributes['movilc']);
+        else return trim($this->attributes['movil']);
+    }
+
+    public function getMovilAttribute() {
+        if ($this->attributes['movil']) return trim($this->attributes['movil']);
+        else return trim($this->attributes['movilc']);
+    }
+
+    public function getFijocAttribute() {
+        if ($this->attributes['fijoc']) return trim($this->attributes['fijoc']);
+        else return trim($this->attributes['fijo']);
+    }
+
+    public function getFijoAttribute() {
+        if ($this->attributes['fijo']) return trim($this->attributes['fijo']);
+        else return trim($this->attributes['fijoc']);
+    }
+
+    public function getOcupacioncAttribute() {
+        if ($this->attributes['ocupacionc']) return trim($this->attributes['ocupacionc']);
+        else return trim($this->attributes['ocupacion']);
+    }
+
+    public function getOcupacionAttribute() {
+        if ($this->attributes['ocupacion']) return trim($this->attributes['ocupacion']);
+        else return trim($this->attributes['ocupacionc']);
+    }
+
+    public function getTipoActividadcAttribute() {
+        if ($this->attributes['tipo_actividadc']) return trim($this->attributes['tipo_actividadc']);
+        else return trim($this->attributes['tipo_actividad']);
+    }
+
+    public function getTipoActividadAttribute() {
+        if ($this->attributes['tipo_actividad']) return trim($this->attributes['tipo_actividad']);
+        else return trim($this->attributes['tipo_actividadc']);
+    }
+
+    public function getEmpresacAttribute() {
+        if ($this->attributes['empresac']) return trim($this->attributes['empresac']);
+        else return trim($this->attributes['empresa']);
+    }
+
+    public function getEmpresaAttribute() {
+        if ($this->attributes['empresa']) return trim($this->attributes['empresa']);
+        else return trim($this->attributes['empresac']);
+    }
+
+    public function getPlacacAttribute() {
+        if ($this->attributes['placac']) return trim($this->attributes['placac']);
+        else return trim($this->attributes['placa']);
+    }
+    
+    public function getPlacaAttribute() {
+        if ($this->attributes['placa']) return trim($this->attributes['placa']);
+        else return trim($this->attributes['placac']);
+    }
+
+    public function getEmailcAttribute() {
+        if ($this->attributes['emailc']) return trim($this->attributes['emailc']);
+        else return trim($this->attributes['email']);
+    }
+
+    public function getEmailAttribute() {
+        if ($this->attributes['email']) return trim($this->attributes['email']);
+        else return trim($this->attributes['emailc']);
+    }
+
+    public function getConyugueIdcAttribute() {
+        if ($this->attributes['conyugue_idc']) return trim($this->attributes['conyugue_idc']);
+        else return trim($this->attributes['conyugue_id']);
+    }
+
+    public function getConyugueIdAttribute() {
+        if ($this->attributes['conyugue_id']) return trim($this->attributes['conyugue_id']);
+        else return trim($this->attributes['conyugue_idc']);
+    }
+
+    public function getTelEmpresacAttribute() {
+        if ($this->attributes['tel_empresac']) return trim($this->attributes['tel_empresac']);
+        else return trim($this->attributes['tel_empresa']);
+    }
+
+    public function getTelEmpresaAttribute() {
+        if ($this->attributes['tel_empresa']) return trim($this->attributes['tel_empresa']);
+        else return trim($this->attributes['tel_empresac']);
+    }
+
+    public function getDirEmpresacAttribute() {
+        if ($this->attributes['dir_empresac']) return trim($this->attributes['dir_empresac']);
+        else return trim($this->attributes['dir_empresa']);
+    }
+
+    public function getDirEmpresaAttribute() {
+        if ($this->attributes['dir_empresa']) return trim($this->attributes['dir_empresa']);
+        else return trim($this->attributes['dir_empresac']);
+    }
+
+    // Relations
 
     public function cliente(){
     	return $this->belongsTo('App\Cliente');
@@ -179,7 +381,10 @@ class Codeudor extends Model implements Auditable
     }
 
     public function municipio(){
-    	return $this->hasOne('App\Municipio','id','municipioc_id');
+        if ($this->attributes['municipioc_id']) $municipio_key = 'municipioc_id';
+        else $municipio_key = 'municipio_id';
+
+        return $this->hasOne('App\Municipio','id',$municipio_key);
     }
 
     public function estudio(){

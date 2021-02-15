@@ -1,4 +1,4 @@
-@extends('templates.main2')
+
 
 @section('title','ver solicitud')
 
@@ -219,6 +219,8 @@
 
 @include('start.pagos.print_js')
 @endsection
+
+@include('templates.main2')
 
 
 

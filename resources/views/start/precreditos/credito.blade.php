@@ -47,6 +47,7 @@
 				@endif  
 
 				<!-- Botones que todos pueden visualizar  -->
+				
                 <a  href="javascript:void(0);" 
                     class='btn btn-default btn-xs' 
                     data-toggle="tooltip" 

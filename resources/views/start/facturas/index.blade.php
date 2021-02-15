@@ -23,9 +23,9 @@
           <thead>
             <tr>
             <th style="display:none;">    Actualizacion  </th>         
-              <th>    Factura id      </th>
+              <th>    Recibo id      </th>
               <th>    Crédito id      </th>
-              <th>    Factura número  </th>
+              <th>    Recibo número  </th>
               <th>    Cartera         </th>
               <th>    Fecha           </th>
               <th>    Total           </th>
@@ -75,8 +75,13 @@
                 <span class = "glyphicon glyphicon-fire" ></span>
               </a>  
               @endpermission
-              <a href="#" class = 'btn btn-default btn-xs' onclick="print('{{$factura->id}}')" title="Imprimir factura">
-                <span class = "glyphicon glyphicon-print" ></span>
+              <a 
+                href="#" 
+                class='btn btn-default btn-xs' 
+                onclick="print('{{$factura->id}}', 'credito')" 
+                title="Imprimir factura"
+                >
+                    <span class = "glyphicon glyphicon-print" ></span>
               </a>  
             </td>
           </tr>		

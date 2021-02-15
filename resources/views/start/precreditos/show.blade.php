@@ -36,7 +36,9 @@
         @include('start.precreditos.go_pazysalvo')
 
 @endsection
+
 @include('templates.main2')
+
 
 <script>
 

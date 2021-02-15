@@ -78,12 +78,12 @@ use DB;
             if($credito->estado == 'Cancelado' || $credito->saldo <= 0){
                 $fecha_actual = Carbon::now();
                 //se registran los creditos finalizados
-                DB::table('cancelados')
-                    ->insert([
-                        'credito_id' => $credito->id,
-                        'reporte'    => 'datacredito',
-                        'created_at' => $fecha_actual->toDateTimeString()
-                    ]);
+                // DB::table('cancelados')
+                //     ->insert([
+                //         'credito_id' => $credito->id,
+                //         'reporte'    => 'datacredito',
+                //         'created_at' => $fecha_actual->toDateTimeString()
+                //     ]);
 
             }
 
