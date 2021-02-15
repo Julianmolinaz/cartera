@@ -69,7 +69,6 @@ class CodeudorController extends Controller
     public function store(Request $request)
     {
 
-        // \Log::info($request->all());
         $rq      = [];
         $codeudor = (object) $request->cliente;
 
@@ -91,7 +90,6 @@ class CodeudorController extends Controller
             $codeudor->created_at = Auth::user()->id;     
             $codeudor->save();
 
-            dd($codeudor);
 
             \DB::table('clientes')->where('id',$request->cliente_id)->update([ 'codeudor_id' => $codeudor->id ]);
 
@@ -105,7 +103,8 @@ class CodeudorController extends Controller
             return res(true,$data,'Codeudor creado exitosamente !!!');
         }
         catch(\Exception $e){
-            DB::rollback();
+            \Log::info($e);
+	    DB::rollback();
             return  res(false, '', $e->getMessage());
         }
     }
