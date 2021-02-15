@@ -119,7 +119,7 @@ class Codeudor extends Model implements Auditable
     }
 
     public function setNombreAttribute($value){
-
+        
         $_1 = ucwords(strtolower( trim($this->primer_nombre)) );
         $_2 = $this->segundo_nombre ? ' '.ucwords(strtolower( trim($this->segundo_nombre) )) : '';
         $_3 = ' '.ucwords(strtolower( trim($this->primer_apellido) ));
@@ -186,18 +186,19 @@ class Codeudor extends Model implements Auditable
     }
 
     public function getSegundoNombreAttribute() {
-        if ($this->attributes['segundo_nombre']) return trim($this->attributes['segundo_nombre']);
-        else return trim($this->attributes['segundo_nombrec']);
+
+        if (isset($this->attributes['segundo_nombre'])) return trim($this->attributes['segundo_nombre']);
+        else if (isset($this->attributes['segundo_nombrec'])) return trim($this->attributes['segundo_nombrec']);
     }
 
     public function getPrimerApellidocAttribute() {
-        if ($this->attributes['primer_apellidoc']) return trim($this->attributes['primer_apellidoc']);
-        else return trim($this->attributes['primer_apellido']);
+        if (isset($this->attributes['primer_apellidoc'])) return trim($this->attributes['primer_apellidoc']);
+        else if (isset($this->attributes['primer_apellido'])) return trim($this->attributes['primer_apellido']);
     }
 
     public function getPrimerApellidoAttribute() {
-        if ($this->attributes['primer_apellido']) return trim($this->attributes['primer_apellido']);
-        else return trim($this->attributes['primer_apellidoc']);
+        if (isset($this->attributes['primer_apellido'])) return trim($this->attributes['primer_apellido']);
+        else if (isset($this->attributes['primer_apellidoc'])) return trim($this->attributes['primer_apellidoc']);
     }
 
     public function getSegundoApellidocAttribute() {
@@ -206,8 +207,8 @@ class Codeudor extends Model implements Auditable
     }
 
     public function getSegundoApellidoAttribute() {
-        if ($this->attributes['segundo_apellido']) return trim($this->attributes['segundo_apellido']);
-        else return trim($this->attributes['segundo_apellidoc']);
+        if (isset($this->attributes['primer_apellido'])) return trim($this->attributes['primer_apellido']);
+        else if (isset($this->attributes['primer_apellidoc'])) return trim($this->attributes['primer_apellidoc']);
     }
     
     public function getTipoDoccAttribute() {
@@ -321,13 +322,13 @@ class Codeudor extends Model implements Auditable
     }
 
     public function getPlacacAttribute() {
-        if ($this->attributes['placac']) return trim($this->attributes['placac']);
-        else return trim($this->attributes['placa']);
+        if (isset($this->attributes['placac'])) return trim($this->attributes['placac']);
+        else if($this->attributes['placa']) return trim($this->attributes['placa']);
     }
     
     public function getPlacaAttribute() {
-        if ($this->attributes['placa']) return trim($this->attributes['placa']);
-        else return trim($this->attributes['placac']);
+        if (isset($this->attributes['placa'])) return trim($this->attributes['placa']);
+        else if($this->attributes['placac']) return trim($this->attributes['placac']);
     }
 
     public function getEmailcAttribute() {

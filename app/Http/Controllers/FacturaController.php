@@ -216,6 +216,7 @@ class FacturaController extends Controller
 
     public function store(Request $request)
     {
+        \Log::info($request->all());
         try {
 
             $pago_credito = new _\Classes\PagosCredito (
