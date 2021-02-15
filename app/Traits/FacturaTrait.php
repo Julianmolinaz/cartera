@@ -5,7 +5,7 @@ namespace App\Traits;
 use DB;
 use Auth;
 use App\Factura;
-use App\Empresa;
+use App\Variable;
 use Carbon\Carbon;
 
 trait FacturaTrait
@@ -20,6 +20,7 @@ trait FacturaTrait
     | recibe $factura_id = el id de la factura
     | retorna un html con toda la info
     |
+    |
     */	
 
 
@@ -29,21 +30,7 @@ trait FacturaTrait
 		$now     = Carbon::now();
 		$saldo   = $factura->credito->saldo;
 		$prox    = ''; //html con el saldo
-		$empresa = Empresa::find(1);
-
-		// Evalua que empresa se utiliza para la factura de pago
-
-        $credito = DB::table('creditos')
-            ->join('precreditos', 'creditos.precredito_id', '=', 'precreditos.id')
-			->where('creditos.id', $factura->credito_id)
-            ->where('creditos.created_at', '>', '2020-12-31')
-            ->whereNotIn('precreditos.id', ['24205','24206','24207','24208','24209'])
-            ->select('creditos.*')
-			->first();
-		
-		if ($credito) {
-			$empresa = Empresa::find(2);
-		}
+		$variable = Variable::all()[0];
 
 		//evalua si el saldo es mayor de 0 (no cancelado, aun vigente)
 
@@ -109,8 +96,8 @@ trait FacturaTrait
 				<div class="cuerpo">
 					<div class="center" id="encabezado">
 						<img src="{{ asset(\'images/gora_logo_mini.png\') }}">
-						<h3 style="margin-top: -5px;">'. $empresa->razon_social .'</h3>
-						<p>Nit: '. $empresa->num_doc .'</p>
+						<h3 style="margin-top: -5px;">'. $variable->razon_social .'</h3>
+						<p>Nit: '. $variable->nit .'</p>
 						<p>Sucursal: '.$factura->user_create->punto->nombre.'
 						<p>Dir: '.$factura->user_create->punto->direccion.'</p>
 						<p>Tel: '. $factura->user_create->punto->telefono .'</p>
@@ -141,7 +128,7 @@ trait FacturaTrait
 					</div>		
 					<div>
 						<br>
-						<p class="center">'. $empresa->web .'</p>
+						<p class="center">www.financiamossoat.com</p>
 					</div>
 				</div>
 			</body>
