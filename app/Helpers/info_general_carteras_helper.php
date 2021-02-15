@@ -45,10 +45,10 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
       ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
       ->where('carteras.id','=',$cartera_id)
       ->where(function($query){
-          $query->where('pagos.concepto','=','Cuota');
-          $query->orWhere('pagos.concepto','=','Cuota Parcial');
+            $query->where('pagos.concepto','=','Cuota');
+            $query->orWhere('pagos.concepto','=','Cuota Parcial');
       })
-      ->whereBetween('facturas.created_at',[$ini,$fin])
+      ->whereBetween('facturas.created_at',[$ini, $fin])
       ->select(DB::raw('
                       clientes.nombre  as cliente,
                       clientes.num_doc as documento,
@@ -64,7 +64,6 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                       '))
       ->groupBy('facturas.id')
       ->get();
-
 
         $sanciones = 
          DB::table('pagos')
@@ -241,6 +240,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                             fact_precreditos.total        as cta_inicial,
                             fact_precreditos.created_at   as created_at
                             '))->get();  
+
 
           $otros_pagos = 
           DB::table('otros_pagos')
