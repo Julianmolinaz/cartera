@@ -45,19 +45,26 @@ class PagosCredito
         $user_create_id
     )
     {
-        $this->funcionario     = _\User::find($user_create_id);
-        $this->num_recibo      = $num_fact;
-        $this->fecha           = $fecha;
-        $this->monto           = $monto;
-        $this->tipo_pago       = $tipo_pago;
-        $this->auto            = $auto;
-        $this->pagos           = $pagos;
-        $this->banco           = $banco;
-        $this->credito         = _\Credito::find($credito_id);
-        $this->num_consignacion = $num_consignacion;
-        $this->movio_fecha     = 0;
-        $this->pago_hasta      = $this->credito->fecha_pago->fecha_pago;
-        $this->repo = new PagoRepository();
+        try {
+
+            $this->funcionario     = _\User::find($user_create_id);
+            $this->num_recibo      = $num_fact;
+            $this->fecha           = $fecha;
+            $this->monto           = $monto;
+            $this->tipo_pago       = $tipo_pago;
+            $this->auto            = $auto;
+            $this->pagos           = $pagos;
+            $this->banco           = $banco;
+            $this->credito         = _\Credito::find($credito_id);
+            $this->num_consignacion = $num_consignacion;
+            $this->movio_fecha     = 0;
+            $this->pago_hasta      = $this->credito->fecha_pago->fecha_pago;
+            $this->repo = new PagoRepository();
+
+        } catch (\Exception $e) {
+            throw new \Exception('__construct PagosCedito .. '. $e->getMessage(), 1);
+            
+        }
     }
 
     /*

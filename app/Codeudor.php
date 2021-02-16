@@ -323,12 +323,12 @@ class Codeudor extends Model implements Auditable
 
     public function getPlacacAttribute() {
         if (isset($this->attributes['placac'])) return trim($this->attributes['placac']);
-        else if($this->attributes['placa']) return trim($this->attributes['placa']);
+        else if(isset($this->attributes['placa'])) return trim($this->attributes['placa']);
     }
     
     public function getPlacaAttribute() {
         if (isset($this->attributes['placa'])) return trim($this->attributes['placa']);
-        else if($this->attributes['placac']) return trim($this->attributes['placac']);
+        else if(isset($this->attributes['placac'])) return trim($this->attributes['placac']);
     }
 
     public function getEmailcAttribute() {
