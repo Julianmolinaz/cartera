@@ -84,7 +84,7 @@ var main = new Vue({
             const res = axios.get( "{{url('start/facturas')}}/" + this.general.num_fact + "/consultar_factura" )
 
             if(!res.data){
-                this.send( self.general );
+                this.send( this.general );
             } else {
                 alertify.alert('Atención', 'Ya existe otra recibo con el mismo número');
             }

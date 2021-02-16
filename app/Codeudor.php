@@ -119,7 +119,7 @@ class Codeudor extends Model implements Auditable
     }
 
     public function setNombreAttribute($value){
-
+        
         $_1 = ucwords(strtolower( trim($this->primer_nombre)) );
         $_2 = $this->segundo_nombre ? ' '.ucwords(strtolower( trim($this->segundo_nombre) )) : '';
         $_3 = ' '.ucwords(strtolower( trim($this->primer_apellido) ));
@@ -188,6 +188,7 @@ class Codeudor extends Model implements Auditable
     public function getSegundoNombreAttribute() {
         if (isset($this->attributes['segundo_nombre'])) return trim($this->attributes['segundo_nombre']);
         else if(isset($this->attributes['segundo_nombrec'])) return trim($this->attributes['segundo_nombrec']);
+
     }
 
     public function getPrimerApellidocAttribute() {

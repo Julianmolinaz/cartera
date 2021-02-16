@@ -66,7 +66,11 @@
 
             <tr>
                 <th scope="row">Dirección</th>
-                <td> {{ $cliente->codeudor->direccionc .' - '. $cliente->codeudor->barrioc .' - '. $cliente->codeudor->municipio->nombre }}</td>
+                <td>
+                    <span>{{ $cliente->codeudor->direccionc .' - '. $cliente->codeudor->barrioc}}</span>
+                        <br>
+                    <span>{{$cliente->municipio->nombre .' - '.$cliente->municipio->departamento}}</span>
+                </td>
             </tr>
             
 
