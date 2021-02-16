@@ -9,7 +9,7 @@
           <div class="col-middle">
             <div class="text-center text-center">
             <div class="product_image">
-              <img src="{{asset('images/gora_logo.png')}}" alt="...">
+              <img src="{{asset('images/logo_gora_2021.png')}}" alt="..." width="400" style="margin: 30px">
             </div>              
               <div class="mid_center">
 
