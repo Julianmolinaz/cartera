@@ -1348,6 +1348,18 @@ class PermissionsTableSeeder extends Seeder
                 'created_by' => 2,
                 'updated_by' => NULL,
                 'category' => 'Creditos',
+            ],
+            [
+                'id' => 322,
+                'name' => 'reporte_contable',
+                'display_name' => 'Genera reportes contables',
+                'description' => 'Permite generar reportes contables',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+                'status' => 'Activo',
+                'created_by' => 2,
+                'updated_by' => NULL,
+                'category' => 'Contabilidad',
             ]
         ]);
     }

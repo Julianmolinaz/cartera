@@ -91,18 +91,20 @@ class ReporteContableController extends Controller
                 ->with('facturas',$repor_facturas_proveedor)
                 ->with('rango',['ini'=>$ini,'end'=>$end]);
 
-            // $repor_facturas_proveedor = new Reportes\FacturasProveedor($ini, $end);
+        } else if ($request->report == 'terceros') {
 
-            // $data = $repor_facturas_proveedor->make();
+            $repor_ventas = new Reportes\Terceros($ini, $end);
 
-            // Excel::create('facturas_proveedor'.$request->daterange,
-            //     function($excel) use($data){
-            //         $excel->sheet('Sheetname',function($sheet) use($data){
+            $data = $repor_ventas->make();
+
+            Excel::create('terceros'.$request->daterange,
+                function($excel) use($data){
+                    $excel->sheet('Sheetname',function($sheet) use($data){
                         
-            //             $sheet->fromArray($data, null, 'A1', false, false);
-            //         });
-            //     })->download('xls');
-        }        
+                        $sheet->fromArray($data, null, 'A1', false, false);
+                    });
+                })->download('xls');
+        }    
     }
 
 
@@ -127,6 +129,11 @@ class ReporteContableController extends Controller
             (Object)[
                 'id' => 'facturas_proveedor',
                 'name' => 'Facturas proveedor',
+                'range' => true
+            ],
+            (Object)[
+                'id' => 'terceros',
+                'name' => 'Terceros',
                 'range' => true
             ],
 

@@ -1,12 +1,12 @@
 <?php
 
 Route::get('contabilidad/reportes',[
-    // 'middleware' => ['permission:generar_reporte'],
     'uses' => 'Contabilidad\ReporteContableController@index', 
     'as' => 'contabilidad.reportes.index'
 ]);
 
 Route::post('contabilidad/reportes', [
+    'middleware' => ['permission:generar_reporte'],
     'uses' => 'Contabilidad\ReporteContableController@store',
     'as' => 'contabilidad.reportes.store'
 ]);

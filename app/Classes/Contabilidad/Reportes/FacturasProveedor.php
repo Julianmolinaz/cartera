@@ -17,31 +17,6 @@ class FacturasProveedor
     protected $reporFactura;
     protected $precredito;
 
-    // public function __construct($ini, $end)
-    // {
-    //     $this->ini = $ini;
-    //     $this->end = $end;
-
-    //     $this->reporte[] = $this->header();
-    // }
-
-    // public function make()
-    // {    
-    //     $this->facturas = $this->getFacturas();  
-            
-    //     foreach ($this->facturas as $factura) {
-            
-    //         $this->factura = $factura;
-            
-    //         $this->reporFactura[] = (array)$struct;
-    //         dd($struct);
-            
-    //     }  
-        
-    //     // dd($this->reporte);
-    //     return $this->reporte;
-    // }
-
     public static function getFacturas($ini, $end)
     {
         return DB::table('ref_productos')

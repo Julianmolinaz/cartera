@@ -13,3 +13,9 @@ falta:
 * tener en cuenta el consecutivo en el que va el reporte, consecutivo->incrementable para generar el reporte
 
 21-01-2021
+
+17-02-2021
+
+crear permissions
+
+        INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`, `status`, `created_by`, `updated_by`, `category`) VALUES ('322', 'reporte_contable', 'Genera reportes contables', 'Permite generar reportes contables', '2019-07-22 17:01:47', NULL, 'Activo', '2', NULL, 'Contabilidad');

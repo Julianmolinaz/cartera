@@ -97,6 +97,9 @@ class ComprasRtmSoat
         $struct = $this->struct();
 
         $struct->cod_cuenta = '62050102';
+        $struct->cod_prod = '02';
+        $struct->accion = '+';
+        $struct->cant_prod = '1,00';
         $struct->debito = $this->factura->costo ? $this->factura->costo : '0';
 
         $this->reporFactura[] = (array)$struct;
@@ -107,6 +110,9 @@ class ComprasRtmSoat
         $struct = $this->struct();
 
         $struct->cod_cuenta = '24081001';
+        $struct->cod_prod = '02';
+        $struct->accion = '+';
+        $struct->cant_prod = '1,00';
         $struct->cod_impuesto = '1';
         $struct->debito = $this->factura->iva ? $this->factura->iva : '0';
 
@@ -118,6 +124,9 @@ class ComprasRtmSoat
         $struct = $this->struct();
 
         $struct->cod_cuenta = '62050102';
+        $struct->cod_prod = '02';
+        $struct->accion = '+';
+        $struct->cant_prod = '1,00';
         $struct->debito = $this->factura->otros ? $this->factura->otros : '0';
 
         $this->reporFactura[] = (array)$struct;
