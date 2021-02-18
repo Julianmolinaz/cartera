@@ -20,6 +20,7 @@ trait FacturaTrait
     | recibe $factura_id = el id de la factura
     | retorna un html con toda la info
     |
+    |
     */	
 
 

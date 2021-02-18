@@ -22,21 +22,24 @@ use DB;
 
 class PagoMasivoController extends Controller
 {
-    public $report;
-    public $data;
-    public $arr_error = [];
-    public $bancos;
-    public $index = 0;
-    public $filename = '';
-    public $load = '';
-    public $factura;
-    public $now;
-    const LIMIT_SANCIONES = 10;
+    public $report;         // array contenedor de los registros
+    public $data;           
+    public $arr_error = []; // array contenedor de errores
+    public $bancos;         // listado de bancos
+    public $index = 0;      // iniciación del indice para recorrer los registros importados
+    public $filename = '';  // nombre del archivo inportado
+    public $load = '';      
+    public $factura;        
+    public $now;            // fecha actual
+    protected $vlr_dia_sancion; 
+    const LIMIT_SANCIONES = 10; // Máximo número de sanciones que el sistema puede eliminar
 
     public function __construct()
     {
         $this->bancos = DB::table('bancos')->get();
         $this->now = Carbon::now();
+        $this->vlr_dia_sancion = _\Variable::find(1)->vlr_dia_sancion;
+
     }
 
     public function index() 
@@ -153,7 +156,7 @@ class PagoMasivoController extends Controller
      * Execute validations and payments
      */
 
-    public function processData ()
+    public function processData()
     {
         DB::beginTransaction();
 
@@ -521,7 +524,7 @@ class PagoMasivoController extends Controller
         
                     $this->arr_error[] = [
                         'line' => $this->index + 2,
-                        'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitud->id)"
+                        'message' => "No se pudo registrar el pago, no se encuentran coincidencias o no tiene un credito activo (soicitud $solicitud->id)"
                     ];
                 }
 	        }
@@ -572,13 +575,13 @@ class PagoMasivoController extends Controller
                 
                     $this->arr_error[] = [
                         'line' => $this->index + 2,
-                        'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitud->id)"
+                        'message' => "No se pudo registrar el pago, no se encuentran coincidencias o no tiene un credito activo (soicitud $solicitud->id)"
                     ];	
                 }
             } else {
                 $this->arr_error[] = [
                     'line' => $this->index + 2,
-                    'message' => "No se pudo registrar el pago, no se encuentran coincidencias en los valores (soicitud $solicitud->id)"
+                    'message' => "No se pudo registrar el pago, no se encuentran coincidencias o no tiene un credito activo (soicitud $solicitud->id)"
                 ];
             }
         }
@@ -591,68 +594,21 @@ class PagoMasivoController extends Controller
 
     public function pagoCredito()
     {
-        $now = Carbon::now();
-
         $fecha = $this->data[$this->index]['fecha'];
         $format = new FormatDate($fecha); // formated date to yyyy-mm-dd
         $fecha = $format->carbon(); // payment day
 
         $credito = _\Credito::find($this->data[$this->index]['credito_id']); 
-        $dia_sancion = _\Variable::find(1)->vlr_dia_sancion; // cost sancion day
-
         
-        /*
-         ** discount sanciones
-         */
-
-        if ( $fecha && $fecha->lt($now)) {
-
-            $diff = DB::table('sanciones')
-                ->where('created_at', '>', $fecha)
-                ->where('credito_id', $credito->id)
-                ->where('estado', 'Debe')
-                ->select('id')
-                ->get();
-
-            DB::table('sanciones')
-                ->whereIn('id', collect($diff)->pluck('id'))
-                ->update(['estado' => 'Exonerada']);
-            
-            $credito->sanciones_exoneradas += count($diff);
-            $credito->sanciones_debe -= count($diff);
-            $credito->saldo = $credito->saldo - (count($diff) * $dia_sancion); 
-            $credito->save();
-        } 
+        $this->descontarSanciones($fecha, $credito);
 
         /**
          * Generate payment
          */
 
-        $repo    = new PagoRepository();
-        $factura = new FacturaController($repo);
-        $factura->create($this->data[$this->index]['credito_id'], 'interno');
-
-        $request_prepago = new \Illuminate\Http\Request();
-
-        $request_prepago->replace([
-            'fecha' => $this->data[$this->index]['fecha'],
-            'monto' => $this->data[$this->index]['monto'],
-            'credito_id' => $this->data[$this->index]['credito_id'],
-            'interno' => true
-        ]);
-
-        $prepago = $factura->abonos($request_prepago);
-
-        if ($prepago['data']) {
-            for ($i = 0; $i < count($prepago['data']); $i++) {
-                if ($prepago['data'][$i]['ini']) {
-                    $prepago['data'][$i]['ini'] = inv_fech2($prepago['data'][$i]['ini']);
-                }
-                if ($prepago['data'][$i]['fin']) {
-                    $prepago['data'][$i]['fin'] = inv_fech2($prepago['data'][$i]['fin']);
-                }
-            } 
-        }
+        $abono = new \App\Classes\Abono($credito->id, intval($this->data[$this->index]['monto']));
+        
+        $prepago = $abono->make();
 
         $general = [
             'interno'           => true,
@@ -663,12 +619,26 @@ class PagoMasivoController extends Controller
             'credito_id'        => $this->data[$this->index]['credito_id'],
             'monto'             => $this->data[$this->index]['monto'],
             'num_consignacion'  => $this->data[$this->index]['referencia'],
-            'pagos'             => $prepago['data']
+            'pagos'             => $prepago
         ];
 
-        $request_pago = new \Illuminate\Http\Request();
-        $request_pago->replace($general);
-        $factura_id = $factura->store($request_pago);
+
+        $recibo = new \App\Classes\PagosCredito(
+            '',
+            $general['fecha'],
+            $general['monto'],
+            $general['tipo_pago'],
+            true,
+            $general['pagos'],
+            $general['banco'],
+            $general['credito_id'],
+            $general['num_consignacion'],
+            \Auth::user()->id
+        );
+
+        
+        $recibo->make();
+        $recibo = $recibo->get();
 
         /**
          * Register masivo executed
@@ -683,13 +653,43 @@ class PagoMasivoController extends Controller
             'efectivo'      => true,
             'ref_type'      => 'App\\Credito',
             'ref_id'        => $this->data[$this->index]['credito_id'],
-            'ref_recibo_id' => $factura_id,
+            'ref_recibo_id' => $recibo->id,
             'load_id'       => $this->load->id,
             'created_at'    => $this->now
         ];
 
         $masivo = DB::table('masivos')->insert($dat);
         
+    }
+    /*
+     ** Descontar sanciones
+     */
+
+    public function descontarSanciones($fecha, $credito) 
+    {
+
+        if ( $fecha && $fecha->lt($this->now)) {
+
+            $diff = DB::table('sanciones')
+                ->where('created_at', '>', $fecha)
+                ->where('credito_id', $credito->id)
+                ->where('estado', 'Debe')
+                ->select('id')
+                ->get();
+
+            DB::table('sanciones')
+                ->whereIn('id', collect($diff)->pluck('id'))
+                ->update(['estado' => 'Exonerada']);
+            
+            $credito->sanciones_exoneradas += count($diff);
+            $credito->sanciones_debe -= count($diff);
+            $credito->saldo = $credito->saldo - (count($diff) * $this->vlr_dia_sancion); 
+            $credito->save();
+
+            return true;
+        } 
+
+        return false;
     }
 
     public function getPagosSolicitud($solicitud_id)
@@ -759,7 +759,6 @@ class PagoMasivoController extends Controller
             ];
         }
     }
-  
 
     /**
      * VALIDACION DE LA EXISTENCIA DEL BANCO O 
@@ -815,7 +814,6 @@ class PagoMasivoController extends Controller
             });
         })->download('xls');
     }
-
 
 }
 

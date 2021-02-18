@@ -53,7 +53,7 @@ trait AbonoTrait
             
                 $juridico =   $repo->getDebeJuridicos($credito->id);
 
-                if (count($juridico) > 0 ) { 
+                if ($juridico) { 
 
                     if ($monto > $juridico[0]->debe) { 
                         $abono = $juridico[0]->debe;
@@ -348,4 +348,14 @@ trait AbonoTrait
         return response()->json($res);
     }
 
+    /**
+     * JURIDICO
+     */
+
+    public function abonoJuridico()
+    {
+    
+    }
 }
+
+

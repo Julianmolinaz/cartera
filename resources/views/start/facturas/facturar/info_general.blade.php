@@ -1,4 +1,4 @@
-    <div class="panel panel-primary">
+<div class="panel panel-primary">
       <div class="panel-heading" style="position:relative;">
         <h3 class="panel-title" >
           <a href="{{route('start.precreditos.ver',$credito->precredito->id)}}"target="_blank">
@@ -36,7 +36,7 @@
             
               <tr class="danger">
                 <td colspan="2"><i>Pago hasta:</i></td>
-                <td colspan="2"><i>{{$credito->fecha_pago->fecha_pago}}</i></td>
+                <td colspan="2"><i>{{$credito->fecha_pago->fecha}}</i></td>
               </tr>
            
           <tr>
