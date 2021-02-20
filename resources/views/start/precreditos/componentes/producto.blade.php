@@ -73,7 +73,10 @@
                                     :id="'proveedor'+index"
                                     @change="validateProveedor(index)">  
                                     <option selected disabled>--</option>
-                                    <option :value="proveedor.id" v-for="proveedor in $store.state.data.proveedores">@{{ proveedor.razon_social }}</option>
+                                    <option 
+                                        :value="proveedor.id" 
+                                        v-for="proveedor in $store.state.data.proveedores"
+                                    >@{{ (proveedor.municipio) ? proveedor.municipio + '-' : ''}} @{{proveedor.razon_social}}</option>
                                 </select>
                                 <span class="help-block" :id="'span-proveedor'+index"></span>
                             </div>

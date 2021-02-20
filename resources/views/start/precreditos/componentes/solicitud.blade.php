@@ -162,7 +162,7 @@
             <!-- NUMERO DE CUOTAS -->
 
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.cuotas.name) ? 'has-error' :'']">
-                <label for="">Número de Cuotas @{{ rules.cuotas.required }}</label>
+                <label for="">Num Cuotas @{{ rules.cuotas.required }}</label>
                 <input 
                     disabled
                     @blur="validar_negocio"

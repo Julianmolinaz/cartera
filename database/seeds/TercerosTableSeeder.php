@@ -22,7 +22,7 @@ class TercerosTableSeeder extends Seeder
                 'id' => 5,
                 'tipo' => 'Proveedor',
                 'regimen' => NULL,
-                'razon_social' => 'CDA DEL  EJE CAFETERO ',
+                'razon_social' => 'CDA DEL EJE CAFETERO ',
                 'pnombre' => NULL,
                 'snombre' => NULL,
                 'papellido' => NULL,
