@@ -68,10 +68,6 @@ class CodeudorController extends Controller
      */
     public function store(Request $request)
     {
-<<<<<<< HEAD
-
-=======
->>>>>>> 0443c3877cd36bb397b79614d215938e000a988c
         $rq      = [];
         $codeudor = (object) $request->cliente;
 
@@ -106,14 +102,9 @@ class CodeudorController extends Controller
             return res(true,$data,'Codeudor creado exitosamente !!!');
         }
         catch(\Exception $e){
-<<<<<<< HEAD
-            \Log::info($e);
-	    DB::rollback();
-=======
 
             \Log::error($e);
             DB::rollback();
->>>>>>> 0443c3877cd36bb397b79614d215938e000a988c
             return  res(false, '', $e->getMessage());
         }
     }

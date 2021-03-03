@@ -55,27 +55,19 @@ var main = new Vue({
             this.message        = '';
             this.message2       = '';
         },
-        aceptar () {        //facturar
+        async aceptar () {        //facturar
 
-            var validacion = this.validar_fact();
+            var validacion = await this.validar_fact();
         
             if (validacion.error) {
                 alertify.alert('Alerta', validacion.message);
                 return false;
             } 
 
-            if (this.credito.castigada === 'Si') { // se muestra alerta si esta castigado
-
-                $message = "Le recordamos que el credito esta reportado como cartera castigada, desea continuar?";
-
-                if ( ! alertyfy.confirm("Recuerde", $message) ) {
-                    return false; 
-                } 
-            }
             if (this.general.auto) {
-                this.send(this.general);
+                await this.send(this.general);
             } else {
-                this.validar_num_fact();
+                await this.validar_num_fact();
             }
         },
         // valida que si el numero de factura existe (true)
@@ -162,7 +154,8 @@ var main = new Vue({
     },
     mounted: function(){
         if(this.credito.castigada == 'Si'){
-            this.message = 'Le recordamos que este crédito esta en cartera castigada';
+            $message = 'Atención!, esta es una cartera castigada';
+	    alertify.notify($message, 'error', 5);
         }
     }
   })
