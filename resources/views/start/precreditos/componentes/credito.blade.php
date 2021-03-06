@@ -126,7 +126,8 @@
 
                 <div v-bind:class="['form-group has-success','col-md-2',errors.first(rules.fecha_pago.name) ? 'has-error' :'']">
                     <label class="control-label">Fecha de pago @{{ rules.fecha_pago.required }}</label>    
-                    <input 
+                    <input
+		        onkeydown="return false" 
                         type="date" 
                         class="form-control form-main__input--small" 
                         v-model="fecha_pago"

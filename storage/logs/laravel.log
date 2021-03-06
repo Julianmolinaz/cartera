@@ -1,0 +1,24 @@
+[2021-03-06 12:21:30] local.ERROR: 2  
+[2021-03-06 12:21:30] local.ERROR: 2  
+[2021-03-06 12:21:30] local.INFO: Son iguales los dos productos  
+[2021-03-06 12:21:30] local.INFO: editVehiculoFromProductoTr  
+[2021-03-06 12:21:30] local.INFO: array (
+  'ref_producto_id' => 1262,
+  'producto_id' => 2,
+  'nombre' => 'SOAT',
+  'precredito_id' => 23427,
+  'proveedor_id' => 35,
+  'num_fact' => '1508004526044000',
+  'fecha_exp' => '2020-10-19',
+  'costo' => 483950,
+  'estado' => 'En proceso',
+  'otros' => 15000,
+  'expedido_a' => 'Cliente',
+  'iva' => 0,
+  'observaciones' => '',
+  '_vehiculo_id' => 1436,
+  '_tipo_vehiculo_id' => 2,
+  '_placa' => 'MOA99D',
+  '_vencimiento_soat' => '2021-10-19',
+  '_vencimiento_rtm' => '2021-10-16',
+)  

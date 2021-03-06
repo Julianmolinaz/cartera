@@ -116,6 +116,7 @@
                             <div v-bind:class="['form-group','col-md-3',errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
                                 <label class="input-solicitud">Fecha de Expedicion @{{ rules.fecha_exp.required }}</label> 
                                 <input 
+			            onkeydown="return false"
                                     :disabled="element.estado != 'En proceso'"
                                     type="date" 
                                     class="form-control input-solicitud"
@@ -210,6 +211,7 @@
                             <div v-bind:class="['form-group','col-md-3',errors.first('vencimiento_soat'+index) ? 'has-error' :'']">
                                 <label for="">Vencimiento SOAT *</label>
                                 <input type="date" 
+				    onkeydown="return false"
                                     :disabled="element.estado != 'En proceso'"
                                     class="form-control"
                                     v-model="element._vencimiento_soat"
@@ -223,6 +225,7 @@
                             <div v-bind:class="['form-group','col-md-3',errors.first('vencimiento_rtm'+index) ? 'has-error' :'']">
                                 <label for="">Vencimiento RTM *</label>
                                 <input type="date"
+				    onkeydown="return false"
                                     :disabled="element.estado != 'En proceso'" 
                                     class="form-control"
                                     v-model="element._vencimiento_rtm"
