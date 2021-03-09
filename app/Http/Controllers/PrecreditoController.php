@@ -53,6 +53,7 @@ class PrecreditoController extends Controller
         $cliente = Cliente::find($cliente_id);  
         $data    = $this->obtener_data_para_crear($cliente_id);
 
+
         $data['status'] = 'create';
 
         return view('start.precreditos.create')

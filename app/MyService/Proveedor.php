@@ -10,9 +10,11 @@ class Proveedor
         $proveedores = \DB::table('terceros')
             ->leftJoin('municipios', 'terceros.mun_id', '=', 'municipios.id')
             ->where('terceros.tipo', 'Proveedor')
+            ->where('terceros.estado',['Activo'])
             ->select(
                 'terceros.id',
                 'terceros.razon_social',
+                'terceros.nombre_comercial',
                 'terceros.pnombre',
                 'terceros.snombre',
                 'terceros.papellido',

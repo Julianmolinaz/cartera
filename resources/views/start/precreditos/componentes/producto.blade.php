@@ -76,7 +76,8 @@
                                     <option 
                                         :value="proveedor.id" 
                                         v-for="proveedor in $store.state.data.proveedores"
-                                    >@{{ (proveedor.municipio) ? proveedor.municipio + '-' : ''}} @{{proveedor.razon_social}}</option>
+                                    >@{{ (proveedor.municipio) ? proveedor.municipio + '-' : ''}} @{{proveedor.nombre_comercial}}</option>
+                                
                                 </select>
                                 <span class="help-block" :id="'span-proveedor'+index"></span>
                             </div>
@@ -124,6 +125,7 @@
                                     class="form-control input-solicitud"
                                     v-model="element.fecha_exp"
                                     v-validate="rules.fecha_exp.rule"
+                                    @blur="vencimiento(index)"
                                     :name="rules.fecha_exp.name">  
                                 <span class="help-block" v-if="errors.first(rules.fecha_exp.name)">@{{ errors.first(rules.fecha_exp.name) }}</span>      
                                 <span class="help-block"><small>Ver factura ...</small></span>                           

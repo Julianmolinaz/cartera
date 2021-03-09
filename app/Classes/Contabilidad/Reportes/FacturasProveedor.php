@@ -27,8 +27,8 @@ class FacturasProveedor
             ->leftjoin('creditos','precreditos.id','=','creditos.precredito_id')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
             ->join('users','precreditos.user_create_id','=','users.id')
-            ->leftjoin('terceros','ref_productos.proveedor_id','=','terceros.id')
-            ->whereBetween('ref_productos.fecha_exp',[$ini, $end])
+            ->join('terceros','ref_productos.proveedor_id','=','terceros.id')
+            ->whereBetween('precreditos.created_at',[$ini, $end])
             ->whereIn('precreditos.cartera_id', [6, 32])
             ->where('precreditos.aprobado', 'Si')
             ->groupBy('precreditos.id')
@@ -43,19 +43,21 @@ class FacturasProveedor
                     'ref_productos.expedido_a',
                     'ref_productos.observaciones',
                     'creditos.id as credito',
+                    'creditos.valor_credito',
                     'precreditos.id as solicitud',
                     'precreditos.vlr_fin',
                     'precreditos.cuota_inicial',
                     'precreditos.created_at',
                     'terceros.razon_social',
                     'terceros.num_doc as doc',
-                    'productos.nombre as producto',
+                    'ref_productos.nombre as producto',
                     'vehiculos.placa',
                     'tipo_vehiculos.nombre',
                     'clientes.num_doc',
                     'clientes.nombre',
                     'users.id',
-                    'users.name')
+                    'users.name'
+                    )
             ->get();  
     }       
 

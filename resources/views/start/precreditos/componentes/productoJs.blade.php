@@ -31,6 +31,32 @@
 		
                 this.ref_productos = await getProductos(this.producto);
             },
+            vencimiento(index) {
+                const nombre = this.ref_productos[index].nombre;
+
+                console.log({nombre});
+                let fecha = this.ref_productos[index].fecha_exp;
+                console.log({fecha});
+
+                if (nombre == 'SOAT') {
+                    console.log('entro por soat');
+                    this.ref_productos[index]._vencimiento_soat = this.addYear(fecha)
+                    
+                } else if (nombre == 'R.T.M') {
+                    console.log('entro por rtm');
+                    this.ref_productos[index]._vencimiento_rtm = this.addYear(fecha)
+                }                          
+               
+            },
+            addYear(fecha) {
+                // fecha con año + 1
+                if (fecha) {
+                    return moment(fecha).add(1, 'years').format('YYYY-MM-DD');
+                } else {
+                    console.log(': ',fecha_);
+                    return fecha;
+                }
+            },
             check(index) {
 
                 let check = document.getElementById('check'+index).value
@@ -136,6 +162,7 @@
                 this.rules.fecha_exp.rule = 'required',
                 this.rules.fecha_exp.required = '*';
             }
+
         }
     });
 

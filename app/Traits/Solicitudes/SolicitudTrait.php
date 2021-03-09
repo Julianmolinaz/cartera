@@ -42,10 +42,12 @@ trait SolicitudTrait
             $range[] = $numero;
         }
 
+        $proveedores = _\MyService\Proveedor::getProveedores();
+
         $data = [
             'productos'            => _\Producto::orderBy('nombre')->get(),
             'carteras'             => _\Cartera::where('estado','Activo')->orderBy('nombre')->get(),
-            'proveedores'          => _\MyService\Proveedor::getProveedores(),
+            'proveedores'          => $proveedores,
             'variables'            => _\Variable::find(1),
             'now'                  => \Carbon\Carbon::now(),
             'estados_aprobacion'   => _\Http\Controllers\getEnumValues('precreditos', 'aprobado'),

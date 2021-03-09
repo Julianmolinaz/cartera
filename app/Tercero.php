@@ -22,7 +22,8 @@ class Tercero extends Model
         'tel2',
         'dir',
         'mun_id',
-        'email'
+        'email',
+        'estado'
     ];
 
     public function municipio() {

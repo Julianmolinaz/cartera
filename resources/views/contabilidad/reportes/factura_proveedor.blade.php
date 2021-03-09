@@ -12,7 +12,7 @@
 </div>
 
 <div>
-    <table id="datatable" class="table table-striped table-bordered" style="font-size:12px">
+    <table id="datatable" class="table table-bordered" style="font-size:12px">
         <thead>
             <tr>
                 <th>  Solicitud       </th>
@@ -34,7 +34,7 @@
                 <th>  Ejecutivo       </th>
                 <th>  observaciones   </th>
                 <th>  Fecha_solicitud </th>
-                <th>  Acción          </th>
+                <th>  Valor crédito   </th>
             </tr>
         </thead>
         <tbody>
@@ -59,7 +59,7 @@
                 <td>    {{$factura->name}}           </td>
                 <td>    {{$factura->observaciones}}  </td>
                 <td>    {{$factura->created_at}}     </td>
-                <td>                           </td>
+                <td>    {{$factura->valor_credito}}  </td>
             
             </tr>
             @endforeach

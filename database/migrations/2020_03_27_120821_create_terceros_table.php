@@ -31,6 +31,7 @@ class CreateTercerosTable extends Migration {
 			$table->string('dir', 100)->comment('direccion');
 			$table->integer('mun_id')->unsigned()->nullable();
 			$table->string('email', 60)->nullable();
+			$table->enum('estado', array('Activo','Inactivo'))->nullable()->default('Activo');
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned()->nullable();
 			$table->timestamps();
