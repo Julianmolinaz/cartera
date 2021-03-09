@@ -113,8 +113,8 @@ class ComprobanteVentas
     
             $struct->cod_prod = '02';
             $struct->cod_cargo = '28';
-            $struct->vlr_form_pago = bcdiv($venta, '1', 0);
-            $struct->vlr_und = bcdiv($vlr_und, '1', 0);
+            $struct->vlr_form_pago = $this->numNoRound($venta);
+            $struct->vlr_und = $this->numNoRound($venta);
         
             $this->reporte[] = (array)$struct;
         }
@@ -138,8 +138,8 @@ class ComprobanteVentas
             $venta = $this->getVenta();
 
             $struct->cod_prod = '03';
-            $struct->vlr_form_pago = bcdiv($venta, '1', 0);
-            $struct->vlr_und = bcdiv($venta, '1', 0);
+            $struct->vlr_form_pago = $this->numNoRound($venta);
+            $struct->vlr_und = $this->numNoRound($venta);
 
 
             $this->reporte[] = (array)$struct;
@@ -162,10 +162,9 @@ class ComprobanteVentas
             $venta = $this->getVenta();
 
             $struct->cod_prod = '01';
-            $struct->vlr_form_pago = bcdiv($venta, '1', 0);
-            $struct->vlr_und = bcdiv($venta, '1', 0);
+            $struct->vlr_form_pago = $this->numNoRound($venta);
+            $struct->vlr_und = $this->numNoRound($venta);
 
-            // dd($this->factura);
 
             $this->reporte[] = (array)$struct;
         }
@@ -194,6 +193,11 @@ class ComprobanteVentas
 
         return $validado;
     }
+
+    public static function numNoRound($value) 
+    {
+        return number_format(floor($value),0);
+    }	
 
     /*
     |--------------------------------------------------------------------------

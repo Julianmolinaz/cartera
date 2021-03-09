@@ -7,16 +7,22 @@ class Proveedor
 {
     public static function getProveedores()
     {
-        $terceros = \App\Tercero::where('tipo','Proveedor')->get();
-
-        foreach($terceros as $tercero){
-          $tercero->nombre = $tercero->nombre;
-        }
-
-        $collection = collect($terceros);
-        $sorted = $collection->sortBy('nombre');
-
-        $proveedores = $sorted->values()->all();
+	$proveedores = \DB::table('terceros')
+            ->leftJoin('municipios', 'terceros.mun_id', '=', 'municipios.id')
+            ->where('terceros.tipo', 'Proveedor')
+            ->where('terceros.estado','Activo')
+            ->select(
+                'terceros.id',
+                'terceros.razon_social',
+                'terceros.nombre_comercial',
+                'terceros.pnombre',
+                'terceros.snombre',
+                'terceros.papellido',
+                'terceros.sapellido',
+                'municipios.nombre as municipio'
+            )
+            ->orderBy('municipios.nombre')
+            ->get();
 
         return $proveedores;
     }

@@ -51,13 +51,16 @@
                             </div>
 
                         </div>
-
+                        <!-- Expedido a -->
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="input-solicitud">Expedido a: </label>
                                 <select v-model="element.expedido_a" class="form-control">
                                     <option selected disabled>--</option>
-                                    <option :value="cliente" v-for="cliente in $store.state.data.clientes">@{{ cliente }}</option>
+                                    <option
+					 :value="cliente" 
+					 v-for="cliente in $store.state.data.clientes"
+					>@{{ cliente }}</option>
                                 </select>
                             </div>
                         
@@ -73,7 +76,12 @@
                                     :id="'proveedor'+index"
                                     @change="validateProveedor(index)">  
                                     <option selected disabled>--</option>
-                                    <option :value="proveedor.id" v-for="proveedor in $store.state.data.proveedores">@{{ proveedor.razon_social }}</option>
+                                    <option 
+					:value="proveedor.id" 
+					v-for="proveedor in $store.state.data.proveedores"
+					>@{{ (proveedor.municipio) ? proveedor.municipio + '-' : ''}} @{{proveedor.nombre_comercial}}</option>
+                                
+
                                 </select>
                                 <span class="help-block" :id="'span-proveedor'+index"></span>
                             </div>
@@ -122,6 +130,7 @@
                                     class="form-control input-solicitud"
                                     v-model="element.fecha_exp"
                                     v-validate="rules.fecha_exp.rule"
+				    @blur="vencimiento(index)"
                                     :name="rules.fecha_exp.name">  
                                 <span class="help-block" v-if="errors.first(rules.fecha_exp.name)">@{{ errors.first(rules.fecha_exp.name) }}</span>      
                                 <span class="help-block"><small>Ver factura ...</small></span>                           
