@@ -16,8 +16,6 @@ require __DIR__ . '/routes/documentos.php';
 
 require __DIR__ . '/routes/callcenter.php';
 
-require __DIR__ . '/routes/contabilidad.php';
-
 require __DIR__ . '/routes/creditos.php';
 
 require __DIR__ . '/routes/precreditos.php';
@@ -75,3 +73,7 @@ require __DIR__ . '/routes/certificados.php';
 require __DIR__ . '/routes/anuladas.php';
 
 require __DIR__ . '/routes/acuerdos.php';
+
+require __DIR__ . '/routes/contabilidad/home.php';
+
+require __DIR__ . '/routes/contabilidad/reportes.php';

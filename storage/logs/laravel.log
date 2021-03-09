@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [2021-03-06 12:21:30] local.ERROR: 2  
 [2021-03-06 12:21:30] local.ERROR: 2  
 [2021-03-06 12:21:30] local.INFO: Son iguales los dos productos  
@@ -21,4 +22,1022 @@
   '_placa' => 'MOA99D',
   '_vencimiento_soat' => '2021-10-19',
   '_vencimiento_rtm' => '2021-10-16',
+=======
+[2021-02-18 11:56:38] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'asdasd',
+      'segundo_nombre' => 'asdfsdfg',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'asdasd',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3216549874',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'asdasd',
+      'fecha_exp' => '2020-01-01',
+      'lugar_nacimiento' => 'adasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'aasdasd',
+      'barrio' => 'asdasd',
+      'municipio_id' => 813,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'asdasd@b.co',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Abogado/a',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '65464654',
+      'cargo' => 'asdasd',
+      'fecha_vinculacion' => '2020-02-02',
+      'tipo_contrato' => 'Indefinido',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 11:57:33] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'asdasd',
+      'segundo_nombre' => 'asdfsdfg',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'asdasd',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3216549874',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'asdasd',
+      'fecha_exp' => '2020-01-01',
+      'lugar_nacimiento' => 'adasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'aasdasd',
+      'barrio' => 'asdasd',
+      'municipio_id' => 813,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'asdasd@b.co',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Abogado/a',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '65464654',
+      'cargo' => 'asdasd',
+      'fecha_vinculacion' => '2020-02-02',
+      'tipo_contrato' => 'Indefinido',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 11:58:26] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'asdasd',
+      'segundo_nombre' => 'asdfsdfg',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'asdasd',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3216549874',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'asdasd',
+      'fecha_exp' => '2020-01-01',
+      'lugar_nacimiento' => 'adasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'aasdasd',
+      'barrio' => 'asdasd',
+      'municipio_id' => 813,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'asdasd@b.co',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Abogado/a',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '65464654',
+      'cargo' => 'asdasd',
+      'fecha_vinculacion' => '2020-02-02',
+      'tipo_contrato' => 'Indefinido',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 11:59:56] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'asdasdf',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'asdasd',
+      'tipo_doc' => 'Nit',
+      'num_doc' => '2342342',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'sadfasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'asdasd',
+      'municipio_id' => 837,
+      'movil' => '3216549879',
+      'fijo' => '',
+      'email' => 'adasd@f.com',
+      'estrato' => '2',
+      'anos_residencia' => '3',
+      'meses_residencia' => '0',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Dependiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '321654987',
+      'dir_empresa' => 'dasadsd',
+      'doc_empresa' => '654987',
+      'cargo' => 'asdasdasd',
+      'fecha_vinculacion' => '2020-02-02',
+      'tipo_contrato' => 'Indefinido',
+      'descripcion_actividad' => '',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 11:59:56] local.INFO: Undefined variable: data  
+[2021-02-18 12:00:18] local.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Parse error: syntax error, unexpected ';', expecting ')' in /home/lenovo/Documentos/empresas/gora/scrips/cartera2/app/Http/Controllers/CodeudorController.php:100
+Stack trace:
+#0 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile('/home/lenovo/Do...')
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Http\\Contro...')
+#2 [internal function]: spl_autoload_call('App\\Http\\Contro...')
+#3 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Route.php(280): ReflectionMethod->__construct('App\\Http\\Contro...', 'create')
+#4 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(857): Illuminate\Routing\Route->signatureParameters('Illuminate\\Data...')
+#5 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(842): Illuminate\Routing\Router->substituteImplicitBindings(Object(Illuminate\Routing\Route))
+#6 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(825): Illuminate\Routing\Router->substituteBindings(Object(Illuminate\Routing\Route))
+#7 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(691): Illuminate\Routing\Router->findRoute(Object(Illuminate\Http\Request))
+#8 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Router.php(675): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#9 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(246): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#10 [internal function]: Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#11 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#12 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(44): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#13 [internal function]: Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
+#14 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(136): call_user_func_array(Array, Array)
+#15 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#16 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#17 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#18 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+#19 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(132): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#20 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(99): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#21 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#22 /home/lenovo/Documentos/empresas/gora/scrips/cartera2/server.php(21): require_once('/home/lenovo/Do...')
+#23 {main}  
+[2021-02-18 12:02:29] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:02:43] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:03:22] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:03:59] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:04:37] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:04:54] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:05:10] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:06:23] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:06:49] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:07:10] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:07:28] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:09:31] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:09:55] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+)  
+[2021-02-18 12:11:07] local.INFO: array (
+  'cliente' => 
+  array (
+    'id' => '',
+    'tipo' => 'codeudor',
+    'info_personal' => 
+    array (
+      'primer_nombre' => 'adasd',
+      'segundo_nombre' => 'asdasd',
+      'primer_apellido' => 'asdasd',
+      'segundo_apellido' => 'adas',
+      'tipo_doc' => 'Cedula Ciudadana',
+      'num_doc' => '3234234',
+      'fecha_nacimiento' => '2020-02-02',
+      'lugar_exp' => 'dasdasd',
+      'fecha_exp' => '2020-02-02',
+      'lugar_nacimiento' => 'asdasd',
+      'nivel_estudios' => 'Primaria',
+      'estado_civil' => 'Soltero/a',
+      'genero' => 'Femenino',
+    ),
+    'info_ubicacion' => 
+    array (
+      'direccion' => 'asdasd',
+      'barrio' => 'dasdads',
+      'municipio_id' => 814,
+      'movil' => '3216549874',
+      'fijo' => '',
+      'email' => 'adas@f.com',
+      'estrato' => '1',
+      'anos_residencia' => '0',
+      'meses_residencia' => '2',
+      'tipo_vivienda' => 'Propia',
+      'envio_correspondencia' => 'Casa',
+      'nombre_arrendador' => '',
+      'telefono_arrendador' => '',
+    ),
+    'info_economica' => 
+    array (
+      'ocupacion' => 'Agente De Transito',
+      'tipo_actividad' => 'Independiente',
+      'empresa' => 'asdasd',
+      'tel_empresa' => '3216549874',
+      'dir_empresa' => 'asdasd',
+      'doc_empresa' => '',
+      'cargo' => '',
+      'fecha_vinculacion' => '2020-02-20',
+      'tipo_contrato' => '',
+      'descripcion_actividad' => 'asdasdasd',
+    ),
+    'conyuge' => '',
+    'calificacion' => '',
+  ),
+  'cliente_id' => '11011',
+>>>>>>> 26b6d6b9d66455747454a3d4068f2fcefc527764
 )  

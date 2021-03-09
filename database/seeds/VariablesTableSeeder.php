@@ -32,6 +32,7 @@ class VariablesTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2019-03-29 11:43:55',
             ),
+            
         ));
         
         

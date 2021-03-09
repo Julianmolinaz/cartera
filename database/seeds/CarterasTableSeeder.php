@@ -20,7 +20,7 @@ class CarterasTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 6,
-                'nombre' => 'NEGOCIOS GORA PEREIRA',
+                'nombre' => 'INVERSIONES GORA',
                 'estado' => 'Activo',
                 'porcentaje_pago_parcial' => '60',
                 'created_at' => '2017-04-16 18:45:52',

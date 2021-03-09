@@ -24,6 +24,7 @@ class CreateTercerosTable extends Migration {
 			$table->string('sapellido', 30)->nullable()->comment('segundo apellido');
 			$table->enum('tipo_doc', ['Cedula de ciudadania','Nit empresarial','Nit de extranjeria','Cedula de extranjeria'])->comment('tipo de documento');
 			$table->string('num_doc', 11)->comment('número de documento');
+			$table->integer('digito', 1)->nullable()->comment('digito de verificación');
 			$table->integer('tel1')->comment('telefono 1');
 			$table->integer('tel2')->comment('telefono dos')->nullable();
 			$table->string('dir', 100)->comment('direccion');

@@ -16,6 +16,10 @@ class Factura extends Model implements Auditable
         'user_create_id' , 'user_update_id', 'precredito_id'
     ];
 
+    /**
+     * Relaciones
+     */
+
     public function credito(){
     	return $this->hasOne('App\Credito','id','credito_id');
     }

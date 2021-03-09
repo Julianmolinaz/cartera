@@ -22,12 +22,23 @@
         <li class="">
             <a href="https://www.youtube.com/playlist?list=PLsemkTJmzpHvDs6ha0BMZ9ECkeO8GfKtx" target="_blank" 
                 data-toggle="tooltip" data-placement="top" title="Ayuda">
-                <i data-toggle="tooltip" data-placement="bottom" title="Ver Tutoriales"><b>GoFin-3000!</b></i>
+                <i  
+                    data-toggle="tooltip" 
+                    data-placement="bottom" 
+                    title="Ver Tutoriales"
+                ><b>GoFin-3000!</b></i>
             </a> 
         </li>
-        <li class=""><a href="{{route('start.simulador.index')}}">
-            <i class="fa fa-calculator" aria-hidden="true"></i>
-            Simulador <span class="sr-only">(current)</span></a></li>
+        <li class="">
+            <a  
+                href="{{route('start.simulador.index')}}" 
+                data-toggle="tooltip" 
+                data-placement="bottom" 
+                title="Simulador"
+            >
+                <i class="fa fa-calculator" aria-hidden="true" style="font-size:1.2em;"></i>
+            </a>
+        </li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-users" aria-hidden="true"></i> Clientes <span class="caret"></span>
@@ -51,18 +62,10 @@
                 <li><a href="{{route('start.creditos.index')}}">Ver Creditos</a></li>
                 <li><a href="{{route('start.precreditos.index')}}">Ver Solicitudes</a></li> 
                 <li><a href="{{route('start.creditos.cancelados')}}">Ver Cancelados</a></li>
-            </ul>
-        </li> 
-
-        <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-university" aria-hidden="true"></i>
-            Pagos 
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+  
                 <li><a href="{{route('start.pagos.inicio')}}">Hacer Pago</a></li>
                 <li><a href="{{route('admin.pagos_masivos.index')}}">Pagos Masivos</a></li>
-                <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="{{route('start.facturas.index')}}">Ver Facturas Créditos</a></li>
                 <!-- <li><a href="{{route('start.pagos')}}">Ver Pagos Créditos</a></li>  -->
@@ -71,42 +74,71 @@
                 <li><a href="{{route('start.pagos.index_otros_ingresos')}}">Ver Otros Ingresos</a></li> 
 
             </ul>
-        </li>   
-
-        <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-           <i class="fa fa-cog" aria-hidden="true"></i>
-            Admin 
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-
-            <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
-            <li><a href="{{route('admin.multas.index')}}">Multas</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{{route('admin.reportes.index')}}">Reportes &nbsp;<i class="fas fa-chart-line"></i></a></li>
-            <li><a href="{{route('admin.gestion_carteras.index')}}">Informes Carteras&nbsp;<i class="fa fa-thermometer-empty"></i></a></li>
-            <li><a href="{{route('admin.reporte.financiero')}}">Financiero &nbsp;<i class="glyphicon glyphicon-lock"></i></a></li>
-
-            <li role="separator" class="divider"></li>
-            <li><a href="{{route('admin.negocios.index')}}">Negocios</a></li> 
-            <li><a href="{{route('admin.carteras.index')}}">Carteras</a></li> 
-            <li><a href="{{route('admin.users.index')}}">Usuarios</a></li>
-            <li><a href="{{ route('admin.roles.create')}}">Roles/Permisos</a></li>
-            <li role="separator" class="divider"></li>          
-            <li><a href="{{route('admin.puntos.index')}}">Puntos</a></li> 
-            <li><a href="{{route('admin.zonas')}}">Zonas</a></li>                         
-            <li role="separator" class="divider"></li>
-            <li><a href="{{route('admin.productos.index')}}">Productos</a></li>
-            <li><a href="{{route('admin.variables.index')}}">Variables &nbsp;<i class="fas fa-cogs"></i></a></li>
-            <li><a href="{{route('admin.criteriocall.index')}}">Criterios de llamada</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{{route('contabilidad.index')}}" target="_blanck">Contabilidad</a></li>
-        </ul>
         </li> 
 
+        <li class="dropdown">
+            <a 
+                class="dropdown-toggle" 
+                data-toggle="dropdown" 
+                role="button" 
+                aria-haspopup="true" 
+                aria-expanded="false"
+            >
+                <i class="fa fa-cog" aria-hidden="true"></i>
+                Admin 
+                <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu">
+
+                <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
+                <li><a href="{{route('admin.multas.index')}}">Multas</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="{{route('admin.reportes.index')}}">Reportes &nbsp;<i class="fas fa-chart-line"></i></a></li>
+                <li><a href="{{route('admin.gestion_carteras.index')}}">Informes Carteras&nbsp;<i class="fa fa-thermometer-empty"></i></a></li>
+                <li><a href="{{route('admin.reporte.financiero')}}">Financiero &nbsp;<i class="glyphicon glyphicon-lock"></i></a></li>
+
+                <li role="separator" class="divider"></li>
+                <li><a href="{{route('admin.negocios.index')}}">Negocios</a></li> 
+                <li><a href="{{route('admin.carteras.index')}}">Carteras</a></li> 
+                <li><a href="{{route('admin.users.index')}}">Usuarios</a></li>
+                <li><a href="{{ route('admin.roles.create')}}">Roles/Permisos</a></li>
+                <li role="separator" class="divider"></li>          
+                <li><a href="{{route('admin.puntos.index')}}">Puntos</a></li>                     
+                <li role="separator" class="divider"></li>
+                <li><a href="{{route('admin.productos.index')}}">Productos</a></li>
+                <li><a href="{{route('admin.variables.index')}}">Variables &nbsp;<i class="fas fa-cogs"></i></a></li>
+                <li><a href="{{route('admin.criteriocall.index')}}">Criterios de llamada</a></li>
+            </ul>
+        </li> 
+
+        <li class="dropdown">
+            <a 
+                class="dropdown-toggle" 
+                data-toggle="dropdown" 
+                role="button" 
+                aria-haspopup="true" 
+                aria-expanded="false"
+            >
+                <i class="fa fa-chart-bar" aria-hidden="true"></i>
+                Contabilidad 
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ route('contabilidad.reportes.index') }}">Reportes</a></li>
+                <li><a href="{{route('start.egresos.index')}}">Egresos</a></li>
+            </ul>
+        </li>
+
         <li>
-        <a href="{{route('start.inicio.index')}}"  id="btn_registro" >
-            <span class = "glyphicon glyphicon-search" data-toggle="tooltip" data-placement="bottom" title="Buscador"></span>
+        <a 
+            href="{{route('start.inicio.index')}}"   
+            data-toggle="tooltip" 
+            data-placement="bottom" 
+            title="Buscador" 
+            id="btn_registro" 
+        >
+            <span class="glyphicon glyphicon-search"></span>
         </a>
         </li>
 
