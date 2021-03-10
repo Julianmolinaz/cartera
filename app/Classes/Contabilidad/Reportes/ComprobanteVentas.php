@@ -108,14 +108,14 @@ class ComprobanteVentas
 
             $struct = $this->struct();
             $venta = $this->getVenta();
+
             $vlr_und = $venta / ($this->iva + 1);
             $struct->novedad = $this->factura->iva > 0 ? '' : 'rtm sin iva';
-    
             $struct->cod_prod = '02';
             $struct->cod_cargo = '28';
             $struct->vlr_form_pago = $this->numNoRound($venta);
-            $struct->vlr_und = $this->numNoRound($venta);
-        
+            $struct->vlr_und = $this->numNoRound($vlr_und);
+            
             $this->reporte[] = (array)$struct;
         }
        
@@ -263,9 +263,16 @@ class ComprobanteVentas
         
 
         $costo = $this->factura->costo + $this->factura->iva + $this->factura->otros;
+
+
         $vlr_fin = $costo - $inicial;
+
+
         $interes = ($vlr_fin * $factor ) - $vlr_fin;
+
+
         $venta = $costo + $interes;
+
 
         // echo "inicial: {$inicial}, costo: {$this->factura->costo}, iva: {$this->factura->iva}, otros: {$this->factura->otros}<br> COSTO: {$costo}, vlr_fin:  {$vlr_fin}, interes: {$interes}, venta: {$venta}<br>";
         
