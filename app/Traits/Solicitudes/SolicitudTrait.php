@@ -42,9 +42,9 @@ trait SolicitudTrait
             $range[] = $numero;
         }
 
-	$proveedores = _\MyService\Proveedor::getProveedores();
+        $proveedores = _\MyService\Proveedor::getProveedores();
 
-        return [
+        $data = [
             'productos'            => _\Producto::orderBy('nombre')->get(),
             'carteras'             => _\Cartera::where('estado','Activo')->orderBy('nombre')->get(),
             'proveedores'          => $proveedores,
@@ -60,6 +60,8 @@ trait SolicitudTrait
             'rango_meses'          => $range,
             'clientes'             => _\Http\Controllers\getEnumValues('ref_productos', 'expedido_a'),
          ];
+
+         return $data;
 
     }
 }

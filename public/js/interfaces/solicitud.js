@@ -1,7 +1,7 @@
 class Solicitud {
   constructor() {
     this.id = "";
-    this.num_fact = "";
+    this.num_fact = "G";
     this.fecha = "";
     this.cartera_id = "";
     this.funcionario_id = "";

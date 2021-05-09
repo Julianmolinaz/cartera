@@ -123,7 +123,7 @@ class ComprobantesDePago
                     $struct->prefijo = 'CC';
                     $struct->consec = '1';
                     $struct->no_cuota = '1';
-                    $struct->fecha_venc = '31/12/2020';
+                    $struct->fecha_venc = '31/12/2021';
 
                     $this->temporal[] = (array) $struct;
 
@@ -231,7 +231,7 @@ class ComprobantesDePago
             $item->prefijo = 'CC';
             $item->consec = '1';
             $item->no_cuota = '1';
-            $item->fecha_venc = '31/12/2020';
+            $item->fecha_venc = '31/12/2021';
         }
 
         $item->cod_cuenta = $cuenta;
@@ -18049,7 +18049,8 @@ class ComprobantesDePago
         	1075288526,
         	65824292,
         	1114338891,
-        	1075239688)';
+        	1075239688
+		)';
         
     }
      

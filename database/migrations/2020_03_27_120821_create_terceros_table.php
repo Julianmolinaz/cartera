@@ -18,6 +18,7 @@ class CreateTercerosTable extends Migration {
 			$table->enum('tipo', array('Cliente','Empleado','General','Proveedor','Vendedor'));
 			$table->enum('regimen',['Estatal','Gran contribuyente','Regimen comun','Regimen especial','No responsable de IVA'])->nullable()->comment('regimen tributario');
 			$table->string('razon_social', 100)->nullable();
+			$table->string('nombre_comercial', 100)->nullable();
 			$table->string('pnombre', 30)->nullable()->comment('primer nombre');
 			$table->string('snombre', 30)->nullable()->comment('segundo nombre');
 			$table->string('papellido', 30)->nullable()->comment('primer apellido');
@@ -30,6 +31,7 @@ class CreateTercerosTable extends Migration {
 			$table->string('dir', 100)->comment('direccion');
 			$table->integer('mun_id')->unsigned()->nullable();
 			$table->string('email', 60)->nullable();
+			$table->enum('estado', array('Activo','Inactivo'))->nullable()->default('Activo');
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned()->nullable();
 			$table->timestamps();

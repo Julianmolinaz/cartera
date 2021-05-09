@@ -71,9 +71,7 @@ if(periodo == "Quincenal"){
 	valor_cuota_help.textContent = '$ '+ new Intl.NumberFormat().format(resultado);
 	},
 	"json");
-
-
-});
+   });
 
 
 

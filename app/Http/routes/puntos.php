@@ -1,6 +1,10 @@
 <?php
 
-
+Route::get('admin/puntos/list', [
+    // 'middleware' => ['permission:consultar_puntos'],
+    'uses' => 'PuntoController@list',
+    'as'  => 'admin.puntos.list'
+    ]);
 
 
 // CONSULTAR PUNTOS

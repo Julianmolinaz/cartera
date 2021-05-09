@@ -16,8 +16,7 @@
         <div class="panel-body">
           <p>
            @include('flash::message')
-          
-         </p>
+          </p>
 
          <table id="datatable" data-order='[[ 7, "desc" ]]' class="table table-striped table-bordered td-small">
           <thead>

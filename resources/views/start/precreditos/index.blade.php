@@ -26,16 +26,16 @@
           <tr  style="background-color:#FFC300;">
           <th style="display:none;">    Actualizacion  </th>
           <th> # </th>
-            <th>    Solicitud id  </th>
-            <th>    Factura       </th>
-            <th>    Cartera       </th>
-            <th>    Fecha aprobación       </th>
-            <th>    Cliente       </th>
-            <th>    Doc           </th>
-            <th>    Aprobado?     </th>
-            <th>    Observaciones </th>
-            <th>    Creó          </th>
-            <th>    Acción        </th>
+            <th>    Solicitud id          </th>
+            <th>    Factura               </th>
+            <th>    Cartera               </th>
+            <th>    Fecha aprobación      </th>
+            <th>    Cliente               </th>
+            <th>    Doc                   </th>
+            <th>    Aprobado?             </th>
+            <th>    Observaciones         </th>
+            <th>    Creó                  </th>
+            <th>    Acción                </th>
           </tr>
         </thead>
           <tbody>

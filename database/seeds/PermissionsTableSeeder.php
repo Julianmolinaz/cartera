@@ -723,7 +723,7 @@ class PermissionsTableSeeder extends Seeder
                 'status' => 'Activo',
                 'created_by' => 1,
                 'updated_by' => NULL,
-                'category' => 'Reportes',
+                'category' => 'Contabilidad',
             ],
             [
                 'id' => 60,

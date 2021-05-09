@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Punto;  
 use App\Municipio;
+use Datatables;
+use App\Punto;  
 use App\Zona;
 use DB;
 
@@ -20,9 +21,30 @@ class PuntoController extends Controller
      */
     public function index()
     {
-        $zonas = Zona::all();
+        $zonas = Zona::all(); 
         return view('admin.puntos.index')
             ->with('zonas',$zonas);
+            
+    }
+
+    public function list()
+    {
+        $puntos = DB::table('puntos')
+            ->join('municipios','puntos.municipio_id','=','municipios.id')
+            ->orderBy('updated_at','desc')
+            ->select([
+                'puntos.id','puntos.nombre', 'puntos.municipio_id', 'municipios.nombre as municipio'
+            ]);
+                
+        return Datatables::of($puntos)
+            ->addColumn('btn', function($punto) {
+
+                $route = route('admin.puntos.list',$punto->id);
+
+                return '<a href="'.$route.'" class="btn btn-default btn-xs ver">
+                              <span class="glyphicon glyphicon-eye-open"></span></a>';
+            })
+            ->make(true);
     }
 
     /**
