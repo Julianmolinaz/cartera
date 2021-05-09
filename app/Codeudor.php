@@ -181,34 +181,34 @@ class Codeudor extends Model implements Auditable
     }
 
     public function getSegundoNombrecAttribute() {
-        if ($this->attributes['segundo_nombrec']) return trim($this->attributes['segundo_nombrec']);
-        else return trim($this->attributes['segundo_nombre']);
+        if (isset($this->attributes['segundo_nombrec'])) return trim($this->attributes['segundo_nombrec']);
+        else if (isset($this->attributes['segundo_nombre'])) return trim($this->attributes['segundo_nombre']);
     }
 
     public function getSegundoNombreAttribute() {
-
         if (isset($this->attributes['segundo_nombre'])) return trim($this->attributes['segundo_nombre']);
-        else if (isset($this->attributes['segundo_nombrec'])) return trim($this->attributes['segundo_nombrec']);
+        else if(isset($this->attributes['segundo_nombrec'])) return trim($this->attributes['segundo_nombrec']);
+
     }
 
     public function getPrimerApellidocAttribute() {
         if (isset($this->attributes['primer_apellidoc'])) return trim($this->attributes['primer_apellidoc']);
-        else if (isset($this->attributes['primer_apellido'])) return trim($this->attributes['primer_apellido']);
+        else if(isset($this->attributes['primer_apellido'])) return trim($this->attributes['primer_apellido']);
     }
 
     public function getPrimerApellidoAttribute() {
         if (isset($this->attributes['primer_apellido'])) return trim($this->attributes['primer_apellido']);
-        else if (isset($this->attributes['primer_apellidoc'])) return trim($this->attributes['primer_apellidoc']);
+        else if(isset($this->attributes['primer_apellidoc'])) return trim($this->attributes['primer_apellidoc']);
     }
 
     public function getSegundoApellidocAttribute() {
-        if ($this->attributes['segundo_apellidoc']) return trim($this->attributes['segundo_apellidoc']);
-        else return trim($this->attributes['segundo_apellido']);
+        if (isset($this->attributes['segundo_apellidoc'])) return trim($this->attributes['segundo_apellidoc']);
+        else if(isset($this->attributes['segundo_apellido'])) return trim($this->attributes['segundo_apellido']);
     }
 
     public function getSegundoApellidoAttribute() {
-        if (isset($this->attributes['primer_apellido'])) return trim($this->attributes['primer_apellido']);
-        else if (isset($this->attributes['primer_apellidoc'])) return trim($this->attributes['primer_apellidoc']);
+        if (isset($this->attributes['segundo_apellido'])) return trim($this->attributes['segundo_apellido']);
+        else if (isset($this->attributes['segundo_apellidoc'])) return trim($this->attributes['segundo_apellidoc']);
     }
     
     public function getTipoDoccAttribute() {

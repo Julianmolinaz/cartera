@@ -34,7 +34,6 @@
             vencimiento(index) {
                 const nombre = this.ref_productos[index].nombre;
 
-                console.log({nombre});
                 let fecha = this.ref_productos[index].fecha_exp;
                 console.log({fecha});
 
@@ -45,10 +44,16 @@
                 } else if (nombre == 'R.T.M') {
                     console.log('entro por rtm');
                     this.ref_productos[index]._vencimiento_rtm = this.addYear(fecha)
+<<<<<<< HEAD
+                }   
+	    },
+	    addYear(fecha) {
+=======
                 }                          
                
             },
             addYear(fecha) {
+>>>>>>> 21353bc1e40059fc0ca7e18f589594e669bf5c95
                 // fecha con año + 1
                 if (fecha) {
                     return moment(fecha).add(1, 'years').format('YYYY-MM-DD');

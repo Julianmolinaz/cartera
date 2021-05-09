@@ -7,7 +7,7 @@ class Proveedor
 {
     public static function getProveedores()
     {
-        $proveedores = \DB::table('terceros')
+	$proveedores = \DB::table('terceros')
             ->leftJoin('municipios', 'terceros.mun_id', '=', 'municipios.id')
             ->where('terceros.tipo', 'Proveedor')
             ->where('terceros.estado','Activo')

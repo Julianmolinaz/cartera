@@ -1,5 +1,4 @@
 
-
     @section('title','ver solicitud')
 
     @section('contenido')

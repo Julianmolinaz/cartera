@@ -217,6 +217,7 @@ class FacturaController extends Controller
 
     public function store(Request $request)
     {
+
         try {
 
             $pago_credito = new _\Classes\PagosCredito (
@@ -231,7 +232,7 @@ class FacturaController extends Controller
                 $request->num_cosignacion,
                 Auth::user()->id
             );
-    
+
             $pago_credito->make();
 
             return response()->json([
@@ -240,6 +241,7 @@ class FacturaController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            \Log::error($e);
 
             return response()->json([
                 "error"   => true,
@@ -292,8 +294,7 @@ class FacturaController extends Controller
 
     public function consultar_factura($num_fact)
     {
-      $n = 
-      DB::table('facturas')
+      $n = DB::table('facturas')
         ->where([['num_fact','=',$num_fact]])
         ->count();
 

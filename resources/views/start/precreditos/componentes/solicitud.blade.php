@@ -46,6 +46,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_solicitud.name) ? 'has-error' :'']">
                 <label for="">Fecha @{{ rules.fecha_solicitud.required }}</label>    
                 <input
+		    onkeydown="return false"
                     :disabled="!show"
                     type="date" 
                     class="form-control my-input" 

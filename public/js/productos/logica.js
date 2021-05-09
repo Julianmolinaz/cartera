@@ -1,4 +1,6 @@
 function getProductos(producto) {
+
+console.log(producto)
     switch (producto.id) {
         case 1:
             return [new Producto(producto.id, "R.T.M")];
@@ -84,6 +86,12 @@ function getProductos(producto) {
                 new Producto(producto.id, "SOAT"),
                 new Producto(producto.id, "R.T.M"),
                 new Producto(producto.id, "R.T.M"),
+            ];
+            break;
+	case 24:
+            return [
+                new Producto(producto.id, "SOAT"),
+                new Producto(producto.id, "SOAT"),
             ];
             break;
         default:

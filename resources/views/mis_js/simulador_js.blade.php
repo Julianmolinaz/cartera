@@ -60,19 +60,18 @@ if(periodo == "Quincenal"){
 
   var token = $("#token").val();
 
-    $.post(route, 
-        {
-            monto: dato1, 
-            meses: dato2, 
-            periodo: dato3, 
-            _token:token
-        }, 
-        function (resultado) { 
-            $("#valor_cuota").val(resultado);
-            valor_cuota_help.textContent = '$ '+ new Intl.NumberFormat().format(resultado);
-        },
-        "json");
-    });
+  $.post(route, {
+	monto: dato1,
+	meses: dato2, 
+	periodo: dato3, 
+	_token:token
+	},
+	 function(resultado){
+        $("#valor_cuota").val(resultado);
+	valor_cuota_help.textContent = '$ '+ new Intl.NumberFormat().format(resultado);
+	},
+	"json");
+   });
 
 
 

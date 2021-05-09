@@ -5,9 +5,8 @@ namespace App\Traits;
 use DB;
 use Auth;
 use App\Factura;
-use App\Variable;
 use Carbon\Carbon;
-
+use App\Variable;
 trait FacturaTrait
 {
 
@@ -30,9 +29,7 @@ trait FacturaTrait
 		$now     = Carbon::now();
 		$saldo   = $factura->credito->saldo;
 		$prox    = ''; //html con el saldo
-		$variable = Variable::all()[0];
-
-		//evalua si el saldo es mayor de 0 (no cancelado, aun vigente)
+		$variable = Variable::all()[0];	
 
 		if($saldo > 0){
 			$prox = '<p id="prox_fech_pago">Próxima fecha de pago: '. $factura->credito->fecha_pago->fecha_pago .'</p>';
@@ -128,7 +125,7 @@ trait FacturaTrait
 					</div>		
 					<div>
 						<br>
-						<p class="center">www.financiamossoat.com</p>
+						<p class="center">financiamossoat.com</p>
 					</div>
 				</div>
 			</body>

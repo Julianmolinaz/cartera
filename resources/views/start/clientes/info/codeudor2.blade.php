@@ -63,7 +63,11 @@
                 <i class="fa fa-location-arrow" aria-hidden="true"></i>
                 Dirección
             </th>
-            <td> {{ $cliente->codeudor->direccion .' - '. $cliente->codeudor->barrio .' - '. $cliente->codeudor->mun->nombre}}</td>
+            <td>
+                <span>{{ $cliente->codeudor->direccionc .' - '. $cliente->codeudor->barrioc}}</span>
+                    <br>
+                <span>{{$cliente->municipio->nombre .' - '.$cliente->municipio->departamento}}</span>
+            </td>
         </tr>
 
 

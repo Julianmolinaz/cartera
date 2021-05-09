@@ -142,7 +142,6 @@ class ComprobanteVentas
             $struct->cod_prod = '03';
             $struct->vlr_form_pago = $this->numNoRound($venta);
             $struct->vlr_und = $this->numNoRound($venta);
-        
 
             $this->reporte[] = (array)$struct;
         }
@@ -195,7 +194,6 @@ class ComprobanteVentas
 
         return $validado;
     }
-
 
     public static function numNoRound($value) 
     {
