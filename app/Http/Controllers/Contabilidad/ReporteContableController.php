@@ -117,17 +117,17 @@ class ReporteContableController extends Controller
         return [
             (Object)[
                 'id' => 'comprobantes_de_pago',
-                'name' => 'Comprobantes de pago',
+                'name' => 'Recibos de caja',
                 'range' => true
             ],
             (Object)[
                 'id' => 'compras_soat_rtm',
-                'name' => 'Compras SOAT RTM',
+                'name' => 'Compras',
                 'range' => true
             ],
             (Object)[
                 'id' => 'comprobante_ventas',
-                'name' => 'Comprobantes ventas',
+                'name' => 'Facturas de venta',
                 'range' => true
             ],
             (Object)[
