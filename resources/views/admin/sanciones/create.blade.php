@@ -37,11 +37,7 @@
 
 <center>
   <div class="product_image">
-<<<<<<< HEAD
-   <img src="{{asset('images/logo_gora_2021.png')}}" alt="...">
-=======
    <img src="{{asset('images/logo_gora_2021.png')}}" alt="..." width="300">
->>>>>>> 26b6d6b9d66455747454a3d4068f2fcefc527764
   </div> 
 </center>
             

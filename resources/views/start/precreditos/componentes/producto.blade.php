@@ -129,11 +129,7 @@
                                     class="form-control input-solicitud"
                                     v-model="element.fecha_exp"
                                     v-validate="rules.fecha_exp.rule"
-<<<<<<< HEAD
-				    @blur="vencimiento(index)"
-=======
                                     @blur="vencimiento(index)"
->>>>>>> 21353bc1e40059fc0ca7e18f589594e669bf5c95
                                     :name="rules.fecha_exp.name">  
                                 <span class="help-block" v-if="errors.first(rules.fecha_exp.name)">@{{ errors.first(rules.fecha_exp.name) }}</span>      
                                 <span class="help-block"><small>Ver factura ...</small></span>                           
