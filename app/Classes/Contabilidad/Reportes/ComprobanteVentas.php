@@ -21,12 +21,13 @@ class ComprobanteVentas
     protected $reportConsecutivo = [];
     protected $precredito;
 
-    public function __construct($ini, $end)
+    public function __construct($ini, $end, $consecutivo)
     {
         $this->ini = $ini;
         $this->end = $end;
         $this->iva = 0.19;
 
+        $this->consecutivo = intval($consecutivo);
         $this->reporte[] = $this->header();
     }
 
@@ -45,8 +46,6 @@ class ComprobanteVentas
                 
                 if ($this->factura->expedido_a && $this->facturaEnRango()) {
 
-                    $this->getConsecutivo();
-
                     if ($this->factura->nombre === 'R.T.M') {
 
                         $this->rtm();  
@@ -55,7 +54,10 @@ class ComprobanteVentas
 
                         $this->soat();                
                     }
-                }  
+
+                    $this->consecutivo ++;
+                } 
+                
             }
 
         }
@@ -336,19 +338,6 @@ class ComprobanteVentas
             ->groupBy('precreditos.id')
             ->orderBy('ref_productos.fecha_exp')
             ->get();  
-    }
-
-    public function getConsecutivo()
-    {
-        $this->consecutivo = DB::table('consecutivos')
-            ->find(4)
-            ->incrementable;
-
-        $this->reportConsecutivo[] = $this->consecutivo;
-
-        $this->consecutivo ++;
-
-        DB::table('consecutivos')->where('id', 4)->update(['incrementable' => $this->consecutivo]);
     }
 
     public function struct()

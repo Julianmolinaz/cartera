@@ -19,11 +19,11 @@ class ComprasRtmSoat
     protected $reportConsecutivo = [];
 
 
-    public function __construct($ini, $end)
+    public function __construct($ini, $end ,$consecutivo)
     {
         $this->ini = $ini;
         $this->end = $end;
-
+        $this->consecutivo = intval($consecutivo);
         $this->reporte[] = $this->header();
     }
 
@@ -39,7 +39,6 @@ class ComprasRtmSoat
             if ($this->factura->expedido_a) {
 
                 $this->reporFactura = [];
-                $this->getConsecutivo();
                 
                 if ($this->factura->nombre === 'R.T.M') {
                     $this->rtm();
@@ -48,9 +47,10 @@ class ComprasRtmSoat
                 } else if ($this->factura->nombre === 'SOAT') {
                     $this->soat();                
                 }
-    
+                
                 $this->reporte = array_merge($this->reporte, $this->reporFactura);
                 
+                $this->consecutivo ++;
             }
 
         }
@@ -259,22 +259,6 @@ class ComprasRtmSoat
         $struct->credito = $this->factura->costo + $this->factura->iva + $this->factura->otros;
 
         $this->reporFactura[] = (array)$struct;
-    }
-
-    public function getConsecutivo()
-    {
-        // hace la consulta y la guarda en una variable
-        $this->consecutivo = DB::table('consecutivos')
-            ->find(3)
-            ->incrementable;
-
-        $this->reportConsecutivo[] = $this->consecutivo;
-
-        // incrementa en uno la variable
-        $this->consecutivo ++;
-
-        // guarda el nuevo valor en la tabla;
-        DB::table('consecutivos')->where('id', 3)->update(['incrementable' => $this->consecutivo]);
     }
 
     public function struct()

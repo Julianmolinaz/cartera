@@ -26,7 +26,7 @@ class ReporteContableController extends Controller
     }
 
     public function store(Request $request) 
-    {
+    {        
         $ini = '';
         $fin = '';
 
@@ -58,7 +58,9 @@ class ReporteContableController extends Controller
 
         } else if ($request->report == 'compras_soat_rtm') {
 
-            $repor_compras = new Reportes\ComprasRtmSoat($ini, $end);
+            $this->validate($request, ['consecutivo' => 'required']);
+
+            $repor_compras = new Reportes\ComprasRtmSoat($ini, $end, $request->consecutivo);
 
             $data = $repor_compras->make();
 
@@ -72,7 +74,9 @@ class ReporteContableController extends Controller
 
         } else if ($request->report == 'comprobante_ventas') {
 
-            $repor_ventas = new Reportes\ComprobanteVentas($ini, $end);
+            $this->validate($request, ['consecutivo' => 'required']);
+
+            $repor_ventas = new Reportes\ComprobanteVentas($ini, $end, $request->consecutivo);
 
             $data = $repor_ventas->make();
 
