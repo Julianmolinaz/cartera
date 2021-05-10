@@ -28,7 +28,7 @@ class FacturasProveedor
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
             ->join('users','precreditos.user_create_id','=','users.id')
             ->join('terceros','ref_productos.proveedor_id','=','terceros.id')
-            ->whereBetween('precreditos.created_at',[$ini, $end])
+            ->whereBetween('ref_productos.fecha_exp',[$ini, $end])
             ->whereIn('precreditos.cartera_id', [6, 32])
             ->where('precreditos.aprobado', 'Si')
             ->groupBy('precreditos.id')
