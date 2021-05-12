@@ -95,7 +95,7 @@
                                     v-model="element.costo"
                                     v-validate="rules.costo.rule"
                                     :name="rules.costo.name+index">  
-                                <span class="help-block" v-if="element.costo > 0">$ @{{ element.costo | formatPrice }}</span>
+                                <span class="help-block" v-if="element.costo >= 0">$ @{{ element.costo | formatPrice }}</span>
                                 <span class="help-block">@{{ errors.first(rules.costo.name+index) }}</span>  
 
                             </div>
@@ -123,7 +123,7 @@
                             <div v-bind:class="['form-group','col-md-3',errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
                                 <label class="input-solicitud">Fecha de Expedicion @{{ rules.fecha_exp.required }}</label> 
                                 <input 
-			            onkeydown="return false"
+			                        onkeydown="return false"
                                     :disabled="element.estado != 'En proceso'"
                                     type="date" 
                                     class="form-control input-solicitud"
