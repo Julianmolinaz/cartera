@@ -42,12 +42,30 @@ var main = new Vue({
                 return false; 
             } 
 
+            await this.validarPagosRecientes();
+
             const res = await axios.post("{{url('start/facturas/abonos')}}", this.general);
 
             if (!res.data.error) { 
                 this.general.pagos = res.data.dat; 
                 self.mover_fecha   = res.data.cta_parcial_sin_movimiento_de_fecha;
             }
+            
+        },
+        async validarPagosRecientes() {
+            var data = {
+                monto: this.general.monto, 
+                credito_id: this.general.credito_id
+            };
+
+            const res = await axios.post('/api/recibos/recibos-recientes', data);
+
+            console.log({res});
+
+            if (res.data.dat == true) {
+                alertify.alert('Atención', 'Existe un pago reciente para este cliente');
+            }
+
         },
         borrar () { 
             this.bandera        = 0;
@@ -155,7 +173,7 @@ var main = new Vue({
     mounted: function(){
         if(this.credito.castigada == 'Si'){
             $message = 'Atención!, esta es una cartera castigada';
-	    alertify.notify($message, 'error', 5);
+	        alertify.notify($message, 'error', 5);
         }
     }
   })

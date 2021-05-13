@@ -176,7 +176,7 @@ class FacturaController extends Controller
         $variables = Variable::all();
         $tipo_pago  = getEnumValues('facturas','tipo');
         $total_pagos = sum_pagos($credito);
-
+        
         return view('start.facturas.create')
             ->with('pago_prejuridico',$pago_prejuridico)
             ->with('total_parciales',$total_parciales)
@@ -307,6 +307,36 @@ class FacturaController extends Controller
     public function get_pdf($factura_id){
         return view('start.facturas.pdf')
             ->with( 'factura', Factura::find($factura_id));
+    }
+
+    /**
+     * PG 13052021
+     * @param Request $request: $credito_id, $monto = $$$
+     * @return boolean true: si existe pago, false: si no existe pago
+     */
+
+    public function recibosRecientes(Request $request)
+    {
+        try {
+            $antes = Carbon::now()->subDay(
+                intval(DB::table('consecutivos')->where('prefijo', 'depr')->get())
+            );
+
+            $existen_pagos = DB::table('facturas')
+                ->join('creditos', 'facturas.credito_id', '=', 'creditos.id')
+                ->join('precreditos', 'creditos.precredito_id', '=', 'precreditos.id')
+                ->join('clientes', 'precreditos.cliente_id', '=', 'clientes.id')
+                ->where('creditos.id', $request->credito_id)
+                ->where('facturas.created_at', '>=', $antes)
+                ->where('facturas.total', '=', $request->monto)
+                ->count();
+
+            $response = !!$existen_pagos;
+
+            return res(true, $response, 'Ok!!!');
+        } catch (\Exception $e) {
+            return res(false, '', 'Ocurrió un error.');
+        }
     }
 
 }

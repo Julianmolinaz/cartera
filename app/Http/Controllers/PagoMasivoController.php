@@ -137,7 +137,6 @@ class PagoMasivoController extends Controller
 
             $this->data = collect(Excel::load($path, function($reader){})->get());
 
-
             // valida data to process
 
             if (! $this->processData() ) return view('admin.masivos.cargue.index')->with('err', $this->arr_error); 
@@ -173,8 +172,11 @@ class PagoMasivoController extends Controller
             if ($this->arr_error) return false;
             
             // ****** Valida si existen el cliente, credito o solicitud *******
-            // dd($this->data);
             $this->rulesBeforePay(); 
+            if ($this->arr_error) return false;
+
+            // ****** Valida que no existan pagos cercanos ************
+            $this->pagosRecientes();
             if ($this->arr_error) return false;
 
             // ****** Realizar Pagos *******
@@ -813,6 +815,39 @@ class PagoMasivoController extends Controller
             $sheet->fromArray($arr,null,'A1',false,false);
             });
         })->download('xls');
+    }
+
+    public function pagosRecientes()
+    {
+
+        $antes = Carbon::now()->subDay(
+            intval(DB::table('consecutivos')->where('prefijo', 'depr')->get())
+        );
+
+        $this->index = 1;
+
+        foreach ($this->data as $item) {
+
+            $this->index++;
+
+            $existen_pagos = DB::table('facturas')
+                ->join('creditos', 'facturas.credito_id', '=', 'creditos.id')
+                ->join('precreditos', 'creditos.precredito_id', '=', 'precreditos.id')
+                ->join('clientes', 'precreditos.cliente_id', '=', 'clientes.id')
+                ->where('clientes.num_doc', $item->documento)
+                ->where('facturas.created_at', '>=', $antes)
+                ->where('facturas.total', '=', $item->monto)
+                ->count();
+
+            if ($existen_pagos) {
+
+                $this->arr_error[] = [
+                    'line' => $this->index,
+                    'message' => "Existen pagos recientes con el mismo monto ver cliente con documento: ".$item->documento
+                ];
+            }
+        }
+
     }
 
 }
