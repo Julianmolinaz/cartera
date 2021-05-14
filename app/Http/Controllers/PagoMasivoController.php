@@ -587,7 +587,6 @@ class PagoMasivoController extends Controller
                 ];
             }
         }
-
     }
 
     /**
@@ -819,10 +818,13 @@ class PagoMasivoController extends Controller
 
     public function pagosRecientes()
     {
+        // $depr :: mínimo de dias para la evaluación
 
-        $antes = Carbon::now()->subDay(
-            intval(DB::table('consecutivos')->where('prefijo', 'depr')->get())
-        );
+        $depr = DB::table('consecutivos')
+            ->where('prefijo', 'depr')
+            ->first();
+        
+        $antes = Carbon::now()->subDay(intval($depr->incrementable));
 
         $this->index = 1;
 
@@ -843,7 +845,7 @@ class PagoMasivoController extends Controller
 
                 $this->arr_error[] = [
                     'line' => $this->index,
-                    'message' => "Existen pagos recientes con el mismo monto ver cliente con documento: ".$item->documento
+                    'message' => "Existen pagos recientes con el mismo monto, ver cliente con documento: ".$item->documento
                 ];
             }
         }
