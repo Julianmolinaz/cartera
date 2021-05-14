@@ -49,8 +49,7 @@ var main = new Vue({
             if (!res.data.error) { 
                 this.general.pagos = res.data.dat; 
                 self.mover_fecha   = res.data.cta_parcial_sin_movimiento_de_fecha;
-            }
-            
+            }     
         },
         async validarPagosRecientes() {
             var data = {
@@ -74,9 +73,8 @@ var main = new Vue({
             this.message2       = '';
         },
         async aceptar () {        //facturar
-
             var validacion = await this.validar_fact();
-        
+       
             if (validacion.error) {
                 alertify.alert('Alerta', validacion.message);
                 return false;
