@@ -123,7 +123,7 @@
                             <div v-bind:class="['form-group','col-md-3',errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
                                 <label class="input-solicitud">Fecha de Expedicion @{{ rules.fecha_exp.required }}</label> 
                                 <input 
-			            onkeydown="return false"
+			                        onkeydown="return false"
                                     :disabled="element.estado != 'En proceso'"
                                     type="date" 
                                     class="form-control input-solicitud"

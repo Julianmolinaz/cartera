@@ -48,9 +48,9 @@ class Terceros
         return DB::table('clientes')
             ->join('precreditos','clientes.id', '=', 'precreditos.cliente_id')
             ->join('municipios','clientes.municipio_id','=','municipios.id')
-            // ->whereBetween('precreditos.created_at',[$this->ini, $this->end])
+            ->whereBetween('precreditos.created_at',[$this->ini, $this->end])
             ->whereIn('precreditos.cartera_id', [6, 32])
-            ->whereIn('clientes.num_doc', $this->docTerceros()) // Terceros especificos para crear.
+            // ->whereIn('clientes.num_doc', $this->docTerceros()) // Terceros especificos para crear.
             ->select(
                     DB::raw('CONCAT(clientes.primer_nombre," ",clientes.segundo_nombre) as nombres'),
                     DB::raw('CONCAT(clientes.primer_apellido," ",clientes.segundo_apellido) as apellidos'),

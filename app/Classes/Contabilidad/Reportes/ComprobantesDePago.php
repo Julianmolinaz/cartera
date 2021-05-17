@@ -399,7 +399,8 @@ class ComprobantesDePago
 
     public function header() 
     {
-        return [
+        return 
+		[
             'Tipo de comprobante',
             'Consecutivo comprobante',
             'Fecha de elaboración',
@@ -434,7 +435,8 @@ class ComprobantesDePago
 
     public function clientes2()
     {
-        return [
+        return 
+		[
             1073603889,
         	817001773,
         	93297936,
@@ -9239,13 +9241,16 @@ class ComprobantesDePago
         	1075288526,
         	65824292,
         	1114338891,
-        	1075239688];
+        	1075239688
+		];
         
     }
     
     public function clientes()
     {
-        return '(1073603889,
+        return 
+		'(
+			1073603889,
         	817001773,
         	93297936,
         	10131119,
