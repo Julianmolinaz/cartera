@@ -95,7 +95,7 @@
                                     v-model="element.costo"
                                     v-validate="rules.costo.rule"
                                     :name="rules.costo.name+index">  
-                                <span class="help-block" v-if="element.costo > 0">$ @{{ element.costo | formatPrice }}</span>
+                                <span class="help-block" v-if="element.costo >= 0">$ @{{ element.costo | formatPrice }}</span>
                                 <span class="help-block">@{{ errors.first(rules.costo.name+index) }}</span>  
 
                             </div>
