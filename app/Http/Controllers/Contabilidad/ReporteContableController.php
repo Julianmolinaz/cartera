@@ -26,7 +26,7 @@ class ReporteContableController extends Controller
     }
 
     public function store(Request $request) 
-    {        
+    {     
         $ini = '';
         $fin = '';
 
@@ -111,34 +111,63 @@ class ReporteContableController extends Controller
         }    
     }
 
+    public function getTerceros()
+    {
+        return view('contabilidad.reportes.terceros.index');
+    }
+
+    public function getRecibosCaja()
+    {
+        return view('contabilidad.reportes.recibos_caja.index');
+    }
+
+    public function getFacturasVenta()
+    {
+        return view('contabilidad.reportes.facturas_venta.index');
+    }
+
+    public function getCompras()
+    {
+        return view('contabilidad.reportes.compras.index');
+    }
+    
+    public function getFacturasProveedor()
+    {
+        return view('contabilidad.reportes.facturas_proveedor.index');
+    }
 
     public function reports()
     {
         return [
-            (Object)[
-                'id' => 'comprobantes_de_pago',
-                'name' => 'Recibos de caja',
-                'range' => true
-            ],
-            (Object)[
-                'id' => 'compras_soat_rtm',
-                'name' => 'Compras',
-                'range' => true
-            ],
-            (Object)[
-                'id' => 'comprobante_ventas',
-                'name' => 'Facturas de venta',
-                'range' => true
-            ],
-            (Object)[
-                'id' => 'facturas_proveedor',
-                'name' => 'Facturas proveedor',
-                'range' => true
-            ],
-            (Object)[
+            [
                 'id' => 'terceros',
                 'name' => 'Terceros',
-                'range' => true
+                'route' => 'contabilidad.reportes.terceros.index',
+                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',
+            ],
+            [
+                'id' => 'comprobantes_de_pago',
+                'name' => 'Recibos de caja',
+                'route' => 'contabilidad.reportes.recibos_caja.index',
+                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',   
+            ],
+            [
+                'id' => 'comprobante_ventas',
+                'name' => 'Facturas de venta',
+                'route' => 'contabilidad.reportes.facturas_venta.index',
+                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',
+            ],
+            [
+                'id' => 'compras_soat_rtm',
+                'name' => 'Compras',
+                'route' => 'contabilidad.reportes.compras.index',
+                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',
+            ],
+            [
+                'id' => 'facturas_proveedor',
+                'name' => 'Facturas proveedor',
+                'route' => 'contabilidad.reportes.facturas_proveedor.index',
+                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',
             ],
 
         ];
