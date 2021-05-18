@@ -36,6 +36,8 @@ var main = new Vue({
         },
         //distribuye el monto en el listado de pagos
         async agregar () {
+		
+	    console.log('agregar')
 
             if (this.general.monto === '') { 
                 alertify.alert('Atención', 'Se requiere el monto');  
@@ -58,8 +60,7 @@ var main = new Vue({
             };
 
             const res = await axios.post('/api/recibos/recibos-recientes', data);
-
-            console.log({res});
+	    console.log({res})
 
             if (res.data.dat == true) {
                 alertify.alert('Atención', 'Existe un pago reciente para este cliente');

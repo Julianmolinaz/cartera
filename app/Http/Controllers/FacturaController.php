@@ -319,7 +319,7 @@ class FacturaController extends Controller
     {
         try {
             $antes = Carbon::now()->subDay(
-                intval(DB::table('consecutivos')->where('prefijo', 'depr')->get())
+                intval(DB::table('consecutivos')->where('prefijo', 'depr')->first()->incrementable)
             );
 
             $existen_pagos = DB::table('facturas')
