@@ -101,8 +101,8 @@
         'ordering':true,
         'scrollY': 400,
         "scrollCollapse": true,
-        //"scrollX": true,
-        //"searching": false
+        "scrollX": true,
+        "searching": false
 
     });
 

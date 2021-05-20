@@ -23,10 +23,11 @@ class ComprobantesDePago
     protected $prerecibo;               // contendor del pago por solicitud
     protected $clientes = [];           // Array de cllientes
 
-    public function __construct($ini, $end, $consecutivo)
+    public function __construct($ini, $end, $consecutivo, $clientes)
     {
         $this->ini = $ini;
         $this->end = $end;
+        $this->clientes = $clientes;
 
        $this->consecutivo = intval($consecutivo);
     }
@@ -325,7 +326,8 @@ class ComprobantesDePago
     {
         
         $date_str = "CONCAT(SUBSTRING(facturas.fecha, 7,4),'-',SUBSTRING(facturas.fecha, 4,2),'-', SUBSTRING(facturas.fecha, 1,2))";
-        // $clientes =  $this->clientes();
+        $clientes = "(100,200)";
+
 
         $ids = DB::select(
             "select facturas.id
@@ -343,7 +345,7 @@ class ComprobantesDePago
                     and precreditos.cartera_id in (6,32)
                     and clientes.num_doc in ?"
                 
-                , [$this->ini, $this->end, $this->clientes]
+                , [$this->ini, $this->end, $clientes]
             );
             
         return $ids;
@@ -432,7 +434,7 @@ class ComprobantesDePago
             'Base exenta libro ventas',
             'Mes de cierre',
             'Tipo',
-            'Banco'
+            'Banco',
         ];
     }
 

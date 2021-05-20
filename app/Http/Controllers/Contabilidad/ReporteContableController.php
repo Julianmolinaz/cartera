@@ -255,9 +255,23 @@ class ReporteContableController extends Controller
         return view('contabilidad.reportes.recibos_caja.index');
     }
 
-    public function listRecibosCaja()
+    public function listRecibosCaja(Request $request)
     {
-        
+        $this->validate($request, ['consecutivo' => 'required']);
+
+        $rango = $this->getRango($request->daterange);
+        $repor_caja = new Reportes\ComprobantesDePago($rango->ini, $rango->end, $request->consecutivo, $request->clientes);
+        $data = [];
+        $data = collect($repor_caja->make(false))->toArray();
+
+        if (!count($data)) {
+            flash()->error('No existen registros para esta busqueda =(');
+            return redirect()->back();
+        }
+
+        return view('contabilidad.reportes.compras.list')
+            ->with('data', $data)
+            ->with('rango', $rango);
     }
 
     public function expRecibosCaja(Request $request)
@@ -266,7 +280,14 @@ class ReporteContableController extends Controller
 
         $rango = $this->getRango($request->daterange);
         $data = [];
-        $repor_caja = new Reportes\ComprobantesDePago($rango->ini, $rango->end, $request->consecutivo);
+
+        $repor_caja = new Reportes\ComprobantesDePago(
+            $rango->ini, 
+            $rango->end, 
+            $request->consecutivo,
+            []
+        );
+
         $data = $repor_caja->make(true);
         
         Excel::create('comprobantes_de_pago_cont_'.$request->daterange,
