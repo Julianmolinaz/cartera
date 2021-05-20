@@ -9,7 +9,7 @@
 
         <center>
             <h1>Recibos de Caja.</h1>
-            <hr>
+            <a class="btn" href="{{route('contabilidad.reportes.index')}}" style="margin-top:-21px;">Volver</a>
         </center>
       <p>
         @include('flash::message')
@@ -20,6 +20,7 @@
           id="form"
           class="form-horizontal form-label-left"  
           method="POST"
+          autocomplete="off"
         >
       
           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -43,22 +44,24 @@
                             id="consecutivo" 
                             name="consecutivo" 
                             class="form-control" 
-                            placeholder="Consecutivo"> 
+                            placeholder="Consecutivo *"> 
                     </div>
             </div>
 
         </div>  
 
         <div class="form-group" id="" style="">
-                <div class="col-md-6"></div>
-                    <div class="col-md-6 col-md-offset-3" id="" >
-                        <input 
-                            type="numeric" 
-                            id="terceros" 
-                            name="terceros" 
-                            class="form-control" 
-                            placeholder="Terceros"> 
-                    </div>
+            <div class="col-md-6"></div>
+                <div class="col-md-6 col-md-offset-3" id="" >
+                  <textarea 
+                      id="terceros" 
+                      name="terceros" 
+                      class="form-control" 
+                      placeholder="Terceros"></textarea>
+                    <center>
+                        <p class="help-block"><small>Ejemplo: 110000000,12726020,102220003</small></p>
+                    </center>   
+                </div>
             </div>
       
         <center>
@@ -88,7 +91,7 @@
 
 <center>
   <div class="product_image">
-    <img style="width:400px; margin-top: 30px;" src="{{asset('images/logo_gora_2021.png')}}" alt="...">
+    <img style="width:300px; margin-top: 30px;" src="{{asset('images/logo_gora_2021.png')}}" alt="...">
   </div> 
 </center>
             

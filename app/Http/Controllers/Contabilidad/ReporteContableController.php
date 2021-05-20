@@ -212,7 +212,9 @@ class ReporteContableController extends Controller
 
     public function listCompras(Request $request)
     {
+        dd($request->clientes);
         $this->validate($request, ['consecutivo' => 'required']);
+        $this->validate($request, ['clientes' => 'required']);
 
         $rango = $this->getRango($request->daterange);
         $repor_compras = new Reportes\ComprasRtmSoat($rango->ini, $rango->end, $request->consecutivo);

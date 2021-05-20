@@ -9,7 +9,7 @@
 
                     <center>
                         <h1>Facturas Proveedor.</h1>
-                        <hr>
+                        <a class="btn" href="{{route('contabilidad.reportes.index')}}" style="margin-top:-21px;">Volver</a>
                     </center>
                     <p>
                         @include('flash::message')
@@ -20,6 +20,7 @@
                         id="form"
                         class="form-horizontal form-label-left"  
                         method="POST"
+                        autocomplete="off"
                         >
                     
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -62,7 +63,7 @@
 
 <center>
   <div class="product_image">
-    <img style="width:400px; margin-top: 30px;" src="{{asset('images/logo_gora_2021.png')}}" alt="...">
+    <img style="width:300px; margin-top: 30px;" src="{{asset('images/logo_gora_2021.png')}}" alt="...">
   </div> 
 </center>
             

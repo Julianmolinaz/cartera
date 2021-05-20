@@ -326,7 +326,7 @@ class ComprobantesDePago
     {
         
         $date_str = "CONCAT(SUBSTRING(facturas.fecha, 7,4),'-',SUBSTRING(facturas.fecha, 4,2),'-', SUBSTRING(facturas.fecha, 1,2))";
-        $clientes = "(100,200)";
+        $clientes = "(1070621776)";
 
 
         $ids = DB::select(

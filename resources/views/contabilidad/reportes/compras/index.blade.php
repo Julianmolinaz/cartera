@@ -9,7 +9,7 @@
 
         <center>
             <h1>Compras.</h1>
-            <hr>
+            <a class="btn" href="{{route('contabilidad.reportes.index')}}" style="margin-top:-21px;">Volver</a>
         </center>
       <p>
         @include('flash::message')
@@ -20,6 +20,7 @@
           id="form"
           class="form-horizontal form-label-left"  
           method="POST"
+          autocomplete="off"
         >
       
           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -35,7 +36,7 @@
               >  
             </div>
 
-            <div class="form-group" id="" style=""> 
+            <div class="form-group" > 
                 <div class="col-md-3"></div>
                     <div class="col-md-6" id="" >
                         <input  
@@ -76,7 +77,7 @@
 
 <center>
   <div class="product_image">
-    <img style="width:400px; margin-top: 30px;" src="{{asset('images/logo_gora_2021.png')}}" alt="...">
+    <img style="width:300px;0px; margin-top: 30px;" src="{{asset('images/logo_gora_2021.png')}}" alt="...">
   </div> 
 </center>
             
