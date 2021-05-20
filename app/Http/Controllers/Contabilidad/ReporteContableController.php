@@ -56,29 +56,141 @@ class ReporteContableController extends Controller
                     });
                 })->download('xls');
 
-        } else if ($request->report == 'compras_soat_rtm') {
+        } 
+    }
 
-            $this->validate($request, ['consecutivo' => 'required']);
+    /**
+     * Terceros
+     */
+    public function getTerceros()
+    {
+        return view('contabilidad.reportes.terceros.index');
+    }
 
-            $repor_compras = new Reportes\ComprasRtmSoat($ini, $end, $request->consecutivo);
 
-            $data = $repor_compras->make();
+    public function listTerceros(Request $request)
+    {
+        $rango = $this->getRango($request->daterange);
 
-            Excel::create('compras_soat_rtm'.$request->daterange,
-                function($excel) use($data){
-                    $excel->sheet('Sheetname',function($sheet) use($data){
-                        
-                        $sheet->fromArray($data, null, 'A1', false, false);
-                    });
-                })->download('xls');
+        $repor_ventas = new Reportes\Terceros($rango->ini, $rango->end);
 
-        } else if ($request->report == 'comprobante_ventas') {
+        $data = collect($repor_ventas->make(false))->toArray();
 
-            $this->validate($request, ['consecutivo' => 'required']);
 
-            $repor_ventas = new Reportes\ComprobanteVentas($ini, $end, $request->consecutivo);
+        if (!count($data)) {
+            flash()->error('No existen registros para esta busqueda =(');
+            return redirect()->back();
+        }
 
-            $data = $repor_ventas->make();
+        return view('contabilidad.reportes.terceros.list')
+            ->with('data', $data)
+            ->with('rango', $rango);
+    }
+
+
+    public function expTerceros(Request $request)
+    {
+        $rango = $this->getRango($request->daterange);
+
+        $repor_ventas = new Reportes\Terceros($rango->ini, $rango->end);
+
+        $data = $repor_ventas->make(true);
+
+        Excel::create('terceros'.$request->daterange,
+            function($excel) use($data){
+                $excel->sheet('Sheetname',function($sheet) use($data){
+                    
+                    $sheet->fromArray($data, null, 'A1', false, false);
+                });
+            })->download('xls');
+    }
+
+    /**
+     * Facturas proveedor
+     */
+    public function getFacturasProveedor()
+    {
+        return view('contabilidad.reportes.facturas_proveedor.index');
+    }
+
+    public function listFacturasProveedor(Request $request)
+    {
+        $rango = $this->getRango($request->daterange);
+
+        $repor_facturas_proveedor = Reportes\FacturasProveedor::getFacturas($rango->ini, $rango->end);
+          
+            return view('contabilidad/reportes/facturas_proveedor/list')
+                ->with('facturas',$repor_facturas_proveedor)
+                ->with('rango',$rango);
+    }
+
+    public function expFacturasProveedor(Request $request)
+    {
+        $rango = $this->getRango($request->daterange);
+        $data_ = Reportes\FacturasProveedor::getFacturas($rango->ini, $rango->end);
+        $header = Reportes\FacturasProveedor::header();
+        $data = [];
+
+        $data[] = $header;
+
+        foreach($data_ as $item) {
+            $data[] = collect($item)->toArray();
+        }
+          
+        Excel::create('facturas_proveedor'.$request->daterange,
+        
+            function($excel) use($data){
+                
+                $excel->sheet('Sheetname',function($sheet) use($data){
+                    $sheet->fromArray($data, null, 'A1', false, false);
+                });
+            })->download('xls');
+            
+    }
+
+
+    /**
+     * Ventas
+     */
+
+    public function getFacturasVenta()
+    {
+        return view('contabilidad.reportes.facturas_venta.index');
+    }
+
+    public function listFacturasVenta(Request $request)
+    {
+        // $this->validate($request, ['consecutivo' => 'required']);
+
+        $rango = $this->getRango($request->daterange);
+        $repor_ventas = new Reportes\ComprobanteVentas($rango->ini, $rango->end,$request->consecutivo);
+        $data = collect($repor_ventas->make(false))->toArray();
+        
+
+        if (!count($data)) {
+            flash()->error('No existen registros para esta busqueda =(');
+            return redirect()->back();
+        }
+
+        return view('contabilidad.reportes.facturas_venta.list')
+            ->with('data', $data)
+            ->with('rango', $rango);
+    }
+
+    public function expFacturasVenta(Request $request)
+    {
+        $this->validate($request, ['consecutivo' => 'required']);
+
+        $rango = $this->getRango($request->daterange);
+
+        $repor_ventas = new Reportes\ComprobanteVentas($rango->ini, $rango->end, $request->consecutivo);
+
+        $data = $repor_ventas->make(true);
+
+            if (!count($data)) {
+            flash()->error('No existen registros para esta busqueda =(');
+            return redirect()->back();
+        }
 
             Excel::create('comprobante_ventas'.$request->daterange,
                 function($excel) use($data){
@@ -87,55 +199,88 @@ class ReporteContableController extends Controller
                         $sheet->fromArray($data, null, 'A1', false, false);
                     });
                 })->download('xls');
-        } else if ($request->report == 'facturas_proveedor') {
+    }
 
-            $repor_facturas_proveedor = Reportes\FacturasProveedor::getFacturas($ini, $end);
-          
-            return view('contabilidad/reportes/factura_proveedor')
-                ->with('facturas',$repor_facturas_proveedor)
-                ->with('rango',['ini'=>$ini,'end'=>$end]);
+    /**
+     * Compras
+     */
 
-        } else if ($request->report == 'terceros') {
+    public function getCompras()
+    {
+        return view('contabilidad.reportes.compras.index');
+    }
 
-            $repor_ventas = new Reportes\Terceros($ini, $end);
+    public function listCompras(Request $request)
+    {
+        $this->validate($request, ['consecutivo' => 'required']);
 
-            $data = $repor_ventas->make();
+        $rango = $this->getRango($request->daterange);
+        $repor_compras = new Reportes\ComprasRtmSoat($rango->ini, $rango->end, $request->consecutivo);
+        $data = collect($repor_compras->make(false))->toArray();
 
-            Excel::create('terceros'.$request->daterange,
+        if (!count($data)) {
+            flash()->error('No existen registros para esta busqueda =(');
+            return redirect()->back();
+        }
+
+        return view('contabilidad.reportes.compras.list')
+            ->with('data', $data)
+            ->with('rango', $rango);
+    }
+
+    public function expCompras(Request $request)
+    {
+        $this->validate($request, ['consecutivo' => 'required']);
+
+        $rango = $this->getRango($request->daterange);
+
+        $repor_compras = new Reportes\ComprasRtmSoat($rango->ini, $rango->end, $request->consecutivo);
+
+        $data = $repor_compras->make(true);
+
+            Excel::create('compras_soat_rtm'.$request->daterange,
                 function($excel) use($data){
                     $excel->sheet('Sheetname',function($sheet) use($data){
                         
                         $sheet->fromArray($data, null, 'A1', false, false);
                     });
                 })->download('xls');
-        }    
     }
-
-    public function getTerceros()
-    {
-        return view('contabilidad.reportes.terceros.index');
-    }
-
+    
+    /**
+     * Recibos de Caja
+     */
     public function getRecibosCaja()
     {
         return view('contabilidad.reportes.recibos_caja.index');
     }
 
-    public function getFacturasVenta()
+    public function listRecibosCaja()
     {
-        return view('contabilidad.reportes.facturas_venta.index');
+        
     }
 
-    public function getCompras()
+    public function expRecibosCaja(Request $request)
     {
-        return view('contabilidad.reportes.compras.index');
-    }
-    
-    public function getFacturasProveedor()
-    {
-        return view('contabilidad.reportes.facturas_proveedor.index');
+        $this->validate($request, ['consecutivo' => 'required']);
+
+        $rango = $this->getRango($request->daterange);
+        $data = [];
+        $repor_caja = new Reportes\ComprobantesDePago($rango->ini, $rango->end, $request->consecutivo);
+        $data = $repor_caja->make(true);
+        
+        Excel::create('comprobantes_de_pago_cont_'.$request->daterange,
+            function($excel) use($data){
+                $excel->sheet('Sheetname',function($sheet) use($data){
+                    
+                    $sheet->fromArray($data, null, 'A1', false, false);
+                });
+            })->download('xls');
     }
 
+    /**
+     * Reportes
+     */
     public function reports()
     {
         return [
@@ -174,4 +319,25 @@ class ReporteContableController extends Controller
     }
 
     
+    public function getRango($rango)
+    {
+        $ini = '';
+        $fin = '';
+
+        if ($rango) {
+            $ini_temp = substr($rango,0,10);
+            $fin_temp = substr($rango,13,22);
+            $ini   = Carbon::create(ctrl\ano($ini_temp),ctrl\mes($ini_temp),ctrl\dia($ini_temp),00,00,00);
+            $end   = Carbon::create(ctrl\ano($fin_temp),ctrl\mes($fin_temp),ctrl\dia($fin_temp),23,59,59);
+
+            return (Object) [
+                'ini' => $ini,
+                'end' => $end
+            ];
+        }
+
+        throw new Exception("No se encuentra un rango válido =(", 500);
+        
+    }
+
 }

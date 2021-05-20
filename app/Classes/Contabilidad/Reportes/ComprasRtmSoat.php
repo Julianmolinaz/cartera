@@ -24,11 +24,14 @@ class ComprasRtmSoat
         $this->ini = $ini;
         $this->end = $end;
         $this->consecutivo = intval($consecutivo);
-        $this->reporte[] = $this->header();
+        
     }
 
-    public function make()
+    public function make($header)
     {
+        if ($header) 
+            $this->reporte[] = $this->header();
+
         $this->getFacturas();
 
         foreach ($this->facturas as $factura) {

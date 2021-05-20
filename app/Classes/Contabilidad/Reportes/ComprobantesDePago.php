@@ -23,17 +23,20 @@ class ComprobantesDePago
     protected $prerecibo;               // contendor del pago por solicitud
     protected $clientes = [];           // Array de cllientes
 
-    public function __construct($ini, $end)
+    public function __construct($ini, $end, $consecutivo)
     {
         $this->ini = $ini;
         $this->end = $end;
 
-        // $this->reporte[] = $this->header();
+       $this->consecutivo = intval($consecutivo);
     }
 
 
-    public function make()
+    public function make($header)
     {
+        if ($header)
+             $this->reporte[] = $this->header();
+
         set_time_limit(400);
         
         
@@ -322,7 +325,7 @@ class ComprobantesDePago
     {
         
         $date_str = "CONCAT(SUBSTRING(facturas.fecha, 7,4),'-',SUBSTRING(facturas.fecha, 4,2),'-', SUBSTRING(facturas.fecha, 1,2))";
-        $clientes =  $this->clientes();
+        // $clientes =  $this->clientes();
 
         $ids = DB::select(
             "select facturas.id
@@ -348,7 +351,7 @@ class ComprobantesDePago
 
     public function getPagosSolicitud():void
     { 
-        $clientes =  $this->clientes2();
+        // $clientes =  $this->clientes2();
         
         $this->prerecibos = _\Factprecredito::
               join('precreditos', 'fact_precreditos.precredito_id','=','precreditos.id')

@@ -1,4 +1,4 @@
-@section('title','Recibos de Caja')
+@section('title','Compras')
 @section('contenido')
 
 <div class="row">
@@ -17,6 +17,7 @@
       </p>
 
         <form 
+          id="form"
           class="form-horizontal form-label-left"  
           method="POST"
         >
@@ -49,12 +50,16 @@
         </div>  
       
         <center>
-           <button type="submit" 
+           <button 
+                  id="btn-previsualizar"  
+                  type="submit" 
                   style="margin-top: 15px;" 
                   class="btn btn-primary">
-                  &nbsp;&nbsp;Generar Reporte&nbsp;&nbsp;
+                  &nbsp;&nbsp;Previsualizar&nbsp;&nbsp;
             </button>
-            <button type="submit" 
+            <button 
+                  id="btn-exp"
+                  type="submit" 
                   style="margin-top: 15px;" 
                   class="btn btn-success">
                   &nbsp;&nbsp;Exportar Reporte&nbsp;&nbsp;
@@ -87,6 +92,36 @@ $(function() {
   });
 
 });
+
+class Main {
+
+    constructor() {
+
+        // Atributos
+        this.btnPrev = document.querySelector('#btn-previsualizar');
+        this.btnExp  = document.querySelector('#btn-exp');
+        this.form    = document.querySelector('#form');
+
+        // Eventos
+        this.btnPrev.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.getPrev();
+        });
+        this.btnExp.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.getExp();
+        });
+    }
+    getPrev() {
+        this.form.action = '/contabilidad/reportes/compras/list';
+        this.form.submit();
+    }
+    getExp() {
+        this.form.action = '/contabilidad/reportes/compras/exp';
+        this.form.submit();
+    }
+}
+new Main();
  
 </script>
 

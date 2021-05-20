@@ -19,7 +19,8 @@ class FacturasProveedor
 
     public static function getFacturas($ini, $end)
     {
-        return DB::table('ref_productos')
+
+        $facturas = DB::table('ref_productos')
             ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
             ->join('productos','ref_productos.producto_id','=','productos.id')
             ->join('vehiculos','ref_productos.vehiculo_id','=','vehiculos.id')
@@ -59,6 +60,8 @@ class FacturasProveedor
                     'users.name'
                     )
             ->get();  
+
+        return $facturas;
     }       
 
     public function struct()
@@ -88,7 +91,7 @@ class FacturasProveedor
     }
 
 
-    public function header()
+    public static function header()
     {
         return [
             'solicitud',	

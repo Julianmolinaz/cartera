@@ -17,6 +17,7 @@
       </p>
 
         <form 
+          id="form"
           class="form-horizontal form-label-left"  
           method="POST"
         >
@@ -39,12 +40,14 @@
         <center>
            <button type="submit" 
                   style="margin-top: 15px;" 
-                  class="btn btn-primary">
-                  &nbsp;&nbsp;Generar Reporte&nbsp;&nbsp;
+                  class="btn btn-primary"
+                  id="btn-previsualizar">
+                  &nbsp;&nbsp;Previsualizar&nbsp;&nbsp;
             </button>
             <button type="submit" 
                   style="margin-top: 15px;" 
-                  class="btn btn-success">
+                  class="btn btn-success"
+                  id="btn-exp">
                   &nbsp;&nbsp;Exportar Reporte&nbsp;&nbsp;
             </button>
         </center>  
@@ -75,7 +78,37 @@ $(function() {
   });
 
 });
- 
+
+class Main {
+
+    constructor() {
+
+        // Atributos
+        this.btnPrev = document.querySelector('#btn-previsualizar');
+        this.btnExp  = document.querySelector('#btn-exp');
+        this.form    = document.querySelector('#form');
+
+        // Eventos
+        this.btnPrev.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.getPrev();
+        });
+        this.btnExp.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.getExp();
+        });
+    }
+    getPrev() {
+        this.form.action = '/contabilidad/reportes/terceros/list';
+        this.form.submit();
+    }
+    getExp() {
+        this.form.action = '/contabilidad/reportes/terceros/exp';
+        this.form.submit();
+    }
+}
+new Main();
+
 </script>
 
 
