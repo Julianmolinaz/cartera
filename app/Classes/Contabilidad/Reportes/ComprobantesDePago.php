@@ -28,8 +28,7 @@ class ComprobantesDePago
         $this->ini = $ini;
         $this->end = $end;
         $this->clientes = $clientes;
-
-       $this->consecutivo = intval($consecutivo);
+        $this->consecutivo = intval($consecutivo);
     }
 
 
@@ -42,10 +41,6 @@ class ComprobantesDePago
         
         
         $this->makePagosPorSolicitud();
-
-
-        // dd($this->reporte);
-
         $this->makePagosPorCredito();
 
         /**
@@ -60,7 +55,7 @@ class ComprobantesDePago
 
         // dd($reporte_consolidado);
 
-        return array_merge([$this->header()], $this->reporte);
+        return $this->reporte;
     }
 
     public function makePagosPorCredito()
@@ -160,7 +155,7 @@ class ComprobantesDePago
         for ($i = 1; $i < count($this->temporal); $i++) {
             
             $suma += $this->temporal[$i]['credito'];
-            // dd($suma);
+
         }
 
         $diferencia = $this->temporal[0]['debito'] - $suma;
@@ -324,45 +319,60 @@ class ComprobantesDePago
     
     public function getIdsRecibos()
     {
-        
-        $date_str = "CONCAT(SUBSTRING(facturas.fecha, 7,4),'-',SUBSTRING(facturas.fecha, 4,2),'-', SUBSTRING(facturas.fecha, 1,2))";
-        $clientes = "(1070621776)";
+        try {
 
-
-        $ids = DB::select(
-            "select facturas.id
-                from facturas 
-                inner join creditos on facturas.credito_id = creditos.id
-                inner join precreditos on creditos.precredito_id = precreditos.id
-                inner join clientes on precreditos.cliente_id = clientes.id
-                where 
-                (   
-                    date_format( ".$date_str.", '%Y-%m-%d') >= ?
-                    and
-                    date_format( ".$date_str.", '%Y-%m-%d') <= ?    
-                )
-                    and facturas.credito_id is not null
-                    and precreditos.cartera_id in (6,32)
-                    and clientes.num_doc in ?"
-                
-                , [$this->ini, $this->end, $clientes]
-            );
-            
-        return $ids;
+            $date_str = "CONCAT(SUBSTRING(facturas.fecha, 7,4),'-',SUBSTRING(facturas.fecha, 4,2),'-', SUBSTRING(facturas.fecha, 1,2))";
+            $params = [$this->ini, $this->end];
+            $query_clientes = '';
+    
+            if ($this->clientes) {
+                $clientes = implode(",", $this->clientes);
+                $query_clientes = "and clientes.num_doc in (?)";
+                $params = array_push($params, [$clientes]);
+            }
+    
+            $ids = DB::select(
+                "select facturas.id
+                    from facturas 
+                    inner join creditos on facturas.credito_id = creditos.id
+                    inner join precreditos on creditos.precredito_id = precreditos.id
+                    inner join clientes on precreditos.cliente_id = clientes.id
+                    where 
+                    (   
+                        date_format( ".$date_str.", '%Y-%m-%d') >= ?
+                        and
+                        date_format( ".$date_str.", '%Y-%m-%d') <= ?    
+                    )
+                        and facturas.credito_id is not null
+                        and precreditos.cartera_id in (6,32)".
+                        $query_clientes
+                    
+                    , $params
+                );
+    
+            return $ids;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), 500);
+                        
+        }
     }
 
     public function getPagosSolicitud():void
-    { 
-        // $clientes =  $this->clientes2();
-        
+    {
         $this->prerecibos = _\Factprecredito::
-              join('precreditos', 'fact_precreditos.precredito_id','=','precreditos.id')
-            ->join('clientes','precreditos.cliente_id', '=', 'clientes.id')
-            ->select('fact_precreditos.*')
-            ->where('fact_precreditos.fecha','>', $this->ini)
-            ->where('fact_precreditos.fecha','<', $this->end)
+              join('precreditos', 'fact_precreditos.precredito_id', '=', 'precreditos.id')
+            ->join('clientes', 'precreditos.cliente_id', '=', 'clientes.id');
+            
+
+        if ($this->clientes) {
+            $this->prerecibos->whereIn('clientes.num_doc', $this->clientes);
+        }
+
+        $this->prerecibos = $this->prerecibos
             ->whereIn('precreditos.cartera_id',[6, 32])
-            ->whereIn('clientes.num_doc', $this->clientes)
+            ->where('fact_precreditos.fecha','>=', $this->ini)
+            ->where('fact_precreditos.fecha','<=', $this->end)
+            ->select('fact_precreditos.*')
             ->with('precredito.credito', 'precredito.cliente')
             ->get();
     }

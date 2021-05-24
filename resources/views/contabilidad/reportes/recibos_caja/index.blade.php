@@ -21,6 +21,7 @@
           class="form-horizontal form-label-left"  
           method="POST"
           autocomplete="off"
+          enctype="multipart/form-data"
         >
       
           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -42,25 +43,22 @@
                         <input  
                             type="numeric" 
                             id="consecutivo" 
+                            value="{{old('consecutivo')}}"
                             name="consecutivo" 
                             class="form-control" 
                             placeholder="Consecutivo *"> 
                     </div>
             </div>
 
-        </div>  
+        </div>
 
-        <div class="form-group" id="" style="">
-            <div class="col-md-6"></div>
-                <div class="col-md-6 col-md-offset-3" id="" >
-                  <textarea 
-                      id="terceros" 
-                      name="terceros" 
-                      class="form-control" 
-                      placeholder="Terceros"></textarea>
-                    <center>
-                        <p class="help-block"><small>Ejemplo: 110000000,12726020,102220003</small></p>
-                    </center>   
+         <div class="form-group" id="" style="">
+                <div class="col-md-6">
+                    <div class="col-md-6 col-md-offset-3" id="" >
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+
+                        <input type="file" name="archivo" id="archivo">
+                    </div>
                 </div>
             </div>
       

@@ -10,10 +10,11 @@ use App\Classes\Contabilidad\Reportes;
 use \App\Http\Controllers as ctrl;
 use Carbon\Carbon;
 use Excel;
+use File;
+use Input;
 
 class ReporteContableController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -36,27 +37,6 @@ class ReporteContableController extends Controller
             $ini   = Carbon::create(ctrl\ano($ini_temp),ctrl\mes($ini_temp),ctrl\dia($ini_temp),00,00,00);
             $end   = Carbon::create(ctrl\ano($fin_temp),ctrl\mes($fin_temp),ctrl\dia($fin_temp),23,59,59);
         }
-
-        // dd($request->all());
-
-        if ($request->report == 'comprobantes_de_pago') {
-
-            $data = [];
-            $repor_caja = new Reportes\ComprobantesDePago($ini, $end);
-
-            
-            $data = $repor_caja->make();
-
-
-            Excel::create('comprobantes_de_pago_cont_'.$request->daterange,
-                function($excel) use($data){
-                    $excel->sheet('Sheetname',function($sheet) use($data){
-                        
-                        $sheet->fromArray($data, null, 'A1', false, false);
-                    });
-                })->download('xls');
-
-        } 
     }
 
     /**
@@ -67,15 +47,11 @@ class ReporteContableController extends Controller
         return view('contabilidad.reportes.terceros.index');
     }
 
-
     public function listTerceros(Request $request)
     {
         $rango = $this->getRango($request->daterange);
-
         $repor_ventas = new Reportes\Terceros($rango->ini, $rango->end);
-
         $data = collect($repor_ventas->make(false))->toArray();
-
 
         if (!count($data)) {
             flash()->error('No existen registros para esta busqueda =(');
@@ -87,13 +63,10 @@ class ReporteContableController extends Controller
             ->with('rango', $rango);
     }
 
-
     public function expTerceros(Request $request)
     {
         $rango = $this->getRango($request->daterange);
-
         $repor_ventas = new Reportes\Terceros($rango->ini, $rango->end);
-
         $data = $repor_ventas->make(true);
 
         Excel::create('terceros'.$request->daterange,
@@ -116,7 +89,6 @@ class ReporteContableController extends Controller
     public function listFacturasProveedor(Request $request)
     {
         $rango = $this->getRango($request->daterange);
-
         $repor_facturas_proveedor = Reportes\FacturasProveedor::getFacturas($rango->ini, $rango->end);
           
             return view('contabilidad/reportes/facturas_proveedor/list')
@@ -144,28 +116,24 @@ class ReporteContableController extends Controller
                 $excel->sheet('Sheetname',function($sheet) use($data){
                     $sheet->fromArray($data, null, 'A1', false, false);
                 });
-            })->download('xls');
-            
+            })->download('xls');         
     }
-
 
     /**
      * Ventas
      */
-
     public function getFacturasVenta()
     {
         return view('contabilidad.reportes.facturas_venta.index');
     }
 
     public function listFacturasVenta(Request $request)
-    {
-        // $this->validate($request, ['consecutivo' => 'required']);
-
+    {       
         $rango = $this->getRango($request->daterange);
         $repor_ventas = new Reportes\ComprobanteVentas($rango->ini, $rango->end,$request->consecutivo);
         $data = collect($repor_ventas->make(false))->toArray();
         
+        $this->validate($request, ['consecutivo' => 'required']);
 
         if (!count($data)) {
             flash()->error('No existen registros para esta busqueda =(');
@@ -179,46 +147,41 @@ class ReporteContableController extends Controller
 
     public function expFacturasVenta(Request $request)
     {
-        $this->validate($request, ['consecutivo' => 'required']);
-
         $rango = $this->getRango($request->daterange);
-
         $repor_ventas = new Reportes\ComprobanteVentas($rango->ini, $rango->end, $request->consecutivo);
-
         $data = $repor_ventas->make(true);
+
+        $this->validate($request, ['consecutivo' => 'required']);
 
             if (!count($data)) {
             flash()->error('No existen registros para esta busqueda =(');
             return redirect()->back();
         }
 
-            Excel::create('comprobante_ventas'.$request->daterange,
-                function($excel) use($data){
-                    $excel->sheet('Sheetname',function($sheet) use($data){
-                        
-                        $sheet->fromArray($data, null, 'A1', false, false);
-                    });
-                })->download('xls');
+        Excel::create('comprobante_ventas'.$request->daterange,
+            function($excel) use($data){
+                $excel->sheet('Sheetname',function($sheet) use($data){
+                    
+                    $sheet->fromArray($data, null, 'A1', false, false);
+                });
+            })->download('xls');
     }
 
     /**
      * Compras
      */
-
     public function getCompras()
     {
         return view('contabilidad.reportes.compras.index');
     }
 
     public function listCompras(Request $request)
-    {
-        dd($request->clientes);
-        $this->validate($request, ['consecutivo' => 'required']);
-        $this->validate($request, ['clientes' => 'required']);
-
+    {  
         $rango = $this->getRango($request->daterange);
         $repor_compras = new Reportes\ComprasRtmSoat($rango->ini, $rango->end, $request->consecutivo);
         $data = collect($repor_compras->make(false))->toArray();
+
+        $this->validate($request, ['consecutivo' => 'required']);
 
         if (!count($data)) {
             flash()->error('No existen registros para esta busqueda =(');
@@ -231,22 +194,20 @@ class ReporteContableController extends Controller
     }
 
     public function expCompras(Request $request)
-    {
-        $this->validate($request, ['consecutivo' => 'required']);
-
-        $rango = $this->getRango($request->daterange);
-
+    {     
+        $rango = $this->getRango($request->daterange);     
         $repor_compras = new Reportes\ComprasRtmSoat($rango->ini, $rango->end, $request->consecutivo);
-
         $data = $repor_compras->make(true);
 
-            Excel::create('compras_soat_rtm'.$request->daterange,
-                function($excel) use($data){
-                    $excel->sheet('Sheetname',function($sheet) use($data){
-                        
-                        $sheet->fromArray($data, null, 'A1', false, false);
-                    });
-                })->download('xls');
+        $this->validate($request, ['consecutivo' => 'required']);
+
+        Excel::create('compras_soat_rtm'.$request->daterange,
+            function($excel) use($data){
+                $excel->sheet('Sheetname',function($sheet) use($data){
+                    
+                    $sheet->fromArray($data, null, 'A1', false, false);
+                });
+            })->download('xls');
     }
     
     /**
@@ -259,38 +220,63 @@ class ReporteContableController extends Controller
 
     public function listRecibosCaja(Request $request)
     {
-        $this->validate($request, ['consecutivo' => 'required']);
-
+        $clientes = $this->load($request);
         $rango = $this->getRango($request->daterange);
-        $repor_caja = new Reportes\ComprobantesDePago($rango->ini, $rango->end, $request->consecutivo, $request->clientes);
+
+        $this->validate($request, ['consecutivo' => 'required']);
+        $this->validate($request, ['archivo'=>'file']);
+
+        if ($rango->ini->diffInMonths($rango->end) >= 1) {
+            flash()->error('La consulta excede el tamaño permitido, solo se permite el rango de un mes');
+            return redirect()->back()
+                ->withInput($request->input());
+        }
+
+        $repor_caja = new Reportes\ComprobantesDePago(
+            $rango->ini, 
+            $rango->end, 
+            $request->consecutivo, 
+            $clientes
+        );
         $data = [];
         $data = collect($repor_caja->make(false))->toArray();
 
         if (!count($data)) {
             flash()->error('No existen registros para esta busqueda =(');
-            return redirect()->back();
+            return redirect()->back()
+                ->withInput($request->input());
         }
 
-        return view('contabilidad.reportes.compras.list')
+        return view('contabilidad.reportes.recibos_caja.list')
             ->with('data', $data)
             ->with('rango', $rango);
+
     }
 
     public function expRecibosCaja(Request $request)
     {
-        $this->validate($request, ['consecutivo' => 'required']);
-
+        $clientes = $this->load($request);
         $rango = $this->getRango($request->daterange);
-        $data = [];
+
+        $this->validate($request, ['consecutivo' => 'required']);
+        $this->validate($request, ['archivo'=>'file']);
 
         $repor_caja = new Reportes\ComprobantesDePago(
             $rango->ini, 
             $rango->end, 
-            $request->consecutivo,
-            []
+            $request->consecutivo, 
+            $clientes
         );
 
+        $data = [];
         $data = $repor_caja->make(true);
+        dd($data);
+        
+        if (!count($data)) {
+            flash()->error('No existen registros para esta busqueda =(');
+            return redirect()->back()
+                ->withInput($request->input());
+        }
         
         Excel::create('comprobantes_de_pago_cont_'.$request->daterange,
             function($excel) use($data){
@@ -299,6 +285,30 @@ class ReporteContableController extends Controller
                     $sheet->fromArray($data, null, 'A1', false, false);
                 });
             })->download('xls');
+    }
+
+    public function load(Request $request)
+    {
+        try {
+            if ($request->hasFile('archivo'))
+            {
+                $filename = $request->archivo->getClientOriginalName();
+                $extension = File::extension($request->archivo->getClientOriginalName());
+    
+                //  Valid format file
+    
+                if ($extension != "xlsx" && $extension != "xls" && $extension != "csv") {
+                    throw new Exception("Formato inválido.", 500);
+                }
+              
+                $path = $request->archivo->getRealPath();   
+                $data = collect(Excel::load($path, function($reader){})->get());
+    
+                return $data->pluck('clientes')->toArray();
+            }
+        } catch (\Exception $e) {
+            throw new Exception('Error', 500);          
+        }
     }
 
     /**
@@ -359,8 +369,7 @@ class ReporteContableController extends Controller
             ];
         }
 
-        throw new Exception("No se encuentra un rango válido =(", 500);
-        
+        throw new Exception("No se encuentra un rango válido =(", 500);      
     }
 
 }
