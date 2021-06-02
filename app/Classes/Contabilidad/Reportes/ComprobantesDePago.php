@@ -38,6 +38,7 @@ class ComprobantesDePago
              $this->reporte[] = $this->header();
 
         set_time_limit(400);
+
         
         
         $this->makePagosPorSolicitud();
@@ -70,6 +71,7 @@ class ComprobantesDePago
             $this->temporal = [];
 
             $this->recibo = _\Factura::find($e->id);
+
 
             if ($this->recibo->pagos) {
     
@@ -322,13 +324,17 @@ class ComprobantesDePago
         try {
 
             $date_str = "CONCAT(SUBSTRING(facturas.fecha, 7,4),'-',SUBSTRING(facturas.fecha, 4,2),'-', SUBSTRING(facturas.fecha, 1,2))";
+            
             $params = [$this->ini, $this->end];
             $query_clientes = '';
     
             if ($this->clientes) {
+
                 $clientes = implode(",", $this->clientes);
                 $query_clientes = "and clientes.num_doc in (?)";
-                $params = array_push($params, [$clientes]);
+                // dd(gettype($clientes), $clientes);
+                $params[] = $clientes;
+                // dd($params);
             }
     
             $ids = DB::select(
@@ -352,29 +358,35 @@ class ComprobantesDePago
     
             return $ids;
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage(), 500);
+            throw new \Exception('getIdsRecibos() ' . $e->getMessage(), 500);
                         
         }
     }
 
     public function getPagosSolicitud():void
     {
-        $this->prerecibos = _\Factprecredito::
-              join('precreditos', 'fact_precreditos.precredito_id', '=', 'precreditos.id')
-            ->join('clientes', 'precreditos.cliente_id', '=', 'clientes.id');
+        try {
+
+            $this->prerecibos = _\Factprecredito::
+                  join('precreditos', 'fact_precreditos.precredito_id', '=', 'precreditos.id')
+                ->join('clientes', 'precreditos.cliente_id', '=', 'clientes.id');
+                
+    
+            if ($this->clientes) {
+                $this->prerecibos->whereIn('clientes.num_doc', $this->clientes);
+            }
+    
+            $this->prerecibos = $this->prerecibos
+                ->whereIn('precreditos.cartera_id',[6, 32])
+                ->where('fact_precreditos.fecha','>=', $this->ini)
+                ->where('fact_precreditos.fecha','<=', $this->end)
+                ->select('fact_precreditos.*')
+                ->with('precredito.credito', 'precredito.cliente')
+                ->get();
+        } catch (\Exception $e) {
+            throw new \Exception("Error Processing Request", 1);
             
-
-        if ($this->clientes) {
-            $this->prerecibos->whereIn('clientes.num_doc', $this->clientes);
         }
-
-        $this->prerecibos = $this->prerecibos
-            ->whereIn('precreditos.cartera_id',[6, 32])
-            ->where('fact_precreditos.fecha','>=', $this->ini)
-            ->where('fact_precreditos.fecha','<=', $this->end)
-            ->select('fact_precreditos.*')
-            ->with('precredito.credito', 'precredito.cliente')
-            ->get();
     }
 
     public function struct()

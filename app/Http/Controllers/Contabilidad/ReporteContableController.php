@@ -257,17 +257,17 @@ class ReporteContableController extends Controller
     {
         $clientes = $this->load($request);
         $rango = $this->getRango($request->daterange);
-
+        
         $this->validate($request, ['consecutivo' => 'required']);
         $this->validate($request, ['archivo'=>'file']);
-
+        
         $repor_caja = new Reportes\ComprobantesDePago(
             $rango->ini, 
             $rango->end, 
             $request->consecutivo, 
             $clientes
         );
-
+        
         $data = [];
         $data = $repor_caja->make(true);
         dd($data);
