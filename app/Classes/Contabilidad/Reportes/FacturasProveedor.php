@@ -19,7 +19,8 @@ class FacturasProveedor
 
     public static function getFacturas($ini, $end)
     {
-        return DB::table('ref_productos')
+
+        $facturas = DB::table('ref_productos')
             ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
             ->join('productos','ref_productos.producto_id','=','productos.id')
             ->join('vehiculos','ref_productos.vehiculo_id','=','vehiculos.id')
@@ -33,68 +34,40 @@ class FacturasProveedor
             ->where('precreditos.aprobado', 'Si')
             ->groupBy('precreditos.id')
             ->orderBy('ref_productos.fecha_exp')
-            ->select('ref_productos.id',
-                    'ref_productos.estado',
-                    'ref_productos.fecha_exp',
-                    'ref_productos.num_fact',
-                    'ref_productos.costo',
-                    'ref_productos.iva',
-                    'ref_productos.otros',
-                    'ref_productos.expedido_a',
-                    'ref_productos.observaciones',
-                    'creditos.id as credito',
-                    'creditos.valor_credito',
-                    'precreditos.id as solicitud',
-                    'precreditos.vlr_fin',
-                    'precreditos.cuota_inicial',
-                    'precreditos.created_at',
-                    'terceros.razon_social',
-                    'terceros.num_doc as doc',
-                    'ref_productos.nombre as producto',
-                    'vehiculos.placa',
-                    'tipo_vehiculos.nombre',
-                    'clientes.num_doc',
-                    'clientes.nombre',
-                    'users.id',
-                    'users.name'
-                    )
+            ->select(
+                'precreditos.id as solicitud',
+                'creditos.id as credito',
+                'precreditos.vlr_fin as centro_costos',
+                'precreditos.cuota_inicial as cuota_inicial',
+                'ref_productos.num_fact',
+                'ref_productos.nombre as producto',
+                'ref_productos.fecha_exp',
+                'ref_productos.costo',
+                'ref_productos.iva',
+                'ref_productos.otros',
+                'ref_productos.expedido_a',
+                'terceros.razon_social as proveedor',
+                'terceros.num_doc as doc_proveedor',
+                'vehiculos.placa',
+                'clientes.nombre',
+                'clientes.num_doc',
+                'users.name',
+                'ref_productos.observaciones',
+                'precreditos.created_at',
+                'creditos.valor_credito',
+
+                )
             ->get();  
+
+        return $facturas;
     }       
 
-    public function struct()
-    {
-        return (object)[
-            'solicitud'=>$this->factura->precredito_id,	
-            'credito'=>'',
-            'centro_costos'=>'',	
-            'valor_cuota'=>'',	
-            'cuota_inicial'=>'',	
-            'num_fact'=>'',
-            'producto'=>'',	
-            'fecha_exp'=>'',	
-            'costo'=>'',	
-            'iva'=>'',	
-            'otros'=>'',	
-            'expedido_a'=>'',	
-            'proveedor'=>'',	
-            'doc_proveedor'=>'',	
-            'placa'=>'',	
-            'nombre_cliente'=>'',	
-            'doc_cliente'=>'',	
-            'ejecutivo'=>'',	
-            'observaciones'=>'',	
-            'fecha solicitud'=>'',
-        ];
-    }
-
-
-    public function header()
+    public static function header()
     {
         return [
             'solicitud',	
             'credito',	
             'centro_costos',	
-            'valor_cuota',	
             'cuota_inicial',	
             'num_fact',	
             'producto',	
@@ -111,6 +84,7 @@ class FacturasProveedor
             'ejecutivo',	
             'observaciones',	
             'fecha_solicitud',
+            'valor_credito',	
         ];
     }
 }

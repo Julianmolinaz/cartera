@@ -1,0 +1,45 @@
+[2021-06-04 14:07:34] local.ERROR: 3  
+[2021-06-04 14:07:34] local.ERROR: 3  
+[2021-06-04 14:07:34] local.INFO: Son iguales los dos productos  
+[2021-06-04 14:07:34] local.INFO: editVehiculoFromProductoTr  
+[2021-06-04 14:07:34] local.INFO: array (
+  'ref_producto_id' => 14653,
+  'producto_id' => 3,
+  'nombre' => 'SOAT',
+  'precredito_id' => 32851,
+  'proveedor_id' => 34,
+  'num_fact' => NULL,
+  'fecha_exp' => '0000-00-00',
+  'costo' => 495900,
+  'estado' => 'En proceso',
+  'otros' => 10000,
+  'expedido_a' => 'Cliente',
+  'iva' => 0,
+  'observaciones' => '',
+  '_vehiculo_id' => 14953,
+  '_tipo_vehiculo_id' => 2,
+  '_placa' => 'UBF24C',
+  '_vencimiento_soat' => '2021-06-05',
+  '_vencimiento_rtm' => '2021-06-06',
+)  
+[2021-06-04 14:07:34] local.INFO: editVehiculoFromProductoTr  
+[2021-06-04 14:07:34] local.INFO: array (
+  'ref_producto_id' => 14654,
+  'producto_id' => 3,
+  'nombre' => 'R.T.M',
+  'precredito_id' => 32851,
+  'proveedor_id' => 34,
+  'num_fact' => NULL,
+  'fecha_exp' => '0000-00-00',
+  'costo' => 148046,
+  'estado' => 'En proceso',
+  'otros' => 10000,
+  'expedido_a' => 'Gora',
+  'iva' => 0,
+  'observaciones' => '',
+  '_vehiculo_id' => 14954,
+  '_tipo_vehiculo_id' => 2,
+  '_placa' => 'UBF24C',
+  '_vencimiento_soat' => '2021-06-05',
+  '_vencimiento_rtm' => '2021-06-06',
+)  

@@ -98,8 +98,6 @@ class PagoMasivoController extends Controller
 
     public function store(Request $request) 
     {
-
-        // dd($request->all());
         $this->validate($request, ['archivo'=>'required']);
 
         if ($request->hasFile('archivo'))

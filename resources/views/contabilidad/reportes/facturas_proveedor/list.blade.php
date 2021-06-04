@@ -6,7 +6,7 @@
 
 <div class="panel panel-primary">
 
-    <div class="panel-heading">Reporte Factura Proveedor [ {{$rango['ini'].' - '.$rango['end']}} ]
+    <div class="panel-heading">Reporte Factura Proveedor [ {{ $rango->ini->toDateString().' - '.$rango->end->toDateString()}} ]
         <button id="btn_exc_prov" class="btn btn-warning"><b>Exportar</b></button>
     </div>
 </div>
@@ -77,8 +77,8 @@
         'ordering':true,
         'scrollY': 400,
         "scrollCollapse": true,
-        //"scrollX": true,
-        //"searching": false
+        "scrollX": true,
+        "searching": false
 
     });
 
@@ -88,7 +88,7 @@
     $('#btn_exc_prov').click(function(){
         $('#datatable').table2excel({
             name: 'Reporte',
-            filename: "{{'factura_proveedor'.$rango['ini'].'-a-'.$rango['end'].'.xls'}}"
+            filename: "{{'factura_proveedor'.$rango->ini->toDateString().'-a-'.$rango->end->toDateString().'.xls'}}"
         });
     });
 

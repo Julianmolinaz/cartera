@@ -28,11 +28,15 @@ class ComprobanteVentas
         $this->iva = 0.19;
 
         $this->consecutivo = intval($consecutivo);
-        $this->reporte[] = $this->header();
     }
 
-    public function make()
+    public function make($header)
     {        
+        
+
+        if ($header) 
+            $this->reporte[] = $this->header();
+
         $ids_precreditos = $this->getPrecreditos();
 
         foreach ($ids_precreditos as $id_precredito) {
@@ -411,7 +415,7 @@ class ComprobanteVentas
             'Fecha Vencimiento',
             'Observaciones',
             'solicitud',      
-            'novedad'    
+            'novedad' 
         ];
     }
 }
