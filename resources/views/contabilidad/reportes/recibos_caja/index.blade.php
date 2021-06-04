@@ -53,14 +53,17 @@
         </div>
 
          <div class="form-group" id="" style="">
-                <div class="col-md-6">
-                    <div class="col-md-6 col-md-offset-3" id="" >
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+              
+            <div class="col-md-12">
 
-                        <input type="file" name="archivo" id="archivo">
-                    </div>
-                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                <center>
+                  <input type="file" name="archivo" id="archivo">
+                  <span class="help-block">En el archivo, la columna A1 debe llamarse "clientes"</span> 
+                </center>
             </div>
+      
+          </div>
       
         <center>
            <button 

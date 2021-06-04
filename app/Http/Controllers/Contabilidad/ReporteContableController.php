@@ -270,7 +270,7 @@ class ReporteContableController extends Controller
         
         $data = [];
         $data = $repor_caja->make(true);
-        dd($data);
+        // dd($data);
         
         if (!count($data)) {
             flash()->error('No existen registros para esta busqueda =(');
