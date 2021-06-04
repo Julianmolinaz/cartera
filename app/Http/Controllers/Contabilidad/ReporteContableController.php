@@ -158,7 +158,7 @@ class ReporteContableController extends Controller
             return redirect()->back();
         }
 
-        Excel::create('comprobante_ventas'.$request->daterange,
+        Excel::create('facturas_de_venta_'.$request->daterange,
             function($excel) use($data){
                 $excel->sheet('Sheetname',function($sheet) use($data){
                     
@@ -201,7 +201,7 @@ class ReporteContableController extends Controller
 
         $this->validate($request, ['consecutivo' => 'required']);
 
-        Excel::create('compras_soat_rtm'.$request->daterange,
+        Excel::create('compras_'.$request->daterange,
             function($excel) use($data){
                 $excel->sheet('Sheetname',function($sheet) use($data){
                     
@@ -278,7 +278,7 @@ class ReporteContableController extends Controller
                 ->withInput($request->input());
         }
         
-        Excel::create('comprobantes_de_pago_cont_'.$request->daterange,
+        Excel::create('recibos_de_caja_'.$request->daterange,
             function($excel) use($data){
                 $excel->sheet('Sheetname',function($sheet) use($data){
                     
