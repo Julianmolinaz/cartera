@@ -58,16 +58,20 @@ use DB;
 		$iniciales = inicialesHp($pagos_solicitudes); // pagos de cuotas iniciales
 
 		$total_iniciales = totalPagosHp($iniciales); // total pago cuotas iniciales
-
-		$total_caja = $total_pagos + $total_solicitudes; // total caja
-
+		
     	$anuladas  = anuladasHp($date, $user_id); // facturas anuladas
-
+		
 		$num_anuladas = count($anuladas); 
-
+		
 		$egresos   = getEgresosHp($date, $user_id);
-
+		
 		$total_egresos = totalEgresosHp($egresos);
+
+		$otros_pagos = otrosPagosHp($date, $user_id);
+		
+		$total_otros_pagos = totalOtrosPagosHp($otros_pagos);
+
+		$total_caja = $total_pagos + $total_solicitudes + $total_otros_pagos; // total caja
 
 		return [
 			'calls' 		  	=> $calls,
@@ -86,10 +90,37 @@ use DB;
 			'anuladas'          => $anuladas,
 			'num_anuladas'      => $num_anuladas,
 			'egresos'			=> $egresos,
-			'total_egresos'     => $total_egresos
-		];
+			'total_egresos'     => $total_egresos,
+			'otros_pagos'	    => $otros_pagos,
+			'total_otros_pagos'	=> $total_otros_pagos
 
-	
+		];
+	}
+
+	function otrosPagosHp($date, $user_id)
+	{
+		$otros_pagos = DB::table('otros_pagos')
+		->join('facturas','otros_pagos.factura_id','=','facturas.id')
+		->join('carteras','otros_pagos.cartera_id','=','carteras.id')
+		->select('facturas.num_fact as num_fact',
+				'otros_pagos.concepto as concepto',
+				'otros_pagos.subtotal as subtotal',
+				'carteras.nombre as cartera',
+				'facturas.tipo as tipo')
+		->where('otros_pagos.created_at','like',$date.'%')
+		->where('facturas.user_create_id',$user_id)
+		->get();
+
+		return $otros_pagos;
+	}
+
+	function totalOtrosPagosHp($otros_pagos)
+	{
+		$collection = collect($otros_pagos);
+		
+		return $collection->reduce(function($carry, $item) {
+    		return $carry + $item->subtotal;
+    	});
 	}
 
 	function anuladasHp($date, $user_id)

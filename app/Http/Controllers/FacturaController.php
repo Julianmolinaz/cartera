@@ -59,8 +59,18 @@ class FacturaController extends Controller
 
     public function invoice_to_print($factura_id)
     {
+        $factura = DB::table("facturas")
+            ->where("id", $factura_id)
+            ->first();
 
-        return $this->generate_content_to_print($factura_id);
+        if ($factura->credito_id) {
+            return $this->generate_content_to_print($factura_id);
+        }
+
+        $otro_pago = new \App\Http\Controllers\OtroPagoController();
+
+        return $otro_pago->imprimir($factura_id);
+
     }
 
     public function abonos(Request $request)

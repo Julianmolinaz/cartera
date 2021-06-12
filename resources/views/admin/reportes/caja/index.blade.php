@@ -78,6 +78,7 @@
                         <th>Llamadas</th>
                         <th>Solicitudes</th>
                         <th>Abonos</th>
+                        <th>Otros Pagos</th>
                         <th>Estudios</th>
                         <th>Iniciales</th>
                         <th>Egresos</th>
@@ -91,6 +92,7 @@
                         <td align="right">@{{ caja.num_calls }}</td>
                         <td align="right">@{{ caja.num_precreditos }}</td>
                         <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_abonos) }}</td>
+                        <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_otros_pagos) }}</td>
                         <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_estudios) }}</td>
                         <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_iniciales) }}</td>
                         <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_egresos) }}</td>
@@ -98,6 +100,7 @@
                     </tr>
                     <tr >
                         <td colspan="2" style="font-size:16px;">Total</td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

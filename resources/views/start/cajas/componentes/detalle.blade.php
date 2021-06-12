@@ -165,6 +165,48 @@
 			    </div>
 			  </div>
 
+			<!--OTROS_PAGOS-OTROS_PAGOS-OTROS_PAGOS-OTROS_PAGOS-->
+			<!--OTROS_PAGOS-OTROS_PAGOS-OTROS_PAGOS-OTROS_PAGOS-->
+
+
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab" id="headingfive">
+			      <h4 class="panel-title">
+			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsefive" aria-expanded="false" aria-controls="collapsefive">
+							<i class="fas fa-shopping-cart"></i> Otros Pagos
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapsefive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfive">
+			      <div class="panel-body">
+			        
+			       	<table class="table">
+			       		<thead>
+
+							<tr>
+								<th>Número de factura</th>
+								<th>Concepto</th>
+								<th>Subtotal</th>
+								<th>Cartera</th>
+								<th>Tipo</th>
+							</tr>
+			       		</thead>
+			       		<tbody>
+							<tr v-for="otro_ingreso in dat.otros_pagos">
+								<td>@{{ otro_ingreso.num_fact }}</td>				
+								<td>@{{ otro_ingreso.concepto }}</td>				
+								<td>@{{ otro_ingreso.subtotal }}</td>				
+								<td>@{{ otro_ingreso.cartera }}</td>				
+								<td>@{{ otro_ingreso.tipo }}</td>				
+							</tr>
+			       		</tbody>
+					</table>
+
+			      </div>
+			    </div>
+			  </div>
+
+
 		    <!--PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-->
 			<!--PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-PAGOS_POR_SOLICITUDES-->
 

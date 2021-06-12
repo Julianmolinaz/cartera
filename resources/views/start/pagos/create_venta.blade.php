@@ -32,7 +32,10 @@
                  <!-- fecha_factura *****-->   
                 <div class="col-md-3 col-sm-3 col-xs-12">
                   <label>Fecha:</label>
-                  <input type="text" class="form-control input-sm" data-inputmask="'mask': '99-99-9999'" placeholder="dd-mm-aaaa" id="fecha_factura">
+                  <input type="date" 
+                    onkeydown="return false"
+                    class="form-control input-sm" 
+                    id="fecha_factura">
                  </div>
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
@@ -126,10 +129,7 @@
 
                <!-- BOTON ACEPTAR -->  
                <center>
-                <div class="col-md-12 col-sm-12 col-xs-12"><br>
-
-
-                
+                <div class="col-md-12 col-sm-12 col-xs-12"><br>  
                 {!! link_to('#',$title='Borrar',$attributes =  ['id'=>'borrar','class'=>'btn btn-danger '],$secure = null) !!}
                 {!! link_to('#',$title='Aceptar',$attributes =  ['id'=>'aceptar','class'=>'btn btn-primary '],$secure = null) !!}
                 </div>
@@ -166,6 +166,7 @@
                   <th>Tipo de pago</th>
                   <th>Creó</th>
                   <th>Cartera</th>
+                  <th>Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -182,6 +183,15 @@
                   <td>{{ $otro_pago->factura->tipo }}</td>
                   <td><small>{{ $otro_pago->factura->user_create->name.' ('.$otro_pago->created_at.')'}}</small></td>
                   <td> {{ $otro_pago->cartera->nombre }}</td>
+                  <td> 
+                    <a 
+                      href="#" 
+                      class='btn btn-default btn-xs' 
+                      onclick="print('{{$otro_pago->factura->id}}')" 
+                      title="Imprimir pago">
+                      <span class = "glyphicon glyphicon-print" ></span>
+                    </a> 
+                  </td>
                 </tr>
                 @endforeach
               </tbody>
@@ -195,6 +205,30 @@
 
 
 @include('mis_js.otros_pagos_create_js')
+
+<script>
+	var print = function(factura_id){
+		var route = "{{ url('start/imprimir') }}/" + factura_id;
+		$.get(route, function(res){
+			console.log(res);
+			print_fact(res);
+		})
+	}
+
+	var print_fact = function(str){
+		var printed = window.open('','Print-Window');
+		printed.document.write(str);
+		printed.document.close();
+		printed.print();
+		printed.close();
+	}
+
+	//muestra detalle de factura
+
+	var show_fact = function(factura_id){
+		  window.open("{{url('start/pagos/create')}}/"+factura_id, '_blank');
+	}
+</script>
 
 
 @endsection
