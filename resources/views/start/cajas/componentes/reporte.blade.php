@@ -73,6 +73,11 @@
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			          Abonos
 			        </li>
+					<li class="list-group-item">
+			          <span class="badge">@{{ info.total_otros_pagos }}</span>
+			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+			          Otros Pagos
+			        </li>
 			        <li class="list-group-item">
 			          <span class="badge">@{{ info.total_estudios }}</span>
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
@@ -83,7 +88,7 @@
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			          Iniciales
 			        </li>
-							<li class="list-group-item">
+					<li class="list-group-item">
 			          <span class="badge">@{{ info.total_egresos }}</span>
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			          Egresos

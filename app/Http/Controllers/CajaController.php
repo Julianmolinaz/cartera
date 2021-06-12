@@ -32,9 +32,7 @@ class CajaController extends Controller
     }
 
     public function get_cashes_report($date) 
-    {
-
-        
+    { 
         $cajas =  cajasHp( $date );
         $ids_puntos = [];
         $ids_users  = [];

@@ -27,3 +27,9 @@ Route::get('start/pagos/create',[
 Route::get('start/pagos/hay_creditos/{doc}',[
     'uses' => 'PagoController@hay_creditos'
 ]);
+
+// IMPRIMIR OTROS PAGOS
+
+Route::get('start/imprimir/{factura_id}',[
+	'uses' => 'OtroPagoController@imprimir',
+    'as'   => 'start.factura.imprimir']);

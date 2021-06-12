@@ -44,6 +44,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('precreditos','creditos.precredito_id',  '=','precreditos.id')
       ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
       ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
+      ->join('users','facturas.user_create_id',       '=','users.id')
       ->where(function($query){
           $query->where('pagos.concepto','=','Cuota');
           $query->orWhere('pagos.concepto','=','Cuota Parcial');
@@ -60,7 +61,8 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,
-                      facturas.created_at as created_at              
+                      facturas.created_at as created_at,
+                      users.name as usuario              
                       '))
       ->groupBy('facturas.id')
       ->get();
@@ -72,6 +74,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('precreditos','creditos.precredito_id','=','precreditos.id')
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
+      ->join('users','facturas.user_create_id',       '=','users.id')
       ->where('pagos.concepto','=','Mora')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -84,7 +87,8 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,
-                      facturas.created_at as created_at                           
+                      facturas.created_at as created_at,
+                      users.name as usuario                          
                       '))
       ->groupBy('facturas.id')
       ->get();
@@ -97,6 +101,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('precreditos','creditos.precredito_id','=','precreditos.id')
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
+      ->join('users','facturas.user_create_id',       '=','users.id')
       ->where('pagos.concepto','=','Juridico')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -109,7 +114,8 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,
-                      facturas.created_at as created_at                             
+                      facturas.created_at as created_at,
+                      users.name as usuario                             
                       '))
       ->groupBy('facturas.id')
       ->get();    
@@ -121,6 +127,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('precreditos','creditos.precredito_id','=','precreditos.id')
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
+      ->join('users','facturas.user_create_id',       '=','users.id')
       ->where('pagos.concepto','=','Prejuridico')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -133,7 +140,8 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,
-                      facturas.created_at as created_at                             
+                      facturas.created_at as created_at,
+                      users.name as usuario                             
                       '))
       ->groupBy('facturas.id')
       ->get();    
@@ -145,6 +153,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('precreditos','creditos.precredito_id','=','precreditos.id')
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
+      ->join('users','facturas.user_create_id',       '=','users.id')
       ->where('pagos.concepto','=','Saldo a Favor')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -157,7 +166,8 @@ function reporte_general( $fecha_1, $fecha_2 ){
                       facturas.banco   as banco,
                       carteras.nombre  as cartera,
                       facturas.tipo    as tipo_pago,                            
-                      facturas.created_at as created_at                             
+                      facturas.created_at as created_at,
+                      users.name as usuario                             
                       '))
       ->groupBy('facturas.id')
       ->get();
@@ -169,6 +179,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
         ->join('clientes','precreditos.cliente_id','=','clientes.id')
         ->join('carteras','precreditos.cartera_id','=','carteras.id')
         ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
+        ->join('users','fact_precreditos.user_create_id',       '=','users.id')
         ->where('fact_precred_conceptos.nombre','<>','Cuota inicial')
         ->whereBetween('fact_precreditos.created_at',[$ini,$fin])
         ->select(DB::raw('
@@ -180,40 +191,52 @@ function reporte_general( $fecha_1, $fecha_2 ){
             carteras.nombre         as cartera,
             fact_precred_conceptos.nombre  as concepto,
             precred_pagos.subtotal  as subtotal,
-            precreditos.created_at  as created_at
+            precreditos.created_at  as created_at,
+            users.name as usuario
             '))->get();
 
   $iniciales   = 
     DB::table('fact_precreditos')
-    ->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
-    ->join('precreditos','fact_precreditos.precredito_id','=','precreditos.id')
-    ->join('clientes','precreditos.cliente_id','=','clientes.id')
-    ->join('carteras','precreditos.cartera_id','=','carteras.id')
-    ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
-    ->where('fact_precred_conceptos.nombre','=','Cuota inicial')
-    ->whereBetween('fact_precreditos.created_at',[$ini,$fin])
-    ->select(DB::raw('
-        clientes.nombre         as cliente,
-        clientes.num_doc        as documento,
-        precreditos.id          as precredito_id,
-        fact_precreditos.num_fact as factura,
-        fact_precreditos.fecha  as fecha,
-        carteras.nombre         as cartera,
-        fact_precred_conceptos.nombre  as concepto,
-        precred_pagos.subtotal  as subtotal,
-        precreditos.created_at  as created_at
-        '))->get();
+        ->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
+        ->join('precreditos','fact_precreditos.precredito_id','=','precreditos.id')
+        ->join('clientes','precreditos.cliente_id','=','clientes.id')
+        ->join('carteras','precreditos.cartera_id','=','carteras.id')
+        ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
+        ->join('users','fact_precreditos.user_create_id',       '=','users.id')
+        ->where('fact_precred_conceptos.nombre','=','Cuota inicial')
+        ->whereBetween('fact_precreditos.created_at',[$ini,$fin])
+        ->select(DB::raw('
+            clientes.nombre         as cliente,
+            clientes.num_doc        as documento,
+            precreditos.id          as precredito_id,
+            fact_precreditos.num_fact as factura,
+            fact_precreditos.fecha  as fecha,
+            carteras.nombre         as cartera,
+            fact_precred_conceptos.nombre  as concepto,
+            precred_pagos.subtotal  as subtotal,
+            precreditos.created_at  as created_at,
+            users.name as usuario
+            '))
+        ->get();
 
 
   $otros_pagos = 
-  DB::table('otros_pagos')
-      ->join('facturas','otros_pagos.factura_id','=','facturas.id')
-      ->join('carteras','otros_pagos.cartera_id','=','carteras.id')
-      ->whereBetween('facturas.created_at',[$ini,$fin])
-      ->select(DB::raw('facturas.num_fact as factura, facturas.tipo as tipo, 
-          otros_pagos.subtotal as subtotal, otros_pagos.concepto as concepto, 
-          facturas.fecha as fecha, carteras.nombre as cartera, otros_pagos.created_at as created_at'))
-      ->get();
+    DB::table('otros_pagos')
+        ->join('facturas','otros_pagos.factura_id','=','facturas.id')
+        ->join('carteras','otros_pagos.cartera_id','=','carteras.id')
+        ->join('users','facturas.user_create_id',       '=','users.id')
+        ->whereBetween('facturas.created_at',[$ini,$fin])
+        ->select(DB::raw('
+            facturas.num_fact as factura, 
+            facturas.tipo as tipo, 
+            otros_pagos.subtotal as subtotal, 
+            otros_pagos.concepto as concepto, 
+            facturas.fecha as fecha, 
+            carteras.nombre as cartera, 
+            otros_pagos.created_at as created_at,
+            users.name as usuario
+            '))
+        ->get();
 
   //dd($otros_pagos);
 /* Egresos Reporte Diario */
@@ -377,33 +400,33 @@ function reporte_general( $fecha_1, $fecha_2 ){
   $total['diferencia'] = $total['ingresos'] - $total['egresos'];
             
   return array( 
-              'cuotas'        => $cuotas,
-              'sanciones'     => $sanciones,
-              'juridicos'     => $juridicos,
-              'prejuridicos'  => $prejuridicos,
-              'saldos_favor'  => $saldos_favor,
-              'estudios'      => $estudios,
-              'iniciales'     => $iniciales,
-              'gastos'        => $gastos,
-              'compras'       => $compras,
-              'prestamos'     => $prestamos,
-              'pago_proveedores' => $pago_proveedores,
-              'total_cuotas'  => $total_cuotas,
-              'total_sanciones' => $total_sanciones,
-              'total_juridicos' => $total_juridicos,
-              'total_prejuridicos' => $total_prejuridicos,
-              'total_saldos'  => $total_saldos,
-              'total_estudios' => $total_estudios,
-              'total_iniciales' => $total_iniciales,
-              'total_gastos'  => $total_gastos,
-              'total_compras' => $total_compras,
-              'total_prestamos' => $total_prestamos,
-              'total_pago_proveedores' => $total_pago_proveedores,
-              'carteras'      => $array_carteras,
-              'total'         => $total,
-              'otros_pagos'   => $otros_pagos,
-              'total_otros_ingresos' => $total_otros_ingresos,
-              'rango'         => $rango,
+              'cuotas'                  => $cuotas,
+              'sanciones'               => $sanciones,
+              'juridicos'               => $juridicos,
+              'prejuridicos'            => $prejuridicos,
+              'saldos_favor'            => $saldos_favor,
+              'estudios'                => $estudios,
+              'iniciales'               => $iniciales,
+              'gastos'                  => $gastos,
+              'compras'                 => $compras,
+              'prestamos'               => $prestamos,
+              'pago_proveedores'        => $pago_proveedores,
+              'total_cuotas'            => $total_cuotas,
+              'total_sanciones'         => $total_sanciones,
+              'total_juridicos'         => $total_juridicos,
+              'total_prejuridicos'      => $total_prejuridicos,
+              'total_saldos'            => $total_saldos,
+              'total_estudios'          => $total_estudios,
+              'total_iniciales'         => $total_iniciales,
+              'total_gastos'            => $total_gastos,
+              'total_compras'           => $total_compras,
+              'total_prestamos'         => $total_prestamos,
+              'total_pago_proveedores'  => $total_pago_proveedores,
+              'carteras'                => $array_carteras,
+              'total'                   => $total,
+              'otros_pagos'             => $otros_pagos,
+              'total_otros_ingresos'    => $total_otros_ingresos,
+              'rango'                   => $rango,
     );
 
 
