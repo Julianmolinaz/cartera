@@ -58,7 +58,7 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
         'precreditos.periodo as periodo',
         'productos.nombre as producto',
         'fecha_cobros.fecha_pago as fecha_pago',
-	'creditos.valor_credito as vlr_credito')
+	    'creditos.valor_credito as vlr_credito')
        // DB::raw('precreditos.vlr_cuota * precreditos.cuotas as vlr_credito'))
     ->get();
 
