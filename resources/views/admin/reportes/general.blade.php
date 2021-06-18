@@ -157,7 +157,13 @@
               <td> {{ $estudio->precredito_id   }} </td>
               <td> {{ $estudio->cliente       }}</td>
               <td> {{ $estudio->documento     }}</td>
-              <td> </td><td></td><td></td><td></td><td></td><td></td><td></td> 
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td> 
               <td> {{ number_format($estudio->subtotal,0,",",".") }}</td>
               <td>                                </td>
               <td>                           </td> 
@@ -218,7 +224,10 @@
           </tr>  
           @endforeach 
           <tr style="background-color:#CCCCCC;">
-            <td></td><td></td><td></td><td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td><b>Subtales Ingresos :</b></td>
             <td><b>{{number_format($total_cuotas,0,",",".")}}</b></td>
             <td><b>{{number_format($total_sanciones,0,",",".")}}</b></td>
@@ -228,6 +237,7 @@
             <td><b>{{number_format($total_estudios,0,",",".")}}</b></td>
             <td><b>{{number_format($total_iniciales,0,",",".")}}</b></td>
             <td><b>{{number_format($total_otros_ingresos,0,",",".")}}</b></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

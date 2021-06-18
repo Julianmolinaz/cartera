@@ -38,8 +38,6 @@ class DataAsisController extends Controller
 
         $this->validate($request, ['fileToUpload'=>'required']);
 
-        //dd($request->all());
-
         if( $request->hasFile('fileToUpload') ) 
         {
             $extension = File::extension($request->fileToUpload->getClientOriginalName());
@@ -76,8 +74,8 @@ class DataAsisController extends Controller
                     '2.3-numero_obligacion'     => cast_number('9990000000'.$d->afil_id,18,'right'),
                     '2.4-nombre_completo'       => cast_string(strtoupper(sanear_string($d->nombre)),45),
                     '2.5-situacion_titular'     => '0',
-                    '2.6-fecha_apertura'        => fecha_Ymd(inv_fech($d->f_apertura)),
-                    '2.7-fecha_vencimiento'     => fecha_Ymd(inv_fech($this->vencimiento($d->f_apertura) )),
+                    '2.6-fecha_apertura'        => fecha_Ymd($d->f_apertura, "Afil".$d->afil_id),
+                    '2.7-fecha_vencimiento'     => fecha_Ymd($this->vencimiento($d->f_apertura), "Afil".$d->afil_id),
                     '2.8-responsable'           => '00',
                     '2.9-tipo_obligacion'       => '1',
                     '2.10-subcidio_hipotecario' => '0',
@@ -87,7 +85,7 @@ class DataAsisController extends Controller
                     '2.14-periodicidad_pago'    => '1',
                     '2.15-novedad'              => cast_number($this->get_novedad($d->fecha_pago,$d->estado),2,'right'),
                     '2.16-estado_origen'        => '0',
-                    '2.17-fecha_estado_origen'  => fecha_Ymd(inv_fech($d->f_apertura)),
+                    '2.17-fecha_estado_origen'  => fecha_Ymd($d->f_apertura, "Afil".$d->afil_id),
                     '2.18-estado_cuenta'        => $this->estadoCuenta($d)['estado'],
                     '2.19-fecha_estado_cuenta'  => $this->estadoCuenta($d)['fecha'],
                     '2.20-estado_plastico'      => '0',
@@ -112,8 +110,8 @@ class DataAsisController extends Controller
                     '2.39-cuotas_mora'          => cast_number($this->saldoMora($d)['cts_mora'], 3,'right'),
                     '2.40-clausula_permanencia' => cast_number($contrato['clausula_permanencia'],3,'right'), // variable
                     '2.41-fecha_clausula_perman'=> $contrato['f_clausula_permanencia'], // variable
-                    '2.42-fecha_limite_pago'    => fecha_Ymd(inv_fech($d->fecha_pago)),
-                    '2.43-fecha_pago'           => cast_number(fecha_Ymd(inv_fech($d->fecha_ultimo_pago)),8,'right'),
+                    '2.42-fecha_limite_pago'    => fecha_Ymd($d->fecha_pago, "Afil".$d->afil_id),
+                    '2.43-fecha_pago'           => cast_number(fecha_Ymd($d->fecha_ultimo_pago, "Afil".$d->afil_id),8,'right'),
                     '2.44-oficina_radicacion'   => cast_string('ASISTIMOTOS IBAGUE',30),
                     '2.45-ciudad_radicacion'    => cast_string('IBAGUE',20), // variable
                     '2.46-codigo_dane_radica'   => cast_number(001,8,'right'),
@@ -142,9 +140,11 @@ class DataAsisController extends Controller
                 len_line($register);
                 $this->content[] = $register;
             }
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        } catch (\Exception $e){
+        \Log::error("[ERROR:DataAsisController@get_estructura]" . $e->getMessage());
+        throw new \Exception($e->getMessage());
+        
+    }
 
     }//get_estructura
 
@@ -191,7 +191,7 @@ class DataAsisController extends Controller
                 $dat['clausula_permanencia']   = '012';
                 $dat['termino_contrato']       = '1';
                 $dat['f_clausula_permanencia'] = 
-                    fecha_Ymd(inv_fech($this->fecha_clausula_permanencia($data->f_apertura)));
+                    fecha_Ymd($this->fecha_clausula_permanencia($data->f_apertura));
                 $dat['total_cuotas'] = '012';
             } else {
                 $dat['clausula_permanencia']   = '000';
@@ -201,9 +201,11 @@ class DataAsisController extends Controller
             }
     
             return $dat;
-        } catch(\Exception $e) {
-            dd($e);
-        }
+        } catch (\Exception $e){
+        \Log::error("[ERROR:DataAsisCOntroller@contrato]" . $e->getMessage());
+        throw new \Exception($e->getMessage());
+        
+    }
     }
 
     public function vencimiento($f_apertura){
