@@ -100,7 +100,7 @@ class ReporteController extends Controller
         }
 
         //validación de los datos
-
+        
         if($request->input('tipo_reporte') == 'general_por_carteras'){
             $this->validate($request,
                 ['tipo_reporte' => 'required', 'cartera' => 'required'],

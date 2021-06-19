@@ -1,7 +1,7 @@
 
 @include('flash::message')
 
-<table class="table table-striped table-bordered">
+<table id="puntos" class="table table-striped table-bordered">
   <thead>
     <tr>
       <th>    Punto Id    </th>
@@ -47,6 +47,19 @@
 
 <script>
 
+  $( document ).ready(function() {
+
+    $('#puntos').dataTable( {
+      'paging':false,
+      'ordering':false,
+      'scrollY': 400,
+      "scrollCollapse": false,
+      "scrollX": false,
+      "searching": true
+
+    });
+
+  });
 //Mostrar: inserta la data en el formulario de edición del punto
 
  function Mostrar(punto_id){
@@ -112,6 +125,7 @@
       Cargar();
       $('#mensaje').text(res);
       $('#msj-success').fadeIn();
-  });
+    });
   }
+  
 </script>
