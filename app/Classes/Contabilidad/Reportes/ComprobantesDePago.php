@@ -31,93 +31,66 @@ class ComprobantesDePago
         $this->consecutivo = intval($consecutivo);
     }
 
-
     public function make($header)
     {
         if ($header)
-             $this->reporte[] = $this->header();
+            $this->reporte[] = $this->header();
 
-        set_time_limit(400);
+        set_time_limit(1500);
 
-        
-        
-        $this->makePagosPorSolicitud();
         $this->makePagosPorCredito();
-
-        /**
-         * Descomentar para sacar consolidado
-         */
-
-        // $consolidado = new ConsolidadoComprobantesPago($this->reporte);
-
-        // $reporte_consolidado = array_merge([$this->header()], $consolidado->make());
-        
-        // return $reporte_consolidado;
-
-        // dd($reporte_consolidado);
+        $this->makePagosPorSolicitud();
 
         return $this->reporte;
     }
 
     public function makePagosPorCredito()
     {
-
         $this->status = 'credito';
-
         $ids = $this->getIdsRecibos();
-
+        
         foreach ($ids as $e) {
 
             $this->temporal = [];
-
             $this->recibo = _\Factura::find($e->id);
-
 
             if ($this->recibo->pagos) {
     
                 $this->getConsecutivo();
-    
-                // la cuenta de caja o bancos
-    
+                    // LA CUENTA DE CAJA O ABONOS                   
                 $this->cuentasDebito();
-    
                 $this->cuentasCredito();  
-                
-                // CUENTA POR INICIAL
-                
+                    // CUENTA POR INICIAL
                 $this->validarPartida();
     
                 $this->reporte = array_merge($this->reporte, $this->temporal);
             }
 
         }
-
     }
 
     public function makePagosPorSolicitud() 
     {
-
         $this->status = 'solicitud';
         $this->getPagosSolicitud();
 
         foreach ($this->prerecibos as $prerecibo) {
-
-            $this->getConsecutivo();
-
-            $this->prerecibo = $prerecibo;
-
+    
+            $this->prerecibo = $prerecibo;  
             $this->temporal = [];
             
-            foreach ($prerecibo->pagos as $pago) {
+            foreach ($prerecibo->pagos as $pago) {     
 
-                if ($pago->concepto_id == 2) {
-
+                
+                if ($pago->concepto_id == 2) {                    
+                    
+                    $this->getConsecutivo();
                     $struct = $this->struct();
                     $struct->cod_cuenta = '11050501';
                     $struct->debito = $pago->subtotal;
-
+                    
                     $this->temporal[] = (array) $struct;
-
+                    
                     $struct = $this->struct();
                     $struct->cod_cuenta = '13050501';
                     $struct->credito = $pago->subtotal;
@@ -125,21 +98,15 @@ class ComprobantesDePago
                     $struct->consec = '1';
                     $struct->no_cuota = '1';
                     $struct->fecha_venc = '31/12/2021';
-
-                    $this->temporal[] = (array) $struct;
-
-
+                    
+                    $this->temporal[] = (array) $struct;   
                 }
             }
-
             
-            if ($this->temporal) {
-
+            if ($this->temporal) {       
                 $this->reporte = array_merge($this->reporte, $this->temporal);
-            }
-            
-        }
-       
+            }   
+        }       
     }
 
     /**
@@ -151,7 +118,7 @@ class ComprobantesDePago
 
     public function validarPartida()
     {
-        // suma los elementos desde la posición 1
+            // SUMA LOS ELEMENTOS DESDE LA POSICIÓN 1
         $suma = 0;
 
         for ($i = 1; $i < count($this->temporal); $i++) {
@@ -169,7 +136,6 @@ class ComprobantesDePago
             $item->debito = $diferencia * -1;
 
             $this->temporal[] = (array) $item;
-
             $this->trash[] = $this->recibo;
             
         } else if($diferencia > 0) {
@@ -241,7 +207,6 @@ class ComprobantesDePago
         $this->temporal[] = (array) $item;
     }
 
-
     public function cuentasDebito()
     {
         $item = $this->struct();
@@ -257,22 +222,13 @@ class ComprobantesDePago
         }
         
         $item->debito = $this->recibo->total;
-        $this->temporal[] = (array) $item;
 
+        $this->temporal[] = (array) $item;
     }
 
     public function getConsecutivo()
     {
-        // hace la consulta y la guarda en una variable
-        $this->consecutivo = DB::table('consecutivos')
-            ->find(2)
-            ->incrementable;
-
-        // incrementa en uno la variable
         $this->consecutivo ++;
-
-        // guarda el nuevo valor en la tabla;
-        DB::table('consecutivos')->where('id', 2)->update(['incrementable' => $this->consecutivo]);
     }
 
     public function getCuentaBanco($banco)
@@ -317,61 +273,52 @@ class ComprobantesDePago
                 break;
         }
     }
-
     
     public function getIdsRecibos()
-    {
+    { 
         try {
-
             $date_str = "CONCAT(SUBSTRING(facturas.fecha, 7,4),'-',SUBSTRING(facturas.fecha, 4,2),'-', SUBSTRING(facturas.fecha, 1,2))";
-            
-            $params = [$this->ini, $this->end];
+
             $query_clientes = '';
     
             if ($this->clientes) {
-
                 $clientes = implode(",", $this->clientes);
-                $query_clientes = "and clientes.num_doc in (?)";
-                // dd(gettype($clientes), $clientes);
-                $params[] = $clientes;
-                // dd($params);
+                $query_clientes = " and clientes.num_doc in (".
+                    substr(substr($clientes, 1), 0, -1)
+                .")";
             }
     
-            $ids = DB::select(
-                "select facturas.id
+            $query = "select facturas.id
                     from facturas 
                     inner join creditos on facturas.credito_id = creditos.id
                     inner join precreditos on creditos.precredito_id = precreditos.id
                     inner join clientes on precreditos.cliente_id = clientes.id
                     where 
                     (   
-                        date_format( ".$date_str.", '%Y-%m-%d') >= ?
+                        date_format( ".$date_str.", '%Y-%m-%d') >= '". $this->ini->toDateString() ."'
                         and
-                        date_format( ".$date_str.", '%Y-%m-%d') <= ?    
+                        date_format( ".$date_str.", '%Y-%m-%d') <= '". $this->end->toDateString() ."'   
                     )
                         and facturas.credito_id is not null
                         and precreditos.cartera_id in (6,32)".
-                        $query_clientes
-                    
-                    , $params
-                );
-    
+                        $query_clientes;
+
+            $ids = DB::select($query);
+
             return $ids;
+
         } catch (\Exception $e) {
-            throw new \Exception('getIdsRecibos() ' . $e->getMessage(), 500);
-                        
+            throw new \Exception('getIdsRecibos() ' . $e->getMessage(), 500);                    
         }
     }
 
     public function getPagosSolicitud():void
     {
         try {
-
             $this->prerecibos = _\Factprecredito::
                   join('precreditos', 'fact_precreditos.precredito_id', '=', 'precreditos.id')
                 ->join('clientes', 'precreditos.cliente_id', '=', 'clientes.id');
-                
-    
+                 
             if ($this->clientes) {
                 $this->prerecibos->whereIn('clientes.num_doc', $this->clientes);
             }
@@ -383,9 +330,9 @@ class ComprobantesDePago
                 ->select('fact_precreditos.*')
                 ->with('precredito.credito', 'precredito.cliente')
                 ->get();
+
         } catch (\Exception $e) {
-            throw new \Exception("Error Processing Request", 1);
-            
+            throw new \Exception("Error Processing Request", 1);    
         }
     }
 
@@ -459,5 +406,4 @@ class ComprobantesDePago
             'Banco',
         ];
     }
-
 }
