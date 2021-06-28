@@ -33,6 +33,7 @@ class ComprobantesDePago
 
     public function make($header)
     {
+        dd(123);
         if ($header)
             $this->reporte[] = $this->header();
 
@@ -308,7 +309,7 @@ class ComprobantesDePago
                         $query_clientes;
 
             $ids = DB::select($query);
-            dd($ids);
+            // dd($ids);
 
             return $ids;
 
