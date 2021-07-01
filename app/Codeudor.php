@@ -170,6 +170,16 @@ class Codeudor extends Model implements Auditable
 
     // Accesors
 
+    public function getNombreAttribute() {
+        if ($this->attributes['nombrec']) return trim($this->attributes['nombrec']);
+        else return trim($this->attributes['nombre']);
+    }
+
+    public function getNombrecAttribute() {
+        if ($this->attributes['nombrec']) return trim($this->attributes['nombrec']);
+        else return trim($this->attributes['nombre']);
+    }
+    
     public function getPrimerNombrecAttribute() {
         if ($this->attributes['primer_nombrec']) return trim($this->attributes['primer_nombrec']);
         else return trim($this->attributes['primer_nombre']);
