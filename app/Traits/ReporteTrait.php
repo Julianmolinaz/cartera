@@ -26,6 +26,7 @@ trait ReporteTrait
                array('value' => 'historial_ventas','vista' => 'Historial venta de creditos'),
                array('value' => 'informe_cartera','vista' => 'Informe Cartera'),
                array('value' => 'morosos','vista' => 'Morosos'),
+               array('value' => 'referencia_bancolombia','vista' => 'Referencia Bancolombia'),
                array('value' => 'procredito','vista' => 'Reporte Procredito'),
                array('value' => 'data-asis','vista' => 'Reporte Datacredito asistimotos'),
                array('value' => 'venta_creditos', 'vista' => 'Venta de Créditos'),
