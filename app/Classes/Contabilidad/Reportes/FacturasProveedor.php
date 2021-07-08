@@ -56,8 +56,7 @@ class FacturasProveedor
                 'precreditos.created_at',
                 'creditos.valor_credito'
 
-                )
-            ->get();  
+                )->get();  
 
         return $facturas;
     }       

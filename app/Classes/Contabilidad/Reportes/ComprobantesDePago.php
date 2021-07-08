@@ -273,10 +273,6 @@ class ComprobantesDePago
                 break;
         }
     }
-
-    /**
-     * @return array | ides de las facturas entre el rango para una determinada cedula
-     */
     
     public function getIdsRecibos()
     { 
@@ -288,10 +284,10 @@ class ComprobantesDePago
             if ($this->clientes) {
                 $clientes = implode(",", $this->clientes);
                 $query_clientes = " and clientes.num_doc in (".
-                    substr(substr($clientes, 0), 0, -1)
+                    substr(substr($clientes, 1), 0, -1)
                 .")";
             }
-            
+    
             $query = "select facturas.id
                     from facturas 
                     inner join creditos on facturas.credito_id = creditos.id
@@ -299,16 +295,16 @@ class ComprobantesDePago
                     inner join clientes on precreditos.cliente_id = clientes.id
                     where 
                     (   
-                        date_format( $date_str, '%Y-%m-%d') >= '". $this->ini->toDateString() ."'
+                        date_format( ".$date_str.", '%Y-%m-%d') >= '". $this->ini->toDateString() ."'
                         and
-                        date_format( $date_str, '%Y-%m-%d') <= '". $this->end->toDateString() ."'   
+                        date_format( ".$date_str.", '%Y-%m-%d') <= '". $this->end->toDateString() ."'   
                     )
-                       
+                        and facturas.credito_id is not null
                         and precreditos.cartera_id in (6,32)".
                         $query_clientes;
 
             $ids = DB::select($query);
-            
+
             return $ids;
 
         } catch (\Exception $e) {
