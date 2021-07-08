@@ -54,7 +54,7 @@ class FacturasProveedor
                 'users.name',
                 'ref_productos.observaciones',
                 'precreditos.created_at',
-                'creditos.valor_credito',
+                'creditos.valor_credito'
 
                 )
             ->get();  
