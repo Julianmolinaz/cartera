@@ -51,7 +51,7 @@
                 <br />
 
                 <div>
-                  <h1> Negocios Gora</h1>
+                  <h1> Inversiones Gora S.A.S.</h1>
                   <p>©2017 Todos los derechos reservados. Gora. Privacidad y Términos</p>
                 </div>
               </div>

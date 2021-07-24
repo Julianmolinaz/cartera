@@ -46,12 +46,13 @@ class SimuladorController extends Controller
      */
     public function store(Request $request)
     {
+        
         if($request->ajax()){
             $monto = $request->input('monto');
             $meses = $request->input('meses');
             switch ($meses) {
-		case 1:
-		    $factor = 1.10006;
+                case 1:
+                    $factor = 1.10006;
                     break; 
                 case 2:
                     $factor = 1.20016;

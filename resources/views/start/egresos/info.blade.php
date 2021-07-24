@@ -19,7 +19,7 @@
       Mes
     </li>
   </ul>
-  <img src="{{ asset('images/gora_logo_medium.png') }}" width="100%">
+  <img src="{{ asset('images/logo_gora_2021.png') }}" width="100%">
 
 </div>
 

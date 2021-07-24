@@ -52,6 +52,8 @@
                     cliente_id: this.$store.state.cliente_id,
                 });
 
+                console.log({res})
+
                 if (res.data.success) {
 
                     this.show_btn  = false;

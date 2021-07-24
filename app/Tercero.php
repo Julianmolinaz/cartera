@@ -10,20 +10,23 @@ class Tercero extends Model
         'tipo',
         'regimen',
         'razon_social',
+        'nombre_comercial',
         'pnombre',
         'snombre',
         'papellido',
         'sapellido',
         'tipo_doc',
         'num_doc',
+        'digito',
         'tel1',
         'tel2',
         'dir',
         'mun_id',
-        'email'
+        'email',
+        'estado'
     ];
 
-    public function municipios() {
+    public function municipio() {
         return $this->hasOne('App\Municipio','id','mun_id');
     }
 

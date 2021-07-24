@@ -109,8 +109,13 @@ class CriteriocallController extends Controller
 
             $criterio = Criterio::find($id);
             $criterio->fill($request->all());
+
+            if ($criterio->criterio == 'ACUERDO DE PAGO') {
+                return res(false, '', 'No se puede cambiar este criterio');
+            }
+
             $criterio->save();
-            return response()->json($criterio->criterio);
+            return res(true, $criterio->criterio, 'Criterio editado exitosamente !!!');
 
     }
 

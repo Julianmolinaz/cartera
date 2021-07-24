@@ -22,11 +22,11 @@ class Referencia extends Model
         return $this->hasOne('App\Cliente','id','cliente_id');
     }
 
-    public function created_by(){
+    public function created_by() {
     	return $this->hasOne('App\User','id','user_create_id');
     }
 
-    public function updated_by(){
+    public function updated_by() {
     	return $this->hasOne('App\User','id','user_update_id');
     }
 }

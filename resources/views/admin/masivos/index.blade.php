@@ -1,53 +1,68 @@
+
+@extends('templates.main3')
+
 @section('title','Pagos')
 
 @section('contenido')
 
 
 <div class="container">
-  <div class="row_col-md-12">
-    <center>
-      <a href="{{ route( 'admin.pagos_masivos.get_plantilla' ) }}" class="btn btn-success" style="padding:10px">Descargar Plantilla Excel</a>
-    </center>
-  </div>
-  <div class="row-col-md-12">
-    <center>
-      <form action="{{ route('admin.pagos_masivos.store') }}" method="POST" enctype="multipart/form-data">
 
-        <h3>Seleccione archivo a subir:</h3> 
-          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+        <div class="row">
+            <div class="col-md-12">
+            
+                <h3 style="position:absolute;">Listado de Archivos (Pagos Masivos)</h3>
 
-          <input type="file" name="archivo" id="archivo">
-          
-          <div class="row mt-5" style="margin:10px 0px 10px 0;">
-            <input type="submit" value="Cargar archivo de pagos" name="submit">
-          </div>
+                <a href="{{ route('admin.pagos_masivos.load') }}" class="btn btn-success" style="float: right;margin-top: 20px;">
+                    Cargar Pagos Masivos
+                </a>
+                
+            </div>
+        </div>
 
-      </form>
-    </center>
+        <div class="row" style="margin-top:20px;">
+            <div class="col-md-12">
+                <hr>
+                <table class="table" style="font-size:11px;width:100%" id="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Archivo</th>
+                            <th>Creado por</th>
+                            <th>Fecha</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        
+        </div>
 
-    @if($err)
-      <table class="table">
-        <head>
-          <tr>
-            <th>Fila</th>
-            <th>Error</th>
-          </tr>
-        </head>
-        <tbody>
-            @foreach($err as $element)
-            <tr>
-              <td>{{ $element['line'] }}</td>
-              <td>{{ $element['message'] }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-      </table>
-    @endif
 
-  </div> 
 </div>
+@section('js')
 
+    <script>
+
+        $('#table').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [[0,"desc"]],
+            ajax: "{{url('admin/pagos_masivos/list')}}",
+            columns: [
+                {data: 'id'},
+                {data: 'filename'},
+                {data: 'user'},
+                {data: 'created_at'},
+                {data: 'btn', name:'btn', orderable: false, searchable: false}
+            ]
+        });
+
+    
+    </script>
 
 @endsection
 
-@include('templates.main2')
+@endsection

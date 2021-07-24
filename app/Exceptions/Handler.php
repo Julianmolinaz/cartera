@@ -46,8 +46,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         if($e instanceof CustomException){
-            //return redirect()->to('exception/read');
-            dd('error');
+            return redirect()->to('exception/read');
         }
 
         // si se cierra la session se redirige a la pagina de login
@@ -55,8 +54,8 @@ class Handler extends ExceptionHandler
         $error = $e->getMessage();
 
         if(substr($error,0,36) == 'Trying to get property of non-object'){
-            dd($error);
-            //return redirect()->to('log');
+
+            return redirect()->to('log');
         }
 
         return parent::render($request, $e);

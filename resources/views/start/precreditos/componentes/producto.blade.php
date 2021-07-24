@@ -36,10 +36,10 @@
                             
                             <div class="form-group col-md-12">
                                 <h4 style="display:inline-block; margin-right:10px;">@{{ index + 1 +'-'+element.nombre }}
-                                    <span style="margin-left: 10px;color:gray"> Total: $@{{ 
-                                        parseInt(element.costo) ? parseInt(element.costo) : 0 + 
-                                        parseInt(element.iva) ? parseInt(element.iva) : 0   + 
-                                        parseInt(element.otros) ? parseInt(element.otros) : 0 
+                                    <span style="margin-left:10px;color:#3c763d"> Total: $@{{ 
+                                        parseInt(element.costo)+ 
+                                        parseInt(element.iva)  + 
+                                        parseInt(element.otros)
                                         | formatPrice}}</span>
                                 </h4>
                                 <div class="checkbox" style="display:inline-block" v-if="index > 0">
@@ -51,13 +51,16 @@
                             </div>
 
                         </div>
-
+                        <!-- Expedido a -->
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="input-solicitud">Expedido a: </label>
                                 <select v-model="element.expedido_a" class="form-control">
                                     <option selected disabled>--</option>
-                                    <option :value="cliente" v-for="cliente in $store.state.data.clientes">@{{ cliente }}</option>
+                                    <option
+					 :value="cliente" 
+					 v-for="cliente in $store.state.data.clientes"
+					>@{{ cliente }}</option>
                                 </select>
                             </div>
                         
@@ -73,14 +76,18 @@
                                     :id="'proveedor'+index"
                                     @change="validateProveedor(index)">  
                                     <option selected disabled>--</option>
-                                    <option :value="proveedor.id" v-for="proveedor in $store.state.data.proveedores">@{{ proveedor.razon_social }}</option>
+                                    <option 
+					:value="proveedor.id" 
+					v-for="proveedor in $store.state.data.proveedores">
+					@{{ (proveedor.municipio) ? proveedor.municipio + '-' : ''}} @{{proveedor.nombre_comercial}}
+				    </option>
                                 </select>
                                 <span class="help-block" :id="'span-proveedor'+index"></span>
                             </div>
 
                             <!-- COSTO  -->
 
-                            <div v-bind:class="['form-group','col-md-4',errors.first(rules.costo.name+index) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','has-success','col-md-4',errors.first(rules.costo.name+index) ? 'has-error' :'']">
                                 <label class="input-solicitud">Costo @{{element.nombre }} @{{ rules.costo.required }}</label> 
                                 <input type="text" 
                                     :disabled="element.estado != 'En proceso'"
@@ -88,7 +95,7 @@
                                     v-model="element.costo"
                                     v-validate="rules.costo.rule"
                                     :name="rules.costo.name+index">  
-                                <span class="help-block" v-if="element.costo > 0">$ @{{ element.costo | formatPrice }}</span>
+                                <span class="help-block" v-if="element.costo >= 0">$ @{{ element.costo | formatPrice }}</span>
                                 <span class="help-block">@{{ errors.first(rules.costo.name+index) }}</span>  
 
                             </div>
@@ -116,11 +123,13 @@
                             <div v-bind:class="['form-group','col-md-3',errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
                                 <label class="input-solicitud">Fecha de Expedicion @{{ rules.fecha_exp.required }}</label> 
                                 <input 
+			                        onkeydown="return false"
                                     :disabled="element.estado != 'En proceso'"
                                     type="date" 
                                     class="form-control input-solicitud"
                                     v-model="element.fecha_exp"
                                     v-validate="rules.fecha_exp.rule"
+                                    @blur="vencimiento(index)"
                                     :name="rules.fecha_exp.name">  
                                 <span class="help-block" v-if="errors.first(rules.fecha_exp.name)">@{{ errors.first(rules.fecha_exp.name) }}</span>      
                                 <span class="help-block"><small>Ver factura ...</small></span>                           
@@ -129,7 +138,7 @@
 
                             <!-- IVA  -->
 
-                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.iva.name) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','has-success','col-md-2',errors.first(rules.iva.name) ? 'has-error' :'']">
                                 <label class="input-solicitud">IVA @{{element.nombre }} @{{ rules.iva.required }}</label>   
                                 <input type="text" 
                                     :disabled="element.estado != 'En proceso'"
@@ -145,7 +154,7 @@
 
                             <!-- COSTO  -->
 
-                            <div v-bind:class="['form-group','col-md-3',errors.first(rules.otros.name+index) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','has-success','col-md-3',errors.first(rules.otros.name+index) ? 'has-error' :'']">
                                 <label class="input-solicitud">Otros @{{element.nombre }} @{{ rules.otros.required }}</label> 
                                 <input type="text" 
                                     class="form-control input-solicitud" 
@@ -210,6 +219,7 @@
                             <div v-bind:class="['form-group','col-md-3',errors.first('vencimiento_soat'+index) ? 'has-error' :'']">
                                 <label for="">Vencimiento SOAT *</label>
                                 <input type="date" 
+				    onkeydown="return false"
                                     :disabled="element.estado != 'En proceso'"
                                     class="form-control"
                                     v-model="element._vencimiento_soat"
@@ -223,6 +233,7 @@
                             <div v-bind:class="['form-group','col-md-3',errors.first('vencimiento_rtm'+index) ? 'has-error' :'']">
                                 <label for="">Vencimiento RTM *</label>
                                 <input type="date"
+				    onkeydown="return false"
                                     :disabled="element.estado != 'En proceso'" 
                                     class="form-control"
                                     v-model="element._vencimiento_rtm"

@@ -16,8 +16,6 @@ require __DIR__ . '/routes/documentos.php';
 
 require __DIR__ . '/routes/callcenter.php';
 
-require __DIR__ . '/routes/contabilidad.php';
-
 require __DIR__ . '/routes/creditos.php';
 
 require __DIR__ . '/routes/precreditos.php';
@@ -73,3 +71,15 @@ require __DIR__ . '/routes/test.php';
 require __DIR__ . '/routes/certificados.php';
 
 require __DIR__ . '/routes/anuladas.php';
+
+require __DIR__ . '/routes/acuerdos.php';
+
+require __DIR__ . '/routes/contabilidad/home.php';
+
+require __DIR__ . '/routes/contabilidad/reportes.php';
+
+require __DIR__ . '/routes/cajas.php';
+
+Route::group(['prefix' =>'api' ], function() {
+    require __DIR__ . '/api/recibos.php';
+});

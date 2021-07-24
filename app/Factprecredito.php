@@ -31,4 +31,5 @@ class Factprecredito extends Model implements Auditable
         return $this->hasMany('App\PrecreditoPago','fact_precredito_id','id');
     }
 
+
 }

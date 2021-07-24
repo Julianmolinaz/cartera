@@ -5,9 +5,8 @@ namespace App\Traits;
 use DB;
 use Auth;
 use App\Factura;
-use App\Variable;
 use Carbon\Carbon;
-
+use App\Variable;
 trait FacturaTrait
 {
 
@@ -20,6 +19,7 @@ trait FacturaTrait
     | recibe $factura_id = el id de la factura
     | retorna un html con toda la info
     |
+    |
     */	
 
 
@@ -29,9 +29,7 @@ trait FacturaTrait
 		$now     = Carbon::now();
 		$saldo   = $factura->credito->saldo;
 		$prox    = ''; //html con el saldo
-		$variable = Variable::all()[0];
-
-		//evalua si el saldo es mayor de 0 (no cancelado, aun vigente)
+		$variable = Variable::all()[0];	
 
 		if($saldo > 0){
 			$prox = '<p id="prox_fech_pago">Próxima fecha de pago: '. $factura->credito->fecha_pago->fecha_pago .'</p>';
@@ -94,7 +92,7 @@ trait FacturaTrait
 			<body>
 				<div class="cuerpo">
 					<div class="center" id="encabezado">
-						<img src="{{ asset(\'images/gora_logo_mini.png\') }}">
+						<img src="{{ asset(\'images/logo_gora_2021.png\') }}">
 						<h3 style="margin-top: -5px;">'. $variable->razon_social .'</h3>
 						<p>Nit: '. $variable->nit .'</p>
 						<p>Sucursal: '.$factura->user_create->punto->nombre.'
@@ -127,7 +125,7 @@ trait FacturaTrait
 					</div>		
 					<div>
 						<br>
-						<p class="center">www.financiamossoat.com</p>
+						<p class="center">financiamossoat.com</p>
 					</div>
 				</div>
 			</body>

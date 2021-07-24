@@ -50,13 +50,13 @@
 </head>
 <body>
         <div class="marca-de-agua">
-            <img src="{{public_path('images/logo_inversiones_gora.png')}}" alt="..." width="600">
+            <img src="{{public_path('images/logo_gora_2021.png')}}" alt="..." width="600">
         </div>
 
     <div class="" style="z-index:200;">
     
         <section>
-            <img src="{{public_path('images/logo_inversiones_gora.png')}}" alt="" width="200">
+            <img src="{{public_path('images/logo_gora_2021.png')}}" alt="" width="200">
         </section>
 
         <section style="margin:30px 30px 30px 60px;">

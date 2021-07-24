@@ -241,7 +241,7 @@
               <textarea class="form-control input-sm" rows="3" id="recordatorio" name="recordatorio" 
                 placeholder='Escriba el recordatorio del pago' autocomplete="on"  value="{{$credito->recordatorio}}">{{$credito->recordatorio}}</textarea>
             </div>
-            </div>
+          </div>
 
          <!-- BOTONES **************************************************************************-->
          <div class="form-group">

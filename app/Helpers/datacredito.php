@@ -51,7 +51,7 @@ function reporte_datacredito($f_corte, $data_asis = null)
             '1.10-indicador_partir'     => 'N', //Si la entidad necesita que el maestro sea partido en varios maestros
             '1.11-filler'               => '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', //746 posiciones en 0
         );
-
+        
         global $str_control_ini;
         $str_control_ini = implode($registro_de_control);
 
@@ -72,8 +72,8 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.3-numero_obligacion'     => cast_number($credito->id,18,'right'),
                 '2.4-nombre_completo'       => cast_string(strtoupper(sanear_string($credito->precredito->cliente->nombre)),45),
                 '2.5-situacion_titular'     => '0',// 0 normal
-                '2.6-fecha_apertura'        => fecha_Ymd($credito->precredito->fecha),
-                '2.7-fecha_vencimiento'     => vence_credito($credito),
+                '2.6-fecha_apertura'        => fecha_Ymd($credito->precredito->fecha, $credito->id),
+                '2.7-fecha_vencimiento'     => vence_credito($credito, $credito->id),
                 '2.8-responsable'           => '00',        // responsable del pago
                 '2.9-tipo_obligacion'       => '1',         // 1-comercial ..... 5-microcrédito
                 '2.10-subcidio_hipotecario' => '0',         // 0 = no; 1=si
@@ -83,7 +83,7 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.14-periodicidad_pago'    => periodicidad_datacredito($credito), // 1-mensual, 9-quincenal 
                 '2.15-novedad'              => cast_number(novedad($credito,$f_corte),2,'right'), //comportamiento que tuvo el manejo del crédito en el periodo 01-al dia,05-pago total 06-mora 30, 07-mora 60, 08-mora 90, 09-mora 120, 13-cartera castigada, 14-cartera recuperada
                 '2.16-estado_origen'        => estado_origen($credito)['estado'],// 0-normal-creación apertura, 2-refinanciación
-                '2.17-fecha_estado_origen'  => fecha_Ymd(estado_origen($credito)['fecha']), //fecha en la que se reporta el origen de la obligación
+                '2.17-fecha_estado_origen'  => fecha_Ymd(estado_origen($credito)['fecha'], $credito->id), //fecha en la que se reporta el origen de la obligación
                 '2.18-estado_cuenta'        => estado_cuenta($credito,$f_corte)['estado_cuenta'],// comportamiento del periodo 1-al dia, 2-mora, 3-pago total, 12-refinanciación
                 '2.19-fecha_estado_cuenta'  => estado_cuenta($credito,$f_corte)['fecha'], // AAAAMMDD cred vigente => fecha corte, cancelado => fecha de cancelación
                 '2.20-estado_plastico'      => '0',         // aplica solo para tarjeta de crédito
@@ -109,7 +109,7 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.40-clausula_permanencia' => cast_number('',3,'right'), // N/A solo sector real,
                 '2.41-fecha_clausula_perman'=> cast_number('',8,'right'), // N/A solo sector real,
                 '2.42-fecha_limite_pago'    => fecha_limite_pago($credito,$f_corte), // fecha en que debió hacer el pago
-                '2.43-fecha_pago'           => cast_string(fecha_Ymd(fecha_pago($credito)),8),// fecha del ultimo pago
+                '2.43-fecha_pago'           => cast_string(fecha_Ymd(fecha_pago($credito), $credito->id),8),// fecha del ultimo pago
                 '2.44-oficina_radicacion'   => cast_string($punto->nombre,30),//oficina que maneja la obligación
                 '2.45-ciudad_radicacion'    => cast_string($punto->municipio->nombre,20),
                 '2.46-codigo_dane_radica'   => cast_number($punto->municipio->codigo_municipio,8,'right'), //codigo dane mmunicipio
@@ -140,7 +140,8 @@ function reporte_datacredito($f_corte, $data_asis = null)
             len_line($registro_info_clientes);
 
             if( $credito->precredito->cliente->codeudor && $credito->precredito->cliente->codeudor->id != '100' )
-            {
+            {             
+
                 $registro_info_codeudor = array(
 
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->codeudor->tipo_docc, $credito),1,'right'),
@@ -148,7 +149,7 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.3-numero_obligacion'     => cast_number($credito->id,18,'right'),
                 '2.4-nombre_completo'       => cast_string(strtoupper(sanear_string($credito->precredito->cliente->codeudor->nombrec)),45),
                 '2.5-situacion_titular'     => '0',// 0 normal
-                '2.6-fecha_apertura'        => fecha_Ymd($credito->precredito->fecha),
+                '2.6-fecha_apertura'        => fecha_Ymd($credito->precredito->fecha, $credito->id),
                 '2.7-fecha_vencimiento'     => vence_credito($credito),
                 '2.8-responsable'           => '00',        // responsable del pago
                 '2.9-tipo_obligacion'       => '1',         // 1-comercial ..... 5-microcrédito
@@ -159,7 +160,7 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.14-periodicidad_pago'    => periodicidad_datacredito($credito), // 1-mensual, 9-quincenal 
                 '2.15-novedad'              => cast_number(novedad($credito,$f_corte),2,'right'), //comportamiento que tuvo el manejo del crédito en el periodo 01-al dia,05-pago total 06-mora 30, 07-mora 60, 08-mora 90, 09-mora 120, 13-cartera castigada, 14-cartera recuperada
                 '2.16-estado_origen'        => estado_origen($credito)['estado'],// 0-normal-creación apertura, 2-refinanciación
-                '2.17-fecha_estado_origen'  => fecha_Ymd(estado_origen($credito)['fecha']), //fecha en la que se reporta el origen de la obligación
+                '2.17-fecha_estado_origen'  => fecha_Ymd(estado_origen($credito)['fecha'], $credito->id), //fecha en la que se reporta el origen de la obligación
                 '2.18-estado_cuenta'        => estado_cuenta($credito,$f_corte)['estado_cuenta'],// comportamiento del periodo 1-al dia, 2-mora, 3-pago total, 12-refinanciación
                 '2.19-fecha_estado_cuenta'  => estado_cuenta($credito,$f_corte)['fecha'], // AAAAMMDD cred vigente => fecha corte, cancelado => fecha de cancelación
                 '2.20-estado_plastico'      => '0',         // aplica solo para tarjeta de crédito
@@ -185,7 +186,7 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.40-clausula_permanencia' => cast_number('',3,'right'), // N/A solo sector real,
                 '2.41-fecha_clausula_perman'=> cast_number('',8,'right'), // N/A solo sector real,
                 '2.42-fecha_limite_pago'    => fecha_limite_pago($credito,$f_corte), // fecha en que debió hacer el pago
-                '2.43-fecha_pago'           => cast_string(fecha_Ymd(fecha_pago($credito)),8),// fecha del ultimo pago
+                '2.43-fecha_pago'           => cast_string(fecha_Ymd(fecha_pago($credito), $credito->id),8),// fecha del ultimo pago
                 '2.44-oficina_radicacion'   => cast_string($punto->nombre,30),//oficina que maneja la obligación
                 '2.45-ciudad_radicacion'    => cast_string($punto->municipio->nombre,20),
                 '2.46-codigo_dane_radica'   => cast_number($punto->municipio->codigo_municipio,8,'right'), //codigo dane mmunicipio
@@ -220,9 +221,10 @@ function reporte_datacredito($f_corte, $data_asis = null)
             foreach($data_asis as $element)
             array_push($info_clientes_array, $element);
         }        
-    }
-    catch(\Exception $e){
-        dd($e);
+    } catch (\Exception $e){
+        \Log::error("[ERROR:datacredito@reporte_datacredito]" . $e->getMessage());
+        throw new \Exception($e->getMessage());
+        
     }
     
     $registro_fin = array(
@@ -239,10 +241,7 @@ function reporte_datacredito($f_corte, $data_asis = null)
         dd($GLOBALS['errores_datacredito']);
     }
     
-
-    return $info_clientes_array;
-    
+    return $info_clientes_array;  
 }
-
 
 ?>

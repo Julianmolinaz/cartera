@@ -42,10 +42,12 @@ trait SolicitudTrait
             $range[] = $numero;
         }
 
-        return [
+        $proveedores = _\MyService\Proveedor::getProveedores();
+
+        $data = [
             'productos'            => _\Producto::orderBy('nombre')->get(),
             'carteras'             => _\Cartera::where('estado','Activo')->orderBy('nombre')->get(),
-            'proveedores'          => _\MyService\Proveedor::getProveedores(),
+            'proveedores'          => $proveedores,
             'variables'            => _\Variable::find(1),
             'now'                  => \Carbon\Carbon::now(),
             'estados_aprobacion'   => _\Http\Controllers\getEnumValues('precreditos', 'aprobado'),
@@ -54,11 +56,12 @@ trait SolicitudTrait
             'arr_estudios'         => _\Http\Controllers\getEnumValues('precreditos','estudio'),
             'tipo_vehiculos'       => _\TipoVehiculo::orderBY('nombre')->get(),
             'cliente'              => _\Cliente::find($cliente_id),
-            'proveedores'          => _\Tercero::where('tipo','Proveedor')->orderBy('razon_social')->get(),
             'vendedores'           => _\User::orderBy('name')->where('estado','activo')->where('id','<>',1)->get(),
             'rango_meses'          => $range,
             'clientes'             => _\Http\Controllers\getEnumValues('ref_productos', 'expedido_a'),
          ];
+
+         return $data;
 
     }
 }

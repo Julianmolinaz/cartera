@@ -47,9 +47,9 @@
                 <span class = "glyphicon glyphicon-fire"  ></span>
               </a>
             @endpermission  
-              <a href="#" class='btn btn-default btn-xs' @click="print('{{$factura->id}}')">
-		                	<span class = "glyphicon glyphicon-print" title="Imprimir"></span>
-		                </a>
+                <a href="#" class='btn btn-default btn-xs' @click="print('{{$factura->id}}')">
+		            <span class = "glyphicon glyphicon-print" title="Imprimir"></span>
+                </a>
             </td>
           </tr>
 

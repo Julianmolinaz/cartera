@@ -274,7 +274,13 @@ class CreditoController extends Controller
     }//.if
 
     public function store(Request $request){}
-    public function show($id){}
+    
+    public function show($credito_id)
+    {
+        $credito = Credito::find($credito_id);
+
+        return redirect()->route('start.precreditos.ver', $credito->precredito_id);
+    }
 
     /*
     |--------------------------------------------------------------------------

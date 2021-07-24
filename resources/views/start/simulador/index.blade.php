@@ -46,6 +46,7 @@
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							{!! link_to('#',$title='Calcular',$attributes =  ['id'=>'registro','class'=>'btn btn-default
 							 btn-lg btn-block'],$secure = null) !!}
+							 
 						</div>
 					</div>
 					<div class="ln_solid"></div>
@@ -56,6 +57,7 @@
 						<label class="control-label col-md-4 col-sm-4 col-xs-12">Valor cuota:</label>
 						<div class="col-md-8 col-sm-8 col-xs-12">
 							<input type="text" class="form-control" id="valor_cuota" readonly="readonly" placeholder="">
+							<span class="help-block" id="valor_cuota_help" style="margin-left:3px;"></span>
 						</div>
 					</div>
 					<div class="form-group">

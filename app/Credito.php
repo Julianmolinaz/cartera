@@ -31,7 +31,8 @@ class Credito extends Model implements Auditable
         'sanciones_ok',
         'sanciones_exoneradas',
         'mes', //*
-        'anio' //*
+        'anio', //*
+        'cancelado_data' //*
     ];      
 
     public function precredito(){
@@ -91,10 +92,16 @@ class Credito extends Model implements Auditable
     public function proceso(){
         return $this->hasOne('App\Proceso','credito_id','id');
     }
-
-    public function acuerdo(){
-        return $this->hasOne('App\Acuerdo','credito_id','id');
-    }
     
+    public function acuerdos(){
+        return $this->hasMany('App\Acuerdo','credito_id','id');
+    }
 
+    public function lastAcuerdo(){
+        $acuerdo = DB::table('acuerdos')
+            ->where('credito_id', $this->id)
+            ->last();
+
+        return $acuerdo;
+    }
 }

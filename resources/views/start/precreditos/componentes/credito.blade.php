@@ -92,7 +92,7 @@
                     <span class="help-block">@{{ errors.first(rules.rendimiento.name) }}</span>         
                 </div>
 
-                <!-- Saldo a favor  -->
+                <!-- Saldo a Favor  -->
 
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.saldo_favor.name) ? 'has-error' :'']">
                     <label for="">Saldo a Favor @{{ rules.saldo_favor.required }}</label>     
@@ -126,7 +126,8 @@
 
                 <div v-bind:class="['form-group has-success','col-md-2',errors.first(rules.fecha_pago.name) ? 'has-error' :'']">
                     <label class="control-label">Fecha de pago @{{ rules.fecha_pago.required }}</label>    
-                    <input 
+                    <input
+		        onkeydown="return false" 
                         type="date" 
                         class="form-control form-main__input--small" 
                         v-model="fecha_pago"
@@ -172,7 +173,7 @@
 
                 <!-- OBSERVACIONES  -->
 
-                <div v-bind:class="['form-group','col-md-6',errors.first(rules.observaciones.name) ? 'has-error' :'']">
+                <!-- <div v-bind:class="['form-group','col-md-6',errors.first(rules.observaciones.name) ? 'has-error' :'']">
                         <label for="">Observaciones @{{ rules.observaciones.required }}</label>
                         <textarea 
                             class="form-control" 
@@ -181,11 +182,11 @@
                             :name="rules.observaciones.name">
                         </textarea>
                     <span class="help-block">@{{ errors.first(rules.observaciones.name) }}</span>
-                </div>
+                </div> -->
 
                 <!-- RECORDATORIO  -->
 
-                <div v-bind:class="['form-group','col-md-6',errors.first(rules.observaciones.name) ? 'has-error' :'']">
+                <div v-bind:class="['form-group','col-md-12',errors.first(rules.observaciones.name) ? 'has-error' :'']">
                         <label for="">Recordatorio @{{ rules.recordatorio.required }}</label>
                         <textarea 
                             class="form-control" 

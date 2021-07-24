@@ -1,3 +1,5 @@
+
+
 @section('title','ver solicitud')
 
 @section('contenido')
@@ -219,4 +221,6 @@
 @endsection
 
 @include('templates.main2')
+
+
 

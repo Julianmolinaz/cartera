@@ -58,12 +58,19 @@
         type: 'PUT',
         dataType: 'json',
         data: {id:id,criterio:criterio,descripcion:descripcion},
-          success:function(res){
-            Cargar();
-            $('#mensaje').text('El criterio "'+res+'" se editó con éxito!!!!');
-            $('#msj-success').fadeIn();
-            $('#myModalEditCriterio').modal('toggle');
-           }
+        success:function(res){
+
+            console.log({res});
+
+            if (res.success) {
+                $('#mensaje').text('El criterio "'+res.dat+'" se editó con éxito!!!!');
+                $('#msj-success').fadeIn();
+                $('#myModalEditCriterio').modal('toggle');
+                Cargar();
+            } else {
+                alertify.alert('Error', res.message);
+            }
+        }
       });
 
 

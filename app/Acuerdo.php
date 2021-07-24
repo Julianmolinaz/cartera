@@ -15,4 +15,12 @@ class Acuerdo extends Model
         'created_by',
         'updated_by'
     ];
+
+    public function creator() {
+        return $this->hasOne('App\User','id','created_by');
+    }
+
+    public function updator() {
+        return $this->hasOne('App\User','id','updated_by');
+    }
 }

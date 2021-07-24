@@ -25,7 +25,6 @@ class InicioController extends Controller
     }
 
     function buscar($string) {
-
         $respuesta = "";
         
         if(substr($string,0,1) == "="){
@@ -201,19 +200,27 @@ class InicioController extends Controller
 
             $clientes    = DB::table('clientes')->where('placa','like','%'.$string.'%')->get();
             $codeudores  = DB::table('codeudores')->where('placac','like','%'.$string.'%')->get();
-            // $vehiculos   = DB::table('vehiculos')
-            //     ->join('ref_productos','vehiculos.id','=','ref_productos.vehiculo_id')
-            //     ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
-            //     ->join('clientes','precreditos.cliente_id','=','clientes.id')
-            //     ->select('vehiculos.placa','clientes.nombre as cliente','clientes.tipo_doc',)
-            //     ->where('placa','like','%'.$string.'%')
-            //     ->get();
+
+
+            $clients_v2   = DB::table('vehiculos')
+                ->join('ref_productos','vehiculos.id','=','ref_productos.vehiculo_id')
+                ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
+                ->join('clientes','precreditos.cliente_id','=','clientes.id')
+                ->select('vehiculos.placa','clientes.nombre','clientes.tipo_doc',
+                    'clientes.num_doc', 'clientes.id','ref_productos.nombre as producto')
+                ->where('vehiculos.placa','like','%'.$string.'%')
+                ->get();
+
+            $clientes = array_merge($clientes, $clients_v2);
 
             if(count($clientes) > 0){
                 foreach($clientes as $cliente){  
+                    $producto = isset($cliente->producto) ? $cliente->producto." : " : " ";
+
                     $respuesta .=   "<p><strong>Placa cliente: </strong>".
                                     "<a href=".route('start.clientes.show',$cliente->id).">".
-                                    $cliente->placa." : ".
+                                    $cliente->placa." - ".
+                                    $producto.
                                     $cliente->nombre." - ".
                                     $cliente->tipo_doc.": ".
                                     $cliente->num_doc." </a>

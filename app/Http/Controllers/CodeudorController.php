@@ -68,8 +68,12 @@ class CodeudorController extends Controller
      */
     public function store(Request $request)
     {
+       
+        
         $rq      = [];
         $codeudor = (object) $request->cliente;
+
+
 
         if ( is_array($codeudor->info_personal  ) ) { $rq = array_merge($rq, $codeudor->info_personal);  } 
         if ( is_array($codeudor->info_ubicacion ) ) { $rq = array_merge($rq, $codeudor->info_ubicacion); } 
@@ -77,7 +81,7 @@ class CodeudorController extends Controller
  
         $validator = Validator::make( $rq, $this->rulesCodeudorTr(), $this->messagesCodeudorTr());
 
-        if ($validator->fails()) return res('true',$validator->errors(),'Error en la validación.');
+        if ($validator->fails()) return res('false',$validator->errors(),'Error en la validación.');
 
         DB::beginTransaction();
 
@@ -85,18 +89,20 @@ class CodeudorController extends Controller
             $codeudor = new Codeudor();
             $codeudor->fill($rq);   
             $codeudor->version = 2; 
-            $codeudor->created_at = Auth::user() ? Auth::user()->id : 1;     
+            $codeudor->created_at = Auth::user()->id;     
             $codeudor->save();
-
-            \DB::table('clientes')->where('id',$request->cliente_id)->update([ 'codeudor_id' => $codeudor->id ]);
-
+            
+            \DB::table('clientes')
+                ->where('id',$request->cliente_id)
+                ->update([ 'codeudor_id' => $codeudor->id ]);
+            
             DB::commit();
 
             $data = [ 
                 'ref_cliente' => $codeudor->client->id,
                 'cliente_id'  => $codeudor->id
             ];
-
+            
             return res(true,$data,'Codeudor creado exitosamente !!!');
         }
         catch(\Exception $e){

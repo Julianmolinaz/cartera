@@ -16,19 +16,22 @@ class CreateTercerosTable extends Migration {
 		{
 			$table->increments('id')->comment('Llave primaria');
 			$table->enum('tipo', array('Cliente','Empleado','General','Proveedor','Vendedor'));
-			$table->enum('regimen', array('Estatal','Gran contribuyente','Regimen comun','Regimen especial','No responsable de IVA'))->comment('regimen tributario');
+			$table->enum('regimen',['Estatal','Gran contribuyente','Regimen comun','Regimen especial','No responsable de IVA'])->nullable()->comment('regimen tributario');
 			$table->string('razon_social', 100)->nullable();
+			$table->string('nombre_comercial', 100)->nullable();
 			$table->string('pnombre', 30)->nullable()->comment('primer nombre');
 			$table->string('snombre', 30)->nullable()->comment('segundo nombre');
 			$table->string('papellido', 30)->nullable()->comment('primer apellido');
 			$table->string('sapellido', 30)->nullable()->comment('segundo apellido');
-			$table->enum('tipo_doc', array('Cedula de ciudadania','Nit empresarial','Nit de extranjeria','Cedula de extranjeria'))->comment('tipo de documento');
+			$table->enum('tipo_doc', ['Cedula de ciudadania','Nit empresarial','Nit de extranjeria','Cedula de extranjeria'])->comment('tipo de documento');
 			$table->string('num_doc', 11)->comment('número de documento');
+			$table->integer('digito', 1)->nullable()->comment('digito de verificación');
 			$table->integer('tel1')->comment('telefono 1');
-			$table->integer('tel2')->comment('telefono dos');
+			$table->integer('tel2')->comment('telefono dos')->nullable();
 			$table->string('dir', 100)->comment('direccion');
-			$table->integer('mun_id')->unsigned()->index('fk_municipio');
-			$table->string('email', 60);
+			$table->integer('mun_id')->unsigned()->nullable();
+			$table->string('email', 60)->nullable();
+			$table->enum('estado', array('Activo','Inactivo'))->nullable()->default('Activo');
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned()->nullable();
 			$table->timestamps();

@@ -100,7 +100,7 @@ class ReporteController extends Controller
         }
 
         //validación de los datos
-
+        
         if($request->input('tipo_reporte') == 'general_por_carteras'){
             $this->validate($request,
                 ['tipo_reporte' => 'required', 'cartera' => 'required'],
@@ -376,6 +376,8 @@ class ReporteController extends Controller
             $corte = Carbon::now();
             $corte->subMonth()->modify('last day of this month');
 
+            // dd($corte);
+
             $report_datacredito  =  reporte_datacredito($corte); // array con el reporte    
             $nombre_archivo      = '116881.'.$corte->year.cast_number($corte->month,2,'right').cast_number($corte->day,2,'right').'.T.txt';  // nombre del reporte
             $archivo             = fopen($nombre_archivo, "w"); // creacion del archivo
@@ -491,7 +493,40 @@ class ReporteController extends Controller
     else if ($request->input('tipo_reporte') == 'ingreso_esperado') {
         return $this->ingresoNominalTr($ini, $fin);
     }
-      
+
+    /**
+     * Referencia Bancolombia
+     */
+
+    else if ($request->input('tipo_reporte') === 'bancolombia') {
+        $now = Carbon::now()->toDateString();
+        $now = str_replace('-','',$now);
+        $codigo_convenio = 88685;
+        
+        $nombre_archivo = 'RECAUDOS'.$codigo_convenio.''.$now.'A.txt';
+
+        // unlink($nombre_archivo);
+
+        $ref_bancolombia = new \App\Classes\Reportes\ReferenciaBancolombia();
+
+        $reporte = $ref_bancolombia->make();   
+
+        $archivo = fopen($nombre_archivo, "w");
+
+        foreach ($reporte as $item) {
+
+            foreach ($item as $elemento) {
+                fwrite($archivo, $elemento);     
+            }
+
+            fwrite($archivo, PHP_EOL);
+        }
+
+        fclose($archivo);
+        
+        return response()->download($nombre_archivo); 
+    }
+       
 }
 
     public function get_cashes_report($date)

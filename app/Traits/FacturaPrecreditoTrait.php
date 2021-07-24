@@ -85,7 +85,7 @@ trait FacturaPrecreditoTrait
 			<body>
 				<div class="cuerpo">
 					<div class="center" id="encabezado">
-						<img src="{{ asset(\'images/gora_logo_mini.png\') }}">
+						<img src="{{ asset(\'images/logo_gora_2021.png\') }}">
 						<h3 style="margin-top: -5px;">'. $variable->razon_social .'</h3>
 						<p>Nit: '. $variable->nit .'</p>
 						<p>Sucursal: '.$factura->user_create->punto->nombre.'

@@ -97,7 +97,7 @@
                   <!--  cal_asesor  -->
 
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <label>Calificación Asesor *:</label>
+                    <label>Calificación Analista *:</label>
                       <input type="number" min="0" max="5" step="any" title="0 action 5" class="form-control input-sm" id="cal_asesor" name="cal_asesor"  autocomplete="off" placeholder="Ingrese un valor entre 0 y 5"  value="{{old('cal_asesor')}}">
                     </div>
         

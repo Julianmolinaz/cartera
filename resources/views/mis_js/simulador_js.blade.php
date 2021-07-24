@@ -37,6 +37,7 @@ $('#registro').click(function(){
 	
   var periodo = $('#periodo').val();
   var meses = $('#meses').val();
+  var valor_cuota_help = document.querySelector('#valor_cuota_help');
 
 //Calcular el número de cuotas del crédito
 
@@ -59,11 +60,18 @@ if(periodo == "Quincenal"){
 
   var token = $("#token").val();
 
-  $.post(route, {monto: dato1, meses: dato2, periodo: dato3, _token:token}, function(resultado){
-        $("#valor_cuota").val(resultado)},"json");
-
-
-});
+  $.post(route, {
+	monto: dato1,
+	meses: dato2, 
+	periodo: dato3, 
+	_token:token
+	},
+	 function(resultado){
+        $("#valor_cuota").val(resultado);
+	valor_cuota_help.textContent = '$ '+ new Intl.NumberFormat().format(resultado);
+	},
+	"json");
+   });
 
 
 

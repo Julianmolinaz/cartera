@@ -26,7 +26,7 @@ class CreatePuntosTable extends Migration {
 			$table->integer('municipio_id')->unsigned()->nullable()->index('puntos_municipio_id_foreign');
 			$table->timestamps();
 
-			$table->foreign('municipio_id')->references('id')->on('municipios')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('municipio_id')->references('id')->on('municipios');
 		});
 	}
 

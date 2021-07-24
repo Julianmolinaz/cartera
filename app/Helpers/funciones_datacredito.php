@@ -78,12 +78,12 @@ use DB;
             if($credito->estado == 'Cancelado' || $credito->saldo <= 0){
                 $fecha_actual = Carbon::now();
                 //se registran los creditos finalizados
-                DB::table('cancelados')
-                    ->insert([
-                        'credito_id' => $credito->id,
-                        'reporte'    => 'datacredito',
-                        'created_at' => $fecha_actual->toDateTimeString()
-                    ]);
+                // DB::table('cancelados')
+                //     ->insert([
+                //         'credito_id' => $credito->id,
+                //         'reporte'    => 'datacredito',
+                //         'created_at' => $fecha_actual->toDateTimeString()
+                //     ]);
 
             }
 
@@ -332,30 +332,37 @@ function sanciones_vigentes($credito){
 
 function fecha_limite_pago($credito, $corte)
 {  
-    if($credito->estado == 'Al dia' || $credito->estado == 'Cancelado'){
+    try {
 
-        if(count($credito->pagos) > 0){
-            if(fecha_Ymd(inv_fech($credito->pagos->last()->pago_desde))){
-
-                return fecha_Ymd(inv_fech($credito->pagos->last()->pago_desde));
+        if($credito->estado == 'Al dia' || $credito->estado == 'Cancelado'){
+    
+            if(count($credito->pagos) > 0){
+                if(fecha_Ymd($credito->pagos->last()->pago_desde, $credito->id)){
+    
+                    return fecha_Ymd($credito->pagos->last()->pago_desde, $credito->id);
+                }
+                else{
+                    return fecha_Ymd($credito->fecha_pago->fecha_pago, $credito->id);
+                }
             }
-            else{
-                return fecha_Ymd(inv_fech($credito->fecha_pago->fecha_pago));
+            else{ 
+                return fecha_Ymd($credito->fecha_pago->fecha_pago, $credito->id);
             }
+            
         }
-        else{ 
-            return fecha_Ymd(inv_fech($credito->fecha_pago->fecha_pago));
+        else if($credito->estado == 'Mora'){
+            return fecha_Ymd($credito->fecha_pago->fecha_pago, $credito->id);
         }
+        else if($credito->estado == 'Prejuridico' ||
+                $credito->estado == 'Juridico' ||
+                $credito->estado == 'Cancelado por refinanciacion'){
+    
+            return fecha_Ymd($credito->fecha_pago->fecha_pago, $credito->id);
+        }
+    } catch (\Exception $e){
+        \Log::error("[ERROR:funciones_datacredito@fecha_limite_pago]" . $e->getMessage());
+        throw new \Exception($e->getMessage());
         
-    }
-    else if($credito->estado == 'Mora'){
-        return fecha_Ymd(inv_fech($credito->fecha_pago->fecha_pago));
-    }
-    else if($credito->estado == 'Prejuridico' ||
-            $credito->estado == 'Juridico' ||
-            $credito->estado == 'Cancelado por refinanciacion'){
-
-        return fecha_Ymd(inv_fech($credito->fecha_pago->fecha_pago)) ;
     }
 
 }
@@ -448,10 +455,9 @@ function cast_string($string, $len)
         return $string;
     }
 }
-
 /*
 |--------------------------------------------------------------------------
-| fecha_Ymd
+| invertir fecha
 |--------------------------------------------------------------------------
 |
 | recibe un string con una fecha dd-mm-yyyy
@@ -459,12 +465,53 @@ function cast_string($string, $len)
 |
 */
 
-function fecha_Ymd($str)
+function invertirFecha($str)
 {
-    $str = inv_fech($str);
-    return str_replace('-','',$str);
+    $dia = substr($str, 0, 2);
+
+    $mes = substr($str, 3, 2);;
+
+    $anio = substr($str, 6, 4);
+
+    return $anio.$mes.$dia;
 }
 
+/*
+|--------------------------------------------------------------------------
+| fecha_Ymd
+|--------------------------------------------------------------------------
+|
+| recibe un string con una fecha dd-mm-yyyy o yyyy-mm-dd
+| retorna una fecha en formato yyyymmdd
+|
+*/
+
+function fecha_Ymd($str, $credito_id = null)
+{
+    $caracter1 = substr($str, 2, 1);
+    $caracter2 = substr($str, 4, 1);
+
+    if ($caracter1 == '-' || $caracter1 == '/') {
+
+        return invertirFecha($str);
+
+    } else if ($caracter2 == '-') {
+
+        return str_replace('-','',$str);
+
+    } else if ($caracter2 == '/') {
+
+        return str_replace('/','',$str);
+
+    } else {
+        return "00000000";
+        
+        // throw new \Exception(
+        //     "Formato de fecha invalido fecha: $str | credito: $credito_id", 1
+        // );  
+    }
+
+}
 /*
 |--------------------------------------------------------------------------
 | vence_credito
@@ -478,17 +525,23 @@ function fecha_Ymd($str)
 
 function vence_credito($credito)
 {
+    try {
 
-    $fecha_ini  = $credito->fecha_pago->fecha_pago;
-    $periodo    = $credito->precredito->periodo;
-    $num_cuotas = $credito->cuotas_faltantes;
-    $p_fecha    = $credito->precredito->p_fecha;
-    $s_fecha    = $credito->precredito->s_fecha;
-
-    $vencimiento = pago_hasta($fecha_ini, $periodo, $num_cuotas,$p_fecha, $s_fecha);
-    $vencimiento = fecha_Ymd($vencimiento);
+        $fecha_ini  = $credito->fecha_pago->fecha_pago;
+        $periodo    = $credito->precredito->periodo;
+        $num_cuotas = $credito->cuotas_faltantes;
+        $p_fecha    = $credito->precredito->p_fecha;
+        $s_fecha    = $credito->precredito->s_fecha;
     
-    return $vencimiento;
+        $vencimiento = pago_hasta($fecha_ini, $periodo, $num_cuotas,$p_fecha, $s_fecha);
+        $vencimiento = fecha_Ymd($vencimiento, $credito->id);
+        
+        return $vencimiento;
+    } catch (\Exception $e){
+        \Log::error("[ERROR:funciones_datacredito@vence_credito]" . $e->getMessage());
+        throw new \Exception($e->getMessage());
+        
+    }
 }
 
 /*
@@ -818,11 +871,11 @@ function saldo_en_mora($credito,$corte){
         }
 
         return (int)($sanciones_diarias + $cta_parcial + $cuotas);     
+    } catch (\Exception $e){
+        \Log::error("[ERROR:funciones_datacredito@fecha_limite_pago]" . $e->getMessage());
+        throw new \Exception($e->getMessage().' ' . $credito->id);
+        
     }
-    catch(\Exception $e){
-        dd($e->getMessage() .' ' . $credito->id);
-    }
-
 
     /*
     |--------------------------------------------------------------------------

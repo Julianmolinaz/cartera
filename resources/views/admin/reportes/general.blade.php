@@ -32,7 +32,8 @@
               <th>  # Factura     </th>
               <th>  Fecha_Pago    </th> 
               <th>  Cartera       </th>
-              <th>  Create___ </th>
+              <th>  Create        </th>
+              <th>  Creó          </th>
            </tr>
           </thead>
           <tbody style="font-size:10px"  align="right">
@@ -56,6 +57,7 @@
               <td> {{ $cuota->fecha       }} </td>
               <td> {{ $cuota->cartera     }} </td>
               <td style="font-size:10px"> {{ $cuota->created_at}}</td>
+              <td> {{ $cuota->usuario}}</td>
             </tr>
           @endforeach  
           @foreach($sanciones as $sancion)
@@ -77,7 +79,8 @@
               <td> {{ $sancion->num_fact    }} </td>
               <td> {{ $sancion->fecha       }} </td>
               <td> {{ $sancion->cartera     }} </td>
-              <td> {{ $sancion->created_at}}</td>
+              <td> {{ $sancion->created_at  }} </td>
+              <td> {{ $sancion->usuario     }} </td>
             </tr>
           @endforeach   
           @foreach($juridicos as $juridico)
@@ -100,6 +103,7 @@
               <td> {{ $juridico->fecha     }} </td>
               <td> {{ $juridico->cartera   }} </td>
               <td> {{ $juridico->created_at}} </td>
+              <td> {{ $juridico->usuario   }} </td>
             </tr>
           @endforeach
           @foreach($prejuridicos as $prejuridico)
@@ -122,6 +126,7 @@
               <td> {{ $prejuridico->fecha     }} </td>            
               <td> {{ $prejuridico->cartera   }} </td>
               <td> {{ $prejuridico->created_at}} </td>
+              <td> {{ $prejuridico->usuario   }} </td>
             </tr>
           @endforeach    
           @foreach($saldos_favor as $saldo)
@@ -143,7 +148,8 @@
               <td> {{ $saldo->num_fact  }} </td>
               <td> {{ $saldo->fecha     }} </td>            
               <td> {{ $saldo->cartera   }} </td>
-              <td> {{ $saldo->created_at}}</td>
+              <td> {{ $saldo->created_at}} </td>
+              <td> {{ $saldo->usuario   }} </td>
             </tr>
           @endforeach 
           @foreach($estudios as $estudio)
@@ -151,15 +157,22 @@
               <td> {{ $estudio->precredito_id   }} </td>
               <td> {{ $estudio->cliente       }}</td>
               <td> {{ $estudio->documento     }}</td>
-              <td> </td><td></td><td></td><td></td><td></td><td></td><td></td> 
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td> 
               <td> {{ number_format($estudio->subtotal,0,",",".") }}</td>
               <td>                                </td>
               <td>                           </td> 
               <td>                           </td>
               <td> {{ $estudio->factura     }} </td>
-              <td> {{ $estudio->fecha       }}</td>            
-              <td> {{ $estudio->cartera     }}</td>
-              <td> {{ $estudio->created_at  }}</td>
+              <td> {{ $estudio->fecha       }} </td>            
+              <td> {{ $estudio->cartera     }} </td>
+              <td> {{ $estudio->created_at  }} </td>
+              <td> {{ $estudio->usuario     }} </td>
             </tr>
           @endforeach   
 
@@ -179,10 +192,11 @@
               <td> {{ number_format($inicial->subtotal,0,",",".")}} </td>
               <td></td> 
               <td></td>
-              <td> {{ $inicial->factura}}</td>
-              <td> {{ $inicial->fecha }}</td>            
-              <td> {{ $inicial->cartera}}</td>
-              <td> {{ $inicial->created_at}}</td>
+              <td> {{ $inicial->factura   }} </td>
+              <td> {{ $inicial->fecha     }} </td>            
+              <td> {{ $inicial->cartera   }} </td>
+              <td> {{ $inicial->created_at}} </td>
+              <td> {{ $inicial->usuario   }} </td>
             </tr>
           @endforeach            
 
@@ -200,16 +214,20 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>{{number_format($otro_pago->subtotal,0,",",".")}}</td>
-            <td>{{$otro_pago->concepto}}</td>
-            <td>{{$otro_pago->factura}}</td>
-            <td>{{$otro_pago->fecha}}</td>
-            <td>{{$otro_pago->cartera}}</td>
-            <td>{{$otro_pago->created_at}}</td>
+            <td>{{ number_format($otro_pago->subtotal,0,",",".")}} </td>
+            <td>{{ $otro_pago->concepto                         }} </td>
+            <td>{{ $otro_pago->factura                          }} </td>
+            <td>{{ $otro_pago->fecha                            }} </td>
+            <td>{{ $otro_pago->cartera                          }} </td>
+            <td>{{ $otro_pago->created_at                       }} </td>
+            <td>{{ $otro_pago->usuario                          }} </td>
           </tr>  
           @endforeach 
           <tr style="background-color:#CCCCCC;">
-            <td></td><td></td><td></td><td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td><b>Subtales Ingresos :</b></td>
             <td><b>{{number_format($total_cuotas,0,",",".")}}</b></td>
             <td><b>{{number_format($total_sanciones,0,",",".")}}</b></td>
@@ -219,6 +237,7 @@
             <td><b>{{number_format($total_estudios,0,",",".")}}</b></td>
             <td><b>{{number_format($total_iniciales,0,",",".")}}</b></td>
             <td><b>{{number_format($total_otros_ingresos,0,",",".")}}</b></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

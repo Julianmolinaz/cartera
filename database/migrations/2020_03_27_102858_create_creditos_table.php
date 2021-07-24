@@ -36,6 +36,7 @@ class CreateCreditosTable extends Migration {
 			$table->enum('mes', array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'))->nullable()->comment('Mes de referencia para asignar comisiones');
 			$table->integer('anio')->nullable();
 			$table->boolean('permitir_mover_fecha')->default(0);
+			$table->boolean('cancelado_data')->default(0);
 			
 			$table->integer('user_create_id')->unsigned();
 			$table->integer('user_update_id')->unsigned()->nullable();

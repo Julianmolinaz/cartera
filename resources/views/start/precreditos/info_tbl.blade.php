@@ -62,7 +62,7 @@
         <td colspan="4"> 
             @foreach($precredito->ref_productos as $ref)
                 <span class="label label-warning" style="color:black;font-size:1em;margin-left:1px;" 
-                    data-toggle="tooltip" data-placement="top" title="{{ $ref->vehiculo->placa}} \n 123">
+                    data-toggle="tooltip" data-placement="top" title="{{ $ref->vehiculo->placa}}">
                         @if($ref->vehiculo->tipo_vehiculo_id == 2) <i class="fa fa-motorcycle" aria-hidden="true"></i>
                     @elseif($ref->vehiculo->tipo_vehiculo_id == 3) <i class="fa fa-motorcycle" aria-hidden="true"></i>
                     @elseif($ref->vehiculo->tipo_vehiculo_id == 4) <i class="fa fa-car" aria-hidden="true"></i>

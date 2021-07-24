@@ -1,42 +1,44 @@
-@section('title','ver solicitud')
 
-@section('contenido')
+    @section('title','ver solicitud')
 
-    <!-- Información solicitud -->
+    @section('contenido')
 
-    <div class="col-md-6 col-md-offset-1">
-        @include('start.precreditos.precredito')
-    </div>
+        <!-- Información solicitud -->
 
-    <!-- Información crédito -->
+        <div class="col-md-6 col-md-offset-1">
+            @include('start.precreditos.precredito')
+        </div>
 
-    <div class="col-md-4">
-        @include('start.precreditos.credito')
-    </div>
-</div>
+        <!-- Información crédito -->
 
-<!-- Pagos por solicitud  -->
+        <div class="col-md-4">
+            @include('start.precreditos.credito')
+        </div>
 
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        @include('start.precreditos.pagos_precredito')
-    </div>
-</div>
+        <!-- Pagos por solicitud  -->
 
-<!-- Pagos por crédito  -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                @include('start.precreditos.pagos_precredito')
+            </div>
+        </div>
 
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        @include('start.precreditos.pagos_credito')
-    </div>
-</div>
+        <!-- Pagos por crédito  -->
 
-@include('start.pagos.print_js')
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                @include('start.precreditos.pagos_credito')
+            </div>
+        </div>
 
-@include('start.precreditos.go_pazysalvo')
+        @include('start.pagos.print_js')
+
+        @include('start.precreditos.go_pazysalvo')
 
 @endsection
+
 @include('templates.main2')
+
 
 <script>
 

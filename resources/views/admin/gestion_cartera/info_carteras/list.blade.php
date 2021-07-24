@@ -85,10 +85,7 @@
             miles(numero) {
                 var str = numero.toString();
                 var resultado = "";
-                // Ponemos un punto cada 3 caracteres
-                for (var j, i = str.length - 1, j = 0; i >= 0; i--, j++)
-                    resultado = str.charAt(i) + ((j > 0) && (j % 3 == 0)? ".": "") + resultado;
-                return resultado;
+		return new Intl.NumberFormat("es-Co").format(numero);
             }  
         },
         created(){
