@@ -67,9 +67,14 @@ class ComprasRtmSoat
             ->join('productos','ref_productos.producto_id','=','productos.id')
             ->join('terceros','ref_productos.proveedor_id','=','terceros.id')
             ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
+            ->join('creditos','precreditos.id','=','creditos.precredito_id')
             ->whereBetween('ref_productos.fecha_exp',[$this->ini, $this->end])
             ->whereIn('precreditos.cartera_id', [6, 32])
             ->where('precreditos.aprobado','Si')
+            ->where(function ($query) {
+                $query->whereNotNull('ref_productos.num_fact')
+                ->where('ref_productos.num_fact','<>', '01');
+            })
             ->select('ref_productos.*','terceros.num_doc','precreditos.id')
             ->get();
     }

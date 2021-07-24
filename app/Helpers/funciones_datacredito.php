@@ -251,16 +251,16 @@ use DB;
         );
      
         $string = str_replace(
-            array('ñ','ç', 'Ç'),
-            array('Ñ','c', 'C',),
+            array('ñ','Ñ','ç', 'Ç'),
+            array('n','N','c', 'C',),
             $string
         );
      
         //Esta parte se encarga de eliminar cualquier caracter extraño
         $string = str_replace(
             array("\\", "¨", "º", "-", "~",
-                 "@", "|", "!", "\"",
-                 "·", "$", "%", "&", "/",
+                 "@", "|", "!", "\"", "&",
+                 "·", "$", "%", "°", "/",
                  "(", ")", "?", "'", "¡",
                  "¿", "[", "^", "<code>", "]",
                  "+", "}", "{", "¨", "´",
@@ -488,11 +488,12 @@ function invertirFecha($str)
 
 function fecha_Ymd($str, $credito_id = null)
 {
+    $str = substr($str,0,10);
     $caracter1 = substr($str, 2, 1);
     $caracter2 = substr($str, 4, 1);
-
+    
     if ($caracter1 == '-' || $caracter1 == '/') {
-
+        
         return invertirFecha($str);
 
     } else if ($caracter2 == '-') {
@@ -504,8 +505,10 @@ function fecha_Ymd($str, $credito_id = null)
         return str_replace('/','',$str);
 
     } else {
-        return "00000000";
+
+        return str_replace('-','',$str);
         
+
         // throw new \Exception(
         //     "Formato de fecha invalido fecha: $str | credito: $credito_id", 1
         // );  

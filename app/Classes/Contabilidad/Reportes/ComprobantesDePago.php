@@ -156,13 +156,13 @@ class ComprobantesDePago
         foreach ($pagos as $pago) {     
             switch ($pago->concepto) {
                 case 'Juridico':
-                    $this->go($pago,'42100503');
+                    $this->go($pago, '51991003');
                     break;
                 case 'Prejuridico':
-                    $this->go($pago, '42100502');
+                    $this->go($pago, '51991002');
                     break;
                 case 'Mora':
-                    $this->go($pago, '42100501');
+                    $this->go($pago, '51991001');
                     break;
                 case 'Cuota Parcial':
                     $this->go($pago, '13050501');

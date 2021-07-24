@@ -42,7 +42,7 @@
             <tr>
                 <td>    {{$factura->solicitud}}      </td>
                 <td>    {{$factura->credito}}        </td>
-                <td>    {{$factura->vlr_fin}}        </td>
+                <td>    {{$factura->centro_costos}}  </td>
                 <td>    {{$factura->cuota_inicial}}  </td>
                 <td>    {{$factura->num_fact}}       </td>
                 <td>    {{$factura->producto}}       </td>
@@ -51,8 +51,8 @@
                 <td>    {{$factura->iva}}            </td>
                 <td>    {{$factura->otros}}          </td>
                 <td>    {{$factura->expedido_a}}     </td>
-                <td>    {{$factura->razon_social}}   </td>
-                <td>    {{$factura->doc}}            </td>
+                <td>    {{$factura->proveedor}}      </td>
+                <td>    {{$factura->doc_proveedor}}  </td>
                 <td>    {{$factura->placa}}          </td>
                 <td>    {{$factura->nombre}}         </td>
                 <td>    {{$factura->num_doc}}        </td>

@@ -20,6 +20,7 @@ use App\Llamada;
 use App\Factura;
 use App\Credito;
 use App\Cartera;
+use App\Classes;
 use App\Egreso;
 use App\Punto;
 use App\Pago;
@@ -218,7 +219,45 @@ class ReporteController extends Controller
                 ->with('rango',$reporte['rango'])
                 ->with('castigadas',$reporte['castigadas'])
                 ->with('carteras',$reporte['carteras']);      
-        }        
+        }    
+        
+        /**
+         * REPORTE BANCOLOMBIA
+         */
+
+        //REFERENCIA_BANCOLOMBIA/REFERENCIA_BANCOLOMBIA/REFERENCIA_BANCOLOMBIA/REFERENCIA_BANCOLOMBIA
+        //REFERENCIA_BANCOLOMBIA/REFERENCIA_BANCOLOMBIA/REFERENCIA_BANCOLOMBIA/REFERENCIA_BANCOLOMBIA
+
+        else if($request->input('tipo_reporte') == 'referencia_bancolombia'){
+
+            $now = Carbon::now()->toDateString();
+            $now = str_replace('-','',$now);
+            $codigo_convenio = 54321;
+            
+            $nombre_archivo = 'RECAUDOS'.$codigo_convenio.''.$now.'A.txt';
+
+            // unlink($nombre_archivo);
+
+            $ref_bancolombia = new Classes\Reportes\ReferenciaBancolombia();
+
+            $reporte = $ref_bancolombia->make();   
+
+           
+            $archivo = fopen($nombre_archivo, "w");
+
+            foreach ($reporte as $item) {
+
+                foreach ($item as $elemento) {
+                    fwrite($archivo, $elemento);     
+                }
+
+                fwrite($archivo, PHP_EOL);
+            }
+
+            fclose($archivo);
+            
+            return response()->download($nombre_archivo); 
+        }  
 
         /*
          * REPORTE CALLCENTER 

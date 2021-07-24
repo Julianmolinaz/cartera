@@ -64,7 +64,7 @@ function reporte_datacredito($f_corte, $data_asis = null)
             set_time_limit(0);
 
             $credito = Credito::find($id);
-
+            
             $registro_info_clientes = array (
 
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->tipo_doc, $credito),1,'right'),
@@ -110,12 +110,12 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.41-fecha_clausula_perman'=> cast_number('',8,'right'), // N/A solo sector real,
                 '2.42-fecha_limite_pago'    => fecha_limite_pago($credito,$f_corte), // fecha en que debió hacer el pago
                 '2.43-fecha_pago'           => cast_string(fecha_Ymd(fecha_pago($credito), $credito->id),8),// fecha del ultimo pago
-                '2.44-oficina_radicacion'   => cast_string($punto->nombre,30),//oficina que maneja la obligación
-                '2.45-ciudad_radicacion'    => cast_string($punto->municipio->nombre,20),
+                '2.44-oficina_radicacion'   => cast_string(sanear_string($punto->nombre),30),//oficina que maneja la obligación
+                '2.45-ciudad_radicacion'    => cast_string(sanear_string($punto->municipio->nombre),20),
                 '2.46-codigo_dane_radica'   => cast_number($punto->municipio->codigo_municipio,8,'right'), //codigo dane mmunicipio
-                '2.47-ciudad_res_com'       => cast_string($credito->precredito->cliente->municipio->nombre,20),//ciudad de residencia del usuario
+                '2.47-ciudad_res_com'       => cast_string(sanear_string($credito->precredito->cliente->municipio->nombre),20),//ciudad de residencia del usuario
                 '2.48-codigo_dane_res_com'  => cast_number($credito->precredito->cliente->municipio->codigo_municipio,8, 'right'),// codigo dane de la ciudad de residencia del usuario
-                '2.49-depto_res_com'        => cast_string($credito->precredito->cliente->municipio->departamento,20),//depto ubicación residencia o comercial
+                '2.49-depto_res_com'        => cast_string(sanear_string($credito->precredito->cliente->municipio->departamento),20),//depto ubicación residencia o comercial
                 '2.50-dir_res_com'          => cast_string(sanear_string($credito->precredito->cliente->direccion),60), // direccion residencia o comercial 
                 '2.51-tel_res_com'          => cast_number($credito->precredito->cliente->telefono,12, 'right'),// telefono residencia o comercial
                 '2.52-ciudad_laboral'       => cast_string('',20),
@@ -123,9 +123,9 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.54-departamento_laboral' => cast_string('',20),
                 '2.55-direccion_laboral'    => cast_string('',60),
                 '2.56-tel_laboral'          => cast_number('',12,'right'),
-                '2.57-ciud_correspondencia' => cast_string($credito->precredito->cliente->municipio->nombre,20),
-                '2.58-cod_dane_ciud_corresp'=> cast_number($credito->precredito->cliente->municipio->codigo_municipio,8,'right'),
-                '2.59-depto_correspondencia'=> cast_string($credito->precredito->cliente->municipio->departamento,20),
+                '2.57-ciud_correspondencia' => cast_string(sanear_string($credito->precredito->cliente->municipio->nombre),20),
+                '2.58-cod_dane_ciud_corresp'=> cast_number(sanear_string($credito->precredito->cliente->municipio->codigo_municipio),8,'right'),
+                '2.59-depto_correspondencia'=> cast_string(sanear_string($credito->precredito->cliente->municipio->departamento),20),
                 '2.60-dir_correspondencia'  => cast_string(sanear_string($credito->precredito->cliente->direccion),60),
                 '2.61-correo_electronico'   => cast_string($credito->precredito->cliente->email,60),
                 '2.62-celular'              => cast_number($credito->precredito->cliente->movil,12,'right'),
@@ -141,7 +141,7 @@ function reporte_datacredito($f_corte, $data_asis = null)
 
             if( $credito->precredito->cliente->codeudor && $credito->precredito->cliente->codeudor->id != '100' )
             {             
-
+                
                 $registro_info_codeudor = array(
 
                 '2.1-tipo_identificacion'   => cast_number(tipo_identificacion_datacredito($credito->precredito->cliente->codeudor->tipo_docc, $credito),1,'right'),
@@ -187,12 +187,12 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.41-fecha_clausula_perman'=> cast_number('',8,'right'), // N/A solo sector real,
                 '2.42-fecha_limite_pago'    => fecha_limite_pago($credito,$f_corte), // fecha en que debió hacer el pago
                 '2.43-fecha_pago'           => cast_string(fecha_Ymd(fecha_pago($credito), $credito->id),8),// fecha del ultimo pago
-                '2.44-oficina_radicacion'   => cast_string($punto->nombre,30),//oficina que maneja la obligación
-                '2.45-ciudad_radicacion'    => cast_string($punto->municipio->nombre,20),
+                '2.44-oficina_radicacion'   => cast_string(sanear_string($punto->nombre),30),//oficina que maneja la obligación
+                '2.45-ciudad_radicacion'    => cast_string(sanear_string($punto->municipio->nombre),20),
                 '2.46-codigo_dane_radica'   => cast_number($punto->municipio->codigo_municipio,8,'right'), //codigo dane mmunicipio
-                '2.47-ciudad_res_com'       => cast_string($credito->precredito->cliente->codeudor->municipio->nombre,20),//ciudad de residencia del usuario
+                '2.47-ciudad_res_com'       => cast_string(sanear_string($credito->precredito->cliente->codeudor->municipio->nombre),20),//ciudad de residencia del usuario
                 '2.48-codigo_dane_res_com'  => cast_number($credito->precredito->cliente->codeudor->municipio->codigo_municipio,8, 'right'),// codigo dane de la ciudad de residencia del usuario
-                '2.49-depto_res_com'        => cast_string($credito->precredito->cliente->codeudor->municipio->departamento,20),//depto ubicación residencia o comercial
+                '2.49-depto_res_com'        => cast_string(sanear_string($credito->precredito->cliente->codeudor->municipio->departamento),20),//depto ubicación residencia o comercial
                 '2.50-dir_res_com'          => cast_string(sanear_string($credito->precredito->cliente->codeudor->direccion),60), // direccion residencia o comercial 
                 '2.51-tel_res_com'          => cast_number($credito->precredito->cliente->codeudor->telefono,12, 'right'),// telefono residencia o comercial
                 '2.52-ciudad_laboral'       => cast_string('',20),
@@ -200,9 +200,9 @@ function reporte_datacredito($f_corte, $data_asis = null)
                 '2.54-departamento_laboral' => cast_string('',20),
                 '2.55-direccion_laboral'    => cast_string('',60),
                 '2.56-tel_laboral'          => cast_number('',12,'right'),
-                '2.57-ciud_correspondencia' => cast_string($credito->precredito->cliente->codeudor->municipio->nombre,20),
+                '2.57-ciud_correspondencia' => cast_string(sanear_string($credito->precredito->cliente->codeudor->municipio->nombre),20),
                 '2.58-cod_dane_ciud_corresp'=> cast_number($credito->precredito->cliente->codeudor->municipio->codigo_municipio,8,'right'),
-                '2.59-depto_correspondencia'=> cast_string($credito->precredito->cliente->codeudor->municipio->departamento,20),
+                '2.59-depto_correspondencia'=> cast_string(sanear_string($credito->precredito->cliente->codeudor->municipio->departamento),20),
                 '2.60-dir_correspondencia'  => cast_string(sanear_string($credito->precredito->cliente->codeudor->direccion),60),
                 '2.61-correo_electronico'   => cast_string($credito->precredito->cliente->codeudor->email,60),
                 '2.62-celular'              => cast_number($credito->precredito->cliente->codeudor->movil,12,'right'),
