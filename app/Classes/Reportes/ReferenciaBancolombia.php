@@ -58,8 +58,9 @@ class ReferenciaBancolombia
             
             $this->reporte[] =  $estructura;
         }
-        // dd($this->reporte);
-        return $this->reporte;
+        
+        $this->reporte[0]['numero_registros'] = Ctrl\cast_number(count($this->reporte) - 1, 8,'right');
+	return $this->reporte;
 
     }
 
@@ -87,7 +88,7 @@ class ReferenciaBancolombia
         $estructura = $this->structRegistroDetalle();
 
         $estructura->tipo_registro                  = Ctrl\cast_number(6, 1,'right');
-        $estructura->nit_pagador                    = Ctrl\cast_number(98606681114, 13,'right');
+        $estructura->nit_pagador                    = Ctrl\cast_number(123456789, 13,'right');
         $estructura->nombre_pagador                 = Ctrl\cast_string('CONTINGENCIA', 20);
         $estructura->banco_cuenta_pagador           = Ctrl\cast_number(0, 9,'right');
         $estructura->numero_cuenta_debitar          = Ctrl\cast_number(0, 17,'right');
