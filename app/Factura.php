@@ -12,7 +12,7 @@ class Factura extends Model implements Auditable
     protected $table = 'facturas';
 
     protected $fillable = [
-        'num_fact' , 'fecha' , 'banco','credito_id' , 'total' , 
+        'num_fact' , 'fecha' , 'banco','credito_id' , 'total' , 'descuento' ,
         'user_create_id' , 'user_update_id'
     ];
 

@@ -17,9 +17,10 @@
             <tr style="background-color:#FFC300;">
               <th>  # Fila                </th>
               <th>  Funcionario           </th>
-              <th>  Número de Factuara    </th>
+              <th>  Factuara              </th>
               <th>  Concepto del Ingreso  </th>
               <th>  Valor del Ingreso     </th>
+              <th>  Valor del descuento     </th>
               <th>  Tipo de pago          </th>
               <th>  Banco                 </th>
               <th>  Solicitud             </th>
@@ -39,12 +40,29 @@
                 <td>{{$data['factura']}}</td>
                 <td>{{$data['concepto']}}</td>
                 <td>{{number_format($data['valor'],0,",",".")}}</td>
+                <td></td>
                 <td>{{$data['tipo_pago']}}  </td>
                 <td>{{$data['banco']}}
                 <td>{{$data['solicitud']}}</td>
                 <td>{{$data['credito']}}</td>
                 <td>{{$data['cartera']}}</td>
                 <td>{{$data['fecha']}}</td>
+              </tr>  
+              @endforeach
+              @foreach($descuentos as $descuento)
+              <tr>
+                <td>{{$fila++}}</td>
+                <td align="left">{{$descuento['funcionario']}}</td>
+                <td>{{$descuento['factura']}}</td>
+                <td>{{$descuento['concepto']}}</td>
+                <td></td>
+                <td>{{number_format($descuento['valor'],0,",",".")}}</td>
+                <td>{{$descuento['tipo_pago']}}  </td>
+                <td>{{$descuento['banco']}}
+                <td>{{$descuento['solicitud']}}</td>
+                <td>{{$descuento['credito']}}</td>
+                <td>{{$descuento['cartera']}}</td>
+                <td>{{$descuento['fecha']}}</td>
               </tr>  
               @endforeach
           </tbody>

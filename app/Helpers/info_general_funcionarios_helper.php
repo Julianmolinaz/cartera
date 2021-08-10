@@ -24,109 +24,132 @@ function reporte_general_por_funcionarios( $fecha_1, $fecha_2){
   $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
   $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
 
-
   $date               = $ini->toDateString(); 
   $estudio_tipico     = Variable::find(1)->vlr_estudio_tipico;    //valor del estudio de credito tipico
   $estudio_domicilio  = Variable::find(1)->vlr_estudio_domicilio;   //valor del estudio de credito a domicilio
 
-
   $pagos = 
-  DB::table('users')
-    ->join('puntos','users.punto_id','=','puntos.id')
-    ->join('facturas','users.id','=','facturas.user_create_id')
-    ->join('creditos','facturas.credito_id','=','creditos.id')
-    ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-    ->join('carteras','precreditos.cartera_id','=','carteras.id')
-    ->select(
+    DB::table('users')
+      ->join('puntos','users.punto_id','=','puntos.id')
+      ->join('facturas','users.id','=','facturas.user_create_id')
+      ->join('creditos','facturas.credito_id','=','creditos.id')
+      ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+      ->join('carteras','precreditos.cartera_id','=','carteras.id')
+      ->select(
+          'users.id as funcionario_id',
+          'users.name as nombre',
+          'facturas.total as valor',
+          'facturas.num_fact as factura',
+          'facturas.created_at as create',
+          'facturas.tipo as tipo_pago',
+          'carteras.nombre as cartera',
+          'puntos.nombre as punto',
+          'creditos.id as credito',
+          'facturas.banco as banco')
+      ->where([['users.id','<>',1]])
+      ->where('facturas.descuento', false)
+      ->whereBetween('facturas.created_at',[$ini,$fin])
+      ->orderBy('users.id')
+      ->get();
+
+  $descuentos = 
+    DB::table('users')
+      ->join('puntos','users.punto_id','=','puntos.id')
+      ->join('facturas','users.id','=','facturas.user_create_id')
+      ->join('creditos','facturas.credito_id','=','creditos.id')
+      ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+      ->join('carteras','precreditos.cartera_id','=','carteras.id')
+      ->select(
+          'users.id as funcionario_id',
+          'users.name as nombre',
+          'facturas.total as valor',
+          'facturas.num_fact as factura',
+          'facturas.created_at as create',
+          'facturas.tipo as tipo_pago',
+          'carteras.nombre as cartera',
+          'puntos.nombre as punto',
+          'creditos.id as credito',
+          'facturas.banco as banco')
+      ->where([['users.id','<>',1]])
+      ->where('facturas.descuento', true)
+      ->whereBetween('facturas.created_at',[$ini,$fin])
+      ->orderBy('users.id')
+      ->get();
+
+  $estudios = 
+      DB::table('fact_precreditos')
+      ->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
+      ->join('precreditos','fact_precreditos.precredito_id','=','precreditos.id')
+      ->join('clientes','precreditos.cliente_id','=','clientes.id')
+      ->join('carteras','precreditos.cartera_id','=','carteras.id')
+      ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
+      ->join('users','fact_precreditos.user_create_id','=','users.id')
+      ->join('puntos','users.punto_id','=','puntos.id')
+      ->select(
         'users.id as funcionario_id',
         'users.name as nombre',
-        'facturas.total as valor',
-        'facturas.num_fact as factura',
-        'facturas.created_at as create',
-        'facturas.tipo as tipo_pago',
+        'fact_precred_conceptos.nombre as concepto',
+        'fact_precred_conceptos.valor as valor',
+        'fact_precreditos.num_fact as factura',
+        'fact_precreditos.tipo as tipo',
+        'precred_pagos.created_at as create',
         'carteras.nombre as cartera',
         'puntos.nombre as punto',
-        'creditos.id as credito',
-        'facturas.banco as banco')
-    ->where([['users.id','<>',1]])
-    ->whereBetween('facturas.created_at',[$ini,$fin])
-    ->orderBy('users.id')
-    ->get();
-
-    $estudios   = 
-    DB::table('fact_precreditos')
-    ->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
-    ->join('precreditos','fact_precreditos.precredito_id','=','precreditos.id')
-    ->join('clientes','precreditos.cliente_id','=','clientes.id')
-    ->join('carteras','precreditos.cartera_id','=','carteras.id')
-    ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
-    ->join('users','fact_precreditos.user_create_id','=','users.id')
-    ->join('puntos','users.punto_id','=','puntos.id')
-    ->select(
-      'users.id as funcionario_id',
-      'users.name as nombre',
-      'fact_precred_conceptos.nombre as concepto',
-      'fact_precred_conceptos.valor as valor',
-      'fact_precreditos.num_fact as factura',
-      'fact_precreditos.tipo as tipo',
-      'precred_pagos.created_at as create',
-      'carteras.nombre as cartera',
-      'puntos.nombre as punto',
-      'precreditos.id as solicitud')
-    ->where('fact_precred_conceptos.nombre','<>','Cuota inicial')
-    ->whereBetween('fact_precreditos.created_at',[$ini,$fin])
-    ->orderBy('users.id')
-    ->get();
+        'precreditos.id as solicitud')
+      ->where('fact_precred_conceptos.nombre','<>','Cuota inicial')
+      ->whereBetween('fact_precreditos.created_at',[$ini,$fin])
+      ->orderBy('users.id')
+      ->get();
 
   $iniciales  = 
-    DB::table('fact_precreditos')
-    ->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
-    ->join('precreditos','fact_precreditos.precredito_id','=','precreditos.id')
-    ->join('clientes','precreditos.cliente_id','=','clientes.id')
-    ->join('carteras','precreditos.cartera_id','=','carteras.id')
-    ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
-    ->join('users','fact_precreditos.user_create_id','=','users.id')
-    ->join('puntos','users.punto_id','=','puntos.id')
-    ->select(
-      'users.id as funcionario_id',
-      'users.name as nombre',
-      'fact_precred_conceptos.nombre as concepto',
-      'fact_precred_conceptos.valor as valor',
-      'fact_precreditos.num_fact as factura',
-      'fact_precreditos.tipo as tipo',
-      'precred_pagos.created_at as create',
-      'carteras.nombre as cartera',
-      'puntos.nombre as punto',
-      'precreditos.id as solicitud')
-    ->where('fact_precred_conceptos.nombre','=','Cuota inicial')
-    ->whereBetween('fact_precreditos.created_at',[$ini,$fin])
-    ->orderBy('users.id')
-    ->get();
-
- 
-  $otros_ingresos = 
-  DB::table('otros_pagos')
-    ->join('facturas','otros_pagos.factura_id','=','facturas.id')
-    ->join('users','facturas.user_create_id','=','users.id')
-    ->join('puntos','users.punto_id','=','puntos.id')
-    ->join('carteras','otros_pagos.cartera_id','=','carteras.id') 
-    ->select(
+      DB::table('fact_precreditos')
+      ->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
+      ->join('precreditos','fact_precreditos.precredito_id','=','precreditos.id')
+      ->join('clientes','precreditos.cliente_id','=','clientes.id')
+      ->join('carteras','precreditos.cartera_id','=','carteras.id')
+      ->join('fact_precred_conceptos','precred_pagos.concepto_id','=','fact_precred_conceptos.id')
+      ->join('users','fact_precreditos.user_create_id','=','users.id')
+      ->join('puntos','users.punto_id','=','puntos.id')
+      ->select(
         'users.id as funcionario_id',
         'users.name as nombre',
-        'otros_pagos.subtotal as valor',
-        'facturas.num_fact as factura',
-        'facturas.created_at as create',
+        'fact_precred_conceptos.nombre as concepto',
+        'fact_precred_conceptos.valor as valor',
+        'fact_precreditos.num_fact as factura',
+        'fact_precreditos.tipo as tipo',
+        'precred_pagos.created_at as create',
         'carteras.nombre as cartera',
-        'puntos.nombre as punto')
-    ->where([['users.id','<>',1]])
-    ->whereBetween('facturas.created_at',[$ini,$fin])
-    ->orderBy('users.id')
-    ->get(); 
+        'puntos.nombre as punto',
+        'precreditos.id as solicitud')
+      ->where('fact_precred_conceptos.nombre','=','Cuota inicial')
+      ->whereBetween('fact_precreditos.created_at',[$ini,$fin])
+      ->orderBy('users.id')
+      ->get();
+
+  $otros_ingresos = 
+    DB::table('otros_pagos')
+      ->join('facturas','otros_pagos.factura_id','=','facturas.id')
+      ->join('users','facturas.user_create_id','=','users.id')
+      ->join('puntos','users.punto_id','=','puntos.id')
+      ->join('carteras','otros_pagos.cartera_id','=','carteras.id') 
+      ->select(
+          'users.id as funcionario_id',
+          'users.name as nombre',
+          'otros_pagos.subtotal as valor',
+          'facturas.num_fact as factura',
+          'facturas.created_at as create',
+          'carteras.nombre as cartera',
+          'puntos.nombre as punto')
+      ->where([['users.id','<>',1]])
+      ->whereBetween('facturas.created_at',[$ini,$fin])
+      ->orderBy('users.id')
+      ->get(); 
 
   $reporte = array();
 
   $funcionarios = User::where('id','<>','1')->orderBy('name')->get();
   $funcionarios_array = array();
+  $descuentos_array = array();
   $totales = array();
 
   foreach($funcionarios as $funcionario){
@@ -154,7 +177,7 @@ foreach($funcionarios_array as $funcionario){
   foreach($pagos as $pago){
      if($pago->funcionario_id == $funcionario['id']){
 
-      $total = $total + $pago->valor;
+      $total +=  $pago->valor;
 
       $temp = array(
         'funcionario' => $pago->nombre,
@@ -174,6 +197,28 @@ foreach($funcionarios_array as $funcionario){
 
      }
     }//end foreach pagos
+
+    foreach($descuentos as $descuento){
+      if($descuento->funcionario_id == $funcionario['id']){
+ 
+       $temp = array(
+         'funcionario' => $descuento->nombre,
+         'valor'       => $descuento->valor,
+         'tipo_pago'   => $descuento->tipo_pago,
+         'factura'     => $descuento->factura,
+         'concepto'    => 'Pago',
+         'fecha'       => $descuento->create,
+         'cartera'     => $descuento->cartera,
+         'punto'       => $descuento->punto,
+         'credito'     => $descuento->credito,
+         'solicitud'   => null,
+         'banco'       => $descuento->banco
+         );
+ 
+       array_push($descuentos_array, $temp);
+ 
+      }
+     }//end foreach descuentos
 
   foreach($estudios as $estudio){
     if($estudio->funcionario_id == $funcionario['id']){
@@ -260,9 +305,9 @@ foreach($funcionarios_array as $funcionario){
 
 //  totales
 
-
 return array(
   'reporte'   => $reporte, 
+  'descuentos'=> $descuentos_array,
   'totales'   => $totales
   );
 

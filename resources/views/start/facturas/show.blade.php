@@ -9,7 +9,7 @@
     <div class="col-md-10 col-sm-10 col-xs-12">
 
         <div class="panel panel-default">
-            <div class="panel-heading">Factura</div>
+            <div class="panel-heading" >{{ $factura->descuento == true ? 'Comprobante Descuento' : 'Recibo de Pago'}}</div>
             @include('flash::message')
 
             <div class="panel-body">
@@ -96,7 +96,7 @@
   <div class="col-md-10 col-sm-10 col-xs-12">
 
     <div class="panel panel-default">
-      <div class="panel-heading">Pagos</div>
+      <div class="panel-heading">Conceptos</div>
       @include('flash::message')
 
 

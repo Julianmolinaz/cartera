@@ -93,6 +93,7 @@ class FacturaController extends Controller
      */
     public function create($id)
     {
+
         $hoy        = Carbon::today();
         $credito    = Credito::find($id);
         $updated_at = new Carbon($credito->updated_at);
@@ -240,6 +241,7 @@ class FacturaController extends Controller
                 $request->banco,
                 $request->credito_id,
                 $request->num_cosignacion,
+                $request->descuento,
                 Auth::user()->id
             );
 

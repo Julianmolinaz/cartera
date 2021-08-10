@@ -17,7 +17,7 @@ class CreatePagosTable extends Migration {
 			$table->increments('id');
 			$table->integer('factura_id')->unsigned()->index('pagos_factura_id_foreign');
 			$table->integer('credito_id')->unsigned()->index('pagos_credito_id_foreign');
-			$table->enum('concepto', array('Cuota','Cuota Parcial','Mora','Prejuridico','Juridico','Saldo a Favor'));
+			$table->enum('concepto', array('Cuota','Cuota Parcial','Mora','Prejuridico','Juridico','Saldo a Favor','Descuento'));
 			$table->float('abono', 10, 0);
 			$table->float('debe', 10, 0);
 			$table->text('descripcion')->nullable();

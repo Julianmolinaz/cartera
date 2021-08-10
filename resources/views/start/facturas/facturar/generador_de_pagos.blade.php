@@ -11,9 +11,20 @@
         <form class="form-horizontal form-label-left" action="" method="POST">
 
             <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="checkbox" 
+                        class="form-check-input" 
+                        id="descuento" 
+                        v-model="general.descuento"
+                        @change="setDescuento">
+                    <label class="form-check-label"  style="margin-left: 5px;">Realizar descuento</label>
+                </div>  
+            </div>  
+
+            <div class="form-group">
                 <!-- num_factura *****-->
                 <div class="col-md-2 col-sm-2 col-xs-12">
-                    <label># Factura:</label>
+                    <label># Recibo:</label>
                     <input class="form-control input-small" type="text" id="num_factura" placeholder="#" 
                     v-model="general.num_fact" :readonly="general.auto">
                 </div>

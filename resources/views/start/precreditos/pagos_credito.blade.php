@@ -9,16 +9,17 @@
                     class="table table-striped table-bordered table-condensed" style="font-size:12px">
                     <thead>
                     <tr>
-                        <th>    Id Pago   </th>    
-                        <th>    Número de Recibo </th>
-                        <th>    Fecha     </th>
-                        <th>    Concepto  </th>
-                        <th>    Abono     </th>
-                        <th>    Debe      </th>
-                        <th>    Estado    </th>
-                        <th>    Desde     </th>
-                        <th>    Hasta     </th>   
-                        <th>    Acción </th>
+                        <th>    Id Pago     </th>    
+                        <th>    # Recibo    </th>
+                        <th>    Fecha       </th>
+                        <th>    Concepto    </th>
+                        <th>    Abono       </th>
+                        <th>    Debe        </th>
+                        <th>    Estado      </th>
+                        <th>    Desde       </th>
+                        <th>    Hasta       </th> 
+                        <th>    Descuento   </th>  
+                        <th>    Acción      </th>
                     </tr>
                     </thead>
 
@@ -40,16 +41,19 @@
                                 }
                             }
 
+                            $descuento = $pagos[$i]->factura->descuento ? 'Si' : 'No';
+
                             echo $color.
-                                "<td>{$pagos[$i]->id}</td>
-                                <td>{$pagos[$i]->factura->num_fact}</td>  
-                                <td>{$pagos[$i]->factura->fecha}</td>
-                                <td>{$pagos[$i]->concepto}</td>
+                                "<td>{$pagos[$i]->id}               </td>
+                                <td>{$pagos[$i]->factura->num_fact} </td>  
+                                <td>{$pagos[$i]->factura->fecha}    </td>
+                                <td>{$pagos[$i]->concepto}          </td>
                                 <td align='right'>".number_format($pagos[$i]->abono,0,',','.')."</td>
                                 <td align='right'>".number_format($pagos[$i]->debe,0,',','.')."</td>
-                                <td>{$pagos[$i]->estado}</td>
-                                <td>{$pagos[$i]->pago_desde}</td>
-                                <td>{$pagos[$i]->pago_hasta}</td>
+                                <td>{$pagos[$i]->estado}            </td>
+                                <td>{$pagos[$i]->pago_desde}        </td>
+                                <td>{$pagos[$i]->pago_hasta}        </td>
+                                <td>{$descuento}                     </td>
                                 <td>
                                 
                                 <a href=".route('start.facturas.show',$pagos[$i]->factura->id)." 

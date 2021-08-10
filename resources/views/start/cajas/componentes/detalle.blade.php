@@ -128,7 +128,7 @@
 			<!--PAGOS_POR_CREDITOS-PAGOS_POR_CREDITOS-PAGOS_POR_CREDITOS-PAGOS_POR_CREDITOS-->
 
 
-			  <div class="panel panel-default">
+			<div class="panel panel-default">
 			    <div class="panel-heading" role="tab" id="headingThree">
 			      <h4 class="panel-title">
 			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -155,8 +155,49 @@
 								<td>@{{ abono.num_fact }}</td>
 								<td>@{{ abono.concepto }}</td>
 								<td>@{{ abono.subtotal }}</td>
-								<td>@{{ abono.credito }}</td>
-								<td>@{{ abono.banco}}</td>
+								<td>@{{ abono.credito  }}</td>
+								<td>@{{ abono.banco	   }}</td>
+							</tr>
+			       		</tbody>
+					</table>
+
+			      </div>
+			    </div>
+			</div>
+
+			<!--DESCUENTOS_POR_CREDITOS-DESCUENTOS_POR_CREDITOS-DESCUENTOS_POR_CREDITOS-DESCUENTOS_POR_CREDITOS-->
+			<!--DESCUENTOS_POR_CREDITOS-DESCUENTOS_POR_CREDITOS-DESCUENTOS_POR_CREDITOS-DESCUENTOS_POR_CREDITOS-->
+
+
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab" id="headingDes">
+			      <h4 class="panel-title">
+			        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseDes" aria-expanded="false" aria-controls="collapseDes">
+							<i class="fas fa-shopping-cart"></i> Descuentos a creditos
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapseDes" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDes">
+			      <div class="panel-body">
+			        
+			       	<table class="table">
+			       		<thead>
+
+							<tr>
+								<th>Número de factura</th>
+								<th>Concepto</th>
+								<th>subtotal</th>
+								<th>Crédito</th>
+								<th>Banco</th>
+							</tr>
+			       		</thead>
+			       		<tbody>
+							<tr v-for="descuento in dat.descuentos">
+								<td>@{{ descuento.num_fact }}</td>
+								<td>@{{ descuento.concepto }}</td>
+								<td>@{{ descuento.subtotal }}</td>
+								<td>@{{ descuento.credito  }}</td>
+								<td>@{{ descuento.banco    }}</td>
 							</tr>
 			       		</tbody>
 					</table>

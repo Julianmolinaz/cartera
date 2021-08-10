@@ -39,6 +39,7 @@ trait AbonoTrait
         $contador          = 0;
         $sin_mover_fecha   = []; //array donde se almacena Cuota Parcial sin movimiento de fecha (pago_hasta)
         $date_ini          = $credito->fecha_pago->fecha_pago; //fecha de referencia inicial para cuota parcial sin cambio de fecha
+        
 
         /**
          * JURIDICO
