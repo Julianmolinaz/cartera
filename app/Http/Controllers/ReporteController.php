@@ -232,7 +232,7 @@ class ReporteController extends Controller
 
             $now = Carbon::now()->toDateString();
             $now = str_replace('-','',$now);
-            $codigo_convenio = 54321;
+            $codigo_convenio = 88686;
             
             $nombre_archivo = 'RECAUDOS'.$codigo_convenio.''.$now.'A.txt';
 
