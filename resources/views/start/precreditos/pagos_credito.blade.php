@@ -27,21 +27,27 @@
                     <?php
                         $color_A = "<tr style='background-color:#ffffff;'>";
                         $color_B = "<tr style='background-color:#D8D8D8;'>";
+                        $color_C = "<tr style='background-color:#f2dede;'>";
                         $color = $color_A;
                         $pagos = $precredito->credito->pagos;
 
                         for( $i = 0; $i < count($pagos); $i++){  
-                        
-                            if( $i > 0 && $pagos[$i]->factura->num_fact != $pagos[$i-1]->factura->num_fact){
-                                if( $color == $color_A){
-                                    $color = $color_B;
-                                }
-                                else{
-                                    $color = $color_A;
-                                }
-                            }
 
                             $descuento = $pagos[$i]->factura->descuento ? 'Si' : 'No';
+
+                            if ($descuento == 'Si') {
+                                $color = $color_C;
+                            } else {
+                                if( $i > 0 && $pagos[$i]->factura->num_fact != $pagos[$i-1]->factura->num_fact){
+                                    if( $color == $color_A){
+                                        $color = $color_B;
+                                    }
+                                    else{
+                                        $color = $color_A;
+                                    }
+                                }
+                            }
+                        
 
                             echo $color.
                                 "<td>{$pagos[$i]->id}               </td>

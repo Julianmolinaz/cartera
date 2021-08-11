@@ -139,7 +139,7 @@ class PagosCredito
 
         $fecha_pago = new Carbon($fecha->fecha_pago);
 
-        if ($fecha_pago->lte($now)) {
+        if ($fecha_pago->lte($now) && !$this->descuento) {
             $fecha_cercana = Ctrl\fecha_cercana (
                 $now, 
                 $this->credito->precredito->periodo, 
@@ -380,6 +380,7 @@ class PagosCredito
     | Pago por mora
     |--------------------------------------------------------------------------
     | Genera los pagos referentes a las sanciones diarias del crédito 
+    | Si existe un descuento se exoneran las sanciones, si no se ponen en Ok.    
     |
     */
 
@@ -399,11 +400,15 @@ class PagosCredito
             
             $sancion = _\Sancion::find($sanciones_debe[$i]->id);
             $sancion->pago_id = $nuevo_pago->id;
-            $sancion->estado = 'Ok';
+            $sancion->estado = $this->descuento ? 'Exonerada' : 'Ok';
             $sancion->save();
             
             $this->credito->sanciones_debe --;
-            $this->credito->sanciones_ok ++;
+
+            $this->descuento 
+                ? $this->credito->sanciones_exoneradas ++  
+                : $this->credito->sanciones_ok ++;
+            
             $this->credito->save();
         }
 

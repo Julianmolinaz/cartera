@@ -292,7 +292,7 @@ class ComprobantesDePago
                         date_format( ".$date_str.", '%Y-%m-%d') >= '". $this->ini->toDateString() ."'
                         and
                         date_format( ".$date_str.", '%Y-%m-%d') <= '". $this->end->toDateString() ."'   
-                    )
+                    )  
                         and facturas.credito_id is not null
                         and precreditos.cartera_id in (6,32)".
                         $query_clientes;

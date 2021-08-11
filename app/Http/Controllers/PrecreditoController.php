@@ -193,6 +193,8 @@ class PrecreditoController extends Controller
 
         ($precredito->credito) ?  $total_pagos = sum_pagos($credito[0]) : $total_pagos = 0;
 
+        ($precredito->credito) ?  $total_descuentos = sum_descuentos($credito[0]) : $total_descuentos = 0;
+
         //calcular años para formulario de referncia al crear crédito
 
         $anio = Carbon::now()->year;
@@ -211,9 +213,9 @@ class PrecreditoController extends Controller
             if (count($juridico) > 0) {
 
                 $pago_juridico =
-                DB::table('pagos')
-                    ->where([['credito_id','=',$credito[0]->id],['concepto','=','Juridico'],['estado','=','Debe']])
-                    ->get();
+                    DB::table('pagos')
+                        ->where([['credito_id','=',$credito[0]->id],['concepto','=','Juridico'],['estado','=','Debe']])
+                        ->get();
 
                 if ( count($pago_juridico) > 0 ) {
                     $pago_juridico = array('juridico' => $pago_juridico[0]->debe, 'valor' => $juridico[0]->valor);
@@ -292,6 +294,7 @@ class PrecreditoController extends Controller
             ->with('parciales',$total_parciales)
             ->with('sanciones',$sum_sanciones)
             ->with('total_pagos',$total_pagos)
+            ->with('total_descuentos',$total_descuentos)
             ->with('hijo',$hijo)
             ->with('anios',$anios);
 
@@ -306,21 +309,21 @@ class PrecreditoController extends Controller
     //validar que un cliente no tenga mas precréditos o créditos en proceso
 
         $solicitudes_pendientes =
-        DB::table('precreditos')
-        ->join('clientes','precreditos.cliente_id','=','clientes.id')
-        ->where([
-            ['clientes.id','=',$cliente_id],
-            ['precreditos.aprobado','=','En estudio']])
-        ->count();
+            DB::table('precreditos')
+                ->join('clientes','precreditos.cliente_id','=','clientes.id')
+                ->where([
+                    ['clientes.id','=',$cliente_id],
+                    ['precreditos.aprobado','=','En estudio']])
+                ->count();
 
 
         $creditos_vigentes =
-        DB::table('creditos')
-        ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-        ->join('clientes','precreditos.cliente_id','=','clientes.id')
-        ->where([['clientes.id','=',$cliente_id]])
-        ->whereIn('Estado',['Al dia','Mora','Prejuridico','Juridico'])
-        ->count();
+            DB::table('creditos')
+                ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+                ->join('clientes','precreditos.cliente_id','=','clientes.id')
+                ->where([['clientes.id','=',$cliente_id]])
+                ->whereIn('Estado',['Al dia','Mora','Prejuridico','Juridico'])
+                ->count();
 
 
         $cliente = Cliente::find($cliente_id);

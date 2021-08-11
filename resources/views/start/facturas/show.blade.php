@@ -33,7 +33,7 @@
                 </thead>
 
                 <tbody>
-                    <tr>
+                    <tr class="{{ $factura->descuento ? 'danger' : '' }}">
                         <td> {{ $factura->id }}    </td>
                         <td> {{ ($factura->credito) ? $factura->credito->precredito->cliente->nombre : ''}} </td>
                         <td> {{ ($factura->credito) ? $factura->credito_id : ''}} </td>
@@ -121,7 +121,7 @@
               <tbody>
 
               @foreach( $factura->pagos as $pago)
-              <tr>
+              <tr class="{{ $pago->factura->descuento ? 'danger' : '' }}">
                 <td> {{ $pago->id}}</td>
                 <td> {{ $factura->credito_id}} </td>
                 <td> {{ $pago->concepto }}     </td>

@@ -108,6 +108,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td></td>
                         <td colspan="2" style="font-size:16px;" align="right">$ @{{new Intl.NumberFormat("de-DE").format(ttal)}}</td>
                     </tr>
                 </tbody>

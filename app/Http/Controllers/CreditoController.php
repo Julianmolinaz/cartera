@@ -237,7 +237,7 @@ class CreditoController extends Controller
 
     }//validar_pagos_por_estudio
 
-    public function validar_existencia_de_pago($precredito,$estudio)
+    public function validar_existencia_de_pago($precredito, $estudio)
     {
       $respuesta = false;
 

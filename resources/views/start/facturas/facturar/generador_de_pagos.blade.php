@@ -11,6 +11,7 @@
         <form class="form-horizontal form-label-left" action="" method="POST">
 
             <div class="form-group">
+                @permission('descuento')
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="checkbox" 
                         class="form-check-input" 
@@ -19,6 +20,7 @@
                         @change="setDescuento">
                     <label class="form-check-label"  style="margin-left: 5px;">Realizar descuento</label>
                 </div>  
+                    @endpermission
             </div>  
 
             <div class="form-group">

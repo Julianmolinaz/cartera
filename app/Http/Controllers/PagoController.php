@@ -55,7 +55,7 @@ class PagoController extends Controller
         $now        = formatoFecha(ano($now),mes($now),dia($now));
 
 
-        $otros_pagos=
+    $otros_pagos=
         DB::table('otros_pagos')
             ->join('facturas','otros_pagos.factura_id','=','facturas.id')
             ->join('users','facturas.user_create_id','=','users.id')
@@ -64,7 +64,7 @@ class PagoController extends Controller
             ->orderBY('otros_pagos.created_at','desc')
             ->get();
 
-        $otros_pagos = OtrosPagos::find(array_ids($otros_pagos))->sortByDesc('created_at');
+    $otros_pagos = OtrosPagos::find(array_ids($otros_pagos))->sortByDesc('created_at');
 
         return view('start.pagos.create_venta')
             ->with('tipos_pago',$tipos)

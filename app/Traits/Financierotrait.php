@@ -338,7 +338,7 @@ trait Financierotrait
   	$total_pagos_juridico_credito       = 0;
   	$total_pagos_sanciones_credito      = 0;
 
-  	foreach($credito->pagos as $pago)
+  	foreach($credito->pagosSinDescuento() as $pago)
     	{
     		// SUMATORIA DE PAGOS C/U DESCRIMINADOS POR CONCEPTO
 
