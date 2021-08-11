@@ -114,21 +114,3 @@
 @endsection
 
 @include('templates.main2')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
