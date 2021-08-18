@@ -1,4 +1,4 @@
-
+<?php
 
 $DB = g_12072021;
 
@@ -12,15 +12,15 @@ $DB = g_12072021;
 
 10/08/2021 
     Se modifican reportes asociados con facturas
-        star/cajas 
-        Admin/reportes/caja
-        Admin/reportes/general
-        Admin/reportes/general por carteras
-        Admin/reportes/general por funcionario
-        facturas/show.blade.php -> Valida si es comprobante descuento o recibo pago
-        star/precreditos/{precredito_id}/ver -> Valida los pagos realizados por el cliente y los descuentos realizados en la vista 
-        Al realizar un descuento, las sanciones se marcan como sanciones exoneradas y nop como sanciones pagadas
-// pendiente organizar reporte contable recibos de caja (comprobantes de pago)
+        star/cajas // ok
+        Admin/reportes/caja // ok
+        Admin/reportes/general // ok
+        Admin/reportes/general por carteras // ok
+        Admin/reportes/general por funcionario // ok
+        facturas/show.blade.php -> Valida si es comprobante descuento o recibo pago // ok
+        star/precreditos/{precredito_id}/ver -> Valida los pagos realizados por el cliente y los descuentos realizados en la vista  //ok
+        Al realizar un descuento, las sanciones se marcan como sanciones exoneradas y no como sanciones pagadas //ok
+        pendiente organizar reporte contable recibos de caja (comprobantes de pago) // ok
 
 11/08/2021
     Crear permisos 

@@ -38,7 +38,7 @@
            </tr>
           </thead>
           <tbody style="font-size:10px"  align="right">
-          @foreach($cuotas as $cuota)
+            @foreach($cuotas as $cuota)
             <tr>
               <td> {{ $cuota->credito_id  }} </td>
               <td> {{ $cuota->cliente     }} </td>
@@ -46,23 +46,15 @@
               <td> {{ $cuota->tipo_pago   }} </td>
               <td> {{ $cuota->banco       }} </td>
               <td> {{ number_format($cuota->cuotas,0,",",".") }} </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>            
-              <td></td>
-              <td></td> 
-              <td></td>
-              <td></td> 
+              <td></td> <td></td>  <td></td> <td></td>  <td></td>  <td></td>  <td></td>   <td></td> <td></td> 
               <td> {{ $cuota->num_fact    }} </td>
               <td> {{ $cuota->fecha       }} </td>
               <td> {{ $cuota->cartera     }} </td>
               <td> {{ $cuota->user_create }}</td>
               <td style="font-size:10px"> {{ $cuota->created_at}}</td>
             </tr>
-          @endforeach  
-          @foreach($descuentos as $descuento)
+            @endforeach  
+            @foreach($descuentos as $descuento)
             <tr>
               <td> {{ $descuento->credito_id  }} </td>
               <td> {{ $descuento->cliente     }} </td>
@@ -71,203 +63,139 @@
               <td> {{ $descuento->banco       }} </td>
               <td></td>
               <td> {{ number_format($descuento->cuotas,0,",",".") }} </td>
-              <td></td>
-              <td></td>
-              <td></td>            
-              <td></td>
-              <td></td> 
-              <td></td>
-              <td></td> 
+              <td></td> <td></td>  <td></td>  <td></td>  <td></td> <td></td>  <td></td>  <td></td> 
               <td> {{ $descuento->num_fact    }} </td>
               <td> {{ $descuento->fecha       }} </td>
               <td> {{ $descuento->cartera     }} </td>
               <td> {{ $descuento->user_create }}</td>
               <td style="font-size:10px"> {{ $descuento->created_at}}</td>
             </tr>
-          @endforeach  
-          @foreach($sanciones as $sancion)
+            @endforeach  
+            @foreach($sanciones as $sancion)
             <tr>
               <td> {{ $sancion->credito_id  }} </td>
               <td> {{ $sancion->cliente     }} </td>
               <td> {{ $sancion->documento   }} </td>
               <td> {{ $sancion->tipo_pago   }} </td>
               <td> {{ $sancion->banco       }} </td>            
-              <td></td>
-              <td></td>
+              <td></td>  <td></td>
               <td align="right"> {{ number_format($sancion->sanciones,0,",",".")  }} </td>
-              <td></td>
-              <td></td>
-              <td></td>   
-              <td></td>
-              <td></td>
-              <td></td> 
-              <td></td>
+              <td></td>  <td></td>  <td></td>  <td></td>  <td></td>  <td></td>   <td></td>
               <td> {{ $sancion->num_fact    }} </td>
               <td> {{ $sancion->fecha       }} </td>
               <td> {{ $sancion->cartera     }} </td>
               <td> {{ $sancion->user_create }}</td>
               <td> {{ $sancion->created_at}}</td>
             </tr>
-          @endforeach   
-          @foreach($juridicos as $juridico)
+            @endforeach   
+            @foreach($juridicos as $juridico)
             <tr align="right">
               <td> {{ $juridico->credito_id}} </td>
               <td> {{ $juridico->cliente   }} </td>
               <td> {{ $juridico->documento }} </td>
               <td> {{ $juridico->tipo_pago }} </td>   
               <td> {{ $juridico->banco     }} </td>            
-              <td> </td>
-              <td> </td>
-              <td> </td>
+              <td> </td>  <td> </td>  <td> </td>
               <td> {{ number_format($juridico->juridico,0,",",".")  }} </td>
-              <td></td>
-              <td></td>   
-              <td></td>
-              <td></td> 
-              <td></td> 
-              <td></td>
+              <td></td> <td></td> <td></td>  <td></td>  <td></td>  <td></td>
               <td> {{ $juridico->num_fact  }} </td>
               <td> {{ $juridico->fecha     }} </td>
               <td> {{ $juridico->cartera   }} </td>
               <td> {{ $juridico->user_create}}</td>
               <td> {{ $juridico->created_at}} </td>
             </tr>
-          @endforeach
-          @foreach($prejuridicos as $prejuridico)
+            @endforeach
+            @foreach($prejuridicos as $prejuridico)
             <tr>
               <td> {{ $prejuridico->credito_id}} </td>
               <td> {{ $prejuridico->cliente   }} </td>
               <td> {{ $prejuridico->documento }} </td>
               <td> {{ $prejuridico->tipo_pago }} </td>  
               <td> {{ $prejuridico->banco     }} </td>            
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td></td> <td></td>  <td></td> <td></td>
               <td> {{ number_format($prejuridico->prejuridico,0,",",".") }} </td>
-              <td></td>   
-              <td></td>
-              <td></td>
-              <td></td> 
-              <td></td>
+              <td></td>  <td></td> <td></td>  <td></td>  <td></td>
               <td> {{ $prejuridico->num_fact  }} </td>
               <td> {{ $prejuridico->fecha     }} </td>            
               <td> {{ $prejuridico->cartera   }} </td>
               <td> {{ $prejuridico->user_create}}</td>
               <td> {{ $prejuridico->created_at}} </td>
             </tr>
-          @endforeach    
-          @foreach($saldos_favor as $saldo)
+            @endforeach    
+            @foreach($saldos_favor as $saldo)
             <tr>
               <td> {{ $saldo->credito_id}} </td>
               <td> {{ $saldo->cliente   }} </td>
               <td> {{ $saldo->documento }} </td>
               <td> {{ $saldo->tipo_pago }} </td> 
               <td> {{ $saldo->banco     }} </td> 
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td></td> <td></td>  <td></td> <td></td>  <td></td>
               <td> {{ number_format($saldo->saldo_favor,0,",",".")  }} </td>   
-              <td></td>
-              <td></td>
-              <td></td> 
-              <td></td>
+              <td></td> <td></td>  <td></td>   <td></td>
               <td> {{ $saldo->num_fact  }} </td>
               <td> {{ $saldo->fecha     }} </td>            
               <td> {{ $saldo->cartera   }} </td>
               <td> {{ $saldo->user_create}}</td>
               <td> {{ $saldo->created_at}}</td>
             </tr>
-          @endforeach 
-          @foreach($estudios as $estudio)
+            @endforeach 
+            @foreach($estudios as $estudio)
             <tr>
               <td> {{ $estudio['credito_id']    }} </td>
               <td> {{ $estudio['cliente']       }}</td>
               <td> {{ $estudio['documento']     }}</td>
-              <td> </td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>
               <td> {{ number_format($estudio['valor_estudio'],0,",",".") }}</td>
-              <td>                                </td>
-              <td>                           </td> 
-              <td>                           </td>
+              <td></td> <td></td>  <td></td>
               <td> {{ $estudio['factura']       }} </td>
               <td> {{ $estudio['fecha']         }}</td>            
               <td> {{ $estudio['cartera']       }}</td>
               <td> {{ $estudio['user_create']   }}</td>
               <td> {{ $estudio['created_at']    }}</td>
             </tr>
-          @endforeach   
-
-          @foreach($iniciales as $inicial)
+            @endforeach   
+            @foreach($iniciales as $inicial)
             <tr>
               <td> {{ $inicial->credito_id   }} </td>
               <td> {{ $inicial->cliente}}       </td>
-              <td> {{ $inicial->documento}}     </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>  
-              <td></td>
-              <td></td>
+              <td> {{ $inicial->documento}}     </td> <td></td>  <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>    <td></td> <td></td>
               <td> {{ number_format($inicial->cta_inicial,0,",",".")}} </td>
-              <td></td> 
-              <td></td>
+              <td></td>  <td></td>
               <td> {{ $inicial->factura}}</td>
               <td> {{ $inicial->fecha }}</td>            
               <td> {{ $inicial->cartera}}</td>
               <td> {{ $inicial->user_create}}</td>
               <td> {{ $inicial->created_at}}</td>
             </tr>
-          @endforeach            
-
-          @foreach($otros_pagos as $otro_pago)
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>{{$otro_pago->tipo}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td> {{ number_format($otro_pago->subtotal,0,",",".") }} </td>
-            <td> {{ $otro_pago->concepto }} </td>
-            <td> {{ $otro_pago->factura }} </td>
-            <td> {{ $otro_pago->fecha }} </td>
-            <td> {{ $otro_pago->cartera }} </td>
-            <td> {{ $otro_pago->user_create }} </td>
-            <td> {{ $otro_pago->created_at }} </td>
-          </tr>  
-          @endforeach 
-          <tr style="background-color:#CCCCCC;">
-            <td></td><td></td><td></td><td></td>
-            <td><b>Subtales Ingresos :</b></td>
-            <td><b>{{number_format($total_cuotas,0,",",".")}}</b></td>
-            <td><b>{{number_format($total_descuentos,0,",",".")}}</b></td>
-            <td><b>{{number_format($total_sanciones,0,",",".")}}</b></td>
-            <td><b>{{number_format($total_juridicos,0,",",".")}}</b></td>
-            <td><b>{{number_format($total_prejuridicos,0,",",".")}}</b></td>
-            <td><b>{{number_format($total_saldos,0,",",".")}}</b></td>
-            <td><b>{{number_format($total_estudios,0,",",".")}}</b></td>
-            <td><b>{{number_format($total_iniciales,0,",",".")}}</b></td>
-            <td><b>{{number_format($total_otros_ingresos,0,",",".")}}</b></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
+            @endforeach            
+            @foreach($otros_pagos as $otro_pago)
+            <tr>
+              <td></td> <td></td>  <td></td>
+              <td>{{$otro_pago->tipo}}</td>
+              <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>  <td></td>
+              <td> {{ number_format($otro_pago->subtotal,0,",",".") }} </td>
+              <td> {{ $otro_pago->concepto }} </td>
+              <td> {{ $otro_pago->factura }} </td>
+              <td> {{ $otro_pago->fecha }} </td>
+              <td> {{ $otro_pago->cartera }} </td>
+              <td> {{ $otro_pago->user_create }} </td>
+              <td> {{ $otro_pago->created_at }} </td>
+            </tr>  
+            @endforeach 
+            <tr style="background-color:#CCCCCC;">
+              <td></td><td></td><td></td><td></td>
+              <td><b>Subtales Ingresos :</b></td>
+              <td><b>{{number_format($total_cuotas,0,",",".")}}</b></td>
+              <td><b>{{number_format($total_descuentos,0,",",".")}}</b></td>
+              <td><b>{{number_format($total_sanciones,0,",",".")}}</b></td>
+              <td><b>{{number_format($total_juridicos,0,",",".")}}</b></td>
+              <td><b>{{number_format($total_prejuridicos,0,",",".")}}</b></td>
+              <td><b>{{number_format($total_saldos,0,",",".")}}</b></td>
+              <td><b>{{number_format($total_estudios,0,",",".")}}</b></td>
+              <td><b>{{number_format($total_iniciales,0,",",".")}}</b></td>
+              <td><b>{{number_format($total_otros_ingresos,0,",",".")}}</b></td>
+              <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>
+            </tr>
           </tbody>
          </table>
     </div>
