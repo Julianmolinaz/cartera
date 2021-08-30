@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Solicitud\Contracs;
+namespace Src\Contracs;
 
 use Src\Domain\SolicitudEntity;
 

@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use Src\Solicitud\Domain\Vo;
+use Src\Domain\Vo;
 
 class SolicitudVoTest extends TestCase
 {

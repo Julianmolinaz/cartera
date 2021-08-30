@@ -1,9 +1,9 @@
 <?php
 
-namespace Src\Solicitud\Infrasctructure;
+namespace Src\Infrasctructure;
 
-use Src\Solicitud\Contracts\ISolicitudRepository;
-use Src\Solicitud\Domain\Entities\SolicitudEntity;
+use Src\Contracts\ISolicitudRepository;
+use Src\Domain\Entities\SolicitudEntity;
 use App\Precredito;
 
 class EloquentSolicitudRepository implements ISolicitudRepository

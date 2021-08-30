@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Solicitud\Domain\Entities;
+namespace Src\Domain\Entities;
 
-use Src\Solicitud\Domain\Vo;
+use Src\Domain\Vo;
 
 class SolicitudEntity
 {

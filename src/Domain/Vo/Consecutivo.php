@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Solicitud\Domain\Vo;
+namespace Src\Domain\Vo;
 
 class Consecutivo
 {

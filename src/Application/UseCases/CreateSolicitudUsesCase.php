@@ -1,13 +1,19 @@
 <?php
 
-namespace Src\Solicitud\Application\UseCases;
+namespace Src\Application\UseCases;
 
-use Src\Solicitud\Domain\Entitie\SolicitudEntity;
-use Src\Solicitud\Domain\Vo;
+use Src\Domain\Entitie\SolicitudEntity;
+use Src\Domain\Vo;
+use Src\Contracts\ISolicitudRepository;
 
 class CreateSolicitudUseCase
 {
-    public function __construct() {}
+    private $repository;
+
+    public function __construct(ISolicitudRepository $repository) 
+    {
+        $this->repository = $repository;
+    }
 
     public function execute($solicitudData) 
     {
@@ -35,6 +41,6 @@ class CreateSolicitudUseCase
         );
 
         // salvar la solicitud
-        $repository->save($solicitudEntity);
+        $this->repository->save($solicitudEntity);
     }
 }
