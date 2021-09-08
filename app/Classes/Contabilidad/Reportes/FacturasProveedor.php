@@ -19,7 +19,6 @@ class FacturasProveedor
 
     public static function getFacturas($ini, $end)
     {
-
         $facturas = DB::table('ref_productos')
             ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
             ->join('productos','ref_productos.producto_id','=','productos.id')
@@ -32,7 +31,6 @@ class FacturasProveedor
             ->whereBetween('ref_productos.fecha_exp',[$ini, $end])
             ->whereIn('precreditos.cartera_id', [6, 32])
             ->where('precreditos.aprobado', 'Si')
-            ->groupBy('precreditos.id')
             ->orderBy('ref_productos.fecha_exp')
             ->select(
                 'precreditos.id as solicitud',
