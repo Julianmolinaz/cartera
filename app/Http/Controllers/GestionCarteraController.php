@@ -103,10 +103,10 @@ class GestionCarteraController extends Controller
 
         $creditos = DB::table('creditos')
             ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-            ->join('users','precreditos.user_create_id','=','users.id')
+            ->join('users','precreditos.funcionario_id','=','users.id')
             ->whereNotIn('users.punto_id',['36'])
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
-	    ->whereNotIn('users.punto_id',['48'])
+	        ->whereNotIn('users.punto_id',['48'])
             ->select('creditos.*',
                     'precreditos.*',
                     'creditos.id as credito_id',
