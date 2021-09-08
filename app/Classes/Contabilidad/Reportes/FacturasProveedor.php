@@ -32,7 +32,6 @@ class FacturasProveedor
             ->whereBetween('ref_productos.fecha_exp',[$ini, $end])
             ->whereIn('precreditos.cartera_id', [6, 32])
             ->where('precreditos.aprobado', 'Si')
-            ->groupBy('precreditos.id')
             ->orderBy('ref_productos.fecha_exp')
             ->select(
                 'precreditos.id as solicitud',
