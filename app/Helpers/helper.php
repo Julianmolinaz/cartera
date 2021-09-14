@@ -386,30 +386,45 @@ function array_ids($elementos){
 
 function sum_pagos($credito){
 
-  $sumatoria = DB::table('facturas')
-                    ->where('credito_id','=',$credito->id)
-                    ->sum('total');
+  $sumatoria = 
+      DB::table('facturas')
+        ->where('descuento',false)
+        ->where('credito_id','=',$credito->id)
+        ->sum('total');
+
+  return (int)$sumatoria;
+}
+
+function sum_descuentos($credito){
+
+  $sumatoria = 
+      DB::table('facturas')
+        ->where('descuento',true)
+        ->where('credito_id','=',$credito->id)
+        ->sum('total');
 
   return (int)$sumatoria;
 }
 
 function sum_pagos_por_id($credito_id){
 
-  $sumatoria = DB::table('facturas')
-                    ->where('credito_id','=',$credito_id)
-                    ->sum('total');
+  $sumatoria = 
+      DB::table('facturas')
+          ->where('credito_id','=',$credito_id)
+          ->sum('total');
 
   return (int)$sumatoria;
 }
 
 
 function sanciones_pagadas($credito_id){
-  $sanciones = DB::table('sanciones')
-                  ->where('credito_id',$credito_id)
-                  ->where('estado','Ok')
-                  ->sum('valor');
+  $sanciones = 
+      DB::table('sanciones')
+          ->where('credito_id',$credito_id)
+          ->where('estado','Ok')
+          ->sum('valor');
 
-                  return (int)$sanciones;
+  return (int)$sanciones;
 }
 
 function bancos()

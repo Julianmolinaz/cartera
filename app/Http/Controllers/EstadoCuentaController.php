@@ -153,7 +153,7 @@ class EstadoCuentaController extends Controller
                 $item['factura']['num']   = $factura->num_fact;
                 $item['factura']['valor'] = $factura->total;
                 
-                foreach ($factura->pagos as $pago) {
+                foreach ($factura->pagosSinDescuento as $pago) {
                     $temp = [
                         'concepto' => $pago->concepto,
                         'valor'    => $pago->abono

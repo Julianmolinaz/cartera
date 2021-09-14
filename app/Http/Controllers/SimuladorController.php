@@ -75,6 +75,9 @@ class SimuladorController extends Controller
                 case 8:
                     $factor = 1.5; 
                     break;
+                case 10:
+                    $factor = 1.5; 
+                    break;
                 default:
                     $factor = 0;
                     break;

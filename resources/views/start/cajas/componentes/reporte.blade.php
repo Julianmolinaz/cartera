@@ -74,6 +74,11 @@
 			          Abonos
 			        </li>
 					<li class="list-group-item">
+			          <span class="badge">@{{ info.total_descuentos }}</span>
+			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+			          Descuentos
+			        </li>
+					<li class="list-group-item">
 			          <span class="badge">@{{ info.total_otros_pagos }}</span>
 			          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 			          Otros Pagos

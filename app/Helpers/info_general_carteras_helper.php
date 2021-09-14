@@ -21,52 +21,85 @@ use App\User;
 function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
   
 
-  $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
-  $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
-  $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
+    $ini     = Carbon::create(ano($fecha_1),mes($fecha_1),dia($fecha_1),00,00,00);
+    $fin     = Carbon::create(ano($fecha_2),mes($fecha_2),dia($fecha_2),23,59,59);
+    $rango   = array('ini' => $ini->format('d-m-Y'), 'fin' => $fin->format('d-m-Y')); 
 
 
-  $date               = $ini->toDateString(); //preguntar sobre esta fecha
-  $estudio_tipico     = Variable::find(1)->vlr_estudio_tipico;    //valor del estudio de credito tipico
-  $estudio_domicilio  = Variable::find(1)->vlr_estudio_domicilio;   //valor del estudio de credito a domicilio
+    $date               = $ini->toDateString(); //preguntar sobre esta fecha
+    $estudio_tipico     = Variable::find(1)->vlr_estudio_tipico;    //valor del estudio de credito tipico
+    $estudio_domicilio  = Variable::find(1)->vlr_estudio_domicilio;   //valor del estudio de credito a domicilio
 
-  $estudio_tipico     = Variable::find(1)->vlr_estudio_tipico;    //valor del estudio de credito tipico
-  $estudio_domicilio  = Variable::find(1)->vlr_estudio_domicilio;   //valor del estudio de credito a domicilio
-  $cartera_id         = (int)$cartera;
-            /*Ingresos Reporte Diario*/
+    $estudio_tipico     = Variable::find(1)->vlr_estudio_tipico;    //valor del estudio de credito tipico
+    $estudio_domicilio  = Variable::find(1)->vlr_estudio_domicilio;   //valor del estudio de credito a domicilio
+    $cartera_id         = (int)$cartera;
+            
+    /*Ingresos Reporte Diario*/
 
-  $cuotas = 
-  DB::table('pagos')
-      ->join('facturas','pagos.factura_id',           '=','facturas.id')
-      ->join('users','facturas.user_create_id',       '=', 'users.id')
-      ->join('creditos','facturas.credito_id',        '=','creditos.id')
-      ->join('precreditos','creditos.precredito_id',  '=','precreditos.id')
-      ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
-      ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
-      ->where('carteras.id','=',$cartera_id)
-      ->where(function($query){
-            $query->where('pagos.concepto','=','Cuota');
-            $query->orWhere('pagos.concepto','=','Cuota Parcial');
-      })
-      ->whereBetween('facturas.created_at',[$ini, $fin])
-      ->select(DB::raw('
-                      clientes.nombre  as cliente,
-                      clientes.num_doc as documento,
-                      pagos.credito_id as credito_id, 
-                      facturas.num_fact as num_fact,
-                      users.name       as user_create,
-                      sum(pagos.abono) as cuotas,
-                      facturas.fecha   as fecha,
-                      facturas.banco   as banco,
-                      carteras.nombre  as cartera,
-                      facturas.tipo    as tipo_pago,
-                      facturas.created_at as created_at              
-                      '))
-      ->groupBy('facturas.id')
-      ->get();
+    $cuotas = 
+        DB::table('pagos')
+            ->join('facturas','pagos.factura_id',           '=','facturas.id')
+            ->join('users','facturas.user_create_id',       '=', 'users.id')
+            ->join('creditos','facturas.credito_id',        '=','creditos.id')
+            ->join('precreditos','creditos.precredito_id',  '=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
+            ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
+            ->where('facturas.descuento',false)
+            ->where('carteras.id','=',$cartera_id)
+            ->where(function($query){
+                    $query->where('pagos.concepto','=','Cuota');
+                    $query->orWhere('pagos.concepto','=','Cuota Parcial');
+            })
+            ->whereBetween('facturas.created_at',[$ini, $fin])
+            ->select(DB::raw('
+                            clientes.nombre  as cliente,
+                            clientes.num_doc as documento,
+                            pagos.credito_id as credito_id, 
+                            facturas.num_fact as num_fact,
+                            users.name       as user_create,
+                            sum(pagos.abono) as cuotas,
+                            facturas.fecha   as fecha,
+                            facturas.banco   as banco,
+                            carteras.nombre  as cartera,
+                            facturas.tipo    as tipo_pago,
+                            facturas.created_at as created_at              
+                            '))
+            ->groupBy('facturas.id')
+            ->get();
 
-        $sanciones = 
-         DB::table('pagos')
+    $descuentos = 
+        DB::table('pagos')
+            ->join('facturas','pagos.factura_id',           '=','facturas.id')
+            ->join('users','facturas.user_create_id',       '=', 'users.id')
+            ->join('creditos','facturas.credito_id',        '=','creditos.id')
+            ->join('precreditos','creditos.precredito_id',  '=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
+            ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
+            ->where('facturas.descuento',true)
+            ->where('carteras.id','=',$cartera_id)
+            ->where(function($query){
+                    $query->where('pagos.concepto','=','Cuota');
+                    $query->orWhere('pagos.concepto','=','Cuota Parcial');
+            })
+            ->whereBetween('facturas.created_at',[$ini, $fin])
+            ->select(DB::raw('
+                            clientes.nombre  as cliente,
+                            clientes.num_doc as documento,
+                            pagos.credito_id as credito_id, 
+                            facturas.num_fact as num_fact,
+                            users.name       as user_create,
+                            sum(pagos.abono) as cuotas,
+                            facturas.fecha   as fecha,
+                            facturas.banco   as banco,
+                            carteras.nombre  as cartera,
+                            facturas.tipo    as tipo_pago,
+                            facturas.created_at as created_at              
+                            '))
+            ->groupBy('facturas.id')
+            ->get();
+
+    $sanciones = 
+        DB::table('pagos')
             ->join('facturas','pagos.factura_id',           '=','facturas.id')
             ->join('users','facturas.user_create_id',       '=', 'users.id')
             ->join('creditos','facturas.credito_id',        '=','creditos.id')
@@ -92,133 +125,129 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
             ->groupBy('facturas.id')
             ->get();
 
+    $juridicos =        
+        DB::table('pagos')
+            ->join('facturas','pagos.factura_id',             '=','facturas.id')
+            ->join('users','facturas.user_create_id',         '=', 'users.id')
+            ->join('creditos','facturas.credito_id',          '=','creditos.id')
+            ->join('precreditos','creditos.precredito_id',    '=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id',       '=','carteras.id')
+            ->join('clientes','precreditos.cliente_id',       '=','clientes.id')
+            ->where('carteras.id','=',$cartera_id)
+            ->where('pagos.concepto','=','Juridico')
+            ->whereBetween('facturas.created_at',[$ini,$fin])
+            ->select(DB::raw('
+                            clientes.nombre  as cliente,
+                            clientes.num_doc as documento,
+                            pagos.credito_id as credito_id, 
+                            facturas.num_fact as num_fact, 
+                            users.name       as user_create,
+                            sum(pagos.abono) as juridico,
+                            facturas.fecha   as fecha,
+                            facturas.banco   as banco,
+                            carteras.nombre  as cartera,
+                            facturas.tipo    as tipo_pago,
+                            facturas.created_at as created_at                             
+                            '))
+            ->groupBy('facturas.id')
+            ->get();    
 
-          $juridicos =        
-          DB::table('pagos')
-              ->join('facturas','pagos.factura_id',             '=','facturas.id')
-              ->join('users','facturas.user_create_id',         '=', 'users.id')
-              ->join('creditos','facturas.credito_id',          '=','creditos.id')
-              ->join('precreditos','creditos.precredito_id',    '=','precreditos.id')
-              ->join('carteras','precreditos.cartera_id',       '=','carteras.id')
-              ->join('clientes','precreditos.cliente_id',       '=','clientes.id')
-              ->where('carteras.id','=',$cartera_id)
-              ->where('pagos.concepto','=','Juridico')
-              ->whereBetween('facturas.created_at',[$ini,$fin])
-              ->select(DB::raw('
-                              clientes.nombre  as cliente,
-                              clientes.num_doc as documento,
-                              pagos.credito_id as credito_id, 
-                              facturas.num_fact as num_fact, 
-                              users.name       as user_create,
-                              sum(pagos.abono) as juridico,
-                              facturas.fecha   as fecha,
-                              facturas.banco   as banco,
-                              carteras.nombre  as cartera,
-                              facturas.tipo    as tipo_pago,
-                              facturas.created_at as created_at                             
-                              '))
-              ->groupBy('facturas.id')
-              ->get();    
+    $prejuridicos =        
+        DB::table('pagos')
+            ->join('facturas','pagos.factura_id',         '=','facturas.id')
+            ->join('users','facturas.user_create_id',     '=', 'users.id')
+            ->join('creditos','facturas.credito_id',      '=','creditos.id')
+            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id',   '=','carteras.id')
+            ->join('clientes','precreditos.cliente_id',   '=','clientes.id')
+            ->where('carteras.id','=',$cartera_id)
+            ->where('pagos.concepto','=','Prejuridico')
+            ->whereBetween('facturas.created_at',[$ini,$fin])
+            ->select(DB::raw('
+                            clientes.nombre  as cliente,
+                            clientes.num_doc as documento,
+                            pagos.credito_id as credito_id, 
+                            facturas.num_fact as num_fact, 
+                            users.name       as user_create,
+                            sum(pagos.abono) as prejuridico,
+                            facturas.fecha   as fecha,
+                            facturas.banco   as banco,
+                            carteras.nombre  as cartera,
+                            facturas.tipo    as tipo_pago,
+                            facturas.created_at as created_at                             
+                            '))
+            ->groupBy('facturas.id')
+            ->get();    
 
-          $prejuridicos =        
-          DB::table('pagos')
-              ->join('facturas','pagos.factura_id',         '=','facturas.id')
-              ->join('users','facturas.user_create_id',     '=', 'users.id')
-              ->join('creditos','facturas.credito_id',      '=','creditos.id')
-              ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-              ->join('carteras','precreditos.cartera_id',   '=','carteras.id')
-              ->join('clientes','precreditos.cliente_id',   '=','clientes.id')
-              ->where('carteras.id','=',$cartera_id)
-              ->where('pagos.concepto','=','Prejuridico')
-              ->whereBetween('facturas.created_at',[$ini,$fin])
-              ->select(DB::raw('
-                              clientes.nombre  as cliente,
-                              clientes.num_doc as documento,
-                              pagos.credito_id as credito_id, 
-                              facturas.num_fact as num_fact, 
-                              users.name       as user_create,
-                              sum(pagos.abono) as prejuridico,
-                              facturas.fecha   as fecha,
-                              facturas.banco   as banco,
-                              carteras.nombre  as cartera,
-                              facturas.tipo    as tipo_pago,
-                              facturas.created_at as created_at                             
-                              '))
-              ->groupBy('facturas.id')
-              ->get();    
+    $saldos_favor =        
+        DB::table('pagos')
+            ->join('facturas','pagos.factura_id',             '=','facturas.id')
+            ->join('users','facturas.user_create_id',         '=', 'users.id')
+            ->join('creditos','facturas.credito_id',          '=','creditos.id')
+            ->join('precreditos','creditos.precredito_id',    '=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id',       '=','carteras.id')
+            ->join('clientes','precreditos.cliente_id',       '=','clientes.id')
+            ->where('carteras.id','=',$cartera_id)
+            ->where('pagos.concepto','=','Saldo a Favor')
+            ->whereBetween('facturas.created_at',[$ini,$fin])
+            ->select(DB::raw('
+                            clientes.nombre  as cliente,
+                            clientes.num_doc as documento,
+                            pagos.credito_id as credito_id, 
+                            facturas.num_fact as num_fact, 
+                            users.name       as user_create,
+                            sum(pagos.abono) as saldo_favor,
+                            facturas.fecha   as fecha,
+                            facturas.banco   as banco,
+                            carteras.nombre  as cartera,
+                            facturas.tipo    as tipo_pago,                            
+                            facturas.created_at as created_at                             
+                            '))
+            ->groupBy('facturas.id')
+            ->get();
 
-          $saldos_favor =        
-          DB::table('pagos')
-              ->join('facturas','pagos.factura_id',             '=','facturas.id')
-              ->join('users','facturas.user_create_id',         '=', 'users.id')
-              ->join('creditos','facturas.credito_id',          '=','creditos.id')
-              ->join('precreditos','creditos.precredito_id',    '=','precreditos.id')
-              ->join('carteras','precreditos.cartera_id',       '=','carteras.id')
-              ->join('clientes','precreditos.cliente_id',       '=','clientes.id')
-              ->where('carteras.id','=',$cartera_id)
-              ->where('pagos.concepto','=','Saldo a Favor')
-              ->whereBetween('facturas.created_at',[$ini,$fin])
-              ->select(DB::raw('
-                              clientes.nombre  as cliente,
-                              clientes.num_doc as documento,
-                              pagos.credito_id as credito_id, 
-                              facturas.num_fact as num_fact, 
-                              users.name       as user_create,
-                              sum(pagos.abono) as saldo_favor,
-                              facturas.fecha   as fecha,
-                              facturas.banco   as banco,
-                              carteras.nombre  as cartera,
-                              facturas.tipo    as tipo_pago,                            
-                              facturas.created_at as created_at                             
-                              '))
-              ->groupBy('facturas.id')
-              ->get();
+    $estudios   = 
+        DB::table('precreditos')
+            ->join('carteras','precreditos.cartera_id',   '=','carteras.id')
+            ->join('users','precreditos.user_create_id',  '=', 'users.id')
+            ->join('clientes','precreditos.cliente_id',   '=','clientes.id')
+            ->where('carteras.id','=',$cartera_id)
+            ->where('precreditos.estudio','<>','Sin estudio')
+            ->whereBetween('precreditos.created_at',[$ini,$fin])
+            ->select(DB::raw('
+                            null                    as credito_id,
+                            clientes.nombre         as cliente,
+                            clientes.num_doc        as documento,
+                            precreditos.num_fact    as factura,
+                            users.name              as user_create,
+                            precreditos.fecha       as fecha,
+                            carteras.nombre         as cartera,
+                            precreditos.estudio     as estudio,
+                            precreditos.created_at  as created_at
+                            '))->get();  
 
-          $estudios   = 
-          DB::table('precreditos')
-              ->join('carteras','precreditos.cartera_id',   '=','carteras.id')
-              ->join('users','precreditos.user_create_id',  '=', 'users.id')
-              ->join('clientes','precreditos.cliente_id',   '=','clientes.id')
-              ->where('carteras.id','=',$cartera_id)
-              ->where('precreditos.estudio','<>','Sin estudio')
-              ->whereBetween('precreditos.created_at',[$ini,$fin])
-              ->select(DB::raw('
-                              null                    as credito_id,
-                              clientes.nombre         as cliente,
-                              clientes.num_doc        as documento,
-                              precreditos.num_fact    as factura,
-                              users.name              as user_create,
-                              precreditos.fecha       as fecha,
-                              carteras.nombre         as cartera,
-                              precreditos.estudio     as estudio,
-                              precreditos.created_at  as created_at
-                              '))->get();  
+                $array_estudios = array();
+                foreach ($estudios as $credito) {
 
+                    if     ($credito->estudio == 'Tipico'){ $valor_estudio = $estudio_tipico;   }
+                    else if($credito->estudio == 'Domicilio'){ $valor_estudio = $estudio_domicilio;}
 
-                  $array_estudios = array();
-                  foreach ($estudios as $credito) {
+                    $temp = array(
+                        'credito_id'    => $credito->credito_id,
+                        'cliente'       => $credito->cliente,
+                        'documento'     => $credito->documento,
+                        'factura'       => $credito->factura,
+                        'user_create'   => $credito->user_create,
+                        'fecha'         => $credito->fecha,
+                        'cartera'       => $credito->cartera,
+                        'estudio'       => $credito->estudio,
+                        'created_at'    => $credito->created_at,     
+                        'valor_estudio' => $valor_estudio
+                                );
+                    array_push($array_estudios,$temp);
+                }
 
-                      if     ($credito->estudio == 'Tipico'){ $valor_estudio = $estudio_tipico;   }
-                      else if($credito->estudio == 'Domicilio'){ $valor_estudio = $estudio_domicilio;}
-
-                      $temp = array(
-                          'credito_id'    => $credito->credito_id,
-                          'cliente'       => $credito->cliente,
-                          'documento'     => $credito->documento,
-                          'factura'       => $credito->factura,
-                          'user_create'   => $credito->user_create,
-                          'fecha'         => $credito->fecha,
-                          'cartera'       => $credito->cartera,
-                          'estudio'       => $credito->estudio,
-                          'created_at'    => $credito->created_at,     
-                          'valor_estudio' => $valor_estudio
-                                  );
-                      array_push($array_estudios,$temp);
-                  }
-
-                  
-
-        $iniciales   = 
+    $iniciales   = 
         DB::table('precreditos')
             ->join('fact_precreditos','precreditos.id','=','fact_precreditos.precredito_id')
             ->join('precred_pagos','fact_precreditos.id','=','precred_pagos.fact_precredito_id')
@@ -241,44 +270,41 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                             fact_precreditos.created_at   as created_at
                             '))->get();  
 
+    $otros_pagos = 
+        DB::table('otros_pagos')
+            ->join('facturas','otros_pagos.factura_id','=','facturas.id')
+            ->join('users','facturas.user_create_id',  '=', 'users.id')
+            ->join('carteras','otros_pagos.cartera_id','=','carteras.id')
+            ->where('carteras.id','=',$cartera_id)
+            ->whereBetween('facturas.created_at',[$ini,$fin])
+            ->select(DB::raw('
+                        facturas.num_fact       as factura, 
+                        users.name              as user_create,
+                        facturas.tipo           as tipo, 
+                        otros_pagos.subtotal    as subtotal,   
+                        otros_pagos.concepto    as concepto, 
+                        facturas.fecha          as fecha, 
+                        carteras.nombre         as cartera, 
+                        otros_pagos.created_at  as created_at'))
+            ->get();
 
-          $otros_pagos = 
-          DB::table('otros_pagos')
-              ->join('facturas','otros_pagos.factura_id','=','facturas.id')
-              ->join('users','facturas.user_create_id',  '=', 'users.id')
-              ->join('carteras','otros_pagos.cartera_id','=','carteras.id')
-              ->where('carteras.id','=',$cartera_id)
-              ->whereBetween('facturas.created_at',[$ini,$fin])
-              ->select(DB::raw('
-                            facturas.num_fact       as factura, 
-                            users.name              as user_create,
-                            facturas.tipo           as tipo, 
-                            otros_pagos.subtotal    as subtotal,   
-                            otros_pagos.concepto    as concepto, 
-                            facturas.fecha          as fecha, 
-                            carteras.nombre         as cartera, 
-                            otros_pagos.created_at  as created_at'))
-              ->get();
-
-
-          $users = 
-
-          DB::table('users')
-          ->join('puntos','users.punto_id','=','puntos.id')
-          ->leftJoin('facturas','users.id','=','facturas.user_create_id')
-          ->join('creditos','facturas.credito_id','=','creditos.id')
-          ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-          ->join('carteras','precreditos.cartera_id','=','carteras.id')
-          ->select(DB::raw(
-              'users.id as id,
-               users.name as nombre,
-               puntos.nombre as punto,
-               SUM(facturas.total) as total
-               '))
-          ->where([['users.id','<>',1],['carteras.id','=',$cartera_id]])
-          ->whereBetween('facturas.created_at',[$ini,$fin])
-          ->groupBy('users.id')
-          ->get();
+    $users = 
+        DB::table('users')
+            ->join('puntos','users.punto_id','=','puntos.id')
+            ->leftJoin('facturas','users.id','=','facturas.user_create_id')
+            ->join('creditos','facturas.credito_id','=','creditos.id')
+            ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+            ->join('carteras','precreditos.cartera_id','=','carteras.id')
+            ->select(DB::raw(
+                'users.id as id,
+                users.name as nombre,
+                puntos.nombre as punto,
+                SUM(facturas.total) as total
+                '))
+            ->where([['users.id','<>',1],['carteras.id','=',$cartera_id]])
+            ->whereBetween('facturas.created_at',[$ini,$fin])
+            ->groupBy('users.id')
+            ->get();
 
             
     // EGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOSEGRESOS
@@ -320,6 +346,9 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
 
     $total_cuotas = 0;    
     foreach($cuotas as $cuota){ $total_cuotas = $total_cuotas + $cuota->cuotas; }
+
+    $total_descuentos = 0;    
+    foreach($descuentos as $descuento){ $total_descuentos += $descuento->cuotas; }
 
     $total_sanciones = 0;    
     foreach($sanciones as $sancion){ $total_sanciones = $total_sanciones + $sancion->sanciones; }
@@ -463,6 +492,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
 
     $reporte = array(
                 'cuotas' => $cuotas,
+                'descuentos' => $descuentos,
                 'sanciones' => $sanciones,
                 'juridicos' => $juridicos,
                 'prejuridicos' => $prejuridicos,
@@ -474,6 +504,7 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
                 'prestamos' => $prestamos,
                 'pago_proveedores' => $pago_proveedores,
                 'total_cuotas' => $total_cuotas,
+                'total_descuentos' => $total_descuentos,
                 'total_sanciones' => $total_sanciones,
                 'total_juridicos' => $total_juridicos,
                 'total_prejuridicos' => $total_prejuridicos,
@@ -493,10 +524,6 @@ function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
       );
 
   return $reporte;
-
-
-
-
 
 }
 

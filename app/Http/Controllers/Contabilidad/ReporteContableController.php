@@ -303,8 +303,8 @@ class ReporteContableController extends Controller
               
                 $path = $request->archivo->getRealPath();   
                 $data = collect(Excel::load($path, function($reader){})->get());
-
-                return $data->pluck('cedulas')->toArray();
+    
+                return $data->pluck('clientes')->toArray();
             }
         } catch (\Exception $e) {
             throw new Exception('Error', 500);          

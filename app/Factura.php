@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Support\Collection;
 
 class Factura extends Model implements Auditable 
 {
@@ -12,7 +13,7 @@ class Factura extends Model implements Auditable
     protected $table = 'facturas';
 
     protected $fillable = [
-        'num_fact' , 'fecha' , 'banco','credito_id' , 'total' , 
+        'num_fact' , 'fecha' , 'banco','credito_id' , 'total' , 'descuento' ,
         'user_create_id' , 'user_update_id'
     ];
 
@@ -34,6 +35,15 @@ class Factura extends Model implements Auditable
 
     public function pagos(){
         return $this->hasMany('App\Pago');
+    }
+
+    public function pagosSinDescuento() {
+        return collect(\DB::table('pagos')
+            ->join('facturas','pagos.factura_id', '=', 'facturas.id')
+            ->select('pagos.*')
+            ->where('facturas.credito_id', $this->id)
+            ->where('facturas.descuento', false)
+            ->get());
     }
 
     public function otro_pago(){

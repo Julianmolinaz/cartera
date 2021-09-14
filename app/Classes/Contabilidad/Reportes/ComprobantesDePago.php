@@ -28,16 +28,15 @@ class ComprobantesDePago
         $this->ini = $ini;
         $this->end = $end;
         $this->clientes = $clientes;
-        $this->consecutivo = intval($consecutivo) - 1;
+        $this->consecutivo = intval($consecutivo);
     }
 
     public function make($header)
     {
-        if ($header) {
+        if ($header)
             $this->reporte[] = $this->header();
-        }
 
-        set_time_limit(1500);
+        set_time_limit(-1);
 
         $this->makePagosPorCredito();
         $this->makePagosPorSolicitud();
@@ -80,7 +79,9 @@ class ComprobantesDePago
             $this->prerecibo = $prerecibo;  
             $this->temporal = [];
             
-            foreach ($prerecibo->pagos as $pago) {    
+            foreach ($prerecibo->pagos as $pago) {     
+
+                
                 if ($pago->concepto_id == 2) {                    
                     
                     $this->getConsecutivo();
@@ -121,12 +122,15 @@ class ComprobantesDePago
         $suma = 0;
 
         for ($i = 1; $i < count($this->temporal); $i++) {
+            
             $suma += $this->temporal[$i]['credito'];
+
         }
 
         $diferencia = $this->temporal[0]['debito'] - $suma;
 
         if ($diferencia < 0) {
+
             $item = $this->struct();
             $item->cod_cuenta = '13802005';
             $item->debito = $diferencia * -1;
@@ -135,6 +139,7 @@ class ComprobantesDePago
             $this->trash[] = $this->recibo;
             
         } else if($diferencia > 0) {
+
             $item = $this->struct();
             $item->cod_cuenta = '23809501';
             $item->credito = $diferencia;
@@ -154,6 +159,7 @@ class ComprobantesDePago
         $pagos = $this->recibo->pagos;
         
         foreach ($pagos as $pago) {     
+
             switch ($pago->concepto) {
                 case 'Juridico':
                     $this->go($pago, '51991003');
@@ -278,7 +284,7 @@ class ComprobantesDePago
             if ($this->clientes) {
                 $clientes = implode(",", $this->clientes);
                 $query_clientes = " and clientes.num_doc in (".
-                    substr(substr($clientes, 0), 0, -1)
+                    substr(substr($clientes, 1), 0, -1)
                 .")";
             }
     
@@ -294,10 +300,12 @@ class ComprobantesDePago
                         date_format( ".$date_str.", '%Y-%m-%d') <= '". $this->end->toDateString() ."'   
                     )
                         and facturas.credito_id is not null
+                        and facturas.descuento = false
                         and precreditos.cartera_id in (6,32)".
                         $query_clientes;
 
             $ids = DB::select($query);
+
             return $ids;
 
         } catch (\Exception $e) {

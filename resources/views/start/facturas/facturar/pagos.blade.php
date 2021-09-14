@@ -21,7 +21,7 @@
                     <th>    Estado          </th>
                     <th>    Pago Desde      </th>
                     <th>    Pago Hasta      </th>
-                    <th>    Abono Otro Pago </th>
+                    <th>    Descuento       </th>
                     <th>    Creó            </th>
                     <th>    Acción          </th>
                 </tr>
@@ -43,6 +43,8 @@
                     }
                 }
 
+                $descuento = $pagos[$i]->factura->descuento ? 'Si' : 'No';
+
                 echo $color.
                         "<td>{$pagos[$i]->id}</td>
                         <td>{$pagos[$i]->factura->num_fact}</td>
@@ -53,7 +55,7 @@
                         <td>{$pagos[$i]->estado}</td>
                         <td>{$pagos[$i]->desde }</td>
                         <td>{$pagos[$i]->hasta}</td>
-                        <td>{$pagos[$i]->abono_pagos_id}</td>
+                        <td>{$descuento}</td>
                         <td>".$pagos[$i]->factura->user_create->name." (".$pagos[$i]->created_at.")</td>
                         <td>
                             <button 

@@ -37,7 +37,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
 
   /*Ingresos Reporte Diario*/
 
-  $cuotas = 
+$cuotas = 
   DB::table('pagos')
       ->join('facturas','pagos.factura_id',           '=','facturas.id')
       ->join('creditos','facturas.credito_id',        '=','creditos.id')
@@ -45,6 +45,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
       ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where(function($query){
           $query->where('pagos.concepto','=','Cuota');
           $query->orWhere('pagos.concepto','=','Cuota Parcial');
@@ -67,7 +68,38 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->groupBy('facturas.id')
       ->get();
 
-  $sanciones = 
+$descuentos = 
+    DB::table('pagos')
+        ->join('facturas','pagos.factura_id',           '=','facturas.id')
+        ->join('creditos','facturas.credito_id',        '=','creditos.id')
+        ->join('precreditos','creditos.precredito_id',  '=','precreditos.id')
+        ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
+        ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
+        ->join('users','facturas.user_create_id',       '=','users.id')
+        ->where('facturas.descuento',true)
+        ->where(function($query){
+            $query->where('pagos.concepto','=','Cuota');
+            $query->orWhere('pagos.concepto','=','Cuota Parcial');
+
+        })
+        ->whereBetween('facturas.created_at',[$ini,$fin])
+        ->select(DB::raw('
+                        clientes.nombre  as cliente,
+                        clientes.num_doc as documento,
+                        pagos.credito_id as credito_id, 
+                        facturas.num_fact as num_fact, 
+                        sum(pagos.abono) as cuotas,
+                        facturas.fecha   as fecha,
+                        facturas.banco   as banco,
+                        carteras.nombre  as cartera,
+                        facturas.tipo    as tipo_pago,
+                        facturas.created_at as created_at,
+                        users.name as usuario              
+                        '))
+        ->groupBy('facturas.id')
+        ->get();
+
+$sanciones = 
    DB::table('pagos')
       ->join('facturas','pagos.factura_id','=','facturas.id')
       ->join('creditos','facturas.credito_id','=','creditos.id')
@@ -258,6 +290,9 @@ function reporte_general( $fecha_1, $fecha_2 ){
   $total_cuotas = 0;    
   foreach($cuotas as $cuota){ $total_cuotas = $total_cuotas + $cuota->cuotas; }
 
+  $total_descuentos = 0;    
+  foreach($descuentos as $descuento){ $total_descuentos += $descuento->cuotas; }
+
   $total_sanciones = 0;    
   foreach($sanciones as $sancion){ $total_sanciones = $total_sanciones + $sancion->sanciones; }
 
@@ -401,6 +436,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
             
   return array( 
               'cuotas'                  => $cuotas,
+              'descuentos'              => $descuentos,
               'sanciones'               => $sanciones,
               'juridicos'               => $juridicos,
               'prejuridicos'            => $prejuridicos,
@@ -412,6 +448,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
               'prestamos'               => $prestamos,
               'pago_proveedores'        => $pago_proveedores,
               'total_cuotas'            => $total_cuotas,
+              'total_descuentos'        => $total_descuentos,
               'total_sanciones'         => $total_sanciones,
               'total_juridicos'         => $total_juridicos,
               'total_prejuridicos'      => $total_prejuridicos,
