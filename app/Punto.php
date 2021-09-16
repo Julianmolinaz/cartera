@@ -12,8 +12,16 @@ class Punto extends Model implements Auditable
     protected $table = 'puntos';
 
     protected $fillable = [
-    	'nombre', 'estado', 'prefijo','increment','zona_id',
-    	'direccion', 'telefono', 'descripcion','municipio_id'];
+    	'nombre',
+        'estado',
+        'prefijo',
+        'increment',
+        'zona_id',
+    	'direccion',
+        'telefono',
+        'descripcion',
+        'municipio_id'
+        ];
     
     public function setPrefijoAttribute($value){
     	$this->attributes['prefijo'] = strtoupper($value);

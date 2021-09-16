@@ -19,7 +19,6 @@ class FacturasProveedor
 
     public static function getFacturas($ini, $end)
     {
-
         $facturas = DB::table('ref_productos')
             ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
             ->join('productos','ref_productos.producto_id','=','productos.id')

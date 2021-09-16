@@ -5,11 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreatePagosTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
+	
 	public function up()
 	{
 		Schema::create('pagos', function(Blueprint $table)
@@ -32,12 +28,6 @@ class CreatePagosTable extends Migration {
 		});
 	}
 
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
 		Schema::drop('pagos');

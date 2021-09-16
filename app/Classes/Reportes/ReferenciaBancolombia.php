@@ -26,8 +26,7 @@ class ReferenciaBancolombia
 
         $this->empresa = 'INVERSIONES GORA SAS';
         $this->nit_empresa = 900975741;
-        $this->codigo_convenio = 88686;
-	$this->contingencia = '123456789';
+        $this->codigo_convenio = 86685;
         $this->secuencia_envio = 'A'; // cambiar secuencia de envio si se corrige o reemplaza el archivo enviado
     }
 
@@ -89,14 +88,14 @@ class ReferenciaBancolombia
         $estructura = $this->structRegistroDetalle();
 
         $estructura->tipo_registro                  = Ctrl\cast_number(6, 1,'right');
-        $estructura->nit_pagador                    = Ctrl\cast_number($this->contingencia, 13,'right');
+        $estructura->nit_pagador                    = Ctrl\cast_number(123456789, 13,'right');
         $estructura->nombre_pagador                 = Ctrl\cast_string('CONTINGENCIA', 20);
         $estructura->banco_cuenta_pagador           = Ctrl\cast_number(0, 9,'right');
         $estructura->numero_cuenta_debitar          = Ctrl\cast_number(0, 17,'right');
         $estructura->tipo_transaccion               = Ctrl\cast_number(0, 2,'right');
         $estructura->valor_transacción              = Ctrl\cast_number(0, 17,'right');
         $estructura->indicador_validación_nit       = Ctrl\cast_string('N', 1);
-        $estructura->referencia1                    = Ctrl\cast_string(Ctrl\cast_number($this->contingencia, 13,'right'), 30);
+        $estructura->referencia1                    = Ctrl\cast_string(Ctrl\cast_number(123456789, 13,'right'), 30);
         $estructura->referencia2                    = Ctrl\cast_string('', 30,'right');
         $estructura->fecha_vencimiento_aplicación   = Ctrl\cast_string($this->fecha_vencimiento, 8,'right');
         $estructura->periodos_facturados            = Ctrl\cast_number(0, 2,'right');

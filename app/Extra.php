@@ -12,7 +12,14 @@ class Extra extends Model implements Auditable
     protected $table = 'extras';
 
     protected $fillable = [
-    'fecha' , 'concepto' , 'estado' , 'valor' , 'descripcion' , 'credito_id' , 'user_create_id' , 'user_update_id'
+        'fecha', 
+        'concepto',
+        'estado',
+        'valor',
+        'descripcion',
+        'credito_id',
+        'user_create_id', 
+        'user_update_id'
     ];
 
     public function credito(){

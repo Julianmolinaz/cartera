@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Proceso extends Model
 {
     protected $fillable = [
-        'juzgado','radicado','fecha_radicado','credito_id','cliente_id',
-        'user_create_id','user_update_id'
+        'juzgado',
+        'radicado',
+        'fecha_radicado',
+        'credito_id',
+        'cliente_id',
+        'user_create_id',
+        'user_update_id'
     ];
 
     public function anotaciones(){

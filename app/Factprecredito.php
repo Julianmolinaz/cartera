@@ -12,7 +12,15 @@ class Factprecredito extends Model implements Auditable
     protected $table = 'fact_precreditos';
 
     protected $fillable = [
-    	'id','precredito_id','num_fact','fecha','total','tipo','user_create_id','user_update_id','ref'
+    	'id',
+        'precredito_id',
+        'num_fact',
+        'fecha',
+        'total',
+        'tipo',
+        'user_create_id',
+        'user_update_id',
+        'ref'
     ];
 
     public function precredito(){

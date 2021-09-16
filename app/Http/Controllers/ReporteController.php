@@ -238,7 +238,7 @@ class ReporteController extends Controller
 
             // unlink($nombre_archivo);
 
-            $ref_bancolombia = new Classes\Reportes\ReferenciaBancolombia();
+            $ref_bancolombia = new \App\Classes\Reportes\ReferenciaBancolombia();
 
             $reporte = $ref_bancolombia->make();   
 
@@ -246,16 +246,13 @@ class ReporteController extends Controller
             $archivo = fopen($nombre_archivo, "w");
 
             foreach ($reporte as $item) {
-
                 foreach ($item as $elemento) {
                     fwrite($archivo, $elemento);     
                 }
-
                 fwrite($archivo, PHP_EOL);
             }
 
             fclose($archivo);
-            
             return response()->download($nombre_archivo); 
         }  
 
@@ -531,8 +528,7 @@ class ReporteController extends Controller
 
     else if ($request->input('tipo_reporte') == 'ingreso_esperado') {
         return $this->ingresoNominalTr($ini, $fin);
-    }
-      
+    }       
 }
 
     public function get_cashes_report($date)
