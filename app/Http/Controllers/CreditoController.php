@@ -114,7 +114,7 @@ class CreditoController extends Controller
             }
   
           return view('start.creditos.cancelados')
-            ->with('creditos',$creditos);
+            ->with('creditos', $creditos);
     }//.cancelados
 
     /*

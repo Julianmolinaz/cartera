@@ -143,17 +143,18 @@ class EstadoCuentaController extends Controller
 
     public function cargarFacturas()
     {
-        $facturas = $this->credito->facturas;
+        $facturas = $this->credito->facturasSinDescuento();
 
         if ($facturas) {
             foreach ($facturas as $factura) {
+                $factura = \App\Factura::find($factura->id);
                 // FACTURA
                 $item = $this->getStructItem();
                 $item['factura']['fecha'] = $factura->created_at;
                 $item['factura']['num']   = $factura->num_fact;
                 $item['factura']['valor'] = $factura->total;
                 
-                foreach ($factura->pagosSinDescuento as $pago) {
+                foreach ($factura->pagos as $pago) {
                     $temp = [
                         'concepto' => $pago->concepto,
                         'valor'    => $pago->abono

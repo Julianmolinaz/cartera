@@ -21,10 +21,9 @@
               <th>  Tipo de Pago  </th>
               <th>  Banco         </th>
               <th>  Cuotas        </th>
-              <th>  Descuentos    </th>
               <th>  Sanciones     </th>
               <th>  Juridico      </th>
-              <th>  prejuridico   </th>
+              <th>  Prejuridico   </th>
               <th>  Saldos a Favor</th>
               <th>  Estudios      </th>
               <th>  Inicial       </th>
@@ -34,7 +33,7 @@
               <th>  Fecha_Pago    </th> 
               <th>  Cartera       </th>
               <th>  Encargado     </th>
-              <th>  Create___ </th>
+              <th>  Create___     </th>
            </tr>
           </thead>
           <tbody style="font-size:10px"  align="right">
@@ -46,29 +45,12 @@
               <td> {{ $cuota->tipo_pago   }} </td>
               <td> {{ $cuota->banco       }} </td>
               <td> {{ number_format($cuota->cuotas,0,",",".") }} </td>
-              <td></td> <td></td>  <td></td> <td></td>  <td></td>  <td></td>  <td></td>   <td></td> <td></td> 
+              <td></td> <td></td> <td></td>  <td></td>  <td></td>  <td></td>   <td></td> <td></td> 
               <td> {{ $cuota->num_fact    }} </td>
               <td> {{ $cuota->fecha       }} </td>
               <td> {{ $cuota->cartera     }} </td>
               <td> {{ $cuota->user_create }}</td>
               <td style="font-size:10px"> {{ $cuota->created_at}}</td>
-            </tr>
-            @endforeach  
-            @foreach($descuentos as $descuento)
-            <tr>
-              <td> {{ $descuento->credito_id  }} </td>
-              <td> {{ $descuento->cliente     }} </td>
-              <td> {{ $descuento->documento   }} </td>
-              <td> {{ $descuento->tipo_pago   }} </td>
-              <td> {{ $descuento->banco       }} </td>
-              <td></td>
-              <td> {{ number_format($descuento->cuotas,0,",",".") }} </td>
-              <td></td> <td></td>  <td></td>  <td></td>  <td></td> <td></td>  <td></td>  <td></td> 
-              <td> {{ $descuento->num_fact    }} </td>
-              <td> {{ $descuento->fecha       }} </td>
-              <td> {{ $descuento->cartera     }} </td>
-              <td> {{ $descuento->user_create }}</td>
-              <td style="font-size:10px"> {{ $descuento->created_at}}</td>
             </tr>
             @endforeach  
             @foreach($sanciones as $sancion)
@@ -78,7 +60,7 @@
               <td> {{ $sancion->documento   }} </td>
               <td> {{ $sancion->tipo_pago   }} </td>
               <td> {{ $sancion->banco       }} </td>            
-              <td></td>  <td></td>
+              <td></td> 
               <td align="right"> {{ number_format($sancion->sanciones,0,",",".")  }} </td>
               <td></td>  <td></td>  <td></td>  <td></td>  <td></td>  <td></td>   <td></td>
               <td> {{ $sancion->num_fact    }} </td>
@@ -95,7 +77,7 @@
               <td> {{ $juridico->documento }} </td>
               <td> {{ $juridico->tipo_pago }} </td>   
               <td> {{ $juridico->banco     }} </td>            
-              <td> </td>  <td> </td>  <td> </td>
+              <td> </td> <td> </td>
               <td> {{ number_format($juridico->juridico,0,",",".")  }} </td>
               <td></td> <td></td> <td></td>  <td></td>  <td></td>  <td></td>
               <td> {{ $juridico->num_fact  }} </td>
@@ -112,7 +94,7 @@
               <td> {{ $prejuridico->documento }} </td>
               <td> {{ $prejuridico->tipo_pago }} </td>  
               <td> {{ $prejuridico->banco     }} </td>            
-              <td></td> <td></td>  <td></td> <td></td>
+              <td></td> <td></td> <td></td>
               <td> {{ number_format($prejuridico->prejuridico,0,",",".") }} </td>
               <td></td>  <td></td> <td></td>  <td></td>  <td></td>
               <td> {{ $prejuridico->num_fact  }} </td>
@@ -129,7 +111,7 @@
               <td> {{ $saldo->documento }} </td>
               <td> {{ $saldo->tipo_pago }} </td> 
               <td> {{ $saldo->banco     }} </td> 
-              <td></td> <td></td>  <td></td> <td></td>  <td></td>
+              <td></td> <td></td> <td></td>  <td></td>
               <td> {{ number_format($saldo->saldo_favor,0,",",".")  }} </td>   
               <td></td> <td></td>  <td></td>   <td></td>
               <td> {{ $saldo->num_fact  }} </td>
@@ -144,7 +126,7 @@
               <td> {{ $estudio['credito_id']    }} </td>
               <td> {{ $estudio['cliente']       }}</td>
               <td> {{ $estudio['documento']     }}</td>
-              <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>
+              <td></td> <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>
               <td> {{ number_format($estudio['valor_estudio'],0,",",".") }}</td>
               <td></td> <td></td>  <td></td>
               <td> {{ $estudio['factura']       }} </td>
@@ -160,7 +142,7 @@
               <td> {{ $inicial->cliente}}       </td>
               <td> {{ $inicial->documento}}     </td> <td></td>  <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>    <td></td> <td></td>
               <td> {{ number_format($inicial->cta_inicial,0,",",".")}} </td>
-              <td></td>  <td></td>
+              <td></td>
               <td> {{ $inicial->factura}}</td>
               <td> {{ $inicial->fecha }}</td>            
               <td> {{ $inicial->cartera}}</td>
@@ -172,7 +154,7 @@
             <tr>
               <td></td> <td></td>  <td></td>
               <td>{{$otro_pago->tipo}}</td>
-              <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>  <td></td>
+              <td></td> <td></td> <td></td>  <td></td> <td></td>  <td></td> <td></td>  <td></td>
               <td> {{ number_format($otro_pago->subtotal,0,",",".") }} </td>
               <td> {{ $otro_pago->concepto }} </td>
               <td> {{ $otro_pago->factura }} </td>
@@ -186,7 +168,6 @@
               <td></td><td></td><td></td><td></td>
               <td><b>Subtales Ingresos :</b></td>
               <td><b>{{number_format($total_cuotas,0,",",".")}}</b></td>
-              <td><b>{{number_format($total_descuentos,0,",",".")}}</b></td>
               <td><b>{{number_format($total_sanciones,0,",",".")}}</b></td>
               <td><b>{{number_format($total_juridicos,0,",",".")}}</b></td>
               <td><b>{{number_format($total_prejuridicos,0,",",".")}}</b></td>

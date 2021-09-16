@@ -30,17 +30,17 @@ function generar_sanciones($credito_id){
 			$credito->precredito->p_fecha , 
 			$credito->precredito->s_fecha , 
 			true
-			);
+		);
 
 		$fecha_tope = $fecha_tope['fecha_ini'];
 	}
 	else{
 		$pago  = DB::table('pagos')
-				 	->where('credito_id',$credito_id)
-				 	->where('concepto','Cuota')
-				 	->orWhere('concepto','Abono a cuota' )
-				 	->orderBy('pago_hasta','desc')
-				 	->first();
+			->where('credito_id',$credito_id)
+			->where('concepto','Cuota')
+			->orWhere('concepto','Abono a cuota' )
+			->orderBy('pago_hasta','desc')
+			->first();
 				 	
 		$fecha_tope = $pago->pago_hasta;		 	
 		 

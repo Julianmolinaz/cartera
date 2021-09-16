@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Pago;
-use App\Credito;
-use App\Variable;
-use App\Egreso;
-use App\Cartera;
-use DB;
 
 use Carbon\Carbon;
-use App\Factura;
 use App\OtrosPagos;
-use Auth;
+use App\Variable;
 use App\Llamada;
+use App\Credito;
+use App\Cartera;
+use App\Factura;
+use App\Egreso;
+use App\Pago;
 use App\User;
+use Auth;
+use DB;
 
 function reporte_general( $fecha_1, $fecha_2 ){
   
@@ -36,6 +36,8 @@ function reporte_general( $fecha_1, $fecha_2 ){
   $estudio_domicilio  = Variable::find(1)->vlr_estudio_domicilio;   //valor del estudio de credito a domicilio
 
   /*Ingresos Reporte Diario*/
+
+// **FACTURAS**
 
 $cuotas = 
   DB::table('pagos')
@@ -68,36 +70,7 @@ $cuotas =
       ->groupBy('facturas.id')
       ->get();
 
-$descuentos = 
-    DB::table('pagos')
-        ->join('facturas','pagos.factura_id',           '=','facturas.id')
-        ->join('creditos','facturas.credito_id',        '=','creditos.id')
-        ->join('precreditos','creditos.precredito_id',  '=','precreditos.id')
-        ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
-        ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
-        ->join('users','facturas.user_create_id',       '=','users.id')
-        ->where('facturas.descuento',true)
-        ->where(function($query){
-            $query->where('pagos.concepto','=','Cuota');
-            $query->orWhere('pagos.concepto','=','Cuota Parcial');
-
-        })
-        ->whereBetween('facturas.created_at',[$ini,$fin])
-        ->select(DB::raw('
-                        clientes.nombre  as cliente,
-                        clientes.num_doc as documento,
-                        pagos.credito_id as credito_id, 
-                        facturas.num_fact as num_fact, 
-                        sum(pagos.abono) as cuotas,
-                        facturas.fecha   as fecha,
-                        facturas.banco   as banco,
-                        carteras.nombre  as cartera,
-                        facturas.tipo    as tipo_pago,
-                        facturas.created_at as created_at,
-                        users.name as usuario              
-                        '))
-        ->groupBy('facturas.id')
-        ->get();
+// **FACTURAS**
 
 $sanciones = 
    DB::table('pagos')
@@ -107,6 +80,7 @@ $sanciones =
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where('pagos.concepto','=','Mora')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -125,6 +99,7 @@ $sanciones =
       ->groupBy('facturas.id')
       ->get();
 
+    // **FACTURAS**
 
   $juridicos =        
   DB::table('pagos')
@@ -134,6 +109,7 @@ $sanciones =
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where('pagos.concepto','=','Juridico')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -152,6 +128,8 @@ $sanciones =
       ->groupBy('facturas.id')
       ->get();    
 
+  // **FACTURAS**
+
   $prejuridicos =        
   DB::table('pagos')
       ->join('facturas','pagos.factura_id','=','facturas.id')
@@ -160,6 +138,7 @@ $sanciones =
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where('pagos.concepto','=','Prejuridico')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -178,6 +157,8 @@ $sanciones =
       ->groupBy('facturas.id')
       ->get();    
 
+  // **FACTURAS**
+
   $saldos_favor =        
   DB::table('pagos')
       ->join('facturas','pagos.factura_id','=','facturas.id')
@@ -186,6 +167,7 @@ $sanciones =
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where('pagos.concepto','=','Saldo a Favor')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -251,12 +233,14 @@ $sanciones =
             '))
         ->get();
 
+  // **FACTURAS**
 
   $otros_pagos = 
     DB::table('otros_pagos')
         ->join('facturas','otros_pagos.factura_id','=','facturas.id')
         ->join('carteras','otros_pagos.cartera_id','=','carteras.id')
         ->join('users','facturas.user_create_id',       '=','users.id')
+        ->where('facturas.descuento',false)
         ->whereBetween('facturas.created_at',[$ini,$fin])
         ->select(DB::raw('
             facturas.num_fact as factura, 
@@ -270,7 +254,7 @@ $sanciones =
             '))
         ->get();
 
-  //dd($otros_pagos);
+
 /* Egresos Reporte Diario */
 
   $gastos = Egreso::where('concepto','Gastos')->whereBetween('created_at',[$ini,$fin])->get();
@@ -289,9 +273,6 @@ $sanciones =
 
   $total_cuotas = 0;    
   foreach($cuotas as $cuota){ $total_cuotas = $total_cuotas + $cuota->cuotas; }
-
-  $total_descuentos = 0;    
-  foreach($descuentos as $descuento){ $total_descuentos += $descuento->cuotas; }
 
   $total_sanciones = 0;    
   foreach($sanciones as $sancion){ $total_sanciones = $total_sanciones + $sancion->sanciones; }
@@ -436,7 +417,6 @@ $sanciones =
             
   return array( 
               'cuotas'                  => $cuotas,
-              'descuentos'              => $descuentos,
               'sanciones'               => $sanciones,
               'juridicos'               => $juridicos,
               'prejuridicos'            => $prejuridicos,
@@ -448,7 +428,6 @@ $sanciones =
               'prestamos'               => $prestamos,
               'pago_proveedores'        => $pago_proveedores,
               'total_cuotas'            => $total_cuotas,
-              'total_descuentos'        => $total_descuentos,
               'total_sanciones'         => $total_sanciones,
               'total_juridicos'         => $total_juridicos,
               'total_prejuridicos'      => $total_prejuridicos,

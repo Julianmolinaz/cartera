@@ -22,6 +22,11 @@ class PagoRepository
             ->get();
     }
 
+    /**
+     * **PAGOS**
+     * Incluye descuentos
+     */
+
     public function getDebeJuridicos($credito_id)
     {
         return DB::table('pagos')
@@ -40,6 +45,11 @@ class PagoRepository
             ->first();    
     }
 
+    /**
+     * **PAGOS**
+     * Incluye descuentos
+     */
+
     public function getDebeExcedentesPrejuridico($credito_id)
     {
         return DB::table('pagos')
@@ -48,6 +58,11 @@ class PagoRepository
             ->where('estado', 'Debe')
             ->first();
     }
+    
+    /**
+     * **PAGOS**
+     * Incluye descuentos
+     */
 
     public function partialPayment($credito_id)
     {   

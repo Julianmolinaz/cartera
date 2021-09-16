@@ -37,13 +37,19 @@ class Factura extends Model implements Auditable
         return $this->hasMany('App\Pago');
     }
 
+    /**
+     * **PAGOS**
+     */
+
     public function pagosSinDescuento() {
-        return collect(\DB::table('pagos')
-            ->join('facturas','pagos.factura_id', '=', 'facturas.id')
-            ->select('pagos.*')
-            ->where('facturas.credito_id', $this->id)
-            ->where('facturas.descuento', false)
-            ->get());
+        return collect(
+            \DB::table('pagos')
+                ->join('facturas','pagos.factura_id', '=', 'facturas.id')
+                ->select('pagos.*')
+                ->where('facturas.id', $this->id)
+                ->where('facturas.descuento', false)
+                ->get()
+            );
     }
 
     public function otro_pago(){

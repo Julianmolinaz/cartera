@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use App\Cliente;
 use DB;
 
-function res($success,$data,$message,$status=200)
+function res($success, $data, $message, $status=200)
 {
     return response()->json([
         'success' => $success,
@@ -377,7 +377,7 @@ function array_ids($elementos){
 |--------------------------------------------------------------------------
 | sum_pagos
 |--------------------------------------------------------------------------
-|
+| **PAGOS**
 | recibe un objeto cliente
 | retorna la sumatoria de los totales de todos sus pagos
 | 
@@ -395,6 +395,10 @@ function sum_pagos($credito){
   return (int)$sumatoria;
 }
 
+/**
+ * **DESCUENTOS**
+ */
+
 function sum_descuentos($credito){
 
   $sumatoria = 
@@ -406,10 +410,15 @@ function sum_descuentos($credito){
   return (int)$sumatoria;
 }
 
+/**
+ * **PAGOS**
+ */
+
 function sum_pagos_por_id($credito_id){
 
   $sumatoria = 
       DB::table('facturas')
+          ->where('descuento',false)
           ->where('credito_id','=',$credito_id)
           ->sum('total');
 

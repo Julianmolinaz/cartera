@@ -122,7 +122,6 @@ class ReporteController extends Controller
 
             return view('admin.reportes.general')
               ->with('cuotas',$reporte['cuotas'])
-              ->with('descuentos',$reporte['descuentos'])
               ->with('sanciones',$reporte['sanciones'])
               ->with('juridicos',$reporte['juridicos'])
               ->with('prejuridicos',$reporte['prejuridicos'])
@@ -134,7 +133,6 @@ class ReporteController extends Controller
               ->with('prestamos',$reporte['prestamos'])
               ->with('pago_proveedores',$reporte['pago_proveedores'])
               ->with('total_cuotas',$reporte['total_cuotas'])
-              ->with('total_descuentos',$reporte['total_descuentos'])
               ->with('total_sanciones',$reporte['total_sanciones'])
               ->with('total_juridicos',$reporte['total_juridicos'])
               ->with('total_prejuridicos',$reporte['total_prejuridicos'])
@@ -339,7 +337,6 @@ class ReporteController extends Controller
 
            return view('admin.reportes.general_cartera')
                 ->with('cuotas',$reporte['cuotas'])
-                ->with('descuentos',$reporte['descuentos'])
                 ->with('sanciones',$reporte['sanciones'])
                 ->with('juridicos',$reporte['juridicos'])
                 ->with('prejuridicos',$reporte['prejuridicos'])
@@ -351,7 +348,6 @@ class ReporteController extends Controller
                 ->with('prestamos',$reporte['prestamos'])
                 ->with('pago_proveedores',$reporte['pago_proveedores'])
                 ->with('total_cuotas',$reporte['total_cuotas'])
-                ->with('total_descuentos',$reporte['total_descuentos'])
                 ->with('total_sanciones',$reporte['total_sanciones'])
                 ->with('total_juridicos',$reporte['total_juridicos'])
                 ->with('total_prejuridicos',$reporte['total_prejuridicos'])
@@ -377,10 +373,7 @@ class ReporteController extends Controller
 
             $respuesta = reporte_general_por_funcionarios( $fecha_1, $fecha_2);
 
-            // dd($respuesta['descuentos']);
-
             return view('admin.reportes.general_funcionarios')
-                ->with('descuentos',$respuesta['descuentos'])
                 ->with('reporte',$respuesta['reporte'])
                 ->with('totales',$respuesta['totales'])
                 ->with('rango',$rango);

@@ -198,8 +198,8 @@
           @foreach($pagos as $pago)
           <tr>
             <td>{{$pago->id}}</td>
-            <td>{{$pago->factura->num_fact}}</td>
-            <td>{{$pago->factura->fecha}}</td>
+            <td>{{$pago->num_fact}}</td>
+            <td>{{$pago->fecha_factura}}</td>
             <td>{{$pago->concepto}}</td>
             <td align="right">{{number_format($pago->abono,0,",",".")}}</td>
             <td align="right">{{number_format($pago->debe,0,",",".")}}</td>

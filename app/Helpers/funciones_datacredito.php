@@ -58,7 +58,7 @@ use DB;
      
         $ids    = 
         DB::table('creditos')
-            /*->where('creditos.id','=',1136)*/
+            /*->where('creditos.id','=',25001)*/
             ->whereIn('creditos.estado', ['Al dia', 'Mora', 'Prejuridico','Juridico', 'Cancelado'])
             ->where([['creditos.end_datacredito','<>',1]]) //no marcados como finalizado
             ->whereNotIn('id',no_admitidos())
@@ -763,7 +763,7 @@ function adjetivo($credito){
 |--------------------------------------------------------------------------
 |
 | recibe un objeto credito y la fecha de corte
-| retorna el saldo del vlr_credito (saldo del capital sin intereses)
+| retorna el saldo del vlr_credito (saldo del capital)
 |
 */
 

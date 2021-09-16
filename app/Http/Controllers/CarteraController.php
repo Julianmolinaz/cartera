@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Cartera;
-
-
 use App\FechaCobro;
 use Carbon\Carbon;
 use App\Variable;
+use App\Cartera;
 use App\Sancion;
 use App\Factura;
 use App\Credito;
@@ -26,40 +24,30 @@ class CarteraController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('admin.carteras.index')
-        ->with('carteras',Cartera::all()->sortBy('id'));
+            ->with('carteras',Cartera::all()
+            ->sortBy('id'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-
         return view('admin.carteras.create');
     }
 
-    /**
-     * Crear Cartera
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-       $this->validate($request,
-        ['nombre' => 'required|unique:carteras'],
-        ['nombre.required' => 'El Nombre es requerido',
-        'nombre.unique' => 'El Nombre ya existe']);
+        $this->validate($request,
+            [
+                'nombre' => 'required|unique:carteras'
+            ],
+            [
+                'nombre.required' => 'El Nombre es requerido',
+                'nombre.unique' => 'El Nombre ya existe'
+            ]
+        );
 
        DB::beginTransaction();
 
@@ -83,27 +71,22 @@ class CarteraController extends Controller
        }
    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
-      $factura = Factura::find($id);
+        $factura = Factura::find($id);
 
-      $ultima_factura = DB::table('facturas')
-        ->where('credito_id',$factura->credito_id)
-        ->orderBy('created_at','desc')
-        ->first();
+        $ultima_factura = DB::table('facturas')
+            ->where('descuento', false)
+            ->where('credito_id',$factura->credito_id)
+            ->orderBy('created_at','desc')
+            ->first();
 
-      //if($factura->id == $ultima_factura)
-      if( $ultima_factura->id == $factura->id ){
-        echo 'si es la ultima facura';
-      } else {
-        echo 'no es la ultima factura';
-      }
+        if ( $ultima_factura->id == $factura->id ) {
+            echo 'si es la ultima facura';
+        } else {
+            echo 'no es la ultima factura';
+        }
 
     }
 
@@ -133,9 +116,14 @@ class CarteraController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,
-            ['nombre' => 'required|unique:carteras,nombre,'.$id],
-            ['nombre.required' => 'El Nombre es requerido',
-            'nombre.unique' => 'El Nombre ya existe']);
+            [
+                'nombre' => 'required|unique:carteras,nombre,'.$id
+            ],
+            [
+                'nombre.required' => 'El Nombre es requerido',
+                'nombre.unique' => 'El Nombre ya existe'
+            ]
+        );
 
         DB::beginTransaction();
 

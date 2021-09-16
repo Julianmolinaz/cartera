@@ -56,6 +56,15 @@ class Credito extends Model implements Auditable
         return $this->hasMany('App\Pago');
     }
 
+    public function facturasSinDescuento() {
+        return collect(
+            \DB::table('facturas')
+                ->where('credito_id', $this->id)
+                ->where('descuento', false)
+                ->get()
+        );
+    }
+
     public function pagosSinDescuento() {
         return collect(\DB::table('pagos')
             ->join('facturas','pagos.factura_id', '=', 'facturas.id')

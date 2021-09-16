@@ -15,8 +15,8 @@ use Carbon\Carbon;
 use App\Criterio;
 use App\Credito;
 use App\Llamada;
-use App as _;
 use App\Pago;
+use App as _;
 use Excel;
 use Auth;
 use DB;
@@ -273,13 +273,25 @@ class CallcenterController extends Controller
                         ->get();
 
         $total_parciales = DB::table('pagos')
-                            ->where([['credito_id','=',$id],
-                                    ['concepto','=','Cuota Parcial'],
-                                    ['estado','=','Debe']])
-                            ->sum('Debe');
+                            ->join('facturas', 'pagos.factura_id', '=', 'facturas.id')
+                            ->where('facturas.descuento', false)
+                            ->where([['pagos.credito_id','=',$id],
+                                    ['pagos.concepto','=','Cuota Parcial'],
+                                    ['pagos.estado','=','Debe']])
+                            ->sum('pagos.abono');
 
         $llamadas = Llamada::where('credito_id',$id)->orderBy('created_at')->get();
-        $pagos    = Pago::where('credito_id',$id)->orderBy('created_at')->get();
+        $pagos    = DB::table('pagos')
+            ->join('facturas', 'pagos.factura_id', '=', 'facturas.id')
+            ->select(
+                'pagos.*',
+                'facturas.num_fact',
+                'facturas.fecha as fecha_factura'
+            )
+            ->where('facturas.descuento', false)
+            ->where('pagos.credito_id', $id)
+            ->orderBy('pagos.created_at')
+            ->get();
 
         return view('start.callcenter.show')
             ->with('credito',$credito)
@@ -711,10 +723,6 @@ class CallcenterController extends Controller
             echo 'Error<br>*<br>*<br>*<br>*<br>';
             dd($e);
         }   
-
-
-
     }
-
 
 }

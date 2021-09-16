@@ -75,7 +75,7 @@ function financiero($f_ini, $f_fin)
 
       	$pagos_credito = total_pagos_credito($credito);
 
-		  $vlr_recaudado_en_cuotas 	  += $pagos_credito['total_pagos_credito'];
+		  $vlr_recaudado_en_cuotas 	  	  += $pagos_credito['total_pagos_credito'];
     		$vlr_recaudado_prejuridico    += $pagos_credito['total_pagos_prejuridico_credito'];
     		$vlr_recaudado_juridico       += $pagos_credito['total_pagos_juridico_credito'];
     		$vlr_recaudado_en_sanciones   += $pagos_credito['total_pagos_sanciones_credito'];      	  

@@ -293,7 +293,8 @@ class ComprobantesDePago
                     inner join creditos on facturas.credito_id = creditos.id
                     inner join precreditos on creditos.precredito_id = precreditos.id
                     inner join clientes on precreditos.cliente_id = clientes.id
-                    where 
+                    where facturas.descuento = 0
+                    and
                     (   
                         date_format( ".$date_str.", '%Y-%m-%d') >= '". $this->ini->toDateString() ."'
                         and

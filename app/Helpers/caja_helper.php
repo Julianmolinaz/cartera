@@ -248,6 +248,9 @@ use DB;
     	});
     }
 
+	/**
+	 * **PAGOS**
+	 */
 
     function pagosHp($date, $user_id)
     {
@@ -259,7 +262,7 @@ use DB;
 								 'facturas.total as total',
 								 'facturas.banco as banco',
 		             'facturas.credito_id as credito')
-			->where('facturas.descuento', false)
+			->where('facturas.descuento', 0)
 			->where('facturas.created_at','like',$date.'%')
 			->where('facturas.user_create_id',$user_id)
 			->get();

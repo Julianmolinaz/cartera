@@ -28,6 +28,8 @@ function reporte_general_por_funcionarios( $fecha_1, $fecha_2){
   $estudio_tipico     = Variable::find(1)->vlr_estudio_tipico;    //valor del estudio de credito tipico
   $estudio_domicilio  = Variable::find(1)->vlr_estudio_domicilio;   //valor del estudio de credito a domicilio
 
+  // **FACTURAS**    
+
   $pagos = 
     DB::table('users')
       ->join('puntos','users.punto_id','=','puntos.id')
@@ -52,29 +54,7 @@ function reporte_general_por_funcionarios( $fecha_1, $fecha_2){
       ->orderBy('users.id')
       ->get();
 
-  $descuentos = 
-    DB::table('users')
-      ->join('puntos','users.punto_id','=','puntos.id')
-      ->join('facturas','users.id','=','facturas.user_create_id')
-      ->join('creditos','facturas.credito_id','=','creditos.id')
-      ->join('precreditos','creditos.precredito_id','=','precreditos.id')
-      ->join('carteras','precreditos.cartera_id','=','carteras.id')
-      ->select(
-          'users.id as funcionario_id',
-          'users.name as nombre',
-          'facturas.total as valor',
-          'facturas.num_fact as factura',
-          'facturas.created_at as create',
-          'facturas.tipo as tipo_pago',
-          'carteras.nombre as cartera',
-          'puntos.nombre as punto',
-          'creditos.id as credito',
-          'facturas.banco as banco')
-      ->where([['users.id','<>',1]])
-      ->where('facturas.descuento', true)
-      ->whereBetween('facturas.created_at',[$ini,$fin])
-      ->orderBy('users.id')
-      ->get();
+  // **FACTURAS**
 
   $estudios = 
       DB::table('fact_precreditos')
@@ -126,6 +106,8 @@ function reporte_general_por_funcionarios( $fecha_1, $fecha_2){
       ->orderBy('users.id')
       ->get();
 
+  // **FACTURAS**
+
   $otros_ingresos = 
     DB::table('otros_pagos')
       ->join('facturas','otros_pagos.factura_id','=','facturas.id')
@@ -140,6 +122,7 @@ function reporte_general_por_funcionarios( $fecha_1, $fecha_2){
           'facturas.created_at as create',
           'carteras.nombre as cartera',
           'puntos.nombre as punto')
+      ->where('facturas.descuento', false)
       ->where([['users.id','<>',1]])
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->orderBy('users.id')
@@ -197,28 +180,6 @@ foreach($funcionarios_array as $funcionario){
 
      }
     }//end foreach pagos
-
-    foreach($descuentos as $descuento){
-      if($descuento->funcionario_id == $funcionario['id']){
- 
-       $temp = array(
-         'funcionario' => $descuento->nombre,
-         'valor'       => $descuento->valor,
-         'tipo_pago'   => $descuento->tipo_pago,
-         'factura'     => $descuento->factura,
-         'concepto'    => 'Pago',
-         'fecha'       => $descuento->create,
-         'cartera'     => $descuento->cartera,
-         'punto'       => $descuento->punto,
-         'credito'     => $descuento->credito,
-         'solicitud'   => null,
-         'banco'       => $descuento->banco
-         );
- 
-       array_push($descuentos_array, $temp);
- 
-      }
-     }//end foreach descuentos
 
   foreach($estudios as $estudio){
     if($estudio->funcionario_id == $funcionario['id']){
@@ -307,7 +268,6 @@ foreach($funcionarios_array as $funcionario){
 
 return array(
   'reporte'   => $reporte, 
-  'descuentos'=> $descuentos_array,
   'totales'   => $totales
   );
 

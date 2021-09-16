@@ -19,9 +19,8 @@
               <th>  Cliente       </th>
               <th>  Documento     </th>
               <th>  Tipo de Pago  </th>
-              <th>  Banco        </th>
+              <th>  Banco         </th>
               <th>  Cuotas        </th>
-              <th>  Descuentos    </th>
               <th>  Sanciones     </th>
               <th>  Juridico      </th>
               <th>  prejuridico   </th>
@@ -49,7 +48,6 @@
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
               <td></td>            
               <td></td>
               <td></td> 
@@ -62,30 +60,6 @@
               <td> {{ $cuota->usuario}}</td>
             </tr>
           @endforeach  
-          @foreach($descuentos as $descuento)
-            <tr>
-              <td> {{ $descuento->credito_id  }} </td>
-              <td> {{ $descuento->cliente     }} </td>
-              <td> {{ $descuento->documento   }} </td>
-              <td> {{ $descuento->tipo_pago   }} </td>
-              <td> {{ $descuento->banco       }} </td>
-              <td></td>
-              <td> {{ number_format($descuento->cuotas,0,",",".") }} </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>            
-              <td></td>
-              <td></td> 
-              <td></td>
-              <td></td> 
-              <td> {{ $descuento->num_fact    }} </td>
-              <td> {{ $descuento->fecha       }} </td>
-              <td> {{ $descuento->cartera     }} </td>
-              <td style="font-size:10px"> {{ $descuento->created_at}}</td>
-              <td> {{ $descuento->usuario}}</td>
-            </tr>
-          @endforeach  
           @foreach($sanciones as $sancion)
             <tr>
               <td> {{ $sancion->credito_id  }} </td>
@@ -96,7 +70,6 @@
               <td></td>
               <td></td>
               <td align="right"> {{ number_format($sancion->sanciones,0,",",".")  }} </td>
-              <td></td>
               <td></td>
               <td></td>   
               <td></td>
@@ -116,8 +89,7 @@
               <td> {{ $juridico->cliente   }} </td>
               <td> {{ $juridico->documento }} </td>
               <td> {{ $juridico->tipo_pago }} </td>    
-              <td> {{ $juridico->banco     }} </td>            
-              <td></td>
+              <td> {{ $juridico->banco     }} </td>   
               <td></td>
               <td></td>
               <td> {{ number_format($juridico->juridico,0,",",".")  }} </td>
@@ -140,8 +112,7 @@
               <td> {{ $prejuridico->cliente   }} </td>
               <td> {{ $prejuridico->documento }} </td>
               <td> {{ $prejuridico->tipo_pago }} </td>  
-              <td> {{ $prejuridico->banco     }} </td>            
-              <td></td>
+              <td> {{ $prejuridico->banco     }} </td>     
               <td></td>
               <td></td>
               <td></td>
@@ -164,8 +135,7 @@
               <td> {{ $saldo->cliente   }} </td>
               <td> {{ $saldo->documento }} </td>
               <td> {{ $saldo->tipo_pago }} </td>   
-              <td> {{ $saldo->banco     }} </td>            
-              <td></td>
+              <td> {{ $saldo->banco     }} </td>  
               <td></td>
               <td></td>
               <td></td>
@@ -193,7 +163,6 @@
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
               <td></td> 
               <td> {{ number_format($estudio->subtotal,0,",",".") }}</td>
               <td>                                </td>
@@ -212,7 +181,6 @@
               <td> {{ $inicial->precredito_id   }} </td>
               <td> {{ $inicial->cliente}}       </td>
               <td> {{ $inicial->documento}}     </td>
-              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -246,7 +214,6 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
             <td>{{ number_format($otro_pago->subtotal,0,",",".")}} </td>
             <td>{{ $otro_pago->concepto                         }} </td>
             <td>{{ $otro_pago->factura                          }} </td>
@@ -263,7 +230,6 @@
             <td></td>
             <td><b>Subtales Ingresos :</b></td>
             <td><b>{{number_format($total_cuotas,0,",",".")}}</b></td>
-            <td><b>{{number_format($total_descuentos,0,",",".")}}</b></td>
             <td><b>{{number_format($total_sanciones,0,",",".")}}</b></td>
             <td><b>{{number_format($total_juridicos,0,",",".")}}</b></td>
             <td><b>{{number_format($total_prejuridicos,0,",",".")}}</b></td>
