@@ -67,9 +67,13 @@ class PagoRepository
     public function partialPayment($credito_id)
     {   
         return DB::table('pagos')
-            ->where([['credito_id','=',$credito_id],
+            ->where(
+                [
+                    ['credito_id','=',$credito_id],
                     ['concepto','=','Cuota Parcial'],
-                    ['estado','=','Debe']])
+                    ['estado','=','Debe']
+                ]
+            )
             ->first();  
     }   
 }

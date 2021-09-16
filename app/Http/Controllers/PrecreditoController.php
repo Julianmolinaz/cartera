@@ -208,7 +208,10 @@ class PrecreditoController extends Controller
 
         if (count($credito) > 0) {
 
-            $juridico = Extra::where('credito_id',$credito[0]->id)->where('concepto','Juridico')->where('estado','Debe')->get();
+            $juridico = Extra::where('credito_id',$credito[0]->id)
+                ->where('concepto','Juridico')
+                ->where('estado','Debe')
+                ->get();
 
             if (count($juridico) > 0) {
 

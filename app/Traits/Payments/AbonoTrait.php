@@ -103,7 +103,7 @@ trait AbonoTrait
 
                 if ( $prejuridico ) {   
 
-                    if ($monto > $prejuridico->debe){ 
+                    if ($monto > $prejuridico->debe) { 
                         $abono = $prejuridico->debe;
                         $monto = $monto - $abono; 
                     } else {
@@ -144,7 +144,7 @@ trait AbonoTrait
             if($hay_sanciones){
 
                 foreach ($sanciones as $sancion) {
-                    if($monto >= $dia_sancion){
+                    if ($monto >= $dia_sancion) {
                         $monto_por_sancion = $monto_por_sancion + $dia_sancion;
                         $monto = $monto - $sancion->valor;
                         $contador++;
@@ -200,7 +200,6 @@ trait AbonoTrait
                            
             }  
         }
-
 
         /**
          * CUOTA 

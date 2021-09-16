@@ -68,12 +68,8 @@ class CodeudorController extends Controller
      */
     public function store(Request $request)
     {
-       
-        
         $rq      = [];
         $codeudor = (object) $request->cliente;
-
-
 
         if ( is_array($codeudor->info_personal  ) ) { $rq = array_merge($rq, $codeudor->info_personal);  } 
         if ( is_array($codeudor->info_ubicacion ) ) { $rq = array_merge($rq, $codeudor->info_ubicacion); } 
