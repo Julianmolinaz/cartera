@@ -18,8 +18,7 @@ use App\CallBusqueda;
 class CreditoRepository {
 
     public function creditosTipoCall(){
-        $creditos = 
-        DB::table('creditos')
+        $creditos = DB::table('creditos')
             ->join('precreditos','precreditos.id',      '=','creditos.precredito_id')
             ->join('productos','precreditos.producto_id','=','productos.id')
             ->join('carteras','precreditos.cartera_id', '=','carteras.id')
@@ -198,6 +197,18 @@ class CreditoRepository {
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
             ->whereIn('carteras.id',$ids_carteras)
             ->get();
+    }
+
+    public function creditoActivoByCliente($clienteId)
+    {
+        $credito = DB::table('precreditos')
+            ->join('creditos', 'precreditos.id', '=', 'creditos.precredito_id')
+            ->select('creditos.*')
+            ->where('precreditos.cliente_id', $clienteId)
+            ->whereIn('creditos.estado', ['Al dia', 'Mora', 'Juridico', 'Prejuridico'])
+            ->get();
+
+        return $credito;
     }
 
 }

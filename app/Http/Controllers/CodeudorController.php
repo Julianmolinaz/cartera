@@ -262,18 +262,30 @@ class CodeudorController extends Controller
 
         try
         {
+            // validar si cliente tiene creditos activos
+            $repo = new \App\Repositories\CreditoRepository();
+            $credito = $repo->creditoActivoByCliente($cliente_id);
+            
+            if ($credito) {
+                flash()->error(
+                    "Error, no se puede eliminar el codeudor. Existe un crédito activo."
+                );
+                return redirect()->route('start.clientes.show',$cliente_id);
+            }
+
             $cliente = Cliente::find($cliente_id);
+
             $id = $cliente->codeudor_id;
             $codeudor = Codeudor::find($cliente->codeudor_id);
             $cliente->codeudor_id = null;
             $cliente->save();
 
-            if($codeudor->estudio){
+            if ($codeudor->estudio) {
                 $estudio = Estudio::find($codeudor->estudio->id);
                 $estudio->delete();
             }
 
-            if($codeudor->soat){
+            if ($codeudor->soat) {
                 $soat = Soat::find($codeudor->soat->id);
                 $soat->delete();
             }
@@ -289,7 +301,7 @@ class CodeudorController extends Controller
         {
             DB::rollback();
             flash()->error("Error al eliminar " . $e->getMessage());
-            return redirect()->route('start.clientes.show',$cliente->id);
+            return redirect()->route('start.clientes.show', $cliente->id);
         }
     }
 

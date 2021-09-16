@@ -19,9 +19,6 @@ trait DetalleClientesTrait
                 array_push($creditos_a_mostrar, $credito);
             }
         }
-
-        dd($creditos_a_mostrar);
-
     }
 
     public function mostrarTr($tipo, $credito, $abonos)

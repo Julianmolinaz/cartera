@@ -9,7 +9,11 @@ class Vehiculo extends Model
     public $timestamps = false;
 
     protected $fillable= [
-        'tipo_vehiculo_id','placa','vencimiento_soat','vencimiento_rtm','observaciones',
+        'tipo_vehiculo_id',
+        'placa',
+        'vencimiento_soat',
+        'vencimiento_rtm',
+        'observaciones'
     ];
 
     public function tipo() {

@@ -12,7 +12,13 @@ class OtrosPagos extends Model implements Auditable
     protected $table = 'otros_pagos';
 
     protected $fillable = [
-    	'factura_id', 'fecha_factura',  'concepto', 'valor_unitario', 'cantidad', 'subtotal','cartera_id'
+    	'factura_id',
+        'fecha_factura',
+        'concepto',
+        'valor_unitario',
+        'cantidad',
+        'subtotal',
+        'cartera_id'
     ];
 
     public function factura(){

@@ -20,7 +20,15 @@ class User extends Authenticatable  implements Auditable, UserResolver
      * @var array
      */
     protected $fillable = [
-        'name', 'estado' , 'rol' , 'email', 'password','punto_id', 'banco_id', 'num_cuenta', 'rol_id'
+        'name',
+        'estado' ,
+        'rol' ,
+        'email',
+        'password',
+        'punto_id',
+        'banco_id',
+        'num_cuenta',
+        'rol_id'
     ];
 
     public function role() {
