@@ -140,7 +140,7 @@
 
                     <div v-bind:class="['form-group','col-md-6',errors.first(rules.email.name) ? 'has-error' :'']">
                         <label>Correo electrónico*</label>
-                        <input type="text" 
+                        <input type="email" 
                             class="form-control"
                             v-model="ubicacion.email"
                             name="correo electronico"
