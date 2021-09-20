@@ -19,6 +19,12 @@
             opacity:0.15;
             padding:270px 80px;
         }
+        .marca-de-agua-header {
+            position:fixed;
+            z-index:100;
+            opacity:5;
+            text-align:right;
+        }
         .firma {
             position:absolute;
             z-index:100;
@@ -48,12 +54,6 @@
             line-height:0.3em;
             font-size:10;
             text-align:center;
-        }
-        .marca-de-agua-header {
-            position:fixed;
-            z-index:100;
-            opacity:5;
-            text-align:right;
         }
     
     </style>
@@ -108,7 +108,7 @@
                 Por lo anterior doy fe y testimonio.
             </p>
     
-            <p style="font-size:12; margin-top:50px">
+            <p style="font-size:12; margin-top:30px">
                 Atentamente,
             </p>
             
