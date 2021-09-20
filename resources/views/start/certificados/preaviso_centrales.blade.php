@@ -108,7 +108,7 @@
                 Por lo anterior doy fe y testimonio.
             </p>
     
-            <p style="font-size:12; margin-top:50px">
+            <p style="font-size:12; margin-top:30px">
                 Atentamente,
             </p>
             
