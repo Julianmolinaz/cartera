@@ -56,6 +56,7 @@
                     title="Gestionar acuerdos de pago">
                     Acuerdos
                 </a>
+				
 
 				<a href="{{route('call.index_unique',$precredito->credito->id)}}"
 					class='btn btn-default btn-xs'
@@ -63,15 +64,19 @@
 					data-placement="top" 
 					title="Llamar">
 					<span class = "glyphicon glyphicon-phone-alt"></span>
-				</a>
+				</a>				
+
 				<a href="javascript:void(0);"
-					onclick="getPazYsalvo()"
+					onclick="showModalCertificados()"
 					class='btn btn-default btn-xs'  
 					data-toggle="tooltip" 
 					data-placement="top" 
-					title="Paz y Salvo">
+					title="Certificados">
 					<span class = "glyphicon glyphicon-file">
 				</a>
+
+				@include('start.precreditos.certificados.modal-certificados')
+
 				<a href="{{route('admin.get_estado_cuenta',$precredito->credito->id)}}"
 					class='btn btn-default btn-xs'
 					data-toggle="tooltip" 
