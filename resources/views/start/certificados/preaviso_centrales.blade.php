@@ -83,7 +83,7 @@
                 <P style="font-size:12">Ciudad: <b>{{$data->departamento}} - {{$data->municipio}}</b></P>
             </section> 
     
-            <h3 align="center" style="margin-top:50px;"><b>Asunto:  PREAVISO CENTRALES DE RIESGO</b></h3>
+            <h3 style="margin-top:50px;"><b>Asunto:  PREAVISO CENTRALES DE RIESGO</b></h3>
     
             <p align="justify" style="font-size:12; margin-top:50px;">
                 Le comunico que su crédito presenta <b>{{$data->sanciones}} </b> 
