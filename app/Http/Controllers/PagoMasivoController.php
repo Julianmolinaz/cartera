@@ -238,7 +238,6 @@ class PagoMasivoController extends Controller
      * VALIDACION DE INTEGRIDAD DE DATOS
      */
 
-
     public function validation()
     {
 
@@ -325,10 +324,10 @@ class PagoMasivoController extends Controller
             for ($this->index = 0; $this->index < count($this->data); $this->index ++) {
                 
                 $exist_masivo = DB::table('masivos')
-                ->join('loads','masivos.load_id','=','loads.id')
-                ->select('masivos.*','loads.filename')
-                ->where('referencia',$this->data[$this->index]['referencia'])
-                ->first();
+                    ->join('loads','masivos.load_id','=','loads.id')
+                    ->select('masivos.*','loads.filename')
+                    ->where('referencia',$this->data[$this->index]['referencia'])
+                    ->first();
                 
                 // **********************************************************************
                 // if exist masivo reference 

@@ -14,6 +14,6 @@ class ReciboCajaRepository
 
     public function getCreditos($ini, $end)
     {
-        return _\Credito::where('created_at', '>=', $ini)   
+        return _\Credito::where('created_at', '>=', $ini);
     }
 }

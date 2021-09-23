@@ -73,6 +73,10 @@ use DB;
 
 		$total_caja = $total_pagos + $total_solicitudes + $total_otros_pagos; // total caja
 
+		$descuentos = descuentosHp($date, $user_id);  // descuento a creditos
+
+		$total_descuentos = totalDescuentosHp($descuentos); // total descuento a creditos
+
 		return [
 			'calls' 		  	=> $calls,
 			'num_calls' 	  	=> $num_calls,
@@ -92,10 +96,38 @@ use DB;
 			'egresos'			=> $egresos,
 			'total_egresos'     => $total_egresos,
 			'otros_pagos'	    => $otros_pagos,
-			'total_otros_pagos'	=> $total_otros_pagos
+			'total_otros_pagos'	=> $total_otros_pagos,
+			'descuentos'		=> $descuentos,
+			'total_descuentos'	=> $total_descuentos
 
 		];
 	}
+
+	function totalDescuentosHp($descuentos)
+    {
+    	$collection = collect($descuentos);
+
+    	return $collection->reduce(function($carry, $item) {
+			
+    		return $carry + $item->subtotal;
+    	});
+    }
+
+	function descuentosHp($date, $user_id)
+    {
+		return DB::table('facturas')
+			->join('pagos','facturas.id','=','pagos.factura_id')
+			->select('facturas.num_fact as num_fact',
+		             'pagos.concepto as concepto',
+		             'pagos.abono as subtotal',
+								 'facturas.total as total',
+								 'facturas.banco as banco',
+		             'facturas.credito_id as credito')
+			->where('facturas.descuento', true)
+			->where('facturas.created_at','like',$date.'%')
+			->where('facturas.user_create_id',$user_id)
+			->get();
+    }
 
 	function otrosPagosHp($date, $user_id)
 	{
@@ -211,10 +243,14 @@ use DB;
     	$collection = collect($pagos);
 
     	return $collection->reduce(function($carry, $item) {
+			
     		return $carry + $item->subtotal;
     	});
     }
 
+	/**
+	 * **PAGOS**
+	 */
 
     function pagosHp($date, $user_id)
     {
@@ -226,6 +262,7 @@ use DB;
 								 'facturas.total as total',
 								 'facturas.banco as banco',
 		             'facturas.credito_id as credito')
+			->where('facturas.descuento', 0)
 			->where('facturas.created_at','like',$date.'%')
 			->where('facturas.user_create_id',$user_id)
 			->get();

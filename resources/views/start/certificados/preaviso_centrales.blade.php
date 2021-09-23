@@ -19,6 +19,15 @@
             opacity:0.15;
             padding:270px 80px;
         }
+<<<<<<< HEAD
+=======
+        .marca-de-agua-header {
+            position:fixed;
+            z-index:100;
+            opacity:5;
+            text-align:right;
+        }
+>>>>>>> ec52549ddce3def4cc7bdfd5ecd8edbba04231f9
         .firma {
             position:absolute;
             z-index:100;
@@ -49,12 +58,15 @@
             font-size:10;
             text-align:center;
         }
+<<<<<<< HEAD
         .marca-de-agua-header {
             position:fixed;
             z-index:100;
             opacity:5;
             text-align:right;
         }
+=======
+>>>>>>> ec52549ddce3def4cc7bdfd5ecd8edbba04231f9
     
     </style>
 </head>
@@ -137,4 +149,8 @@
 </body> 
 
 
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> ec52549ddce3def4cc7bdfd5ecd8edbba04231f9

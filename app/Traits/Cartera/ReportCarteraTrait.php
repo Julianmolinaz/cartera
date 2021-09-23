@@ -20,16 +20,16 @@ trait ReportCarteraTrait{
 
         for ($i=0; $i < count($this->report); $i++) { 
 
-            $this->struct['carteraTotal$'] += $this->report[$i]['carteraTotal$'];
+            $this->struct['carteraTotal$']  += $this->report[$i]['carteraTotal$'];
             $this->struct['carteraTotalNo'] += $this->report[$i]['carteraTotalNo'];
 
-            foreach($array_status as $status) {
-                $this->struct[$status]['cartera$'] += $this->report[$i][$status]['cartera$'];
+            foreach ($array_status as $status) {
+                $this->struct[$status]['cartera$']  += $this->report[$i][$status]['cartera$'];
                 $this->struct[$status]['carteraNo'] += $this->report[$i][$status]['carteraNo'];
             }
 
-            foreach($array_status as $status) {
-                $this->struct[$status]['cartera$'] = round($this->struct[$status]['cartera$'],0);
+            foreach ($array_status as $status) {
+                $this->struct[$status]['cartera$']  = round($this->struct[$status]['cartera$'],0);
                 $this->struct[$status]['carteraNo'] = round($this->struct[$status]['carteraNo'],0);
             }
 

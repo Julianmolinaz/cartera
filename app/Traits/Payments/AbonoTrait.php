@@ -39,6 +39,7 @@ trait AbonoTrait
         $contador          = 0;
         $sin_mover_fecha   = []; //array donde se almacena Cuota Parcial sin movimiento de fecha (pago_hasta)
         $date_ini          = $credito->fecha_pago->fecha_pago; //fecha de referencia inicial para cuota parcial sin cambio de fecha
+        
 
         /**
          * JURIDICO
@@ -102,7 +103,7 @@ trait AbonoTrait
 
                 if ( $prejuridico ) {   
 
-                    if ($monto > $prejuridico->debe){ 
+                    if ($monto > $prejuridico->debe) { 
                         $abono = $prejuridico->debe;
                         $monto = $monto - $abono; 
                     } else {
@@ -143,7 +144,7 @@ trait AbonoTrait
             if($hay_sanciones){
 
                 foreach ($sanciones as $sancion) {
-                    if($monto >= $dia_sancion){
+                    if ($monto >= $dia_sancion) {
                         $monto_por_sancion = $monto_por_sancion + $dia_sancion;
                         $monto = $monto - $sancion->valor;
                         $contador++;
@@ -199,7 +200,6 @@ trait AbonoTrait
                            
             }  
         }
-
 
         /**
          * CUOTA 

@@ -11,17 +11,19 @@ trait DatatableCreditoTrait
                 ->join('creditos','precreditos.id','=','creditos.precredito_id')
                 ->join('clientes','precreditos.cliente_id','=','clientes.id')
                 ->join('carteras','precreditos.cartera_id','=','carteras.id')
-                ->select([
-                    'creditos.id',
-                    'carteras.nombre as cartera',
-                    'clientes.nombre',
-                    'precreditos.vlr_fin as cc',
-                    'clientes.num_doc',
-                    'creditos.estado',
-                    'creditos.sanciones_debe as sanciones',
-                    'precreditos.id as precredito_id',
-                    'clientes.id as cliente_id'
-                    ]);
+                ->select(
+                    [
+                        'creditos.id',
+                        'carteras.nombre as cartera',
+                        'clientes.nombre',
+                        'precreditos.vlr_fin as cc',
+                        'clientes.num_doc',
+                        'creditos.estado',
+                        'creditos.sanciones_debe as sanciones',
+                        'precreditos.id as precredito_id',
+                        'clientes.id as cliente_id'
+                    ]
+                );
     
             return $this->getDataTableData($creditos);
             
@@ -37,9 +39,11 @@ trait DatatableCreditoTrait
           ->join('precreditos','creditos.precredito_id','=','precreditos.id')
           ->join('clientes','precreditos.cliente_id','=','clientes.id')
           ->join('carteras','precreditos.cartera_id','=','carteras.id')
-          ->select('creditos.id','carteras.nombre as cartera','clientes.nombre','precreditos.vlr_fin as cc',
-                    'clientes.num_doc','creditos.estado','creditos.sanciones_debe as sanciones',
-                    'precreditos.id as precredito_id','clientes.id as cliente_id')
+          ->select(
+                'creditos.id','carteras.nombre as cartera','clientes.nombre','precreditos.vlr_fin as cc',
+                'clientes.num_doc','creditos.estado','creditos.sanciones_debe as sanciones',
+                'precreditos.id as precredito_id','clientes.id as cliente_id'
+            )
           ->where('precreditos.user_create_id',\Auth::user()->id);        
     }   
 
@@ -48,7 +52,6 @@ trait DatatableCreditoTrait
         return \Datatables::of($creditos)
             
             ->addColumn('btn', function($creditos) {
-
                 $route_ver = route('start.precreditos.ver',$creditos->precredito_id);
                 $route_cliente = route('start.clientes.show',$creditos->cliente_id);
                 $route_pagar = route('start.facturas.create',$creditos->id);
@@ -85,6 +88,5 @@ trait DatatableCreditoTrait
 
             })
             ->make(true);
-
     }
 }

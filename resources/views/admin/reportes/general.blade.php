@@ -19,7 +19,7 @@
               <th>  Cliente       </th>
               <th>  Documento     </th>
               <th>  Tipo de Pago  </th>
-              <th>  Banco        </th>
+              <th>  Banco         </th>
               <th>  Cuotas        </th>
               <th>  Sanciones     </th>
               <th>  Juridico      </th>
@@ -68,8 +68,8 @@
               <td> {{ $sancion->tipo_pago   }} </td>   
               <td> {{ $sancion->banco       }} </td>            
               <td></td>
-              <td align="right"> {{ number_format($sancion->sanciones,0,",",".")  }} </td>
               <td></td>
+              <td align="right"> {{ number_format($sancion->sanciones,0,",",".")  }} </td>
               <td></td>
               <td></td>   
               <td></td>
@@ -89,9 +89,9 @@
               <td> {{ $juridico->cliente   }} </td>
               <td> {{ $juridico->documento }} </td>
               <td> {{ $juridico->tipo_pago }} </td>    
-              <td> {{ $juridico->banco     }} </td>            
-              <td> </td>
-              <td>  </td>
+              <td> {{ $juridico->banco     }} </td>   
+              <td></td>
+              <td></td>
               <td> {{ number_format($juridico->juridico,0,",",".")  }} </td>
               <td></td>
               <td></td>   
@@ -112,7 +112,7 @@
               <td> {{ $prejuridico->cliente   }} </td>
               <td> {{ $prejuridico->documento }} </td>
               <td> {{ $prejuridico->tipo_pago }} </td>  
-              <td> {{ $prejuridico->banco     }} </td>            
+              <td> {{ $prejuridico->banco     }} </td>     
               <td></td>
               <td></td>
               <td></td>
@@ -135,7 +135,7 @@
               <td> {{ $saldo->cliente   }} </td>
               <td> {{ $saldo->documento }} </td>
               <td> {{ $saldo->tipo_pago }} </td>   
-              <td> {{ $saldo->banco     }} </td>            
+              <td> {{ $saldo->banco     }} </td>  
               <td></td>
               <td></td>
               <td></td>

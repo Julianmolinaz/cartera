@@ -365,6 +365,10 @@ class ReporteController extends Controller
                 ->with('rango',$reporte['rango'])
                 ->with('users',$reporte['users']);
         }
+
+        //GENERAL_POR_FUNCIONARIO_GENERAL_POR_FUNCIONARIO_GENERAL_POR_FUNCIONARIO_GENERAL_POR_FUNCIONARIO_
+        //GENERAL_POR_FUNCIONARIO_GENERAL_POR_FUNCIONARIO_GENERAL_POR_FUNCIONARIO_GENERAL_POR_FUNCIONARIO_
+
         else if($request->input('tipo_reporte') == 'general_por_users'){
 
             $respuesta = reporte_general_por_funcionarios( $fecha_1, $fecha_2);

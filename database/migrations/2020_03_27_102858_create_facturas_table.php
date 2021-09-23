@@ -20,7 +20,8 @@ class CreateFacturasTable extends Migration {
 			$table->string('fecha');
 			$table->string('ref')->nullable()->comment('Numero de facturacion aceptado por la DIAN');
 			$table->float('total', 10, 0);
-			$table->enum('tipo', array('Efectivo','Consignacion'));
+			$table->enum('tipo', array('Efectivo','Consignacion','Ninguno'));
+			$table->boolean('descuento')->default(false)->nullable()->comment('Realiza descuento al crédito');
 			$table->enum('banco', array('Baloto','Banco Agrario','Banco AV Villas','Banco Caja Social','Banco de Occidente','Banco Popular','Bancóldex','Bancolombia','BBVA','Banco de Bogotá','Citi','Colpatria','Davivienda','Gana Gana','GNB Sudameris','Apostar'))->nullable();
 			$table->string('num_consignacion', 100)->nullable()->comment('Numero de factura de consignación');
 			$table->date('fecha_proximo_pago')->nullable();

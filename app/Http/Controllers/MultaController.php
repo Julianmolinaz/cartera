@@ -107,7 +107,9 @@ class MultaController extends Controller
         
         $multa = Extra::find($id);
         
-        $pago  = Pago::where('credito_id',$multa->credito_id)->where('estado','Debe')->get();
+        $pago  = Pago::where('credito_id',$multa->credito_id)
+            ->where('estado','Debe')
+            ->get();
 
         if($multa->estado == 'Ok' || $multa->estado == 'Finalizado'){
             $pago  = array('debe' => null,'id' => null);

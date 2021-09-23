@@ -92,8 +92,6 @@ class AnuladaController extends Controller
                 $anulada->user_anula        = Auth::user()->id;
                 $anulada->user_create_id    = $factura->user_create_id;
 
-                // dd(strtolower($factura->pagos[2]->concepto) == 'saldo a favor');
-
                 //loop que itera sobre los pagos de una factura
 
                 foreach ($factura->pagos as $pago) {

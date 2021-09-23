@@ -58,7 +58,7 @@ use DB;
      
         $ids    = 
         DB::table('creditos')
-            /*->where('creditos.id','=',1136)*/
+            /*->where('creditos.id','=',25001)*/
             ->whereIn('creditos.estado', ['Al dia', 'Mora', 'Prejuridico','Juridico', 'Cancelado'])
             ->where([['creditos.end_datacredito','<>',1]]) //no marcados como finalizado
             ->whereNotIn('id',no_admitidos())
@@ -91,7 +91,7 @@ use DB;
                 $bandera = 1; }
 
             //se descartan los créditos nuevos que no han hecho su primer pago    
-            if( $credito->estado == 'Al dia' && count($credito->pagos) == 0 ){ 
+            if( $credito->estado == 'Al dia' && count($credito->pagosSinDescuento()) == 0 ){ 
                 $bandera = 1; }
 
             //si los créditos marcados son bandera 0 se seleccionan
@@ -336,10 +336,10 @@ function fecha_limite_pago($credito, $corte)
 
         if($credito->estado == 'Al dia' || $credito->estado == 'Cancelado'){
     
-            if(count($credito->pagos) > 0){
-                if(fecha_Ymd($credito->pagos->last()->pago_desde, $credito->id)){
+            if(count($credito->pagosSinDescuento()) > 0){
+                if(fecha_Ymd($credito->pagosSinDescuento()->last()->pago_desde, $credito->id)){
     
-                    return fecha_Ymd($credito->pagos->last()->pago_desde, $credito->id);
+                    return fecha_Ymd($credito->pagosSinDescuento()->last()->pago_desde, $credito->id);
                 }
                 else{
                     return fecha_Ymd($credito->fecha_pago->fecha_pago, $credito->id);
@@ -763,7 +763,7 @@ function adjetivo($credito){
 |--------------------------------------------------------------------------
 |
 | recibe un objeto credito y la fecha de corte
-| retorna el saldo del vlr_credito (saldo del capital sin intereses)
+| retorna el saldo del vlr_credito (saldo del capital)
 |
 */
 

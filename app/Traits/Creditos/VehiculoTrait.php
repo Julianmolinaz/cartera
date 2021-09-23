@@ -37,12 +37,7 @@ trait VehiculoTrait
 
     public function editVehiculoFromProductoTr($producto) 
     {
-        \Log::info('editVehiculoFromProductoTr');
-        \Log::info($producto);
-
-
         try {
-
             $vehiculo = _\Vehiculo::find($producto['_vehiculo_id']);
             $vehiculo->placa = $producto['_placa'];
             $vehiculo->tipo_vehiculo_id = $producto['_tipo_vehiculo_id'];

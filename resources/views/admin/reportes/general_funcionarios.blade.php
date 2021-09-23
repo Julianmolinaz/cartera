@@ -17,7 +17,7 @@
             <tr style="background-color:#FFC300;">
               <th>  # Fila                </th>
               <th>  Funcionario           </th>
-              <th>  Número de Factuara    </th>
+              <th>  Factuara              </th>
               <th>  Concepto del Ingreso  </th>
               <th>  Valor del Ingreso     </th>
               <th>  Tipo de pago          </th>

@@ -29,7 +29,8 @@ trait FacturaTrait
 		$now     = Carbon::now();
 		$saldo   = $factura->credito->saldo;
 		$prox    = ''; //html con el saldo
-		$variable = Variable::all()[0];	
+		$variable = Variable::all()[0];
+		$concepto_general = $factura->descuento ? 'DESCUENTOS ' : 'PAGOS ';	
 
 		if($saldo > 0){
 			$prox = '<p id="prox_fech_pago">Próxima fecha de pago: '. $factura->credito->fecha_pago->fecha_pago .'</p>';
@@ -110,8 +111,8 @@ trait FacturaTrait
 					<br>
 					<div id="factura" class="contenido">
 						<h4>Recibo # '. $factura->num_fact .'<br>
-						Crédito: '. $factura->credito->id .'</h4><br>
-						PAGOS:<br>'.
+						Crédito: '. $factura->credito->id .'</h4><br>'
+						.$concepto_general .': <br>'.
 						$str_pagos.
 						'<br>
 						<div>

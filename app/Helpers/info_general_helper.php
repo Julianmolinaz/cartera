@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Pago;
-use App\Credito;
-use App\Variable;
-use App\Egreso;
-use App\Cartera;
-use DB;
 
 use Carbon\Carbon;
-use App\Factura;
 use App\OtrosPagos;
-use Auth;
+use App\Variable;
 use App\Llamada;
+use App\Credito;
+use App\Cartera;
+use App\Factura;
+use App\Egreso;
+use App\Pago;
 use App\User;
+use Auth;
+use DB;
 
 function reporte_general( $fecha_1, $fecha_2 ){
   
@@ -37,7 +37,9 @@ function reporte_general( $fecha_1, $fecha_2 ){
 
   /*Ingresos Reporte Diario*/
 
-  $cuotas = 
+// **FACTURAS**
+
+$cuotas = 
   DB::table('pagos')
       ->join('facturas','pagos.factura_id',           '=','facturas.id')
       ->join('creditos','facturas.credito_id',        '=','creditos.id')
@@ -45,6 +47,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('carteras','precreditos.cartera_id',     '=','carteras.id')
       ->join('clientes','precreditos.cliente_id',     '=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where(function($query){
           $query->where('pagos.concepto','=','Cuota');
           $query->orWhere('pagos.concepto','=','Cuota Parcial');
@@ -67,7 +70,9 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->groupBy('facturas.id')
       ->get();
 
-  $sanciones = 
+// **FACTURAS**
+
+$sanciones = 
    DB::table('pagos')
       ->join('facturas','pagos.factura_id','=','facturas.id')
       ->join('creditos','facturas.credito_id','=','creditos.id')
@@ -75,6 +80,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where('pagos.concepto','=','Mora')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -93,6 +99,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->groupBy('facturas.id')
       ->get();
 
+    // **FACTURAS**
 
   $juridicos =        
   DB::table('pagos')
@@ -102,6 +109,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where('pagos.concepto','=','Juridico')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -120,6 +128,8 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->groupBy('facturas.id')
       ->get();    
 
+  // **FACTURAS**
+
   $prejuridicos =        
   DB::table('pagos')
       ->join('facturas','pagos.factura_id','=','facturas.id')
@@ -128,6 +138,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where('pagos.concepto','=','Prejuridico')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -146,6 +157,8 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->groupBy('facturas.id')
       ->get();    
 
+  // **FACTURAS**
+
   $saldos_favor =        
   DB::table('pagos')
       ->join('facturas','pagos.factura_id','=','facturas.id')
@@ -154,6 +167,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
       ->join('carteras','precreditos.cartera_id','=','carteras.id')
       ->join('clientes','precreditos.cliente_id','=','clientes.id')
       ->join('users','facturas.user_create_id',       '=','users.id')
+      ->where('facturas.descuento',false)
       ->where('pagos.concepto','=','Saldo a Favor')
       ->whereBetween('facturas.created_at',[$ini,$fin])
       ->select(DB::raw('
@@ -219,12 +233,14 @@ function reporte_general( $fecha_1, $fecha_2 ){
             '))
         ->get();
 
+  // **FACTURAS**
 
   $otros_pagos = 
     DB::table('otros_pagos')
         ->join('facturas','otros_pagos.factura_id','=','facturas.id')
         ->join('carteras','otros_pagos.cartera_id','=','carteras.id')
         ->join('users','facturas.user_create_id',       '=','users.id')
+        ->where('facturas.descuento',false)
         ->whereBetween('facturas.created_at',[$ini,$fin])
         ->select(DB::raw('
             facturas.num_fact as factura, 
@@ -238,7 +254,7 @@ function reporte_general( $fecha_1, $fecha_2 ){
             '))
         ->get();
 
-  //dd($otros_pagos);
+
 /* Egresos Reporte Diario */
 
   $gastos = Egreso::where('concepto','Gastos')->whereBetween('created_at',[$ini,$fin])->get();
