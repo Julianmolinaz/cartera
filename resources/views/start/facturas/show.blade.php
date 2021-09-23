@@ -9,7 +9,7 @@
     <div class="col-md-10 col-sm-10 col-xs-12">
 
         <div class="panel panel-default">
-            <div class="panel-heading">Factura</div>
+            <div class="panel-heading" >{{ $factura->descuento == true ? 'Comprobante Descuento' : 'Recibo de Pago'}}</div>
             @include('flash::message')
 
             <div class="panel-body">
@@ -33,7 +33,7 @@
                 </thead>
 
                 <tbody>
-                    <tr>
+                    <tr class="{{ $factura->descuento ? 'danger' : '' }}">
                         <td> {{ $factura->id }}    </td>
                         <td> {{ ($factura->credito) ? $factura->credito->precredito->cliente->nombre : ''}} </td>
                         <td> {{ ($factura->credito) ? $factura->credito_id : ''}} </td>
@@ -96,7 +96,7 @@
   <div class="col-md-10 col-sm-10 col-xs-12">
 
     <div class="panel panel-default">
-      <div class="panel-heading">Pagos</div>
+      <div class="panel-heading">Conceptos</div>
       @include('flash::message')
 
 
@@ -121,7 +121,7 @@
               <tbody>
 
               @foreach( $factura->pagos as $pago)
-              <tr>
+              <tr class="{{ $pago->factura->descuento ? 'danger' : '' }}">
                 <td> {{ $pago->id}}</td>
                 <td> {{ $factura->credito_id}} </td>
                 <td> {{ $pago->concepto }}     </td>

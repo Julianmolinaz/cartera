@@ -32,7 +32,7 @@ function reporte_procredito()
         $no_admitidos = no_admitidos(); // listado de creditos que generan error
 
         $ids = DB::table('creditos')
-                //->where('creditos.id',1271)
+                // ->where('creditos.id',25001)
                 ->whereIn('estado', ['Al dia', 'Mora', 'Prejuridico','Juridico','Cancelado'])
                 ->where('end_procredito','<>',1)
                 ->whereNotIn('id',$no_admitidos)
@@ -292,8 +292,6 @@ function reporte_procredito()
         
         }//.foreach
 
-        //dd($reporte_array);
-
         return $reporte_array;
 
     }//.try
@@ -315,9 +313,13 @@ function reporte_procredito()
     function cuotas_pactadas($credito){
         $cts = $credito->precredito->cuotas;
         $cts_faltantes = $credito->cuotas_faltantes;
+
         if($cts_faltantes < $cts ){
             //si la cantidad de pagos es 0
-            if( DB::table('facturas')->where([['credito_id','=',$credito->id]])->count() == 0){
+            if( DB::table('facturas')
+                    ->where([['credito_id','=',$credito->id]])
+                    ->where('descuento',false)
+                    ->count() == 0) {
                 $credito->precredito->cuotas = $cts_faltantes;  
                 return $cts_faltantes;
             }else{
@@ -373,17 +375,19 @@ function reporte_procredito()
 
             $pagos_por_multa = 
                 DB::table('pagos')
-                    ->where([['credito_id','=',$credito->id],
-                             ['concepto','=','Prejuridico'],
-                             ['estado','=','Debe']])
-                    ->orWhere([['credito_id','=',$credito->id],
-                             ['concepto','=','Juridico'],
-                             ['estado','=','Debe']])
+                    ->join('facturas', 'pagos.factura_id', '=', 'facturas.id')
+                    ->where('facturas.descuento', false)
+                    ->where([['pagos.credito_id','=',$credito->id],
+                             ['pagos.concepto','=','Prejuridico'],
+                             ['pagos.estado','=','Debe']])
+                    ->orWhere([['pagos.credito_id','=',$credito->id],
+                             ['pagos.concepto','=','Juridico'],
+                             ['pagos.estado','=','Debe']])
                     ->get();
 
             // haya hecho pagos
             
-            if( count($pagos_por_multa) > 0){
+            if( count($pagos_por_multa) > 0) {
 
                 $total_multas = $pagos_por_multa[0]->debe;
                 
@@ -404,7 +408,7 @@ function reporte_procredito()
 
         // si no hay pagos parciales se iguala a 0        
 
-        if( !pagos_parciales($credito,$corte) ){
+        if( !pagos_parciales($credito, $corte) ){
             $total_parciales = 0;
         }
         else{
@@ -538,11 +542,13 @@ function reporte_procredito()
     function pagos_parciales( $credito,$corte ){
         $total_parciales = 
             DB::table('pagos')
-                ->where([['credito_id','=',$credito->id],
-                         ['concepto','=','Cuota Parcial'],
-                         ['estado','=','Debe'],
-                         ['created_at','<=',$corte]])
-                ->sum('Debe');
+                ->join('facturas', 'pagos.factura_id', '=', 'facturas.id')
+                ->where('facturas.descuento', false)
+                ->where([['pagos.credito_id','=',$credito->id],
+                         ['pagos.concepto','=','Cuota Parcial'],
+                         ['pagos.estado','=','Debe'],
+                         ['pagos.created_at','<=',$corte]])
+                ->sum('pagos.abono');
 
         // si no hay pagos parciales se iguala a 0        
 
@@ -583,9 +589,8 @@ function reporte_procredito()
 
 
 
-    function tipo_documento($documento){
+    function tipo_documento($documento) {
         switch ($documento) {
-
             case 'Cedula Ciudadanía':                       $tipo = '1'; break;
             case 'Nit':                                     $tipo = '2'; break;
             case 'Cedula de Extranjería':                   $tipo = '3'; break;
@@ -610,18 +615,19 @@ function reporte_procredito()
 
         if( $credito->estado == 'Cancelado' ||  $credito->saldo == 0){
       
-            $pago_por_multas  = 
-            DB::table('pagos')
-                ->where('credito_id', '=', $credito->id)
+            $pago_por_multas  = DB::table('pagos')
+                ->join('facturas', 'pagos.factura_id', '=', 'facturas.id')
+                ->where('facturas.descuento', false)
+                ->where('pagos.credito_id', '=', $credito->id)
                 ->where(function ($query) {
-                    $query->where('concepto', '=', 'Prejuridico')
-                          ->orWhere('concepto', '=', 'Juridico');
+                    $query->where('pagos.concepto', '=', 'Prejuridico')
+                        ->orWhere('pagos.concepto', '=', 'Juridico');
                 })
                 ->get();
 
-            if( count($pago_por_multas) > 0){
+            if ( count($pago_por_multas) > 0) {
                 return 1;
-            }else{
+            } else {
                 return '';
             }   
             $credito->estado = 'Finalizado en Procredito';
@@ -636,10 +642,12 @@ function reporte_procredito()
 
     function ultima_factura($credito){
 
-        $factura = DB::table('facturas')
-                    ->where([['credito_id','=',$credito->id]])
-                    ->orderBy('id','desc')
-                    ->first();
+        $factura = 
+            DB::table('facturas')
+                ->where('descuento',false)
+                ->where([['credito_id','=',$credito->id]])
+                ->orderBy('id','desc')
+                ->first();
 
         return $factura;
 
@@ -651,14 +659,14 @@ function reporte_procredito()
 
         $ultima  = ultima_factura($credito);
 
-        if($ultima){
+        if ($ultima) {
             $factura = DB::table('facturas')
-                        ->where([['credito_id','=',$credito->id],['id','<>',$ultima->id]])
-                        ->orderBy('id','desc')
-                        ->first();
+                ->where('descuento',false) 
+                ->where([['credito_id','=',$credito->id],['id','<>',$ultima->id]])
+                ->orderBy('id','desc')
+                ->first();
             return $factura;
-        }
-        else{
+        } else {
             return null;
         }
     }
@@ -668,21 +676,22 @@ function reporte_procredito()
     function fecha_vencimiento($credito){
         $vencimiento   = penultima_factura($credito);
 
-        if($vencimiento != null){
+        if ($vencimiento != null) {
             $f = $vencimiento->fecha_proximo_pago;
             $fecha = formatoFecha(dia($f),mes($f),ano($f)); // dd/mm/yyyy
             $fecha = fecha_plana($fecha);
 
             return $fecha;
-
         }
         else{
-            $vencimiento = calcularFecha($credito->precredito->fecha, 
-                                         $credito->precredito->periodo, 
-                                         1, 
-                                         $credito->precredito->p_fecha, 
-                                         $credito->precredito->s_fecha, 
-                                         'true');
+            $vencimiento = calcularFecha(
+                $credito->precredito->fecha, 
+                $credito->precredito->periodo, 
+                1, 
+                $credito->precredito->p_fecha, 
+                $credito->precredito->s_fecha, 
+                'true'
+            );
             return fecha_plana($vencimiento['fecha_ini']);
         }
     }

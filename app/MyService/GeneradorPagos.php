@@ -22,12 +22,10 @@ class GeneradorPagos
     public function __construct($monto, $credito_id)
     {
         $this->monto = $monto;
-        $this->credito = _\Credito::find($credito_id);       
-        
-        // dd($this->credito);
+        $this->credito = _\Credito::find($credito_id);
     }
 
-        // RETORNA CADA TIPO DE PAGO
+    // RETORNA CADA TIPO DE PAGO
     public function make() 
     {
             // PAGO A JURIDICO
@@ -51,7 +49,7 @@ class GeneradorPagos
         dd($this->contenedor,$this->monto);
     }
 
-        // PAGO A JURIDICO
+    // PAGO A JURIDICO
     public function pagoJuridico()
     {
         $sancion_juridico = DB::table('extras')
@@ -60,7 +58,7 @@ class GeneradorPagos
             ->where('estado','Debe')
             ->get();
 
-        if(count($sancion_juridico) > 0){
+        if (count($sancion_juridico) > 0) {
         
             $juridico = DB::table('pagos')
                 ->where('credito_id',$this->credito->id)
@@ -68,8 +66,7 @@ class GeneradorPagos
                 ->where('estado','Debe')
                 ->get();;
 
-            if(count($juridico) > 0 ){ 
-
+            if (count($juridico) > 0 ) { 
                 if ($this->monto > $juridico[0]->debe) { 
 
                     $abono = $juridico[0]->debe;
@@ -81,7 +78,6 @@ class GeneradorPagos
                 }
 
             }  else {
-
                 if ($this->monto > $sancion_juridico[0]->valor) {
                 
                     $this->abono = $sancion_juridico[0]->valor;
@@ -108,7 +104,7 @@ class GeneradorPagos
 
     }
 
-        // PAGO A PREJURIDICO
+    // PAGO A PREJURIDICO
     public function pagoPrejuridico()
     {
         $sancion_prejuridico = DB::table('extras')
@@ -117,28 +113,30 @@ class GeneradorPagos
             ->where('estado','Debe')
             ->get();
 
-        if(count($sancion_prejuridico) > 0){
+        if (count($sancion_prejuridico) > 0) {
             $prejuridico = DB::table('pagos')
                 ->where('credito_id',$this->credito->id)
                 ->where('concepto','Prejuridico')
                 ->where('estado','Debe')
                 ->get();
 
-            if(count($prejuridico) > 0 ){                               
-            if($this->monto > $prejuridico[0]->debe){ 
-                $abono = $prejuridico[0]->debe;
-                $this->monto -= $abono; }
-            else{
-                $abono = $this->monto;
-                $this->monto = 0; }
+            if (count($prejuridico) > 0 ) {                               
+                if ($this->monto > $prejuridico[0]->debe) { 
+                    $abono = $prejuridico[0]->debe;
+                    $this->monto -= $abono; 
+                } else {
+                    $abono = $this->monto;
+                    $this->monto = 0; 
+                }
             }  
             else{
-            if($this->monto > $sancion_prejuridico[0]->valor){
-                $abono = $sancion_prejuridico[0]->valor;
-                $this->monto -= $abono; }
-            else{
-                $abono = $this->monto;
-                $this->monto = 0; }           
+                if ($this->monto > $sancion_prejuridico[0]->valor) {
+                    $abono = $sancion_prejuridico[0]->valor;
+                    $this->monto -= $abono; 
+                } else {
+                    $abono = $this->monto;
+                    $this->monto = 0; 
+                }  
             }
             
             $temp = [ 
@@ -154,7 +152,7 @@ class GeneradorPagos
         }
     }
 
-        // PAGO A SANCIONES
+    // PAGO A SANCIONES
     public function pagoSanciones()
     {
         $dia_sancion = _\Variable::find(1)->vlr_dia_sancion;
@@ -172,7 +170,7 @@ class GeneradorPagos
         if ($hay_sanciones) {
 
             foreach ($sanciones as $sancion) {
-                if ($this->monto >= $dia_sancion){
+                if ($this->monto >= $dia_sancion) {
                     $monto_por_sancion += $dia_sancion;
                     $this->monto -= $sancion->valor;
                     $contador++;
@@ -192,7 +190,7 @@ class GeneradorPagos
         }
     }
 
-        // PAGO CUOTA PARCIAL 2da VEZ
+    // PAGO CUOTA PARCIAL 2da VEZ
 
     public function pagoCuotaParcial2Vez()
     {
@@ -233,7 +231,7 @@ class GeneradorPagos
         }  
     }
     
-        // PAGO CUOTA   
+    // PAGO CUOTA   
     public function pagoCuota()
     {
         $cuotas = $this->monto / $this->credito->precredito->vlr_cuota;
@@ -246,18 +244,21 @@ class GeneradorPagos
         $this->cuotas_incompletas = ceil($cuotas) - $this->cuotas_completas;
         $this->date = $this->credito->fecha_pago->fecha_pago;
 
-        if($this->cuotas_completas > 0){
+        if ($this->cuotas_completas > 0) {
 
             $fecha = (object) Ctrl\calcularFecha (
                 $this->credito->fecha_pago->fecha_pago, 
                 $this->credito->precredito->periodo, 
                 $this->cuotas_completas, 
                 $this->credito->precredito->p_fecha, 
-                $this->credito->precredito->s_fecha, 
+                $this->credito->precredito->s_fecha,
                 false
             );
 
-            $monto_cuota = $this->cuotas_completas * $this->credito->precredito->vlr_cuota;
+            $monto_cuota = 
+                $this->cuotas_completas * 
+                $this->credito->precredito->vlr_cuota;
+
             $this->monto -= $monto_cuota;
 
             $temp = [ 
@@ -269,10 +270,7 @@ class GeneradorPagos
                 'marcado'   => false 
             ];
 
-            $this->contenedor[]  = $temp;
-
-            // dd($this->cuotas_incompletas);
-
+            $this->contenedor[]   = $temp;
             $this->date           = $fecha->fecha_fin; 
             $this->date_ini       = $fecha->fecha_ini;
             $this->primera_cuota  = false;
@@ -291,12 +289,16 @@ class GeneradorPagos
             false 
         );
 
-            // CALCULAR PORCENTAJE
+        // CALCULAR PORCENTAJE
         $vlr_cuota = $this->credito->precredito->vlr_cuota;
-        $vlr_monto_permitido = $vlr_cuota * intval($this->credito->precredito->cartera->porcentaje_pago_parcial) / 100; 
+        $vlr_monto_permitido = 
+            $vlr_cuota * 
+            intval($this->credito->precredito->cartera->porcentaje_pago_parcial) / 100; 
 
-        
-        if ($this->monto >= $vlr_monto_permitido || $this->credito->permitir_mover_fecha) {
+        if (
+            $this->monto >= $vlr_monto_permitido || 
+            $this->credito->permitir_mover_fecha
+            ) {
 
             $temp = [ 
                 'cant'      => $this->cuotas_incompletas,
@@ -309,7 +311,7 @@ class GeneradorPagos
 
         } else {
 
-        $temp =  [
+        $temp = [
                 'cant'      => $this->cuotas_incompletas,
                 'concepto'  => 'Cuota Parcial', 
                 'ini'       => $this->date_ini,                 
@@ -322,7 +324,7 @@ class GeneradorPagos
         $this->contenedor[] = $temp;
 
 
-        $sin_mover_fecha =  [ 
+        $sin_mover_fecha = [ 
             'cant'      => $this->cuotas_incompletas,
             'concepto'  => 'Cuota Parcial', 
             'ini'       => $this->date_ini,                 
@@ -330,8 +332,6 @@ class GeneradorPagos
             'subtotal'  => $this->monto,             
             'marcado'   => true 
         ]; 
-
-        // $this->monto = 0;  
     }
 
 }

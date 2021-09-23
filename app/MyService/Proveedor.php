@@ -45,7 +45,7 @@ class Proveedor
 
         $proveedor->debe = $debe;
         $proveedores[] = $proveedor;
-    }
+      }
 
       return $proveedores_en_debe;
 

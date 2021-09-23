@@ -30,7 +30,7 @@ class PagosCredito
     protected $num_consignacion; // Se especifíca el número de consignación si el tipo de pago es consignación
     protected $movio_fecha;     // Se marca en uno si la fecha de pago se mueve de lo contratio es 0
     protected $pago_hasta;      // Fecha de pago hasta en la que se encontraba el crédito
-
+    protected $descuento;       // true, si es un descuento a crédito
 
     public function __construct (
         $num_fact,
@@ -42,6 +42,7 @@ class PagosCredito
         $banco,
         $credito_id,
         $num_consignacion,
+        $descuento,
         $user_create_id
     )
     {
@@ -59,6 +60,7 @@ class PagosCredito
             $this->num_consignacion = $num_consignacion;
             $this->movio_fecha     = 0;
             $this->pago_hasta      = $this->credito->fecha_pago->fecha_pago;
+            $this->descuento       = $descuento;
             $this->repo = new PagoRepository();
 
         } catch (\Exception $e) {
@@ -137,7 +139,7 @@ class PagosCredito
 
         $fecha_pago = new Carbon($fecha->fecha_pago);
 
-        if ($fecha_pago->lte($now)) {
+        if ($fecha_pago->lte($now) && !$this->descuento) {
             $fecha_cercana = Ctrl\fecha_cercana (
                 $now, 
                 $this->credito->precredito->periodo, 
@@ -216,6 +218,7 @@ class PagosCredito
         $this->recibo->user_create_id     = $this->funcionario->id;
         $this->recibo->user_update_id     = $this->funcionario->id;
         $this->recibo->fecha_proximo_pago = $this->pago_hasta;
+        $this->recibo->descuento          = $this->descuento;
         $this->recibo->save();
     }
 
@@ -377,6 +380,7 @@ class PagosCredito
     | Pago por mora
     |--------------------------------------------------------------------------
     | Genera los pagos referentes a las sanciones diarias del crédito 
+    | Si existe un descuento se exoneran las sanciones, si no se ponen en Ok.    
     |
     */
 
@@ -396,11 +400,15 @@ class PagosCredito
             
             $sancion = _\Sancion::find($sanciones_debe[$i]->id);
             $sancion->pago_id = $nuevo_pago->id;
-            $sancion->estado = 'Ok';
+            $sancion->estado = $this->descuento ? 'Exonerada' : 'Ok';
             $sancion->save();
             
             $this->credito->sanciones_debe --;
-            $this->credito->sanciones_ok ++;
+
+            $this->descuento 
+                ? $this->credito->sanciones_exoneradas ++  
+                : $this->credito->sanciones_ok ++;
+            
             $this->credito->save();
         }
 
@@ -614,10 +622,12 @@ class PagosCredito
 
     protected function actualizarFecha($fecha)
     {
-        $fecha_cobro = _\FechaCobro::where('credito_id', $this->credito->id)->first();
-        
-        DB::table('fecha_cobros')
-            ->where('credito_id', $this->credito->id)
-            ->update(['fecha_pago' => $fecha]);
+        if (!$this->descuento) {
+            $fecha_cobro = _\FechaCobro::where('credito_id', $this->credito->id)->first();
+            
+            DB::table('fecha_cobros')
+                ->where('credito_id', $this->credito->id)
+                ->update(['fecha_pago' => $fecha]);
+        } 
     }
 }

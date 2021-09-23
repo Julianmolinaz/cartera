@@ -240,6 +240,7 @@ class FacturaController extends Controller
                 $request->banco,
                 $request->credito_id,
                 $request->num_cosignacion,
+                $request->descuento,
                 Auth::user()->id
             );
 
@@ -263,8 +264,9 @@ class FacturaController extends Controller
     public function show($id)
     {
       $factura = Factura::find($id);
+        
       return view('start.facturas.show')
-      ->with('factura',$factura);
+        ->with('factura',$factura);
     } 
 
     public function edit($id){}
@@ -275,15 +277,17 @@ class FacturaController extends Controller
     {
       $fecha_inicial = $request->fecha;
 
-      $periodo = calcularFecha($request->date,$request->periodo, 
-                               $request->num_cuotas, $request->p_fecha, 
-                               $request->s_fecha, 
-                               $request->primera_cuota);
+        $periodo = calcularFecha(
+            $request->date,$request->periodo, 
+            $request->num_cuotas, $request->p_fecha, 
+            $request->s_fecha, 
+            $request->primera_cuota
+        );
 
-      $fecha_ini = $periodo["fecha_ini"];
-      $fecha_fin = $periodo["fecha_fin"];
+        $fecha_ini = $periodo["fecha_ini"];
+        $fecha_fin = $periodo["fecha_fin"];
 
-      if ($request->ajax()){ return response()->json($periodo);  } 
+        if ($request->ajax()){ return response()->json($periodo);  } 
     }
 
     //Consulta si el numero de factura existe

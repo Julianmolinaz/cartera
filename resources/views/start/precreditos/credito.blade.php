@@ -201,11 +201,15 @@
 							?>
 							</select>
 					</td>
-				</tr>                
+				</tr>             
 				<tr class="danger">  
 					<th scope="row">Debe de pagos parciales</th>
 					<td> {{'$ '.number_format($parciales,0,",",".")}}</td>
 				</tr> 
+				<tr>
+					<th scope="row">Descuentos:</th>
+					<td>{{'$ '.number_format($total_descuentos,0,",",".")}}</td>
+				</tr>
 				<tr>
 					<th scope="row">Total pagos:</th>
 					<td>{{'$ '.number_format($total_pagos,0,",",".")}}</td>

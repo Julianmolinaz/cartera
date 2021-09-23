@@ -3,19 +3,20 @@
 var main = new Vue({
     el: '#main',
     data: {
-        user            : {!! json_encode($user) !!},
-        punto           : {!! json_encode($punto) !!},
-        punto_auto      : false,        //permite ver el boton generador del autoincremento
-        general : {                     //objeto que se envia al servidor para crear la factura
-            num_fact    : '',           // numero de factura
-            fecha       : '',           // fecha de la factura
-            monto       : '',           // valor a pagar
-            tipo_pago   : 'Efectivo',   // puede ser efectivo o consignacion
-            auto        : false,        // activa o desactiva el btn Consecutivo Auto 
-            pagos       : [],           //listado de pagos
-            banco       : '',           //banco por donde se hace la consignacion
-            credito_id  : {!! json_encode($credito->id) !!},
-            num_consignacion: ''
+        user                    : {!! json_encode($user) !!},
+        punto                   : {!! json_encode($punto) !!},
+        punto_auto              : false,        //permite ver el boton generador del autoincremento
+        general : {                             //objeto que se envia al servidor para crear la factura
+            num_fact            : '',           // numero de factura
+            fecha               : '',           // fecha de la factura
+            monto               : '',           // valor a pagar
+            tipo_pago           : 'Efectivo',   // puede ser efectivo o consignacion
+            auto                : false,        // activa o desactiva el btn Consecutivo Auto 
+            pagos               : [],           //listado de pagos
+            banco               : '',           //banco por donde se hace la consignacion
+            credito_id          : {!! json_encode($credito->id) !!},
+            num_consignacion    : '',
+            descuento           : false
         },
         bandera                 : 0,    // se pone en uno cuando se hace el pago
         credito                 : {!! json_encode($credito) !!}, //objeto crédito
@@ -27,6 +28,9 @@ var main = new Vue({
         message2                : '',   //alerta con mesajes o notificaciones en listado de pagos generados
     },
     methods: {
+        setDescuento() {
+            this.general.tipo_pago = this.general.descuento ? 'Ninguno' : 'Efectivo';
+        },
         set_auto: function(){           // activa o desactiva el consecutivo automatico
             this.general.auto       = !this.general.auto;
             if (this.general.auto) {    // si el consecutivo es auto resetea num_fact y fecha
@@ -36,9 +40,6 @@ var main = new Vue({
         },
         //distribuye el monto en el listado de pagos
         async agregar () {
-		
-	    console.log('agregar')
-
             if (this.general.monto === '') { 
                 alertify.alert('Atención', 'Se requiere el monto');  
                 return false; 

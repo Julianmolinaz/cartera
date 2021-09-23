@@ -18,9 +18,7 @@ class PagosSolicitudService
 
     public function make($recibo, $pagos)
     {
-
         try {
-
             $this->recibo->fill($recibo);
             $this->recibo->user_create_id = Auth::user()->id;
             $this->auto();
@@ -33,7 +31,6 @@ class PagosSolicitudService
             
         }
     }
-
 
     /**
      * Generador automatico de fecha acvtual y número de factura
@@ -55,7 +52,6 @@ class PagosSolicitudService
     public function set_pagos($pagos) 
     {
         try {
-
             foreach( $pagos as $pago ){
                 $buy = new _\PrecreditoPago();
                 $buy->concepto_id         = $pago['concepto_id'];

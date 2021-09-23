@@ -15,7 +15,7 @@
             <tr>
               <th>    #         </th>
               <th>    Crédito id</th>
-              <th>    # Factura </th>
+              <th>    # Recibo </th>
               <th>    Fecha     </th>
               <th>    Total     </th>
               <th>    Creó      </th>

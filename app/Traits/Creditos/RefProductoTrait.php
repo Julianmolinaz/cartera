@@ -10,11 +10,7 @@ trait RefProductoTrait
 {
     public function saveRefProductoFromProductoTr($producto, $vehiculo, $solicitud)
     {
-
-        \Log::info('saveRefProductoFromProductoTr');
-
         try {
-
             $ref_producto = new _\RefProducto();
             $ref_producto->fill($producto);
             $ref_producto->vehiculo_id = $vehiculo->id;
@@ -32,7 +28,6 @@ trait RefProductoTrait
     public function editRefProductoFromProductoTr($producto)
     {
         try {
-
             $ref_producto = _\RefProducto::find($producto['ref_producto_id']);
             $ref_producto->fill($producto);
             

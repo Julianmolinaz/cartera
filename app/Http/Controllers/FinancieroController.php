@@ -81,11 +81,11 @@ class FinancieroController extends Controller
 
                 if( $resp != '0 creditos'){
                     $temp =  [ 
-                            'info'           => $resp,
-                            'num_creditos'   => $resp['num_creditos'], 
-                            'total_egresos'  => $total_egresos,
-                            'sucursal'       => $sucursal
-                        ];
+                        'info'           => $resp,
+                        'num_creditos'   => $resp['num_creditos'], 
+                        'total_egresos'  => $total_egresos,
+                        'sucursal'       => $sucursal
+                    ];
                     array_push($array, $temp);
                 }
             }   
