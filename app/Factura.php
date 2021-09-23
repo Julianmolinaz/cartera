@@ -18,10 +18,7 @@ class Factura extends Model implements Auditable
         'banco',
         'credito_id',
         'total',
-<<<<<<< HEAD
-=======
         'descuento',
->>>>>>> descuento
         'user_create_id',
         'user_update_id'
     ];
