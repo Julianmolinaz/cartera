@@ -52,7 +52,7 @@
 
          <div class="form-group">
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <label for="">Centro de Costos *: </label>
+            <label for="">Costo del crédito *: </label>
             <input type="text" class="form-control input-sm" placeholder="ingrese monto solicitado" id="vlr_fin" name="vlr_fin" value="{{old('vlr_fin')}}" >
           </div>
 

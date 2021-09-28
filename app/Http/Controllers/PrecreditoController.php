@@ -407,7 +407,7 @@ class PrecreditoController extends Controller
             'num_fact.required'      => 'El Número de Factura es requerido',
             'num_fact.unique'        => 'El Número de factura ya existe',
             'fecha.required'         => 'La Fecha de afiliación es requerida',
-            'vlr_fin.required'       => 'El Centro de Costos es requerido',
+            'vlr_fin.required'       => 'El Costo del crédito es requerido',
             'producto_id.required'   => 'El Producto es requerido',
             'periodo.required'       => 'El Periodo es requerido',
             'meses.required'         => 'El # de Meses es requerido',

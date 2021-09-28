@@ -60,7 +60,7 @@
               </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <label for="">Centro de Costos *: </label>
+              <label for="">Costo del crédito *: </label>
               <input type="text" class="form-control input-sm" placeholder="ingrese monto solicitado" id="vlr_fin" name="vlr_fin" value="{{$credito->precredito->vlr_fin}}" >
             </div>
 

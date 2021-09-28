@@ -28,7 +28,7 @@
     <td> {{$precredito->producto->nombre}}</td>
     </tr>
     <tr style="color: rgba(84,35,39,1.81);" class="warning" >
-    <th scope="row">Centro de Costo</th>
+    <th scope="row">Costo del Crédito</th>
     <td> {{'$ '.  number_format($precredito->vlr_fin,0,",",".")}}</td>
     <th scope="row">Valor Cuota</th>
     <td> {{'$ '.number_format($precredito->vlr_cuota,0,",",".")}}</td>

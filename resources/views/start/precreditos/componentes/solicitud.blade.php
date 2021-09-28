@@ -93,10 +93,10 @@
         </div> <!-- row file 1  -->
         <div class="row">
 
-            <!-- CENTRO DE COSTOS -->
+            <!-- Costo del crédito -->
 
             <div v-bind:class="['form-group','col-md-3',errors.first(rules.centro_costo.name) ? 'has-error' :'']">
-                <label for="">Centro de Costos @{{ rules.centro_costo.required }}</label>
+                <label for="">Costo del Crédito @{{ rules.centro_costo.required }}</label>
                 <input 
                     :disabled="!show"
                     @blur="validar_negocio"

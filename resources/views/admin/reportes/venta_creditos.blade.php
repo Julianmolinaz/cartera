@@ -30,7 +30,7 @@
               <th>  Cuotas            </th>
               <th>  Valor Cuota       </th> 
               <th>  Pago hasta        </th>
-              <th>  Centro de Costos  </th>              
+              <th>  Costo del Crédito </th>              
               <th>  Valor Crédito     </th>
               <th>  Cuota inicial     </th>
               <th>  Saldo             </th>
@@ -108,7 +108,7 @@
           <thead>
             <tr style="background-color:#FFC300;">
              <th>Cartera</th>
-             <th>Centro de Costos</th>
+             <th>Costo del Crédito/th>
              <th>Valor del Crédito</th>
              <th>Rendimiento</th>
              <th>Saldo Total</th>

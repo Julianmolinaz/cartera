@@ -123,7 +123,7 @@ return [
         'num_cuotas'        => 'Número de cuotas',
         'num_fact'          => 'Número de factura',
         'vlr_cuota'         => 'Valor cuota',
-        'vlr_fin'           => 'Centro de costos',
+        'vlr_fin'           => 'Costo del crédito',
         'expedido_a'        => 'Expedido a',
         'fecha_exp'         => 'Fecha de expedición',
         'producto_id'       => 'Producto',

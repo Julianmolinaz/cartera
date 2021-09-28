@@ -4,7 +4,7 @@
         
         <ul style="list-style-type: none;padding: 0px">
             <li style="float:left;margin-left:5px;">Solicitud: @{{ $store.state.solicitud.id }} /</li>
-            <li style="float:left;margin-left:5px;">Centro de costos: $@{{ $store.state.solicitud.vlr_fin | formatPrice }} /</li>
+            <li style="float:left;margin-left:5px;">Costo del Crédito: $@{{ $store.state.solicitud.vlr_fin | formatPrice }} /</li>
             <li style="float:left;margin-left:5px;">Número de cuotas: @{{ $store.state.solicitud.cuotas }} /</li>
             <li style="float:left;margin-left:5px;">Valor cuota: $@{{ $store.state.solicitud.vlr_cuota | formatPrice }}</li>
         </ul>

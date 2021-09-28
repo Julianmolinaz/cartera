@@ -41,7 +41,7 @@
               <td colspan="2">{{ $precredito->estudio }}</td>
             </tr>
             <tr>
-              <td colspan="2">Centro de costos:</td>
+              <td colspan="2">Costo del crédito:</td>
               <td colspan="2">{{ $precredito->vlr_fin }}</td>
             </tr>
             <tr>
