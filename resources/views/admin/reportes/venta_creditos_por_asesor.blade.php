@@ -33,7 +33,7 @@
               <th>  Cuotas                    </th>
               <th>  Valor Cuota               </th> 
               <th>  Pago hasta                </th>
-              <th>  Centro de Costos          </th>              
+              <th>  Costo del crédito         </th>              
               <th>  Valor Crédito             </th> 
               <th>  Inicial                   </th>
               <th>  Saldo                     </th>
@@ -113,7 +113,7 @@
           <thead>
             <tr style="background-color:#FFC300;">
              <th> Funcionario       </th>
-             <th> Centro de Costos  </th>
+             <th> Costo del crédito </th>
              <th> Valor del Crédito </th>
              <th> Rendimiento       </th>
              <th> Saldo Total       </th>
@@ -159,7 +159,7 @@
           <thead>
             <tr style="background-color:#FFC300;">
              <th>Ciudad</th>
-             <th>Centro de Costos</th>
+             <th>Costo del Crédito</th>
              <th>Valor del Crédito</th>
              <th>Rendimiento</th>
              <th>Saldo Total</th>

@@ -80,7 +80,7 @@
                     const sumatoria = this.solicitud.cuotas *  this.solicitud.vlr_cuota;
 
                     if ( sumatoria < (this.solicitud.vlr_fin * 1)) {
-                        alertify.alert('Error de validación =(','La sumatoria de cuotas no coincide con el valor del centro de costos', 'error')
+                        alertify.alert('Error de validación =(','La sumatoria de cuotas no coincide con el valor del Costo del crédito', 'error')
                     } else {
                         alertify.notify('Los valores son correctos', 'success', 5, function(){  });
                     }

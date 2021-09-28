@@ -112,7 +112,7 @@
          <tr><th></th></tr>
          <tr>
            <th>Estudio Credito</th>
-           <th>Centro de Costos</th>
+           <th>Costo del crédito</th>
            <th>Cuota Inicial</th>              
            <th>Valor Cuota</th>
            <th>Estado</th>

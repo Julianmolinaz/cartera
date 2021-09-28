@@ -22,7 +22,7 @@
 									<tr>
 										<th>Id</th>
 										<th>Cliente</th>
-										<th>Centro de costos</th>
+										<th>Costo del crédito</th>
 										<th>Documento</th>
 									</tr>
 										</thead>

@@ -29,14 +29,14 @@ class CentroCostos
     private function assertIsInteger($centroCostos)
     {
         if ( gettype($centroCostos) !== 'integer' ) {
-            throw new Exception("El centro de costos debe ser unentero", 400);
+            throw new Exception("El Costo del crédito debe ser unentero", 400);
         } 
     }
 
     private function assertIsPositivo($centroCostos)
     {
         if ($centroCostos < 0) {    
-            throw new \Exception("El centro de costos debe ser mayor a cero", 400);
+            throw new \Exception("El Costo del crédito debe ser mayor a cero", 400);
         }
     }
 

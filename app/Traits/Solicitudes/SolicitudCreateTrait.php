@@ -21,7 +21,7 @@ trait SolicitudCreateTrait
             'num_fact.unique'        => 'EL Número de Formulario ya existe',
             'fecha.required'         => 'La Fecha de Solicitud es requerida',
             'cartera_id.required'    => 'La Cartera es requerida',
-            'vlr_fin.required'       => 'El Centro de Costos es requerido',
+            'vlr_fin.required'       => 'El Costo del crédito es requerido',
             'producto_id.required'   => 'El Producto es requerido',
             'periodo.required'       => 'El Periodo es requerido',
             'meses.required'         => 'El Número de Meses es requerido',
