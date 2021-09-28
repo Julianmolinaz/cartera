@@ -631,6 +631,7 @@ class PagoMasivoController extends Controller
             $general['banco'],
             $general['credito_id'],
             $general['num_consignacion'],
+            false,
             \Auth::user()->id
         );
 
