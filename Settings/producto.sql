@@ -13,8 +13,18 @@
             ALTER TABLE `invoices` ADD `venta_id` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `observaciones`, ADD `proveedor_id` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `venta_id`, ADD `precredito_id` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `proveedor_id`, ADD `created_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `precredito_id`, ADD `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_by`;
 
 --ACTUALIZAR TABLA VEHICULO
+
     ALTER TABLE `vehiculos` ADD `modelo` INT(10) NULL AFTER `placa`, ADD `cilindraje` INT(10) NULL AFTER `modelo`
     --CREAR CAMPOS DE CREATED_AT Y UPDATED_AT EN TABLA VEHICULOS
         ALTER TABLE `vehiculos` ADD `created_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `tipo_vehiculo_id`, ADD `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_at`;
 
+--ACTUALIZAR TABLE PRODUCTOS
 
+    --CREAR CAMPOS INVOICE Y VEHICULO
+        ALTER TABLE `productos` ADD `con_invoice` BOOLEAN NULL DEFAULT FALSE AFTER `min_vehiculos`, ADD `con_vehiculo` BOOLEAN NULL DEFAULT FALSE AFTER `con_invoice`;
+    --CREAR PRODUCTOS
+        INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `min_vehiculos`, `created_at`, `updated_at`) VALUES ('25', 'ASISTENCIA', 'SERVICIO DE GRUA ASISTIMOTOS', '0', '2021-05-12 00:00:00', '2021-05-12 00:00:00');
+    --CREAR CAMPO ESTADO DEFECTO TRUE
+        ALTER TABLE `productos` ADD `estado` BOOLEAN NULL DEFAULT TRUE AFTER `nombre`;
+    --CAMBIAR MANUAL EL ESTADO TRUE (1) A FALSE (0)
+        SELECT * FROM `productos` WHERE `nombre` like '%+%'

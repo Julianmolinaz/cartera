@@ -45,13 +45,13 @@ trait SolicitudTrait
         $proveedores = _\MyService\Proveedor::getProveedores();
 
         $data = [
-            'productos'            => _\Producto::orderBy('nombre')->get(),
+            'productos'            => _\Producto::orderBy('nombre')->where('estado', 1)->get(),
             'carteras'             => _\Cartera::where('estado','Activo')->orderBy('nombre')->get(),
             'proveedores'          => $proveedores,
             'variables'            => _\Variable::find(1),
             'now'                  => \Carbon\Carbon::now(),
             'estados_aprobacion'   => _\Http\Controllers\getEnumValues('precreditos', 'aprobado'),
-            'estados_ref_producto' => _\Http\Controllers\getEnumValues('ref_productos', 'estado'),
+            'estados_invoices'     => _\Http\Controllers\getEnumValues('invoices', 'estado'),
             'arr_periodos'         => _\Http\Controllers\getEnumValues('precreditos','periodo'),
             'arr_estudios'         => _\Http\Controllers\getEnumValues('precreditos','estudio'),
             'tipo_vehiculos'       => _\TipoVehiculo::orderBY('nombre')->get(),

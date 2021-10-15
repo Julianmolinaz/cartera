@@ -20,6 +20,8 @@ require __DIR__ . '/routes/creditos.php';
 
 require __DIR__ . '/routes/precreditos.php';
 
+require __DIR__ . '/routes/precreditosV3.php';
+
 require __DIR__ . '/routes/estudios.php';
 
 require __DIR__ . '/routes/facturas.php';

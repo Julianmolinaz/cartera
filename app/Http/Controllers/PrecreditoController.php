@@ -6,16 +6,20 @@ use Illuminate\Http\Request;
 
 use App\Traits\Solicitudes\SolicitudCreateTrait;
 use App\Traits\Solicitudes\SolicitudUpdateTrait;
-use App\Traits\Solicitudes\SolicitudTrait;
-use App\Traits\Creditos\VehiculoTrait;
-use App\Traits\Creditos\RefProductoTrait;
-use App\Traits\Creditos\CreditoUpdateTraitV2;
-use App\Traits\MensajeTrait;
-use App\Http\Requests, App\Precredito;
 use Carbon\Carbon, App\Variable, App\Producto;
+use App\Traits\Creditos\CreditoUpdateTraitV2;
 use App\Cliente, App\Cartera, App\Credito;
-use App\Extra, Validator, App\User;
-use App as _, Auth, DB;
+use App\Traits\Solicitudes\SolicitudTrait;
+use App\Traits\Creditos\RefProductoTrait;
+use App\Traits\Creditos\VehiculoTrait;
+use App\Http\Requests, App\Precredito;
+use App\http\Controllers as Ctrl;
+use App\Traits\MensajeTrait;
+use App\Extra, Validator;
+use App\User;
+use App as _;
+use Auth;
+use DB;
 
 class PrecreditoController extends Controller
 {
@@ -50,20 +54,23 @@ class PrecreditoController extends Controller
             return redirect()->route('start.clientes.show',$cliente_id);
         }
 
-        $cliente = Cliente::find($cliente_id);  
+        $cliente = Cliente::find($cliente_id); 
         $data    = $this->obtener_data_para_crear($cliente_id);
         $data['status'] = 'create';
-
-        return view('start.precreditos.create')
-            ->with('data', $data)
-            ->with('elements',[])
-            ->with('producto_id','')
-            ->with('producto','')
-            ->with('ref_productos','')
-            ->with('data_credito','')
-            ->with('fecha_pago','')
-            ->with('solicitud','')
-            ->with('credito','');
+        
+        return view('start.precreditosV3.create.index');
+            // ->with('catalogo',$catalogo)
+            // ->with('list_expedido_a',$list_expedido_a)
+            // ->with('list_estados_invoices',$list_estados_invoices)
+            // ->with('data', $data);
+            // ->with('elements',[])
+            // ->with('producto_id','')
+            // ->with('producto','')
+            // ->with('ref_productos','')
+            // ->with('data_credito','')
+            // ->with('fecha_pago','')
+            // ->with('solicitud','')
+            // ->with('credito','');
     }
 
     public function store(Request $request)
