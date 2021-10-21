@@ -11,8 +11,8 @@ class Venta extends Model
     protected $fillable= [
         'cantidad',
         'producto_id',
-        'vehiculo_id',
         'precredito_id',
+        'vehiculo_id',
         'created_by',
         'updated_by'
     ];

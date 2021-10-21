@@ -13,7 +13,7 @@ class ProductoController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
     
     /**
@@ -46,7 +46,6 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $this->validate($request,[
             'nombre' => 'required|unique:productos'],[
             'nombre.required' => 'El Nombre del producto es requerido',
@@ -119,4 +118,5 @@ class ProductoController extends Controller
     {
         //
     }
+
 }

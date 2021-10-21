@@ -54,14 +54,19 @@ class PrecreditoController extends Controller
             return redirect()->route('start.clientes.show',$cliente_id);
         }
 
+        // Obtiene los productos
+
+        $catalogo = DB::table('productos') 
+            ->where('estado',1)
+            ->orderBy('nombre')
+            ->get();
+
         $cliente = Cliente::find($cliente_id); 
         $data    = $this->obtener_data_para_crear($cliente_id);
         $data['status'] = 'create';
         
-        return view('start.precreditosV3.create.index');
-            // ->with('catalogo',$catalogo)
-            // ->with('list_expedido_a',$list_expedido_a)
-            // ->with('list_estados_invoices',$list_estados_invoices)
+        return view('start.precreditosV3.create.index')
+            ->with('catalogo', $catalogo);
             // ->with('data', $data);
             // ->with('elements',[])
             // ->with('producto_id','')

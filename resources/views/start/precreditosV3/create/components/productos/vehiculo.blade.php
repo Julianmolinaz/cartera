@@ -4,56 +4,50 @@
         <div class="row">
             <div class="col-md-12">
 
+                <div class="row">  
+                    <!-- DATOS DEL VEHICULO  -->                    
+                    <div class="form-group col-md-12" style="margin-left:15px;">
+                        <h4 style="display:inline-block; margin-right:10px;">Vehículo:</h4>
+                    </div>
+                </div>
                 <!-- ELEMENTS  -->
-
                 <div class="col-md-12">
                     <template>
                         <div class="row">
-
                             <!-- TIPO VEHICULO  -->
-
                             <div class="form-group col-md-2">
                                 <label for="">Tipo Vehiculo *</label>
                                 <select class="form-control">   
                                     <option selected disabled>--</option>    
                                 </select>
                             </div> 
-
                             <!-- PLACA  -->
-
                             <div class="form-group col-md-2">
                                 <label for="">Placa *</label>  
                                 <input class="form-control">
                             </div> 
-
-                            <!-- VENCIMIENTO SOAT  -->
-
-                            <div class="form-group col-md-2">
-                                <label for="">Vencimiento SOAT *</label>
-                                <input type="date" class="form-control">              
-                            </div>
-
-                            <!-- VENCIMIENTO RTM  -->
-
-                            <div class="form-group col-md-2">
-                                <label for="">Vencimiento RTM *</label>
-                                <input type="date" class="form-control">              
-                            </div>
-
+                            <!-- MODELO  -->
                             <div class="form-group col-md-2">
                                 <label for="">Modelo *</label>
                                 <input class="form-control">              
                             </div>
-
+                            <!-- CILINDRAJE  -->
                             <div class="form-group col-md-2">
                                 <label for="">Cilindraje *</label>
                                 <input class="form-control">              
                             </div>
+                            <!-- VENCIMIENTO SOAT  -->
+                            <div class="form-group col-md-2">
+                                <label for="">Vencimiento SOAT *</label>
+                                <input type="date" class="form-control">              
+                            </div>
+                            <!-- VENCIMIENTO RTM  -->
+                            <div class="form-group col-md-2">
+                                <label for="">Vencimiento RTM *</label>
+                                <input type="date" class="form-control">              
+                            </div>
                         </div>
-                        <br> 
-
-                        
-    
+                        <hr>                         
                     </template>
                 </div>
                 

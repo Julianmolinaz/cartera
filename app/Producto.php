@@ -13,7 +13,8 @@ class Producto extends Model implements Auditable
 
     protected $fillable = [
     	'nombre',
-        'num_vehiculo',
+        'estado',
+        'num_vehiculos',
         'descripcion', 
         'con_invoice', 
         'con_vehiculo'
