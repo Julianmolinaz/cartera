@@ -32,6 +32,9 @@
                                 <label class="input-solicitud">Expedido a</label>
                                 <select  class="form-control">
                                     <option selected disabled>--</option>
+                                    <option :value="expedido_a"  v-for="expedido_a in insumosInvoice">
+                                            @{{expedido_a.list_expedido_a }}
+                                    </option>
                                 </select>
                             </div>
                             <!-- PROVEEDOR  -->
@@ -113,8 +116,10 @@
                 name: 'invoice component'
             }
         },
-        computed: {
-            
+        computed: {  
+            insumosInvocie() {
+              return this.$store.state.insumosInvoice
+            },
         }
     });
 </script>

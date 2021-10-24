@@ -125,7 +125,7 @@
             },
             catalogo() {
               return this.$store.state.catalogo
-            },  
+            },
         }
     });
 </script>

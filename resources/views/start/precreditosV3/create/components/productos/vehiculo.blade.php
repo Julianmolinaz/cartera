@@ -66,8 +66,10 @@
                 name: 'vehiculo component'
             }
         },
-        computed: {
-            
+        computed: {  
+            insumosVehiculo() {
+              return this.$store.state.insumosVehiculo
+            }
         }
     });
 </script>

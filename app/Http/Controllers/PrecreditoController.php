@@ -54,8 +54,10 @@ class PrecreditoController extends Controller
             return redirect()->route('start.clientes.show',$cliente_id);
         }
 
-        // Obtiene los productos
+        $insumosInvoice = $this->insumosInvoice();
+        $insumosVehiculo = $this->insumosVehiculo();
 
+        // Obtiene los productos
         $catalogo = DB::table('productos') 
             ->where('estado',1)
             ->orderBy('nombre')
@@ -66,16 +68,36 @@ class PrecreditoController extends Controller
         $data['status'] = 'create';
         
         return view('start.precreditosV3.create.index')
-            ->with('catalogo', $catalogo);
-            // ->with('data', $data);
-            // ->with('elements',[])
-            // ->with('producto_id','')
-            // ->with('producto','')
-            // ->with('ref_productos','')
-            // ->with('data_credito','')
-            // ->with('fecha_pago','')
-            // ->with('solicitud','')
-            // ->with('credito','');
+            ->with('catalogo', $catalogo)
+            ->with('insumosInvoice', $insumosInvoice)
+            ->with('insumosVehiculo', $insumosVehiculo);
+    }
+
+    public function insumosInvoice()
+    {
+        $list_expedido_a = Ctrl\getEnumValues('ref_productos','expedido_a');
+        $list_estados_ref_productos = Ctrl\getEnumValues('ref_productos','estado');
+        $proveedores = _\MyService\Proveedor::getProveedores();
+
+        return [
+           'list_expedido_a' => $list_expedido_a, 
+           'list_estados_ref_productos'=> $list_estados_ref_productos, 
+           'proveedores'=> $proveedores, 
+        ];
+    }
+
+    public function insumosVehiculo()
+    {
+        $list_tipo_vehiculo = DB::table('tipo_vehiculos')
+            ->orderBy('nombre')
+            ->get();
+        $list_placa = DB::table('vehiculos')
+            ->get();
+
+        return [
+           'list_tipo_vehiculo' => $list_tipo_vehiculo,
+           'list_placa' => $list_placa
+        ];
     }
 
     public function store(Request $request)

@@ -3,13 +3,12 @@
 <script>
     const store = new Vuex.Store({
         state: {
-            solicitud       : '',
-            credito         : '',
-            productos       : '',
+            data            : '',
             catalogo        : {!! json_encode($catalogo) !!},
-            insumosSolicitud: '',
-            insumosProducto : '',
-            insumosCredito  : '',
+            insumosInvoice  : {!! json_encode($insumosInvoice) !!},
+            insumosVehiculo : {!! json_encode($insumosVehiculo) !!},
+            productos       : '',
+            credito         : '',
             message         : ''
         },
         getters: { 
