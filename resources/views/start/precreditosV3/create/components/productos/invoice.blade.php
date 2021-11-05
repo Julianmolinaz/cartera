@@ -28,70 +28,123 @@
                         </div>
                         <div class="row">
                             <!-- Expedido a -->
-                            <div class="form-group col-md-4">
-                                <label class="input-solicitud">Expedido a</label>
-                                <select  class="form-control">
+                            <div v-bind:class="['form-group','col-md-4',errors.first(rules.expedido_a.name) ? 'has-error' :'']">
+                                <label class="input-solicitud">Expedido a @{{ rules.expedido_a.required }}</label>
+                                <select  class="form-control" 
+                                    v-model="invoice.expedido_a"
+                                    v-validate="rules.expedido_a.rule"
+                                    :name="rules.expedido_a.name"
+                                    >
                                     <option selected disabled>--</option>
-                                    <option :value="expedido_a"  v-for="expedido_a in insumosInvoice">
-                                            @{{expedido_a.list_expedido_a }}
+                                    <option :value="expedido"  
+                                        v-for="expedido in insumos.list_expedido_a">
+                                            @{{ expedido }}
                                     </option>
                                 </select>
+                                <span class="help-block">@{{ errors.first(rules.expedido_a.name) }}</span>
                             </div>
                             <!-- PROVEEDOR  -->
-                            <div class="form-group col-md-4" >
-                                <label class="input-solicitud">Proveedor *</label>  
-                                <select class="form-control">  
+                            <div v-bind:class="['form-group','col-md-4',errors.first(rules.proveedor_id.name) ? 'has-error' :'']">
+                                <label class="input-solicitud">Proveedor @{{ rules.proveedor_id.required }}</label>  
+                                <select class="form-control" 
+                                    v-model="invoice.proveedor_id"
+                                    v-validate="rules.proveedor_id.rule"
+                                    :name="rules.proveedor_id.name"
+                                    >  
                                     <option selected disabled>--</option>
+                                    <option :value="proveedor.id"  
+                                        v-for="proveedor in insumos.proveedores">
+                                            @{{ (proveedor.municipio) ? proveedor.municipio + '-' : ''}} @{{proveedor.nombre}}
+                                    </option>
                                 </select>
-                                <span class="help-block"></span>
+                                <span class="help-block">@{{ errors.first(rules.proveedor_id.name) }}</span>
                             </div>
                             <!-- COSTO  -->
-                            <div class="form-group col-md-4" >
-                                <label class="input-solicitud">Costo </label> 
-                                <input class="form-control">  
-                                
+                            <div v-bind:class="['form-group','col-md-4',errors.first(rules.costo.name) ? 'has-error' :'']">
+                                <label class="input-solicitud">Costo @{{ rules.costo.required }}</label> 
+                                <input type="text"
+                                    class="form-control" 
+                                    autocomplete="off"        
+                                    v-model="invoice.costo"
+                                    placeholder="Ingrese el costo del producto"
+                                    v-validate="rules.costo.rule"
+                                    :name="rules.costo.name"
+                                    >  
+                                <span class="help-block">@{{ errors.first(rules.costo.name) }}</span>
                             </div>
                         </div>
 
                         <div class="row">    
                             <!-- NUMERO DE FACTURA  -->
-                            <div class="form-group col-md-2" >
-                                <label class="input-solicitud">Número Factura </label>  
-                                <input class="form-control">  
+                            <div v-bind:class="['form-group','col-md-3',errors.first(rules.num_fact.name) ? 'has-error' :'']">
+                                <label class="input-solicitud">Número Factura @{{ rules.num_fact.required }}</label>  
+                                <input class="form-control" 
+                                    v-model="invoice.num_fact"
+                                    v-validate="rules.num_fact.rule"
+                                    :name="rules.num_fact.name"
+                                    >  
+                                <span class="help-block" v-if="errors.first(rules.num_fact.name)">@{{ errors.first(rules.num_fact.name) }}</span> 
+                                <span class="help-block" v-else><small>Ver factura ...</small></span> 
                             </div> 
                             <!-- FECHA DE EXPEDICION  -->
-                            <div class="form-group col-md-3" >
-                                <label class="input-solicitud">Fecha de Expedicion</label> 
-                                <input class="form-control">
-
+                            <div v-bind:class="['form-group','col-md-3',errors.first(rules.fecha_exp.name) ? 'has-error' :'']">
+                                <label class="input-solicitud">Fecha de Expedicion @{{ rules.fecha_exp.required }}</label> 
+                                <input type="date" 
+                                    class="form-control" 
+                                    v-model="invoice.fecha_exp"
+                                    onkeydown="return false"
+                                    v-validate="rules.fecha_exp.rule"
+                                    :name="rules.fecha_exp.name"
+                                >
+                                <span class="help-block" v-if="errors.first(rules.fecha_exp.name)">@{{ errors.first(rules.fecha_exp.name) }}</span> 
+                                <span class="help-block" v-else><small>Ver factura ...</small></span> 
                             </div>
                             <!-- IVA  -->
-                            <div class="form-group col-md-2" >
-                                <label class="input-solicitud">IVA</label> 
-                                <input class="form-control">
-                                                         
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.iva.name) ? 'has-error' :'']">
+                                <label class="input-solicitud">IVA @{{ rules.iva.required }}</label> 
+                                <input type="text"
+                                    class="form-control" 
+                                    v-model="invoice.iva"
+                                    v-validate="rules.iva.rule"
+                                    :name="rules.iva.name"
+                                    >
+                                <span class="help-block" v-if="errors.first(rules.iva.name)">@{{ errors.first(rules.iva.name) }}</span> 
+                                <span class="help-block" v-else><small>Ver factura ...</small></span>                          
                             </div>
-                            <!-- COSTO  -->
-                            <div class="form-group col-md-3" >
-                                <label class="input-solicitud">Costo</label> 
-                                <input class="form-control">
-                                                         
+                            <!-- OTROS  -->
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.otros.name) ? 'has-error' :'']">
+                                <label class="input-solicitud">Otros</label> 
+                                <input type="text"
+                                    class="form-control" 
+                                    v-model="invoice.otros"
+                                    v-validate="rules.otros.rule"
+                                    :name="rules.otros.name"
+                                    >
+                                <span class="help-block">@{{ errors.first(rules.otros.name) }}</span>                                             
                             </div>
 
                             <!-- ESTADO -->
-                            <div class="form-group col-md-2" >
-                                <label for="">Estado </label> 
-                                <select class="form-control">                          
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.estado.name) ? 'has-error' :'']">
+                                <label for="">Estado @{{ rules.estado.required }}</label> 
+                                <select class="form-control" 
+                                    v-model="invoice.estado"
+                                    v-validate="rules.estado.rule"
+                                    :name="rules.estado.name"
+                                    >                          
                                     <option selected disabled>--</option>
-                                    
+                                    <option :value="estado"  
+                                        v-for="estado in insumos.list_estados_ref_productos">
+                                            @{{ estado }}
+                                    </option>
                                 </select>
+                                <span class="help-block">@{{ errors.first(rules.estado.name) }}</span>
                             </div> 
                         </div>
                         
                         <div class="row">
                             <div class="form-group col-md-12" >
                                 <label for="">Observaciones </label>
-                                    <textarea class="form-control">
+                                    <textarea class="form-control" v-model="invoice.observaciones">
                                     </textarea>
                                 
                             </div>
@@ -108,18 +161,37 @@
     </form>
 </script>
 
+<script src="/js/rules/solicitudV3/invoice.js"></script>
+
 <script>
+
     Vue.component('invoice-component', {
         template: '#invoice-template',
         data() {
             return {
-                name: 'invoice component'
+                name: 'invoice component',
+                rules: rules_invoice
+            }
+        },
+        props: ['invoice'],
+        methods: {
+            async validacion() {
+                let validation = await this.$validator.validate();
+
+                if (!validation) {
+                    await this.$store.dispatch('noContinuarASolicitud');
+                }
             }
         },
         computed: {  
-            insumosInvocie() {
-              return this.$store.state.insumosInvoice
+            insumos() {
+              return this.$store.state.insumos
             },
+        },
+        created() {
+            Bus.$on('validarComponents', () => {
+                this.validacion();
+            });
         }
     });
 </script>

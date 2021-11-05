@@ -45,8 +45,8 @@
                     console.log('entro por rtm');
                     this.ref_productos[index]._vencimiento_rtm = this.addYear(fecha)
                 }   
-	    },
-	    addYear(fecha) {
+            },
+                addYear(fecha) {
                 // fecha con año + 1
                 if (fecha) {
                     return moment(fecha).add(1, 'years').format('YYYY-MM-DD');

@@ -2,15 +2,16 @@
     <form @submit.prevent="">
 
         <div class="row" style="margin-left:25px;">
-            <!-- NOMBRE DEL PRODUCTO -->
+                <!-- NOMBRE DEL PRODUCTO -->
             <div class="form-group col-md-10">
                 <h1>@{{ venta.nombre }}</h1>
             </div>
-            <!-- ELIMINAR PRODUCTO  -->
+                <!-- ELIMINAR PRODUCTO  -->
             <div class="form-group col-md-2" style="margin-top: 25px;">
                 <a  href="javascript:void(0);" 
                     class="btn btn-default btn-xs" 
-                    title="ELiminar producto">
+                    title="ELiminar producto"
+                    @click="eliminar">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
             </div>
@@ -22,14 +23,19 @@
 <script>
     Vue.component('venta-component', {
         template: '#venta-template',
-        props: ['venta'],
+        props: ['venta', 'index'],
         data() {
             return {
                 name: 'venta component'
             }
         },
-        computed: {
-            
+        methods: {
+            eliminar() {
+                console.log('eliminar');
+                Bus.$emit('eliminarProducto', this.index);
+            }
+        },
+        created() {
         }
     });
 </script>

@@ -50,17 +50,12 @@ const rules_producto = {
     required: "",
   },
   vencimiento_rtm: {
-    name: "observaciones",
+    name: "rtm",
     rule: "",
     required: "",
   },
   vencimiento_soat: {
-    name: "observaciones",
-    rule: "",
-    required: "",
-  },
-  observaciones: {
-    name: "observaciones",
+    name: "soat",
     rule: "",
     required: "",
   },

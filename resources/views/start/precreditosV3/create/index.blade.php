@@ -66,17 +66,20 @@
  
 </div><!-- .col-md-8 -->
 
-@include('start.precreditosV3.create.components.store')
-@include('start.precreditosV3.create.components.productos.index')
-@include('start.precreditosV3.create.components.solicitud')
-@include('start.precreditosV3.create.components.credito')
 
 <script>
     Vue.use(VeeValidate)
     VeeValidate.Validator.localize("es");
 
     const Bus = new Vue();
+</script>
 
+@include('start.precreditosV3.create.components.store')
+@include('start.precreditosV3.create.components.productos.index')
+@include('start.precreditosV3.create.components.solicitud')
+@include('start.precreditosV3.create.components.credito')
+
+<script>
     const principal = new Vue({
         el: '#principal',
         store,
@@ -89,9 +92,14 @@
                 this.view = view
             }
         },
-        created(){}
+        created(){
+            Bus.$on('hola', () => {
+                alert()
+            });
+        }
     });
 
 </script>
+
 
 @endsection

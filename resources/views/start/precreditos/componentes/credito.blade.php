@@ -127,7 +127,7 @@
                 <div v-bind:class="['form-group has-success','col-md-2',errors.first(rules.fecha_pago.name) ? 'has-error' :'']">
                     <label class="control-label">Fecha de pago @{{ rules.fecha_pago.required }}</label>    
                     <input
-		        onkeydown="return false" 
+		                onkeydown="return false" 
                         type="date" 
                         class="form-control form-main__input--small" 
                         v-model="fecha_pago"
@@ -140,7 +140,7 @@
                 <!-- MES  -->
 
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.mes.name) ? 'has-error' :'']">
-                    <label class="form-main__label--small">Mes de referencia@{{ rules.mes.required }}</label>    
+                    <label class="form-main__label--small">Mes de referencia @{{ rules.mes.required }}</label>    
                     <select 
                         type="text" 
                         class="form-control"  
@@ -156,7 +156,7 @@
                 <!-- AÑO  -->
 
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.anio.name) ? 'has-error' :'']">
-                    <label class="form-main__label--small">Año de referencia@{{ rules.anio.required }}</label> 
+                    <label class="form-main__label--small">Año de referencia @{{ rules.anio.required }}</label> 
                     <select 
                         type="text" 
                         class="form-control" 

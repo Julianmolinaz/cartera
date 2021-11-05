@@ -1,5 +1,5 @@
 <script type="text/x-template" id="vehiculo-template">
-    <form @submit.prevent="">
+    <form @submit.prevent="" autocomplete="off">
         
         <div class="row">
             <div class="col-md-12">
@@ -15,37 +15,75 @@
                     <template>
                         <div class="row">
                             <!-- TIPO VEHICULO  -->
-                            <div class="form-group col-md-2">
-                                <label for="">Tipo Vehiculo *</label>
-                                <select class="form-control">   
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.tipo_vehiculo.name) ? 'has-error' :'']">
+                                <label for="">Tipo Vehiculo @{{ rules.tipo_vehiculo.required }}</label>
+                                <select class="form-control" 
+                                    v-model="vehiculo.tipo_vehiculo_id"
+                                    v-validate="rules.tipo_vehiculo.rule"
+                                    :name="rules.tipo_vehiculo.name"
+                                    >   
                                     <option selected disabled>--</option>    
+                                    <option :value="tipo_vehiculo.id"  
+                                        v-for="tipo_vehiculo in insumos.list_tipo_vehiculo">
+                                            @{{ tipo_vehiculo.nombre }}
+                                    </option>
                                 </select>
+                                <span class="help-block">@{{ errors.first(rules.tipo_vehiculo.name) }}</span>
                             </div> 
                             <!-- PLACA  -->
-                            <div class="form-group col-md-2">
-                                <label for="">Placa *</label>  
-                                <input class="form-control">
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.placa.name) ? 'has-error' :'']">
+                                <label for="">Placa @{{ rules.placa.required }}</label>  
+                                <input class="form-control" 
+                                    v-model="vehiculo.placa"
+                                    v-validate="rules.placa.rule"
+                                    :name="rules.placa.name"
+                                    >
+                                <span class="help-block">@{{ errors.first(rules.placa.name) }}</span>
                             </div> 
                             <!-- MODELO  -->
-                            <div class="form-group col-md-2">
-                                <label for="">Modelo *</label>
-                                <input class="form-control">              
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.modelo.name) ? 'has-error' :'']">
+                                <label for="">Modelo @{{ rules.modelo.required }}</label>
+                                <input class="form-control"
+                                    v-model="vehiculo.modelo"
+                                    v-validate="rules.modelo.rule"
+                                    :name="rules.modelo.name"
+                                    >   
+                                <span class="help-block">@{{ errors.first(rules.modelo.name) }}</span>           
                             </div>
                             <!-- CILINDRAJE  -->
-                            <div class="form-group col-md-2">
-                                <label for="">Cilindraje *</label>
-                                <input class="form-control">              
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.cilindraje.name) ? 'has-error' :'']">
+                                <label for="">Cilindraje @{{ rules.cilindraje.required }}</label>
+                                <input class="form-control"
+                                    v-model="vehiculo.cilindraje"
+                                    v-validate="rules.cilindraje.rule"
+                                    :name="rules.cilindraje.name"
+                                    >   
+                                <span class="help-block">@{{ errors.first(rules.cilindraje.name) }}</span>           
                             </div>
                             <!-- VENCIMIENTO SOAT  -->
-                            <div class="form-group col-md-2">
-                                <label for="">Vencimiento SOAT *</label>
-                                <input type="date" class="form-control">              
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.vencimiento_soat.name) ? 'has-error' :'']">
+                                <label for="">Vencimiento SOAT @{{ rules.vencimiento_soat.required }}</label>
+                                <input type="date" 
+                                    onkeydown="return false" 
+                                    class="form-control" 
+                                    v-model="vehiculo.vencimiento_soat"
+                                    v-validate="rules.vencimiento_soat.rule"
+                                    :name="rules.vencimiento_soat.name"
+                                    >  
+                                <span class="help-block">@{{ errors.first(rules.vencimiento_soat.name) }}</span>            
                             </div>
                             <!-- VENCIMIENTO RTM  -->
-                            <div class="form-group col-md-2">
-                                <label for="">Vencimiento RTM *</label>
-                                <input type="date" class="form-control">              
-                            </div>
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.vencimiento_rtm.name) ? 'has-error' :'']">
+                                <label for="">Vencimiento RTM @{{ rules.vencimiento_rtm.required }}</label>
+                                <input type="date" 
+                                    onkeydown="return false" 
+                                    class="form-control" 
+                                    v-model="vehiculo.vencimiento_rtm"
+                                    v-validate="rules.vencimiento_rtm.rule"
+                                    :name="rules.vencimiento_rtm.name"
+                                    >  
+                                <span class="help-block">@{{ errors.first(rules.vencimiento_rtm.name) }}</span>            
+                            </div> 
                         </div>
                         <hr>                         
                     </template>
@@ -58,18 +96,36 @@
     </form>
 </script>
 
+<script src="/js/rules/solicitudV3/vehiculo.js"></script>
+
 <script>
     Vue.component('vehiculo-component', {
         template: '#vehiculo-template',
         data() {
             return {
-                name: 'vehiculo component'
+                name: 'vehiculo component',
+                rules: rules_vehiculo
+            }
+        },
+        props: ['vehiculo'],
+        methods: {
+            async validacion() {
+                let validation = await this.$validator.validate();
+
+                if (!validation) {
+                    await this.$store.dispatch('noContinuarASolicitud');
+                }
             }
         },
         computed: {  
-            insumosVehiculo() {
-              return this.$store.state.insumosVehiculo
+            insumos() {
+              return this.$store.state.insumos
             }
+        },
+        created() {
+            Bus.$on('validarComponents', () => {
+                this.validacion();
+            });
         }
     });
 </script>

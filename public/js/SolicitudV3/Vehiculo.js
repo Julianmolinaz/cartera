@@ -2,10 +2,10 @@ class Vehiculo {
 
     constructor () {
         this.id                 ='',
-        this.tipo               ='',
+        this.tipo_vehiculo_id   ='',
         this.placa              ='',
-        this.soat               ='',
-        this.rtm                ='',
+        this.vencimiento_soat   ='',
+        this.vencimiento_rtm    ='',
         this.modelo             ='',
         this.cilindraje         ='',
         this.observaciones      =''

@@ -11,7 +11,6 @@
             ref_productos   : {!! json_encode($ref_productos) !!},
             data_credito    : {!! json_encode($data_credito) !!},
             credito         : {!! json_encode($credito) !!},
-            data_credito    : {!! json_encode($data_credito) !!},
             fecha_pago      : {!! json_encode($fecha_pago) !!},
             message         : ''
         },

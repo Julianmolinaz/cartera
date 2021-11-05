@@ -1,28 +1,40 @@
 <script type="text/x-template" id="productos-template">
-    <form @submit.prevent="">
+    <form @submit.prevent="" autocomplete="off">
         
         <div class="row">
             <div class="col-md-12">
                 <!-- PRODUCTO -->
-                <div class="form-group col-md-4">
-                    <label for="">Producto <span></span></label>  
-                    <select class="form-control" v-model="productoSelected">
+                <div v-bind:class="['form-group','col-md-4',errors.first(rules.producto.name) ? 'has-error' :'']">
+                    <label for="">Producto @{{ rules.producto.required }}<span></span></label>  
+                    <select class="form-control" 
+                        v-model="productoSelected"
+                        v-validate="rules.producto.rule"
+                        :name="rules.producto.name"
+                        >
                         <option selected disabled>Escoja producto</option>
                         <option 
                             :value="producto" 
-                            v-for="producto in catalogo"
+                            v-for="producto in insumos.catalogo"
                         >
                             @{{ producto.nombre }}
                         </option>
                     </select>
+                    <span class="help-block">@{{ errors.first(rules.producto.name) }}</span>
                 </div> 
                 <!-- CANTIDAD -->
-                <div class="form-group col-md-2">
-                    <label for="">Cantidad</label>
+                <div v-bind:class="['form-group','col-md-2',errors.first(rules.producto.name) ? 'has-error' :'']">
+                    <label for="">Cantidad @{{ rules.cantidad.required }}</label>
                     <select class="form-control"
-                        v-model="cantidad">
-                        <option :value="cantidad" v-for="cantidad in listCantidades">@{{ cantidad }}</option>
+                        v-model="cantidad"
+                        v-validate="rules.cantidad.rule"
+                        :name="rules.cantidad.name"
+                        >
+                        <option :value="cantidad" 
+                            v-for="cantidad in listCantidades">
+                            @{{ cantidad }}
+                        </option>
                     </select>
+                    <span class="help-block">@{{ errors.first(rules.cantidad.name) }}</span>
                 </div>
                 <!-- AGREGAR PRODUCTO -->
                 <div class="form-group col-md-4">
@@ -33,16 +45,16 @@
             </div>
             <!-- Tab panes -->
             <div class="tab-content" style="padding:5px">
-                <div v-for="item in ventas">
-                    <venta-component :venta="item.venta"></venta-component>
+                <div v-for="(item, index) in ventas">
+                    <venta-component :venta="item.venta" :index="index"></venta-component>
                     <template v-if="item.invoice">
                         <div role="tabpanel" class="tab-pane  active" id="invoice" style="margin-left:10px;">
-                            <invoice-component />
+                            <invoice-component :invoice="item.invoice" />
                         </div> 
                     </template>
                     <template v-if="item.vehiculo">
                         <div role="tabpanel" class="tab-pane  active" id="vehiculo" style="margin-left:10px;">
-                            <vehiculo-component />
+                            <vehiculo-component :vehiculo="item.vehiculo" />
                         </div>  
                     </template>
                 </div>
@@ -54,10 +66,10 @@
                         <a class="btn btn-default" href="">
                             <i class="fa fa-paper-plane" aria-hidden="true"></i>Salir
                         </a>
-                        <button class="btn btn-primary" @click="update()">
+                        <button class="btn btn-primary" >
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>Salvar
                         </button>
-                        <button type="submit" class="btn btn-default" >
+                        <button type="submit" class="btn btn-default" @click="continuar">
                             <i class="fa fa-forward" aria-hidden="true"></i>Continuar
                         </button>
                     </center>
@@ -77,6 +89,8 @@
 <script src="{{ asset('js/SolicitudV3/Invoice.js') }}"></script>
 <script src="{{ asset('js/SolicitudV3/Vehiculo.js') }}"></script>
 
+<script src="/js/rules/solicitudV3/index.js"></script>
+
 <script>
     Vue.component('productos-component', {
         template: '#productos-template',
@@ -86,6 +100,7 @@
                 max_cantidad: 6,
                 ventas: [],
                 productoSelected: '',
+                rules: rules_index
             }
         },
         methods: {
@@ -103,16 +118,37 @@
                             cantidad: this.cantidad
                         });
                         if (this.productoSelected.con_invoice) {
-                            element.invoice = new Invoice({});
+                            element.invoice = new Invoice({});                            
                         }
                         if (this.productoSelected.con_vehiculo) {
                             element.vehiculo = new Vehiculo({});
+                            console.log(element.vehiculo);
                         }
                         this.ventas.push(element)
                     }
                 } else {
                     alert('Se requieren escoger un producto y una cantidad');
                 }
+            },
+            eliminarProducto(index) {
+                const self = this;
+                alertify.confirm('Eliminar Producto', '¿Está seguro de eliminar el producto?',
+                    function() { self.ventas.splice(index,1) }, 
+                    function(){ alertify.error('No se elimino ningun producto.',2) }
+                );
+            },
+            continuar() {
+                this.$store.state.continuarASolicitud = true;
+                
+                Bus.$emit('validarComponents');
+
+                setTimeout(() => {
+                    if (this.$store.getters.getContinuarASolicitud) {
+                        $('.nav-tabs a[href="#solicitud"]').tab('show');
+                    } else {
+                        alert("Por favor corrija los errores en el formulario");
+                    }
+                }, 1000);
             }
         },
         computed: {
@@ -123,9 +159,15 @@
                 }
                 return contenedor
             },
-            catalogo() {
-              return this.$store.state.catalogo
+            insumos() {
+              return this.$store.state.insumos
             },
+        },
+        created() {
+            const self = this;
+            Bus.$on('eliminarProducto', (index) => {
+                this.eliminarProducto(index);
+            });
         }
     });
 </script>

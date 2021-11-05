@@ -28,7 +28,6 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.num_fact.name) ? 'has-error' :'']">
                 <label for="">Consecutivo @{{ rules.num_fact.required }}</label>    
                 <input 
-                    :disabled="!show"
                     style="font-size:12px;"
                     type="text" 
                     class="form-control" 
@@ -46,7 +45,7 @@
             <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_solicitud.name) ? 'has-error' :'']">
                 <label for="">Fecha @{{ rules.fecha_solicitud.required }}</label>    
                 <input
-		    onkeydown="return false"
+		            onkeydown="return false"
                     :disabled="!show"
                     type="date" 
                     class="form-control my-input" 
@@ -140,7 +139,7 @@
                     <option selected disabled>--</option>
                     <option :value="meses" v-for="meses in data.rango_meses">@{{ meses }}</option>
                 </select>
-                <span class="help-block">@{{ errors.first(rules.periodo.name) }}</span>
+                <span class="help-block">@{{ errors.first(rules.meses.name) }}</span>
             </div>
 
             <!-- PERIODO -->
@@ -234,7 +233,6 @@
                 <select 
                     :disabled="!show"
                     class="form-control"  
-                    placeholder="Tipo de Estudio"
                     v-model="solicitud.estudio"
                     v-validate="rules.estudio.rule"
                     :name="rules.estudio.name">

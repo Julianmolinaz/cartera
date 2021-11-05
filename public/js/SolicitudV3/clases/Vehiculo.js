@@ -21,15 +21,15 @@ class Vehiculo {
             activo      : true,
             visible     : true
         };
-        this.soat = {
-            val         : payload.soat || '',
+        this.vencimiento_soat = {
+            val         : payload.vencimiento_soat || '',
             reglas      : "",
             nombre      : "SOAT",
             activo      : true,
             visible     : true
         };
-        this.rtm = {
-            val         : payload.rtm || '',
+        this.vencimiento_rtm = {
+            val         : payload.vencimiento_soat || '',
             reglas      : "",
             nombre      : "RTM",
             activo      : true,
