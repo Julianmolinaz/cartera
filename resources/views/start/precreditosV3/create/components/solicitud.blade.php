@@ -62,13 +62,15 @@
             <div class="row">
                 <!-- PUNTO_ID  -->
                 <div v-bind:class="['form-group','col-md-6',errors.first(rules.punto.name) ? 'has-error' :'']">
-                    <label for="">Punto @{{ rules.cartera.required }}</label>
-                    <select name="" class="form-control" v-model="solicitud.punto_id">
+                    <label for="">Punto @{{ rules.punto.required }}</label>
+                    <select class="form-control" 
+                            v-model="solicitud.punto_id"
+                            v-validate="rules.punto.rule"
+                            :name="rules.punto.name"
+                        >
                         <option selected disabled>--</option>
                         <option :value="punto.id" 
                             v-for="punto in data.puntos"
-                            v-validate="rules.punto.rule"
-                            :name="rules.punto.name"
                         >
                             @{{punto.nombre}}
                         </option> 
@@ -252,16 +254,18 @@
             <div class="row">
                 <div class="col-md-12" style="margin-top:20px;">
                     <center>
-                        <a class="btn btn-default">
+                        <a class="btn btn-default" @click="volver">
                             <i class="fa fa-backward" aria-hidden="true"></i>
-                            Volver</a>
-                        <button class="btn btn-primary">
+                            Volver
+                        </a>
+                        <button class="btn btn-primary" @click="onSubmit">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             Salvar
                         </button>
-                        <a class="btn btn-default" >
+                        <a class="btn btn-default" @click="continuar">
                             <i class="fa fa-forward" aria-hidden="true"></i>
-                            Continuar</a>
+                            Continuar
+                        </a>
                     </center>
                 </div>
             </div> 
@@ -271,7 +275,7 @@
     </div>
 </script>
 
-<script src="{{ asset('js/SolicitudV3/Solicitud.js') }}"></script>
+
 <script src="/js/rules/solicitudV3/solicitud.js"></script>
 
 <script>
@@ -281,13 +285,12 @@
             return{
                 rango1: [],
                 rango2: [],
-                solicitud: new Solicitud(),
+                solicitud: null,
                 rules: rules_solicitud
             }
         },
         methods: {
             validar_negocio() {
-                    
                 if (this.solicitud.vlr_fin && this.solicitud.cuotas && this.solicitud.vlr_cuota ) {
 
                     const sumatoria = this.solicitud.cuotas *  this.solicitud.vlr_cuota;
@@ -298,7 +301,30 @@
                         alertify.notify('Los valores son correctos', 'success', 5, function(){  });
                     }
                 }
-
+            },
+            async onSubmit() {
+                return this.$store.dispatch('onSubmit');
+            }, 
+            async assignData() {
+                await this.$store.commit('setSolicitud', this.solicitud);
+            }, 
+            async continuar () {
+                if (! await this.validation()) return false;
+                await this.assignData();
+                $('.nav-tabs a[href="#credito"]').tab('show') 
+            },
+            async volver() {
+                if (! await this.validation()) return false; 
+                await this.assignData();
+                $('.nav-tabs a[href="#producto"]').tab('show');
+            },                
+            async validation() {
+                if ( ! await this.$validator.validate() ) {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
+                    return false;
+                }
+                return true;
             },
             async setup(){
 
@@ -331,10 +357,19 @@
                 }
             }
         },
+        filters: {
+            formatPrice(value) {
+                let val = (value/1).toFixed(0).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            }
+        },
         computed: {
             data() {
-                return this.$store.state.data
+                return this.$store.state.data;
             }
+        },
+        created() {
+            this.solicitud = this.$store.state.solicitud;
         }
     });
 </script>

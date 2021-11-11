@@ -109,7 +109,7 @@ class InsumosSolicitudService
         $variables = DB::table('puntos')
             ->select('id', 'nombre')
             ->orderBy('nombre')
-            ->find(1);
+            ->get();
         
         return $variables;
     }

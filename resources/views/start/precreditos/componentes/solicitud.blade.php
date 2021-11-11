@@ -263,14 +263,16 @@
                 <center>
                     <a class="btn btn-default" @click="volver">
                         <i class="fa fa-backward" aria-hidden="true"></i>
-                        Volver</a>
+                        Volver
+                    </a>
                     <button class="btn btn-primary" @click="onSubmit">
                         <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                         Salvar
                     </button>
                     <a class="btn btn-default" @click="continuar" v-if="$store.state.data.status == 'edit cred'">
                         <i class="fa fa-forward" aria-hidden="true"></i>
-                        Continuar</a>
+                        Continuar
+                    </a>
                 </center>
             </div>
         </div> 

@@ -67,8 +67,6 @@
                 let res = await axios.post('/start/precreditos', dat);
 
                 alertify.set('notifier','position', 'top-right');
-
-                console.log({res});
                 
                 if (res.data.success) {
                     alertify.notify(res.data.message, 'success', 2, () => {

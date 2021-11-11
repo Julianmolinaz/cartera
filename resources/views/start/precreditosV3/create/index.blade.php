@@ -36,8 +36,7 @@
                     <i class="fa fa-plug" aria-hidden="true" style="margin-right:5px;"></i>Solicitud
                     </a>
                 </li>
-          
-                
+            
                 <li role="presentacion">
                     <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab" @click="go('credito')">
                     <i class="fa fa-rss-square" aria-hidden="true" style="margin-right:5px;"></i>Crédito

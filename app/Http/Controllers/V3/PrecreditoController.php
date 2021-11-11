@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Src\Credito\Services\InsumosVentasService;
 use Src\Credito\Services\InsumosSolicitudService;
+use Src\Credito\Services\InsumosCreditoService;
 
 
 
@@ -32,16 +33,20 @@ class PrecreditoController extends Controller
 
         $insumos = new InsumosVentasService();
         $insumos = $insumos->execute();
-// dd($insumos);
+
         $data = new InsumosSolicitudService();
         $data = $data->execute();
         $data['status'] = 'create';
+        
+        $creditos = new InsumosCreditoService();
+        $creditos = $creditos->execute();
 
         $cliente = Cliente::find($cliente_id); 
 
         return view('start.precreditosV3.create.index')
             ->with('data', $data)
-            ->with('insumos', $insumos);
+            ->with('insumos', $insumos)
+            ->with('creditos', $creditos);
     }
 
 }

@@ -84,4 +84,6 @@ require __DIR__ . '/routes/cajas.php';
 
 Route::group(['prefix' =>'api' ], function() {
     require __DIR__ . '/api/recibos.php';
+
+    require __DIR__ . '/api/creditosV3.php';
 });

@@ -16,12 +16,13 @@
                     <label for="">Estado @{{ rules.estado.required }}</label>
                     <select name="" 
                         class="form-control"
+                        v-model="credito.estado"
                         v-validate="rules.estado.rule"
                         :name="rules.estado.name"
                         >
                         <option selected disabled>--</option>
                         <option :value="estado"  
-                            v-for="estado in credito.estado">
+                            v-for="estado in insumos.estado">
                                 @{{ estado }}
                         </option>
                     </select>
@@ -32,6 +33,7 @@
                     <label for="">Valor Crédito @{{ rules.valor_credito.required }}</label>
                     <input type="text" 
                         class="form-control" 
+                        v-model="credito.valor_credito"
                         v-validate="rules.valor_credito.rule"
                         :name="rules.valor_credito.name"
                         >
@@ -43,6 +45,7 @@
                     <label for="">Saldo @{{ rules.saldo.required }}</label>
                     <input type="text" 
                         class="form-control" 
+                        v-model="credito.saldo"
                         v-validate="rules.saldo.rule"
                         :name="rules.saldo.name"
                         >
@@ -54,6 +57,7 @@
                     <label for="">Cuotas Faltantes @{{ rules.cuotas_faltantes.required }}</label>
                     <input type="text" 
                         class="form-control" 
+                        v-model="credito.cuotas_faltantes"
                         v-validate="rules.cuotas_faltantes.rule"
                         :name="rules.cuotas_faltantes.name"
                         >
@@ -66,6 +70,7 @@
                     <label for="">Rendimiento @{{ rules.rendimiento.required }}</label>
                     <input type="text" 
                         class="form-control" 
+                        v-model="credito.rendimiento"
                         v-validate="rules.rendimiento.rule"
                         :name="rules.rendimiento.name"
                         >
@@ -77,6 +82,7 @@
                     <label for="">Saldo a Favor @{{ rules.saldo_favor.required }}</label>
                     <input type="text" 
                         class="form-control" 
+                        v-model="credito.saldo_favor"
                         v-validate="rules.saldo_favor.rule"
                         :name="rules.saldo_favor.name"
                         >
@@ -88,11 +94,15 @@
                     <label for="">Castigada @{{ rules.castigada.required }}</label>
                     <select name="" 
                         class="form-control"
+                        v-model="credito.castigada"
                         v-validate="rules.castigada.rule"
                         :name="rules.castigada.name"
                         >
                         <option selected disabled>--</option>
-                        <option value=""></option>
+                        <option :value="castigada"  
+                            v-for="castigada in insumos.castigada">
+                                @{{ castigada }}
+                        </option>
                     </select>
                     <span class="help-block">@{{ errors.first(rules.castigada.name) }}</span> 
                 </div>
@@ -102,6 +112,7 @@
                     <input type="date" 
                         class="form-control" 
                         onkeydown="return false" 
+                        v-model="credito.fecha_pago"
                         v-validate="rules.fecha_pago.rule"
                         :name="rules.fecha_pago.name"
                         >
@@ -112,11 +123,15 @@
                     <label for="">Mes de Referencia @{{ rules.mes.required }}</label>
                     <select name="" 
                         class="form-control"
+                        v-model="credito.mes"
                         v-validate="rules.mes.rule"
                         :name="rules.mes.name"
                         >
                         <option selected disabled>--</option>
-                        <option value=""></option>
+                        <option :value="mes"  
+                            v-for="mes in insumos.mes">
+                                @{{ mes }}
+                        </option>
                     </select>
                     <span class="help-block">@{{ errors.first(rules.mes.name) }}</span>
                 </div>
@@ -125,11 +140,15 @@
                     <label for="">Año de Referencia @{{ rules.anio.required }}</label>
                     <select name="" 
                         class="form-control"
+                        v-model="credito.anio"
                         v-validate="rules.anio.rule"
                         :name="rules.anio.name"
                         >
                         <option selected disabled>--</option>
-                        <option value=""></option>
+                        <option :value="anio"  
+                            v-for="anio in insumos.anio">
+                                @{{ anio }}
+                        </option>
                     </select>
                     <span class="help-block">@{{ errors.first(rules.anio.name) }}</span>
                 </div>
@@ -139,6 +158,7 @@
                 <div v-bind:class="['form-group','col-md-12',errors.first(rules.observaciones.name) ? 'has-error' :'']">
                     <label for="">Recordatorio</label>
                     <textarea class="form-control" 
+                        v-model="credito.recordatorio"
                         v-validate="rules.recordatorio.rule"
                         :name="rules.recordatorio.name"
                         >
@@ -149,7 +169,7 @@
             <div class="row">
                 <div class="col-md-12" style="margin-top:20px;">
                     <center>
-                        <a class="btn btn-default">
+                        <a class="btn btn-default" @click="volver">
                             <i class="fa fa-backward" aria-hidden="true"></i>
                             Volver
                         </a>
@@ -167,13 +187,38 @@
 <script src="/js/rules/solicitudV3/credito.js"></script>
 
 <script>
-    Vue.component('credito-component', {
+    const credito = Vue.component('credito-component', {
         template: '#credito-template',
         data() {
             return {
-                credito: this.$store.state.credito,
+                credito: null,
                 rules: rules_credito
             }
+        },
+        methods: {     
+            async volver() {
+                if (! await this.validation()) return false; 
+                
+                $('.nav-tabs a[href="#solicitud"]').tab('show');
+            },                
+            async validation() {
+                
+                if ( ! await this.$validator.validate() ) {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
+                    return false;
+                }
+
+                return true;
+            },
+        },
+        computed: {
+            insumos() {
+                return this.$store.state.insumosCredito;
+            }
+        },
+        created() {
+            this.credito = this.$store.state.credito;
         }
     });
 </script>

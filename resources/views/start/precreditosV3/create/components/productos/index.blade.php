@@ -66,7 +66,7 @@
                         <a class="btn btn-default" href="">
                             <i class="fa fa-paper-plane" aria-hidden="true"></i>Salir
                         </a>
-                        <button class="btn btn-primary" >
+                        <button class="btn btn-primary" @click="onSubmit">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>Salvar
                         </button>
                         <button type="submit" class="btn btn-default" @click="continuar">
@@ -137,19 +137,42 @@
                     function(){ alertify.error('No se elimino ningun producto.',2) }
                 );
             },
+            isNotValid() {
+                let result = false;
+                let msg = '';
+                
+                if (!this.ventas.length) {
+                    console.log(!this.ventas.length);
+                    msg += "Se requiere agregar un producto<br>";
+                    result = true;
+                }
+
+                if (msg) {
+                    alertify.alert('Error', msg);
+                }
+
+                return result;
+            },
             continuar() {
+
+                if (this.isNotValid()) return false;
+
                 this.$store.state.continuarASolicitud = true;
                 
                 Bus.$emit('validarComponents');
 
                 setTimeout(() => {
                     if (this.$store.getters.getContinuarASolicitud) {
+                        this.$store.commit('setVentas', this.ventas);
                         $('.nav-tabs a[href="#solicitud"]').tab('show');
                     } else {
-                        alert("Por favor corrija los errores en el formulario");
+                        alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
                     }
                 }, 1000);
-            }
+            },
+            onSubmit() {
+                
+            } 
         },
         computed: {
             listCantidades() {
@@ -168,6 +191,8 @@
             Bus.$on('eliminarProducto', (index) => {
                 this.eliminarProducto(index);
             });
+
+            this.ventas = this.$store.state.ventas;
         }
     });
 </script>

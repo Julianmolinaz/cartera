@@ -6,7 +6,7 @@ const rules_index = {
     },
     cantidad: {
         name: 'Cantidad',
-        rule: '',
-        required: ''
+        rule: 'required',
+        required: '*'
     }
 }

@@ -14,3 +14,12 @@ function getEnumValues2($table, $column)
   }
   return $enum;
 }
+
+function resHp($success, $data, $message, $status=200)
+{
+    return response()->json([
+        'success' => $success,
+        'dat'     => $data,
+        'message' => $message 
+    ], $status);
+}

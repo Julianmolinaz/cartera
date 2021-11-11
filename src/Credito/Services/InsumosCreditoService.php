@@ -13,21 +13,45 @@ class InsumosCreditoService
 
     public function execute() 
     {  
-        dd($this->struct());
         return $this->struct();
     }
 
     private function struct()
     {
         return [ 
-            'estados'         => $this->getEstados()
+            'estado'    => $this->getEstados(),
+            'castigada' => $this->getCastigada(),
+            'mes'       => $this->getMesRef(),
+            'anio'      => $this->getAnioRef()
         ];
     }
 
     private function getEstados()
     {
-        $estados = getEnumValues2('creditos', 'estado');
+        $estado = getEnumValues2('creditos', 'estado');
         
-        return $estados;
+        return $estado;
+    }
+
+    private function getCastigada()
+    {
+        $castigada = getEnumValues2('creditos', 'castigada');
+        
+        return $castigada;
+    }
+
+    private function getMesRef()
+    {
+        $mes = getEnumValues2('creditos', 'mes');
+        
+        return $mes;
+    }
+
+    private function getAnioRef()
+    {
+        $anio = \Carbon\Carbon::now();
+        $anios = [$anio->year -1, $anio->year];
+
+        return $anios;
     }
 }

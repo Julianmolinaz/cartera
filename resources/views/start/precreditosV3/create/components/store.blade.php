@@ -1,14 +1,17 @@
 <script src="/js/vue/vuex.js"></script>
+<script src="{{ asset('js/SolicitudV3/Solicitud.js') }}"></script>
+<script src="{{ asset('js/SolicitudV3/Credito.js') }}"></script>
 
 <script>
     const store = new Vuex.Store({
         state: {
-            data                : {!! json_encode($data) !!},
-            insumos             : {!! json_encode($insumos) !!},
+            data                : {!! json_encode($data) !!}, // Insumos solicitud
+            insumos             : {!! json_encode($insumos) !!}, // Insumos Venta
+            insumosCredito      : {!! json_encode($creditos) !!}, 
             continuarASolicitud : true,
-            productos           : '',
-            message             : '',
             ventas              : [],
+            solicitud           : new Solicitud({}),
+            credito             : new Credito({})
         },
         getters: { 
             getContinuarASolicitud(state) {
@@ -18,9 +21,35 @@
         mutations: {
             setContinuarASolicitud(state, response) {
                 state.continuarASolicitud = response;
+            },
+            setVentas(state, ventas) {
+                state.ventas = ventas;
+            },
+            setSolicitud(state, solicitud) {
+                state.solicitud = solicitud;
+            },
+            setCreditos(state, credito) {
+                state.credito = credito;
             }
         },
         actions: {
+            async onSubmit({state}) {
+                let dat = {
+                    ventas : state.ventas,
+                    solicitud : state.solicitud,
+                    credito : state.credito
+                }
+
+                let url = '';
+
+                if (state.data.status == 'create') {
+                    url = '/api/creditosV3/store';
+                } else {
+                    url = '/api/creditosV3/update';
+                }
+
+                let res = await axios.post(url, dat);
+            },
             noContinuarASolicitud(context) {
                 context.commit('setContinuarASolicitud', false);
             }
