@@ -770,7 +770,6 @@ function adjetivo($credito){
 
 function saldo_deuda_capital($credito, $corte)
 {
-
     if($credito->saldo == 0 || $credito->cuotas_faltantes == 0){ return 0; }
 
     $pagos = DB::table('pagos')
@@ -778,7 +777,7 @@ function saldo_deuda_capital($credito, $corte)
                 ->get();
 
     if($credito->precredito->cuotas != 0){
-        $valor_real_cuota = $credito->precredito->vlr_fin / $credito->precredito->cuotas;
+        $valor_real_cuota = $credito->valor_credito / $credito->precredito->cuotas;
     }
     else{
         array_push($GLOBALS['errores_datacredito'], '2.33-División por 0 credito: '.$credito->id.' cuotas: '.$credito->precredito->cuotas);
@@ -798,7 +797,7 @@ function saldo_deuda_capital($credito, $corte)
         }
     }
 
-    $deuda =  (int)($credito->precredito->vlr_fin - $sum_pagos) ;
+    $deuda =  (int)($credito->valor_credito - $sum_pagos) ;
 
     if($deuda < 0){
         return 0;
