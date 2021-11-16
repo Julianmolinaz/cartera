@@ -9,13 +9,11 @@
                     <select class="form-control" 
                         v-model="productoSelected"
                         v-validate="rules.producto.rule"
-                        :name="rules.producto.name"
-                        >
+                        :name="rules.producto.name">
                         <option selected disabled>Escoja producto</option>
                         <option 
                             :value="producto" 
-                            v-for="producto in insumos.catalogo"
-                        >
+                            v-for="producto in insumos.catalogo">
                             @{{ producto.nombre }}
                         </option>
                     </select>
@@ -27,8 +25,7 @@
                     <select class="form-control"
                         v-model="cantidad"
                         v-validate="rules.cantidad.rule"
-                        :name="rules.cantidad.name"
-                        >
+                        :name="rules.cantidad.name">
                         <option :value="cantidad" 
                             v-for="cantidad in listCantidades">
                             @{{ cantidad }}
@@ -146,15 +143,12 @@
                     msg += "Se requiere agregar un producto<br>";
                     result = true;
                 }
-
                 if (msg) {
                     alertify.alert('Error', msg);
                 }
-
                 return result;
             },
             continuar() {
-
                 if (this.isNotValid()) return false;
 
                 this.$store.state.continuarASolicitud = true;

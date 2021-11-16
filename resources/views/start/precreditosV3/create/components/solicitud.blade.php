@@ -8,8 +8,7 @@
                     <select :name="rules.aprobado.name" 
                         class="form-control" 
                         v-model="solicitud.aprobado"
-                        v-validate="rules.aprobado.rule"
-                    >
+                        v-validate="rules.aprobado.rule">
                         <option selected disabled>--</option>  
                         <option v-for="estado in data.estados_aprobacion">
                             @{{estado}}
@@ -25,8 +24,7 @@
                         class="form-control my-input" 
                         v-model="solicitud.num_fact"
                         v-validate="rules.num_fact.rule"
-                        :name="rules.num_fact.name"
-                    >
+                        :name="rules.num_fact.name">
                     <span class="help-block" v-if="errors.first(rules.num_fact.name) ">@{{ errors.first(rules.num_fact.name) }}</span>   
                     <span class="help-block" v-else>Número del formulario</span>
                 </div>
@@ -38,8 +36,7 @@
                         v-model="solicitud.fecha"
                         onkeydown="return false"
                         v-validate="rules.fecha_solicitud.rule"
-                        :name="rules.fecha_solicitud.name"
-                    >
+                        :name="rules.fecha_solicitud.name">
                     <span class="help-block">@{{ errors.first(rules.fecha_solicitud.name) }}</span>
                 </div>
                 <!-- CARTERA  -->
@@ -48,8 +45,7 @@
                     <select class="form-control my-input" 
                         v-model="solicitud.cartera_id"
                         v-validate="rules.cartera.rule"
-                        :name="rules.cartera.name"
-                    >
+                        :name="rules.cartera.name">
                         <option selected disabled>--</option>
                         <option :value="cartera.id" 
                             v-for="cartera in data.carteras">
@@ -66,12 +62,10 @@
                     <select class="form-control" 
                             v-model="solicitud.punto_id"
                             v-validate="rules.punto.rule"
-                            :name="rules.punto.name"
-                        >
+                            :name="rules.punto.name">
                         <option selected disabled>--</option>
                         <option :value="punto.id" 
-                            v-for="punto in data.puntos"
-                        >
+                            v-for="punto in data.puntos">
                             @{{punto.nombre}}
                         </option> 
                     </select>
@@ -83,8 +77,7 @@
                     <select class="form-control" 
                         v-model="solicitud.funcionario_id"
                         v-validate="rules.funcionario_id.rule"
-                        :name="rules.funcionario_id.name"
-                    >
+                        :name="rules.funcionario_id.name">
                         <option selected disabled>--</option>
                         <option :value="vendedor.id" v-for="vendedor in data.vendedores">
                             @{{vendedor.name}}
@@ -103,8 +96,7 @@
                         v-model="solicitud.vlr_fin"
                         @blur="validar_negocio"
                         v-validate="rules.centro_costo.rule"
-                        :name="rules.centro_costo.name"
-                        >
+                        :name="rules.centro_costo.name">
                     <span class="help-block" v-if="solicitud.vlr_fin > 0">$ @{{ solicitud.vlr_fin | formatPrice }}</span>                       
                     <span class="help-block">@{{ errors.first(rules.centro_costo.name) }}</span>
                 </div>
@@ -116,8 +108,7 @@
                         placeholder="Monto inicial"
                         v-model="solicitud.cuota_inicial"
                         v-validate="rules.cuota_inicial.rule"
-                        :name="rules.cuota_inicial.name"
-                        >
+                        :name="rules.cuota_inicial.name">
                     <span class="help-block" v-if="solicitud.cuota_inicial > 0">$ @{{ solicitud.cuota_inicial | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.cuota_inicial.name) }}</span>
                 </div>
@@ -129,8 +120,7 @@
                         placeholder="Monto inicial"
                         v-model="solicitud.vlr_asistencia"
                         v-validate="rules.cuota_inicial.rule"
-                        :name="rules.cuota_inicial.name"
-                        >
+                        :name="rules.cuota_inicial.name">
                     <span class="help-block" v-if="solicitud.cuota_inicial > 0">$ @{{ solicitud.vlr_asistencia | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.vlr_asistencia.name) }}</span>
                 </div>
@@ -141,8 +131,7 @@
                         v-model="solicitud.meses"
                         @change="setup"
                         v-validate="rules.meses.rule"
-                        :name="rules.meses.name"
-                        >
+                        :name="rules.meses.name">
                         <option selected disabled>--</option>
                         <option :value="meses" v-for="meses in data.rango_meses" >
                             @{{ meses }}
@@ -157,8 +146,7 @@
                         v-model="solicitud.periodo"
                         @change="setup"
                         v-validate="rules.periodo.rule"
-                        :name="rules.periodo.name"
-                        >
+                        :name="rules.periodo.name">
                         <option selected disabled>--</option>
                         <option :value="periodo" v-for="periodo in data.arr_periodos" >
                             @{{ periodo }}
@@ -175,8 +163,7 @@
                         v-model="solicitud.cuotas"
                         @blur="validar_negocio"
                         v-validate="rules.cuotas.rule"
-                        :name="rules.cuotas.name"
-                        >
+                        :name="rules.cuotas.name">
                     <span class="help-block">@{{ errors.first(rules.cuotas.name) }}</span>
                 </div>
             </div>
@@ -190,8 +177,7 @@
                         v-model="solicitud.vlr_cuota"
                         @blur="validar_negocio"
                         v-validate="rules.valor_cuotas.rule"
-                        :name="rules.valor_cuotas.name"
-                        >
+                        :name="rules.valor_cuotas.name">
                     <span class="help-block" v-if="solicitud.vlr_cuota > 0">$ @{{ solicitud.vlr_cuota | formatPrice }}</span>                    
                 <span class="help-block">@{{ errors.first(rules.valor_cuotas.name) }}</span>
                 </div>
@@ -203,8 +189,7 @@
                         v-model="solicitud.p_fecha"
                         @change="setRango2" 
                         v-validate="rules.f_pago_1.rule"
-                        :name="rules.f_pago_1.name"   
-                        >
+                        :name="rules.f_pago_1.name">
                         <option selected disabled>--</option>
                         <option :value="i" v-for="i in rango1">
                             @{{ i }}
@@ -220,8 +205,7 @@
                         class="form-control"
                         v-model="solicitud.s_fecha"
                         v-validate="rules.f_pago_2.rule"
-                        :name="rules.f_pago_2.name"
-                        >
+                        :name="rules.f_pago_2.name">
                     <span class="help-block">@{{ errors.first(rules.f_pago_2.name) }}</span>
                 </div>
                 <!-- ESTUDIO -->
@@ -230,8 +214,7 @@
                     <select class="form-control" 
                         v-model="solicitud.estudio"
                         v-validate="rules.estudio.rule"
-                        :name="rules.estudio.name"
-                        >
+                        :name="rules.estudio.name">
                         <option selected disabled>--</option>
                         <option :value="tipo" v-for="tipo in data.arr_estudios">
                             @{{tipo}}
@@ -246,8 +229,7 @@
                     <textarea class="form-control"
                         v-model="solicitud.observaciones"
                         v-validate="rules.observaciones.rule"
-                        :name="rules.observaciones.name"
-                        >
+                        :name="rules.observaciones.name">
                     </textarea>
                 </div>
             </div>

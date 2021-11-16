@@ -778,7 +778,7 @@ function saldo_deuda_capital($credito, $corte)
                 ->get();
 
     if($credito->precredito->cuotas != 0){
-        $valor_real_cuota = $credito->precredito->vlr_fin / $credito->precredito->cuotas;
+        $valor_real_cuota = $credito->saldo_deuda / $credito->precredito->cuotas;
     }
     else{
         array_push($GLOBALS['errores_datacredito'], '2.33-División por 0 credito: '.$credito->id.' cuotas: '.$credito->precredito->cuotas);
@@ -798,7 +798,7 @@ function saldo_deuda_capital($credito, $corte)
         }
     }
 
-    $deuda =  (int)($credito->precredito->vlr_fin - $sum_pagos) ;
+    $deuda =  (int)($credito->saldo_deuda - $sum_pagos) ;
 
     if($deuda < 0){
         return 0;

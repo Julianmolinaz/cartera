@@ -14,12 +14,10 @@
                 <!-- ESTADO  -->
                 <div v-bind:class="['form-group','col-md-3',errors.first(rules.estado.name) ? 'has-error' :'']">
                     <label for="">Estado @{{ rules.estado.required }}</label>
-                    <select name="" 
-                        class="form-control"
+                    <select class="form-control"
                         v-model="credito.estado"
                         v-validate="rules.estado.rule"
-                        :name="rules.estado.name"
-                        >
+                        :name="rules.estado.name">
                         <option selected disabled>--</option>
                         <option :value="estado"  
                             v-for="estado in insumos.estado">
@@ -35,8 +33,7 @@
                         class="form-control" 
                         v-model="credito.valor_credito"
                         v-validate="rules.valor_credito.rule"
-                        :name="rules.valor_credito.name"
-                        >
+                        :name="rules.valor_credito.name">
                     <!-- <span class="help-block" v-if="credito.valor_credito > 0">$ @{{ credito.valor_credito | formatPrice }}</span> -->
                     <span class="help-block">@{{ errors.first(rules.valor_credito.name) }}</span>
                 </div>
@@ -47,8 +44,7 @@
                         class="form-control" 
                         v-model="credito.saldo"
                         v-validate="rules.saldo.rule"
-                        :name="rules.saldo.name"
-                        >
+                        :name="rules.saldo.name">
                     <!-- <span class="help-block" v-if="credito.saldo > 0">$ @{{ credito.saldo | formatPrice }}</span> -->
                     <span class="help-block">@{{ errors.first(rules.saldo.name) }}</span>
                 </div>
@@ -59,8 +55,7 @@
                         class="form-control" 
                         v-model="credito.cuotas_faltantes"
                         v-validate="rules.cuotas_faltantes.rule"
-                        :name="rules.cuotas_faltantes.name"
-                        >
+                        :name="rules.cuotas_faltantes.name">
                     <span class="help-block">@{{ errors.first(rules.cuotas_faltantes.name) }}</span>      
                 </div>
             </div>
@@ -72,8 +67,7 @@
                         class="form-control" 
                         v-model="credito.rendimiento"
                         v-validate="rules.rendimiento.rule"
-                        :name="rules.rendimiento.name"
-                        >
+                        :name="rules.rendimiento.name">
                     <!-- <span class="help-block" v-if="credito.rendimiento > 0">$ @{{ credito.rendimiento | formatPrice }}</span>                         -->
                     <span class="help-block">@{{ errors.first(rules.rendimiento.name) }}</span>
                 </div>
@@ -84,8 +78,7 @@
                         class="form-control" 
                         v-model="credito.saldo_favor"
                         v-validate="rules.saldo_favor.rule"
-                        :name="rules.saldo_favor.name"
-                        >
+                        :name="rules.saldo_favor.name">
                     <!-- <span class="help-block" v-if="credito.saldo_favor > 0">$ @{{ credito.saldo_favor | formatPrice }}</span>                         -->
                     <span class="help-block">@{{ errors.first(rules.saldo_favor.name) }}</span>
                 </div>
@@ -96,8 +89,7 @@
                         class="form-control"
                         v-model="credito.castigada"
                         v-validate="rules.castigada.rule"
-                        :name="rules.castigada.name"
-                        >
+                        :name="rules.castigada.name">
                         <option selected disabled>--</option>
                         <option :value="castigada"  
                             v-for="castigada in insumos.castigada">
@@ -114,19 +106,16 @@
                         onkeydown="return false" 
                         v-model="credito.fecha_pago"
                         v-validate="rules.fecha_pago.rule"
-                        :name="rules.fecha_pago.name"
-                        >
+                        :name="rules.fecha_pago.name">
                     <span class="help-block">@{{ errors.first(rules.fecha_pago.name) }}</span> 
                 </div>
                 <!-- MES  -->
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.mes.name) ? 'has-error' :'']">
                     <label for="">Mes de Referencia @{{ rules.mes.required }}</label>
-                    <select name="" 
-                        class="form-control"
+                    <select class="form-control"
                         v-model="credito.mes"
                         v-validate="rules.mes.rule"
-                        :name="rules.mes.name"
-                        >
+                        :name="rules.mes.name">
                         <option selected disabled>--</option>
                         <option :value="mes"  
                             v-for="mes in insumos.mes">
@@ -138,12 +127,10 @@
                 <!-- ANIO  -->
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.anio.name) ? 'has-error' :'']">
                     <label for="">Año de Referencia @{{ rules.anio.required }}</label>
-                    <select name="" 
-                        class="form-control"
+                    <select class="form-control"
                         v-model="credito.anio"
                         v-validate="rules.anio.rule"
-                        :name="rules.anio.name"
-                        >
+                        :name="rules.anio.name">
                         <option selected disabled>--</option>
                         <option :value="anio"  
                             v-for="anio in insumos.anio">
@@ -160,8 +147,7 @@
                     <textarea class="form-control" 
                         v-model="credito.recordatorio"
                         v-validate="rules.recordatorio.rule"
-                        :name="rules.recordatorio.name"
-                        >
+                        :name="rules.recordatorio.name">
                     </textarea>
                     <span class="help-block">@{{ errors.first(rules.recordatorio.name) }}</span>
                 </div>
@@ -198,17 +184,14 @@
         methods: {     
             async volver() {
                 if (! await this.validation()) return false; 
-                
                 $('.nav-tabs a[href="#solicitud"]').tab('show');
             },                
             async validation() {
-                
                 if ( ! await this.$validator.validate() ) {
                     alertify.set('notifier','position', 'top-right');
                     alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
                     return false;
                 }
-
                 return true;
             },
         },
