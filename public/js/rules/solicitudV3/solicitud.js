@@ -22,7 +22,7 @@ const rules_solicitud = {
         required: ''
     },
     centro_costo: {
-        name: 'centor de costos',
+        name: 'centro de costos',
         rule: 'required|decimal',
         required: '*'
     },

@@ -1,14 +1,23 @@
 <?php
 
 namespace Src\Credito\Services;
+
+use App\Repositories\Contratos;
 use DB;
 
 
 class InsumosVentasService
 {
-    public function __construct()
-    {
+    protected $repoTerceros;
+    protected $repoTipoVehiculos;
 
+
+    public function __construct(
+        Contratos\ITerceros $repoTerceros,
+        Contratos\ITipoVehiculos $repoTipoVehiculos
+    ){
+        $this->repoTerceros = $repoTerceros;
+        $this->repoTipoVehiculos = $repoTipoVehiculos;
     }
 
     public function execute() 
@@ -54,24 +63,11 @@ class InsumosVentasService
 
     private function getProveedores()
     {
-        $proveedores = DB::table('terceros')
-            ->join('municipios','terceros.mun_id','=','municipios.id')
-            ->select('terceros.id', 'razon_social as nombre','municipios.nombre as municipio')
-            ->where('terceros.estado', 'Activo')
-            ->orderBy('terceros.razon_social')
-            ->get();
-
-        return $proveedores;
+        return $this->repoTerceros->getProveedoresActivos();
     }
 
     private function getTipoVehiculo()
     {
-        $list_tipo_vehiculo = DB::table('tipo_vehiculos')
-            ->select('id', 'nombre')
-            ->where('estado','Activo')
-            ->orderBy('nombre')
-            ->get();
-
-        return $list_tipo_vehiculo;
+        return $this->repoTipoVehiculos->getTipoVehiculosActivos();
     }
 }

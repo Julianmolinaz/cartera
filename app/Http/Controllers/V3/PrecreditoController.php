@@ -11,7 +11,7 @@ use Src\Credito\Services\InsumosVentasService;
 use Src\Credito\Services\InsumosSolicitudService;
 use Src\Credito\Services\InsumosCreditoService;
 
-
+use App\Repositories as Repo;
 
 class PrecreditoController extends Controller
 {
@@ -31,7 +31,10 @@ class PrecreditoController extends Controller
         //     return redirect()->route('start.clientes.show',$cliente_id);
         // }
 
-        $insumos = new InsumosVentasService();
+        $insumos = new InsumosVentasService(
+            new Repo\TercerosQueryBuilderRepository(),
+            new Repo\TipoVehiculosQueryBuilderRepository()
+        );
         $insumos = $insumos->execute();
 
         $data = new InsumosSolicitudService();
