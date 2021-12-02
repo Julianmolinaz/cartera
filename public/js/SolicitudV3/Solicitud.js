@@ -7,7 +7,6 @@ class Solicitud {
     this.funcionario_id = 34;
     this.cliente_id     = "";
     this.producto_id    = "";
-    this.punto_id       = 121;
     this.productos      = "";
     this.vlr_fin        = 1000;
     this.periodo        = "Quincenal";

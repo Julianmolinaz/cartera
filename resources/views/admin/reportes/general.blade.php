@@ -68,8 +68,8 @@
               <td> {{ $sancion->tipo_pago   }} </td>   
               <td> {{ $sancion->banco       }} </td>            
               <td></td>
-              <td></td>
               <td align="right"> {{ number_format($sancion->sanciones,0,",",".")  }} </td>
+              <td></td>
               <td></td>
               <td></td>   
               <td></td>
@@ -154,9 +154,9 @@
           @endforeach 
           @foreach($estudios as $estudio)
             <tr>
-              <td> {{ $estudio->precredito_id   }} </td>
-              <td> {{ $estudio->cliente       }}</td>
-              <td> {{ $estudio->documento     }}</td>
+              <td> {{ $estudio->precredito_id }} </td>
+              <td> {{ $estudio->cliente       }} </td>
+              <td> {{ $estudio->documento     }} </td>
               <td></td>
               <td></td>
               <td></td>
@@ -164,10 +164,10 @@
               <td></td>
               <td></td>
               <td></td> 
-              <td> {{ number_format($estudio->subtotal,0,",",".") }}</td>
-              <td>                                </td>
-              <td>                           </td> 
-              <td>                           </td>
+              <td> {{ number_format($estudio->subtotal,0,",",".") }} </td>
+              <td></td>
+              <td></td> 
+              <td></td>
               <td> {{ $estudio->factura     }} </td>
               <td> {{ $estudio->fecha       }} </td>            
               <td> {{ $estudio->cartera     }} </td>

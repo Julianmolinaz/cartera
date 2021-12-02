@@ -32,4 +32,5 @@
 --ACTUALIZAR TABLE PRECREDITOS
     --CREAR CAMPO PARA ASISTENCIA
         ALTER TABLE `precreditos` ADD `vlr_asistencia` INT(10) NULL COMMENT 'Se agrega el valor de la Asistencia (Asistimotos) para el credito' AFTER `vlr_cuota`;
-
+    --ELIMINAR CAMPO PUNTO_ID
+        DROP PUNTO_ID;    

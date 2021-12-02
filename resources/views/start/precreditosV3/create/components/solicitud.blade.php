@@ -40,7 +40,7 @@
                     <span class="help-block">@{{ errors.first(rules.fecha_solicitud.name) }}</span>
                 </div>
                 <!-- CARTERA  -->
-                <div v-bind:class="['form-group','col-md-6',errors.first(rules.cartera.name) ? 'has-error' :'']">
+                <div v-bind:class="['form-group','col-md-3',errors.first(rules.cartera.name) ? 'has-error' :'']">
                     <label for="">Cartera @{{ rules.cartera.required }}</label>
                     <select class="form-control my-input" 
                         v-model="solicitud.cartera_id"
@@ -54,25 +54,8 @@
                     </select>
                     <span class="help-block">@{{ errors.first(rules.cartera.name) }}</span>
                 </div>
-            </div>
-            <div class="row">
-                <!-- PUNTO_ID  -->
-                <div v-bind:class="['form-group','col-md-6',errors.first(rules.punto.name) ? 'has-error' :'']">
-                    <label for="">Punto @{{ rules.punto.required }}</label>
-                    <select class="form-control" 
-                            v-model="solicitud.punto_id"
-                            v-validate="rules.punto.rule"
-                            :name="rules.punto.name">
-                        <option selected disabled>--</option>
-                        <option :value="punto.id" 
-                            v-for="punto in data.puntos">
-                            @{{punto.nombre}}
-                        </option> 
-                    </select>
-                    <span class="help-block">@{{ errors.first(rules.punto.name) }}</span>
-                </div>
                 <!-- VENDEDOR  -->
-                <div v-bind:class="['form-group','col-md-6',errors.first(rules.funcionario_id.name) ? 'has-error' :'']">
+                <div v-bind:class="['form-group','col-md-3',errors.first(rules.funcionario_id.name) ? 'has-error' :'']">
                     <label for="">Vendedor @{{ rules.funcionario_id.required }}</label>
                     <select class="form-control" 
                         v-model="solicitud.funcionario_id"
@@ -85,6 +68,9 @@
                     </select>
                     <span class="help-block">@{{ errors.first(rules.funcionario_id.name) }}</span>   
                 </div>
+            </div>
+            <div class="row">
+                
             </div>
             <div class="row">
                 <!-- COSTO DEL CREDITO  -->

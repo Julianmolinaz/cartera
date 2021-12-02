@@ -31,40 +31,38 @@ class ValidarSolicitudService
     protected function rules()
     {
         return [
-            'fecha' => 'required',
-            'num_fact' => 'required|alpha_num',
-            'cartera_id' => 'required',
-            'aprobado' => '',
-            'vlr_fin' => 'required',
-            'punto_id' => 'required',
-            'funcionario_id' => 'required',
-            'cuota_inicial' => 'required',
-            'meses' => 'required',
-            'periodo' => 'required',
-            'cuotas' => 'required',
-            'vlr_cuota' => 'required',
-            'p_fecha' => 'required',
-            's_fecha' => '',
-            'estudio' => 'required',
-            'observaciones' => '',
-            'vlr_asistencia' => ''
+            'fecha'             => 'required',
+            'num_fact'          => 'required|alpha_num',
+            'cartera_id'        => 'required',
+            'aprobado'          => '',
+            'vlr_fin'           => 'required',
+            'funcionario_id'    => 'required',
+            'cuota_inicial'     => 'required',
+            'meses'             => 'required',
+            'periodo'           => 'required',
+            'cuotas'            => 'required',
+            'vlr_cuota'         => 'required',
+            'p_fecha'           => 'required',
+            's_fecha'           => '',
+            'estudio'           => 'required',
+            'observaciones'     => '',
+            'vlr_asistencia'    => ''
         ];
     }
 
     protected function messages()
     {
         return [
-            'fecha.required'  => 'La Fecha de solicitud es requerida',
+            'fecha.required'            => 'La Fecha de solicitud es requerida',
             'num_fact.required'         => 'El Número de Factura es requerido',
             'num_fact.unique'           => 'El Número de factura ya existe',
             'cartera.required'          => 'La cartera es requerida',
-            'vlr_fin.required'     => 'El Costo del crédito es requerido',
-            'punto_id.required'            => 'El punto es requerido',
+            'vlr_fin.required'          => 'El Costo del crédito es requerido',
             'meses.required'            => 'El # de Meses es requerido',
             'periodo.required'          => 'El Periodo es requerido',
             'estudio.required'          => 'El tipo de estudio es requerido',
             'vlr_cuota.required'        => 'El Valor de la Cuota es requerido',
-            'p_fecha.required'        => 'La Fecha 1 es requerida',
+            'p_fecha.required'          => 'La Fecha 1 es requerida',
             's_fecha.between'           => 'La Fecha 1 debe ser menor que la Fecha 2',
             'funcionario_id.required'   => 'El Vendedor es requerido',
         ];

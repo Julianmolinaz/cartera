@@ -28,7 +28,6 @@ class InsumosSolicitudService
             'rango_meses'          => $this->getRange(),
             'variables'            => $this->getVariables(),
             'vendedores'           => $this->getVendedores(),
-            'puntos'               => $this->getPuntos(),
         ];
     }
 
@@ -100,16 +99,6 @@ class InsumosSolicitudService
         $variables = DB::table('variables')
             ->orderBy('id')
             ->find(1);
-        
-        return $variables;
-    }
-
-    private function getPuntos()
-    {
-        $variables = DB::table('puntos')
-            ->select('id', 'nombre')
-            ->orderBy('nombre')
-            ->get();
         
         return $variables;
     }

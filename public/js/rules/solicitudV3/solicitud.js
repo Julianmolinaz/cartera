@@ -26,11 +26,6 @@ const rules_solicitud = {
         rule: 'required|decimal',
         required: '*'
     },
-    punto: {
-        name: 'Punto',
-        rule: 'required',
-        required: '*'
-    },
     funcionario_id: {
         name: 'Vendedor',
         rule: 'required',
