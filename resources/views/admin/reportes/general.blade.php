@@ -68,9 +68,9 @@
               <td> {{ $sancion->tipo_pago   }} </td>   
               <td> {{ $sancion->banco       }} </td>            
               <td></td>
-              <td></td>
               <td align="right"> {{ number_format($sancion->sanciones,0,",",".")  }} </td>
               <td></td>
+	      <td></td>
               <td></td>   
               <td></td>
               <td></td>
