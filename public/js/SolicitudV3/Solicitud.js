@@ -1,7 +1,7 @@
 class Solicitud {
   constructor() {
     this.id             = "";
-    this.num_fact       = "G";
+    this.num_fact       = "G123";
     this.fecha          = "2021-11-10";
     this.cartera_id     = 48;
     this.funcionario_id = 34;
@@ -9,7 +9,7 @@ class Solicitud {
     this.producto_id    = "";
     this.productos      = "";
     this.vlr_fin        = 1000;
-    this.periodo        = "Quincenal";
+    this.periodo        = "";
     this.meses          = 1;
     this.cuotas         = 2;
     this.vlr_cuota      = 600;

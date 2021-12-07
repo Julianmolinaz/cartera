@@ -111,7 +111,7 @@ function reporte_procredito()
         '25-telefono'             => $credito->precredito->cliente->movil, 
         '26-extension'            => '',
         '27-tipo_ubi_electronica' => '',
-        '28-ubicacion_electronica'=> '',
+        '28-ubicacion_electronica'=> $credito->precredito->cliente->email,
         '29-cupo_credito'         => '',
         '30-cupo_utilizado'       => '',
         '31-tipo_obligacion'      => '7', // Pagaré
@@ -236,15 +236,15 @@ function reporte_procredito()
         if( $credito->precredito->cliente->codeudor && $credito->precredito->cliente->codeudor->id != '100' )
         {
             $temp_g = array(
-                '1-tipo_de_registro'      => 'G', // para deudor
-                '2-tipo_de_noveda'        => 1,
-                '3-refinanciacion'        => '', // no obligatoria 
-                '4-fecha_de_corte'        => $fecha, //formato DDMMYYYY
-                '5-seccional'             => 17, 
-                '6-consecutivo'           => '',
-                '7-codigo_sucursal_viejo' => '',
-                '8-tipo_doc_afiliado'     => '2', 
-                '9-num_doc_afiliado'      => '900975741',
+                '1-tipo_de_registro'       => 'G', // para deudor
+                '2-tipo_de_noveda'         => 1,
+                '3-refinanciacion'         => '', // no obligatoria 
+                '4-fecha_de_corte'         => $fecha, //formato DDMMYYYY
+                '5-seccional'              => 17, 
+                '6-consecutivo'            => '',
+                '7-codigo_sucursal_viejo'  => '',
+                '8-tipo_doc_afiliado'      => '2', 
+                '9-num_doc_afiliado'       => '900975741',
                 '10-codigo_sucursal_nuevo' => '0',
                 '11-tipo_garante'          => '2', 
                 '12-tipo_doc_cliente'      => tipo_documento($credito->precredito->cliente->codeudor->tipo_docc),
@@ -263,7 +263,7 @@ function reporte_procredito()
                 '25-telefono'              => $credito->precredito->cliente->codeudor->movilc, 
                 '26-extension'             => '',
                 '27-tipo_ubi_electronica'  => '',
-                '28-ubicacion_electronica' => '',
+                '28-ubicacion_electronica' => $credito->precredito->cliente->emailc,
                 '29-cupo_credito'          => '',
                 '30-cupo_utilizado'        => '',
                 '31-tipo_obligacion'       => '7', // Pagaré
@@ -291,8 +291,8 @@ function reporte_procredito()
             }//.if
         
         }//.foreach
-
-        return $reporte_array;
+        dd($reporte_array);
+        return $;
 
     }//.try
     catch(\Exception $e){
