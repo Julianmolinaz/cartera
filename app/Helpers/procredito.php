@@ -262,7 +262,7 @@ function reporte_procredito()
                 '24-tipo_telefono'         => '2', // Celular
                 '25-telefono'              => $credito->precredito->cliente->codeudor->movilc, 
                 '26-extension'             => '',
-                '27-tipo_ubi_electronica'  => '',
+                '27-tipo_ubi_electronica'  => 'correo',
                 '28-ubicacion_electronica' => $credito->precredito->cliente->emailc,
                 '29-cupo_credito'          => '',
                 '30-cupo_utilizado'        => '',
@@ -291,7 +291,7 @@ function reporte_procredito()
             }//.if
         
         }//.foreach
-        // dd($reporte_array);
+        
         return $reporte_array;
 
     }//.try

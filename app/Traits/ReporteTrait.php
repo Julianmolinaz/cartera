@@ -14,6 +14,7 @@ trait ReporteTrait
           $user = Auth::user();         
 
           $arr = array(
+               array('value' => 'abonos_por_asesor','vista' => 'Abonos por Asesor'),
                array('value' => 'auditoria','vista' => 'Auditoria del Sistema','definición'=>'Muestra las transacciones de modificación en los registros'),
                array('value' => 'caja','vista' => 'Caja','definicion' => 'Muestra todas las cajas'),
                array('value' => 'castigada', 'vista' => 'Cartera Castigada'),
