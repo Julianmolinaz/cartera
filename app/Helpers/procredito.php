@@ -263,7 +263,7 @@ function reporte_procredito()
                 '25-telefono'              => $credito->precredito->cliente->codeudor->movilc, 
                 '26-extension'             => '',
                 '27-tipo_ubi_electronica'  => 0,
-                '28-ubicacion_electronica' => $credito->precredito->cliente->emailc,
+                '28-ubicacion_electronica' => $credito->precredito->cliente->codeudor->emailc,
                 '29-cupo_credito'          => '',
                 '30-cupo_utilizado'        => '',
                 '31-tipo_obligacion'       => '7', // Pagaré
