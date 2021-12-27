@@ -44,11 +44,6 @@
             <div class="tab-content" style="padding:5px">
                 <div v-for="(item, index) in ventas">
                     <venta-component :venta="item.venta" :index="index"></venta-component>
-                    <template v-if="item.invoice">
-                        <div role="tabpanel" class="tab-pane  active" id="invoice" style="margin-left:10px;">
-                            <invoice-component :invoice="item.invoice" />
-                        </div> 
-                    </template>
                     <template v-if="item.vehiculo">
                         <div role="tabpanel" class="tab-pane  active" id="vehiculo" style="margin-left:10px;">
                             <vehiculo-component :vehiculo="item.vehiculo" />
@@ -78,12 +73,10 @@
     </form>
 </script>
 
-@include('start.precreditosV3.create.components.productos.invoice')
 @include('start.precreditosV3.create.components.productos.venta')
 @include('start.precreditosV3.create.components.productos.vehiculo')
 
 <script src="{{ asset('js/SolicitudV3/Venta.js') }}"></script>
-<script src="{{ asset('js/SolicitudV3/Invoice.js') }}"></script>
 <script src="{{ asset('js/SolicitudV3/Vehiculo.js') }}"></script>
 
 <script src="/js/rules/solicitudV3/index.js"></script>
@@ -106,7 +99,6 @@
                     for (let index = 0; index < this.cantidad; index++) {
                         let element = {
                             venta: '',
-                            invoice: '',
                             vehiculo: ''
                         };
                         element.venta = new Venta({
@@ -114,9 +106,6 @@
                             producto_id: this.productoSelected.id,
                             cantidad: this.cantidad
                         });
-                        if (this.productoSelected.con_invoice) {
-                            element.invoice = new Invoice({});                            
-                        }
                         if (this.productoSelected.con_vehiculo) {
                             element.vehiculo = new Vehiculo({});
                             console.log(element.vehiculo);

@@ -29,7 +29,6 @@ class InsumosVentasService
     {
         return [ 
             'catalogo'                      => $this->getProductos(),
-            'list_estados_ref_productos'    => $this->getEstadosInvoice(),
             'list_tipo_vehiculo'            => $this->getTipoVehiculo(),
             'list_expedido_a'               => $this->getExpedidoA(),
             'proveedores'                   => $this->getProveedores(),
@@ -39,19 +38,12 @@ class InsumosVentasService
     private function getProductos()
     {
         $productos = DB::table('productos')
-            ->select('nombre', 'id', 'con_invoice', 'con_vehiculo')
+            ->select('nombre', 'id', 'con_vehiculo')
             ->where('estado',1)
             ->orderBy('nombre')
             ->get();
             
         return $productos;
-    }
-
-    private function getEstadosInvoice()
-    {
-        $list_estados_ref_productos = getEnumValues2('ref_productos','estado');
-
-        return $list_estados_ref_productos;
     }
 
     private function getExpedidoA()
