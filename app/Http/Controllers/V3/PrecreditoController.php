@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Src\Credito\Services\InsumosVentasService;
 use Src\Credito\Services\InsumosSolicitudService;
 use Src\Credito\Services\InsumosCreditoService;
+use Src\Credito\UseCases\ValidarProcesosPendientesdUseCase;
 
 use App\Repositories as Repo;
 
@@ -23,13 +24,13 @@ class PrecreditoController extends Controller
 
     public function create($cliente_id)
     {
-        //validar que un cliente no tenga mas precréditos o créditos en proceso
+        $validation = new ValidarProcesosPendientesdUseCase($cliente_id);
 
-        // if ( $this->existen_solicitudes_pendientes_tr( $cliente_id ) ) {
+        if ( $validation->execute() ) {
+            flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');
+            return redirect()->route('start.clientes.show',$cliente_id);
+        }
 
-        //     flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');
-        //     return redirect()->route('start.clientes.show',$cliente_id);
-        // }
 
         $insumos = new InsumosVentasService(
             new Repo\TercerosQueryBuilderRepository(),
