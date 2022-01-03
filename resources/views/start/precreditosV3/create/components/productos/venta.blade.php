@@ -6,7 +6,7 @@
             <div class="form-group col-md-7" @click="clonar">
                 <h1>@{{ venta.nombre }}</h1>
             </div>
-                <!-- ELIMINAR PRODUCTO  -->
+                <!-- CLONAR VEHICULO  -->
             <div class="form-group col-md-2" style="margin-top: 25px;" >
                 <select class="form-control">
                     <option selected disabled>Clonar Vehículo</option>
