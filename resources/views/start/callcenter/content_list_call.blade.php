@@ -44,6 +44,8 @@
               <th>    Tipo mora     </th>
               <th>    Cliente       </th>
               <th>    Documento     </th>
+              <th>    Ocupación     </th>
+              <th>    Actividad     </th>
               <th>    Pago hasta    </th>
               <th>    Agenda        </th>
               <th>    Call          </th>
@@ -111,6 +113,8 @@
 
             <td>{{  $credito->cliente }}  </td>
             <td>{{  $credito->doc}}       </td>
+            <td>{{  $credito->ocupacion}} </td>
+            <td>{{  $credito->actividad}} </td>
             <td>{{  $credito->fecha_pago}}</td>
 
 
