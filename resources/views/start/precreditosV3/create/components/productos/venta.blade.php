@@ -7,11 +7,15 @@
                 <h1>@{{ venta.nombre }}</h1>
             </div>
                 <!-- CLONAR VEHICULO  -->
-            <div class="form-group col-md-2" style="margin-top: 25px;" >
-                <select class="form-control">
-                    <option selected disabled>Clonar Vehículo</option>
-                    <option value="">---</option>
-                </select>
+            <div class="form-group col-md-2" style="margin-top: 25px;" if="index > 0" >
+                <a href="#" @click="clonar">Clonar vehiculo</a>
+                <div style="width: 100px">
+                    <ul>
+                        <li v-for="vehiculo in this.$store.state.listaVehiculos">
+                            <a href="#" @click="asignarVehiculo(vehiculo)">@{{ vehiculo.placa }}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
                 <!-- ELIMINAR PRODUCTO  -->
             <div class="form-group col-md-2" style="margin-top: 26px;">
@@ -33,12 +37,20 @@
         props: ['venta', 'index'],
         data() {
             return {
-                name: 'venta component'
+                name: 'venta component',
+                list_vehiculos: []
             }
         },
         methods: {
             clonar() {
-                console.log(123);
+                // let clonar = document.getElementById('clonar'+index).value
+                this.$store.commit("resetListaVehiculos");
+                Bus.$emit("consultarVehiculo")
+                console.log('clonar');
+                    
+            },
+            setVehiculo(vehiculo) {
+                
             },
             eliminar() {
                 console.log('eliminar');
@@ -49,6 +61,9 @@
             
         },
         created() {
+            Bus.$on('consultarVehiculos', (vehiculo) => {
+                console.log(vehiculo);
+            })
         }
     });
 </script>

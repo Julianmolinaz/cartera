@@ -45,7 +45,7 @@
                 <div v-for="(item, index) in ventas">
                     <venta-component :venta="item.venta" :index="index"></venta-component>
                     <template v-if="item.vehiculo">
-                        <div role="tabpanel" class="tab-pane  active" id="vehiculo" style="margin-left:10px;">
+                        <div id="vehiculo" style="margin-left:10px;">
                             <vehiculo-component :vehiculo="item.vehiculo" />
                         </div>  
                     </template>

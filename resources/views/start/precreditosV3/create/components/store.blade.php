@@ -11,7 +11,8 @@
             continuarASolicitud : true,
             ventas              : [],
             solicitud           : new Solicitud({}),
-            credito             : new Credito({})
+            credito             : new Credito({}),
+            listaVehiculos      : [],
         },
         getters: { 
             getContinuarASolicitud(state) {
@@ -30,6 +31,12 @@
             },
             setCreditos(state, credito) {
                 state.credito = credito;
+            },
+            setToListaVehiculos(state, vehiculo) {
+                state.listaVehiculos.push(vehiculo);
+            },
+            resetListaVehiculos(state) {
+                state.listaVehiculos = [];
             }
         },
         actions: {

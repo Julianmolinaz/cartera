@@ -126,6 +126,10 @@
             Bus.$on('validarComponents', () => {
                 this.validacion();
             });
+            Bus.$on('consultarVehiculo', () => {
+                console.log("vehiculo", this.vehiculo);
+                this.$store.commit("setToListaVehiculos", this.vehiculo);
+            });
         }
     });
 </script>
