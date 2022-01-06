@@ -47,7 +47,7 @@
             <!-- Tab panes -->
             <div class="tab-content" style="padding:25px">
                 <div role="tabpanel" class="tab-pane  active" id="producto">
-                    <productos-component />
+                    <ventas-component />
                 </div>      
                 <div role="tabpanel" class="tab-pane" id="solicitud">
                     <solicitud-component />
@@ -74,7 +74,7 @@
 </script>
 
 @include('start.precreditosV3.create.components.store')
-@include('start.precreditosV3.create.components.productos.index')
+@include('start.precreditosV3.create.components.ventas._index')
 @include('start.precreditosV3.create.components.solicitud')
 @include('start.precreditosV3.create.components.credito')
 
