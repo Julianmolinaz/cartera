@@ -98,8 +98,7 @@
                 if (this.productoSelected && this.cantidad) {
                     for (let index = 0; index < this.cantidad; index++) {
                         let element = {
-                            venta: '',
-                            vehiculo: ''
+                            venta: ''
                         };
                         element.venta = new Venta({
                             nombre: this.productoSelected.nombre,
