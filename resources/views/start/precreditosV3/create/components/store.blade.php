@@ -15,10 +15,14 @@
             solicitud           : new Solicitud({}),
             credito             : new Credito({}),
             ventas              : [], // listado de ventas agregadas a las solicitud venta: { producto: .., vehiculo: ... }
+            vehiculos           : [], // listado de vehiculos a clonar
         },
         getters: { 
             getContinuarASolicitud(state) {
                 return state.continuarASolicitud;
+            },
+            getVehiculosAClonar(state) {
+                return state.vehiculos;
             }
         },
         mutations: {
@@ -33,6 +37,9 @@
             },
             setCreditos(state, credito) {
                 state.credito = credito;
+            },
+            setVehiculoAClonar(state, vehiculo) {
+                state.vehiculos.push(vehiculo);
             }
         },
         actions: {
@@ -67,6 +74,23 @@
                     }, 
                     () => alertify.error('No se elimino ningun producto.', 1.5)
                 );
+            },
+            listarVehiculosAClonar({state, commit}) {
+                state.vehiculos = [];
+                let i = 0;
+                state.ventas.forEach((venta) => {
+                    if (venta.producto.con_vehiculo && venta.vehiculo.placa) {
+                        if (state.vehiculos.length === 0 || 
+                        state.vehiculos.find((element) => element.placa !== venta.vehiculo.placa)) {
+                            commit("setVehiculoAClonar", venta.vehiculo);
+                        }
+                    }
+
+                    i ++;
+                });
+            },
+            clonarVehiculo({state, commit}, payload) {
+                state.ventas[payload.index].vehiculo = payload.vehiculo;
             },
             async onSubmit({state}) {
                 let dat = {

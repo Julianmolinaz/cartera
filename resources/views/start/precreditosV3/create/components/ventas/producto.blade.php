@@ -1,29 +1,43 @@
 <script type="text/x-template" id="producto-template">
     <form @submit.prevent="">
         <div class="row producto-container">
+            
             <!-- NOMBRE DEL PRODUCTO -->
+            <h1 class="producto-titulo">@{{ producto.nombre }}</h1>
 
-                <h1 class="producto-titulo">@{{ producto.nombre }}</h1>
- 
-            <!-- CLONAR PRODUCTO  -->
-            <!-- <div class="form-group col-md-2" style="margin-top: 25px;" >
-                <select class="form-control">
-                    <option selected disabled>Clonar Vehículo</option>
-                    <option value="">---</option>
-                </select>
-            </div> -->
-            <!-- ELIMINAR PRODUCTO  -->
+
             <div class="producto-acciones">
-                <a  href="javascript:void(0);" 
-                    class="btn btn-default btn-xs producto-acciones__eliminar" 
-                    title="ELiminar producto"
-                    @click="eliminar"
-                >
-                    <span class="glyphicon glyphicon-trash"></span>
-                </a>
+                <!-- CLONAR PRODUCTO  -->
+                <div class="producto-acciones__clonar">
+                    <a  href="javascript:void(0);" 
+                        class="btn btn-default" 
+                        @click="listarVehiculosAClonar"
+                        id="btn-listarVehiculosAClonar"
+                        v-if="producto.con_vehiculo"
+                    >Clonar vehículo</a>
+                    <ul 
+                        v-bind:class="[activeClone ? 'listVehiculosAClonar--acitve' : 'listVehiculosAClonar']">
+                        <li v-for="vehiculo in vehiculosAClonar">
+                            <a 
+                                href="javascript:void(0);" 
+                                @click="clonar(vehiculo)"
+                            >@{{ vehiculo.placa }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="eliminar-container">
+                    <!-- ELIMINAR PRODUCTO  -->
+                    <a  href="javascript:void(0);" 
+                        class="btn btn-danger btn-xs producto-acciones__eliminar" 
+                        title="ELiminar producto"
+                        @click="eliminar"
+                    ><span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </div>
 
             </div>
-
         </div>
         <hr v-if="!producto.con_vehiculo">
     </form> 
@@ -35,15 +49,25 @@
         props: ['producto', 'index'],
         data() {
             return {
-                name: 'venta component'
+                name: 'venta component',
+                activeClone: false,
             }
         },
         methods: {
             alerta() {
                 alert();
             },
-            clonar() {
-                console.log(123);
+            listarVehiculosAClonar() {
+                this.$store.dispatch("listarVehiculosAClonar");
+                if (this.$store.state.vehiculos.length > 0)
+                    this.activeClone = !this.activeClone;
+            },
+            clonar(vehiculo) {
+                this.$store.dispatch("clonarVehiculo", {
+                    vehiculo, 
+                    index: this.index
+                });
+                this.activeClone = !this.activeClone;
             },
             eliminar() {
                 console.log('eliminar');
@@ -51,7 +75,9 @@
             }
         },
         computed: {  
-            
+            vehiculosAClonar() {
+                return this.$store.getters.getVehiculosAClonar;
+            }
         },
         created() {
         }
@@ -67,10 +93,47 @@
         font-size: 3rem;
     }
     .producto-acciones {
-        float:right;diplay:inline;
+        display: flex;
+        gap: 10px;
+        float:right;
     }
     .producto-acciones__eliminar{
-        font-size: 20px; 
-        line-height: 1.5;
+        font-size: 16px; 
+    }
+    .listVehiculosAClonar {
+        display: none;
+    }
+    .listVehiculosAClonar--active {
+        display: block;
+    }
+    .producto-acciones__clonar ul {
+        border: solid 1px #cccccc;
+        border-radius: 4px;
+        list-style: none;
+        padding: 6px 0;
+        z-index: 900;
+        position: absolute;
+        width: 123px;
+        background-color: #ffffff;
+    }
+    .producto-acciones__clonar a {
+        text-decoration: none;
+        color: #333333;
+    }
+    
+    .producto-acciones__clonar li:hover {
+        background-color: #efefef;
+    }
+    .producto-acciones__clonar ul a {
+        display: block;
+        width: 100%;
+        padding: 0 12px;
+
+    }
+    .producto-acciones__clonar ul li {
+        padding: 4px 0;
+    }
+    .eliminar-container {
+        padding-top: 2px;
     }
 </style>

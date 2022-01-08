@@ -7,7 +7,14 @@
                 <div class="row">  
                     <!-- DATOS DEL VEHICULO  -->                    
                     <div class="form-group col-md-12" style="margin-left:15px;">
-                        <h4 style="display:inline-block; margin-right:10px;">Vehículo:</h4>
+                        <span style="font-size: 12px;">
+                            | <i class="fa fa-motorcycle" aria-hidden="true"></i> |
+                              <i class="fa fa-car" aria-hidden="true"></i> |
+                              <i class="fa fa-truck" aria-hidden="true"></i> |
+                        </span>
+                        <h4 style="display:inline-block; margin-right:10px;">
+                            Vehículo:
+                        </h4>
                     </div>
                 </div>
                 <!-- ELEMENTS  -->
@@ -63,9 +70,10 @@
                             <!-- VENCIMIENTO SOAT  -->
                             <div v-bind:class="['form-group','col-md-2',errors.first(rules.vencimiento_soat.name) ? 'has-error' :'']">
                                 <label for="">Vence SOAT @{{ rules.vencimiento_soat.required }}</label>
-                                <input type="date" 
+                                <input 
+                                    type="date" 
                                     onkeydown="return false" 
-                                    class="form-control" 
+                                    class="form-control date-vencimiento" 
                                     v-model="vehiculo.vencimiento_soat"
                                     v-validate="rules.vencimiento_soat.rule"
                                     :name="rules.vencimiento_soat.name"
@@ -75,9 +83,10 @@
                             <!-- VENCIMIENTO RTM  -->
                             <div v-bind:class="['form-group','col-md-2',errors.first(rules.vencimiento_rtm.name) ? 'has-error' :'']">
                                 <label for="">Vence RTM @{{ rules.vencimiento_rtm.required }}</label>
-                                <input type="date" 
+                                <input 
+                                    type="date" 
                                     onkeydown="return false" 
-                                    class="form-control" 
+                                    class="form-control date-vencimiento" 
                                     v-model="vehiculo.vencimiento_rtm"
                                     v-validate="rules.vencimiento_rtm.rule"
                                     :name="rules.vencimiento_rtm.name"
@@ -127,3 +136,8 @@
         }
     });
 </script>
+<style scoped>
+    .date-vencimiento {
+        font-size: 11px;
+    }
+</style>

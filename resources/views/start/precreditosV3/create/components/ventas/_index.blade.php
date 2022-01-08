@@ -92,7 +92,7 @@
                 });
             },
             eliminarProducto(index) {
-               this.$store.dispatch("eliminarVenta", index);
+               this.$store.dispatch("eliminarVenta");
             },
             isNotValid() {
                 let result = false;
