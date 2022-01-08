@@ -15,8 +15,13 @@
                         id="btn-listarVehiculosAClonar"
                         v-if="producto.con_vehiculo"
                     >Clonar vehículo</a>
-                    <ul 
-                        v-bind:class="[activeClone ? 'listVehiculosAClonar--acitve' : 'listVehiculosAClonar']">
+                    
+                    <!-- LISTADO DE PLACAS A CLONAR -->
+
+                    <ul v-bind:class="[
+                        activeClone ? 'listVehiculosAClonar--acitve' : 'listVehiculosAClonar'
+                        ]"
+                    >
                         <li v-for="vehiculo in vehiculosAClonar">
                             <a 
                                 href="javascript:void(0);" 
@@ -27,8 +32,9 @@
                     </ul>
                 </div>
 
+                <!-- ELIMINAR PRODUCTO  -->
+
                 <div class="eliminar-container">
-                    <!-- ELIMINAR PRODUCTO  -->
                     <a  href="javascript:void(0);" 
                         class="btn btn-danger btn-xs producto-acciones__eliminar" 
                         title="ELiminar producto"
@@ -59,6 +65,7 @@
             },
             listarVehiculosAClonar() {
                 this.$store.dispatch("listarVehiculosAClonar");
+
                 if (this.$store.state.vehiculos.length > 0)
                     this.activeClone = !this.activeClone;
             },
@@ -67,10 +74,10 @@
                     vehiculo, 
                     index: this.index
                 });
+
                 this.activeClone = !this.activeClone;
             },
             eliminar() {
-                console.log('eliminar');
                 Bus.$emit('eliminarProducto', this.index);
             }
         },
