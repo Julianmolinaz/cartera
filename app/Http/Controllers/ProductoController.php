@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-
 use App\Producto;
+use Src\Productos\UseCases\EliminarProductoUseCase;
+use Datatables;
 
 class ProductoController extends Controller
 {
+    protected $estados;
 
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->estados = [
+            ['code' => 1, 'label' => 'Activo'],
+            ['code' => 0, 'label' => 'Inactivo'],
+        ];
     }
     
     /**
@@ -28,32 +33,36 @@ class ProductoController extends Controller
             ->with('productos',$productos);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function list()
     {
-        return view('admin.productos.create');
+        $query = \DB::table("productos")
+            ->orderBy("updated_at", "desc");
+
+        return Datatables::of($query)
+            ->make(true);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+    public function create()
+    {
+        $insumos = [
+            'estados' => $this->estados
+        ];
+        return view('admin.productos.create')
+            ->with("insumos", $insumos);
+    }
+
+
     public function store(Request $request)
     {
         $this->validate($request,[
             'nombre' => 'required|unique:productos'],[
             'nombre.required' => 'El Nombre del producto es requerido',
             'nombre.unique'   => 'El Producto ya existe'
-            ]);
+        ]);
+
         $producto = new Producto();
-        $producto->nombre = $request->input('nombre');
-        $producto->descripcion = $request->input('descripcion');
+        $producto->fill($request->all());
         $producto->save();
 
         flash()->success('El Producto '.$producto->nombre.' se creó con Éxito!!');
@@ -80,25 +89,22 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = Producto::find($id);
+        $insumos = [
+            'estados' => $this->estados
+        ];
 
         return view('admin.productos.edit')
-            ->with('producto',$producto);
+            ->with('producto',$producto)
+            ->with('insumos', $insumos);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $this->validate($request,[
             'nombre' => 'required|unique:productos,nombre,'.$id],[
             'nombre.required' => 'El Nombre del producto es requerido',
             'nombre.unique'   => 'El Producto ya existe'
-            ]);
+        ]);
 
         $producto = Producto::find($id);
         $producto->fill($request->all());
@@ -108,15 +114,17 @@ class ProductoController extends Controller
         return redirect()->route('admin.productos.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy($productoId)
     {
-        //
+        try {
+            $case = new EliminarProductoUseCase($productoId);
+            $case->execute();
+            flash()->success("El producto fue eliminado");
+            return redirect()->route("admin.productos.index");
+        } catch (\Exception $e) {
+            flash()->error($e->getMessage());
+            return redirect()->route("admin.productos.index");
+        }
     }
 
 }

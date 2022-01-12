@@ -48,3 +48,7 @@ Route::put('admin/productos/{producto_id}',[
     'as' => 'admin.productos.update'
 ]);
 
+Route::get('admin/productos/destroy/{producto_id}', [
+    'uses' => 'ProductoController@destroy',
+    'as' => 'admin.productos.destroy'
+]);

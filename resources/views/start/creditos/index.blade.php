@@ -26,13 +26,13 @@
 
                         <thead>
                             <tr>
-                            <th>    Código crédito </th>
-                            <th>    Código solicitud</th>
-                            <th>    Estado     </th>
-                            <th>    Cartera  </th>
-                            <th>    Nombre     </th>
-                            <th>    Documento </th>
-                            <th>    Acciones   </th>
+                                <th>    Código crédito </th>
+                                <th>    Código solicitud</th>
+                                <th>    Estado     </th>
+                                <th>    Cartera  </th>
+                                <th>    Nombre     </th>
+                                <th>    Documento </th>
+                                <th>    Acciones   </th>
                             </tr>
                         </thead>
                         <tbody>
