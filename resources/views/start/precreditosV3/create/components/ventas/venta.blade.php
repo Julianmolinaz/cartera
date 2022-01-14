@@ -3,7 +3,7 @@
         <producto-component :producto="data.producto" :index="index"></producto-component>
         <template v-if="data.vehiculo">
             <div role="tabpanel" class="tab-pane  active" id="vehiculo" style="margin-left:10px;">
-                <vehiculo-component :vehiculo="data.vehiculo" />
+                <vehiculo-component :vehiculo="data.vehiculo" :index="index + 1" />
             </div>  
         </template>
     </div>

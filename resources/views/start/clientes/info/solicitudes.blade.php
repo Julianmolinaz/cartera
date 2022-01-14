@@ -45,7 +45,7 @@
                 
                 <td> {{$precredito->id}}   </td>
                 <td> {{$precredito->num_fact}}   </td>
-                <td> {{ $precredito->producto->nombre }}</td>
+                <td> {{ isset($precredito->producto) ? $precredito->producto->nombre : '' }}</td>
                 @if($precredito->version == 2)
                     <td>  
                         @foreach($precredito->ref_productos as $ref)

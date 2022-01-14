@@ -83,7 +83,8 @@ require __DIR__ . '/routes/contabilidad/reportes.php';
 require __DIR__ . '/routes/cajas.php';
 
 Route::group(['prefix' =>'api' ], function() {
-    require __DIR__ . '/api/recibos.php';
-    require __DIR__ . '/api/productos.php';
-    require __DIR__ . '/api/creditosV3.php';
+    require __DIR__ . '/routes/api/recibos.php';
+    require __DIR__ . '/routes/api/productos.php';
+    require __DIR__ . '/routes/api/creditosV3.php';
+    require __DIR__ . '/routes/api/precreditosV3.php';
 });

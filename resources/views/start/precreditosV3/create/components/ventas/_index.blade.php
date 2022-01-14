@@ -113,7 +113,7 @@
 
                 this.$store.state.continuarASolicitud = true;
                 
-                Bus.$emit('validarComponents');
+                Bus.$emit('validarVehiculo');
 
                 setTimeout(() => {
                     if (this.$store.getters.getContinuarASolicitud) {
@@ -125,7 +125,7 @@
                 }, 1000);
             },
             onSubmit() {
-                
+                return this.$store.dispatch('onSubmit');
             } 
         },
         computed: {

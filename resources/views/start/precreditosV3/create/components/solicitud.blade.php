@@ -175,7 +175,8 @@
                         v-model="solicitud.p_fecha"
                         @change="setRango2" 
                         v-validate="rules.f_pago_1.rule"
-                        :name="rules.f_pago_1.name">
+                        :name="rules.f_pago_1.name"
+                    >
                         <option selected disabled>--</option>
                         <option :value="i" v-for="i in rango1">
                             @{{ i }}
@@ -338,6 +339,11 @@
         },
         created() {
             this.solicitud = this.$store.state.solicitud;
+
+            if (this.$store.state.modo === 'Editar Solicitud') {
+                this.setup();
+                this.setRango2();
+            }
         }
     });
 </script>

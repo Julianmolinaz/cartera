@@ -23,3 +23,18 @@ function resHp($success, $data, $message, $status=200)
         'message' => $message 
     ], $status);
 }
+
+function castErrors($validator_errors) 
+{
+    $arr = [];
+    $collection =  collect($validator_errors)->values()->all();
+
+    foreach ($collection as $element) {
+        foreach ($element as $item) {
+            $arr[] = $item;
+        }
+    }
+
+    return $arr;
+}
+

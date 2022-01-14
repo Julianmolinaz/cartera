@@ -19,17 +19,17 @@ class ValidarSolicitudTest extends TestCase
         );
 
         if ($validator->fails()) {
-            dd($validator->errors());
+            dd($validator->errors);
         } 
         
-        $this->assertTrue(true);
+        $this->assertTrue(! $validator->fails() );
     }
 
     public function mockSolicitud()
     {
         return [
             "id"                => "",
-            "num_fact"          => "G",
+            "num_fact"          => "G2345234",
             "fecha"             => "2021-11-10",
             "cartera_id"        => 48,
             "funcionario_id"    => 34,
