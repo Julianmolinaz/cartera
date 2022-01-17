@@ -2,17 +2,89 @@
     <div class="card-title">Credito =2322</div>
     <div class="card-menu">
         <a href="#" class='btn btn-default btn-xs my-btn'>
-            <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" title="Ver solicitud">                            
+            <span
+                class="glyphicon glyphicon-pencil"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Editar crédito">                            
             </span>
         </a>
-        <a href="#" class='btn btn-default btn-xs my-btn'>
-            <span class="glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="Ver solicitud">                            
-            </span>
+        	
+        <a 	href="#" 
+            class='btn btn-default btn-xs my-btn'
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Hacer Pago">
+            <span class="glyphicon glyphicon-usd"></span>
         </a>
-        <a href="#" class='btn btn-default btn-xs my-btn'>
-            <span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top" title="Ver solicitud">                            
-            </span>
+        <a href="{{route('start.clientes.show',$data['solicitud']['cliente']['id'])}}" 
+            class='btn btn-default btn-xs my-btn' 
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Ver Cliente">
+            <span class="glyphicon glyphicon-user" ></span>
         </a>
+        <a href="" 
+            class='btn btn-default btn-xs my-btn' 
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Sanciones diarias">
+            <span class="glyphicon glyphicon-record" ></span>
+        </a>
+        <a  href="" 
+            class='btn btn-default btn-xs my-btn' 
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Multas prejuridicas y juridicas">
+            <span class="glyphicon glyphicon-hourglass"></span>
+        </a>
+        <a
+            href="{{route('start.creditos.refinanciar',$data['solicitud']['id'])}}"
+            class="btn btn-default btn-xs my-btn"
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Refinanciar crédito">
+            <i class="fa fa-reply-all" aria-hidden="true"></i>
+        </a>
+        <a
+            href="javascript:void(0);"
+            class="btn btn-default btn-xs my-btn"
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Acuerdos de pago">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </a>
+        <a href=""
+		    class='btn btn-default btn-xs'
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Llamar">
+            <span class = "glyphicon glyphicon-phone-alt"></span>
+        </a>				
+
+        <a href="javascript:void(0);"
+            onclick="showModalCertificados()"
+            class='btn btn-default btn-xs'  
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Certificados">
+            <span class = "glyphicon glyphicon-file">
+        </a>
+        <a href=""
+            class='btn btn-default btn-xs'
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Estado de cuenta">
+            <span><i class="fab fa-laravel"></i></span>
+        </a>
+        <a href=""
+            class="btn btn-default btn-xs"
+            onclick="return confirm('¿Esta seguro de eliminar el crédito?')" 
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Eliminar Crédito">
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>        
     </div>
 </div>
 <div class="card-content">

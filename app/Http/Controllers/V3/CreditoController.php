@@ -17,7 +17,7 @@ class CreditoController extends Controller
 
     public function store(Request $request)
     {
-        return resHp(true, $request->all(),'ok');
+        dd($request->all());
     }
 
     public function update(Request $request)

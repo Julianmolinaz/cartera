@@ -18,6 +18,8 @@ require __DIR__ . '/routes/callcenter.php';
 
 require __DIR__ . '/routes/creditos.php';
 
+require __DIR__ . '/routes/creditosV3.php';
+
 require __DIR__ . '/routes/precreditos.php';
 
 require __DIR__ . '/routes/precreditosV3.php';

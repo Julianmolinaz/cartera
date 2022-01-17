@@ -13,10 +13,23 @@
   src: url("/fonts/Special_Elite/SpecialElite-Regular.ttf");
 }
 
+:root {
+    --color-dark : #313030;
+    --color-light: #ffffff;
+}
+
 .input-solicitud {
   font-size: 11px;
 }
 
 .my-header {
   background: #ffc300;
+}
+
+.pg-btn-dark {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+.pg-btn-dark:hover {
+    color: var(--color-light);
 }

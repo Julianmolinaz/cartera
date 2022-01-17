@@ -47,4 +47,19 @@ class SolicitudRepository
 
         return $solicitud;
     }
+
+    public static function findTotal($solicitudId)
+    {
+        $solicitud = Solicitud::find($solicitudId);
+        $solicitud->user_create;
+        $solicitud->user_update;
+        $solicitud->funcionario;
+        $solicitud->cartera;
+        $solicitud->credito;
+        $solicitud->facturas;
+        $solicitud->procesos;
+        $solicitud->cliente;
+
+        return $solicitud;
+    }
 }

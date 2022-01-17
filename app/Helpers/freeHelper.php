@@ -4,15 +4,16 @@ use Illuminate\Support\Facades\DB;
 
 function getEnumValues2($table, $column)
 {
-  $type = DB::select( DB::raw("SHOW COLUMNS FROM $table WHERE Field = '$column'") )[0]->Type;
-  preg_match('/^enum\((.*)\)$/', $type, $matches);
-  $enum = array();
-  foreach( explode(',', $matches[1]) as $value )
-  {
-    $v = trim( $value, "'" );
-    $enum[] = $v;
-  }
-  return $enum;
+    $type = DB::select( DB::raw("SHOW COLUMNS FROM $table WHERE Field = '$column'") )[0]->Type;
+    preg_match('/^enum\((.*)\)$/', $type, $matches);
+    $enum = array();
+
+    foreach( explode(',', $matches[1]) as $value ) {
+        $v = trim( $value, "'" );
+        $enum[] = $v;
+    }
+
+    return $enum;
 }
 
 function resHp($success, $data, $message, $status=200)
@@ -38,3 +39,36 @@ function castErrors($validator_errors)
     return $arr;
 }
 
+function ddmmyyyy($date) 
+{
+    $timestamp = strtotime($date);
+    $newDate = date("m-d-Y", $timestamp);
+    return $newDate;
+}
+
+function ddmmyyyyhhmmss($date)
+{
+    $timestamp = strtotime($date);
+    $newDate = date("m-d-Y H:m:s", $timestamp);
+    return $newDate;
+}
+
+function decimal($value)
+{
+    return number_format(
+        $value, 
+        0,
+        ",",
+        "."
+    );
+}
+
+function currentYear()
+{
+    return date("Y");
+}
+
+function currentMonth()
+{
+    return date("m");
+}

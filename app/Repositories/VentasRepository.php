@@ -30,6 +30,7 @@ class VentasRepository
         $query = DB::table("ventas")
             ->join("productos", "ventas.producto_id", "=", "productos.id")
             ->leftJoin("vehiculos", "ventas.vehiculo_id", "=", "vehiculos.id")
+            ->leftJoin("tipo_vehiculos", "vehiculos.tipo_vehiculo_id", "=", "tipo_vehiculos.id")
             ->where("precredito_id", $solicitudId)
             ->select(
                 "ventas.id as id",
@@ -38,13 +39,15 @@ class VentasRepository
                 "productos.nombre as producto_nombre",
                 "productos.id as producto_id",
                 "productos.con_vehiculo",
+                "productos.con_invoice",
                 "vehiculos.placa",
                 "vehiculos.id as vehiculo_id",
                 "vehiculos.vencimiento_soat as vencimiento_soat",
                 "vehiculos.vencimiento_rtm as vencimiento_rtm",
                 "vehiculos.modelo as modelo",
                 "vehiculos.cilindraje as cilindraje",
-                "vehiculos.tipo_vehiculo_id"
+                "vehiculos.tipo_vehiculo_id",
+                "tipo_vehiculos.nombre as tipo_vehiculo"
             )
             ->get();
 
@@ -57,6 +60,7 @@ class VentasRepository
                     'cantidad' => $element->cantidad,
                     'producto_id' => $element->producto_id,
                     'con_vehiculo' => $element->con_vehiculo,
+                    'con_invoice' => $element->con_invoice,
                 ],
                 'vehiculo' => (! $element->con_vehiculo) ? null : [
                     'id' => $element->vehiculo_id,
@@ -65,7 +69,8 @@ class VentasRepository
                     'vencimiento_rtm' => $element->vencimiento_rtm,
                     'cilindraje' => $element->cilindraje,
                     'modelo' => $element->modelo,
-                    'tipo_vehiculo_id' => $element->tipo_vehiculo_id
+                    'tipo_vehiculo_id' => $element->tipo_vehiculo_id,
+                    'tipo_vehiculo' => $element->tipo_vehiculo
                 ]
             ];
 

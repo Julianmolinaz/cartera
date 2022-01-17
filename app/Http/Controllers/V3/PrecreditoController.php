@@ -14,6 +14,7 @@ use Src\Credito\Services\InsumosCreditoService;
 use App\Repositories as Repo;
 use Src\Credito\Services\SalvarSolicitudService;
 use Src\Credito\Services\ActualizarSolicitudService;
+use Src\Credito\Services\ConsultarCreditoService;
 
 class PrecreditoController extends Controller
 {
@@ -57,9 +58,12 @@ class PrecreditoController extends Controller
             ->with('insumos_credito', $insumos_credito);
     }
 
-    public function show($precreditoId)
+    public function show($solicitudId)
     {
-        return view("start.precreditosV3.show.index");
+        $useCase = ConsultarCreditoService::make($solicitudId);
+
+        return view("start.precreditosV3.show.index")
+            ->with('data', $useCase->data);
     }
 
     public function edit($solicitudId)

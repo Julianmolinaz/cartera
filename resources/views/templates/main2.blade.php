@@ -79,7 +79,7 @@
   @include('templates.navbar_principal')
 
 
-  <div class="col-md-12">
+  <div class="col-md-12 main-content">
     @yield('contenido','Ingrese Contenido')
   </div>
 
