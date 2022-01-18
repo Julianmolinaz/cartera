@@ -51,9 +51,9 @@
             <div class="card-content__item">
                 <div class="card-content__subitem">
                     <div class="card-content__subitem-title">
-                        {{ $venta['vehiculo']['cilindraje'] }}
+                        Cilindraje
                     </div>
-                    <div>150</div>
+                    <div>{{ $venta['vehiculo']['cilindraje'] }}</div>
                 </div>
                 <div class="card-content__subitem">
                     <div class="card-content__subitem-title">Vence SOAT</div>

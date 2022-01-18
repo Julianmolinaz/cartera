@@ -34,7 +34,9 @@ class ConsultarCreditoService
 
     protected function getCredito($solicitudId)
     {
-        return [];
+        $credito = Repo\CreditoRepository::findBySolicitud($solicitudId);
+
+        return $credito;
     }
 
     /**

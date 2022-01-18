@@ -93,7 +93,6 @@ class CreditoRepository {
             ->get();
 
         return $creditos;
-
     }
 
     /**
@@ -211,4 +210,50 @@ class CreditoRepository {
         return $credito;
     }
 
+    public static function findBySolicitud($solicitudId)
+    {
+        $credito = DB::table("creditos")
+            ->leftJoin('fecha_cobros', 'creditos.id', "=", "fecha_cobros.credito_id")
+            ->join("users as user_create", "creditos.user_create_id", "=", "user_create.id")
+            ->leftJoin("users as user_update", "creditos.user_update_id", "=", "user_update.id")
+            ->leftJoin("creditos as padre", "creditos.credito_refinanciado_id", "=", "padre.id")
+            ->leftJoin("creditos as hijo", "creditos.id", "=", "hijo.credito_refinanciado_id")
+            ->where("creditos.precredito_id", $solicitudId)
+            ->select(
+                "creditos.*",
+                "fecha_cobros.fecha_pago",
+                "user_create.name as created_by",
+                "user_update.name as updated_by",
+                "padre.id as credito_padre",
+                "hijo.id as credito_hijo",
+            )
+            ->first();
+
+        return $credito;
+    }
+
+    /**
+     * Permite crear un nuevo crédito
+     */
+    
+    public static function saveCredito($dataSolicitud, $dataComision)
+    {
+        $credito = new Credito();
+        $credito->precredito_id = $dataSolicitud->id;
+        $credito->cuotas_faltantes = $dataSolicitud->cuotas;
+        $credito->mes              = $dataComision['mes'];
+        $credito->anio             = $dataComision['anio'];
+        $credito->estado           = 'Al dia';
+        $credito->valor_credito    = $dataSolicitud->cuotas * $dataSolicitud->vlr_cuota;
+        $credito->saldo            = $credito->valor_credito;
+        $credito->rendimiento      = $credito->valor_credito - $dataSolicitud->vlr_fin;
+        $credito->castigada        = 'No';
+        $credito->end_datacredito  = 0;
+        $credito->end_procredito   = 0;
+        $credito->user_create_id   = 1;
+        $credito->user_update_id   = 1;
+        $credito->save();
+
+        return $credito;
+    }
 }

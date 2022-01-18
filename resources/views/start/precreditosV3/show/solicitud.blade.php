@@ -2,7 +2,16 @@
     <div class="card-title">Solicitud ={{ $data['solicitud']['id'] }}</div>
     <div class="card-menu">
         <a 
-            href="#"
+            href="{{ route('start.clientes.show', $data['solicitud']['cliente_id']) }}"
+            class='btn btn-default btn-xs my-btn'
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Ver cliente"
+        >
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </a>
+        <a 
+            href="{{ route('start.precreditosV3.edit', $data['solicitud']['id']) }}"
             class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip" 
             data-placement="top" 
@@ -10,17 +19,6 @@
         >
             <span class="glyphicon glyphicon-pencil"></span>
         </a>
-        @if(! $data['credito'])
-            <a
-                href="#"
-                class='btn btn-default btn-xs my-btn'
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Activar crédito"
-            >
-                <i class="fa fa-power-off" aria-hidden="true"></i>
-            </a>
-        @endif
         <a 
             href="{{route('start.fact_precreditos.create',$data['solicitud']['id'])}}"
             class='btn btn-default btn-xs my-btn'

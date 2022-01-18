@@ -55,7 +55,7 @@
             <span class="glyphicon glyphicon-calendar"></span>
         </a>
         <a href=""
-		    class='btn btn-default btn-xs'
+		    class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip" 
             data-placement="top" 
             title="Llamar">
@@ -64,21 +64,21 @@
 
         <a href="javascript:void(0);"
             onclick="showModalCertificados()"
-            class='btn btn-default btn-xs'  
+            class='btn btn-default btn-xs my-btn'  
             data-toggle="tooltip" 
             data-placement="top" 
             title="Certificados">
             <span class = "glyphicon glyphicon-file">
         </a>
         <a href=""
-            class='btn btn-default btn-xs'
+            class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip" 
             data-placement="top" 
             title="Estado de cuenta">
             <span><i class="fab fa-laravel"></i></span>
         </a>
         <a href=""
-            class="btn btn-default btn-xs"
+            class="btn btn-default btn-xs my-btn"
             onclick="return confirm('¿Esta seguro de eliminar el crédito?')" 
             data-toggle="tooltip"
             data-placement="top"
@@ -91,15 +91,25 @@
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Estado</div>
-            <div>Cancelado</div>
+            <div>
+                <span class="pg-tag 
+                    {{ ($data['credito']->estado === 'Al dia') 
+                        ? 'pg-tag--primary' 
+                        : ((
+                            $data['credito']->estado === 'Mora' || 
+                            $data['credito']->estado === 'Prejuridico' || 
+                            $data['credito']->estado === 'Juridico'
+                        ) ? 'pg-tag--danger' : 'pg-tag--default')
+                    }}">
+                    {{ $data['credito']->estado }}
+                </span>
+            </div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Fecha referencia</div>
-            <div>
-                <span class="pg-tag pg-tag--primary">Agosto-2019</span>
-            </div>
+            <div>Agosto-2019</div>
         </div>
     </div>
     <div class="card-content__item">
@@ -110,53 +120,61 @@
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
-            <div class="card-content__subitem-title">Fecha de pago</div>
-            <div style="font-weight:900">17-09-2021
-                <i class="far fa-calendar-alt"></i>
+            <div class="card-content__subitem-title">
+                <i class="far fa-calendar-alt"></i> Fecha de pago
             </div>
+            <div style="font-weight:900">{{ ddmmyyyy($data['credito']->fecha_pago) }}</div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Valor total crédito</div>
-            <div>$1’000.000,oo</div>
+            <div>$ {{ decimal($data['credito']->valor_credito) }}</div>
         </div>
     </div>
     <div class="card-content__item" style="background-color: #fcee2163">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Saldo deuda</div>
-            <div>$900.000,oo</div>
+             <div>$ {{ decimal($data['credito']->saldo) }}</div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Rendimiento</div>
-            <div>$300.000,oo</div>
+            <div>$ {{ decimal($data['credito']->rendimiento) }}</div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Cuotas faltantes</div>
-            <div>9 de 10</div>
+            <div>{{ $data['credito']->cuotas_faltantes .' de ' .$data['solicitud']['cuotas']}}</div>
         </div>
     </div>
-    <div class="card-content__item">
-        <div class="card-content__subitem-line">
-            <div class="card-content__subitem-title">Credito padre</div>
-            <div>43322</div>
+    @if($data['credito']->credito_padre)
+        <div class="card-content__item">
+            <div class="card-content__subitem-line">
+                <div class="card-content__subitem-title">Credito padre</div>
+                <div>
+                    <a href="#" class="btn btn-default">{{ $data['credito']->credito_padre }}</a>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="card-content__item">
-        <div class="card-content__subitem-line">
-            <div class="card-content__subitem-title">Credito hijo</div>
-            <div>...</div>
+    @endif
+    @if($data['credito']->credito_hijo)
+        <div class="card-content__item">
+            <div class="card-content__subitem-line">
+                <div class="card-content__subitem-title">Credito hijo</div>
+                <div>
+                    <a href="#" class="btn btn-default">{{ $data['credito']->credito_hijo }}</a>
+                </div>
+            </div>
         </div>
-    </div>
+    @endif
     <div style="background-color: #E5E5E5">
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Saldo a favor</div>
-                <div>0</div>
+                <div>{{ decimal($data['credito']->saldo_favor) }}</div>
             </div>
         </div>
         <div class="card-content__item">
@@ -174,7 +192,20 @@
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Sanciones diarias</div>
-                <div>$20.000,oo</div>
+                <div class="sanciones-content">
+                    <div class="sanciones-item">
+                        <span class="sanciones-concept">Debe</span>
+                        <span>{{ $data['credito']->sanciones_debe }}</span>
+                    </div>
+                    <div class="sanciones-item">
+                        <span class="sanciones-concept">Ok</span>
+                        <span>{{ $data['credito']->sanciones_ok }}</span>
+                    </div>
+                    <div class="sanciones-item">
+                        <span class="sanciones-concept">Exoneradas</span>
+                        <span>{{ $data['credito']->sanciones_exoneradas }}</span>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card-content__item">
@@ -199,23 +230,29 @@
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Castigada</div>
-            <div>No</div>
+            <div>{{ $data['credito']->castigada }}</div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Creó</div>
             <div>
-                <p>Pablo Adrian Gonzalez Salazar <br>12-07-2021 18:15:20</p>
+                <p>{{( $data['credito']->created_by )}}<br>
+                    {{ ddmmyyyyhhmmss($data['credito']->created_at) }}
+                </p>
             </div>
         </div>
     </div>
-    <div class="card-content__item">
-        <div class="card-content__subitem-line">
-            <div class="card-content__subitem-title">Actualizó</div>
-            <div>
-                <p>Pablo Adrian Gonzalez Salazar <br>12-07-2021 18:15:20</p>
+    @if($data['credito']->updated_by)
+        <div class="card-content__item">
+            <div class="card-content__subitem-line">
+                <div class="card-content__subitem-title">Actualizó</div>
+                <div>
+                    <p>{{( $data['credito']->updated_by )}}<br>
+                        {{ ddmmyyyyhhmmss($data['credito']->updated_at) }}
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>

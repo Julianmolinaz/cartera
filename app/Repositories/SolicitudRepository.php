@@ -35,6 +35,33 @@ class SolicitudRepository
         return $solicitudes;
     }
 
+    public static function findSolicitudesActivasByCliente($clienteId)
+    {
+        $solicitudes = DB::table("precreditos")
+            ->join("clientes", "precreditos.cliente_id", "=", "clientes.id")
+            ->leftJoin("creditos", "precreditos.id", "=", "creditos.precredito_id")
+            ->where("clientes.id", "=", $clienteId)
+            ->where("aprobado", "Si")
+            ->select("precreditos.*", "creditos.estado as credito_estado")
+            ->get();
+        
+        $arr = [];
+
+        foreach ($solicitudes as $solicitud) {
+            $estado = $solicitud->credito_estado;
+
+            if (!$estado) {
+                $arr[] = $solicitud;
+            } else {
+                if ($estado !== "Cancelado" && $estado !== "Cancelado por refinanciacion") {
+                    $arr[] = $solicitud;
+                }
+            }
+        }
+    
+        return $arr;
+    }
+
     public static function updateSolicitud($dataSolicitud, $solicitudId)
     {
         $solicitud = Solicitud::find($solicitudId);

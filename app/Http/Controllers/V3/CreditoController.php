@@ -17,6 +17,7 @@ class CreditoController extends Controller
 
     public function store(Request $request)
     {
+        \Log::info($request->all());
         dd($request->all());
     }
 

@@ -43,6 +43,8 @@
                         @endforeach
                     </select>
                 </div>
+
+                <input type="hidden" name="solicitudId" value="{{ $data['solicitud']['id'] }}">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -54,9 +56,6 @@
 </div>
 
 <script>
-    const btn = document.querySelector("#btn-activar-credito");
-
-    btn.addEventListener("click", () => {
-        $('#modal-activar-credito').modal('show');
-    });
+    const btn1 = document.querySelector("#btn-activar-credito");
+    btn1.addEventListener("click", () => $('#modal-activar-credito').modal('show'));
 </script>

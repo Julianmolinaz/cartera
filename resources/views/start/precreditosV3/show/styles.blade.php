@@ -107,6 +107,9 @@
     .pg-tag--primary {
         background-color: #0982ed;
     }
+    .pg-tag--danger {
+        background-color: red;
+    }
     .pg-tag--default {
         background-color: #838383;
     }
@@ -133,5 +136,18 @@
     }
     .card-credito__no-active a {
         text-decoration: none;
+    }
+    .sanciones-content {
+        display: flex;
+        font-size: 12px;
+        gap: 5px;
+    }
+    .sanciones-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .sanciones-concept {
+        font-weight: 500;
     }
 </style>
