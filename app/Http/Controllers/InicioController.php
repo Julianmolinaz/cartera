@@ -273,8 +273,9 @@ class InicioController extends Controller
                                     "<a href=".route('start.clientes.show',$cliente->id).">".
                                     $cliente->nombre." - ".
                                     $cliente->tipo_doc.": ".
-                                    $cliente->num_doc."</a>
-                                     <a href=".route('start.clientes.upload_document',$cliente->id).">Cargar documento</a></p>";  
+                                    $cliente->num_doc."</a>".
+				    '<a href="tel:'.$cliente->movil.'"> Cel: '. $cliente->movil." </a>".
+                                    "<a href=".route('start.clientes.upload_document',$cliente->id).">Cargar documento</a></p>";  
                 }
             }
             if(count($nombre_codeudores) > 0){
