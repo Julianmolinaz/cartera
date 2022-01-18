@@ -18,6 +18,8 @@ class Factprecredito extends Model implements Auditable
         'fecha',
         'total',
         'tipo',
+        'banco',
+        'num_consignacion',        
         'user_create_id',
         'user_update_id',
         'ref'
@@ -38,6 +40,5 @@ class Factprecredito extends Model implements Auditable
     public function pagos(){
         return $this->hasMany('App\PrecreditoPago','fact_precredito_id','id');
     }
-
 
 }
