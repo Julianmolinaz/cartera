@@ -1,11 +1,11 @@
 
-<div id="element">
- 	<table class="table table-striped table-bordered" style="font-size:12px">
+<div id="element" class="table-responsive">
+ 	<table class="table table-striped table-bordered" style="font-size:12px; width:100%">
 		<thead>
 			<tr>  
 				<th>    Id Pago    </th>   
-				<th>    Id Factura </th>
-				<th>    # Factura  </th>
+				<th>    Id Recibo </th>
+				<th>    # Recibo  </th>
 				<th>    Fecha      </th>
 				<th>    Concepto   </th>
 				<th>    Subtotal   </th>

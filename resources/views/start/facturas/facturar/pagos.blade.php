@@ -8,7 +8,7 @@
                 id="datatable" 
                 data-order='[[ 0, "desc" ]]' 
                 class="table table-striped table-bordered" 
-                style="font-size:12px, width: 100%"
+                style="font-size:12px; width: 100%"
             >
                 <thead>
                     <tr>
