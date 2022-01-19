@@ -1,11 +1,11 @@
 <script type="text/x-template" id="credito-template">
     <div>
-        <!-- <ul style="list-style-type: none;padding: 0px">
-            <li style="float:left;margin-left:5px;">Solicitud: @{{ $store.state.solicitud.id }} /</li>
-            <li style="float:left;margin-left:5px;">Costo del Crédito: $@{{ $store.state.solicitud.vlr_fin | formatPrice }} /</li>
-            <li style="float:left;margin-left:5px;">Número de cuotas: @{{ $store.state.solicitud.cuotas }} /</li>
-            <li style="float:left;margin-left:5px;">Valor cuota: $@{{ $store.state.solicitud.vlr_cuota | formatPrice }}</li>
-        </ul> -->
+        <ul class="info-solicitud-content">
+            <li class="info-solicitud-item">Solicitud: @{{ $store.state.solicitud.id }} |</li>
+            <li class="info-solicitud-item">Costo del Crédito: $@{{ $store.state.solicitud.vlr_fin | formatPrice }} |</li>
+            <li class="info-solicitud-item">Número de cuotas: @{{ $store.state.solicitud.cuotas }} |</li>
+            <li class="info-solicitud-item">Valor cuota: $@{{ $store.state.solicitud.vlr_cuota | formatPrice }}</li>
+        </ul>
             
         <br><hr>
         
@@ -14,14 +14,18 @@
                 <!-- ESTADO  -->
                 <div v-bind:class="['form-group','col-md-3',errors.first(rules.estado.name) ? 'has-error' :'']">
                     <label for="">Estado @{{ rules.estado.required }}</label>
-                    <select class="form-control"
+                    <select 
+                        class="form-control"
                         v-model="credito.estado"
                         v-validate="rules.estado.rule"
-                        :name="rules.estado.name">
+                        :name="rules.estado.name"
+                    >
                         <option selected disabled>--</option>
-                        <option :value="estado"  
-                            v-for="estado in insumos.estado">
-                                @{{ estado }}
+                        <option 
+                            :value="estado"  
+                            v-for="estado in insumos.estado"
+                        >
+                            @{{ estado }}
                         </option>
                     </select>
                     <span class="help-block">@{{ errors.first(rules.estado.name) }}</span>
@@ -100,7 +104,9 @@
                 </div>
                 <!-- FECHA DE PAGO -->
                 <div v-bind:class="['form-group has-success','col-md-2',errors.first(rules.fecha_pago.name) ? 'has-error' :'']">
-                    <label for="">Fecha de Pago @{{ rules.fecha_pago.required }}</label>
+                    <label for="fecha de pago" class="my-label-min">
+                        Fecha de Pago @{{ rules.fecha_pago.required }}
+                    </label>
                     <input type="date" 
                         class="form-control" 
                         onkeydown="return false" 
@@ -111,14 +117,20 @@
                 </div>
                 <!-- MES  -->
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.mes.name) ? 'has-error' :'']">
-                    <label for="">Mes de Referencia @{{ rules.mes.required }}</label>
-                    <select class="form-control"
+                    <label for="mes comision" class="my-label-min">
+                        Mes de Referencia @{{ rules.mes.required }}
+                    </label>
+                    <select 
+                        class="form-control"
                         v-model="credito.mes"
                         v-validate="rules.mes.rule"
-                        :name="rules.mes.name">
+                        :name="rules.mes.name"
+                    >
                         <option selected disabled>--</option>
-                        <option :value="mes"  
-                            v-for="mes in insumos.mes">
+                        <option 
+                            :value="mes"  
+                            v-for="mes in insumos.mes"
+                        >
                                 @{{ mes }}
                         </option>
                     </select>
@@ -126,7 +138,9 @@
                 </div>
                 <!-- ANIO  -->
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.anio.name) ? 'has-error' :'']">
-                    <label for="">Año de Referencia @{{ rules.anio.required }}</label>
+                    <label for="año de referencia" class="my-label-min">
+                        Año de Referencia @{{ rules.anio.required }}
+                    </label>
                     <select class="form-control"
                         v-model="credito.anio"
                         v-validate="rules.anio.rule"
@@ -172,6 +186,8 @@
 
 <script src="/js/rules/solicitudV3/credito.js"></script>
 
+@include('filters')
+
 <script>
     const credito = Vue.component('credito-component', {
         template: '#credito-template',
@@ -205,3 +221,23 @@
         }
     });
 </script>
+
+<style scoped>
+    .info-solicitud-content {
+        list-style-type: none;
+        padding: 0px;
+    }
+    .info-solicitud-item  {
+        float:left;
+        margin-left:5px;
+    }
+    .my-label-min {
+        font-size: 12px;
+    }
+
+    @media (max-width: 800px) {
+        .my-label-min {
+            font-size: 16px;
+        }
+    }
+</style>

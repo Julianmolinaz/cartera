@@ -1,3 +1,8 @@
+ @php   $creditoId = $data['credito']->id;
+    $credito = $data['credito'];
+    $cliente = $data['cliente'];
+ @endphp
+ 
  <div class="card-header">
     <div class="card-title">Credito =2322</div>
     <div class="card-menu">
@@ -17,21 +22,16 @@
             title="Hacer Pago">
             <span class="glyphicon glyphicon-usd"></span>
         </a>
-        <a href="{{route('start.clientes.show',$data['solicitud']['cliente']['id'])}}" 
-            class='btn btn-default btn-xs my-btn' 
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Ver Cliente">
-            <span class="glyphicon glyphicon-user" ></span>
-        </a>
-        <a href="" 
+        <a 
+            href="{{route('admin.sanciones.show',$creditoId)}}" 
             class='btn btn-default btn-xs my-btn' 
             data-toggle="tooltip" 
             data-placement="top" 
             title="Sanciones diarias">
-            <span class="glyphicon glyphicon-record" ></span>
+            <span class="glyphicon glyphicon-record"></span>
         </a>
-        <a  href="" 
+        <a  
+            href="{{route('admin.multas.show',$creditoId)}}" 
             class='btn btn-default btn-xs my-btn' 
             data-toggle="tooltip" 
             data-placement="top" 
@@ -48,17 +48,19 @@
         </a>
         <a
             href="javascript:void(0);"
+            onclick="showAcuerdo()"
             class="btn btn-default btn-xs my-btn"
             data-toggle="tooltip" 
             data-placement="top" 
             title="Acuerdos de pago">
             <span class="glyphicon glyphicon-calendar"></span>
         </a>
-        <a href=""
+        <a 
+            href="{{route('call.index_unique',$creditoId)}}"
 		    class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip" 
             data-placement="top" 
-            title="Llamar">
+            title="Call Center">
             <span class = "glyphicon glyphicon-phone-alt"></span>
         </a>				
 
@@ -174,7 +176,7 @@
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Saldo a favor</div>
-                <div>{{ decimal($data['credito']->saldo_favor) }}</div>
+                <div>$ {{ decimal($data['credito']->saldo_favor) }}</div>
             </div>
         </div>
         <div class="card-content__item">
@@ -211,20 +213,20 @@
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Debe de pagos parciales</div>
-                <div>$25.000,oo</div>
+                <div>$ {{ $data['debe_pagos'] }}</div>
             </div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Descuentos</div>
-            <div>$25.000,oo</div>
+            <div>$ {{ $data['total_descuentos'] }}</div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Total pagos</div>
-            <div>$25.000,oo</div>
+            <div>$ {{ $data['total_pagos'] }}</div>
         </div>
     </div>
     <div class="card-content__item">
@@ -256,3 +258,13 @@
         </div>
     @endif
 </div>
+
+@include('start.precreditos.acuerdos.index')
+@include('start.precreditos.certificados.modal-certificados')
+
+<script>
+    function showAcuerdo() {
+        $('#acuerdo').modal('show');
+    }
+</script>
+

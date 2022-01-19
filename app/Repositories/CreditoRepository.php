@@ -256,4 +256,10 @@ class CreditoRepository {
 
         return $credito;
     }
+
+    public static function find($creditoId)
+    {
+        $credito = DB::table('creditos')->where('id', $creditoId)->first();
+        return $credito;
+    }
 }

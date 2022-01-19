@@ -14,6 +14,7 @@ class ConsultarCreditoService
         $this->credito = $this->getCredito($solicitudId);
 
         $this->data = [
+            'cliente' => $this->getCliente($solicitudId),
             'solicitud' => $this->getSolicitud($solicitudId),
             'ventas' => $this->getVentas($solicitudId),
             'meses' => ($this->credito) ? [] : $this->getMeses(),
@@ -21,10 +22,11 @@ class ConsultarCreditoService
             'credito' => $this->credito,
             'juridico' => $this->getJuridicos(),
             'prejuridico' => $this->getPrejuridicos(),
-            'pagos_parciales' => $this->getDebePagosParciales(),
+            'debe_pagos' => $this->getDebePagosParciales(),
             'total_pagos' => $this->getTotalPagosCredito(),
             'total_descuentos' => $this->getTotalDescuentosCredito(),
         ];
+
     }
 
     public static function make($solicitudId)
@@ -160,15 +162,34 @@ class ConsultarCreditoService
     protected function getDebePagosParciales()
     {
         if (!$this->credito) return [];
+
+        $pago = Repo\PagosCreditoRepository::cuotaParcialDebe($this->credito->id);
+
+        return $pago ? $pago->debe : 0;
     }
 
     protected function getTotalPagosCredito()
     {
         if (!$this->credito) return [];
+
+        $totalPagos = Repo\PagosCreditoRepository::totalPagosByCredito($this->credito->id);
+
+        return $totalPagos ? $totalPagos : 0;
     }
 
     protected function getTotalDescuentosCredito()
     {
         if (!$this->credito) return [];
+
+        $totalDescuentos = Repo\PagosCreditoRepository::totalDescuentosByCredito($this->credito->id);
+
+        return $totalDescuentos ? $totalDescuentos : 0;
+    }
+
+    protected function getCliente($solicitudId)
+    {
+        $cliente = Repo\ClientesRepository::findBySolicitud($solicitudId);
+
+        return $cliente;
     }
 }

@@ -17,7 +17,16 @@ class SolicitudRepository
 
     public static function find($solicitudId)
     {
-        return DB::table("precreditos")->where("id", $solicitudId)->first();
+        $solicitud = DB::table("precreditos")
+            ->leftJoin('productos', 'precreditos.producto_id', '=', 'productos.id')
+            ->where("precreditos.id", $solicitudId)
+            ->select(
+                'precreditos.*',
+                'productos.nombre as producto_nombre'
+            )
+            ->first();
+
+        return $solicitud;
     }
 
     public static function findByNumFact($numFact)

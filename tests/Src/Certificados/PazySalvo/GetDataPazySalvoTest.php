@@ -4,15 +4,16 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use Src\Credito\Services\ConsultarCreditoService;
+use Src\Certificados\PazySalvo\GetDataPazySalvoService;
 
-class ConsultarCreditoServiceTest extends TestCase
+class GetDataPazySalvoTest extends TestCase
 {
     public function testExample()
     {
-        $case = ConsultarCreditoService::make(34760);
+        $useCase = GetDataPazySalvoService::make(25012, 'cliente');
 
-        // dd($case->data);
+        // dd($useCase->data);
+
         $this->assertTrue(true);
     }
 }

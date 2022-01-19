@@ -54,6 +54,7 @@ class PrecreditoController extends Controller
             ->with('cliente', $cliente)
             ->with('solicitud', null)
             ->with('ventas', null)
+            ->with('credito', null)
             ->with('modo', 'Crear Solicitud')
             ->with('insumos_credito', $insumos_credito);
     }
@@ -77,21 +78,24 @@ class PrecreditoController extends Controller
         $data = new InsumosSolicitudService();
         $data = $data->execute();
         
+
         $insumosCreditoUseCase = new InsumosCreditoService();
         $insumos_credito = $insumosCreditoUseCase->execute();
 
         $solicitud = Repo\SolicitudRepository::find($solicitudId);
         $cliente = Repo\ClientesRepository::find($solicitud->cliente_id);
         $ventas = Repo\VentasRepository::findBySolicitud($solicitudId);
+        $credito = Repo\CreditoRepository::findBySolicitud($solicitudId);
 
         return view('start.precreditosV3.create.index')
+            ->with('insumos_credito', $insumos_credito)
             ->with('data', $data)
             ->with('insumos', $insumos)
             ->with('cliente', $cliente)
             ->with('solicitud', $solicitud)
             ->with('ventas', $ventas)
-            ->with('modo', 'Editar Solicitud')
-            ->with('insumos_credito', $insumos_credito);
+            ->with('credito', $credito)
+            ->with('modo', ($credito) ? 'Editar Credito' : 'Editar Solicitud');
     }
 
     public function store(Request $request) 

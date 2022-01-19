@@ -2,7 +2,7 @@
     <div class="card-title">Productos</div>
     <div class="card-menu">
         <a 
-            href="#"
+            href="{{ route('start.precreditosV3.edit', $data['solicitud']['id']) }}"
             class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip"
             data-placement="top"

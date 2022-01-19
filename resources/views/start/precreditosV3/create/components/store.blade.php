@@ -16,7 +16,7 @@
                 cliente_id: {!! $cliente->id !!},
                 aprobado: "En estudio",
             }),
-            credito             : new Credito({}),
+            credito             : {!! json_encode($credito) !!} || new Credito({}),
             ventas              : {!! json_encode($ventas) !!} || [], // listado de ventas agregadas a las solicitud venta: { producto: .., vehiculo: ... }
             vehiculos           : [], // listado de vehiculos a clonar
             cliente             : {!! json_encode($cliente) !!}

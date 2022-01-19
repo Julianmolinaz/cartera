@@ -11,7 +11,13 @@ class ClientesRepository
     public static function find($clienteId)
     {
         return DB::table("clientes")
-            ->where("id", $clienteId)
+            ->join('municipios', 'clientes.municipio_id', '=', 'municipios.id')
+            ->where("clientes.id", $clienteId)
+            ->select(
+                'clientes.*',
+                'municipios.nombre as municipio',
+                'municipios.departamento as departamento'
+            )
             ->first();
     }
 
@@ -20,5 +26,16 @@ class ClientesRepository
         $cliente = Cliente::find($clienteId);
         $cliente->numero_de_creditos ++;
         $cliente->save();
+    }
+
+    public static function findBySolicitud($solicitudId)
+    {
+        $cliente = DB::table('clientes')
+            ->join('precreditos', 'clientes.id', '=', 'precreditos.cliente_id')
+            ->where('precreditos.id', $solicitudId)
+            ->select('clientes.*')
+            ->first();
+
+        return $cliente;
     }
 }

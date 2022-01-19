@@ -1,4 +1,9 @@
 @if($precredito->credito)   
+    
+    @php    $creditoId = $precredito->credito->id;
+            $credito = $precredito->credito;
+            $cliente = $precredito->cliente;
+    @endphp
 
   	@if($precredito->credito->refinanciacion == 'No')
   	<div class="panel panel-primary">

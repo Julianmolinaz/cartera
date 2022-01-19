@@ -30,9 +30,11 @@ class ExtrasRepository
     public static function getPagosPrejuridicoDebe($creditoId)
     {
         $pagoPrejuridico = DB::table('pagos')
-            ->where('credito_id', $creditoId)
-            ->where('concepto', 'Prejuridico')
-            ->where('estado', 'Debe')
+            ->join('facturas', 'pagos.factura_id', '=', 'facturas.id')
+            ->where('facturas.credito_id', $creditoId)
+            ->where('pagos.concepto', 'Prejuridico')
+            ->where('pagos.estado', 'Debe')
+            ->select('pagos.*')
             ->first();
 
         return $pagoPrejuridico;

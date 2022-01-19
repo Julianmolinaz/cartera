@@ -47,7 +47,6 @@
                                         href="javascript:void(0);"
                                         style="float:right;"
                                         @click="deleteAcuerdo(acuerdo)"
-                                        href="{{route('start.creditos.destroy',$precredito->credito->id)}}"
                                         class="btn btn-danger btn-xs float-right"
                                         data-toggle="tooltip"
                                         data-placement="top"
@@ -60,7 +59,6 @@
                                         href="javascript:void(0);"
                                         style="float:right;margin:0 5px;"
                                         @click="edit(acuerdo)"
-                                        href="{{route('start.creditos.destroy',$precredito->credito->id)}}"
                                         class="btn btn-primary btn-xs float-right"
                                         data-toggle="tooltip"
                                         data-placement="top"
@@ -96,7 +94,7 @@
             this.fecha = {!! json_encode(\Carbon\Carbon::now()->format('Y-m-d')) !!};
             this.descripcion = '';
             this.estado = 'Abierto';
-            this.credito_id = {!! json_encode($precredito->credito->id) !!}
+            this.credito_id = {!! json_encode($creditoId) !!}
         }
     }
 
@@ -117,7 +115,7 @@
 
                 var self = this;
 
-                axios.get('/start/acuerdos/'+ {!! json_encode($precredito->credito->id) !!})
+                axios.get('/start/acuerdos/'+ {!! json_encode($creditoId) !!})
                     .then( res => {
                         self.acuerdos = res.data;
                     })
