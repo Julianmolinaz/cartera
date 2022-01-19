@@ -12,7 +12,7 @@ class ConsultarCreditoServiceTest extends TestCase
     {
         $case = ConsultarCreditoService::make(34760);
 
-        // dd($case->data);
+        dd($case->data);
         $this->assertTrue(true);
     }
 }

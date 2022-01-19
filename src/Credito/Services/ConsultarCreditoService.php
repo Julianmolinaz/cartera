@@ -7,17 +7,23 @@ use App\Repositories as Repo;
 class ConsultarCreditoService
 {
     public $data;
+    public $credito;
     
     private function __construct($solicitudId)
     {
-        $credito = $this->getCredito($solicitudId);
+        $this->credito = $this->getCredito($solicitudId);
 
         $this->data = [
             'solicitud' => $this->getSolicitud($solicitudId),
             'ventas' => $this->getVentas($solicitudId),
-            'credito' => $credito,
-            'meses' => ($credito) ? [] : $this->getMeses(),
-            'anos' => ($credito) ? [] : $this->getAnos(),
+            'meses' => ($this->credito) ? [] : $this->getMeses(),
+            'anos' => ($this->credito) ? [] : $this->getAnos(),
+            'credito' => $this->credito,
+            'juridico' => $this->getJuridicos(),
+            'prejuridico' => $this->getPrejuridicos(),
+            'pagos_parciales' => $this->getDebePagosParciales(),
+            'total_pagos' => $this->getTotalPagosCredito(),
+            'total_descuentos' => $this->getTotalDescuentosCredito(),
         ];
     }
 
@@ -119,5 +125,50 @@ class ConsultarCreditoService
                 'checked' => true
             ]
         ];
+    }
+
+    protected function getJuridicos()
+    {
+        if (!$this->credito) return [];
+
+        $juridico = Repo\ExtrasRepository::getJuridicoDebeByCredito($this->credito->id);
+
+        if (! $juridico) return ['total' => 0, 'debe' => 0];
+
+        $pagoJuridico = Repo\ExtrasRepository::getPagosJuridicoDebe($this->credito->id);
+
+        if ($pagoJuridico) return ['total' => $juridico->valor, 'debe' => $pagoJuridico->debe];
+
+        return ['total' => $juridico->valor, 'debe' => $juridico->valor];
+    }
+
+    protected function getPrejuridicos()
+    {
+        if (!$this->credito) return [];
+
+        $prejuridico = Repo\ExtrasRepository::getPrejuridicoDebeByCredito($this->credito->id);
+
+        if (! $prejuridico) return ['total' => 0, 'debe' => 0];
+
+        $pagoJuridico = Repo\ExtrasRepository::getPagosPrejuridicoDebe($this->credito->id);
+
+        if ($pagoJuridico) return ['total' => $prejuridico->valor, 'debe' => $pagoJuridico->debe];
+
+        return ['total' => $prejuridico->valor, 'debe' => $prejuridico->valor];
+    }
+
+    protected function getDebePagosParciales()
+    {
+        if (!$this->credito) return [];
+    }
+
+    protected function getTotalPagosCredito()
+    {
+        if (!$this->credito) return [];
+    }
+
+    protected function getTotalDescuentosCredito()
+    {
+        if (!$this->credito) return [];
     }
 }

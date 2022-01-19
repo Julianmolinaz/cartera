@@ -180,13 +180,13 @@
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Jurídico</div>
-                <div>0</div>
+                <div>Debe {{ $data['juridico']['debe'] }} de {{ $data['juridico']['total'] }}</div>
             </div>
         </div>
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Prejurídico</div>
-                <div>0</div>
+                <div>Debe {{ $data['prejuridico']['debe'] }} de {{ $data['prejuridico']['total'] }}</div>
             </div>
         </div>
         <div class="card-content__item">
