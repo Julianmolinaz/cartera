@@ -7,21 +7,20 @@ class ValidarCreditoService
 {
     protected $data;
     protected $validator;
-
-    /**
-     * @param $status: 'create' || 'edit'
-     * @param $mode: 
-     */
+    public $errors = [];
     
-    private function __construct($data, $mode)
+    private function __construct($data)
     {
         $this->data = $data;
-        $this->validate();
+
+        if ($data['id']) {
+            $this->validate();
+        }
     }
 
-    public static function make($data, $mode) 
+    public static function make($data)
     {
-        return new self($data, $mode);
+        return new self($data);
     } 
 
     protected function validate()
@@ -30,6 +29,11 @@ class ValidarCreditoService
             $this->data, 
             $this->rules(), 
             $this->messages()
+        );
+
+        $this->errors = array_merge(
+            $this->errors, 
+            castErrors($this->validator->errors())
         );
     }
 
@@ -76,7 +80,11 @@ class ValidarCreditoService
 
     public function fails()
     {
-        return $this->validator->fails();
+        if ($this->validator && $this->validator->fails()) {
+            return $this->validator->fails();
+        } else {
+            return false;
+        }
     }
 }
 

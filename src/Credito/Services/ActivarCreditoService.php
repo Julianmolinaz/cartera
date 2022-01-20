@@ -24,9 +24,9 @@ class ActivarCreditoService
         $this->execute();    
     }
 
-    public static function make($solicitudId)
+    public static function make($dataComision)
     {
-        return new self($solicitudId);
+        return new self($dataComision);
     }
 
     protected function execute()

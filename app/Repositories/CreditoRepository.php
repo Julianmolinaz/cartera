@@ -262,4 +262,17 @@ class CreditoRepository {
         $credito = DB::table('creditos')->where('id', $creditoId)->first();
         return $credito;
     }
+
+    public static function updateCredito($dataCredito, $creditoId)
+    {
+        $credito = Credito::find($creditoId);
+        $credito->fill($dataCredito);
+
+        if ($credito->isDirty()) {
+            $credito->user_update_id = 1;
+            $credito->save();
+        }
+
+        return $credito;
+    }
 }

@@ -272,6 +272,7 @@
                 }
             },
             async onSubmit() {
+                console.log('onSubmit solicitud');
                 return this.$store.dispatch('onSubmit');
             }, 
             async assignData() {

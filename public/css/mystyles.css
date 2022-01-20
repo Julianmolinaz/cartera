@@ -13,10 +13,16 @@
   src: url("/fonts/Special_Elite/SpecialElite-Regular.ttf");
 }
 
+html {
+    font-size: 62.5%;
+}
+
 :root {
     --color-dark : #313030;
     --color-light: #ffffff;
+    --color-sun: #ffc300;
 }
+
 
 .input-solicitud {
   font-size: 11px;

@@ -16,7 +16,7 @@
                 cliente_id: {!! $cliente->id !!},
                 aprobado: "En estudio",
             }),
-            credito             : {!! json_encode($credito) !!} || new Credito({}),
+            credito             : {!! json_encode($credito) !!} || null,
             ventas              : {!! json_encode($ventas) !!} || [], // listado de ventas agregadas a las solicitud venta: { producto: .., vehiculo: ... }
             vehiculos           : [], // listado de vehiculos a clonar
             cliente             : {!! json_encode($cliente) !!}
@@ -106,9 +106,12 @@
 
                 if (state.modo == 'Crear Solicitud') url = '/api/precreditosV3';
                 else if (state.modo == 'Editar Solicitud') url = '/api/precreditosV3/update';
+                else if (state.modo == 'Editar Credito') url = '/api/creditosV3/update';
 
                 try {
                     const res = await axios.post(url, dat);
+
+                    console.log({res});
 
                     if (res.data.success) {
                         alertify.notify(res.data.message, "success", 2, () => {

@@ -61,8 +61,6 @@
                     title="Gestionar acuerdos de pago">
                     Acuerdos
                 </a>
-				
-
 				<a href="{{route('call.index_unique',$precredito->credito->id)}}"
 					class='btn btn-default btn-xs'
 					data-toggle="tooltip" 

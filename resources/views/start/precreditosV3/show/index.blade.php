@@ -1,10 +1,20 @@
 @extends('templates.main2')
 
+ @php   $creditoId = $data['credito']->id;
+        $credito = $data['credito'];
+        $cliente = $data['cliente'];
+        $solicitud = (object)$data['solicitud'];
+ @endphp
+
 @section('title', 'ver solicitud')
 
 @section('contenido')
     @include('start.precreditosV3.show.styles')
 
+    <div class="col-md-12">
+        @include('flash::message')
+    </div>
+    
     <div class="obligacion-container">
         <div class="card-productos">
             @include('start.precreditosV3.show.ventas')

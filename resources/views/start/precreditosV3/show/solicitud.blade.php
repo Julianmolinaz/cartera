@@ -1,8 +1,8 @@
 <div class="card-header">
-    <div class="card-title">Solicitud ={{ $data['solicitud']['id'] }}</div>
+    <div class="card-title">Solicitud ={{ $solicitud->id }}</div>
     <div class="card-menu">
         <a 
-            href="{{ route('start.clientes.show', $data['solicitud']['cliente_id']) }}"
+            href="{{ route('start.clientes.show', $solicitud->cliente_id) }}"
             class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip" 
             data-placement="top" 
@@ -11,7 +11,7 @@
             <i class="fa fa-user" aria-hidden="true"></i>
         </a>
         <a 
-            href="{{ route('start.precreditosV3.edit', $data['solicitud']['id']) }}"
+            href="{{ route('start.precreditosV3.edit', $solicitud->id) }}"
             class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip" 
             data-placement="top" 
@@ -20,7 +20,7 @@
             <span class="glyphicon glyphicon-pencil"></span>
         </a>
         <a 
-            href="{{route('start.fact_precreditos.create',$data['solicitud']['id'])}}"
+            href="{{route('start.fact_precreditos.create',$solicitud->id)}}"
             class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip"
             data-placement="top"
@@ -125,4 +125,12 @@
             <div>{{ $data['solicitud']['observaciones'] }}</div>
         </div>
     </div>
+    @if($data['credito'] && $data['credito']->recordatorio)
+        <div class="card-content__item">
+            <div class="card-content__subitem" style="width: 100%;">
+                <div class="card-content__subitem-title">Recordatorio</div>
+                <div>{{ $data['credito']->recordatorio }}</div>
+            </div>
+        </div>
+    @endif
 </div>

@@ -5,6 +5,7 @@ namespace Src\Credito\Services;
 use App\Repositories\SolicitudRepository as RepoSolicitud;
 use App\Repositories\VentasRepository as RepoVenta;
 use App\Repositories\VehiculosRepository as RepoVehiculo;
+use App\Repositories\CreditoRepository as RepoCredito;
 
 use DB;
 
@@ -20,19 +21,14 @@ class ActualizarSolicitudService
 
     public function make()
     {
-        $validarVentas = ValidarVentasService::make($this->data['ventas']);
-        if ($validarVentas->fails()) $this->errors = array_merge($this->errors, $validarVentas->errors);
-
-        $validarSolicitud = ValidarSolicitudService::make($this->data['solicitud'], "Editar Solicitud");
-        if ($validarSolicitud->fails()) $this->errors = array_merge($this->errors, $validarSolicitud->errors);
-
-        if ($this->errors) throw new \Exception("**".json_encode($this->errors));
+        $this->runValidations();
 
         DB::beginTransaction();
 
         try {
             $this->actualizarSolicitud();
             $this->actualizarVentas();
+            $this->actualizarCredito();
             
             DB::commit();
             
@@ -44,10 +40,51 @@ class ActualizarSolicitudService
         }
     }
 
+    protected function runValidations()
+    {
+        /**
+         * VALIDAR VENTAS
+         */
+        $validarVentas = ValidarVentasService::make($this->data['ventas']);
+
+        if ($validarVentas->fails()) {
+            $this->errors = array_merge($this->errors, $validarVentas->errors);
+        }
+
+        /**
+         * VALIDAR SOLICITUD
+         */
+
+        $validarSolicitud = ValidarSolicitudService::make(
+            $this->data['solicitud'],
+            "Editar Solicitud"
+        );
+
+        if ($validarSolicitud->fails()) {
+            $this->errors = array_merge($this->errors, $validarSolicitud->errors);
+        } 
+
+        /**
+         * VALIDAR CRÉDITO
+         */
+
+        $validarCredito = ValidarCreditoService::make(
+            $this->data['credito']
+        );
+        
+        if ($validarSolicitud->fails()) {
+            $this->errors = array_merge($this->errors, $validarCredito->errors);
+        } 
+
+        if ($this->errors) {
+            throw new \Exception("**".json_encode($this->errors));
+        }
+    }
+
+
     protected function actualizarVentas()
     {
         foreach ($this->data['ventas'] as $venta) {
-
             $dataVenta = [
                 'id' => $venta['id'],
                 'producto_id' =>  $venta['producto']['producto_id'],
@@ -88,6 +125,13 @@ class ActualizarSolicitudService
             RepoVenta::updateVenta($dataVenta, $dataVenta['id']);
         } else {
             RepoVenta::saveVenta($dataVenta);
+        }
+    }
+
+    protected function actualizarCredito()
+    {
+        if ($this->data['credito'] && $this->data['credito']['id']) {
+            RepoCredito::updateCredito($this->data['credito'], $this->data['credito']['id']);
         }
     }
 }

@@ -1,5 +1,5 @@
 <div class="card-header">
-    <div class="card-title">Productos</div>
+    <div class="card-title">Ventas</div>
     <div class="card-menu">
         <a 
             href="{{ route('start.precreditosV3.edit', $data['solicitud']['id']) }}"
@@ -11,7 +11,7 @@
             <span class="glyphicon glyphicon-pencil"></span>
         </a>
         <a 
-            href="#"
+            href="{{ route('start.facturacion.index', $solicitud->id) }}"
             class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip"
             data-placement="top"

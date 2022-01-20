@@ -4,7 +4,6 @@ namespace Src\Credito\Services;
 
 use App\Repositories\SolicitudRepository as RepoSolicitud;
 use Validator;
-use DB;
 
 class ValidarSolicitudService
 {

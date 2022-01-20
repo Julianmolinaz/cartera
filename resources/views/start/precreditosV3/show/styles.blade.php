@@ -1,17 +1,15 @@
 <style>
     .obligacion-container {
-        padding: 0px 30px;
         display: grid;
+        margin-bottom: 40px;
         grid-template-areas: "productos solicitud credito";
         grid-template-columns: 1fr 400px 1fr;
         gap: 20px;
+        width: 100%;
+        justify-content: center;
     }
     
     @media (max-width:1300px) {
-        .main-content {
-            padding: 0;
-        }
-        
         .obligacion-container {
             grid-template-columns: 350px 400px 350px;
         }
@@ -70,7 +68,7 @@
         border: none;
     }
     .card-content {
-        height: 500px;
+        height: 850px;
         overflow: scroll;
         overflow-x: hidden;
     }

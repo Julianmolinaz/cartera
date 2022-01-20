@@ -1,25 +1,21 @@
- @php   $creditoId = $data['credito']->id;
-    $credito = $data['credito'];
-    $cliente = $data['cliente'];
- @endphp
- 
  <div class="card-header">
-    <div class="card-title">Credito =2322</div>
+    <div class="card-title">Credito ={{ $credito->id }}</div>
     <div class="card-menu">
-        <a href="#" class='btn btn-default btn-xs my-btn'>
-            <span
-                class="glyphicon glyphicon-pencil"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Editar crédito">                            
-            </span>
+        <a 
+            href="{{ route('start.precreditosV3.edit', $solicitud->id) }}"
+            class='btn btn-default btn-xs my-btn'
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Editar crédito"
+        >
+            <span class="glyphicon glyphicon-pencil"></span>
         </a>
-        	
-        <a 	href="#" 
+        <a 	href="{{route('start.facturas.create',$credito->id)}}" 
             class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip" 
             data-placement="top" 
-            title="Hacer Pago">
+            title="Hacer Pago"
+        >
             <span class="glyphicon glyphicon-usd"></span>
         </a>
         <a 
@@ -27,7 +23,8 @@
             class='btn btn-default btn-xs my-btn' 
             data-toggle="tooltip" 
             data-placement="top" 
-            title="Sanciones diarias">
+            title="Sanciones diarias"
+        >
             <span class="glyphicon glyphicon-record"></span>
         </a>
         <a  
@@ -35,7 +32,8 @@
             class='btn btn-default btn-xs my-btn' 
             data-toggle="tooltip" 
             data-placement="top" 
-            title="Multas prejuridicas y juridicas">
+            title="Multas prejuridicas y juridicas"
+        >
             <span class="glyphicon glyphicon-hourglass"></span>
         </a>
         <a
@@ -43,7 +41,8 @@
             class="btn btn-default btn-xs my-btn"
             data-toggle="tooltip" 
             data-placement="top" 
-            title="Refinanciar crédito">
+            title="Refinanciar crédito"
+        >
             <i class="fa fa-reply-all" aria-hidden="true"></i>
         </a>
         <a
@@ -52,7 +51,8 @@
             class="btn btn-default btn-xs my-btn"
             data-toggle="tooltip" 
             data-placement="top" 
-            title="Acuerdos de pago">
+            title="Acuerdos de pago"
+        >
             <span class="glyphicon glyphicon-calendar"></span>
         </a>
         <a 
@@ -60,31 +60,46 @@
 		    class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip" 
             data-placement="top" 
-            title="Call Center">
+            title="Call Center"
+        >
             <span class = "glyphicon glyphicon-phone-alt"></span>
         </a>				
-
-        <a href="javascript:void(0);"
+        <a 
+            href="javascript:void(0);"
             onclick="showModalCertificados()"
             class='btn btn-default btn-xs my-btn'  
             data-toggle="tooltip" 
             data-placement="top" 
-            title="Certificados">
+            title="Certificados"
+        >
             <span class = "glyphicon glyphicon-file">
         </a>
-        <a href=""
+        <a 
+            href="{{route('admin.get_estado_cuenta',$data['credito']->id)}}"
             class='btn btn-default btn-xs my-btn'
             data-toggle="tooltip" 
             data-placement="top" 
-            title="Estado de cuenta">
+            title="Estado de cuenta"
+        >
             <span><i class="fab fa-laravel"></i></span>
         </a>
-        <a href=""
+        <a 
+            href="{{ route('admin.anotaciones.index', $credito->id) }}"
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="Procesos jurídicos"
+            class="btn btn-default btn-xs my-btn"
+        >
+            <i class="fas fa-gavel"></i>
+        </a>
+        <a 
+            href="{{route('start.creditos.destroy',$data['credito']->id)}}"
             class="btn btn-default btn-xs my-btn"
             onclick="return confirm('¿Esta seguro de eliminar el crédito?')" 
             data-toggle="tooltip"
             data-placement="top"
-            title="Eliminar Crédito">
+            title="Eliminar Crédito"
+        >
             <span class="glyphicon glyphicon-trash"></span>
         </a>        
     </div>
@@ -111,7 +126,7 @@
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Fecha referencia</div>
-            <div>Agosto-2019</div>
+            <div>{{ $credito->mes }} - {{ $credito->anio }}</div>
         </div>
     </div>
     <div class="card-content__item">
