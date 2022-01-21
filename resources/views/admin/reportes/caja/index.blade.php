@@ -3,37 +3,37 @@
 
 <div class="row" id="principal">
     <div class="col-md-3">
-    <ul class="list-group">
+        <ul class="list-group">
 
-    <li class="list-group-item">
+            <li class="list-group-item">
 
-    <div class="form-group has-info has-feedback"  style="margin-bottom:0px;">
-        <label class="control-label" for="inputSuccess2">
-        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-        Reporte cajas <template v-if="cajas.length > 0">@{{ cajas[0].date }}</template></label>
+            <div class="form-group has-info has-feedback"  style="margin-bottom:0px;">
+                <label class="control-label" for="inputSuccess2">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                Reporte cajas <template v-if="cajas.length > 0">@{{ cajas[0].date }}</template></label>
+            </div>
+            </li>
+            <li class="list-group-item">
+
+            <div class="form-group has-info has-feedback">
+                <label class="control-label" for="inputSuccess2">Fecha de reporte</label>
+                <input type="date" class="form-control" v-model="date" id="date">
+                <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true">
+                </span>
+            </div>
+            <a href="#" class="btn btn-primary btn-xs" @click="get_cashes_report">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                Generar reporte
+            </a>
+            <a href="#" class="btn btn-danger btn-xs" id="btn_exportar">
+                <span class="glyphicon glyphicon-export" aria-hidden="true"></span>
+                Exportar CSV
+            </a>
+            </li>
+
+        </ul>
     </div>
-    </li>
-    <li class="list-group-item">
-
-    <div class="form-group has-info has-feedback">
-        <label class="control-label" for="inputSuccess2">Fecha de reporte</label>
-        <input type="date" class="form-control" v-model="date" id="date">
-        <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true">
-        </span>
-    </div>
-    <a href="#" class="btn btn-primary btn-xs" @click="get_cashes_report">
-        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-        Generar reporte
-    </a>
-    <a href="#" class="btn btn-danger btn-xs" id="btn_exportar">
-        <span class="glyphicon glyphicon-export" aria-hidden="true"></span>
-        Exportar CSV
-    </a>
-    </li>
-
-    </ul>
-    </div>
-    <div class="col-md-9" style="padding-right: 48px;">
+    <div class="col-md-3" style="padding-right: 48px;">
         <template >
 
             <div class="row">
@@ -68,51 +68,52 @@
                 </div>
             
             </div>
-
-            <table class="table table-condensed" id="cajas" 
-                style="font-size:10px;">
-                <thead>
-                    <tr>
-                        <th>Sucursal</th>
-                        <th>Funcionario</th>
-                        <th>Llamadas</th>
-                        <th>Solicitudes</th>
-                        <th>Abonos</th>
-                        <th>Descuentos</th>
-                        <th>Otros Pagos</th>
-                        <th>Estudios</th>
-                        <th>Iniciales</th>
-                        <th>Egresos</th>
-                        <th>Total Caja</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(caja, index) in cajas">
-                        <td>@{{ caja.punto.nombre }}</td>
-                        <td>@{{ caja.user.name  }}</td>
-                        <td align="right">@{{ caja.num_calls }}</td>
-                        <td align="right">@{{ caja.num_precreditos }}</td>
-                        <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_abonos) }}</td>
-                        <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_descuentos) }}</td>
-                        <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_otros_pagos) }}</td>
-                        <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_estudios) }}</td>
-                        <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_iniciales) }}</td>
-                        <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_egresos) }}</td>
-                        <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_caja) }}</td>
-                    </tr>
-                    <tr >
-                        <td colspan="2" style="font-size:16px;">Total</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td colspan="2" style="font-size:16px;" align="right">$ @{{new Intl.NumberFormat("de-DE").format(ttal)}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-condensed" id="cajas" 
+                    style="font-size:10px;">
+                    <thead>
+                        <tr>
+                            <th>Sucursal</th>
+                            <th>Funcionario</th>
+                            <th>Llamadas</th>
+                            <th>Solicitudes</th>
+                            <th>Abonos</th>
+                            <th>Descuentos</th>
+                            <th>Otros Pagos</th>
+                            <th>Estudios</th>
+                            <th>Iniciales</th>
+                            <th>Egresos</th>
+                            <th>Total Caja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(caja, index) in cajas">
+                            <td>@{{ caja.punto.nombre }}</td>
+                            <td>@{{ caja.user.name  }}</td>
+                            <td align="right">@{{ caja.num_calls }}</td>
+                            <td align="right">@{{ caja.num_precreditos }}</td>
+                            <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_abonos) }}</td>
+                            <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_descuentos) }}</td>
+                            <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_otros_pagos) }}</td>
+                            <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_estudios) }}</td>
+                            <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_iniciales) }}</td>
+                            <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_egresos) }}</td>
+                            <td align="right">@{{ new Intl.NumberFormat("de-DE").format(caja.total_caja) }}</td>
+                        </tr>
+                        <tr >
+                            <td colspan="2" style="font-size:16px;">Total</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="2" style="font-size:16px;" align="right">$ @{{new Intl.NumberFormat("de-DE").format(ttal)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </template>
     </div>
 </div>

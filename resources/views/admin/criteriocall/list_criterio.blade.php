@@ -1,35 +1,35 @@
 
 @include('flash::message')
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>    #         	</th>
-      <th>    Criterio  	</th>
-      <th>    Descripción   </th>
-      <th>    Acción    	</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    @foreach($criterios as $criterio)
+<div class="table-responsive">
+  <table class="table">
+    <thead>
       <tr>
-        <td>{{$criterio->id}}</td>
-        <td>{{$criterio->criterio}}</td>
-        <td>{{$criterio->descripcion}}</td>
-        <td>
-
-          <a href="#" class = 'btn btn-default btn-xs' data-toggle='modal' data-target='#myModalEditCriterio' OnClick="Mostrar({{$criterio->id}});" title="Editar">
-            <span class = "glyphicon glyphicon-pencil"></span>
-          </a> 
-          <a href="#" OnClick="Eliminar({{$criterio->id}});" class = 'btn btn-default btn-xs' title="Eliminar"><span class = "glyphicon glyphicon-trash" ></span></a>  
-
-        </td>
+        <th>    #         	</th>
+        <th>    Criterio  	</th>
+        <th>    Descripción   </th>
+        <th>    Acción    	</th>
       </tr>
-    @endforeach    
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      @foreach($criterios as $criterio)
+        <tr>
+          <td>{{$criterio->id}}</td>
+          <td>{{$criterio->criterio}}</td>
+          <td>{{$criterio->descripcion}}</td>
+          <td>
+
+            <a href="#" class = 'btn btn-default btn-xs' data-toggle='modal' data-target='#myModalEditCriterio' OnClick="Mostrar({{$criterio->id}});" title="Editar">
+              <span class = "glyphicon glyphicon-pencil"></span>
+            </a> 
+            <a href="#" OnClick="Eliminar({{$criterio->id}});" class = 'btn btn-default btn-xs' title="Eliminar"><span class = "glyphicon glyphicon-trash" ></span></a>  
+
+          </td>
+        </tr>
+      @endforeach    
+    </tbody>
+  </table>
+</div>
 
 
 <div class="text-center">

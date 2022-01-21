@@ -17,55 +17,56 @@
           <p>
            @include('flash::message')
           </p>
-
-         <table id="datatable" data-order='[[ 7, "desc" ]]' class="table table-striped table-bordered td-small">
-          <thead>
-            <tr>
-              <th>    #         </th>
-              <th>    Nombre    </th>
-              <th>    Punto     </th>
-              <th>    Municipio </th>
-              <th>    Estado    </th>
-              <th>    Rol       </th>
-              <th>    Email     </th>
-              <th>    Banco     </th>
-              <th>    Num cuenta</th>
-              <th style="display:none;">    Actualizacion  </th>
-              <th>    Acción    </th>
-
-
-            </tr>
-          </thead>
-
-          <tbody>
-            @foreach($users as $user)
-            <tr>
-              <td> {{ $user->id    }}   </td>
-              <td> {{ $user->name  }}   </td>
-              <td> {{ $user->punto->nombre}}</td>
-              <td> {{ $user->punto->municipio->nombre}}</td>
-              <td> {{ $user->estado}}   </td>
-              <td> {{ ($user->rol_id) ? $user->role->display_name : '' }}   </td>
-              <td> {{ $user->email }}   </td>
-              <td> {{ ($user->banco) ? $user->banco->nombre : '' }}   </td>
-              <td> {{ $user->num_cuenta }}   </td>
-              <td style="display:none;"> {{$user->updated_at}}</td>
-
-              <td> 
-                <a href="{{route('admin.users.edit',$user->id)}}" class = 'btn btn-default btn-xs'>
-                  <span class = "glyphicon glyphicon-pencil" title="Editar"></span>
-                </a> 
-                <a href="{{route('admin.users.destroy',$user->id)}}" onclick="return confirm('¿Esta seguro de eliminar el usuario?')" class = 'btn btn-default btn-xs'>
-                  <span class = "glyphicon glyphicon-trash" title="Eliminar"></span>
-                </a>  
-              </td>
-            </tr>		
-
-            @endforeach
+          <div class="table-responsive">
+            <table id="datatable" data-order='[[ 7, "desc" ]]' class="table table-striped table-bordered td-small">
+              <thead>
+                <tr>
+                  <th>    #         </th>
+                  <th>    Nombre    </th>
+                  <th>    Punto     </th>
+                  <th>    Municipio </th>
+                  <th>    Estado    </th>
+                  <th>    Rol       </th>
+                  <th>    Email     </th>
+                  <th>    Banco     </th>
+                  <th>    Num cuenta</th>
+                  <th style="display:none;">    Actualizacion  </th>
+                  <th>    Acción    </th>
 
 
-          </tbody>
-        </table>
+                </tr>
+              </thead>
+
+              <tbody>
+                @foreach($users as $user)
+                <tr>
+                  <td> {{ $user->id    }}   </td>
+                  <td> {{ $user->name  }}   </td>
+                  <td> {{ $user->punto->nombre}}</td>
+                  <td> {{ $user->punto->municipio->nombre}}</td>
+                  <td> {{ $user->estado}}   </td>
+                  <td> {{ ($user->rol_id) ? $user->role->display_name : '' }}   </td>
+                  <td> {{ $user->email }}   </td>
+                  <td> {{ ($user->banco) ? $user->banco->nombre : '' }}   </td>
+                  <td> {{ $user->num_cuenta }}   </td>
+                  <td style="display:none;"> {{$user->updated_at}}</td>
+
+                  <td> 
+                    <a href="{{route('admin.users.edit',$user->id)}}" class = 'btn btn-default btn-xs'>
+                      <span class = "glyphicon glyphicon-pencil" title="Editar"></span>
+                    </a> 
+                    <a href="{{route('admin.users.destroy',$user->id)}}" onclick="return confirm('¿Esta seguro de eliminar el usuario?')" class = 'btn btn-default btn-xs'>
+                      <span class = "glyphicon glyphicon-trash" title="Eliminar"></span>
+                    </a>  
+                  </td>
+                </tr>		
+
+                @endforeach
+
+
+              </tbody>
+            </table>
+          </div>
       </div>
     </div>   
   </div>

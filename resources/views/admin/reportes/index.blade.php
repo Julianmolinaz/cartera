@@ -60,16 +60,12 @@
   </div>
   <div class="col-xs-3 col-md-3"></div>
 </div>  
-
-
+<hr>
 <center>
   <div class="product_image">
-   <img src="{{asset('images/logo_gora_2021.png')}}" alt="..." width="400">
+   <img src="{{asset('images/logo_gora_2021.png')}}" alt="..." width="300px;">
   </div> 
 </center>
-            
-
-
 
 <script type="text/javascript">
 

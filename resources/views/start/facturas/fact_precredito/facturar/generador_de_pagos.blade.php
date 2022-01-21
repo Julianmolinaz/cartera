@@ -184,6 +184,8 @@
         } else{
           return true
         }  
+
+        
       },//.validar
       //::::::::::::::::::::::::::::::
       set_auto(){ // deshabilita las entradas de #factura y fecha

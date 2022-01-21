@@ -7,40 +7,31 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="panel panel-primary">
 
-
                 <div class="panel-heading">
-
                     <p>
                         <h4>Créditos <i class="fas fa-users"></i></h4>
                     </p>
-
                 </div>
 
-
                 <div class="panel-body">
-
                     <p> @include('flash::message') </p>
-
-
-                    <table id="table" class="table table-striped display" style="width:100%;">
-
-                        <thead>
-                            <tr>
-                            <th>    Código crédito </th>
-                            <th>    Código solicitud</th>
-                            <th>    Estado     </th>
-                            <th>    Cartera  </th>
-                            <th>    Nombre     </th>
-                            <th>    Documento </th>
-                            <th>    Acciones   </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        
-                        </tbody>
-
-                    </table>
-
+                    <div class="table-responsive">
+                        <table id="table" class="table table-striped display" style="width:100%;">
+                            <thead>
+                                <tr>
+                                <th>    Código crédito </th>
+                                <th>    Código solicitud</th>
+                                <th>    Estado     </th>
+                                <th>    Cartera  </th>
+                                <th>    Nombre     </th>
+                                <th>    Documento </th>
+                                <th>    Acciones   </th>
+                                </tr>
+                            </thead>
+                            <tbody> 
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

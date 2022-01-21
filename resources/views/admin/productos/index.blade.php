@@ -19,37 +19,38 @@
            <!--DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>-->
          </p>
 
+          <div class="table-responsive">
+            <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>    #           </th>
+                  <th>    Nombre      </th>
+                  <th>    Descripción </th>
+                  <th>    Acción     </th>
+                </tr>
+                <tbody>
 
-         <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>    #           </th>
-              <th>    Nombre      </th>
-              <th>    Descripción </th>
-              <th>    Acción     </th>
-            </tr>
-            <tbody>
+                  @foreach($productos as $producto)
+                  <tr>
+                    <td> {{$producto->id}}          </td>
+                    <td> {{$producto->nombre}}      </td>
+                    <td> {{$producto->descripcion}} </td>
 
-              @foreach($productos as $producto)
-              <tr>
-                <td> {{$producto->id}}          </td>
-                <td> {{$producto->nombre}}      </td>
-                <td> {{$producto->descripcion}} </td>
+                    <td> 
+                      <a href="{{route('admin.productos.edit',$producto->id)}}" class = 'btn btn-default btn-xs'>
+                        <span class = "glyphicon glyphicon-pencil" title="Editar"></a>
 
-                <td> 
-                  <a href="{{route('admin.productos.edit',$producto->id)}}" class = 'btn btn-default btn-xs'>
-                    <span class = "glyphicon glyphicon-pencil" title="Editar"></a>
-
-                    </td>
+                        </td>
                   </tr>   
 
                   @endforeach
-                </thead>
-              </table>       
-            </div>
-          </div>   
+              </thead>
+            </table> 
+          </div>      
         </div>
-      </div>
+      </div>   
+    </div>
+  </div>
 
 
 
