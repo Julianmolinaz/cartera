@@ -7,15 +7,19 @@
 <script>
     const store = new Vuex.Store({
         state: {
+            modo                : {!! json_encode($modo) !!},
             data                : {!! json_encode($data) !!}, // Insumos solicitud
             insumos             : {!! json_encode($insumos) !!}, // Insumos Venta
-            insumosCredito      : {!! json_encode($creditos) !!}, 
+            insumosCredito      : {!! json_encode($insumos_credito) !!}, 
             continuarASolicitud : true,
-            ventas              : [],
-            solicitud           : new Solicitud({}),
-            credito             : new Credito({}),
-            ventas              : [], // listado de ventas agregadas a las solicitud venta: { producto: .., vehiculo: ... }
+            solicitud           : {!! json_encode($solicitud) !!} || new Solicitud({
+                cliente_id: {!! $cliente->id !!},
+                aprobado: "En estudio",
+            }),
+            credito             : {!! json_encode($credito) !!} || null,
+            ventas              : {!! json_encode($ventas) !!} || [], // listado de ventas agregadas a las solicitud venta: { producto: .., vehiculo: ... }
             vehiculos           : [], // listado de vehiculos a clonar
+            cliente             : {!! json_encode($cliente) !!}
         },
         getters: { 
             getContinuarASolicitud(state) {
@@ -90,28 +94,49 @@
                 });
             },
             clonarVehiculo({state, commit}, payload) {
-                state.ventas[payload.index].vehiculo = JSON.parse(JSON.stringify(payload.vehiculo));
+                state.ventas[payload.index].vehiculo = JSON.parce(JSON.stringify(payload.vehiculo));
             },
             async onSubmit({state}) {
-                let dat = {
+                let url = '';
+                const dat = {
                     ventas : state.ventas,
                     solicitud : state.solicitud,
                     credito : state.credito
                 }
 
-                let url = '';
+                if (state.modo == 'Crear Solicitud') url = '/api/precreditosV3';
+                else if (state.modo == 'Editar Solicitud') url = '/api/precreditosV3/update';
+                else if (state.modo == 'Editar Credito') url = '/api/creditosV3/update';
 
-                if (state.data.status == 'create') {
-                    url = '/api/creditosV3/store';
-                } else {
-                    url = '/api/creditosV3/update';
+                try {
+                    const res = await axios.post(url, dat);
+
+                    console.log({res});
+
+                    if (res.data.success) {
+                        alertify.notify(res.data.message, "success", 2, () => {
+                            window.location.href = "{{ url('start/precreditosV3/show') }}/" + res.data.dat.id;
+                        });
+                    } else {
+                        if (res.data.dat === 1) {
+                            alertify.alert("Error en validación", showErrorValidation(res.data.message));
+                        } else {
+                            alertify.alert("Ha ocurrido un error", res.data.message);
+                        }
+                    }
+                } catch (error) {
+                    alertify.alert("Ha ocurrido un error", error.message);
                 }
-
-                let res = await axios.post(url, dat);
             },
             noContinuarASolicitud(context) {
                 context.commit('setContinuarASolicitud', false);
             }
         }
-    })
+    });
+
+    const showErrorValidation = (strMessage) => {
+        let strErrors = "";
+        JSON.parse(strMessage).forEach(error => strErrors += error + "<br>" );
+        return strErrors;
+    }
 </script>

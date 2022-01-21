@@ -15,7 +15,7 @@
                 <li v-for="error in message">@{{ error[0] }}</li>
               </ul>
             </div> 
-
+        
           <table class="table table-striped">
                 <thead style="font-size:10px;">
                   <tr>

@@ -3,7 +3,7 @@
         <div class="row producto-container">
             
             <!-- NOMBRE DEL PRODUCTO -->
-            <h1 class="producto-titulo">@{{ producto.nombre }}</h1>
+            <h1 class="producto-titulo">@{{ index + 1 + '-' + producto.nombre }}</h1>
 
 
             <div class="producto-acciones">
@@ -18,10 +18,7 @@
                     
                     <!-- LISTADO DE PLACAS A CLONAR -->
 
-                    <ul v-bind:class="[
-                        activeClone ? 'listVehiculosAClonar--acitve' : 'listVehiculosAClonar'
-                        ]"
-                    >
+                    <ul v-bind:class="[activeClone ? 'listVehiculosAClonar--acitve' : 'listVehiculosAClonar']">
                         <li v-for="vehiculo in vehiculosAClonar">
                             <a 
                                 href="javascript:void(0);" 

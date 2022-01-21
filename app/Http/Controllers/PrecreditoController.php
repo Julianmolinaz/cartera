@@ -174,7 +174,9 @@ class PrecreditoController extends Controller
                 ->with('estado',$estado)
                 ->with('fecha_pago','')
                 ->with('credito','');
-        } else {
+        } else if ($precredito->version == 3) {
+            return redirect()->route("start.precreditosV3.edit", $precredito_id);
+        } else {    
 
             $cliente = $precredito->cliente;  
             $data    = $this->obtener_data_para_crear($cliente->id);
@@ -225,6 +227,10 @@ class PrecreditoController extends Controller
     public function ver($precredito_id)
     {
         $precredito = Precredito::find($precredito_id);
+        
+        if ($precredito->version == 3) {
+            return redirect()->route("start.precreditosV3.show", $precredito_id);
+        }
 
         $credito    = Credito::where('precredito_id',$precredito_id)->get();
 

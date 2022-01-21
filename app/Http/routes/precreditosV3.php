@@ -20,12 +20,12 @@ Route::get('start/precreditosV3/{cliente}',[
     'as'    => 'start.precreditosV3.create'
 ]);
 
-//PRECREDITOS EDITAR
-// Route::get('start/precreditosV3/{precredito_id}/edit',[
-//     'middleware' => ['permission:editar_solicitudes|editar_producto_solicitudes'],
-//     'uses'  => 'PrecreditoV3Controller@edit',
-//     'as'    => 'start.precreditosV3.edit'
-// ]);
+// PRECREDITOS EDITAR
+Route::get('start/precreditosV3/edit/{precredito_id}',[
+    'middleware' => ['permission:editar_solicitudes|editar_producto_solicitudes'],
+    'uses'  => 'V3\PrecreditoController@edit',
+    'as'    => 'start.precreditosV3.edit'
+]);
 
 //PRECREDITOS ACTUALIZAR
 // Route::put('start/precreditosV3/{precredito_id}',[
@@ -50,9 +50,9 @@ Route::get('start/precreditosV3/{cliente}',[
 // ]);
 
 
-//PRECREDITOS VER
-// Route::get('start/precreditosV3/{precredito_id}/ver',[
-//     'middleware' => ['permission:consultar_solicitudes'],
-//     'uses'  	=> 'PrecreditoV3Controller@ver',
-//     'as'    => 'start.precreditosV3.ver'
-// ]);
+//PRECREDITOS SHOW
+Route::get('start/precreditosV3/show/{precredito_id}',[
+    'middleware' => ['permission:consultar_solicitudes'],
+    'uses'  	=> 'V3\PrecreditoController@show',
+    'as'    => 'start.precreditosV3.show'
+]);

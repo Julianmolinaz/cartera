@@ -1,24 +1,22 @@
 class Solicitud {
-  constructor() {
-    this.id             = "";
-    this.num_fact       = "G123";
-    this.fecha          = "2021-11-10";
-    this.cartera_id     = 48;
-    this.funcionario_id = 34;
-    this.cliente_id     = "";
-    this.producto_id    = "";
-    this.productos      = "";
-    this.vlr_fin        = 1000;
-    this.periodo        = "";
-    this.meses          = 1;
-    this.cuotas         = 2;
-    this.vlr_cuota      = 600;
-    this.vlr_asistencia = 0;
-    this.p_fecha        = 1;
-    this.s_fecha        = 16;
-    this.estudio        = "Tipico";
-    this.cuota_inicial  = 0;
-    this.aprobado       = "En estudio";
-    this.observaciones  = "";
+  constructor(payload) {
+    this.id = payload.id || "";
+    this.num_fact = payload.num_fact || "";
+    this.fecha = payload.fecha || "";
+    this.cartera_id = payload.cartera_id || "";
+    this.funcionario_id = payload.funcionario_id || "";
+    this.cliente_id = payload.cliente_id || "";
+    this.vlr_fin = payload.vlr_fin || "";
+    this.periodo = payload.periodo || "";
+    this.meses = payload.meses || "";
+    this.cuotas = payload.cuotas || "";
+    this.vlr_cuota = payload.vlr_cuota || "";
+    this.vlr_asistencia = payload.vlr_asistencia || "";
+    this.p_fecha = payload.p_fecha || "";
+    this.s_fecha = payload.s_fecha || "";
+    this.estudio = payload.estudio || "";
+    this.cuota_inicial = payload.cuota_inicial || "";
+    this.aprobado = payload.aprobado || "En proceso";
+    this.observaciones = payload.observaciones || "";
   }
 }

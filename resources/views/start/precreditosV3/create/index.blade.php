@@ -8,15 +8,16 @@
     <div class="panel panel-default" style="pading:5px;" id="myabs">
         <h1 style="margin: 12px 0px 15px 10px">
             <span class="glyphicon glyphicon-briefcase" aria-hidden="true" style="color:gray;"></span>
-            <span >Crédito</span> 
-            <span >Solicitud</span> 
+            <span v-text="this.$store.state.modo"></span> 
             <span style="font-size: 0.6em;color: #9e9a9a;" ></span>
-
-            <a  class="btn btn-default" 
+            <a  
+                class="btn btn-default" 
                 style="float:right;margin:12px 50px 0px 0px;"
-                href=""
-                >
-                <i class="fa fa-paper-plane" aria-hidden="true"></i> Salir</a>
+                :href="rutaSalida"
+            >
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                Salir
+            </a>
         </h1>
 
         <div class="alert alert-danger" role="alert" style="margin:5px 10px;"
@@ -37,7 +38,10 @@
                     </a>
                 </li>
             
-                <li role="presentacion">
+                <li 
+                    role="presentacion"
+                    v-if="this.$store.state.modo !== 'Crear Solicitud' && this.$store.state.modo !== 'Editar Solicitud'"
+                >
                     <a href="#credito" aria-controls="credito" data-toggle="tab" role="tab" @click="go('credito')">
                     <i class="fa fa-rss-square" aria-hidden="true" style="margin-right:5px;"></i>Crédito
                     </a>
@@ -83,7 +87,8 @@
         el: '#principal',
         store,
         data: {
-            view: 'producto'
+            view: 'producto',
+            rutaSalida: '',
         },
         methods: {
             async go(view){
@@ -92,9 +97,11 @@
             }
         },
         created(){
-            Bus.$on('hola', () => {
-                alert()
-            });
+            if (this.$store.state.modo !== 'Crear Solicitud') {
+                this.rutaSalida = '/start/precreditosV3/show/' + this.$store.state.solicitud.id;
+            } else {
+                this.rutaSalida = '/start/clientes/' + this.$store.state.cliente.id;
+            }
         }
     });
 

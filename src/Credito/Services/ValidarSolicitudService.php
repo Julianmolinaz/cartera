@@ -1,16 +1,21 @@
 <?php
 
 namespace Src\Credito\Services;
+
+use App\Repositories\SolicitudRepository as RepoSolicitud;
 use Validator;
 
 class ValidarSolicitudService
 {
     protected $data;
     protected $validator;
+    public $errors = [];
+    protected $mode;
     
     private function __construct($data, $mode)
     {
         $this->data = $data;
+        $this->mode = $mode;
         $this->validate();
     }
 
@@ -26,6 +31,29 @@ class ValidarSolicitudService
             $this->rules(), 
             $this->messages()
         );
+
+        $this->errors = array_merge(
+            $this->errors, 
+            castErrors($this->validator->errors())
+        );
+
+        $this->validateUniqueElements();
+    }
+
+    protected function validateUniqueElements()
+    {
+        $solicitudes = [];
+
+        if ($this->mode === 'Crear Solicitud') {
+            $solicitudes = RepoSolicitud::findByNumFact($this->data['num_fact']);
+        } else if ($this->mode === 'Editar Solicitud') {
+            $solicitudes = RepoSolicitud::findByNumFactDiffId(
+                $this->data['num_fact'], $this->data['id']
+            );
+        }
+            
+        if ($solicitudes) 
+            $this->errors[] = "El consecutivo ya existe";
     }
 
     protected function rules()
@@ -68,13 +96,9 @@ class ValidarSolicitudService
         ];
     } 
     
-    public function errors()
-    {
-        return $this->validator->errors();
-    }
-
     public function fails()
     {
-        return $this->validator->fails();
+        if ($this->errors) return true;
+        return false;
     }
 }
