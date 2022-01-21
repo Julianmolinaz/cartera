@@ -210,32 +210,6 @@ class CreditoRepository {
         return $credito;
     }
 
-<<<<<<< HEAD
-    /**
-     * Solicitudes que fueron aprobadas pero no tienen un crédito activo
-     */
-
-    public function solicitudesAprobadasNoActivas($clienteId)
-    {
-        $solicitud = DB::table('precreditos')
-            ->leftjoin('creditos', 'precreditos.id', '=', 'creditos.precredito_id')
-            ->where('precreditos.cliente_id', $clienteId)
-            ->whereIn('precreditos.aprobado', ['Si'])
-            ->where('creditos.id', null)
-            ->get();
-    }
-
-    /**
-     * Solicitudes en estudio
-     */
-
-    public function solicitudesEnEstudio($clienteId)
-    {
-        $solicitud = DB::table('precreditos')
-            ->where('precreditos.cliente_id', $clienteId)
-            ->whereIn('precreditos.aprobado', ['En estudio'])
-            ->get();
-=======
     public static function findBySolicitud($solicitudId)
     {
         $credito = DB::table("creditos")
@@ -300,6 +274,5 @@ class CreditoRepository {
         }
 
         return $credito;
->>>>>>> e7095da13e3835d1eb9180b2123f69004bd62e14
     }
 }
