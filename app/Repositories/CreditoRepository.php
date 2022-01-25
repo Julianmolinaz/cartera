@@ -234,6 +234,8 @@ class CreditoRepository {
 
     /**
      * Permite crear un nuevo crédito
+     * $dataSolicitud = recibe un registro solicitud
+     * $dataComision = ['mes' => ..., 'anio' => ...]
      */
     
     public static function saveCredito($dataSolicitud, $dataComision)
@@ -257,10 +259,52 @@ class CreditoRepository {
         return $credito;
     }
 
+    public static function saveCreditoRefinanciado($dataSolicitud, $dataComision, $creditoRefinanciadoId)
+    {
+        $credito = new Credito();
+        $credito->precredito_id     = $dataSolicitud->id;
+        $credito->cuotas_faltantes = $dataSolicitud->cuotas;
+        $credito->mes              = $dataComision['mes'];
+        $credito->anio             = $dataComision['anio'];
+        $credito->estado           = 'Al dia';
+        $credito->valor_credito    = $dataSolicitud->cuotas * $dataSolicitud->vlr_cuota;
+        $credito->saldo            = $credito->valor_credito;
+        $credito->rendimiento      = $credito->valor_credito - $dataSolicitud->vlr_fin;
+        $credito->end_datacredito  = 0;
+        $credito->end_procredito   = 0;
+        $credito->user_create_id   = 1;
+        $credito->user_update_id   = 1;
+        $credito->castigada        = 'No';
+        $credito->refinanciacion   = 'Si';
+        $credito->credito_refinanciado_id = $creditoRefinanciadoId;
+        $credito->save();
+
+        return $credito;
+    }
+
     public static function find($creditoId)
     {
         $credito = DB::table('creditos')->where('id', $creditoId)->first();
         return $credito;
+    }
+
+    /**
+     * Buscar creditos de un determinado clienteId
+     * exceptuando un creditoId
+     */
+    
+    public static function findByClienteExcept($clienteId, $creditoId)
+    {
+        $creditos = DB::table('creditos')
+            ->join('precreditos', 'creditos.precredito_id', '=', 'precreditos.id')
+            ->join('clientes', 'precreditos.cliente_id', '=', 'clientes.id')
+            ->where('clientes.id', $clienteId)
+            ->where('creditos.id', '!==', $creditoId)
+            ->whereNotIn('creditos.estado', ['Cancelado', 'Cancelado por refinanciacion'])
+            ->select('creditos.*')
+            ->get();
+     
+        return $creditos;
     }
 
     public static function updateCredito($dataCredito, $creditoId)

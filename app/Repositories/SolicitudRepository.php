@@ -31,7 +31,7 @@ class SolicitudRepository
 
     public static function findByNumFact($numFact)
     {
-        return DB::table('precreditos')->where('numFact', $numFact)->get();
+        return DB::table('precreditos')->where('num_fact', $numFact)->get();
     }
 
     public static function findByNumFactDiffId($numFact, $solicitudId)

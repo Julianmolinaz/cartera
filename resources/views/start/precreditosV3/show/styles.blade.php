@@ -96,8 +96,8 @@
         grid-template-columns: 50% 50%;
     }
     .pg-tag {
-        font-size: 12px;
-        padding: 3px 20px;
+        font-size: 11px;
+        padding: 3px 4px;
         color: #fff;
         font-weight: 600;
         border-radius: 4px;

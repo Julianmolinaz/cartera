@@ -8,11 +8,12 @@
                     <select :name="rules.aprobado.name" 
                         class="form-control" 
                         v-model="solicitud.aprobado"
-                        v-validate="rules.aprobado.rule">
+                        v-validate="rules.aprobado.rule"
+                    >
                         <option selected disabled>--</option>  
                         <option v-for="estado in data.estados_aprobacion">
-                            @{{estado}}
-                        </option>  
+                            @{{ estado }}
+                        </option>
                     </select>
                     <span class="help-block">@{{ errors.first(rules.aprobado.name) }}</span>
                 </div>
@@ -32,7 +33,7 @@
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_solicitud.name) ? 'has-error' :'']">
                     <label for="">Fecha Solicitud  @{{ rules.fecha_solicitud.required }}</label>
                     <input type="date" 
-                        class="form-control my-input" 
+                        class="form-control my-input my-input-min" 
                         v-model="solicitud.fecha"
                         onkeydown="return false"
                         v-validate="rules.fecha_solicitud.rule"
@@ -348,3 +349,15 @@
         }
     });
 </script>
+
+<style scoped>
+    .my-input-min {
+        font-size: 1rem;
+    }
+
+    @media (max-width: 800px) {
+        .my-input-min {
+            font-size: 1.4rem !important;
+        }
+    }
+</style>

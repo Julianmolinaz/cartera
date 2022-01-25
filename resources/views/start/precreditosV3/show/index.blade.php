@@ -1,8 +1,6 @@
 @extends('templates.main2')
 
- @php   $creditoId = $data['credito']->id;
-        $credito = $data['credito'];
-        $cliente = $data['cliente'];
+ @php   $cliente = $data['cliente'];
         $solicitud = (object)$data['solicitud'];
  @endphp
 

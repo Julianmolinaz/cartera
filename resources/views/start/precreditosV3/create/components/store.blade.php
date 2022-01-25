@@ -1,3 +1,5 @@
+@include('utils.general')
+
 <script src="/js/vue/vuex.js"></script>
 <script src="{{ asset('js/SolicitudV3/Solicitud.js') }}"></script>
 <script src="{{ asset('js/SolicitudV3/Credito.js') }}"></script>
@@ -27,6 +29,17 @@
             },
             getVehiculosAClonar(state) {
                 return state.vehiculos;
+            },
+            getRutaSalida(state) {
+                let rutaSalid = '';
+
+                if (state.modo !== 'Crear Solicitud') {
+                    rutaSalida = '/start/precreditosV3/show/' + state.solicitud.id;
+                } else {
+                    rutaSalida = '/start/clientes/' + state.cliente.id;
+                }
+
+                return rutaSalida;
             }
         },
         mutations: {
@@ -107,11 +120,11 @@
                 if (state.modo == 'Crear Solicitud') url = '/api/precreditosV3';
                 else if (state.modo == 'Editar Solicitud') url = '/api/precreditosV3/update';
                 else if (state.modo == 'Editar Credito') url = '/api/creditosV3/update';
+                else if (state.modo == 'Refinanciar Credito') 
+                    url = '/api/refinanciacion/' + state.insumosCredito.credito_refinanciado_id;
 
                 try {
                     const res = await axios.post(url, dat);
-
-                    console.log({res});
 
                     if (res.data.success) {
                         alertify.notify(res.data.message, "success", 2, () => {
@@ -133,10 +146,4 @@
             }
         }
     });
-
-    const showErrorValidation = (strMessage) => {
-        let strErrors = "";
-        JSON.parse(strMessage).forEach(error => strErrors += error + "<br>" );
-        return strErrors;
-    }
 </script>

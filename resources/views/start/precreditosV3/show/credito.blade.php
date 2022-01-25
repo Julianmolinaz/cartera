@@ -1,3 +1,7 @@
+@php $creditoId = $data['credito']->id;
+        $credito = $data['credito'];
+@endphp 
+ 
  <div class="card-header">
     <div class="card-title">Credito ={{ $credito->id }}</div>
     <div class="card-menu">
@@ -37,7 +41,7 @@
             <span class="glyphicon glyphicon-hourglass"></span>
         </a>
         <a
-            href="{{route('start.creditos.refinanciar',$data['solicitud']['id'])}}"
+            href="{{route('start.refinanciacionV3.create',$creditoId)}}"
             class="btn btn-default btn-xs my-btn"
             data-toggle="tooltip" 
             data-placement="top" 
@@ -118,7 +122,7 @@
                             $data['credito']->estado === 'Juridico'
                         ) ? 'pg-tag--danger' : 'pg-tag--default')
                     }}">
-                    {{ $data['credito']->estado }}
+                    {{ $credito->estado }}
                 </span>
             </div>
         </div>
@@ -167,22 +171,28 @@
             <div>{{ $data['credito']->cuotas_faltantes .' de ' .$data['solicitud']['cuotas']}}</div>
         </div>
     </div>
-    @if($data['credito']->credito_padre)
+    @if($credito->credito_padre)
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Credito padre</div>
                 <div>
-                    <a href="#" class="btn btn-default">{{ $data['credito']->credito_padre }}</a>
+                    <a
+                        href="{{ route('start.v3.creditos.show', $credito->credito_padre) }}"
+                        class="btn btn-default"
+                    >{{ $credito->credito_padre }}</a>
                 </div>
             </div>
         </div>
     @endif
-    @if($data['credito']->credito_hijo)
+    @if($credito->credito_hijo)
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Credito hijo</div>
                 <div>
-                    <a href="#" class="btn btn-default">{{ $data['credito']->credito_hijo }}</a>
+                    <a 
+                        href="{{ route('start.v3.creditos.show', $credito->credito_hijo) }}"
+                        class="btn btn-default">{{ $credito->credito_hijo }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -197,13 +207,13 @@
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Jurídico</div>
-                <div>Debe {{ $data['juridico']['debe'] }} de {{ $data['juridico']['total'] }}</div>
+                <div>Debe {{ decimal($data['juridico']['debe']) }} de {{ decimal($data['juridico']['total']) }}</div>
             </div>
         </div>
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Prejurídico</div>
-                <div>Debe {{ $data['prejuridico']['debe'] }} de {{ $data['prejuridico']['total'] }}</div>
+                <div>Debe {{ decimal($data['prejuridico']['debe']) }} de {{ decimal($data['prejuridico']['total']) }}</div>
             </div>
         </div>
         <div class="card-content__item">
@@ -212,15 +222,15 @@
                 <div class="sanciones-content">
                     <div class="sanciones-item">
                         <span class="sanciones-concept">Debe</span>
-                        <span>{{ $data['credito']->sanciones_debe }}</span>
+                        <span>{{ decimal($data['credito']->sanciones_debe) }}</span>
                     </div>
                     <div class="sanciones-item">
                         <span class="sanciones-concept">Ok</span>
-                        <span>{{ $data['credito']->sanciones_ok }}</span>
+                        <span>{{ decimal($data['credito']->sanciones_ok) }}</span>
                     </div>
                     <div class="sanciones-item">
                         <span class="sanciones-concept">Exoneradas</span>
-                        <span>{{ $data['credito']->sanciones_exoneradas }}</span>
+                        <span>{{ decimal($data['credito']->sanciones_exoneradas) }}</span>
                     </div>
                 </div>
             </div>
@@ -228,20 +238,20 @@
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Debe de pagos parciales</div>
-                <div>$ {{ $data['debe_pagos'] }}</div>
+                <div>$ {{ decimal($data['debe_pagos']) }}</div>
             </div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Descuentos</div>
-            <div>$ {{ $data['total_descuentos'] }}</div>
+            <div>$ {{ decimal($data['total_descuentos']) }}</div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Total pagos</div>
-            <div>$ {{ $data['total_pagos'] }}</div>
+            <div>$ {{ decimal($data['total_pagos']) }}</div>
         </div>
     </div>
     <div class="card-content__item">

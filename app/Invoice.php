@@ -9,7 +9,6 @@ class Invoice extends Model
     public $timestamps = false;
 
     protected $fillable= [
-        'nombre',
         'estado',
         'fecha_exp',
         'costo',
@@ -17,7 +16,7 @@ class Invoice extends Model
         'num_fact',
         'otros',
         'expedido_a',
-        'Observaciones',
+        'observaciones',
         'venta_id',
         'proveedor_id',
         'precredito_id',

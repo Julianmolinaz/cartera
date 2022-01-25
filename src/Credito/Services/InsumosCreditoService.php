@@ -6,9 +6,11 @@ use DB;
 
 class InsumosCreditoService
 {
-    public function __construct()
-    {
+    protected $creditoRefinanciadoId;
 
+    public function __construct($creditoRefinanciadoId = null)
+    {
+        $this->creditoRefinanciadoId = $creditoRefinanciadoId;
     }
 
     public function execute() 
@@ -21,6 +23,7 @@ class InsumosCreditoService
         return [ 
             'estado'    => $this->getEstados(),
             'castigada' => $this->getCastigada(),
+            'credito_refinanciado_id' => $this->creditoRefinanciadoId, 
             'mes'       => $this->getMesRef(),
             'anio'      => $this->getAnioRef()
         ];

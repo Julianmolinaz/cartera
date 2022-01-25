@@ -7,6 +7,7 @@ use DB;
 
 use App\Repositories as Repo;
 use App\Http\Controllers as Ctrl;
+use Src\Utils\FechaDePago;  
 
 
 class ActivarCreditoService
@@ -143,23 +144,12 @@ class ActivarCreditoService
 
     protected function generarFechaDePago()
     {
-        $fecha_pago = Ctrl\calcularFecha(
+        $fecha = FechaDePago::calcular(
             $this->solicitud->fecha,
             $this->solicitud->periodo, 
-            1, 
-            $this->solicitud->p_fecha, 
-            $this->solicitud->s_fecha, 
-            true
+            $this->solicitud->p_fecha,
+            $this->solicitud->s_fecha
         );
-
-        $ini = new Carbon($fecha_pago['fecha_ini']);
-        $hoy = Carbon::now();
-
-        if ($ini->diffInDays($hoy) > 7) {
-            $fecha = $ini->format('Y-m-d');
-        } else {
-            $fecha = Ctrl\inv_fech($fecha_pago['fecha_fin']);
-        }
 
         $fechaCobro = Repo\FechaCobrosRepository::saveFechaCobro([
             'credito_id' => $this->credito->id,

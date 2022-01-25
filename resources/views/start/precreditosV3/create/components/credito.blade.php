@@ -113,7 +113,7 @@
                     </label>
                     <input 
                         type="date" 
-                        class="form-control" 
+                        class="form-control my-input-min" 
                         onkeydown="return false" 
                         v-model="credito.fecha_pago"
                         v-validate="rules.fecha_pago.rule"
@@ -168,7 +168,9 @@
                         v-validate="rules.recordatorio.rule"
                         :name="rules.recordatorio.name"
                     ></textarea>
-                    <span class="help-block">@{{ errors.first(rules.recordatorio.name) }}</span>
+                    <span class="help-block">
+                        @{{ errors.first(rules.recordatorio.name) }}
+                    </span>
                 </div>
             </div>
             <div class="row">
@@ -178,10 +180,10 @@
                             <i class="fa fa-backward" aria-hidden="true"></i>
                             Volver
                         </a>
-                        <button class="btn btn-primary">
+                        <a :href="rutaSalida" class="btn btn-primary">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             Salvar
-                        </button>
+                        </a>
                     </center>
                 </div>
             </div> 
@@ -202,6 +204,14 @@
                 rules: rules_credito
             }
         },
+        computed: {
+            insumos() {
+                return this.$store.state.insumosCredito;
+            },
+            rutaSalida() {
+                return this.$store.getters.getRutaSalida;
+            }
+        },
         methods: {     
             async volver() {
                 if (! await this.validation()) return false; 
@@ -220,11 +230,6 @@
                 this.$store.dispatch('onSubmit');
             }, 
         },
-        computed: {
-            insumos() {
-                return this.$store.state.insumosCredito;
-            }
-        },
         created() {
             this.credito = this.$store.state.credito;
         }
@@ -242,6 +247,9 @@
     }
     .my-label-min {
         font-size: 12px;
+    }
+    .my-input-min {
+        font-size: 1rem;
     }
 
     @media (max-width: 800px) {

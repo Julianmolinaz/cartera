@@ -66,7 +66,7 @@
     <div class="card-content__item" style="background-color: #fcee2163;">
         <div class="card-content__subitem">
             <div class="card-content__subitem-title">Costo crédito</div>
-            <div>{{ $data['solicitud']['vlr_fin'] }}</div>
+            <div>$ {{ decimal($data['solicitud']['vlr_fin']) }}</div>
         </div>
         <div class="card-content__subitem">
             <div class="card-content__subitem-title">Valor cuota</div>
@@ -98,7 +98,7 @@
         </div>
         <div class="card-content__subitem">
             <div class="card-content__subitem-title">Cuota inicial</div>
-            <div>$ {{ $data['solicitud']['cuota_inicial'] }}</div>
+            <div>$ {{ decimal($data['solicitud']['cuota_inicial']) }}</div>
         </div>
         <div class="card-content__subitem">
             <div class="card-content__subitem-title">Asistencia</div>

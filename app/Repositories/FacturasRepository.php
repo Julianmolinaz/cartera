@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+use App\Invoice;
 use DB;
 
 class FacturasRepository
@@ -31,7 +32,6 @@ class FacturasRepository
                 "vehiculos.tipo_vehiculo_id",
                 "tipo_vehiculos.nombre as tipo_vehiculo",
                 "invoices.id as factura_id",
-                "invoices.nombre as factura_nombre",
                 "invoices.estado as factura_estado",
                 "invoices.fecha_exp as factura_fecha_exp",
                 "invoices.costo as factura_costo",
@@ -41,6 +41,8 @@ class FacturasRepository
                 "invoices.expedido_a as factura_expedido_a",
                 "invoices.observaciones as factura_observaciones",
                 "invoices.proveedor_id as factura_proveedor_id",
+                "invoices.precredito_id as factura_precredito_id",
+                "invoices.venta_id as factura_venta_id",
                 "invoices.created_by as factura_created_by",
                 "invoices.updated_by as factura_updated_by",
                 "invoices.created_at as factura_created_at",
@@ -71,7 +73,6 @@ class FacturasRepository
                 ],
                 'factura' => (! $element->con_invoice) ? null :[
                     "id" => $element->factura_id,
-                    "nombre" => $element->factura_nombre,
                     "estado" => $element->factura_estado,
                     "fecha_exp" => $element->factura_fecha_exp,
                     "costo" => $element->factura_costo,
@@ -81,6 +82,8 @@ class FacturasRepository
                     "expedido_a" => $element->factura_expedido_a,
                     "observaciones" => $element->factura_observaciones,
                     "proveedor_id" => $element->factura_proveedor_id,
+                    "venta_id" => $element->factura_venta_id,
+                    "precredito_id" => $element->factura_precredito_id,
                     "created_by" => $element->factura_created_by,
                     "updated_by" => $element->factura_updated_by,
                     "created_at" => $element->factura_created_at,
@@ -92,5 +95,46 @@ class FacturasRepository
         }
 
         return $arr;
+    }
+
+    public static function findByNumFactura($numFactura)
+    {
+        $factura = DB::table('invoices')->where('num_fact', $numFactura)->first();
+
+        return $factura;
+    }
+
+    public static function findByNumFacturaWithId($numFactura, $facturaId)
+    {
+        $factura = DB::table('invoices')
+            ->where('num_fact', $numFactura)
+            ->where('id', '<>', $facturaId)
+            ->first();
+
+        return $factura;
+    }
+
+    public static function saveFactura($dataFactura)
+    {
+        $factura = new Invoice();
+        $factura->fill($dataFactura);
+        $factura->created_by = 1;
+        $factura->save();
+
+        return $factura;
+    }
+
+    public static function actualizarFactura($dataFactura)
+    {
+        $factura = Invoice::find($dataFactura['id']);
+        $factura->fill($dataFactura);
+        
+        if ($factura->isDirty()) {
+            $factura->updated_by = 1;
+            $factura->save();
+            return $factura;
+        }
+
+        throw new \Exception("No se existen cambios en la factura.", 400);
     }
 }

@@ -6,6 +6,7 @@
                     @{{ venta.producto.nombre }}
                     <span v-if="venta.producto.con_vehiculo">
                         - @{{ venta.vehiculo.placa }}
+                        @{{ venta.factura && venta.factura.id ? '- ' + venta.factura.estado : '- Sin facturar'}} 
                     </span>
                 </p>
                 <a 
@@ -25,7 +26,7 @@
         <div 
             v-if="venta.producto.con_invoice"
             :id="'collapse' + index" 
-            class="panel-collapse collapse in" 
+            class="panel-collapse collapse" 
             role="tabpanel" 
             :aria-labelledby="'heading'+index"
         >
@@ -159,42 +160,64 @@
         }),
         methods: {
             onSubmit() {
-                if (this.modo === 'Crear Factura') {
-                    this.store();
-                } else if (this.modo === 'Editar Factura')  {
-                    this.update();
-                } else {
-                    alertify.alert("Error", "Opción no valida.");
-                }
+                if (this.modo === 'Crear Factura') this.store();
+                else if (this.modo === 'Editar Factura') this.update();
+                else alertify.alert("Error", "Opción no valida.");
             },
             store() {
-                axios.post('/api/facturacion', this.factura)
+                axios.post('/api/facturacion/store', this.factura)
                     .then(res => {
-                        console.log({res});
+                        if (res.data.success) {
+                            alertify.alert('Confirmación', res.data.message, () => {
+                                location.reload();
+                            });
+                        } else {
+                            if (res.data.dat === 1) {
+                                alertify.alert("Error en validación", showErrorValidation(res.data.message));
+                            } else {
+                                alertify.alert("Ha ocurrido un error", res.data.message);
+                            }
+                        }
                     })
                     .catch(error => {
-                        console.error(error);
+                        alertify.alert("Ha ocurrido un error", error.message);
                     });
             },
             update() {
-
+                axios.post('/api/facturacion/update', this.factura)
+                    .then(res => {
+                        if (res.data.success) {
+                            alertify.alert('Confirmación', res.data.message, () => {
+                                location.reload();
+                            });
+                        } else {
+                            if (res.data.dat === 1) {
+                                alertify.alert("Error en validación", showErrorValidation(res.data.message));
+                            } else {
+                                alertify.alert("Ha ocurrido un error", res.data.message);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        alertify.alert("Ha ocurrido un error", error.message);
+                    });
             }
         },
         created() {
             if (this.venta.producto.con_invoice) {
+                
                 if ( this.venta.factura && this.venta.factura.id) {
-                    this.factura = new Invoice(this.venta.factura);
                     this.modo = "Editar Factura";
+                    this.factura = new Invoice(this.venta.factura);
                 } else {
+                    this.modo = "Crear Factura";
                     this.factura = new Invoice({
                         precredito_id: this.venta.precredito_id,
                         venta_id: this.venta.id,
-                        nombre: this.venta.producto.nombre
                     });
-                    this.modo = "Crear Factura";
                 }
             } else {
-                this.modo = "Consultar de venta";
+                this.modo = "Consultar venta";
             }
         }
     });

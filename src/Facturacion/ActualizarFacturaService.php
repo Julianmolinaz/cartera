@@ -3,10 +3,9 @@
 namespace Src\Facturacion;
 
 use Src\Facturacion\ValidacionFacturaService;
-
 use App\Repositories\FacturasRepository;
 
-class CrearFacturaService
+class ActualizarFacturaService
 {
     public $factura;
 
@@ -19,7 +18,7 @@ class CrearFacturaService
     {
         $this->validarDataFactura();
         
-        return $this->salvarFactura();
+        return $this->salvarCambios();
     }
 
     protected function validarDataFactura()
@@ -31,10 +30,9 @@ class CrearFacturaService
         }
     }
 
-    protected function salvarFactura()
+    protected function salvarCambios()
     {
-        $factura = FacturasRepository::saveFactura($this->factura);
-
+        $factura = FacturasRepository::actualizarFactura($this->factura);
         return $factura;
     }
 }

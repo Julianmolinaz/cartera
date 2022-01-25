@@ -27,6 +27,7 @@ class ActualizarSolicitudService
 
         try {
             $this->actualizarSolicitud();
+
             $this->actualizarVentas();
             $this->actualizarCredito();
             

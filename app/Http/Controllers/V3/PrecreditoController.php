@@ -7,14 +7,12 @@ use Illuminate\Http\Request;
 use App\Cliente;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Src\Credito\Services\InsumosVentasService;
-use Src\Credito\Services\InsumosSolicitudService;
-use Src\Credito\Services\InsumosCreditoService;
 
 use App\Repositories as Repo;
 use Src\Credito\Services\SalvarSolicitudService;
 use Src\Credito\Services\ActualizarSolicitudService;
 use Src\Credito\Services\ConsultarCreditoService;
+use Src\Credito\Services\DataParaCrearSolicitudService;
 
 class PrecreditoController extends Controller
 {
@@ -26,32 +24,13 @@ class PrecreditoController extends Controller
 
     public function create($cliente_id)
     {
-        //validar que un cliente no tenga mas precréditos o créditos en proceso
-
-        // if ( $this->existen_solicitudes_pendientes_tr( $cliente_id ) ) {
-
-        //     flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');
-        //     return redirect()->route('start.clientes.show',$cliente_id);
-        // }
-
-        $insumos = new InsumosVentasService(
-            new Repo\TercerosQueryBuilderRepository(),
-            new Repo\TipoVehiculosQueryBuilderRepository()
-        );
-        $insumos = $insumos->execute();
-
-        $data = new InsumosSolicitudService();
-        $data = $data->execute();
-        
-        $insumosCreditoUseCase = new InsumosCreditoService();
-        $insumos_credito = $insumosCreditoUseCase->execute();
-
-        $cliente = Repo\ClientesRepository::find($cliente_id); 
+        $useCase = new DataParaCrearSolicitudService($cliente_id);
+        $data = $useCase->execute();
 
         return view('start.precreditosV3.create.index')
-            ->with('data', $data)
-            ->with('insumos', $insumos)
-            ->with('cliente', $cliente)
+            ->with('data', $data->insumosSolicitud)
+            ->with('insumos', $data->insumosVenta)
+            ->with('cliente', $data->cliente)
             ->with('solicitud', null)
             ->with('ventas', null)
             ->with('credito', null)
@@ -62,36 +41,26 @@ class PrecreditoController extends Controller
     public function show($solicitudId)
     {
         $useCase = ConsultarCreditoService::make($solicitudId);
+        $data = $useCase->data;
 
         return view("start.precreditosV3.show.index")
-            ->with('data', $useCase->data);
+            ->with('data', $data);
     }
 
     public function edit($solicitudId)
     {
-        $insumos = new InsumosVentasService(
-            new Repo\TercerosQueryBuilderRepository(),
-            new Repo\TipoVehiculosQueryBuilderRepository()
-        );
-        $insumos = $insumos->execute();
-
-        $data = new InsumosSolicitudService();
-        $data = $data->execute();
-        
-
-        $insumosCreditoUseCase = new InsumosCreditoService();
-        $insumos_credito = $insumosCreditoUseCase->execute();
-
         $solicitud = Repo\SolicitudRepository::find($solicitudId);
-        $cliente = Repo\ClientesRepository::find($solicitud->cliente_id);
         $ventas = Repo\VentasRepository::findBySolicitud($solicitudId);
         $credito = Repo\CreditoRepository::findBySolicitud($solicitudId);
+    
+        $useCase = new DataParaCrearSolicitudService($solicitud->cliente_id);
+        $data = $useCase->execute();
 
         return view('start.precreditosV3.create.index')
-            ->with('insumos_credito', $insumos_credito)
-            ->with('data', $data)
-            ->with('insumos', $insumos)
-            ->with('cliente', $cliente)
+            ->with('insumos_credito', $data->insumosCredito)
+            ->with('data', $data->insumosSolicitud)
+            ->with('insumos', $data->insumosVenta)
+            ->with('cliente', $data->cliente)
             ->with('solicitud', $solicitud)
             ->with('ventas', $ventas)
             ->with('credito', $credito)

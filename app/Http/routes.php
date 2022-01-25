@@ -86,10 +86,13 @@ require __DIR__ . '/routes/contabilidad/reportes.php';
 
 require __DIR__ . '/routes/cajas.php';
 
+require __DIR__ . '/routes/refinanciacion.php';
+
 Route::group(['prefix' =>'api' ], function() {
     require __DIR__ . '/routes/api/recibos.php';
     require __DIR__ . '/routes/api/productos.php';
     require __DIR__ . '/routes/api/creditosV3.php';
     require __DIR__ . '/routes/api/precreditosV3.php';
     require __DIR__ . '/routes/api/facturacion.php';
+    require __DIR__ . '/routes/api/refinanciacion.php';
 });

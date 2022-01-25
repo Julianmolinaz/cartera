@@ -84,4 +84,3 @@ function saveLog($user_id ,$action ,$description ,$visible ,$ref_type ,$ref_id)
     $log->ref_id = $ref_id;
     $log->save();
 }
-

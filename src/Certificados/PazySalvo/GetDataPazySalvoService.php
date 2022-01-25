@@ -27,10 +27,11 @@ class GetDataPazySalvoService
     {
         $this->fecha = Time::now()->format("d-m-Y");
         $this->credito = Repo\CreditoRepository::find($creditoId);
+        
         $this->solicitud = Repo\SolicitudRepository::find($this->credito->precredito_id);
         $this->cliente = Repo\ClientesRepository::find($this->solicitud->cliente_id);
-
-
+        
+        
         if ($tipo === 'cliente') {
             $this->data = $this->getDataCliente();
         } else {
