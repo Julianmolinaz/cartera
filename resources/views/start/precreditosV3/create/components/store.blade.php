@@ -14,6 +14,7 @@
             insumos             : {!! json_encode($insumos) !!}, // Insumos Venta
             insumosCredito      : {!! json_encode($insumos_credito) !!}, 
             continuarASolicitud : true,
+            permitirSalvar      : true,
             solicitud           : {!! json_encode($solicitud) !!} || new Solicitud({
                 cliente_id: {!! $cliente->id !!},
                 aprobado: "En estudio",
@@ -26,6 +27,9 @@
         getters: { 
             getContinuarASolicitud(state) {
                 return state.continuarASolicitud;
+            },
+            getPermitirSalvar(state) {
+                return state.permitirSalvar;
             },
             getVehiculosAClonar(state) {
                 return state.vehiculos;
@@ -45,6 +49,9 @@
         mutations: {
             setContinuarASolicitud(state, response) {
                 state.continuarASolicitud = response;
+            },
+            setPermitirSalvar(state, response) {
+                state.permitirSalvar = response;
             },
             setVentas(state, ventas) {
                 state.ventas = ventas;
@@ -94,20 +101,16 @@
             },
             listarVehiculosAClonar({state, commit}) {
                 state.vehiculos = [];
-                let i = 0;
-                state.ventas.forEach((venta) => {
-                    if (venta.producto.con_vehiculo && venta.vehiculo.placa) {
-                        if (state.vehiculos.length === 0 || 
-                        state.vehiculos.find((element) => element.placa !== venta.vehiculo.placa)) {
+                state.ventas.map(venta => {
+                    if (venta.vehiculo) {
+                        if (!state.vehiculos.find(vehiculo => vehiculo.placa === venta.vehiculo.placa)) {
                             commit("setVehiculoAClonar", venta.vehiculo);
                         }
                     }
-
-                    i ++;
                 });
             },
             clonarVehiculo({state, commit}, payload) {
-                state.ventas[payload.index].vehiculo = JSON.parce(JSON.stringify(payload.vehiculo));
+                state.ventas[payload.index].vehiculo = JSON.parse(JSON.stringify(payload.vehiculo));
             },
             async onSubmit({state}) {
                 let url = '';
@@ -143,7 +146,10 @@
             },
             noContinuarASolicitud(context) {
                 context.commit('setContinuarASolicitud', false);
-            }
+            },
+            noPermitirSalvar(context) {
+                context.commit('setPermitirSalvar', false);
+            },
         }
     });
 </script>

@@ -64,7 +64,7 @@ class ValidarVentasService
             'cilindraje' => 'required',
         ], [
             'tipo_vehiculo_id.required' => "El tipo de vehículo es requerido para el producto $counter",
-            'placa.required' => "La placa es requerida para el vehiculo $counter",
+            'placa.required' => "La placa es requerida para el vehiculo del producto $counter",
             'vencimiento_soat.required' => "El vencimiento del SOAT es requerido para el producto $counter",
             'vencimiento_rtm.required' => "El vencimiento del RTM es requerido para el producto $counter",
             'modelo.required' => "El modelo es requerido para el producto $counter",

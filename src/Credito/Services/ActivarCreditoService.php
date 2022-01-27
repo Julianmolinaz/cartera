@@ -34,8 +34,25 @@ class ActivarCreditoService
     {
         $this->getSolicitud();
 
-        // VALIDACIONES
+        $this->validaciones();
 
+        DB::beginTransaction();
+
+        try {
+            $this->activarCredito();
+            $this->crearLog();
+            $this->incrementarElNumeroDeCreditosDelCliente();
+            $this->generarFechaDePago();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw new \Exception($e->getMessage(), 500);
+        }
+    }
+
+    public function validaciones()
+    {
         if (! $this->validarPagoPorEstudio() ) {
             $this->errors[] = "Se requiere el pago de estudio de crédito";
         }
@@ -56,22 +73,12 @@ class ActivarCreditoService
             $this->errors[] = "Existen solicitudes vigentes";
         }
 
-        if ($this->errors) {
-            throw new \Exception("**".json_encode($this->errors), 400);
+        if (!$this->facturacionExistente()) {
+            $this->errors[] = "No existen facturas registradas para esta solicitud";
         }
 
-        DB::beginTransaction();
-
-        try {
-            $this->activarCredito();
-            $this->crearLog();
-            $this->incrementarElNumeroDeCreditosDelCliente();
-            $this->generarFechaDePago();
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw new \Exception($e->getMessage(), 500);
+        if ($this->errors) {
+            throw new \Exception("**".json_encode($this->errors), 400);
         }
     }
 
@@ -157,4 +164,12 @@ class ActivarCreditoService
         ]);
     }
 
+
+    protected function facturacionExistente()
+    {
+        $facturas = Repo\FacturasRepository::facturasBySolicitud($this->solicitud);
+    
+        if ($facturas) return true;
+        return false;
+    }
 }

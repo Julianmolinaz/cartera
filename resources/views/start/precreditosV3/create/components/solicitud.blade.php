@@ -342,7 +342,7 @@
         created() {
             this.solicitud = this.$store.state.solicitud;
 
-            if (this.$store.state.modo === 'Editar Solicitud') {
+            if (this.$store.state.modo !== 'Crear Solicitud') {
                 this.setup();
                 this.setRango2();
             }

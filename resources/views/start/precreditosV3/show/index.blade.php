@@ -35,4 +35,16 @@
         </div>
     </div>
 
+    @if($data['pagos_solicitud'])
+    <div class="col-md-12">
+        @include('start.precreditosV3.show.pagos_solicitud')
+    </div>
+    @endif
+
+    @if($data['pagos_credito'])
+    <div class="col-md-12">
+        @include('start.precreditosV3.show.pagos_credito')
+    </div>
+    @endif
+
 @endsection

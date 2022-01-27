@@ -31,7 +31,7 @@
                 <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
                 <a href="#" class='btn btn-default btn-xs' @click="print('{{$pago->factura->id}}')">
-                        <span class = "glyphicon glyphicon-print" title="Imprimir"></span>
+                        <span class="glyphicon glyphicon-print" title="Imprimir"></span>
                     </a>
             </td>
             </tr>

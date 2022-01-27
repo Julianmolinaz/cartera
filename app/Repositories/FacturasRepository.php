@@ -137,4 +137,15 @@ class FacturasRepository
 
         throw new \Exception("No se existen cambios en la factura.", 400);
     }
+
+    public static function facturasBySolicitud($solicitudId)
+    {
+        $facturas = DB::table('invoices')
+            ->join('ventas', 'invoices.venta_id', '=', 'ventas.id')
+            ->where('ventas.precredito_id', $solicitudId)
+            ->select('invoices.*')
+            ->get();
+
+        return $facturas;
+    }
 }

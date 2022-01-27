@@ -11,7 +11,13 @@
                 class="glyphicon glyphicon-briefcase"
                 aria-hidden="true" style="color:gray;"
             ></span>
-            <span v-text="this.$store.state.modo"></span> 
+            <span 
+                v-text="
+                    ($store.state.modo === 'Editar Solicitud') ? $store.state.modo + ' ' + $store.state.solicitud.id : 
+                    ($store.state.modo !== 'Crear Solicitud' && $store.state.modo !== 'Editar Solicitud') 
+                        ? $store.state.modo + ' ' + $store.state.credito.id : ''
+                "
+            ></span> 
             <span style="font-size: 0.6em;color: #9e9a9a;" ></span>
             <a  
                 class="btn btn-default btn-salir" 
@@ -21,9 +27,6 @@
                 Salir
             </a>
         </h1>
-
-        <div class="alert alert-danger" role="alert" style="margin:5px 10px;"
-            v-if="$store.state.message" v-html="$store.state.message"></div>
 
         <div role ="tabpanel">
         
@@ -60,7 +63,7 @@
                         role="tab" 
                         @click="go('credito')"
                     >
-                    <i class="fa fa-rss-square" aria-hidden="true" style="margin-right:5px;"></i>Crédito
+                        <i class="fa fa-rss-square" aria-hidden="true" style="margin-right:5px;"></i>Crédito
                     </a>
                 </li>
             </ul>
@@ -85,11 +88,11 @@
                 
                 <p class="help-block">Los campos con asterisco (*) son obligatorios</p>
                 
-            </div><!-- tab-content  -->
-        </div>  <!-- tabpanel    -->
-    </div> <!-- panel  -->
+            </div>
+        </div>
+    </div>
  
-</div><!-- .col-md-8 -->
+</div>
 
 
 <script>
