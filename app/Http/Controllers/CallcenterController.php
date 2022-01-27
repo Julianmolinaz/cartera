@@ -83,8 +83,6 @@ class CallcenterController extends Controller
              ->whereIn('creditos.estado',$array)
              ->orderBy('llamadas.created_at','desc')
              ->paginate(100);
-
-        // dd($creditos);
  
          // segundo query para contabilizar el numero de sanciones diarias en debe
          // extracción ultima llamada realizada en el callcenter
@@ -465,10 +463,17 @@ class CallcenterController extends Controller
                         'cliente',
                         'celular',
                         'documento',
+                        'fecha_nacimiento',
+                        'edad',
+                        'cargo',
+                        'tipo_contrato',
+                        'empresa',
+                        'fecha_vinculacion',
+                        'antiguedad',
+                        'score',
                         'ocupacion',
                         'actividad',
                         'estado',
-                        'fecha_nacimiento',
                         'castigada',
                         'saldo deuda',
 			            'total a pagar',
@@ -486,7 +491,7 @@ class CallcenterController extends Controller
                     array_push($array_creditos,$header);
 
                     foreach($creditos as $credito) {
-                        // dd($creditos);
+                        
                         $temp = [
                             'cartera'            => $credito->cartera,
                             'punto'              => $credito->punto,
@@ -497,6 +502,14 @@ class CallcenterController extends Controller
                             'cliente'            => $credito->cliente,
                             'celular'            => $credito->movil,
                             'documento'          => $credito->num_doc,
+                            'fecha_nacimiento'   => inv_fech2($credito->fecha_nacimiento),
+                            'edad'               => '',
+                            'cargo'              => $credito->cargo,
+                            'tipo_contrato'      => $credito->tipo_contrato,
+                            'empresa'            => $credito->empresa,
+                            'fecha_vinculacion'  => inv_fech2($credito->fecha_vinculacion),
+                            'antiguedad'         => '',
+                            'score'              => $credito->score,
                             'ocupacion'          => $credito->ocupacion,
                             'castigada'          => $credito->castigada,
                             'saldo'              => (float)$credito->saldo,
@@ -512,7 +525,7 @@ class CallcenterController extends Controller
                             'fecha_llamada'      => $credito->fecha_llamada,
                             'funcionario_gestion'=> $credito->gestion
                             ];
-                            dd($temp);
+                            
                         array_push($array_creditos,$temp);
                     }
 
