@@ -72,7 +72,7 @@ class CallcenterController extends Controller
                  municipios.departamento     as departamento,
                  creditos.estado             as estado,
                  clientes.nombre             as cliente,
-                 clientes.num_doc            as doc,
+                 clientes.num_doc            as doc, 
                  fecha_cobros.fecha_pago     as fecha_pago,
                  llamadas.agenda             as agenda,
                  llamadas.observaciones      as observaciones,
@@ -82,7 +82,7 @@ class CallcenterController extends Controller
              ->orderBy('llamadas.created_at','desc')
              ->paginate(100);
 
-
+        // dd($creditos);
  
          // segundo query para contabilizar el numero de sanciones diarias en debe
          // extracción ultima llamada realizada en el callcenter
@@ -464,6 +464,7 @@ class CallcenterController extends Controller
                         'celular',
                         'documento',
                         'estado',
+                        'fecha_nacimiento',
                         'castigada',
                         'saldo deuda',
 			            'total a pagar',
@@ -481,7 +482,7 @@ class CallcenterController extends Controller
                     array_push($array_creditos,$header);
 
                     foreach($creditos as $credito) {
-
+                        // dd($creditos);
                         $temp = [
                             'cartera'            => $credito->cartera,
                             'punto'              => $credito->punto,
@@ -492,7 +493,8 @@ class CallcenterController extends Controller
                             'cliente'            => $credito->cliente,
                             'celular'            => $credito->movil,
                             'documento'          => $credito->num_doc,
-                            'estado'             => $credito->estado,
+                            'estado'             => $credito->estado,                         
+                            'fecha_nacimiento'   => $credito->f_nacimiento,
                             'castigada'          => $credito->castigada,
                             'saldo'              => (float)$credito->saldo,
 			                'total_a_pagar'      => (float)$credito->total_a_pagar,  
@@ -507,11 +509,11 @@ class CallcenterController extends Controller
                             'fecha_llamada'      => $credito->fecha_llamada,
                             'funcionario_gestion'=> $credito->gestion
                             ];
-
+                            dd($temp);
                         array_push($array_creditos,$temp);
                     }
 
-                    // dd($array_creditos);
+                    
 
                 $sheet->cells('A1:V1', function ($cells) {
                     $cells->setBackground('#CCCCCC');
