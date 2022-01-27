@@ -223,5 +223,10 @@
   .alertify-notifier.ajs-right .ajs-message.ajs-visible {
     right: 238px;
   }
+  @media (max-width: 600px) {
+    .title-punto {
+      display: none;
+    }
+  }
 </style>
         
