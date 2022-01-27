@@ -15,47 +15,47 @@
       @include('flash::message')
 
       <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>    #         </th>        
+                <th>    Cliente   </th>
+                <th>    Solicitud id </th>
+                <th>    # Factura </th>
+                <th>    Fecha     </th>
+                <th>    Total     </th>
+                <th>    Creó      </th>
+                <th>    Actividad    </th>
 
-       <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>    #         </th>        
-            <th>    Cliente   </th>
-            <th>    Solicitud id </th>
-            <th>    # Factura </th>
-            <th>    Fecha     </th>
-            <th>    Total     </th>
-            <th>    Creó      </th>
-            <th>    Actividad    </th>
+              </tr>
+            </thead>
 
-          </tr>
-        </thead>
+            <tbody>
+              <tr>
+                <td> {{ $factura->id }}    </td>
+                <td> {{ $factura->precredito->cliente->nombre }} </td>
+                <td> {{ $factura->precredito->id }} </td>
+                <td> {{ $factura->num_fact }}</td>
+                <td> {{ $factura->fecha }}</td>
+                <td> {{ number_format($factura->total,0,",",".") }}</td>
+                <td> {{ $factura->user_create->name.' '.$factura->created_at }} </td>
+                <td>
+                @permission('anular_pago_solicitud')
+                  <a href="#" class = 'btn btn-default btn-xs' title="anular factura" 
+                    OnClick="Anular({{$factura->id}},'{{$factura->num_fact}}');" data-toggle="modal" data-target="#modal">
+                    <span class = "glyphicon glyphicon-fire"  ></span>
+                  </a>
+                @endpermission  
+                    <a href="#" class='btn btn-default btn-xs' @click="print('{{$factura->id}}')">
+                    <span class = "glyphicon glyphicon-print" title="Imprimir"></span>
+                    </a>
+                </td>
+              </tr>
 
-        <tbody>
-          <tr>
-            <td> {{ $factura->id }}    </td>
-            <td> {{ $factura->precredito->cliente->nombre }} </td>
-            <td> {{ $factura->precredito->id }} </td>
-            <td> {{ $factura->num_fact }}</td>
-            <td> {{ $factura->fecha }}</td>
-            <td> {{ number_format($factura->total,0,",",".") }}</td>
-            <td> {{ $factura->user_create->name.' '.$factura->created_at }} </td>
-            <td>
-            @permission('anular_pago_solicitud')
-              <a href="#" class = 'btn btn-default btn-xs' title="anular factura" 
-                OnClick="Anular({{$factura->id}},'{{$factura->num_fact}}');" data-toggle="modal" data-target="#modal">
-                <span class = "glyphicon glyphicon-fire"  ></span>
-              </a>
-            @endpermission  
-                <a href="#" class='btn btn-default btn-xs' @click="print('{{$factura->id}}')">
-		            <span class = "glyphicon glyphicon-print" title="Imprimir"></span>
-                </a>
-            </td>
-          </tr>
-
-        </tbody>
-      </table>
-
+            </tbody>
+          </table>
+        </div>
       <a href="javascript:window.history.back();">
         <button class="btn btn-default" id="btn_volver" style="margin-right: 5px; ">
         <i class="glyphicon glyphicon-arrow-left"></i>&nbsp;&nbsp;Volver&nbsp;&nbsp;
@@ -88,7 +88,7 @@
 
 
       <div class="panel-body">
-
+          <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -109,8 +109,8 @@
               @endforeach
 
               </tbody>
-        </table>
-
+            </table>
+          </div>
         @include('start.precred_pagos.anularFacturaModal')
 
        <a href="javascript:window.history.back();">

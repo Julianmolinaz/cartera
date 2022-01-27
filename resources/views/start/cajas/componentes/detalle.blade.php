@@ -16,25 +16,27 @@
 
 			    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 			      <div class="panel-body">
-			       	<table class="table table-striped">
-			       		<thead>
+				  	<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
 
-									<tr>
-										<th>Id</th>
-										<th>Cliente</th>
-										<th>Costo del crédito</th>
-										<th>Documento</th>
-									</tr>
-										</thead>
-										<tbody>
-									<tr v-for="precredito in dat.precreditos">
-										<td>@{{ precredito.id }}</td>
-										<td>@{{ precredito.cliente }}</td>
-										<td>@{{ precredito.vlr_fin }}</td>
-										<td>@{{ precredito.documento }}</td>
-									</tr>
-										</tbody>
-							</table>
+								<tr>
+									<th>Id</th>
+									<th>Cliente</th>
+									<th>Costo del crédito</th>
+									<th>Documento</th>
+								</tr>
+									</thead>
+									<tbody>
+								<tr v-for="precredito in dat.precreditos">
+									<td>@{{ precredito.id }}</td>
+									<td>@{{ precredito.cliente }}</td>
+									<td>@{{ precredito.vlr_fin }}</td>
+									<td>@{{ precredito.documento }}</td>
+								</tr>
+									</tbody>
+						</table>
+			      	</div>
 			      </div>
 			    </div>
 			  </div>
@@ -54,26 +56,25 @@
 			    </div>
 			    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 			      <div class="panel-body">
-			        
-			       	<table class="table table-striped">
-			       		<thead>
+				  	<div class="table-responsive">	
+						<table class="table table-striped">
+							<thead>
 
-									<tr>
-										<th>Crédito</th>
-										<th>Agenda</th>
-										<th>Observaciones</th>
-									</tr>
-										</thead>
-										<tbody>
-									<tr v-for="call in dat.calls">
-										<td>@{{ call.credito_id }}</td>
-										<td>@{{ call.Agenda }}</td>
-										<td>@{{ call.observaciones }}</td>
-									</tr>
-								</tbody>
-							</table>
-
-
+								<tr>
+									<th>Crédito</th>
+									<th>Agenda</th>
+									<th>Observaciones</th>
+								</tr>
+									</thead>
+									<tbody>
+								<tr v-for="call in dat.calls">
+									<td>@{{ call.credito_id }}</td>
+									<td>@{{ call.Agenda }}</td>
+									<td>@{{ call.observaciones }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 			      </div>
 			    </div>
 			  </div>
@@ -92,31 +93,31 @@
 			    </div>
 			    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
 			      <div class="panel-body">
-			        
-			       	<table class="table table-striped">
-			       		<thead>
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
 
-							<tr>
-								<th>Obligación</th>
-								<th>Id obligación</th>
-								<th>Cliente</th>
-								<th>Num factura</th>
-								<th>Fecha factura</th>
-								<th>Anula</th>
-							</tr>
-			       		</thead>
-			       		<tbody>
-							<tr v-for="anulada in dat.anuladas">
-								<td>@{{ (anulada.credito_id) ? 'Credito' : 'Solicitud'  }}</td>
-								<td>@{{ (anulada.credito_id) ? anulada.credito_id : anulada.precredito_id }}</td>
-								<td>@{{ anulada.num_doc }}</td>
-								<td>@{{ anulada.num_fact }}</td>
-								<td>@{{ anulada.fecha }}</td>
-								<td>@{{ anulada.anula }}</td>
-							</tr>
-			       		</tbody>
-					</table>
-
+								<tr>
+									<th>Obligación</th>
+									<th>Id obligación</th>
+									<th>Cliente</th>
+									<th>Num factura</th>
+									<th>Fecha factura</th>
+									<th>Anula</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="anulada in dat.anuladas">
+									<td>@{{ (anulada.credito_id) ? 'Credito' : 'Solicitud'  }}</td>
+									<td>@{{ (anulada.credito_id) ? anulada.credito_id : anulada.precredito_id }}</td>
+									<td>@{{ anulada.num_doc }}</td>
+									<td>@{{ anulada.num_fact }}</td>
+									<td>@{{ anulada.fecha }}</td>
+									<td>@{{ anulada.anula }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 
 			      </div>
 			    </div>
@@ -138,29 +139,29 @@
 			    </div>
 			    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
 			      <div class="panel-body">
-			        
-			       	<table class="table">
-			       		<thead>
+				  	<div class="table-responsive">
+						<table class="table">
+							<thead>
 
-							<tr>
-								<th>Número de factura</th>
-								<th>Concepto</th>
-								<th>subtotal</th>
-								<th>Crédito</th>
-								<th>Banco</th>
-							</tr>
-			       		</thead>
-			       		<tbody>
-							<tr v-for="abono in dat.abonos">
-								<td>@{{ abono.num_fact }}</td>
-								<td>@{{ abono.concepto }}</td>
-								<td>@{{ abono.subtotal }}</td>
-								<td>@{{ abono.credito  }}</td>
-								<td>@{{ abono.banco	   }}</td>
-							</tr>
-			       		</tbody>
-					</table>
-
+								<tr>
+									<th>Número de factura</th>
+									<th>Concepto</th>
+									<th>subtotal</th>
+									<th>Crédito</th>
+									<th>Banco</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="abono in dat.abonos">
+									<td>@{{ abono.num_fact }}</td>
+									<td>@{{ abono.concepto }}</td>
+									<td>@{{ abono.subtotal }}</td>
+									<td>@{{ abono.credito  }}</td>
+									<td>@{{ abono.banco	   }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 			      </div>
 			    </div>
 			</div>
@@ -179,29 +180,29 @@
 			    </div>
 			    <div id="collapseDes" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDes">
 			      <div class="panel-body">
-			        
-			       	<table class="table">
-			       		<thead>
+				  	<div class="table-responsive">
+						<table class="table">
+							<thead>
 
-							<tr>
-								<th>Número de factura</th>
-								<th>Concepto</th>
-								<th>subtotal</th>
-								<th>Crédito</th>
-								<th>Banco</th>
-							</tr>
-			       		</thead>
-			       		<tbody>
-							<tr v-for="descuento in dat.descuentos">
-								<td>@{{ descuento.num_fact }}</td>
-								<td>@{{ descuento.concepto }}</td>
-								<td>@{{ descuento.subtotal }}</td>
-								<td>@{{ descuento.credito  }}</td>
-								<td>@{{ descuento.banco    }}</td>
-							</tr>
-			       		</tbody>
-					</table>
-
+								<tr>
+									<th>Número de factura</th>
+									<th>Concepto</th>
+									<th>subtotal</th>
+									<th>Crédito</th>
+									<th>Banco</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="descuento in dat.descuentos">
+									<td>@{{ descuento.num_fact }}</td>
+									<td>@{{ descuento.concepto }}</td>
+									<td>@{{ descuento.subtotal }}</td>
+									<td>@{{ descuento.credito  }}</td>
+									<td>@{{ descuento.banco    }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 			      </div>
 			    </div>
 			  </div>
@@ -220,29 +221,29 @@
 			    </div>
 			    <div id="collapsefive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfive">
 			      <div class="panel-body">
-			        
-			       	<table class="table">
-			       		<thead>
+				  	<div class="table-responsive">
+						<table class="table">
+							<thead>
 
-							<tr>
-								<th>Número de factura</th>
-								<th>Concepto</th>
-								<th>Subtotal</th>
-								<th>Cartera</th>
-								<th>Tipo</th>
-							</tr>
-			       		</thead>
-			       		<tbody>
-							<tr v-for="otro_ingreso in dat.otros_pagos">
-								<td>@{{ otro_ingreso.num_fact }}</td>				
-								<td>@{{ otro_ingreso.concepto }}</td>				
-								<td>@{{ otro_ingreso.subtotal }}</td>				
-								<td>@{{ otro_ingreso.cartera }}</td>				
-								<td>@{{ otro_ingreso.tipo }}</td>				
-							</tr>
-			       		</tbody>
-					</table>
-
+								<tr>
+									<th>Número de factura</th>
+									<th>Concepto</th>
+									<th>Subtotal</th>
+									<th>Cartera</th>
+									<th>Tipo</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="otro_ingreso in dat.otros_pagos">
+									<td>@{{ otro_ingreso.num_fact }}</td>				
+									<td>@{{ otro_ingreso.concepto }}</td>				
+									<td>@{{ otro_ingreso.subtotal }}</td>				
+									<td>@{{ otro_ingreso.cartera }}</td>				
+									<td>@{{ otro_ingreso.tipo }}</td>				
+								</tr>
+							</tbody>
+						</table>
+					</div>
 			      </div>
 			    </div>
 			  </div>
@@ -262,27 +263,27 @@
 			    </div>
 			    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
 			      <div class="panel-body">
-			        
-			       	<table class="table">
-			       		<thead>
+				  	<div class="table-responsive">
+						<table class="table">
+							<thead>
 
-							<tr>
-								<th>Solicitud</th>
-								<th>Número de factura</th>
-								<th>Concepto</th>
-								<th>subtotal</th>
-							</tr>
-			       		</thead>
-			       		<tbody>
-							<tr v-for="pago in dat.pagos_solicitudes">
-								<td>@{{ pago.precredito_id }}</td>
-								<td>@{{ pago.num_fact }}</td>
-								<td>@{{ pago.concepto }}</td>
-								<td>@{{ pago.subtotal }}</td>
-							</tr>
-			       		</tbody>
-					</table>
-
+								<tr>
+									<th>Solicitud</th>
+									<th>Número de factura</th>
+									<th>Concepto</th>
+									<th>subtotal</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="pago in dat.pagos_solicitudes">
+									<td>@{{ pago.precredito_id }}</td>
+									<td>@{{ pago.num_fact }}</td>
+									<td>@{{ pago.concepto }}</td>
+									<td>@{{ pago.subtotal }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 			      </div>
 			    </div>
 			  </div>
@@ -303,33 +304,33 @@
 			    </div>
 			    <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
 			      <div class="panel-body">
-			        
-			       	<table class="table">
-			       		<thead>
+				  	<div class="table-responsive">
+						<table class="table">
+							<thead>
 
-							<tr>
-								<th>Comprobante</th>
-								<th>Concepto</th>
-								<th>Valor</th>
-								<th>Tipo de pago</th>
-								<th>Banco</th>
-								<th>Consignación</th>
-								<th>Proveedor</th>
-							</tr>
-			       		</thead>
-			       		<tbody>
-							<tr v-for="egreso in dat.egresos">
-								<td>@{{ egreso.id }}</td>
-								<td>@{{ egreso.concepto }}</td>
-								<td>@{{ egreso.valor }}</td>
-								<td>@{{ egreso.tipo }}</td>
-								<td>@{{ egreso.banco }}</td>
-								<td>@{{ egreso.num_consignacion }}</td>
-								<td>@{{ egreso.proveedor }}</td>
-							</tr>
-			    	</tbody>
-					</table>
-
+								<tr>
+									<th>Comprobante</th>
+									<th>Concepto</th>
+									<th>Valor</th>
+									<th>Tipo de pago</th>
+									<th>Banco</th>
+									<th>Consignación</th>
+									<th>Proveedor</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="egreso in dat.egresos">
+									<td>@{{ egreso.id }}</td>
+									<td>@{{ egreso.concepto }}</td>
+									<td>@{{ egreso.valor }}</td>
+									<td>@{{ egreso.tipo }}</td>
+									<td>@{{ egreso.banco }}</td>
+									<td>@{{ egreso.num_consignacion }}</td>
+									<td>@{{ egreso.proveedor }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 			      </div>
 			    </div>
 			  </div>
