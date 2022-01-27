@@ -12,9 +12,13 @@ class Producto extends Model implements Auditable
     protected $table = "productos";
 
     protected $fillable = [
-    	'nombre','num_vehiculo','descripcion',
+    	'nombre',
+        'estado',
+        'num_vehiculos',
+        'descripcion', 
+        'con_invoice', 
+        'con_vehiculo'
     ];
-
 
     public function setNombreAttribute($value){
     	$this->attributes['nombre'] = strtoupper($value);

@@ -54,13 +54,14 @@ trait SolicitudTrait
             'estados_ref_producto' => _\Http\Controllers\getEnumValues('ref_productos', 'estado'),
             'arr_periodos'         => _\Http\Controllers\getEnumValues('precreditos','periodo'),
             'arr_estudios'         => _\Http\Controllers\getEnumValues('precreditos','estudio'),
-            'tipo_vehiculos'       => _\TipoVehiculo::orderBY('nombre')->get(),
-            'cliente'              => _\Cliente::find($cliente_id),
             'vendedores'           => _\User::orderBy('name')->where('estado','activo')->where('id','<>',1)->get(),
+            'cliente'              => _\Cliente::find($cliente_id),
             'rango_meses'          => $range,
+            'tipo_vehiculos'       => _\TipoVehiculo::orderBY('nombre')->get(),
             'clientes'             => _\Http\Controllers\getEnumValues('ref_productos', 'expedido_a'),
          ];
 
+         
          return $data;
 
     }

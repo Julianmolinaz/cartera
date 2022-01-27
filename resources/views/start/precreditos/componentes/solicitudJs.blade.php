@@ -60,7 +60,6 @@
 
             }, 
             async assignData() {
-                console.log('Assign data');
                 await this.$store.commit('setSolicitud', this.solicitud);
             },                     
             async validation() {

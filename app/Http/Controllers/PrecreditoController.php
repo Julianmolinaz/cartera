@@ -6,16 +6,20 @@ use Illuminate\Http\Request;
 
 use App\Traits\Solicitudes\SolicitudCreateTrait;
 use App\Traits\Solicitudes\SolicitudUpdateTrait;
-use App\Traits\Solicitudes\SolicitudTrait;
-use App\Traits\Creditos\VehiculoTrait;
-use App\Traits\Creditos\RefProductoTrait;
-use App\Traits\Creditos\CreditoUpdateTraitV2;
-use App\Traits\MensajeTrait;
-use App\Http\Requests, App\Precredito;
 use Carbon\Carbon, App\Variable, App\Producto;
+use App\Traits\Creditos\CreditoUpdateTraitV2;
 use App\Cliente, App\Cartera, App\Credito;
-use App\Extra, Validator, App\User;
-use App as _, Auth, DB;
+use App\Traits\Solicitudes\SolicitudTrait;
+use App\Traits\Creditos\RefProductoTrait;
+use App\Traits\Creditos\VehiculoTrait;
+use App\Http\Requests, App\Precredito;
+use App\http\Controllers as Ctrl;
+use App\Traits\MensajeTrait;
+use App\Extra, Validator;
+use App\User;
+use App as _;
+use Auth;
+use DB;
 
 class PrecreditoController extends Controller
 {
@@ -50,20 +54,53 @@ class PrecreditoController extends Controller
             return redirect()->route('start.clientes.show',$cliente_id);
         }
 
-        $cliente = Cliente::find($cliente_id);  
+        $insumosInvoice = $this->insumosInvoice();
+        $insumosVehiculo = $this->insumosVehiculo();
+
+        // Obtiene los productos
+        $catalogo = DB::table('productos') 
+            ->where('estado',1)
+            ->orderBy('nombre')
+            ->get();
+
+        $cliente = Cliente::find($cliente_id); 
         $data    = $this->obtener_data_para_crear($cliente_id);
         $data['status'] = 'create';
-
-        return view('start.precreditos.create')
+        
+        return view('start.precreditosV3.create.index')
             ->with('data', $data)
-            ->with('elements',[])
-            ->with('producto_id','')
-            ->with('producto','')
-            ->with('ref_productos','')
-            ->with('data_credito','')
-            ->with('fecha_pago','')
-            ->with('solicitud','')
-            ->with('credito','');
+            ->with('catalogo', $catalogo)
+            ->with('insumosInvoice', $insumosInvoice)
+            ->with('insumosVehiculo', $insumosVehiculo);
+    }
+
+    public function insumosInvoice()
+    {
+        $list_expedido_a = Ctrl\getEnumValues('ref_productos','expedido_a');
+        $list_estados_ref_productos = Ctrl\getEnumValues('ref_productos','estado');
+        $proveedores = _\MyService\Proveedor::getProveedores();
+
+        return [
+           'list_expedido_a' => $list_expedido_a, 
+           'list_estados_ref_productos'=> $list_estados_ref_productos, 
+           'proveedores'=> $proveedores, 
+        ];
+    }
+
+    public function insumosVehiculo()
+    {
+        $list_tipo_vehiculo = DB::table('tipo_vehiculos')
+            ->select('id', 'nombre')
+            ->where('estado','Activo')
+            ->orderBy('nombre')
+            ->get();
+        $list_placa = DB::table('vehiculos')
+            ->get();
+
+        return [
+           'list_tipo_vehiculo' => $list_tipo_vehiculo,
+           'list_placa' => $list_placa
+        ];
     }
 
     public function store(Request $request)
@@ -137,7 +174,9 @@ class PrecreditoController extends Controller
                 ->with('estado',$estado)
                 ->with('fecha_pago','')
                 ->with('credito','');
-        } else {
+        } else if ($precredito->version == 3) {
+            return redirect()->route("start.precreditosV3.edit", $precredito_id);
+        } else {    
 
             $cliente = $precredito->cliente;  
             $data    = $this->obtener_data_para_crear($cliente->id);
@@ -188,6 +227,10 @@ class PrecreditoController extends Controller
     public function ver($precredito_id)
     {
         $precredito = Precredito::find($precredito_id);
+        
+        if ($precredito->version == 3) {
+            return redirect()->route("start.precreditosV3.show", $precredito_id);
+        }
 
         $credito    = Credito::where('precredito_id',$precredito_id)->get();
 

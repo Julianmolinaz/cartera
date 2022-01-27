@@ -393,7 +393,7 @@ class ReporteController extends Controller
             foreach($report_procredito as $reporte){
                 
                 foreach($reporte as $key => $elemento){
-
+                    
                     if ($elemento === reset($reporte)) {
                         fwrite($archivo, $elemento);
                     }

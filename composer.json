@@ -39,6 +39,7 @@
             "Src\\": "src/"
         },
         "files": [
+            "app/Helpers/freeHelper.php",
             "app/Helpers/helper.php",
             "app/Helpers/sanciones.php",
             "app/Helpers/info_general_helper.php",

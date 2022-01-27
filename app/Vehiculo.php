@@ -9,11 +9,14 @@ class Vehiculo extends Model
     public $timestamps = false;
 
     protected $fillable= [
-        'tipo_vehiculo_id',
         'placa',
-        'vencimiento_soat',
+        'modelo',
+        'cilindraje',
         'vencimiento_rtm',
-        'observaciones'
+        'vencimiento_soat',
+        'tipo_vehiculo_id',
+        'created_at',
+        'updated_by'
     ];
 
     public function tipo() {
@@ -27,5 +30,13 @@ class Vehiculo extends Model
     public function ref_producto()
     {
         return $this->hasOne('App\RefProducto','vehiculo_id','id');
+    }
+
+    public function creator() {
+        return $this->hasOne('App\User','id','created_by');
+    }
+
+    public function updator() {
+        return $this->hasOne('App\User','id','updated_by');
     }
 }

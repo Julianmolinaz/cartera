@@ -187,10 +187,10 @@ class CreditoController extends Controller
              // se genera la fecha limite del primer pago del crédito.
 
              $fecha_pago = calcularFecha($credito->precredito->fecha,$credito->precredito->periodo, 
-                                         1, 
-                                         $credito->precredito->p_fecha, 
-                                         $credito->precredito->s_fecha, 
-                                         true);
+                1, 
+                $credito->precredito->p_fecha, 
+                $credito->precredito->s_fecha, 
+                true);
 
 	         $ini = new Carbon($fecha_pago['fecha_ini']);
              $hoy = Carbon::now();

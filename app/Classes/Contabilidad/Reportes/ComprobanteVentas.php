@@ -32,15 +32,12 @@ class ComprobanteVentas
 
     public function make($header)
     {        
-        
-
         if ($header) 
             $this->reporte[] = $this->header();
 
         $ids_precreditos = $this->getPrecreditos();
 
         foreach ($ids_precreditos as $id_precredito) {
-
             $this->precredito = _\Precredito::find($id_precredito->id);
             $this->primerSoat = false;
             
@@ -170,7 +167,6 @@ class ComprobanteVentas
             $struct->vlr_form_pago = $this->numNoRound($venta);
             $struct->vlr_und = $this->numNoRound($venta);
 
-
             $this->reporte[] = (array)$struct;
         }
     }
@@ -240,10 +236,12 @@ class ComprobanteVentas
                     ->where('nombre', 'SOAT')
                     ->orderBy('fecha_exp')
                     ->get();
-                   
+
                 if ($soats && $soats[0]->id == $this->factura->id) {
                     $this->primerSoat = true;
                     return $this->calcularVenta($this->precredito->cuota_inicial);
+                } else {
+                    return $this->calcularVenta(0);
                 }
 
             } else {
@@ -277,9 +275,8 @@ class ComprobanteVentas
 
         $venta = $costo + $interes;
 
-
         // echo "inicial: {$inicial}, costo: {$this->factura->costo}, iva: {$this->factura->iva}, otros: {$this->factura->otros}<br> COSTO: {$costo}, vlr_fin:  {$vlr_fin}, interes: {$interes}, venta: {$venta}<br>";
-        
+
         return $venta;       
     }
 
@@ -331,15 +328,18 @@ class ComprobanteVentas
 
     public function getPrecreditos()
     {
-        return DB::table('ref_productos')
+        $precreditosId = DB::table('ref_productos')
             ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
             ->whereBetween('ref_productos.fecha_exp',[$this->ini, $this->end])
             ->whereIn('precreditos.cartera_id', [6, 32])
+            ->where('precreditos.id', 35082)
             ->where('precreditos.aprobado', 'Si')
             ->select('ref_productos.precredito_id as id')
             ->groupBy('precreditos.id')
             ->orderBy('ref_productos.fecha_exp')
             ->get();  
+
+        return $precreditosId;
     }
 
     public function struct()
