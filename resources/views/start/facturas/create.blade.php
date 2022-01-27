@@ -4,7 +4,6 @@
 
 @section('contenido')
 
-
 <div class="row" id="main">
     <div class="col-sm-1"></div>
     <div class="col-sm-6">
@@ -23,7 +22,7 @@
         </div>
     </div>
 
-    <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="col-sm-4 col-xs-12">
         <!--panel información de los pagos-->
         @include('start.facturas.facturar.info_general')
         <!--end panel información de los pagos-->

@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Pago;
-use App\Credito;
+use App\OtrosPagos;
+use Carbon\Carbon;
 use App\Variable;
-use App\Egreso;
+use App\Factura;
+use App\Credito;
 use App\Cartera;
+use App\Llamada;
+use App\Egreso;
+use App\Pago;
+use App\User;
+use Auth;
 use DB;
 
-use Carbon\Carbon;
-use App\Factura;
-use App\OtrosPagos;
-use Auth;
-use App\Llamada;
-use App\User;
 
 function reporte_general_por_carteras( $fecha_1, $fecha_2 ,$cartera){
   

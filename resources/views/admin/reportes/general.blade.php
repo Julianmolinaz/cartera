@@ -70,7 +70,11 @@
               <td></td>
               <td align="right"> {{ number_format($sancion->sanciones,0,",",".")  }} </td>
               <td></td>
+<<<<<<< HEAD
               <td></td>
+=======
+	      <td></td>
+>>>>>>> b68ed3c76622ecbf7d18206a0a7fa5db9ead9376
               <td></td>   
               <td></td>
               <td></td>

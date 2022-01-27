@@ -169,6 +169,7 @@ var main = new Vue({
     },
     created: function(){
         this.punto_auto = true;
+        alertify.notify('<p class="title-punto">' + this.punto.nombre +'</p>','default',600,function(){  console.log('dismissed'); });
     },
     mounted: function(){
         if(this.credito.castigada == 'Si'){
@@ -178,3 +179,22 @@ var main = new Vue({
     }
   })
 </script>
+<style>
+    .title-punto {
+        background-color: #ffc32b;
+        text-align: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 24px;
+        padding: 20px 0;
+    }
+    .alertify-notifier.ajs-right .ajs-message.ajs-visible {
+        right: 238px;
+    }
+
+    @media (max-width: 600px) {
+        .title-punto {
+            display: none;
+        }
+    }
+</style>
