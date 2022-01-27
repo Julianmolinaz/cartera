@@ -511,6 +511,8 @@ class CallcenterController extends Controller
                             'antiguedad'         => '',
                             'score'              => $credito->score,
                             'ocupacion'          => $credito->ocupacion,
+                            'actividad'          => $credito->actividad,
+                            'estado'             => $credito->estado,
                             'castigada'          => $credito->castigada,
                             'saldo'              => (float)$credito->saldo,
 			                'total_a_pagar'      => (float)$credito->total_a_pagar,  
