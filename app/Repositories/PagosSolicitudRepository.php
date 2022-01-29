@@ -20,7 +20,7 @@ class PagosSolicitudRepository
     {
         $pago = DB::table("precred_pagos")
             ->where("precredito_id", $solicitudId)
-            ->where("concepto", 2)
+            ->where("concepto_id", 2)
             ->first();
 
         return $pago;

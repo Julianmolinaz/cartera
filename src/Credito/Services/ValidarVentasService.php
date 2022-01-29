@@ -12,12 +12,12 @@ class ValidarVentasService
     {
         $this->ventas = $ventas;
 
+        $this->validarNumeroMinimoDeProductos();
+
         $counter = 1;
 
         foreach ($this->ventas as $venta) {
-            $this->validarProducto(
-                $venta['producto'], $counter
-            );
+            $this->validarProducto($venta['producto'], $counter);
 
             if ($venta['producto']['con_vehiculo']) {
                 $this->validarVehiculo($venta['vehiculo'], $counter);
@@ -37,6 +37,13 @@ class ValidarVentasService
         if ($this->errors) return true;
         
         return false;
+    }
+
+    protected function validarNumeroMinimoDeProductos()
+    {
+        if (!$this->ventas) {
+            throw new \Exception("Se requiere agregar por lo menos un producto", 400);
+        }
     }
 
     protected function validarProducto($producto, $counter)

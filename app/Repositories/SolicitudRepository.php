@@ -2,10 +2,12 @@
 
 namespace App\Repositories;
 use App\Precredito as Solicitud;
+use Auth;
 use DB;
 
 class SolicitudRepository
 {
+
     public static function saveSolicitud($data)
     {
         $solicitud = new Solicitud();
@@ -51,6 +53,7 @@ class SolicitudRepository
             ->leftJoin("creditos", "precreditos.id", "=", "creditos.precredito_id")
             ->where("clientes.id", "=", $clienteId)
             ->where("aprobado", "Si")
+            ->whereNull("creditos.id")
             ->select("precreditos.*", "creditos.estado as credito_estado")
             ->get();
         
@@ -95,6 +98,19 @@ class SolicitudRepository
         $solicitud->facturas;
         $solicitud->procesos;
         $solicitud->cliente;
+
+        return $solicitud;
+    }
+
+    public static function updateAprobacion($opcion, $solicitudId)
+    {
+        $solicitud = Solicitud::find($solicitudId);
+        $solicitud->aprobado = $opcion;
+        
+        if ($solicitud->isDirty()) {
+            $solicitud->user_update_id = Auth::user()->id;
+            $solicitud->save();
+        }
 
         return $solicitud;
     }

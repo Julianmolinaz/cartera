@@ -19,11 +19,16 @@
 
                 <div class="form-group">
                     <label for="mes de comision">Mes</label>
-                    <select name="mes" value="mes['nombre']" class="form-control">
+                    <select 
+                        name="mes"
+                        value="mes['nombre']"
+                        class="form-control"
+                    >
                         @foreach($data['meses'] as $mes)
                             <option 
                                 value="{{ $mes['nombre']}}"
                                 {{ $mes['checked'] ? 'selected' : '' }}
+                                {{ !$user->can('editar_creditos') ? 'disabled' : '' }}
                             >
                                 {{ $mes['nombre'] }}
                             </option>
@@ -32,11 +37,15 @@
                 </div>
                 <div class="form-group">
                     <label for="año de comisión">Año</label>
-                    <select name="anio" class="form-control">
+                    <select 
+                        name="anio"
+                        class="form-control"
+                    >
                         @foreach($data['anos'] as $ano)
                             <option
                                 value="{{ $ano['nombre'] }}"
                                 {{ $ano['checked'] ? 'selected' : '' }}
+                                {{ !$user->can('editar_creditos') ? 'disabled' : '' }}
                             >
                                 {{ $ano['nombre'] }}
                             </option>

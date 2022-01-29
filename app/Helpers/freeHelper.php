@@ -49,7 +49,7 @@ function ddmmyyyy($date)
 function ddmmyyyyhhmmss($date)
 {
     $timestamp = strtotime($date);
-    $newDate = date("m-d-Y H:m:s", $timestamp);
+    $newDate = date("m-d-Y H:i:s", $timestamp);
     return $newDate;
 }
 

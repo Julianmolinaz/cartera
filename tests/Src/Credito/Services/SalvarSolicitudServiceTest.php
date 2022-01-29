@@ -5,18 +5,44 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Src\Credito\Services\SalvarSolicitudService;
+use DB;
 
 class SalvarSolicitudServiceTest extends TestCase
 {
     public function testExample()
     {
-        $data = $this->mock();
+        DB::beginTransaction();
 
-        $case = new SalvarSolicitudService($data);
+        try {
+            $data = $this->mock();
 
-        // $solicitud = $case->make();
+            $case = new SalvarSolicitudService($data);
 
-        $this->assertTrue(true);
+            $solicitud = $case->make();
+
+            $this->assertTrue(true);
+
+            $this->delete($solicitud->id);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e->getMessage());
+        }
+    }
+
+    public function delete($solicitudId)
+    {
+
+        $ventas = DB::table('ventas')->where('precredito_id', $solicitudId)->get();
+
+        foreach ($ventas as $venta) {
+            DB::table('vehiculos')->where('id', $venta->vehiculo_id)->delete();
+        }
+
+        DB::table('ventas')->where('precredito_id', $solicitudId)->delete();
+
+        DB::table('precreditos')->where('id', $solicitudId)->delete();
+
     }
 
     public function mock() 
@@ -74,7 +100,7 @@ class SalvarSolicitudServiceTest extends TestCase
             'solicitud' => 
             array (
                 'id' => '',
-                'num_fact' => '2324654',
+                'num_fact' => '999999999',
                 'fecha' => '2022-01-13',
                 'cartera_id' => 18,
                 'funcionario_id' => 250,

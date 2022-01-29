@@ -117,7 +117,8 @@ class CallcenterController extends Controller
        
         return view('start.callcenter.list_todos')
             ->with('creditos',$creditos)
-            ->with('criterios',$criterios);
+            ->with('criterios',$criterios)
+            ->with('precredito', null);
     }
 
     public function list_morosos(){
@@ -256,6 +257,10 @@ class CallcenterController extends Controller
     {
         
         $credito = Credito::find($id);
+
+        if ($credito->precredito->version === '3') {
+            return redirect()->route('start.precreditosV3.show', $credito->precredito_id);
+        }
 
         $sum_sanciones = DB::table('sanciones')->where([['credito_id','=',$id],['estado','Debe']])->sum('valor');
         if($sum_sanciones == 'null'){ $sum_sanciones = 0; }

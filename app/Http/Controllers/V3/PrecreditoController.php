@@ -13,6 +13,8 @@ use Src\Credito\Services\SalvarSolicitudService;
 use Src\Credito\Services\ActualizarSolicitudService;
 use Src\Credito\Services\ConsultarCreditoService;
 use Src\Credito\Services\DataParaCrearSolicitudService;
+use Src\Credito\Services\ReglasPreviasCreacionSolicitudService;
+use Src\Credito\Services\AprobarSolicitudService;
 
 class PrecreditoController extends Controller
 {
@@ -22,30 +24,56 @@ class PrecreditoController extends Controller
     }
 
 
-    public function create($cliente_id)
+    public function create($clienteId)
     {
-        $useCase = new DataParaCrearSolicitudService($cliente_id);
-        $data = $useCase->execute();
+        try {
+            ReglasPreviasCreacionSolicitudService::make($clienteId);
+    
+            $useCase = new DataParaCrearSolicitudService($clienteId);
+            $data = $useCase->execute();
+            $insumosCredito = $data->insumosCredito;
 
-        return view('start.precreditosV3.create.index')
-            ->with('data', $data->insumosSolicitud)
-            ->with('insumos', $data->insumosVenta)
-            ->with('cliente', $data->cliente)
-            ->with('solicitud', null)
-            ->with('ventas', null)
-            ->with('credito', null)
-            ->with('modo', 'Crear Solicitud')
-            ->with('insumos_credito', $insumos_credito);
+            unset($data->insumosCredito);
+
+    
+            return view('start.precreditosV3.create.index')
+                ->with('data', $data->insumosSolicitud)
+                ->with('insumos', $data->insumosVenta)
+                ->with('cliente', $data->cliente)
+                ->with('solicitud', null)
+                ->with('ventas', null)
+                ->with('credito', null)
+                ->with('modo', 'Crear Solicitud')
+                ->with('insumos_credito', $insumosCredito);
+
+        } catch (\Exception $e) {
+            if (substr($e->getMessage(), 0, 2) === "**") {
+                $str = json_decode(substr($e->getMessage(), 2));
+                $response = '';
+
+                foreach ($str as $error) {
+                    $response .= $error ."<br>";
+                }
+            } else {
+                $response = $e->getMessage();
+            }
+            flash()->success($response);
+            return redirect()->route('start.clientes.show', $clienteId);
+        }
     }
+
 
     public function show($solicitudId)
     {
         $useCase = ConsultarCreditoService::make($solicitudId);
         $data = $useCase->data;
+        $opcionesAprobacion = getEnumValues2('precreditos', 'aprobado');
 
         return view("start.precreditosV3.show.index")
-            ->with('data', $data);
+            ->with('data', $data)
+            ->with('opcionesAprobacion', $opcionesAprobacion);
     }
+
 
     public function edit($solicitudId)
     {
@@ -67,6 +95,7 @@ class PrecreditoController extends Controller
             ->with('modo', ($credito) ? 'Editar Credito' : 'Editar Solicitud');
     }
 
+
     public function store(Request $request) 
     {
         try {
@@ -84,6 +113,7 @@ class PrecreditoController extends Controller
         }
     }
 
+
     public function update(Request $request)
     {
         try {
@@ -98,6 +128,20 @@ class PrecreditoController extends Controller
                 $response = resHp(false, 2, $e->getMessage());
             }
             return $response;
+        }
+    }
+
+    public function aprobar(Request $request)
+    {
+        try {
+            $useCase = new AprobarSolicitudService($request->aprobado, $request->solicitudId);
+            $solicitud = $useCase->execute();
+    
+            flash()->success('La aprobación fue modificada');
+            return redirect()->route('start.precreditosV3.show', $request->solicitudId);
+        } catch (\Exception $e) {
+            flash()->error($e->getMessage());
+            return redirect()->route('start.precreditosV3.show', $request->solicitudId);
         }
     }
 }

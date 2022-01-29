@@ -3,9 +3,13 @@
         <form @submit.prevent="" autocomplete="off">
             <div class="row">
                 <!-- APROBADO  -->
-                <div v-bind:class="['form-group','col-md-2',errors.first(rules.aprobado.name) ? 'has-error' :'']">
+                <div 
+                    v-if="$store.state.permisos.aprobarSolicitud"
+                    v-bind:class="['form-group','col-md-2',errors.first(rules.aprobado.name) ? 'has-error' :'']"
+                >
                     <label for="">Aprobado @{{ rules.aprobado.required }}</label>
-                    <select :name="rules.aprobado.name" 
+                    <select 
+                        :name="rules.aprobado.name" 
                         class="form-control" 
                         v-model="solicitud.aprobado"
                         v-validate="rules.aprobado.rule"

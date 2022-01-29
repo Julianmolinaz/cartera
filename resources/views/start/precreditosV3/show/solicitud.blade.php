@@ -1,6 +1,7 @@
-<div class="card-header">
+<div class="card-header {{($data['credito'] && $data['credito']->credito_padre) ? 'card-header--sky' : ''}}">
     <div class="card-title">Solicitud ={{ $solicitud->id }}</div>
     <div class="card-menu">
+        @permission('consultar_clientes')
         <a 
             href="{{ route('start.clientes.show', $solicitud->cliente_id) }}"
             class='btn btn-default btn-xs my-btn'
@@ -8,17 +9,12 @@
             data-placement="top" 
             title="Ver cliente"
         >
-            <i class="fa fa-user" aria-hidden="true"></i>
+            <span class="glyphicon glyphicon-user"></span>
         </a>
-        <a 
-            href="{{ route('start.precreditosV3.edit', $solicitud->id) }}"
-            class='btn btn-default btn-xs my-btn'
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Editar solicitud"
-        >
-            <span class="glyphicon glyphicon-pencil"></span>
-        </a>
+        @endpermission
+        
+        @include('start.precreditosV3.show.actions.btn_editar_solicitud')
+
         <a 
             href="{{route('start.fact_precreditos.create',$solicitud->id)}}"
             class='btn btn-default btn-xs my-btn'
@@ -28,6 +24,18 @@
         >
             <span class="glyphicon glyphicon-lamp"></span>
         </a>
+        @permission('aprobar_solicitudes')
+        <a 
+            href="javascript:void(0);"
+            class='btn btn-default btn-xs my-btn'
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Aprobar solicitud"
+            onclick="aprobar()"
+        >
+            <span class="glyphicon glyphicon-retweet"></span>
+        </a>
+        @endpermission
     </div>
 </div>
 <div class="card-content">
@@ -49,7 +57,7 @@
             <div>
                 @if($data['solicitud']['aprobado'] === 'Si')
                     <span class="pg-tag pg-tag--primary">{{ $data['solicitud']['aprobado'] }}</span>
-                @elseif($data['solicitud']['aprobado'] === 'En estudio')
+                @else
                     <span class="pg-tag pg-tag--default">{{ $data['solicitud']['aprobado'] }}</span>
                 @endif
             </div>
@@ -134,3 +142,5 @@
         </div>
     @endif
 </div>
+
+@include('start.precreditosV3.show.aprobar_solicitud')

@@ -26,7 +26,8 @@ class ConsultarCreditoService
             'total_pagos' => $this->getTotalPagosCredito(),
             'total_descuentos' => $this->getTotalDescuentosCredito(),
             'pagos_solicitud' => $this->getPagosSolicitud($solicitudId),
-            'pagos_credito' => $this->getPagosCredito()
+            'pagos_credito' => $this->getPagosCredito(),
+            'llamadas' => $this->getLlamadasCredito(),
         ];
     }
 
@@ -54,7 +55,7 @@ class ConsultarCreditoService
      * Retorna la venta con producto y vehiculo
      */
     protected function getVentas($solicitudId) {
-        $ventas = Repo\VentasRepository::findBySolicitud($solicitudId);
+        $ventas = Repo\VentasRepository::findBySolicitudWithInvoices($solicitudId);
         return $ventas;
     }
 
@@ -219,5 +220,17 @@ class ConsultarCreditoService
         } 
 
         return $pagos;
+    }
+
+    protected function getLlamadasCredito()
+    {
+        $llamadas = [];
+
+        if ($this->credito) {
+            $llamadas = Repo\LlamadasRepository::llamadasByCredito($this->credito->id);
+        }
+
+        return $llamadas;
+
     }
 }

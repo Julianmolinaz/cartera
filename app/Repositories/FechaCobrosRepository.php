@@ -14,4 +14,9 @@ class FechaCobrosRepository
 
         return $fechaCobro;
     }
+
+    public static function deleteByCredito($creditoId)
+    {
+        FechaCobro::where('credito_id', $creditoId)->delete();
+    }
 }

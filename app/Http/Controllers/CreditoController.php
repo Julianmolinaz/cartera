@@ -318,9 +318,7 @@ class CreditoController extends Controller
                 ->with('fecha_de_pago',$fecha_de_pago)
                 ->with('calificaciones',$calificaciones);
          
-        } 
-        else if ($credito->precredito->version == 2) 
-        { 
+        } else if ($credito->precredito->version == 2) { 
             $data = $this->obtener_data_para_crear($credito->precredito->cliente_id);
             $data['status'] = 'edit cred';
 
@@ -363,6 +361,8 @@ class CreditoController extends Controller
                 ->with('data_credito', $data_credito)
                 ->with('credito', $credito_)
                 ->with('data', $data);
+        } else if ($credito->precredito->version == 3) {
+            return redirect()->route('start.precreditosV3.edit', $credito->precredito_id);
         }
     }//.edit
 

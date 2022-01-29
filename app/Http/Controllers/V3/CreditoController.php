@@ -13,6 +13,7 @@ use Src\Credito\Services\ActivarCreditoService;
 use Src\Credito\Services\DataParaCrearSolicitudService;
 use Src\Credito\Services\ActivarCreditoRefinanciadoService;
 use Src\Credito\Services\ConsultarCreditoService;
+use Src\Credito\Services\EliminarCreditoService;
 
 class CreditoController extends Controller
 {
@@ -25,11 +26,13 @@ class CreditoController extends Controller
     {
         $credito = Repo\CreditoRepository::find($creditoId);
 
-        $useCase = ConsultarCreditoService::make($credito->precredito_id);
+        $useCase = ConsultarCreditoService::make($credito['precredito_id']);
         $data = $useCase->data;
+        $opcionesAprobacion = getEnumValues2('precreditos', 'aprobado');
 
         return view("start.precreditosV3.show.index")
-            ->with('data', $data);
+            ->with('data', $data)
+            ->with('opcionesAprobacion', $opcionesAprobacion);
     }
 
     public function store(Request $request)
@@ -74,6 +77,7 @@ class CreditoController extends Controller
         $cliente = Repo\ClientesRepository::findByCredito($creditoId);
         $useCase = new DataParaCrearSolicitudService($cliente->id, $creditoId);
         $data = $useCase->execute();
+        
 
         return view('start.precreditosV3.create.index')
             ->with('insumos_credito', $data->insumosCredito)
@@ -104,6 +108,20 @@ class CreditoController extends Controller
                 $response = resHp(false, 2, $e->getMessage());
             }
             return $response;
+        }
+    }
+    
+    public function destroy($creditoId)
+    {  
+        $credito = Repo\CreditoRepository::find($creditoId);      
+        try {
+            $useCase = new EliminarCreditoService($creditoId);
+            $useCase->execute();
+            flash()->success('El crédito fue eliminado exitosamente');
+            return redirect()->route('start.precreditosV3.show', $credito->precredito_id);
+        } catch (\Exception $e) {
+            flash()->error('No es posible eliminar el crédito');
+            return redirect()->route('start.precreditosV3.show', $credito->precredito_id);
         }
     }
 }

@@ -29,6 +29,7 @@ class ActualizarSolicitudService
             $this->actualizarSolicitud();
 
             $this->actualizarVentas();
+
             $this->actualizarCredito();
             
             DB::commit();
@@ -72,11 +73,11 @@ class ActualizarSolicitudService
         $validarCredito = ValidarCreditoService::make(
             $this->data['credito']
         );
-        
+
         if ($validarSolicitud->fails()) {
             $this->errors = array_merge($this->errors, $validarCredito->errors);
         } 
-
+        
         if ($this->errors) {
             throw new \Exception("**".json_encode($this->errors));
         }

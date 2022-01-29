@@ -56,3 +56,13 @@ Route::get('start/precreditosV3/show/{precredito_id}',[
     'uses'  	=> 'V3\PrecreditoController@show',
     'as'    => 'start.precreditosV3.show'
 ]);
+
+
+// Aprobar solicitud
+
+Route::post('start/precreditosV3/aprobar', [
+    'middleware' => [],
+    'uses' => 'V3\PrecreditoController@aprobar',
+    'as' => 'start.precreditosV3.aprobar'
+
+]);

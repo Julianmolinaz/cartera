@@ -41,11 +41,13 @@
                                 v-bind:class="['form-group','col-md-2',errors.first(rules.placa.name + ' ' + index) ? 'has-error' :'']"
                             >
                                 <label for="">Placa @{{ rules.placa.required }}</label>  
-                                <input class="form-control" 
+                                <input 
+                                    class="form-control" 
                                     v-model="vehiculo.placa"
                                     v-validate="rules.placa.rule"
                                     :name="rules.placa.name + ' ' + index"
-                                    >
+                                    @keyup="placaToUpperCasse"
+                                >
                                 <span class="help-block">@{{ errors.first(rules.placa.name + ' ' + index) }}</span>
                             </div> 
                             <!-- MODELO  -->
@@ -125,6 +127,9 @@
                     await this.$store.dispatch('noContinuarASolicitud');
                     await this.$store.dispatch('noPermitirSalvar');
                 }
+            },
+            placaToUpperCasse() {
+                this.vehiculo.placa = capitalize(this.vehiculo.placa);
             }
         },
         computed: {  

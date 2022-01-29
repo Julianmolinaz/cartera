@@ -22,7 +22,7 @@ class ActivarCreditoService
     {
         $this->solicitudId = $dataComision['solicitudId'];
         $this->dataComision = $dataComision;
-        $this->execute();    
+        $this->execute();
     }
 
     public static function make($dataComision)
@@ -33,9 +33,9 @@ class ActivarCreditoService
     protected function execute()
     {
         $this->getSolicitud();
-
+        
         $this->validaciones();
-
+        
         DB::beginTransaction();
 
         try {
@@ -167,7 +167,7 @@ class ActivarCreditoService
 
     protected function facturacionExistente()
     {
-        $facturas = Repo\FacturasRepository::facturasBySolicitud($this->solicitud);
+        $facturas = Repo\FacturasRepository::facturasBySolicitud($this->solicitud->id);
     
         if ($facturas) return true;
         return false;

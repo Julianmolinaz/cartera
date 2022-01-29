@@ -9,7 +9,8 @@
             <div class="producto-acciones">
                 <!-- CLONAR PRODUCTO  -->
                 <div class="producto-acciones__clonar">
-                    <a  href="javascript:void(0);" 
+                    <a  
+                        href="javascript:void(0);" 
                         class="btn btn-default" 
                         @click="listarVehiculosAClonar"
                         id="btn-listarVehiculosAClonar"

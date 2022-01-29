@@ -1,6 +1,7 @@
 @extends('templates.main2')
 
- @php   $cliente = $data['cliente'];
+ @php   $user = Auth::user();
+        $cliente = $data['cliente'];
         $solicitud = (object)$data['solicitud'];
  @endphp
 
@@ -15,7 +16,7 @@
     
     <div class="obligacion-container">
         <div class="card-productos">
-            @include('start.precreditosV3.show.ventas')
+            @include('start.precreditosV3.show.ventas.index')
         </div>
         <div class="card-solicitud">
             @include('start.precreditosV3.show.solicitud')
@@ -44,6 +45,12 @@
     @if($data['pagos_credito'])
     <div class="col-md-12">
         @include('start.precreditosV3.show.pagos_credito')
+    </div>
+    @endif
+
+    @if($data['llamadas'])
+    <div class="col-md-12">
+        @include('start.precreditosV3.show.llamadas')
     </div>
     @endif
 

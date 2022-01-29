@@ -9,7 +9,7 @@
             
         <br><hr>
         
-        <form @submit.prevent="onSubmit" class="form-main" autocomplete="off">
+        <form @submit.prevent="" class="form-main" autocomplete="off">
             <div class="row">
                 <!-- ESTADO  -->
                 <div v-bind:class="['form-group','col-md-3',errors.first(rules.estado.name) ? 'has-error' :'']">
@@ -180,7 +180,7 @@
                             <i class="fa fa-backward" aria-hidden="true"></i>
                             Volver
                         </a>
-                        <a :href="rutaSalida" class="btn btn-primary">
+                        <a href="javascript:void(0);" class="btn btn-primary" @click="onSubmit">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             Salvar
                         </a>
@@ -226,7 +226,6 @@
                 return true;
             },
             async onSubmit() {
-                console.log('onSubmit credito');
                 this.$store.dispatch('onSubmit');
             }, 
         },

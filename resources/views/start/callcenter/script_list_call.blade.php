@@ -93,7 +93,7 @@ function Info(){
 }
 
 function infoDesdeListado(id){
-  window.open("{{url('call')}}/"+id, '_blank');
+    window.open("{{url('call')}}/" + id, '_blank');
 }
 
 function Busqueda(opcion){

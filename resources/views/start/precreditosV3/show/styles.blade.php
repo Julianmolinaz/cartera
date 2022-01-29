@@ -33,8 +33,6 @@
             padding-top: 30px;
         }
     }
-
-
     .card-productos, .card-solicitud, .card-credito
     {
         background-color: #ffffff;
@@ -52,6 +50,9 @@
         border-radius: 4px 4px 0 0;
         padding: 10px;
     }
+    .card-header--sky {
+        background-color: #297187;
+    }
     .card-title {
         font-size: 16px;
         color: #ffffff;
@@ -68,7 +69,7 @@
         border: none;
     }
     .card-content {
-        height: 850px;
+        max-height: 850px;
         overflow: scroll;
         overflow-x: hidden;
     }
@@ -106,13 +107,13 @@
         background-color: #0982ed;
     }
     .pg-tag--danger {
-        background-color: red;
+        background-color: #ef3f3f;
     }
     .pg-tag--default {
         background-color: #838383;
     }
     .pg-tag--flow {
-        background-color: #ffc300;
+        background-color: #ff9900;
     }
     .card-credito__no-active {
         width: 100%;
@@ -147,5 +148,15 @@
     }
     .sanciones-concept {
         font-weight: 500;
+    }
+    .llamadas-detail__observaciones {
+        max-width: 500px
+    }
+
+    @media screen and (max-width: 767px) {
+        .llamadas-detail__observaciones {
+            min-width: 200px;
+            white-space: break-spaces !important;
+        } 
     }
 </style>

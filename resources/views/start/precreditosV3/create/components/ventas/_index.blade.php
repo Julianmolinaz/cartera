@@ -54,14 +54,11 @@
             <div class="row">
                 <div class="col-md-12" style="margin-top:20px;">
                     <center>
-                        <a class="btn btn-default" href="">
-                            <i class="fa fa-paper-plane" aria-hidden="true"></i>Salir
-                        </a>
                         <button class="btn btn-primary" @click="onSubmit">
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>Salvar
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i> Salvar
                         </button>
                         <button type="submit" class="btn btn-default" @click="continuar">
-                            <i class="fa fa-forward" aria-hidden="true"></i>Continuar
+                            <i class="fa fa-forward" aria-hidden="true"></i> Continuar
                         </button>
                     </center>
                 </div>  
@@ -133,7 +130,6 @@
                 }, 1000);
             },
             onSubmit() {
-                
                 this.$store.commit('setPermitirSalvar', true);
 
                 Bus.$emit('validarVehiculo');

@@ -18,11 +18,15 @@
             solicitud           : {!! json_encode($solicitud) !!} || new Solicitud({
                 cliente_id: {!! $cliente->id !!},
                 aprobado: "En estudio",
+                fecha: new Date(Date.now()).toISOString().slice(0, 10)
             }),
             credito             : {!! json_encode($credito) !!} || null,
             ventas              : {!! json_encode($ventas) !!} || [], // listado de ventas agregadas a las solicitud venta: { producto: .., vehiculo: ... }
             vehiculos           : [], // listado de vehiculos a clonar
-            cliente             : {!! json_encode($cliente) !!}
+            cliente             : {!! json_encode($cliente) !!},
+            permisos            : {
+                'aprobarSolicitud' :  {!! json_encode(Auth::user()->can('aprobar_solicitudes')) !!}
+            }
         },
         getters: { 
             getContinuarASolicitud(state) {
@@ -102,7 +106,7 @@
             listarVehiculosAClonar({state, commit}) {
                 state.vehiculos = [];
                 state.ventas.map(venta => {
-                    if (venta.vehiculo) {
+                    if (venta.vehiculo && venta.vehiculo.placa) {
                         if (!state.vehiculos.find(vehiculo => vehiculo.placa === venta.vehiculo.placa)) {
                             commit("setVehiculoAClonar", venta.vehiculo);
                         }

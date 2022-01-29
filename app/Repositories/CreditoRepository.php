@@ -319,4 +319,10 @@ class CreditoRepository {
 
         return $credito;
     }
+
+    public static function delete($creditoId)
+    {
+        $credito = Credito::find($creditoId);
+        $credito->delete();
+    }
 }
