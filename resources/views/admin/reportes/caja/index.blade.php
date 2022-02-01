@@ -68,7 +68,6 @@
                 </div>
             
             </div>
-            <div class="table-responsive">
                 <table class="table table-condensed" id="cajas" 
                     style="font-size:10px;">
                     <thead>
@@ -113,7 +112,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            
         </template>
     </div>
 </div>
