@@ -3,7 +3,8 @@
 namespace Src\Facturacion;
 
 use Src\Facturacion\ValidacionFacturaService;
-use App\Repositories\FacturasRepository;
+use App\Repositories as Repo;
+use DB;
 
 class ActualizarFacturaService
 {
@@ -17,8 +18,21 @@ class ActualizarFacturaService
     public function execute()
     {
         $this->validarDataFactura();
-        
-        return $this->salvarCambios();
+
+        DB::beginTransaction();
+
+        try {
+            $factura = $this->salvarCambios();
+
+            $this->modificarFechaVencimiento($factura);
+
+            DB::commit();
+
+            return $factura;
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw new \Exception($e->getMessage(), 400);
+        }
     }
 
     protected function validarDataFactura()
@@ -32,7 +46,13 @@ class ActualizarFacturaService
 
     protected function salvarCambios()
     {
-        $factura = FacturasRepository::actualizarFactura($this->factura);
+        $factura = Repo\FacturasRepository::actualizarFactura($this->factura);
         return $factura;
+    }
+
+    protected function modificarFechaVencimiento($factura)
+    {
+        $useCase = new ActualizarVencimientoProductoService($factura->id);
+        $useCase->execute();
     }
 }

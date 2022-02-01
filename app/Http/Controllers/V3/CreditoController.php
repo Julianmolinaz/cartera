@@ -126,8 +126,7 @@ class CreditoController extends Controller
     }
 
     public function updateRecordatorio(Request $request)
-    {
-        // dd($request->recordatorio);   
+    { 
         try {
             $useCase = new Services\ActualizarRecordatorioService(
                 $request->recordatorio,

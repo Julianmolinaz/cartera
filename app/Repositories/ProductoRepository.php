@@ -5,6 +5,16 @@ use DB;
 
 class ProductoRepository
 {
+
+    public static function find($productoId)
+    {
+        $producto = DB::table('productos')
+            ->where('id', $productoId)
+            ->first();
+
+        return $producto;
+    }
+
     /**
      * True si existen ventas asociadas al producto
      */
@@ -33,4 +43,5 @@ class ProductoRepository
             ->where('id', $productoId)
             ->delete();
     }
+
 }

@@ -26,11 +26,7 @@ class VehiculosRepository
     {
         $vehiculo = Vehiculo::find($vehiculoId);
         $vehiculo->fill($dataVehiculo);
-
-        if ($vehiculo->isDirty()) {
-            $vehiculo->save();
-        }
-
+        $vehiculo->save();
         return $vehiculo;
     }
 }

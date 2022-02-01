@@ -97,6 +97,15 @@ class FacturasRepository
         return $arr;
     }
 
+    public static function find($facturaId)
+    {
+        $factura = DB::table('invoices')
+            ->where('id', $facturaId)
+            ->first();
+
+        return $factura;
+    }
+
     public static function findByNumFactura($numFactura)
     {
         $factura = DB::table('invoices')->where('num_fact', $numFactura)->first();
@@ -128,14 +137,14 @@ class FacturasRepository
     {
         $factura = Invoice::find($dataFactura['id']);
         $factura->fill($dataFactura);
-        
-        if ($factura->isDirty()) {
-            $factura->updated_by = 1;
-            $factura->save();
-            return $factura;
+  
+        if (!$factura->isDirty()) {
+            throw new \Exception("No existen cambios en la factura.", 400);
         }
-
-        throw new \Exception("No se existen cambios en la factura.", 400);
+        
+        $factura->updated_by = 1;
+        $factura->save();
+        return $factura;
     }
 
     public static function facturasBySolicitud($solicitudId)

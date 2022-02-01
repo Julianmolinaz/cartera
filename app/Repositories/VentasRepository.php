@@ -22,7 +22,45 @@ class VentasRepository
             ->first();
 
         return $venta;
-    }   
+    }
+
+    public static function findFull($ventaId)
+    {
+        $venta = DB::table('ventas')
+            ->join('invoices', 'ventas.id', '=', 'invoices.venta_id')
+            ->join('productos', 'ventas.producto_id', '=', 'productos.id')
+            ->leftJoin('vehiculos', 'ventas.vehiculo_id', '=', 'vehiculos.id')
+            ->select(
+                'invoices.fecha_exp as factura_fecha_expedicion',
+                'productos.id as producto_id',
+                'productos.con_vehiculo as producto_con_vehiculo',
+                'vehiculos.id as vehiculo_id',
+                'vehiculos.placa as vehiculo_placa'
+            )
+            ->where('ventas.id', $ventaId)
+            ->first();
+
+        return $venta;
+    }
+
+    public static function listFullBySolicitud($solicitudId)
+    {
+        $venta = DB::table('ventas')
+            ->join('invoices', 'ventas.id', '=', 'invoices.venta_id')
+            ->join('productos', 'ventas.producto_id', '=', 'productos.id')
+            ->leftJoin('vehiculos', 'ventas.vehiculo_id', '=', 'vehiculos.id')
+            ->select(
+                'invoices.fecha_exp as factura_fecha_expedicion',
+                'productos.id as producto_id',
+                'productos.con_vehiculo as producto_con_vehiculo',
+                'vehiculos.id as vehiculo_id',
+                'vehiculos.placa as vehiculo_placa'
+            )
+            ->where('ventas.precredito_id', $solicitudId)
+            ->get();
+
+        return $venta;
+    }
 
     public static function findBySolicitud($solicitudId)
     {
