@@ -37,6 +37,7 @@
                         v-validate="rules.valor_credito.rule"
                         :name="rules.valor_credito.name"
                     >
+                    <span class="help-block" v-if="credito.valor_credito > 0">$ @{{ credito.valor_credito | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.valor_credito.name) }}</span>
                 </div>
                 <!-- SALDO  -->
@@ -49,6 +50,7 @@
                         v-validate="rules.saldo.rule"
                         :name="rules.saldo.name"
                     >
+                    <span class="help-block" v-if="credito.saldo > 0">$ @{{ credito.saldo | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.saldo.name) }}</span>
                 </div>
                 <!-- CUOTAS FALTANTES  -->
@@ -75,6 +77,7 @@
                         v-validate="rules.rendimiento.rule"
                         :name="rules.rendimiento.name"
                     >
+                    <span class="help-block" v-if="credito.rendimiento > 0">$ @{{ credito.rendimiento | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.rendimiento.name) }}</span>
                 </div>
                 <!-- SALDO A FAVOR -->
@@ -87,6 +90,7 @@
                         v-validate="rules.saldo_favor.rule"
                         :name="rules.saldo_favor.name"
                     >
+                    <span class="help-block" v-if="credito.saldo_favor > 0">$ @{{ credito.saldo_favor | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.saldo_favor.name) }}</span>
                 </div>
                 <!-- CASTIGADA  -->

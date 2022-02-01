@@ -100,6 +100,7 @@ class VentasRepository
                 'productos.con_invoice as con_invoice',
                 "vehiculos.placa as vehiculo_placa",
                 "vehiculos.id as vehiculo_id",
+                "vehiculos.tipo_vehiculo_id as tipo_vehiculo_id",
                 "vehiculos.vencimiento_soat as vehiculo_vencimiento_soat",
                 "vehiculos.vencimiento_rtm as vehiculo_vencimiento_rtm",
                 "vehiculos.modelo as vehiculo_modelo",
@@ -136,6 +137,7 @@ class VentasRepository
                     'vencimiento_rtm' => $venta->vehiculo_vencimiento_rtm,
                     'cilindraje' => $venta->vehiculo_cilindraje,
                     'modelo' => $venta->vehiculo_modelo,
+                    'tipo_vehiculo_id' => $venta->tipo_vehiculo_id,
                     'tipo_vehiculo' => $venta->tipo_vehiculo
                 ] : [],
                 'invoice' => ($venta->invoice_id) ? [

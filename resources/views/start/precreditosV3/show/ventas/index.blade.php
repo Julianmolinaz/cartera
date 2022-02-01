@@ -28,6 +28,21 @@
                 <div class="card-content__subitem-title"></div>
                 <div style="font-weight: 700">{{ $venta['producto']['nombre'] }}</div>
             </div>
+            @if($venta['producto']['con_vehiculo'])
+            <div class="card-content__subitem">
+                <div class="card-content__subitem-title"></div>
+                <div>
+                    <a
+                        href="javascript:void(0);"
+                        onclick="editVehiculo(
+                            {{ json_encode($venta['vehiculo']) }},
+                            {{ $solicitud->id }},
+                            {{ $key +  1 }}
+                        )"
+                    >editar vehículo</a>
+                </div>
+            </div>
+            @endif
         </div>
         
         @if($venta['producto']['con_vehiculo'])
@@ -40,3 +55,5 @@
         
     @endforeach
 </div>
+
+@include('start.precreditosV3.show.actions.edit_vehiculo')

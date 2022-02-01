@@ -64,5 +64,10 @@ Route::post('start/precreditosV3/aprobar', [
     'middleware' => [],
     'uses' => 'V3\PrecreditoController@aprobar',
     'as' => 'start.precreditosV3.aprobar'
+]);
 
+Route::post('start/precreditosV3/observaciones', [
+    'middleware' => [],
+    'uses' => 'V3\PrecreditoController@updateObservaciones',
+    'as' => 'start.precreditosV3.observaciones'
 ]);

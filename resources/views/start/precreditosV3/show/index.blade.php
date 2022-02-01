@@ -23,7 +23,7 @@
         </div>
         <div class="card-credito">
             @if($data['credito'])
-                @include('start.precreditosV3.show.credito')
+                @include('start.precreditosV3.show.credito.index')
             @else
                 <div class="card-credito__no-active">
                     <a href="javascript:void(0);" class="card-credito__btn-activate" id="btn-activar-credito">

@@ -42,14 +42,14 @@ function castErrors($validator_errors)
 function ddmmyyyy($date) 
 {
     $timestamp = strtotime($date);
-    $newDate = date("m-d-Y", $timestamp);
+    $newDate = date("d-m-Y", $timestamp);
     return $newDate;
 }
 
 function ddmmyyyyhhmmss($date)
 {
     $timestamp = strtotime($date);
-    $newDate = date("m-d-Y H:i:s", $timestamp);
+    $newDate = date("d-m-Y H:i:s", $timestamp);
     return $newDate;
 }
 

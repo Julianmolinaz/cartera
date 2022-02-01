@@ -15,6 +15,7 @@ use Src\Credito\Services\ConsultarCreditoService;
 use Src\Credito\Services\DataParaCrearSolicitudService;
 use Src\Credito\Services\ReglasPreviasCreacionSolicitudService;
 use Src\Credito\Services\AprobarSolicitudService;
+use Src\Credito\Services;
 
 class PrecreditoController extends Controller
 {
@@ -138,6 +139,24 @@ class PrecreditoController extends Controller
             $solicitud = $useCase->execute();
     
             flash()->success('La aprobación fue modificada');
+            return redirect()->route('start.precreditosV3.show', $request->solicitudId);
+        } catch (\Exception $e) {
+            flash()->error($e->getMessage());
+            return redirect()->route('start.precreditosV3.show', $request->solicitudId);
+        }
+    }
+
+    public function updateObservaciones(Request $request)
+    {
+        try {
+            $useCase = new Services\ActualizarObservacionesService(
+                $request->observaciones,
+                $request->solicitudId
+            );
+
+            $useCase->execute();
+
+            flash()->success('Las observaciones fueron modificadas');
             return redirect()->route('start.precreditosV3.show', $request->solicitudId);
         } catch (\Exception $e) {
             flash()->error($e->getMessage());

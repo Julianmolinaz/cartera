@@ -14,6 +14,7 @@ use Src\Credito\Services\DataParaCrearSolicitudService;
 use Src\Credito\Services\ActivarCreditoRefinanciadoService;
 use Src\Credito\Services\ConsultarCreditoService;
 use Src\Credito\Services\EliminarCreditoService;
+use Src\Credito\Services;
 
 class CreditoController extends Controller
 {
@@ -26,7 +27,7 @@ class CreditoController extends Controller
     {
         $credito = Repo\CreditoRepository::find($creditoId);
 
-        $useCase = ConsultarCreditoService::make($credito['precredito_id']);
+        $useCase = ConsultarCreditoService::make($credito->precredito_id);
         $data = $useCase->data;
         $opcionesAprobacion = getEnumValues2('precreditos', 'aprobado');
 
@@ -78,7 +79,6 @@ class CreditoController extends Controller
         $useCase = new DataParaCrearSolicitudService($cliente->id, $creditoId);
         $data = $useCase->execute();
         
-
         return view('start.precreditosV3.create.index')
             ->with('insumos_credito', $data->insumosCredito)
             ->with('modo', 'Refinanciar Credito')
@@ -122,6 +122,25 @@ class CreditoController extends Controller
         } catch (\Exception $e) {
             flash()->error('No es posible eliminar el crédito');
             return redirect()->route('start.precreditosV3.show', $credito->precredito_id);
+        }
+    }
+
+    public function updateRecordatorio(Request $request)
+    {
+        // dd($request->recordatorio);   
+        try {
+            $useCase = new Services\ActualizarRecordatorioService(
+                $request->recordatorio,
+                $request->creditoId
+            );
+
+            $useCase->execute();
+
+            flash()->success('El recordatorio fue modificado');
+            return redirect()->route('start.v3.creditos.show', $request->creditoId);
+        } catch (\Exception $e) {
+            flash()->error($e->getMessage());
+            return redirect()->route('start.v3.creditos.show', $request->creditoId);
         }
     }
 }

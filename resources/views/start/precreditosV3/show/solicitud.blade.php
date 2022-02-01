@@ -96,7 +96,9 @@
         </div>
         <div class="card-content__subitem">
             <div class="card-content__subitem-title">Fecha 2</div>
-            <div>{{ $data['solicitud']['s_fecha'] }}</div>
+            <div>
+                <span>{{ $data['solicitud']['s_fecha'] }}</span>
+            </div>
         </div>
     </div>
     <div class="card-content__item">
@@ -129,14 +131,34 @@
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem" style="width: 100%;">
-            <div class="card-content__subitem-title">Observaciones</div>
+            <div class="card-content__subitem-title">
+                <span>Observaciones</span>
+                <a
+                    href="javascript:void(0);"
+                    style="font-weight: 400;"
+                    onclick="editObservaciones(
+                        '{{ $solicitud->observaciones }}',
+                        {{ $solicitud->id }}
+                    )"
+                >edit</a>
+            </div>
             <div>{{ $data['solicitud']['observaciones'] }}</div>
         </div>
     </div>
     @if($data['credito'] && $data['credito']->recordatorio)
         <div class="card-content__item">
             <div class="card-content__subitem" style="width: 100%;">
-                <div class="card-content__subitem-title">Recordatorio</div>
+                <div class="card-content__subitem-title">
+                    <span>Recordatorio</span>
+                    <a
+                        href="javascript:void(0);"
+                        style="font-weight: 400;"
+                        onclick="editRecordatorio(
+                            '{{ $data['credito']->recordatorio }}',
+                            {{ $data['credito']->id }}
+                        )"
+                    >edit</a>
+                </div>
                 <div>{{ $data['credito']->recordatorio }}</div>
             </div>
         </div>
@@ -144,3 +166,5 @@
 </div>
 
 @include('start.precreditosV3.show.aprobar_solicitud')
+@include('start.precreditosV3.show.actions.edit_observaciones')
+@include('start.precreditosV3.show.actions.edit_recordatorio')
