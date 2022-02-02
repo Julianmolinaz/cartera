@@ -97,8 +97,16 @@
             eliminarVenta({state}, index) {
                 alertify.confirm('Eliminar Producto', '¿Está seguro de eliminar el producto?',
                     () => {
-                        state.ventas.splice(index, 1);
-                        alertify.notify("Se ha eliminado el producto", "error", 1.5);
+                        if (state.modo === 'Crear Solicitud') {
+                            state.ventas.splice(index, 1);
+                            alertify.notify("Se ha eliminado el producto", "error", 1.5);
+                        } else {
+                            axios.get("/api/ventas/destroy/" + state.ventas[index]['id'])
+                                .then(res => {
+                                    state.ventas.splice(index, 1);
+                                    alertify.alert("Alerta", res.data.message)
+                                })
+                        }
                     }, 
                     () => alertify.error('No se elimino ningun producto.', 1.5)
                 );
@@ -114,6 +122,7 @@
                 });
             },
             clonarVehiculo({state, commit}, payload) {
+                delete payload.vehiculo.id;
                 state.ventas[payload.index].vehiculo = JSON.parse(JSON.stringify(payload.vehiculo));
             },
             async onSubmit({state}) {

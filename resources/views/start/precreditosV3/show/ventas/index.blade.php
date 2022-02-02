@@ -45,7 +45,7 @@
             @endif
         </div>
         
-        @if($venta['producto']['con_vehiculo'])
+        @if($venta['producto']['con_vehiculo'] && $venta['vehiculo'])
            @include('start.precreditosV3.show.ventas.vehiculo')
         @endif  
 

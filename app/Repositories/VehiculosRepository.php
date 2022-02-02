@@ -29,4 +29,10 @@ class VehiculosRepository
         $vehiculo->save();
         return $vehiculo;
     }
+
+    public static function destroyVehiculo($vehiculoId)
+    {
+        $vehiculo = Vehiculo::find($vehiculoId);
+        $vehiculo->delete();
+    }
 }

@@ -94,13 +94,23 @@ class ActualizarSolicitudService
                 'precredito_id' => $this->solicitud->id
             ];
 
-            if ($venta['producto']['con_vehiculo']) {
-                $vehiculo = $this->actualizarVehiculo($venta['vehiculo']);
+            if ($venta['producto']['con_vehiculo'] && $venta['vehiculo']) {
+                if (isset($venta['vehiculo']['id'])) {
+                    $vehiculo = $this->actualizarVehiculo($venta['vehiculo']);
+                } else {
+                    $vehiculo = $this->salvarVehiculo($venta['vehiculo']);
+                }
                 $dataVenta['vehiculo_id'] = $vehiculo->id;
             }
 
             $this->ventas[] = $this->actualizarVenta($dataVenta);
         }
+    }
+
+    protected function salvarVehiculo($vehiculo)
+    {
+        $vehiculo = RepoVehiculo::saveVehiculo($vehiculo);
+        return $vehiculo;
     }
 
     protected function actualizarVehiculo($vehiculo)

@@ -9,18 +9,30 @@
                         @{{ venta.factura && venta.factura.id ? '- ' + venta.factura.estado : '- Sin facturar'}} 
                     </span>
                 </p>
-                <a 
-                    v-if="venta.producto.con_invoice"
-                    role="button"
-                    data-toggle="collapse"
-                    data-parent="#accordion"
-                    :href="'#collapse' + index"
-                    aria-expanded="true"
-                    :aria-controls="'collapse' + index"
-                    class="btn btn-default btn-facturar"
-                >
-                    Facturar
-                </a>
+                <div class="buttons-facturar">
+                    <a 
+                        v-if="venta.producto.con_invoice"
+                        role="button"
+                        data-toggle="collapse"
+                        data-parent="#accordion"
+                        :href="'#collapse' + index"
+                        aria-expanded="true"
+                        :aria-controls="'collapse' + index"
+                        class="btn btn-default"
+                    >
+                        <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+                        Facturar
+                    </a>
+                    <a  
+                        style="margin-left:1rem;"
+                        href="javascript:void(0);" 
+                        class="btn btn-default" 
+                        title="ELiminar factura"
+                        @click="eliminarFactura()"
+                    >
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </div>
             </div>
         </div>
         <div 
@@ -201,6 +213,9 @@
                     .catch(error => {
                         alertify.alert("Ha ocurrido un error", error.message);
                     });
+            },
+            eliminarFactura() {
+                alert();
             }
         },
         created() {
@@ -234,7 +249,7 @@
     .panel-title__producto {
         display: inline;
     }
-    .btn-facturar {
+    .buttons-facturar {
         float: right;
         color: var(--color-dark) !important;
     }

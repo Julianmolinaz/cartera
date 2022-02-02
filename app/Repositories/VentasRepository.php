@@ -27,15 +27,17 @@ class VentasRepository
     public static function findFull($ventaId)
     {
         $venta = DB::table('ventas')
-            ->join('invoices', 'ventas.id', '=', 'invoices.venta_id')
+            ->leftJoin('invoices', 'ventas.id', '=', 'invoices.venta_id')
             ->join('productos', 'ventas.producto_id', '=', 'productos.id')
             ->leftJoin('vehiculos', 'ventas.vehiculo_id', '=', 'vehiculos.id')
             ->select(
+                'ventas.id',
                 'invoices.fecha_exp as factura_fecha_expedicion',
                 'productos.id as producto_id',
                 'productos.con_vehiculo as producto_con_vehiculo',
                 'vehiculos.id as vehiculo_id',
-                'vehiculos.placa as vehiculo_placa'
+                'vehiculos.placa as vehiculo_placa',
+                'invoices.id as factura_id'
             )
             ->where('ventas.id', $ventaId)
             ->first();
@@ -46,10 +48,11 @@ class VentasRepository
     public static function listFullBySolicitud($solicitudId)
     {
         $venta = DB::table('ventas')
-            ->join('invoices', 'ventas.id', '=', 'invoices.venta_id')
+            ->leftJoin('invoices', 'ventas.id', '=', 'invoices.venta_id')
             ->join('productos', 'ventas.producto_id', '=', 'productos.id')
             ->leftJoin('vehiculos', 'ventas.vehiculo_id', '=', 'vehiculos.id')
             ->select(
+                'ventas.id',
                 'invoices.fecha_exp as factura_fecha_expedicion',
                 'productos.id as producto_id',
                 'productos.con_vehiculo as producto_con_vehiculo',
@@ -57,6 +60,7 @@ class VentasRepository
                 'vehiculos.placa as vehiculo_placa'
             )
             ->where('ventas.precredito_id', $solicitudId)
+            ->orderBy('ventas.id')
             ->get();
 
         return $venta;
@@ -87,6 +91,7 @@ class VentasRepository
                 "vehiculos.tipo_vehiculo_id",
                 "tipo_vehiculos.nombre as tipo_vehiculo"
             )
+            ->orderBy('ventas.id')
             ->get();
 
         foreach ($query as $element) {
@@ -155,6 +160,7 @@ class VentasRepository
                 "terceros.razon_social as proveedor_razon_social"
             )
             ->where("ventas.precredito_id", $solicitudId)
+            ->orderBy('ventas.id')
             ->get();
 
         foreach($ventas as $venta) {
@@ -207,5 +213,11 @@ class VentasRepository
         }
 
         return $venta;
+    }
+
+    public static function destroyVenta($ventaId)
+    {
+        $venta = Venta::find($ventaId);
+        $venta->delete();
     }
 }
