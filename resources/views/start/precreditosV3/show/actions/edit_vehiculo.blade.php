@@ -70,6 +70,7 @@
                     <label>Vencimiento SOT</label>
                     <input 
                         type="date"
+                        onkeydown="return false"
                         name="vencimiento_soat"
                         class="form-control"
                         value="${vehiculo.vencimiento_soat}"
@@ -79,6 +80,7 @@
                     <label>Vencimiento RTM</label>
                     <input 
                         type="date"
+                        onkeydown="return false"
                         name="vencimiento_rtm"
                         class="form-control"
                         value="${vehiculo.vencimiento_rtm}"

@@ -4,10 +4,18 @@
 
 @section('contenido')
 
+<div class="col-md-offset-2 col-md-8">
+    @include('flash::message')
+</div>
+
 <div id="app" class="col-md-offset-2 col-md-8">
+
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         <div style="display: flex; justify-content: end; padding: 10px 0">
-            <a href="{{ route('start.precreditosV3.show', $solicitud->id) }}" class="btn btn-default">
+            <a
+                href="{{ route('start.precreditosV3.show', $solicitud->id) }}"
+                class="btn btn-default"
+            >
                 <i class="fa fa-paper-plane" aria-hidden="true"></i>
                 Volver
             </a>

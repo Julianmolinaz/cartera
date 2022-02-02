@@ -28,7 +28,7 @@
                             <p class="help-block">Puede cerrar o abrir el estado del acuerdo.</p>
                         </div>
                         @permission('crear_acuerdo')
-                        <button type="submit" class="btn btn-primary">Salvar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
                         @endpermission
                     </form>
                 </div>

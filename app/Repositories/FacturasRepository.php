@@ -109,7 +109,6 @@ class FacturasRepository
     public static function findByNumFactura($numFactura)
     {
         $factura = DB::table('invoices')->where('num_fact', $numFactura)->first();
-
         return $factura;
     }
 
@@ -156,5 +155,11 @@ class FacturasRepository
             ->get();
 
         return $facturas;
+    }
+
+    public static function destroy($facturaId)
+    {
+        $factura = Invoice::find($facturaId);
+        $factura->delete();
     }
 }

@@ -10,6 +10,7 @@ use Src\Facturacion\InsumosFacturacionService;
 use App\Repositories as Repo;
 use Src\Facturacion\CrearFacturaService;
 use Src\Facturacion\ActualizarFacturaService;
+use Src\Facturacion\EliminarFacturaService;
 
 class FacturacionController extends Controller
 {
@@ -56,6 +57,21 @@ class FacturacionController extends Controller
                 $response = resHp(false, 2, $e->getMessage());
             }
             return $response;
+        }
+    }
+
+    public function destroy($facturaId)
+    {
+        try {
+            $useCase = new EliminarFacturaService($facturaId);
+            $factura = $useCase->factura;
+            $useCase->execute();
+
+            flash()->success("Se eliminó exitosamente la factura");
+            return redirect()->route('start.facturacion.index', $factura->precredito_id);
+        } catch (\Exception $e) {
+            flash()->error($e->getMessage());
+            return redirect()->route('start.facturacion.index', $factura->precredito_id);
         }
     }
 }

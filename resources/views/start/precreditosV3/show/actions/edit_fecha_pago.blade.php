@@ -1,13 +1,14 @@
 
 <script>
     function editFechaPago(fechaPago, creditoId) {
-        let route = "/start/v3/creditos/update-fecha-pago";
+        let route = "/start/fecha_cobros/update-fecha-pago";
         let content = `
             <form method="POST" action="${route}" id="formFechaPago">
                 <div class="row form-group">
                     <label>Fecha de pago</label>
                     <input 
                         type="date"
+                        onkeydown="return false"
                         name="fechaPago"
                         class="form-control"
                         value="${fechaPago}"

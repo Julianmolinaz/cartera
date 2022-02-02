@@ -5,7 +5,7 @@
     <div class="card-title">Ventas</div>
     <div class="card-menu">
         @include('start.precreditosV3.show.actions.btn_editar_solicitud')
-        @permission('valores_iniciales')
+        @permission('consultar_factura')
         <a 
             href="{{ route('start.facturacion.index', $solicitud->id) }}"
             class='btn btn-default btn-xs my-btn'
@@ -31,6 +31,7 @@
             @if($venta['producto']['con_vehiculo'])
             <div class="card-content__subitem">
                 <div class="card-content__subitem-title"></div>
+                @permission('editar_vehiculo')
                 <div>
                     <a
                         href="javascript:void(0);"
@@ -41,6 +42,7 @@
                         )"
                     >editar vehículo</a>
                 </div>
+                @endpermission
             </div>
             @endif
         </div>

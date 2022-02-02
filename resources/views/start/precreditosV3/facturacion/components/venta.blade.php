@@ -21,17 +21,19 @@
                         class="btn btn-default"
                     >
                         <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
-                        Facturar
+                        
                     </a>
+                    @permission('eliminar_factura')
                     <a  
-                        style="margin-left:1rem;"
                         href="javascript:void(0);" 
                         class="btn btn-default" 
                         title="ELiminar factura"
                         @click="eliminarFactura()"
+                        v-if="modo === 'Editar Factura'"
                     >
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
+                    @endpermission
                 </div>
             </div>
         </div>
@@ -47,12 +49,12 @@
                 <form @submit.prevent="onSubmit">
                     <div class="row col-md-12">
                         <div class="col-md-3 form-group">
-                            <label for="estado">Estado</label>
+                            <label for="estado">Estado *</label>
                             <select
                                 class="form-control"
                                 v-model="factura.estado"
+                                :disabled="modo == 'Crear Factura' || factura.estado == 'Pagado'"
                             >
-                                <option selected disabled></option>
                                 <option
                                     v-for="estado in $store.state.insumos.estados"
                                     :value="estado"
@@ -61,7 +63,7 @@
                             </select>
                         </div>
                         <div class="col-md-3 form-group">
-                            <label for="expedido a">Expedido a</label>
+                            <label for="expedido a">Expedido a *</label>
                             <select 
                                 class="form-control"
                                 v-model="factura.expedido_a"
@@ -75,7 +77,7 @@
                             </select>
                         </div>
                         <div class="col-md-3 form-group">
-                            <label for="proveedor">Proveedor</label>
+                            <label for="proveedor">Proveedor *</label>
                             <select 
                                 class="form-control"
                                 v-model="factura.proveedor_id"
@@ -89,7 +91,7 @@
                             </select>
                         </div>
                         <div class="col-md-3 form-group">
-                            <label for="fecha de expedición">Fecha de expedición</label>
+                            <label for="fecha de expedición">Fecha de expedición *</label>
                             <input 
                                 type="date"
                                 class="form-control"
@@ -99,7 +101,7 @@
                     </div>
                     <div class="row col-md-12">
                         <div class="col-md-3 form-group">
-                            <label for="numero de factura">Número de factura</label>
+                            <label for="numero de factura">Número de factura *</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -107,12 +109,15 @@
                             >
                         </div>
                         <div class="col-md-3 form-group">
-                            <label for="costo">Costo</label>
+                            <label for="costo">Costo *</label>
                             <input
                                 type="number"
                                 class="form-control"
                                 v-model="factura.costo"
                             >
+                            <span class="help-block" v-if="factura.costo > 0">
+                                $ @{{ factura.costo | formatPrice }}
+                            </span>
                         </div>
                         <div class="col-md-3 form-group">
                             <label for="iva">IVA</label>
@@ -121,6 +126,9 @@
                                 class="form-control"
                                 v-model="factura.iva"
                             >
+                            <span class="help-block" v-if="factura.iva > 0">
+                                $ @{{ factura.iva | formatPrice }}
+                            </span>
                         </div>
                         <div class="col-md-3 form-group">
                             <label for="otros pagos">Otros</label>
@@ -129,6 +137,9 @@
                                 class="form-control"
                                 v-model="factura.otros"
                             >
+                            <span class="help-block" v-if="factura.otros > 0">
+                                $ @{{ factura.otros | formatPrice }}
+                            </span>
                         </div>
                     </div>
                     <div class="row col-md-12">
@@ -141,19 +152,25 @@
                         </div>
                     </div>
 
-                    <div class="row col-md-12">
+                    <div class="row col-md-12" style="text-align: right;">
+                        <p class="help-block">Los campos con asterisco (*) son obligatorios</p>
+                    </div>
+
+                    <div class="row col-md-12" v-if="showOnSubmitBtn">
                         <center>
                             <button class="btn pg-btn-dark">Guardar Cambios</button>
                         </center>
                     </div>
                 </form>
-
+            
             </div>
         </div>
     </div>
 </script>
 
 <script src="{{ asset('js/SolicitudV3/Invoice.js') }}"></script>
+
+@include('filters')
 
 <script>
     const ventaComponent = Vue.component("venta-component", {
@@ -169,7 +186,23 @@
         data: () => ({
             modo: "",
             factura: "",
+            create: {!! json_encode(Auth::user()->can('crear_factura')) !!},
+            edit: {!! json_encode(Auth::user()->can('editar_factura')) !!},
         }),
+        computed: {
+            showOnSubmitBtn() {
+                if (this.modo == 'Crear Factura' && this.create) return true;
+                else if (
+                    this.modo == 'Editar Factura' && 
+                    this.edit && 
+                    this.factura.estado !== 'Pagado') return true;
+                else if (
+                    this.modo == 'Editar Factura' && 
+                    this.edit && 
+                    this.factura.estado == 'Pagado') return false;
+                else return false;
+            }
+        },
         methods: {
             onSubmit() {
                 if (this.modo === 'Crear Factura') this.store();
@@ -215,7 +248,16 @@
                     });
             },
             eliminarFactura() {
-                alert();
+                const self = this;
+                alertify.confirm(
+                    "Confirmar", 
+                    "¿Esta seguro de eliminar la factura?", 
+                    function () {
+                        window.location.href = 
+                            "{{ url('/start/facturacion/destroy') }}/" + self.factura.id;
+                    },
+                    function () {}
+                );
             }
         },
         created() {

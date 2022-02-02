@@ -26,10 +26,12 @@
                 @include('start.precreditosV3.show.credito.index')
             @else
                 <div class="card-credito__no-active">
+                    @permission('activar_credito')
                     <a href="javascript:void(0);" class="card-credito__btn-activate" id="btn-activar-credito">
                         <span class="card-credito__text-activate">Activar crédito</span>
                         <i class="fa fa-power-off card-credito-icon-off" aria-hidden="true"></i>
                     </a>
+                    @endpermission
                 </div>
                 @include('start.precreditosV3.show.activar_credito')
             @endif

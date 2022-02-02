@@ -5,7 +5,6 @@
             <!-- NOMBRE DEL PRODUCTO -->
             <h1 class="producto-titulo">@{{ index + 1 + '-' + producto.nombre }}</h1>
 
-
             <div class="producto-acciones">
                 <!-- CLONAR PRODUCTO  -->
                 <div class="producto-acciones__clonar">
@@ -31,7 +30,6 @@
                 </div>
 
                 <!-- ELIMINAR PRODUCTO  -->
-
                 <div class="eliminar-container">
                     <a  href="javascript:void(0);" 
                         class="btn btn-danger btn-xs producto-acciones__eliminar" 

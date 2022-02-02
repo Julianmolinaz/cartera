@@ -42,6 +42,7 @@
     <i class="fa fa-reply-all" aria-hidden="true"></i>
 </a>
 @endpermission
+@permission('consultar_acuerdo_de_pago')
 <a
     href="javascript:void(0);"
     onclick="showAcuerdo()"
@@ -52,6 +53,7 @@
 >
     <span class="glyphicon glyphicon-calendar"></span>
 </a>
+@endpermission
 @permission('registro_llamada')
 <a 
     href="{{route('call.index_unique',$creditoId)}}"
@@ -63,6 +65,7 @@
     <span class = "glyphicon glyphicon-phone-alt"></span>
 </a>
 @endpermission
+@permission('generar_certificados')
 <a 
     href="javascript:void(0);"
     onclick="showModalCertificados()"
@@ -73,8 +76,11 @@
 >
     <span class = "glyphicon glyphicon-file">
 </a>
+@endpermission
+@permission('consultar_estado_de_cuenta')
 <a 
     href="{{route('admin.get_estado_cuenta',$data['credito']->id)}}"
+    target="_blank"
     class='btn btn-default btn-xs my-btn'
     data-toggle="tooltip" 
     data-placement="top" 
@@ -82,6 +88,7 @@
 >
     <span><i class="fab fa-laravel"></i></span>
 </a>
+@endpermission
 @permission('ver_seguimiento_proceso_prejuridico')
 <a 
     href="{{ route('admin.anotaciones.index', $credito->id) }}"
@@ -93,6 +100,7 @@
     <i class="fas fa-gavel"></i>
 </a>
 @endpermission
+
 @permission('eliminar_credito')
 <a 
     href="{{route('start.v3.creditos.destroy',$data['credito']->id)}}"

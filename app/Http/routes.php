@@ -90,6 +90,8 @@ require __DIR__ . '/routes/refinanciacion.php';
 
 require __DIR__ . '/routes/vehiculos.php';
 
+require __DIR__ . '/routes/fecha_cobros.php';
+
 
 Route::group(['prefix' =>'api' ], function() {
     require __DIR__ . '/routes/api/recibos.php';

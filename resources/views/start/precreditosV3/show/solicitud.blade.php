@@ -133,14 +133,16 @@
         <div class="card-content__subitem" style="width: 100%;">
             <div class="card-content__subitem-title">
                 <span>Observaciones</span>
+                @permission('editar_observaciones')
                 <a
                     href="javascript:void(0);"
-                    style="font-weight: 400;"
+                    style="font-weight:400;"
                     onclick="editObservaciones(
-                        '{{ $solicitud->observaciones }}',
-                        {{ $solicitud->id }}
+                        {{ json_encode($data['solicitud']['observaciones']) }},
+                        {{ $data['solicitud']['id'] }}
                     )"
                 >edit</a>
+                @endpermission
             </div>
             <div>{{ $data['solicitud']['observaciones'] }}</div>
         </div>
@@ -150,14 +152,16 @@
             <div class="card-content__subitem" style="width: 100%;">
                 <div class="card-content__subitem-title">
                     <span>Recordatorio</span>
+                    @permission('editar_recordatorio')
                     <a
                         href="javascript:void(0);"
                         style="font-weight: 400;"
                         onclick="editRecordatorio(
-                            '{{ $data['credito']->recordatorio }}',
+                            {{ json_encode($data['credito']->recordatorio) }},
                             {{ $data['credito']->id }}
                         )"
                     >edit</a>
+                    @endpermission
                 </div>
                 <div>{{ $data['credito']->recordatorio }}</div>
             </div>
