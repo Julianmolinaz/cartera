@@ -13,7 +13,7 @@
                                 <div class="invoices-cambios__item">
                                     <div>Vehículo</div>
                                     <div>@{{ venta.vehiculo.placa }}</div>
-                                    <div>factura id: @{{ venta.factura.id }}</div>
+                                    <div></div>
                                 </div>
                             </li>
                             <li v-if="venta.factura && venta.factura.created_by">
@@ -46,9 +46,9 @@
                             </li>
                             <li>
                                 <div class="invoices-cambios__item">
+                                    <div>Identificadores BD</div>
                                     <div>Venta id: @{{ venta.id }}</div>
-                                    <div></div>
-                                    <div></div>
+                                    <div v-if="venta.factura">factura id: @{{ venta.factura.id }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -98,7 +98,6 @@
                             <select
                                 class="form-control"
                                 v-model="factura.estado"
-                                :disabled="modo == 'Crear Factura' || factura.estado == 'Pagado'"
                             >
                                 <option
                                     v-for="estado in $store.state.insumos.estados"

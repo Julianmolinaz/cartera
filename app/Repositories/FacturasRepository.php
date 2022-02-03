@@ -154,9 +154,12 @@ class FacturasRepository
 
     public static function saveFactura($dataFactura)
     {
+        $now = Time::now()->format('Y-m-d h:i:s');
+
         $factura = new Invoice();
         $factura->fill($dataFactura);
         $factura->created_by = Auth::user()->id;
+        $factura->created_at = $now;
         $factura->save();
 
         return $factura;
@@ -168,10 +171,9 @@ class FacturasRepository
         $estadoAnterior = $factura->estado;
         $factura->fill($dataFactura);
         $estadoPosterior = $factura->estado;
+        $now = Time::now()->format('Y-m-d h:i:s');
         
         if ($factura->isDirty()) {
-
-            $now = Time::now()->format('Y-m-d h:i:s');
 
             if ($estadoAnterior === $estadoPosterior) {
                 $factura->updated_by = Auth::user()->id;

@@ -14,8 +14,7 @@
             <span 
                 v-text="
                     ($store.state.modo === 'Editar Solicitud') ? $store.state.modo + ' ' + $store.state.solicitud.id : 
-                    ($store.state.modo !== 'Crear Solicitud' && $store.state.modo !== 'Editar Solicitud') 
-                        ? $store.state.modo + ' ' + $store.state.credito.id : ''
+                    ($store.state.modo === 'Editar Credito') ? $store.state.modo + ' ' + $store.state.credito.id : $store.state.modo
                 "
             ></span> 
             <span style="font-size: 0.6em;color: #9e9a9a;" ></span>

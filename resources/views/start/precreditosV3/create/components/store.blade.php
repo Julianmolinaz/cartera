@@ -41,7 +41,7 @@
             getRutaSalida(state) {
                 let rutaSalid = '';
 
-                if (state.modo !== 'Crear Solicitud') {
+                if (state.modo !== 'Crear Solicitud' && state.modo !== 'Refinanciar Credito') {
                     rutaSalida = '/start/precreditosV3/show/' + state.solicitud.id;
                 } else {
                     rutaSalida = '/start/clientes/' + state.cliente.id;

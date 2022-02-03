@@ -11,7 +11,7 @@
     
     @media (max-width:1300px) {
         .obligacion-container {
-            grid-template-columns: 350px 400px 350px;
+            grid-template-columns: 350px 1fr 350px;
         }
     }
     @media (max-width:600px) {

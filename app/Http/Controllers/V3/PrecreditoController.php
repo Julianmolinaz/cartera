@@ -58,7 +58,7 @@ class PrecreditoController extends Controller
             } else {
                 $response = $e->getMessage();
             }
-            flash()->success($response);
+            flash()->error($response);
             return redirect()->route('start.clientes.show', $clienteId);
         }
     }

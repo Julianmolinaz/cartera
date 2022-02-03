@@ -13,6 +13,10 @@
                         class="form-control" 
                         v-model="solicitud.aprobado"
                         v-validate="rules.aprobado.rule"
+                        :disabled="
+                            $store.state.modo === 'Crear Solicitud' ||
+                            ($store.state.modo === 'Editar Solicitud' && !$store.state.credito)
+                        "
                     >
                         <option selected disabled>--</option>  
                         <option v-for="estado in data.estados_aprobacion">

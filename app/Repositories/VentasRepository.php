@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Venta;
+use Src\Libs\Time;
 use Auth;
 use DB;
 
@@ -9,9 +10,12 @@ class VentasRepository
 {
     public static function saveVenta($data)
     {
+        $now = Time::now()->format('Y-m-d h:i:s');
+
         $venta = new Venta();
         $venta->fill($data);
         $venta->created_by = Auth::user()->id;
+        $venta->created_at = $now;
         $venta->save();
 
         return $venta;
@@ -207,11 +211,14 @@ class VentasRepository
 
     public static function updateVenta($dataVenta, $ventaId)
     {
+        $now = Time::now()->format('Y-m-d h:i:s');
+        
         $venta = Venta::find($ventaId);
         $venta->fill($dataVenta);
 
         if ($venta->isDirty()) {
             $venta->updated_by = Auth::user()->id;
+            $venta->updated_at = $now;
             $venta->save();
         }
 

@@ -14,7 +14,7 @@
         @include('flash::message')
     </div>
     
-    <div class="obligacion-container">
+    <div class="col-md-12 obligacion-container">
         <div class="card-productos">
             @include('start.precreditosV3.show.ventas.index')
         </div>
