@@ -4,13 +4,13 @@
 // de registro y  manipulación de comprobantes de pago
 
 Route::get('start/facturacion/{solicitudId}', [
-    'middleware' => [],
+    'middleware' => ['permission:consultar_factura'],
     'uses'  => 'V3\FacturacionController@index',
     'as'    => 'start.facturacion.index'
 ]);
 
 Route::get('start/facturacion/destroy/{facturaId}', [
-    'middleware' => [],
+    'middleware' => ['permission:eliminar_factura'],
     'uses'  => 'V3\FacturacionController@destroy',
     'as'    => 'start.facturacion.destroy'
 ]);

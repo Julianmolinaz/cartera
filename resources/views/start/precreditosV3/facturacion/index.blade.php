@@ -31,14 +31,11 @@
 @include('utils.general')
 @include('start.precreditosV3.facturacion.components.venta')
 @include('start.precreditosV3.facturacion.components.store')
-
 <script>
     const main = new Vue({
         el: "#app",
         store,
-        data: {
-           
-        },
+        data: {},
     });
 </script>
 

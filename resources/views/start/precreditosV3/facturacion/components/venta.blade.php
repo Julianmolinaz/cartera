@@ -2,13 +2,58 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" :id="'heading' + index">
             <div class="panel-title">
-                <p class="panel-title__producto">
-                    @{{ index + 1 + '- ' + venta.producto.nombre }}
-                    <span v-if="venta.producto.con_vehiculo">
-                        - @{{ venta.vehiculo.placa }}
-                        @{{ venta.factura && venta.factura.id ? '-  (Num. Fact. ' + venta.factura.num_fact+') - '+venta.factura.estado : '- Sin facturar'}} 
-                    </span>
-                </p>
+                <div class="panel-title__producto">
+                    <p>
+                        @{{ index + 1 + '- ' + venta.producto.nombre }}
+                        @{{ venta.factura && venta.factura.id ? '-  # ' + venta.factura.num_fact+' - '+venta.factura.estado : '- Sin facturar'}} 
+                    </p>
+                    <div>
+                        <ul class="invoices-cambios">
+                            <li v-if="venta.producto.con_vehiculo">
+                                <div class="invoices-cambios__item">
+                                    <div>Vehículo</div>
+                                    <div>@{{ venta.vehiculo.placa }}</div>
+                                    <div>factura id: @{{ venta.factura.id }}</div>
+                                </div>
+                            </li>
+                            <li v-if="venta.factura && venta.factura.created_by">
+                                <div class="invoices-cambios__item">
+                                    <div>Creó</div>
+                                    <div>@{{ venta.factura.creator }}</div>
+                                    <div>@{{ venta.factura.created_at | ddmmyyyyhhmmss }}</div>
+                                </div>
+                            </li>
+                            <li v-if="venta.factura && venta.factura.aprobado_by">
+                                <div class="invoices-cambios__item">
+                                    <div>Aprobó</div>
+                                    <div>@{{ venta.factura.aprobador }}</div>
+                                    <div>@{{ venta.factura.aprobado_at  | ddmmyyyyhhmmss}}</div>
+                                </div>
+                            </li>
+                            <li v-if="venta.factura && venta.factura.pagado_by">
+                                <div class="invoices-cambios__item">
+                                    <div>Pagó</div>
+                                    <div> @{{ venta.factura.pagador }}</div>
+                                    <div>@{{ venta.factura.pagado_at | ddmmyyyyhhmmss}}</div>
+                                </div>
+                            </li>
+                            <li v-if="venta.factura && venta.factura.updated_by">
+                                <div class="invoices-cambios__item">
+                                    <div>Actualizó</div>
+                                    <div> @{{ venta.factura.updator }}</div>
+                                    <div>@{{ venta.factura.updated_at | ddmmyyyyhhmmss}}</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="invoices-cambios__item">
+                                    <div>Venta id: @{{ venta.id }}</div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="buttons-facturar">
                     <a 
                         v-if="venta.producto.con_invoice"
@@ -93,6 +138,7 @@
                         <div class="col-md-3 form-group">
                             <label for="fecha de expedición">Fecha de expedición *</label>
                             <input 
+                                onkeydown="return false"
                                 type="date"
                                 class="form-control"
                                 v-model="factura.fecha_exp"
@@ -278,10 +324,10 @@
                         venta_id: this.venta.id,
                     });
                 }
+                this.estado = JSON.parse(JSON.stringify(this.factura.estado));
             } else {
                 this.modo = "Consultar venta";
             }
-            this.estado = JSON.parse(JSON.stringify(this.factura.estado));
         }
     });
 </script>
@@ -294,11 +340,21 @@
         border-radius: 3px 0 0 0;
         background-color: var(--color-light) !important;
     }
+    .panel-title {
+        display: flex;
+        justify-content: space-between;
+        
+    }
     .panel-title__producto {
         display: inline;
     }
-    .buttons-facturar {
-        float: right;
-        color: var(--color-dark) !important;
+    .invoices-cambios {
+        font-size: 1.2rem;
+        color: #7e7e7e;
+    }
+    .invoices-cambios__item {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        gap: 1rem;
     }
 </style>
