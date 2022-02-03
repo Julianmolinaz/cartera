@@ -3,10 +3,10 @@
         <div class="panel-heading" role="tab" :id="'heading' + index">
             <div class="panel-title">
                 <p class="panel-title__producto">
-                    @{{ venta.producto.nombre }}
+                    @{{ index + 1 + '- ' + venta.producto.nombre }}
                     <span v-if="venta.producto.con_vehiculo">
                         - @{{ venta.vehiculo.placa }}
-                        @{{ venta.factura && venta.factura.id ? '- ' + venta.factura.estado : '- Sin facturar'}} 
+                        @{{ venta.factura && venta.factura.id ? '-  (Num. Fact. ' + venta.factura.num_fact+') - '+venta.factura.estado : '- Sin facturar'}} 
                     </span>
                 </p>
                 <div class="buttons-facturar">
@@ -184,6 +184,7 @@
             }
         },
         data: () => ({
+            estado: '',
             modo: "",
             factura: "",
             create: {!! json_encode(Auth::user()->can('crear_factura')) !!},
@@ -195,11 +196,11 @@
                 else if (
                     this.modo == 'Editar Factura' && 
                     this.edit && 
-                    this.factura.estado !== 'Pagado') return true;
+                    this.estado !== 'Pagado') return true;
                 else if (
                     this.modo == 'Editar Factura' && 
                     this.edit && 
-                    this.factura.estado == 'Pagado') return false;
+                    this.estado == 'Pagado') return false;
                 else return false;
             }
         },
@@ -210,7 +211,9 @@
                 else alertify.alert("Error", "Opción no valida.");
             },
             store() {
-                axios.post('/api/facturacion/store', this.factura)
+                axios.post('/api/facturacion/store', this.factura,{
+                        headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
+                    })
                     .then(res => {
                         if (res.data.success) {
                             alertify.alert('Confirmación', res.data.message, () => {
@@ -229,7 +232,9 @@
                     });
             },
             update() {
-                axios.post('/api/facturacion/update', this.factura)
+                axios.post('/api/facturacion/update', this.factura, {
+                        headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
+                    })
                     .then(res => {
                         if (res.data.success) {
                             alertify.alert('Confirmación', res.data.message, () => {
@@ -276,6 +281,7 @@
             } else {
                 this.modo = "Consultar venta";
             }
+            this.estado = JSON.parse(JSON.stringify(this.factura.estado));
         }
     });
 </script>

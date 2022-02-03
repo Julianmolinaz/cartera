@@ -93,7 +93,8 @@ require __DIR__ . '/routes/vehiculos.php';
 require __DIR__ . '/routes/fecha_cobros.php';
 
 
-Route::group(['prefix' =>'api' ], function() {
+Route::group(['prefix' =>'api', 'middleware' => 'jwt.auth'], function() {
+    
     require __DIR__ . '/routes/api/recibos.php';
 
     require __DIR__ . '/routes/api/productos.php';

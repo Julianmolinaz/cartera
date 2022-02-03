@@ -21,19 +21,5 @@
             data: Object,
             index: Number,
         },
-        data() {
-            return {
-
-            }
-        },
-        computed: {
-
-        },
-        methods: {
-
-        },
-        created() {
-            
-        }
     })
 </script>

@@ -12,6 +12,7 @@ class SolicitudRepository
     {
         $solicitud = new Solicitud();
         $solicitud->fill($data);
+        $solicitud->user_create_id = Auth::user()->id;
         $solicitud->save();
 
         return $solicitud;
@@ -80,7 +81,7 @@ class SolicitudRepository
         $solicitud->fill($dataSolicitud);
 
         if ($solicitud->isDirty()) {
-            $solicitud->user_update_id = 1;
+            $solicitud->user_update_id = Auth::user()->id;
             $solicitud->save();
         }
 

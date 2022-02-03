@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Vehiculo;
+use Auth;
 use DB;
 
 class VehiculosRepository
@@ -17,6 +18,7 @@ class VehiculosRepository
     {
         $vehiculo = new Vehiculo();
         $vehiculo->fill($data);
+        $vehiculo->created_by = Auth::user()->id;
         $vehiculo->save();
 
         return $vehiculo;
@@ -26,6 +28,7 @@ class VehiculosRepository
     {
         $vehiculo = Vehiculo::find($vehiculoId);
         $vehiculo->fill($dataVehiculo);
+        $vehiculo->updated_by = Auth::user()->id;
         $vehiculo->save();
         return $vehiculo;
     }

@@ -2,7 +2,9 @@
 <script>
 
     function editVehiculo(vehiculo, solicitudId, index) {
-        axios.get('/api/tipo_vehiculos/list-all')
+        axios.get('/api/tipo_vehiculos/list-all', {
+                headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
+            })
             .then(res => {
                 if (res.data.success) {
                     showFormEditVehiculo(vehiculo, solicitudId, index, res.data.dat);

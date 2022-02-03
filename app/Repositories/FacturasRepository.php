@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 use App\Invoice;
+use Src\Libs\Time;
+use Auth;
 use DB;
 
 class FacturasRepository
@@ -126,7 +128,7 @@ class FacturasRepository
     {
         $factura = new Invoice();
         $factura->fill($dataFactura);
-        $factura->created_by = 1;
+        $factura->created_by = Auth::user()->id;
         $factura->save();
 
         return $factura;
@@ -135,14 +137,30 @@ class FacturasRepository
     public static function actualizarFactura($dataFactura)
     {
         $factura = Invoice::find($dataFactura['id']);
+        $estadoAnterior = $factura->estado;
         $factura->fill($dataFactura);
-  
-        if (!$factura->isDirty()) {
-            throw new \Exception("No existen cambios en la factura.", 400);
+        $estadoPosterior = $factura->estado;
+        
+        if ($factura->isDirty()) {
+
+            $now = Time::now()->format('Y-m-d h:i:s');
+
+            if ($estadoAnterior === $estadoPosterior) {
+                $factura->updated_by = Auth::user()->id;
+                $factura->updated_at = $now;
+            } else if ($estadoAnterior !== $estadoPosterior) {
+                if ($estadoPosterior == 'Aprobado') {
+                    $factura->aprobado_by = Auth::user()->id;
+                    $factura->aprobado_at = $now;
+                } else if ($estadoPosterior == 'Pagado') {
+                    $factura->pagado_by = Auth::user()->id;
+                    $factura->pagado_at = $now;
+                }
+            }
+
+            $factura->save();
         }
         
-        $factura->updated_by = 1;
-        $factura->save();
         return $factura;
     }
 

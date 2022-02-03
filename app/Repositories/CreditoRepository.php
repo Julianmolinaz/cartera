@@ -252,8 +252,8 @@ class CreditoRepository {
         $credito->castigada        = 'No';
         $credito->end_datacredito  = 0;
         $credito->end_procredito   = 0;
-        $credito->user_create_id   = 1;
-        $credito->user_update_id   = 1;
+        $credito->user_create_id   = Auth::user()->id;
+        $credito->user_update_id   = Auth::user()->id;
         $credito->save();
 
         return $credito;
@@ -272,8 +272,8 @@ class CreditoRepository {
         $credito->rendimiento      = $credito->valor_credito - $dataSolicitud->vlr_fin;
         $credito->end_datacredito  = 0;
         $credito->end_procredito   = 0;
-        $credito->user_create_id   = 1;
-        $credito->user_update_id   = 1;
+        $credito->user_create_id   = Auth::user()->id;
+        $credito->user_update_id   = Auth::user()->id;
         $credito->castigada        = 'No';
         $credito->refinanciacion   = 'Si';
         $credito->credito_refinanciado_id = $creditoRefinanciadoId;
@@ -313,7 +313,7 @@ class CreditoRepository {
         $credito->fill($dataCredito);
 
         if ($credito->isDirty()) {
-            $credito->user_update_id = 1;
+            $credito->user_update_id = Auth::user()->id;
             $credito->save();
         }
 

@@ -101,7 +101,9 @@
                             state.ventas.splice(index, 1);
                             alertify.notify("Se ha eliminado el producto", "error", 1.5);
                         } else {
-                            axios.get("/api/ventas/destroy/" + state.ventas[index]['id'])
+                            axios.get("/api/ventas/destroy/" + state.ventas[index]['id'], {
+                                    headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
+                                })
                                 .then(res => {
                                     state.ventas.splice(index, 1);
                                     alertify.alert("Alerta", res.data.message)
@@ -140,7 +142,9 @@
                     url = '/api/refinanciacion/' + state.insumosCredito.credito_refinanciado_id;
 
                 try {
-                    const res = await axios.post(url, dat);
+                    const res = await axios.post(url, dat, {
+                        headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
+                    });
 
                     if (res.data.success) {
                         alertify.notify(res.data.message, "success", 2, () => {

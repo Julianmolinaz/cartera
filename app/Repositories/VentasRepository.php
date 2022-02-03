@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Venta;
+use Auth;
 use DB;
 
 class VentasRepository
@@ -10,6 +11,7 @@ class VentasRepository
     {
         $venta = new Venta();
         $venta->fill($data);
+        $venta->created_by = Auth::user()->id;
         $venta->save();
 
         return $venta;
@@ -209,6 +211,7 @@ class VentasRepository
         $venta->fill($dataVenta);
 
         if ($venta->isDirty()) {
+            $venta->updated_by = Auth::user()->id;
             $venta->save();
         }
 
