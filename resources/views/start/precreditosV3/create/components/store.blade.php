@@ -101,13 +101,18 @@
                             state.ventas.splice(index, 1);
                             alertify.notify("Se ha eliminado el producto", "error", 1.5);
                         } else {
-                            axios.get("/api/ventas/destroy/" + state.ventas[index]['id'], {
-                                    headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
-                                })
-                                .then(res => {
-                                    state.ventas.splice(index, 1);
-                                    alertify.alert("Alerta", res.data.message)
-                                })
+                            if (state.ventas[index]['id']) {
+                                axios.get("/api/ventas/destroy/" + state.ventas[index]['id'], {
+                                        headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
+                                    })
+                                    .then(res => {
+                                        state.ventas.splice(index, 1);
+                                        alertify.alert("Alerta", res.data.message)
+                                    })
+                            } else {
+                                state.ventas.splice(index, 1);
+                            }
+
                         }
                     }, 
                     () => alertify.error('No se elimino ningun producto.', 1.5)
