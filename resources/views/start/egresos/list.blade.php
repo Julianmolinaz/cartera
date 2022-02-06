@@ -1,50 +1,49 @@
 
 <div id="list_egresos">
 
+    <h3 style="margin:4px 4px;display:inline-block">
+        <span class="glyphicon glyphicon-pawn"></span>
+        Egresos <button class="btn btn-default btn-xs" @click="exportar()">Exportar</button>
+    </h3>
+    <div  style="display:inline-block;float:right;margin-top:10px">
+        <button class="btn btn-default btn-xs" @click="search()">Buscar</button>
+    </div>
+    <div style="display:inline-block; float:right;margin-top:10px;">
+        <input type="text" class="form-control input-small" v-model="string" v-on:keyup.13="search()">
+    </div>
 
-        <h3 style="margin:4px 4px;display:inline-block">
-            <span class="glyphicon glyphicon-pawn"></span>
-            Egresos <button class="btn btn-default btn-xs" @click="exportar()">Exportar</button>
-        </h3>
-        <div  style="display:inline-block;float:right;margin-top:10px">
-            <button class="btn btn-default btn-xs" @click="search()">Buscar</button>
-        </div>
-        <div style="display:inline-block; float:right;margin-top:10px;">
-            <input type="text" class="form-control input-small" v-model="string" v-on:keyup.13="search()">
-        </div>
-
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Comp</th>
-                <th>Fecha</th>
-                <th>Concepto</th>
-                <th>Punto</th>
-                <th>Valor</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="tbl_min" v-for="egreso in egresos">
-                <td>@{{ egreso.comprobante_egreso }}</td>
-                <td>@{{ egreso.fecha }}</td>
-                <td>@{{ egreso.concepto }}</td>
-                <td>@{{ egreso.punto.nombre }}</td>
-                <td>@{{ egreso.valor }}</td>
-                <td>
-                    <a href="#" class="btn btn-default btn-xs"  @click="show_egreso(egreso)">
-                        <span class="glyphicon glyphicon-eye-open"></span>
-                    </a>
-                    <a href="#" class="btn btn-default btn-xs" @click="dropEgreso(egreso.id)">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
- 
-    </table>
-
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>    Comp        </th>
+                    <th>    Fecha       </th>
+                    <th>    Concepto    </th>
+                    <th>    Punto       </th>
+                    <th>    Valor       </th>
+                    <th>    Acción      </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tbl_min" v-for="egreso in egresos">
+                    <td>@{{ egreso.comprobante_egreso }}</td>
+                    <td>@{{ egreso.fecha }}</td>
+                    <td>@{{ egreso.concepto }}</td>
+                    <td>@{{ egreso.punto.nombre }}</td>
+                    <td>@{{ egreso.valor }}</td>
+                    <td>
+                        <a href="#" class="btn btn-default btn-xs"  @click="show_egreso(egreso)">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a href="#" class="btn btn-default btn-xs" @click="dropEgreso(egreso.id)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+    
+        </table>
+    </div>
     <nav aria-label="Page navigation">
         <ul class="pagination pagination-sm">
             <li v-if="pagination.current_page > 1">

@@ -108,13 +108,14 @@ class CreditoRepository {
             ->join('puntos','users.punto_id','=','puntos.id')
             ->join('municipios','puntos.municipio_id','=','municipios.id')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->join('estudios','clientes.id','=','estudios.cliente_id')
             ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
             ->leftJoin('llamadas','creditos.last_llamada_id','=','llamadas.id')
             ->leftJoin('users as funcionario','llamadas.user_create_id','=','funcionario.id')
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
             ->select(
                     'carteras.nombre as cartera',
-		    'puntos.nombre as punto',
+		            'puntos.nombre as punto',
                     'creditos.id as id',
                     'municipios.nombre as municipio',
                     'municipios.departamento as depto',
@@ -128,7 +129,15 @@ class CreditoRepository {
                     'creditos.created_at as apertura',
                     'clientes.nombre as cliente',
                     'clientes.num_doc as num_doc',
-		    'clientes.movil as movil',
+                    'clientes.ocupacion as ocupacion',
+                    'clientes.fecha_nacimiento as fecha_nacimiento',
+                    'clientes.cargo as cargo',
+                    'clientes.tipo_contrato as tipo_contrato',
+                    'clientes.empresa as empresa',
+                    'clientes.fecha_vinculacion as fecha_vinculacion',
+                    'estudios.observaciones as score',
+                    'clientes.tipo_actividad as actividad',
+		            'clientes.movil as movil',
                     'fecha_cobros.fecha_pago as fecha_pago',
                     'llamadas.agenda as agenda',
                     'funcionario.name as funcionario',
@@ -147,6 +156,7 @@ class CreditoRepository {
             ->join('puntos','users.punto_id','=','puntos.id')
             ->join('municipios','puntos.municipio_id','=','municipios.id')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->join('estudios','clientes.id','=','estudios.cliente_id')
             ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
             ->leftJoin('llamadas','creditos.last_llamada_id','=','llamadas.id')
             ->leftJoin('users as funcionario','llamadas.user_create_id','=','funcionario.id')
@@ -169,6 +179,14 @@ class CreditoRepository {
                     'clientes.nombre as cliente',
                     'clientes.movil as movil',
                     'clientes.num_doc as num_doc',
+                    'clientes.ocupacion as ocupacion',
+                    'clientes.fecha_nacimiento as fecha_nacimiento',   
+                    'clientes.cargo as cargo',          
+                    'clientes.tipo_contrato as tipo_contrato',    
+                    'clientes.empresa as empresa',      
+                    'clientes.fecha_vinculacion as fecha_vinculacion',   
+                    'estudios.observaciones as score',   
+                    'clientes.tipo_actividad as actividad',
                     'fecha_cobros.fecha_pago as fecha_pago',
                     'llamadas.agenda as agenda',
                     'funcionario.name as funcionario',

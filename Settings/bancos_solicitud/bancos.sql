@@ -1,0 +1,2 @@
+crear campo tabla fact_precreditos
+ALTER TABLE `fact_precreditos` ADD `banco` ENUM('Apostar','Baloto','Banco Agrario','Banco AV Villas','Banco Caja Social','Banco de Occidente','Banco Popular','Bancóldex','Bancolombia','BBVA','Banco de Bogotá','Citi','Colpatria','Davivienda','Gana Gana','GNB Sudameris','PSE AV VILLAS','Su Suerte','Unificacion') CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL AFTER `tipo`;

@@ -21,35 +21,43 @@
             </a>
         </div>
         <div class="panel-body">
-            <p>
-                @include('flash::message')
-            </p>
+          <p>
+           @include('flash::message')
+           <!--DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>-->
+         </p>
 
+          <div class="table-responsive">
+            <table id="datatable" data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>    #           </th>
+                  <th>    Nombre      </th>
+                  <th>    Descripción </th>
+                  <th>    Acción     </th>
+                </tr>
+                <tbody>
 
-            <table
-                id="table-productos"
-                data-order='[[ 0, "desc" ]]'
-                class="table table-striped table-bordered"
-                width="100%"
-            >
-                <thead>
-                    <tr>
-                        <th>    updated_at  </th>
-                        <th>    Nombre      </th>
-                        <th>    Estado      </th>
-                        <th>    Descripción </th>
-                        <th>    Requiere vehículo</th>
-                        <th>    Requiere factura</th>
-                        <th>    Acción      </th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-              </table>       
-            </div>
-          </div>   
+                  @foreach($productos as $producto)
+                  <tr>
+                    <td> {{$producto->id}}          </td>
+                    <td> {{$producto->nombre}}      </td>
+                    <td> {{$producto->descripcion}} </td>
+
+                    <td> 
+                      <a href="{{route('admin.productos.edit',$producto->id)}}" class = 'btn btn-default btn-xs'>
+                        <span class = "glyphicon glyphicon-pencil" title="Editar"></a>
+
+                        </td>
+                  </tr>   
+
+                  @endforeach
+              </thead>
+            </table> 
+          </div>      
         </div>
-      </div>
-    @section("js")
+      </div>   
+    </div>
+  </div>
 
     <script>
         $("#table-productos").DataTable({

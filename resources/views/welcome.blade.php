@@ -13,46 +13,54 @@
     <!-- Bootstrap -->
     <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
 
+    <style>
+      body {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: 
+        ;
+      }
+      .product_image {
+        display: flex;
+        justify-content: center;
+      }
+      .product_image img {
+        width: 300px;
+      }
+      .saludo {
+        margin-top: 30px;
+        color: #000;
+        text-align: center;
+        font-size: 36px;
+      }
+      .mensage {
+        text-align: center;
+        color: #000;
+        font-size: 24px;
+      }
 
-    <!-- Custom Theme Style -->
-    <link href="{{asset('build/css/custom.min.css')}}" rel="stylesheet">
+    </style>
+
   </head>
 
-  <body class="nav-md" style="background-image: url('../images/index.jpeg');">
+  <body style="background-image: url('../images/index.jpeg');">
     <div class="container body" >
-      <div class="main_container">
-        <!-- page content -->
-        <div class="col-md-12">
-          <div class="col-middle">
-            <div class="text-center text-center">
-            <div class="product_image">
-              <img src="{{asset('images/logo_gora_2021.png')}}" alt="..." width="400">
-            </div>              
-              <br><br><br><br>
-              <h2  style="color: #000;">¡Hola!</h2>
-              <p  style="color: #000;">Para autenticarse de click en el boton
-              </p>
-              <div class="mid_center">
 
-                <form>
-                  <div class="col-xs-12 form-group pull-right top_search">
-                    
-                      <span >
-                            <a href="{{route('log.index')}}"> 
-                                <button type="button" class="btn btn-danger btn-lg">Entrar</button>
-                             </a>
-                          </span>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /page content -->
-      </div>
+      <div class="product_image">
+        <img 
+          src="{{asset('images/logo_gora_2021.png')}}"
+          alt="logo inversiones gora"
+        >
+      </div>              
+      <h2 class="saludo">¡Hola!</h2>
+      <p  class="mensage">Para autenticarse de click en el boton
+      </p>
+      <center>
+        <a href="{{route('log.index')}}"  class="btn btn-danger btn-lg"> 
+          Entrar
+        </a>
+    </center>
     </div>
-
-
   </body>
 </html>

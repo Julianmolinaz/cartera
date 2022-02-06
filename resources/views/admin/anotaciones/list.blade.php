@@ -5,31 +5,33 @@
             <h3 class="panel-title">Anotaciones</h3>
         </div>
     <div class="panel-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Asunto</th>
-                    <th>Fecha</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="anotacion in anotaciones2">
-                    <td v-text="anotacion.asunto"></td>
-                    <td v-text="anotacion.created_at"></td>
-                    <td>
-                        <a href="javascript:void(0);" class='btn btn-default btn-xs'
-                            @click="show(anotacion)">
-                            <span class="glyphicon glyphicon-eye-open" title="Ver"></span>
-                        </a>
-                        <a href="javascript:void(0);" class='btn btn-default btn-xs'
-                            @click="editar(anotacion)">
-                            <span class="glyphicon glyphicon-pencil" title="Editar"></span>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Asunto</th>
+                        <th>Fecha</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="anotacion in anotaciones2">
+                        <td v-text="anotacion.asunto"></td>
+                        <td v-text="anotacion.created_at"></td>
+                        <td>
+                            <a href="javascript:void(0);" class='btn btn-default btn-xs'
+                                @click="show(anotacion)">
+                                <span class="glyphicon glyphicon-eye-open" title="Ver"></span>
+                            </a>
+                            <a href="javascript:void(0);" class='btn btn-default btn-xs'
+                                @click="editar(anotacion)">
+                                <span class="glyphicon glyphicon-pencil" title="Editar"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <center>
         <nav aria-label="Page navigation" v-if="pag.paginas > 0">
             <ul class="pagination">

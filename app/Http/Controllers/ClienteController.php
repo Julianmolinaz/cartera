@@ -183,7 +183,7 @@ class ClienteController extends Controller
         else if ($this->cliente->version == 2) {
 
             $cliente = $this->cast_cliente();
-
+   
             return view('start.clientes.create')
                 ->with('cliente_id', $this->cliente->id)
                 // ->with('tipo',$cliente['tipo'])

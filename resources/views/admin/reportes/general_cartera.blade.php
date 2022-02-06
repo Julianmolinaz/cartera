@@ -195,101 +195,101 @@
       </div>
       <div class="panel-body">
 
+      <div class="table-responsive">
+        <table id="tbl_egresos" class="table table-striped table-bordered" style="font-size:12px">
+          <thead style="background-color:#FFC300;">
+            <tr>
+              <th>  Comprobante de Egreso</th>
+              <th>  Gastos               </th>
+              <th>  Compras              </th>
+              <th>  Prestamos            </th>
+              <th>  Pago a proveedotes   </th>
+              <th align="left">  Observaciones        </th>
+              <th>  Fecha                </th>
+              <th>  Cartera              </th>
+              <th>  Encargado            </th>   
+              <th>  Create</th>
+            </tr>
+          </thead>
+          <tbody align="right">
+            @foreach($gastos as $gasto)
+            <tr>
+              <td>  {{  $gasto->comprobante_egreso  }}              </td>
+              <td>  {{  number_format($gasto->valor,0,",",".")  }}  </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td align="left"> {{  $gasto->observaciones }}        </td>
+              <td>  {{  $gasto->fecha         }}                    </td>
+              <td>  {{  $gasto->cartera->nombre }}                  </td>
+              <td>  {{  $gasto->user_create->name}}                 </td>
+              <td>{{$gasto->created_at}}                            </td>
+            </tr>  
+            @endforeach  
 
-       <table id="tbl_egresos" class="table table-striped table-bordered" style="font-size:12px">
-        <thead style="background-color:#FFC300;">
-          <tr>
-            <th>  Comprobante de Egreso</th>
-            <th>  Gastos               </th>
-            <th>  Compras              </th>
-            <th>  Prestamos            </th>
-            <th>  Pago a proveedotes   </th>
-            <th align="left">  Observaciones        </th>
-            <th>  Fecha                </th>
-            <th>  Cartera              </th>
-            <th>  Encargado            </th>   
-            <th>  Create</th>
-          </tr>
-        </thead>
-        <tbody align="right">
-          @foreach($gastos as $gasto)
-          <tr>
-            <td>  {{  $gasto->comprobante_egreso  }}              </td>
-            <td>  {{  number_format($gasto->valor,0,",",".")  }}  </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td align="left"> {{  $gasto->observaciones }}        </td>
-            <td>  {{  $gasto->fecha         }}                    </td>
-            <td>  {{  $gasto->cartera->nombre }}                  </td>
-            <td>  {{  $gasto->user_create->name}}                 </td>
-            <td>{{$gasto->created_at}}                            </td>
-          </tr>  
-          @endforeach  
+            @foreach($compras as $compra)
+            <tr>
+              <td>{{$compra->comprobante_egreso}}                   </td>
+              <td></td>
+              <td>{{number_format($compra->valor,0,",",".")}}       </td>
+              <td></td>
+              <td></td>
+              <td align="left">{{$compra->observaciones}}           </td>
+              <td>{{$compra->fecha        }}                        </td>
+              <td>{{$compra->cartera->nombre   }}                   </td>
+              <td>  {{  $compra->user_create->name}}                </td>
+              <td>{{$compra->created_at}}                           </td>
+            </tr>  
+            @endforeach  
 
-          @foreach($compras as $compra)
-          <tr>
-            <td>{{$compra->comprobante_egreso}}                   </td>
-            <td></td>
-            <td>{{number_format($compra->valor,0,",",".")}}       </td>
-            <td></td>
-            <td></td>
-            <td align="left">{{$compra->observaciones}}           </td>
-            <td>{{$compra->fecha        }}                        </td>
-            <td>{{$compra->cartera->nombre   }}                   </td>
-            <td>  {{  $compra->user_create->name}}                </td>
-            <td>{{$compra->created_at}}                           </td>
-          </tr>  
-          @endforeach  
+            @foreach($prestamos as $prestamo)
+            <tr>
+              <td>{{$prestamo->comprobante_egreso}}                 </td>
+              <td></td>
+              <td></td>
+              <td>{{number_format($prestamo->valor,0,",",".")}}     </td>
+              <td></td>
+              <td align="left">{{$prestamo->observaciones}}         </td>
+              <td>{{$prestamo->fecha        }}                      </td>
+              <td>{{$prestamo->cartera->nombre}}                    </td>
+              <td>  {{  $prestamo->user_create->name}}              </td>
+              <td>{{$prestamo->created_at}}                         </td>
+            </tr>  
+            @endforeach 
 
-          @foreach($prestamos as $prestamo)
-          <tr>
-            <td>{{$prestamo->comprobante_egreso}}                 </td>
-            <td></td>
-            <td></td>
-            <td>{{number_format($prestamo->valor,0,",",".")}}     </td>
-            <td></td>
-            <td align="left">{{$prestamo->observaciones}}         </td>
-            <td>{{$prestamo->fecha        }}                      </td>
-            <td>{{$prestamo->cartera->nombre}}                    </td>
-            <td>  {{  $prestamo->user_create->name}}              </td>
-            <td>{{$prestamo->created_at}}                         </td>
-          </tr>  
-          @endforeach 
-
-          @foreach($pago_proveedores as $pago_proveedor)
-          <tr>
-            <td>{{$pago_proveedor->comprobante_egreso}}           </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>{{number_format($pago_proveedor->valor,0,",",".")}}</td>
-            <td align="left">{{$pago_proveedor->observaciones}}   </td>
-            <td>{{$pago_proveedor->fecha        }}                </td>
-            <td>{{$pago_proveedor->cartera->nombre}}              </td>
-            <td>  {{  $pago_proveedor->user_create->name}}        </td>
-            <td>{{$pago_proveedor->created_at}}                   </td>
-          </tr>  
-          @endforeach 
-
-
-          <tr  style="background-color:#CCCCCC;">
-            <td><b>Subtotales Egresos</td>
-            <td> <b>{{number_format($total_gastos,0,",",".")}}</b></td>
-            <td> <b>{{number_format($total_compras,0,",",".")}}</b></td>
-            <td> <b>{{number_format($total_prestamos,0,",",".")}}</b></td>
-            <td> <b>{{number_format($total_pago_proveedores,0,",",".")}}</b></td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td></td>
-            <td></td>
-          </tr>
+            @foreach($pago_proveedores as $pago_proveedor)
+            <tr>
+              <td>{{$pago_proveedor->comprobante_egreso}}           </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{number_format($pago_proveedor->valor,0,",",".")}}</td>
+              <td align="left">{{$pago_proveedor->observaciones}}   </td>
+              <td>{{$pago_proveedor->fecha        }}                </td>
+              <td>{{$pago_proveedor->cartera->nombre}}              </td>
+              <td>  {{  $pago_proveedor->user_create->name}}        </td>
+              <td>{{$pago_proveedor->created_at}}                   </td>
+            </tr>  
+            @endforeach 
 
 
-        </tbody>
-      </table>
+            <tr  style="background-color:#CCCCCC;">
+              <td><b>Subtotales Egresos</td>
+              <td> <b>{{number_format($total_gastos,0,",",".")}}</b></td>
+              <td> <b>{{number_format($total_compras,0,",",".")}}</b></td>
+              <td> <b>{{number_format($total_prestamos,0,",",".")}}</b></td>
+              <td> <b>{{number_format($total_pago_proveedores,0,",",".")}}</b></td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td></td>
+              <td></td>
+            </tr>
 
+
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -308,36 +308,37 @@
       </h2>
       </div>
         <div class="panel-body">
-
-        <table id="tbl_total" class="table table-striped table-bordered">
-          <thead>
-            <tr style="background-color:#FFC300;">
-             <th>Cartera</th>
-             <th>Ingresos</th>
-             <th>Egresos</th>
-             <th>Diferencia</th>
-            </tr>
-          </thead>
-          <tbody>
-          @foreach($carteras as $cartera)
-            <tr>
-              <td><br>{{$cartera['nombre']}}</td></td>
-              <td align="right">{{number_format($cartera['ingreso'],0,",",".")}}</td>
-              <td align="right">{{number_format($cartera['egreso'],0,",",".")}}</td>
-              <td align="right">{{number_format($cartera['diferencia'],0,",",".")}}</td>
-            </tr>
-          @endforeach 
-            <tr  style="background-color:#CCCCCC;">
-              <td><b>Total</b></td>
-              <td align="right"><b>{{ number_format($total['ingresos'],0,",",".")}}</b></td>
-              <td align="right"><b>{{ number_format($total['egresos'],0,",",".") }}</b></td>
-              <td align="right"><b>{{ number_format($total['diferencia'],0,",",".") }}</b></td>
-            </tr> 
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table id="tbl_total" class="table table-striped table-bordered">
+            <thead>
+              <tr style="background-color:#FFC300;">
+              <th>Cartera</th>
+              <th>Ingresos</th>
+              <th>Egresos</th>
+              <th>Diferencia</th>
+              </tr>
+            </thead>
+            <tbody>
+            @foreach($carteras as $cartera)
+              <tr>
+                <td><br>{{$cartera['nombre']}}</td></td>
+                <td align="right">{{number_format($cartera['ingreso'],0,",",".")}}</td>
+                <td align="right">{{number_format($cartera['egreso'],0,",",".")}}</td>
+                <td align="right">{{number_format($cartera['diferencia'],0,",",".")}}</td>
+              </tr>
+            @endforeach 
+              <tr  style="background-color:#CCCCCC;">
+                <td><b>Total</b></td>
+                <td align="right"><b>{{ number_format($total['ingresos'],0,",",".")}}</b></td>
+                <td align="right"><b>{{ number_format($total['egresos'],0,",",".") }}</b></td>
+                <td align="right"><b>{{ number_format($total['diferencia'],0,",",".") }}</b></td>
+              </tr> 
+            </tbody>
+          </table>
+        </div>
       </div>
-      </div>
-     </div>
+    </div>
+  </div>
 
      <div class="col-md-3 col-sm-3 col-xs-12">
 

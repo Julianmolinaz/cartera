@@ -10,34 +10,38 @@
 
         <div class="row">
             <div class="col-md-12">
-            
-                <h3 style="position:absolute;">Listado de Archivos (Pagos Masivos)</h3>
 
-                <a href="{{ route('admin.pagos_masivos.load') }}" class="btn btn-success" style="float: right;margin-top: 20px;">
-                    Cargar Pagos Masivos
-                </a>
+                <h3 style="position:absolute;">Listado de Archivos (Pagos Masivos)</h3>
                 
+                <div class="col-md-12">
+                    <a href="{{ route('admin.pagos_masivos.load') }}" class="btn btn-success" style="float: right;margin-top: 20px;">
+                        Cargar Pagos Masivos
+                    </a>
+                </div>
             </div>
         </div>
 
         <div class="row" style="margin-top:20px;">
             <div class="col-md-12">
                 <hr>
-                <table class="table" style="font-size:11px;width:100%" id="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Archivo</th>
-                            <th>Creado por</th>
-                            <th>Fecha</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table class="table" style="font-size:11px;width:100%" id="table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Archivo</th>
+                                    <th>Creado por</th>
+                                    <th>Fecha</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>        
         </div>
 
 

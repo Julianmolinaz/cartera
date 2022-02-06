@@ -11,7 +11,6 @@
         <div class="modal-body">
 
             <div class="col-md-12 form-group">
-            
                 <select class="form-control" v-model="general.banco">
                     @foreach($bancos as $banco)
                         <option value="{{$banco}}">{{ $banco }}</option>

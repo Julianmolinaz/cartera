@@ -28,7 +28,7 @@
       <a class="hiddenanchor" id="signin"></a>
 
       <div class="login_wrapper">
-        <div class="animate form login_form">
+        <div class="animate form login_form col-xs-12">
           <section class="login_content">          
             {{  Form::open(['route' => 'log.store', 'method'=>'POST']) }}
               <h1>Login Form</h1>

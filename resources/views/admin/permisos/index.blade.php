@@ -26,38 +26,39 @@
                     
                     <div class="row">
                         <div class="col-md-12" style="padding-top: 10px">
+                            <div class="table-responsive">     
                             <table id="table" class="table table-striped display" style="width:100%;">
 
-                            <thead>
-                                <tr>
-                                <th>    id  </th>
-                                <th>    Categoria     </th>
-                                <th>    Nombre        </th>
-                                <th>    Descripción   </th>
-                                <th>    Estado        </th>
-                                <th>    Acción        </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($permisos as $permiso)
-                                <tr>
-                                    <td>{{ $permiso->id }}</td>
-                                    <td>{{ $permiso->category }}</td>
-                                    <td>{{ $permiso->display_name }}</td>
-                                    <td>{{ $permiso->description }}</td>
-                                    <td>{{ $permiso->status }}</td>
-                                    <td></td>
-                                </tr>
-                                @endforeach
-                            </tbody>
+                                <thead>
+                                    <tr>
+                                    <th>    id  </th>
+                                    <th>    Categoria     </th>
+                                    <th>    Nombre        </th>
+                                    <th>    Descripción   </th>
+                                    <th>    Estado        </th>
+                                    <th>    Acción        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($permisos as $permiso)
+                                    <tr>
+                                        <td>{{ $permiso->id }}</td>
+                                        <td>{{ $permiso->category }}</td>
+                                        <td>{{ $permiso->display_name }}</td>
+                                        <td>{{ $permiso->description }}</td>
+                                        <td>{{ $permiso->status }}</td>
+                                        <td></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
                         </div>
                     </div>
-                        <tbody>
-                        
-                        </tbody>
+                                <tbody>
+                                
+                                </tbody>
 
                     </table>
-
+                    </div>
                 </div>
             </div>
         </div>

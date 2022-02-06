@@ -152,52 +152,54 @@
             <h3 class="panel-title">Mis Pagos</h3>
           </div>
           <div class="panel-body">
-            <table class="table table-striped table-bordered" style="font-size:12px">
-              <thead>
-                <tr>
-                  <th>Número de factura</th>
-                  <th>Id Pago</th>
-                  <th>Fecha</th>
-                  <th>Concepto</th>
-                  <th>Cantidad</th>                  
-                  <th>Valor Unitario</th>
-                  <th>Subtotal</th>
-                  <th>Total</th>
-                  <th>Tipo de pago</th>
-                  <th>Creó</th>
-                  <th>Cartera</th>
-                  <th>Acción</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach($otros_pagos as $otro_pago)
-                <tr>
-                  <td>{{ $otro_pago->factura->num_fact }}</td>
-                  <td>{{ $otro_pago->id}}</td>
-                  <td><small>{{ $otro_pago->factura->fecha}}</small></td>
-                  <td>{{ $otro_pago->concepto }}</td>
-                  <td>{{ $otro_pago->cantidad }}</td>                  
-                  <td align="right">{{ number_format($otro_pago->valor_unitario,0,",",".") }}</td>
-                  <td align="right">{{ number_format($otro_pago->subtotal,0,",",".") }}</td>
-                  <td align="right">{{ number_format($otro_pago->factura->total,0,",",".") }}</td>
-                  <td>{{ $otro_pago->factura->tipo }}</td>
-                  <td><small>{{ $otro_pago->factura->user_create->name.' ('.$otro_pago->created_at.')'}}</small></td>
-                  <td> {{ $otro_pago->cartera->nombre }}</td>
-                  <td> 
-                    <a 
-                      href="#" 
-                      class='btn btn-default btn-xs' 
-                      onclick="print('{{$otro_pago->factura->id}}')" 
-                      title="Imprimir pago">
-                      <span class = "glyphicon glyphicon-print" ></span>
-                    </a> 
-                  </td>
-                </tr>
-                @endforeach
-              </tbody>
-            </table>
-
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered" style="font-size:12px">
+                <thead>
+                  <tr>
+                    <th>Número de factura</th>
+                    <th>Id Pago</th>
+                    <th>Fecha</th>
+                    <th>Concepto</th>
+                    <th>Cantidad</th>                  
+                    <th>Valor Unitario</th>
+                    <th>Subtotal</th>
+                    <th>Total</th>
+                    <th>Tipo de pago</th>
+                    <th>Creó</th>
+                    <th>Cartera</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($otros_pagos as $otro_pago)
+                  <tr>
+                    <td>{{ $otro_pago->factura->num_fact }}</td>
+                    <td>{{ $otro_pago->id}}</td>
+                    <td><small>{{ $otro_pago->factura->fecha}}</small></td>
+                    <td>{{ $otro_pago->concepto }}</td>
+                    <td>{{ $otro_pago->cantidad }}</td>                  
+                    <td align="right">{{ number_format($otro_pago->valor_unitario,0,",",".") }}</td>
+                    <td align="right">{{ number_format($otro_pago->subtotal,0,",",".") }}</td>
+                    <td align="right">{{ number_format($otro_pago->factura->total,0,",",".") }}</td>
+                    <td>{{ $otro_pago->factura->tipo }}</td>
+                    <td><small>{{ $otro_pago->factura->user_create->name.' ('.$otro_pago->created_at.')'}}</small></td>
+                    <td> {{ $otro_pago->cartera->nombre }}</td>
+                    <td> 
+                      <a 
+                        href="#" 
+                        class='btn btn-default btn-xs' 
+                        onclick="print('{{$otro_pago->factura->id}}')" 
+                        title="Imprimir pago">
+                        <span class = "glyphicon glyphicon-print" ></span>
+                      </a> 
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
           </div>
+
       </div>      
     </div>  
   </div>  

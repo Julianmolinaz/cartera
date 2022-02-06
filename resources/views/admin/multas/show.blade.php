@@ -33,55 +33,56 @@
          @include('flash::message')
          <!--DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>-->
        </p>
-        <table data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered" style="font-size:12px">
-          <thead>
+        <div class="table-responsive">
+          <table data-order='[[ 0, "desc" ]]' class="table table-striped table-bordered" style="font-size:12px">
+            <thead>
+              <tr>
+                <th>    Credito Id    </th>
+                <th>    Saldo Crédito </th>
+                <th>    Estado Crédito</th>
+                <th>    Fecha         </th>
+                <th>    Concepto      </th>
+                <th>    Estado Multa  </th>
+                <th>    Total Multa   </th>
+                <th>    Descripción   </th>
+                <th>    Creó          </th>
+                <th>    Actualizó          </th>
+                <th>    Actividad     </th>
+              </tr>
+            </thead>
+            <tbody>
+            @if($credito->multas)
+            @foreach($credito->multas as $multa)
             <tr>
-              <th>    Credito Id    </th>
-              <th>    Saldo Crédito </th>
-              <th>    Estado Crédito</th>
-              <th>    Fecha         </th>
-              <th>    Concepto      </th>
-              <th>    Estado Multa  </th>
-              <th>    Total Multa   </th>
-              <th>    Descripción   </th>
-              <th>    Creó          </th>
-              <th>    Actualizó          </th>
-              <th>    Actividad     </th>
+              <td>{{$credito->id}}</td>
+              <td>{{number_format($credito->saldo,0,",",".")}}</td>
+              <td>{{$credito->estado}}</td>
+              <td>{{$multa->fecha}}</td>
+              <td>{{$multa->concepto}}</td>
+              <td>{{$multa->estado}}</td>
+              <td>{{number_format($multa->valor,0,",",".")}}</td>
+              <td>{{$multa->descripcion}}</td>
+                <td>{{ $multa->user_create->name.' '.$multa->created_at}}             </td>
+                <td>{{ $multa->user_update->name.' '.$multa->updated_at}}             </td> 
+              <td>
+                <!--BOTON VER//////////////////////////////////////-->
+                <a href="#" OnClick="Mostrar({{$multa->id}});" id="" class = 'btn btn-default btn-xs' data-toggle="modal" data-target="#myModal">
+                  <span class = "glyphicon glyphicon-pencil" title="editar" >
+                </a>
+
+                <a href="{{route('start.precreditos.ver',$credito->precredito->id)}}"
+                    class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver crédito">
+                    <span class = "glyphicon glyphicon-eye-open" >
+                    </span>
+                </a>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-          @if($credito->multas)
-          @foreach($credito->multas as $multa)
-          <tr>
-            <td>{{$credito->id}}</td>
-            <td>{{number_format($credito->saldo,0,",",".")}}</td>
-            <td>{{$credito->estado}}</td>
-            <td>{{$multa->fecha}}</td>
-            <td>{{$multa->concepto}}</td>
-            <td>{{$multa->estado}}</td>
-            <td>{{number_format($multa->valor,0,",",".")}}</td>
-            <td>{{$multa->descripcion}}</td>
-              <td>{{ $multa->user_create->name.' '.$multa->created_at}}             </td>
-              <td>{{ $multa->user_update->name.' '.$multa->updated_at}}             </td> 
-            <td>
-              <!--BOTON VER//////////////////////////////////////-->
-              <a href="#" OnClick="Mostrar({{$multa->id}});" id="" class = 'btn btn-default btn-xs' data-toggle="modal" data-target="#myModal">
-                <span class = "glyphicon glyphicon-pencil" title="editar" >
-              </a>
+            @endforeach    
+            @endif
 
-              <a href="{{route('start.precreditos.ver',$credito->precredito->id)}}"
-                  class = 'btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver crédito">
-                  <span class = "glyphicon glyphicon-eye-open" >
-                  </span>
-              </a>
-            </td>
-          </tr>
-          @endforeach    
-          @endif
-
-          </tbody>
-        </table>
-
+            </tbody>
+          </table>
+        </div>
         @include('admin.multas.edit')
         @include('admin.multas.create')
 

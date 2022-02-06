@@ -27,35 +27,35 @@
               </form>
 
             </p>
-
-            <table class="table" style="font-size:10px;">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Fecha</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($cliente->documentos as $doc)
-                    <tr>
-                        <td>{{ $doc->nombre }}</td>
-                        <td>{{ $doc->created_at }}</td>
-                        <td>
-                            <a href="{{ route('start.documentos.get_documento',[$doc->id,$doc->ruta]) }}" 
-                               class = 'btn btn-default btn-xs' data-toggle="tooltip" 
-                              data-placement="top" title="Ver" target="_blank">
-                              <span class = "glyphicon glyphicon-eye-open"></a>
-                            <a href="{{ route('start.documentos.destroy',$doc->id) }}" 
-                               class = 'btn btn-default btn-xs' data-toggle="tooltip" 
-                              data-placement="top" title="borrar" onclick="return confirm('¿Esta seguro de eliminar el documento?')">
-                              <span class = "glyphicon glyphicon-trash"></a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
+            <div class="table-responsive">
+              <table class="table" style="font-size:10px;">
+                  <thead>
+                      <tr>
+                          <th>Nombre</th>
+                          <th>Fecha</th>
+                          <th>Acción</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @foreach($cliente->documentos as $doc)
+                      <tr>
+                          <td>{{ $doc->nombre }}</td>
+                          <td>{{ $doc->created_at }}</td>
+                          <td>
+                              <a href="{{ route('start.documentos.get_documento',[$doc->id,$doc->ruta]) }}" 
+                                class = 'btn btn-default btn-xs' data-toggle="tooltip" 
+                                data-placement="top" title="Ver" target="_blank">
+                                <span class = "glyphicon glyphicon-eye-open"></a>
+                              <a href="{{ route('start.documentos.destroy',$doc->id) }}" 
+                                class = 'btn btn-default btn-xs' data-toggle="tooltip" 
+                                data-placement="top" title="borrar" onclick="return confirm('¿Esta seguro de eliminar el documento?')">
+                                <span class = "glyphicon glyphicon-trash"></a>
+                          </td>
+                      </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+            </div>
       </div>
     </div>
   </div>
