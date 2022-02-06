@@ -54,8 +54,6 @@
     <!-- alertify -->
     <script src="{{ asset('js/alertify.js') }}"></script>
 
-
-
     <style>
       input[type=number]::-webkit-outer-spin-button,
       input[type=number]::-webkit-inner-spin-button {
@@ -67,17 +65,13 @@
             }
     </style>
 
-
     <title>@yield('title','Ingrese title') </title>
-
 
 </head>
 
 <body>
-
-    
+   
   @include('templates.navbar_principal')
-
 
   <div class="col-md-12">
     @yield('contenido','Ingrese Contenido')
@@ -123,10 +117,6 @@
 
     <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 
-
-
 </body>
-
-
 
 </html>

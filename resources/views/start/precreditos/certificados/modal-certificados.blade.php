@@ -26,8 +26,8 @@
         $("#modal-certificados").modal('show');
     }
 
-    const cliente = {!! json_encode($precredito->cliente) !!};
-    const credito = {!! json_encode($precredito->credito) !!};
+    const cliente = {!! json_encode($cliente) !!};
+    const credito = {!! json_encode($credito) !!};
 
     function getPreavisoCentrales() {
 

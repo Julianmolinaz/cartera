@@ -11,7 +11,6 @@
             ref_productos   : {!! json_encode($ref_productos) !!},
             data_credito    : {!! json_encode($data_credito) !!},
             credito         : {!! json_encode($credito) !!},
-            data_credito    : {!! json_encode($data_credito) !!},
             fecha_pago      : {!! json_encode($fecha_pago) !!},
             message         : ''
         },
@@ -68,8 +67,6 @@
                 let res = await axios.post('/start/precreditos', dat);
 
                 alertify.set('notifier','position', 'top-right');
-
-                console.log({res});
                 
                 if (res.data.success) {
                     alertify.notify(res.data.message, 'success', 2, () => {

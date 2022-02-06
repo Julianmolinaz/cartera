@@ -109,7 +109,7 @@ class ReporteContableController extends Controller
             $data[] = collect($item)->toArray();
         }
           
-        Excel::create('facturas_proveedor'.$request->daterange,
+        Excel::create('facturas_proveedor ('.$request->daterange.')',
         
             function($excel) use($data){
                 

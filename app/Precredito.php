@@ -23,6 +23,7 @@ class Precredito extends Model implements Auditable
         'meses',               // old
         'cuotas',              // old
         'vlr_cuota',           // old
+        'vlr_asistencia',      // old
         'p_fecha',             // old
         's_fecha',             // old
         'estudio',             // old

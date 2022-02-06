@@ -104,10 +104,6 @@
                 o en su defecto enviar copia del recibo de pago al Whatsapp 3128213554 - 3128211952 o correo direccioncartera@inversionesgora.com.  
             </p>
     
-            <p style="font-size:12">
-                Por lo anterior doy fe y testimonio.
-            </p>
-    
             <p style="font-size:12; margin-top:30px">
                 Atentamente,
             </p>
@@ -138,3 +134,4 @@
 
 
 </html>
+

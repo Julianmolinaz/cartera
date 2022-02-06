@@ -47,12 +47,11 @@
 
       <!-- page content -->
 
-      <div class="right_col" role="main">
-        <div class="">
-
-              @yield('contenido','Ingrese contenido')
+        <div class="right_col" role="main">
+            <div class="">
+                @yield('contenido','Ingrese contenido')
             </div>
-          </div>
+        </div>
     
 
       <!-- /page content -->

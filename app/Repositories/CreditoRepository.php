@@ -93,7 +93,6 @@ class CreditoRepository {
             ->get();
 
         return $creditos;
-
     }
 
     /**
@@ -109,13 +108,14 @@ class CreditoRepository {
             ->join('puntos','users.punto_id','=','puntos.id')
             ->join('municipios','puntos.municipio_id','=','municipios.id')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->join('estudios','clientes.id','=','estudios.cliente_id')
             ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
             ->leftJoin('llamadas','creditos.last_llamada_id','=','llamadas.id')
             ->leftJoin('users as funcionario','llamadas.user_create_id','=','funcionario.id')
             ->whereIn('creditos.estado',['Al dia','Mora','Prejuridico','Juridico'])
             ->select(
                     'carteras.nombre as cartera',
-		    'puntos.nombre as punto',
+		            'puntos.nombre as punto',
                     'creditos.id as id',
                     'municipios.nombre as municipio',
                     'municipios.departamento as depto',
@@ -130,6 +130,12 @@ class CreditoRepository {
                     'clientes.nombre as cliente',
                     'clientes.num_doc as num_doc',
                     'clientes.ocupacion as ocupacion',
+                    'clientes.fecha_nacimiento as fecha_nacimiento',
+                    'clientes.cargo as cargo',
+                    'clientes.tipo_contrato as tipo_contrato',
+                    'clientes.empresa as empresa',
+                    'clientes.fecha_vinculacion as fecha_vinculacion',
+                    'estudios.observaciones as score',
                     'clientes.tipo_actividad as actividad',
 		            'clientes.movil as movil',
                     'fecha_cobros.fecha_pago as fecha_pago',
@@ -150,6 +156,7 @@ class CreditoRepository {
             ->join('puntos','users.punto_id','=','puntos.id')
             ->join('municipios','puntos.municipio_id','=','municipios.id')
             ->join('clientes','precreditos.cliente_id','=','clientes.id')
+            ->join('estudios','clientes.id','=','estudios.cliente_id')
             ->join('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
             ->leftJoin('llamadas','creditos.last_llamada_id','=','llamadas.id')
             ->leftJoin('users as funcionario','llamadas.user_create_id','=','funcionario.id')
@@ -173,6 +180,12 @@ class CreditoRepository {
                     'clientes.movil as movil',
                     'clientes.num_doc as num_doc',
                     'clientes.ocupacion as ocupacion',
+                    'clientes.fecha_nacimiento as fecha_nacimiento',   
+                    'clientes.cargo as cargo',          
+                    'clientes.tipo_contrato as tipo_contrato',    
+                    'clientes.empresa as empresa',      
+                    'clientes.fecha_vinculacion as fecha_vinculacion',   
+                    'estudios.observaciones as score',   
                     'clientes.tipo_actividad as actividad',
                     'fecha_cobros.fecha_pago as fecha_pago',
                     'llamadas.agenda as agenda',
@@ -215,4 +228,154 @@ class CreditoRepository {
         return $credito;
     }
 
+    public static function findBySolicitud($solicitudId)
+    {
+        $credito = DB::table("creditos")
+            ->leftJoin('fecha_cobros', 'creditos.id', "=", "fecha_cobros.credito_id")
+            ->join("users as user_create", "creditos.user_create_id", "=", "user_create.id")
+            ->leftJoin("users as user_update", "creditos.user_update_id", "=", "user_update.id")
+            ->leftJoin("creditos as padre", "creditos.credito_refinanciado_id", "=", "padre.id")
+            ->leftJoin("creditos as hijo", "creditos.id", "=", "hijo.credito_refinanciado_id")
+            ->where("creditos.precredito_id", $solicitudId)
+            ->select(
+                "creditos.*",
+                "fecha_cobros.fecha_pago",
+                "user_create.name as created_by",
+                "user_update.name as updated_by",
+                "padre.id as credito_padre",
+                "hijo.id as credito_hijo",
+            )
+            ->first();
+
+        return $credito;
+    }
+
+    /**
+     * Permite crear un nuevo crédito
+     * $dataSolicitud = recibe un registro solicitud
+     * $dataComision = ['mes' => ..., 'anio' => ...]
+     */
+    
+    public static function saveCredito($dataSolicitud, $dataComision)
+    {
+        $credito = new Credito();
+        $credito->precredito_id = $dataSolicitud->id;
+        $credito->cuotas_faltantes = $dataSolicitud->cuotas;
+        $credito->mes              = $dataComision['mes'];
+        $credito->anio             = $dataComision['anio'];
+        $credito->estado           = 'Al dia';
+        $credito->valor_credito    = $dataSolicitud->cuotas * $dataSolicitud->vlr_cuota;
+        $credito->saldo            = $credito->valor_credito;
+        $credito->rendimiento      = $credito->valor_credito - $dataSolicitud->vlr_fin;
+        $credito->castigada        = 'No';
+        $credito->end_datacredito  = 0;
+        $credito->end_procredito   = 0;
+        $credito->user_create_id   = Auth::user()->id;
+        $credito->user_update_id   = Auth::user()->id;
+        $credito->save();
+
+        return $credito;
+    }
+
+    public static function saveCreditoRefinanciado($dataSolicitud, $dataComision, $creditoRefinanciadoId)
+    {
+        $credito = new Credito();
+        $credito->precredito_id     = $dataSolicitud->id;
+        $credito->cuotas_faltantes = $dataSolicitud->cuotas;
+        $credito->mes              = $dataComision['mes'];
+        $credito->anio             = $dataComision['anio'];
+        $credito->estado           = 'Al dia';
+        $credito->valor_credito    = $dataSolicitud->cuotas * $dataSolicitud->vlr_cuota;
+        $credito->saldo            = $credito->valor_credito;
+        $credito->rendimiento      = $credito->valor_credito - $dataSolicitud->vlr_fin;
+        $credito->end_datacredito  = 0;
+        $credito->end_procredito   = 0;
+        $credito->user_create_id   = Auth::user()->id;
+        $credito->user_update_id   = Auth::user()->id;
+        $credito->castigada        = 'No';
+        $credito->refinanciacion   = 'Si';
+        $credito->credito_refinanciado_id = $creditoRefinanciadoId;
+        $credito->save();
+
+        return $credito;
+    }
+
+    public static function find($creditoId)
+    {
+        $credito = DB::table('creditos')->where('id', $creditoId)->first();
+        return $credito;
+    }
+
+    /**
+     * Buscar creditos de un determinado clienteId
+     * exceptuando un creditoId
+     */
+    
+    public static function findByClienteExcept($clienteId, $creditoId)
+    {
+        $creditos = DB::table('creditos')
+            ->join('precreditos', 'creditos.precredito_id', '=', 'precreditos.id')
+            ->join('clientes', 'precreditos.cliente_id', '=', 'clientes.id')
+            ->where('clientes.id', $clienteId)
+            ->where('creditos.id', '!==', $creditoId)
+            ->whereNotIn('creditos.estado', ['Cancelado', 'Cancelado por refinanciacion'])
+            ->select('creditos.*')
+            ->get();
+     
+        return $creditos;
+    }
+
+    public static function updateCredito($dataCredito, $creditoId)
+    {
+        $credito = Credito::find($creditoId);
+        $credito->fill($dataCredito);
+
+        if ($credito->isDirty()) {
+            $credito->user_update_id = Auth::user()->id;
+            $credito->save();
+        }
+
+        return $credito;
+    }
+
+    public static function delete($creditoId)
+    {
+        $credito = Credito::find($creditoId);
+        $credito->delete();
+    }
+
+    public static function creditosPorRangoSinRefinanciados($ini, $fin)
+    {
+        $creditos = DB::table('creditos')
+          ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+          ->join('clientes','precreditos.cliente_id','=','clientes.id')
+          ->join('carteras','precreditos.cartera_id','=','carteras.id')
+          ->join('productos','precreditos.producto_id','=','productos.id')
+          ->leftJoin('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
+          ->where([['creditos.estado','<>','Refinanciacion']]) // Cancelado por refinanciacion
+          ->whereBetween('creditos.created_at',[$ini,$fin])
+          ->select(
+              'creditos.id as id',
+              'creditos.castigada as castigada',
+              'creditos.saldo as saldo',
+              'creditos.refinanciacion as refinanciado',
+              'creditos.credito_refinanciado_id as credito_refinanciado_id',
+              'clientes.nombre as cliente',
+              'clientes.num_doc as documento',
+              'precreditos.vlr_fin as vlr_fin',
+              'precreditos.cuotas as cuotas',
+              'precreditos.vlr_cuota as vlr_cuota',
+              'precreditos.num_fact as factura',
+              'precreditos.cuota_inicial as cuota_inicial',
+              'carteras.nombre as cartera',
+              'creditos.created_at as created_at',
+              'creditos.rendimiento as rendimiento',
+              'precreditos.periodo as periodo',
+              'productos.nombre as producto',
+              'fecha_cobros.fecha_pago as fecha_pago',
+              'creditos.valor_credito as vlr_credito')
+          ->get();
+
+        return $creditos;
+    }
 }

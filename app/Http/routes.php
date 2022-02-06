@@ -18,7 +18,11 @@ require __DIR__ . '/routes/callcenter.php';
 
 require __DIR__ . '/routes/creditos.php';
 
+require __DIR__ . '/routes/creditosV3.php';
+
 require __DIR__ . '/routes/precreditos.php';
+
+require __DIR__ . '/routes/precreditosV3.php';
 
 require __DIR__ . '/routes/estudios.php';
 
@@ -66,6 +70,8 @@ require __DIR__ . '/routes/anotaciones.php';
 
 require __DIR__ . '/routes/pagos_masivos.php';
 
+require __DIR__ . '/routes/facturacion.php';
+
 require __DIR__ . '/routes/test.php';
 
 require __DIR__ . '/routes/certificados.php';
@@ -80,6 +86,28 @@ require __DIR__ . '/routes/contabilidad/reportes.php';
 
 require __DIR__ . '/routes/cajas.php';
 
-Route::group(['prefix' =>'api' ], function() {
-    require __DIR__ . '/api/recibos.php';
+require __DIR__ . '/routes/refinanciacion.php';
+
+require __DIR__ . '/routes/vehiculos.php';
+
+require __DIR__ . '/routes/fecha_cobros.php';
+
+
+Route::group(['prefix' =>'api', 'middleware' => 'jwt.auth'], function() {
+    
+    require __DIR__ . '/routes/api/recibos.php';
+
+    require __DIR__ . '/routes/api/productos.php';
+
+    require __DIR__ . '/routes/api/creditosV3.php';
+
+    require __DIR__ . '/routes/api/precreditosV3.php';
+
+    require __DIR__ . '/routes/api/facturacion.php';
+
+    require __DIR__ . '/routes/api/refinanciacion.php';
+
+    require __DIR__ . '/routes/api/tipo_vehiculos.php';
+
+    require __DIR__ . '/routes/api/ventas.php';
 });

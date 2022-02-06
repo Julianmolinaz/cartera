@@ -4609,7 +4609,7 @@
   var obj;
 
   var messages = {
-    _default: function (field) { return ("The " + field + " value is not valid."); },
+    _default: function (field) { return ("El campo " + field + " no es un valor valido."); },
     after: function (field, ref) {
       var target = ref[0];
       var inclusion = ref[1];

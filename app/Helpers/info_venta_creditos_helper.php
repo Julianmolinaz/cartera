@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Repositories as Repo;
 use App\Http\Requests;
 use App\Pago;
 use App\Credito;
@@ -30,15 +31,14 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
   $estudio_tipico = Variable::find(1)->vlr_estudio_tipico;    //valor del estudio de credito tipico
   $estudio_domicilio = Variable::find(1)->vlr_estudio_domicilio;   //valor del estudio de credito a domicilio
 
-  $creditos = 
-  DB::table('creditos')
+  $creditos = DB::table('creditos')
     ->join('precreditos','creditos.precredito_id','=','precreditos.id')
     ->join('clientes','precreditos.cliente_id','=','clientes.id')
     ->join('carteras','precreditos.cartera_id','=','carteras.id')
-    ->join('productos','precreditos.producto_id','=','productos.id')
+    ->leftJoin('productos','precreditos.producto_id','=','productos.id')
     ->leftJoin('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
     ->where([['creditos.estado','<>','Refinanciacion']]) // Cancelado por refinanciacion
-    ->whereBetween('creditos.created_at',[$ini,$fin])
+    ->whereBetween('creditos.created_at',[$ini, $fin])
     ->select(
         'creditos.id as id',
         'creditos.castigada as castigada',
@@ -47,6 +47,7 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
         'creditos.credito_refinanciado_id as credito_refinanciado_id',
         'clientes.nombre as cliente',
         'clientes.num_doc as documento',
+        'precreditos.id as precredito_id',
         'precreditos.vlr_fin as vlr_fin',
         'precreditos.cuotas as cuotas',
         'precreditos.vlr_cuota as vlr_cuota',
@@ -59,28 +60,38 @@ function reporte_venta_creditos( $fecha_1, $fecha_2 ){
         'productos.nombre as producto',
         'fecha_cobros.fecha_pago as fecha_pago',
 	    'creditos.valor_credito as vlr_credito')
-       // DB::raw('precreditos.vlr_cuota * precreditos.cuotas as vlr_credito'))
     ->get();
 
     $total_vlr_fin = 0;
-    foreach($creditos as $credito){ $total_vlr_fin = $total_vlr_fin + $credito->vlr_fin; }
-
     $total_vlr_credito = 0;
-    foreach($creditos as $credito){ $total_vlr_credito = $total_vlr_credito + $credito->vlr_credito; }
-
-
-    // Si el credito esta como cartera castigada no se suma el saldo a los totales.
-
     $total_saldo = 0;
+
     foreach($creditos as $credito){ 
-        if($credito->castigada == 'No' && $credito->refinanciado == 'No'){
-            $total_saldo = $total_saldo + $credito->saldo; 
+        $total_vlr_fin += $credito->vlr_fin; 
+        $total_vlr_credito += $credito->vlr_credito; 
+
+        if ($credito->castigada == 'No' && $credito->refinanciado == 'No') {
+            $total_saldo += $credito->saldo; 
+        }
+
+        if (!$credito->producto) {
+            $productos = Repo\ProductoRepository::getProductosPorSolicitud(
+                $credito->precredito_id
+            );
+            
+            $strProductos = '';
+            $size = count($productos);
+
+            for ($i=0; $i < $size; $i++) {
+                $strProductos .= ($i === 0) ? $productos[$i]->nombre : ' + '.$productos[$i]->nombre;
+            }
+
+            $credito->producto = $strProductos;
         }
     }
 
-
-    $carteras           = DB::table('carteras')->select('id','nombre')->get();
-    $array_carteras     = array();
+    $carteras = DB::table('carteras')->select('id','nombre')->get();
+    $array_carteras = array();
 
     // array carteras
 

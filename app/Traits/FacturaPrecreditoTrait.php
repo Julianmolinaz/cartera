@@ -85,23 +85,23 @@ trait FacturaPrecreditoTrait
 			<body>
 				<div class="cuerpo">
 					<div class="center" id="encabezado">
-						<img src="{{ asset(\'images/logo_gora_2021.png\') }}">
 						<h3 style="margin-top: -5px;">'. $variable->razon_social .'</h3>
 						<p>Nit: '. $variable->nit .'</p>
 						<p>Sucursal: '.$factura->user_create->punto->nombre.'
 						<p>Dir: '.$factura->user_create->punto->direccion.'</p>
 						<p>Tel: '. $factura->user_create->punto->telefono .'</p>
+                        <p>Se imprime el: '. $now->format('d-m-Y H:i') .'</p>
 					</div>
 					<div id="datos_cliente" class="contenido">
 						<br>
-						<p>Fecha: '. $now->format('d-m-Y H:i') .'</p>
+						<p>Fecha pago: '. $factura->created_at->format('d-m-Y H:i') .'</p>
 						<p id="asesor">Asesor: '. ucwords(strtolower($factura->user_create->name)) .'</p>
 						<p id="cliente">Cliente: '. $factura->precredito->cliente->nombre .'</p>
 						<p>Doc: '. $factura->precredito->cliente->num_doc .'</p>
 					</div>	
 					<br>
 					<div id="factura" class="contenido">
-						<h4>Factura: '. $factura->num_fact.'<br>
+						<h4>Recibo: '. $factura->num_fact.'<br>
 						Solicitud: '. $factura->precredito->id .'</h4><br>
 						PAGOS:<br>'.
 						$str_pagos.
