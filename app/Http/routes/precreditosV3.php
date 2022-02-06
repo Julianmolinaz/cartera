@@ -6,6 +6,12 @@ Route::get('start/precreditosV3',[
     'as'    => 'start.precreditosV3.create.index'
 ]);
 
+Route::get('start/precreditosV3/mis-solicitudes', [
+    'middleware' => [],
+    'uses' => 'V3\PrecreditoController@misSolicitudes',
+    'as' => 'start.precreditosV3.mis-solicitudes'
+]);
+
 // PRECREDITOS CREAR
 Route::get('start/precreditosV3/{cliente}',[
     'middleware' => ['permission:consultar_solicitudes'],

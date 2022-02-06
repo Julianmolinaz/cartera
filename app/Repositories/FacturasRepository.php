@@ -210,4 +210,18 @@ class FacturasRepository
         $factura = Invoice::find($facturaId);
         $factura->delete();
     }
+
+    /**
+     * Obtener primera factura ordenada por fecha de expedición
+     */
+
+    public static function firstBySolicitud($solicitudId)
+    {
+        $primeraFactura = DB::table('invoices')
+            ->where('precredito_id', $solicitudId)
+            ->orderBy('fecha_exp')
+            ->first();
+
+        return $primeraFactura;
+    }
 }

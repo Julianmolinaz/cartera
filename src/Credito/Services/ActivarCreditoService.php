@@ -66,7 +66,7 @@ class ActivarCreditoService
         }
 
         if ($this->solicitudNoAprobada()) {
-            $this->errors[] = "La solicitud aun no ha sido aprovada";
+            $this->errors[] = "La solicitud aun no ha sido aprobada";
         }
 
         if ($this->solicitudesVigentes()) {
@@ -149,10 +149,17 @@ class ActivarCreditoService
         Repo\ClientesRepository::incrementarNumeroDeCreditos($this->solicitud->cliente_id);
     }
 
+    /**
+     * Se utiliza la fecha de la primera factura como pivote
+     * para generar la fecha de pago inicial
+     */
+
     protected function generarFechaDePago()
     {
+        $fecha = $this->getFechaExpedicionPrimeraFactura();
+
         $fecha = FechaDePago::calcular(
-            $this->solicitud->fecha,
+            $fecha,
             $this->solicitud->periodo, 
             $this->solicitud->p_fecha,
             $this->solicitud->s_fecha
@@ -162,6 +169,14 @@ class ActivarCreditoService
             'credito_id' => $this->credito->id,
             'fecha_pago' => $fecha
         ]);
+    }
+
+    protected function getFechaExpedicionPrimeraFactura()
+    {
+        $factura = Repo\FacturasRepository::firstBySolicitud(
+            $this->solicitudId
+        );
+        return $factura->fecha_exp;
     }
 
 

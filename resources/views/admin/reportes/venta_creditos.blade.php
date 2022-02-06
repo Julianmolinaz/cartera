@@ -108,7 +108,7 @@
           <thead>
             <tr style="background-color:#FFC300;">
              <th>Cartera</th>
-             <th>Costo del Crédito/th>
+             <th>Costo del Crédito</th>
              <th>Valor del Crédito</th>
              <th>Rendimiento</th>
              <th>Saldo Total</th>

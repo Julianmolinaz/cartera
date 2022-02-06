@@ -325,4 +325,39 @@ class CreditoRepository {
         $credito = Credito::find($creditoId);
         $credito->delete();
     }
+
+    public static function creditosPorRangoSinRefinanciados($ini, $fin)
+    {
+        $creditos = DB::table('creditos')
+          ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+          ->join('clientes','precreditos.cliente_id','=','clientes.id')
+          ->join('carteras','precreditos.cartera_id','=','carteras.id')
+          ->join('productos','precreditos.producto_id','=','productos.id')
+          ->leftJoin('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
+          ->where([['creditos.estado','<>','Refinanciacion']]) // Cancelado por refinanciacion
+          ->whereBetween('creditos.created_at',[$ini,$fin])
+          ->select(
+              'creditos.id as id',
+              'creditos.castigada as castigada',
+              'creditos.saldo as saldo',
+              'creditos.refinanciacion as refinanciado',
+              'creditos.credito_refinanciado_id as credito_refinanciado_id',
+              'clientes.nombre as cliente',
+              'clientes.num_doc as documento',
+              'precreditos.vlr_fin as vlr_fin',
+              'precreditos.cuotas as cuotas',
+              'precreditos.vlr_cuota as vlr_cuota',
+              'precreditos.num_fact as factura',
+              'precreditos.cuota_inicial as cuota_inicial',
+              'carteras.nombre as cartera',
+              'creditos.created_at as created_at',
+              'creditos.rendimiento as rendimiento',
+              'precreditos.periodo as periodo',
+              'productos.nombre as producto',
+              'fecha_cobros.fecha_pago as fecha_pago',
+              'creditos.valor_credito as vlr_credito')
+          ->get();
+
+        return $creditos;
+    }
 }

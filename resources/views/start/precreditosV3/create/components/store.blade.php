@@ -18,6 +18,8 @@
             solicitud           : {!! json_encode($solicitud) !!} || new Solicitud({
                 cliente_id: {!! $cliente->id !!},
                 aprobado: "En estudio",
+                cartera_id: 6,
+                funcionario_id: {!! json_encode(Auth::user()->id) !!},
                 fecha: new Date(Date.now()).toISOString().slice(0, 10)
             }),
             credito             : {!! json_encode($credito) !!} || null,

@@ -44,4 +44,18 @@ class ProductoRepository
             ->delete();
     }
 
+    public static function getProductosPorSolicitud($solicitudId)
+    {
+        $productos = DB::table('ventas')
+            ->join('productos', 'ventas.producto_id', '=', 'productos.id')
+            ->where('ventas.precredito_id', $solicitudId)
+            ->select(
+                'productos.id',
+                'productos.nombre',
+            )
+            ->get();
+
+        return $productos;
+    }
+
 }

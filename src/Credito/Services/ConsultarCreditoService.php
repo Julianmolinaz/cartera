@@ -140,11 +140,15 @@ class ConsultarCreditoService
     {
         if (!$this->credito) return [];
 
-        $juridico = Repo\ExtrasRepository::getJuridicoDebeByCredito($this->credito->id);
+        $juridico = Repo\ExtrasRepository::getJuridicoDebeByCredito(
+            $this->credito->id
+        );
 
         if (! $juridico) return ['total' => 0, 'debe' => 0];
 
-        $pagoJuridico = Repo\ExtrasRepository::getPagosJuridicoDebe($this->credito->id);
+        $pagoJuridico = Repo\ExtrasRepository::getPagosJuridicoDebe(
+            $this->credito->id
+        );
 
         if ($pagoJuridico) return ['total' => $juridico->valor, 'debe' => $pagoJuridico->debe];
 
@@ -156,11 +160,15 @@ class ConsultarCreditoService
     {
         if (!$this->credito) return [];
 
-        $prejuridico = Repo\ExtrasRepository::getPrejuridicoDebeByCredito($this->credito->id);
+        $prejuridico = Repo\ExtrasRepository::getPrejuridicoDebeByCredito(
+            $this->credito->id
+        );
 
         if (! $prejuridico) return ['total' => 0, 'debe' => 0];
 
-        $pagoJuridico = Repo\ExtrasRepository::getPagosPrejuridicoDebe($this->credito->id);
+        $pagoJuridico = Repo\ExtrasRepository::getPagosPrejuridicoDebe(
+            $this->credito->id
+        );
 
         if ($pagoJuridico) return ['total' => $prejuridico->valor, 'debe' => $pagoJuridico->debe];
 
@@ -172,7 +180,9 @@ class ConsultarCreditoService
     {
         if (!$this->credito) return [];
 
-        $pago = Repo\PagosCreditoRepository::cuotaParcialDebe($this->credito->id);
+        $pago = Repo\PagosCreditoRepository::cuotaParcialDebe(
+            $this->credito->id
+        );
 
         return $pago ? $pago->debe : 0;
     }
@@ -182,7 +192,9 @@ class ConsultarCreditoService
     {
         if (!$this->credito) return [];
 
-        $totalPagos = Repo\PagosCreditoRepository::totalPagosByCredito($this->credito->id);
+        $totalPagos = Repo\PagosCreditoRepository::totalPagosByCredito(
+            $this->credito->id
+        );
 
         return $totalPagos ? $totalPagos : 0;
     }
@@ -192,7 +204,9 @@ class ConsultarCreditoService
     {
         if (!$this->credito) return [];
 
-        $totalDescuentos = Repo\PagosCreditoRepository::totalDescuentosByCredito($this->credito->id);
+        $totalDescuentos = Repo\PagosCreditoRepository::totalDescuentosByCredito(
+            $this->credito->id
+        );
 
         return $totalDescuentos ? $totalDescuentos : 0;
     }
@@ -206,7 +220,9 @@ class ConsultarCreditoService
 
     protected function getPagosSolicitud($solicitudId)
     {    
-        $pagos = Repo\PagosSolicitudRepository::getPagosBySolicitud($solicitudId);
+        $pagos = Repo\PagosSolicitudRepository::getPagosBySolicitud(
+            $solicitudId
+        );
         return $pagos;
     }
 
@@ -216,7 +232,9 @@ class ConsultarCreditoService
         $pagos = [];
 
         if ($this->credito) {
-            $pagos = Repo\PagosCreditoRepository::pagosByCredito($this->credito->id);
+            $pagos = Repo\PagosCreditoRepository::pagosByCredito(
+                $this->credito->id
+            );
         } 
 
         return $pagos;
@@ -227,7 +245,9 @@ class ConsultarCreditoService
         $llamadas = [];
 
         if ($this->credito) {
-            $llamadas = Repo\LlamadasRepository::llamadasByCredito($this->credito->id);
+            $llamadas = Repo\LlamadasRepository::llamadasByCredito(
+                $this->credito->id
+            );
         }
 
         return $llamadas;

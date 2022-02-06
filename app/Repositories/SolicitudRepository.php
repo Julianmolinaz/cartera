@@ -116,4 +116,14 @@ class SolicitudRepository
         return $solicitud;
     }
 
+    public static function pendientes($userId)
+    {
+        $solicitudes = DB::table('precreditos')
+            ->where('user_create_id', $userId)
+            ->where('aprobado', 'En estudio')
+            ->get();
+
+        return $solicitudes;
+    }
+
 }

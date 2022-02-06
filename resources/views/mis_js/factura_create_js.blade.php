@@ -60,8 +60,9 @@ var main = new Vue({
                 credito_id: this.general.credito_id
             };
 
-            const res = await axios.post('/api/recibos/recibos-recientes', data);
-	    console.log({res})
+            const res = await axios.post('/api/recibos/recibos-recientes', data, {
+                headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
+            });
 
             if (res.data.dat == true) {
                 alertify.alert('Atención', 'Existe un pago reciente para este cliente');

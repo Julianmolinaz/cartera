@@ -16,6 +16,7 @@ use Src\Credito\Services\DataParaCrearSolicitudService;
 use Src\Credito\Services\ReglasPreviasCreacionSolicitudService;
 use Src\Credito\Services\AprobarSolicitudService;
 use Src\Credito\Services;
+use Auth;
 
 class PrecreditoController extends Controller
 {
@@ -23,7 +24,6 @@ class PrecreditoController extends Controller
     {
         // 
     }
-
 
     public function create($clienteId)
     {
@@ -36,7 +36,6 @@ class PrecreditoController extends Controller
 
             unset($data->insumosCredito);
 
-    
             return view('start.precreditosV3.create.index')
                 ->with('data', $data->insumosSolicitud)
                 ->with('insumos', $data->insumosVenta)
@@ -63,7 +62,6 @@ class PrecreditoController extends Controller
         }
     }
 
-
     public function show($solicitudId)
     {
         $useCase = ConsultarCreditoService::make($solicitudId);
@@ -74,7 +72,6 @@ class PrecreditoController extends Controller
             ->with('data', $data)
             ->with('opcionesAprobacion', $opcionesAprobacion);
     }
-
 
     public function edit($solicitudId)
     {
@@ -96,7 +93,6 @@ class PrecreditoController extends Controller
             ->with('modo', ($credito) ? 'Editar Credito' : 'Editar Solicitud');
     }
 
-
     public function store(Request $request) 
     {
         try {
@@ -113,7 +109,6 @@ class PrecreditoController extends Controller
             return $response;
         }
     }
-
 
     public function update(Request $request)
     {
@@ -162,5 +157,14 @@ class PrecreditoController extends Controller
             flash()->error($e->getMessage());
             return redirect()->route('start.precreditosV3.show', $request->solicitudId);
         }
+    }
+
+    public function misSolicitudes()
+    {
+        $useCase = new Services\SolicitudesPendientesService(Auth::user()->id);
+        $pendientes = $useCase->execute();
+
+        return view('start.pendientes.index')
+            ->with('pendientes', $pendientes);
     }
 }
