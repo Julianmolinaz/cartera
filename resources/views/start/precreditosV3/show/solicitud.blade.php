@@ -122,7 +122,7 @@
         </div>
         <div class="card-content__subitem">
             <div class="card-content__subitem-title">Actualizó</div>
-            @if($data['solicitud']['user_update']['name'])
+            @if($data['solicitud']['user_update'] && $data['solicitud']['user_update']['name'])
                 <p>{{ $data['solicitud']['user_update']['name'] }} <br>{{ ddmmyyyyhhmmss($data['solicitud']['updated_at']) }}</p>
             @endif
         </div>
