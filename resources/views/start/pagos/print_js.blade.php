@@ -5,6 +5,12 @@
 			print_fact(res);
 		})
 	}
+	var printFactPrecredito = function(factura_id){
+		var route = "{{ url('start/precredito-invoice-print') }}/" + factura_id;
+		$.get(route, function(res){
+			print_fact(res);
+		})
+	}
 
 	var print_fact = function(str){
 		var printed = window.open('','Print-Window');

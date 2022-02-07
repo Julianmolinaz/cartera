@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-
-use App\ConceptoFactPrecredito;
 use App\Traits\FacturaPrecreditoTrait;
+use App\ConceptoFactPrecredito;
 use App\Factprecredito;
 use App\PrecreditoPago;
 use App\Precredito;

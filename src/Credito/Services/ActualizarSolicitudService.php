@@ -142,7 +142,7 @@ class ActualizarSolicitudService
 
     protected function actualizarCredito()
     {
-        if ($this->data['credito'] && $this->data['credito']['id']) {
+        if (isset($this->data['credito']['id'])) {
             RepoCredito::updateCredito($this->data['credito'], $this->data['credito']['id']);
         }
     }

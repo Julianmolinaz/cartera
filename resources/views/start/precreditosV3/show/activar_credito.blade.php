@@ -27,8 +27,9 @@
                         @foreach($data['meses'] as $mes)
                             <option 
                                 value="{{ $mes['nombre']}}"
-                                {{ $mes['checked'] ? 'selected' : '' }}
-                                {{ Auth::user()->can('editar_fecha_comision') ? '' : 'disabled'}}
+                                {{ $mes['checked'] ? 'selected' : 
+                                    (Auth::user()->can('editar_fecha_comision') ? '' : 'disabled') }}
+                                
                             >
                                 {{ $mes['nombre'] }}
                             </option>
@@ -44,8 +45,8 @@
                         @foreach($data['anos'] as $ano)
                             <option
                                 value="{{ $ano['nombre'] }}"
-                                {{ $ano['checked'] ? 'selected' : '' }}
-                                {{ Auth::user()->can('editar_fecha_comision') ? '' : 'disabled'}}
+                                {{ $ano['checked'] ? 'selected' : 
+                                    (Auth::user()->can('editar_fecha_comision') ? '' : 'disabled') }}
                             >
                                 {{ $ano['nombre'] }}
                             </option>
