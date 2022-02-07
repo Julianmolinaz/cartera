@@ -39,7 +39,7 @@ class InsumosVentasService
     {
         $productos = DB::table('productos')
             ->select('nombre', 'id', 'con_vehiculo')
-            ->where('estado',1)
+            ->where('estado', 1)
             ->orderBy('nombre')
             ->get();
             

@@ -18,8 +18,7 @@
         width: 100%;
         height: 100vh;
         display: flex;
-        align-items: 
-        ;
+        align-items: center;
       }
       .product_image {
         display: flex;
@@ -32,7 +31,7 @@
         margin-top: 30px;
         color: #000;
         text-align: center;
-        font-size: 36px;
+        font-size: 3rem;
       }
       .mensage {
         text-align: center;
