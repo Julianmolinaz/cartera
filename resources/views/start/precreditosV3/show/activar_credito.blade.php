@@ -28,7 +28,7 @@
                             <option 
                                 value="{{ $mes['nombre']}}"
                                 {{ $mes['checked'] ? 'selected' : '' }}
-                                {{ !$user->can('editar_creditos') ? 'disabled' : '' }}
+                                {{ Auth::user()->can('editar_fecha_comision') ? '' : 'disabled'}}
                             >
                                 {{ $mes['nombre'] }}
                             </option>
@@ -45,7 +45,7 @@
                             <option
                                 value="{{ $ano['nombre'] }}"
                                 {{ $ano['checked'] ? 'selected' : '' }}
-                                {{ !$user->can('editar_creditos') ? 'disabled' : '' }}
+                                {{ Auth::user()->can('editar_fecha_comision') ? '' : 'disabled'}}
                             >
                                 {{ $ano['nombre'] }}
                             </option>

@@ -47,6 +47,7 @@
             </div>
             <div>
                 <span  style="font-weight:900">{{ ddmmyyyy($data['credito']->fecha_pago) }}</span>
+                @permission('editar_fecha_pago')
                 <a
                     href="javascript:void(0);"
                     onclick="editFechaPago(
@@ -54,6 +55,7 @@
                         {{ $credito->id }}
                     )"
                 >edit</a>
+                @endpermission
             </div>
         </div>
     </div>

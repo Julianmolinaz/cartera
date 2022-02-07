@@ -1,3 +1,4 @@
+@include('filters')
 <script>
 	Vue.component('detalle-component',{
 		template: `
@@ -67,7 +68,7 @@
 										<tbody>
 									<tr v-for="call in dat.calls">
 										<td>@{{ call.credito_id }}</td>
-										<td>@{{ call.Agenda }}</td>
+										<td>@{{ call.agenda | ddmmyyyy}}</td>
 										<td>@{{ call.observaciones }}</td>
 									</tr>
 								</tbody>

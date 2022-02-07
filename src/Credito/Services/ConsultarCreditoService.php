@@ -3,15 +3,21 @@
 namespace Src\Credito\Services;
 
 use App\Repositories as Repo;
+use DateTime;
 
 class ConsultarCreditoService
 {
     public $data;
     public $credito;
+    public $solicitudId;
+    public $anio = null;
+    public $mes = null;
     
     private function __construct($solicitudId)
     {
+        $this->solicitudId = $solicitudId;
         $this->credito = $this->getCredito($solicitudId);
+        $this->getPrimeraFactura();
 
         $this->data = [
             'cliente' => $this->getCliente($solicitudId),
@@ -63,6 +69,8 @@ class ConsultarCreditoService
     protected function getMeses()
     {
         $currentMonth = currentMonth();
+
+        if ($this->mes) $currentMonth = $this->mes;
 
         $meses = [
             [
@@ -119,10 +127,24 @@ class ConsultarCreditoService
         return $meses;
     }
 
+    protected function getPrimeraFactura()
+    {
+        $factura = Repo\FacturasRepository::firstBySolicitud(
+            $this->solicitudId
+        );
+
+        if ($factura) {
+            $fechaExp = $factura->fecha_exp;
+            $dateFechaExp = new DateTime($fechaExp);
+            $this->mes = $dateFechaExp->format("m");
+            $this->anio = $dateFechaExp->format("Y");
+        }
+    }
 
     protected function getAnos()
     {
         $currentYear = currentYear();
+        if ($this->anio) $currentYear = $this->anio;
 
         return [
             [

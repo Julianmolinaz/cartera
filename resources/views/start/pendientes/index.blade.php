@@ -27,6 +27,7 @@
                         <td>{{ ddmmyyyyhhmmss($solicitud->created_at) }}</td>
                         <td>{{ $solicitud->facturado ? 'Si' : 'No'}}</td>
                         <td>
+                        @if($solicitud->version === 3)
                             <a 
                                 href="{{ route('start.precreditosV3.show', $solicitud->id) }}"
                                 class="btn btn-xs btn-default"
@@ -41,6 +42,15 @@
                             >
                                 <span class = "glyphicon glyphicon-flash" data-toggle="tooltip" data-placement="top" title="Ver Facturas"></span>
                             </a>
+                        @else 
+                            <a 
+                                href="{{route('start.precreditos.ver',$solicitud->id)}}"
+                                class="btn btn-xs btn-default"
+                                target="_blank"
+                            >
+                                <span class = "glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" title="Ver Solicitud"></span>
+                            </a>
+                        @endif
                         </td> 
                     </tr>
                     @endforeach

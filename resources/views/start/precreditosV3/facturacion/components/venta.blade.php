@@ -5,11 +5,15 @@
                 <div class="panel-title__producto">
                     <p>
                         @{{ index + 1 + '- ' + venta.producto.nombre }}
-                        @{{ venta.factura && venta.factura.id ? '-  # ' + venta.factura.num_fact+' - '+venta.factura.estado : '- Sin facturar'}} 
+                        <span v-if="venta.factura">
+                            @{{ venta.factura && venta.factura.num_fact ? 
+                                '-  # ' + venta.factura.num_fact + ' - ' + venta.factura.estado 
+                                : '- Sin facturar'}}
+                            </span>
                     </p>
                     <div>
                         <ul class="invoices-cambios">
-                            <li v-if="venta.producto.con_vehiculo">
+                            <li v-if="venta.producto.con_vehiculo && venta.vehiculo">
                                 <div class="invoices-cambios__item">
                                     <div>Vehículo</div>
                                     <div>@{{ venta.vehiculo.placa }}</div>
@@ -46,7 +50,7 @@
                             </li>
                             <li>
                                 <div class="invoices-cambios__item">
-                                    <div>Identificadores BD</div>
+                                    <div>Identificadores BD:</div>
                                     <div>Venta id: @{{ venta.id }}</div>
                                     <div v-if="venta.factura">factura id: @{{ venta.factura.id }}</div>
                                 </div>

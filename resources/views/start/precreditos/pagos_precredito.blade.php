@@ -30,7 +30,7 @@
                         class="btn btn-default btn-xs">
                         <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a href="#" class='btn btn-default btn-xs' @click="print('{{$pago->factura->id}}')">
+                        <a href="javascript:void(0);" class='btn btn-default btn-xs' onclick="print('{{$pago->factura->id}}')">
                                 <span class = "glyphicon glyphicon-print" title="Imprimir"></span>
                             </a>
                     </td>

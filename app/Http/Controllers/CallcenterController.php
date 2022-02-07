@@ -171,6 +171,8 @@ class CallcenterController extends Controller
                 creditos.estado             as estado,
                 clientes.nombre             as cliente,
                 clientes.num_doc            as doc,
+		clientes.ocupacion          as ocupacion,
+		clientes.tipo_actividad     as actividad,
                 fecha_cobros.fecha_pago     as fecha_pago,
                 users.name                  as funcionario,
                 llamadas.agenda             as agenda'))

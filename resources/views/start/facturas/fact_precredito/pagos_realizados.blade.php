@@ -54,8 +54,10 @@
 				printed.document.write(str);
 				printed.document.close();
 				printed.print();
-				printed.close();
-					}//.print_html
+                setTimeout(() => {
+                    printed.close();
+                }, 1000);
+		}//.print_html
 				}
-			});
+    });
 </script>
