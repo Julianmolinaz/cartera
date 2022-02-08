@@ -67,12 +67,14 @@ class ActualizarSolicitudService
         } 
 
         /**
-         * VALIDAR CRÉDITO
+         * VALIDAR CREDITO
          */
-
-        $validarCredito = ValidarCreditoService::make(
-            $this->data['credito']
-        );
+	
+	if ($this->data['credito']) {
+	        $validarCredito = ValidarCreditoService::make(
+        	    $this->data['credito']
+        	);
+	}
 
         if ($validarSolicitud->fails()) {
             $this->errors = array_merge($this->errors, $validarCredito->errors);
@@ -142,7 +144,7 @@ class ActualizarSolicitudService
 
     protected function actualizarCredito()
     {
-        if ($this->data['credito'] && $this->data['credito']['id']) {
+        if (isset($this->data['credito']['id'])) {
             RepoCredito::updateCredito($this->data['credito'], $this->data['credito']['id']);
         }
     }

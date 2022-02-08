@@ -89,7 +89,7 @@ class ActivarCreditoService
 
     protected function validarPagoPorEstudio()
     {
-        if (! $this->solicitud->estudio) return true;
+        if ($this->solicitud->estudio == 'Sin estudio') return true;
         
         $pagos = Repo\PagosSolicitudRepository::getPagosEstudioSolicitud($this->solicitudId);
             

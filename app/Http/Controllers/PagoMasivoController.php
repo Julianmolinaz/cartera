@@ -801,15 +801,15 @@ class PagoMasivoController extends Controller
             '45000',
             'apostar'
         ];
-       
         $arr[] = $header;
         $arr[] = $datos_prueba; 
+	ob_clean();
 
         Excel::create('pagos_masivos_'.strtotime(Carbon::now()),function($excel) use ($arr){
             
             $excel->sheet('Sheetname',function($sheet) use ($arr){       
                 
-            $sheet->fromArray($arr,null,'A1',false,false);
+            	$sheet->fromArray($arr, null, 'A1', false, false);
             });
         })->download('xls');
     }
