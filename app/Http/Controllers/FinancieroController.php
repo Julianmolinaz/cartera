@@ -231,7 +231,7 @@ class FinancieroController extends Controller
 
             array_push($arreglo_creditos, $temp);
         }
-
+        ob_clean();
         Excel::create($request->tipo.'-'.$fecha,function($excel) use ($arreglo_creditos){
             
             $excel->sheet('Sheetname',function($sheet) use ($arreglo_creditos){       

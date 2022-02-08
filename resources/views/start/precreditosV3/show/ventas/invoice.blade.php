@@ -5,7 +5,7 @@
         <!-- FACTURA -->
         <div class="card-content__subitem">
             <div class="card-content__subitem-title">Factura</div>
-            <div style="font-weight: 700">{{ $invoice->num_fact }}</div>
+            <div style="font-weight: 700; word-wrap: break-word">{{ $invoice->num_fact }}</div>
         </div>
         <!-- ESTADO FACTURA -->
         <div class="card-content__subitem">

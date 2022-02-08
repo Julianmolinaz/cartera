@@ -448,7 +448,7 @@ class CallcenterController extends Controller
             $this->exp_todos = $todos;
             $now            = Carbon::now();
             $fecha          = $now->toDateTimeString();
-            
+            ob_clean();
             Excel::create('CreditosCallCenter'.$fecha,function($excel){
                 $excel->sheet('Sheetname',function($sheet){
 
@@ -623,7 +623,7 @@ class CallcenterController extends Controller
         {
             $now            = Carbon::now();
             $fecha          = $now->toDateTimeString();
-
+            ob_clean();
             Excel::create('SoatCallCenter'.$fecha,function($excel){
                 $excel->sheet('Sheetname',function($sheet){
                     

@@ -502,7 +502,7 @@ class ReporteController extends Controller
      {
         $now            = Carbon::now();
         $fecha          = $now->toDateTimeString();
-
+        ob_clean();
         Excel::create('morosos'.$fecha,function($excel){
             $excel->sheet('Sheetname',function($sheet){
                 $morosos =  $this->get_morosos();
@@ -561,6 +561,7 @@ class ReporteController extends Controller
 
     public function ventas() 
     {
+        ob_clean();
         Excel::create('reporte_detallado_ventas-'.Carbon::now(),function($excel){
 
             $excel->sheet('Sheetname',function($sheet){

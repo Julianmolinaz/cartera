@@ -106,7 +106,9 @@
                                 <option
                                     v-for="estado in $store.state.insumos.estados"
                                     :value="estado"
-                                >@{{ estado }}
+                                    :disabled="!showEstado"
+                                >
+                                    @{{ estado }}
                                 </option>
                             </select>
                         </div>
@@ -205,7 +207,7 @@
                         <p class="help-block">Los campos con asterisco (*) son obligatorios</p>
                     </div>
 
-                    <div class="row col-md-12" v-if="showOnSubmitBtn">
+                    <div class="row col-md-12" v-if="showSubmit">
                         <center>
                             <button class="btn pg-btn-dark">Guardar Cambios</button>
                         </center>
@@ -236,23 +238,13 @@
             estado: '',
             modo: "",
             factura: "",
-            create: {!! json_encode(Auth::user()->can('crear_factura')) !!},
-            edit: {!! json_encode(Auth::user()->can('editar_factura')) !!},
+            showEstado: false,
+            showSubmit: false,
+            permisoCrear: {!! json_encode(Auth::user()->can('crear_factura')) !!},
+            permisoEditarProceso: {!! json_encode(Auth::user()->can('editar_factura_proceso')) !!},
+            permisoEditarAprobar: {!! json_encode(Auth::user()->can('editar_factura_aprobar')) !!},
+            permisoEditarTotal: {!! json_encode(Auth::user()->can('editar_factura_total')) !!},
         }),
-        computed: {
-            showOnSubmitBtn() {
-                if (this.modo == 'Crear Factura' && this.create) return true;
-                else if (
-                    this.modo == 'Editar Factura' && 
-                    this.edit && 
-                    this.estado !== 'Pagado') return true;
-                else if (
-                    this.modo == 'Editar Factura' && 
-                    this.edit && 
-                    this.estado == 'Pagado') return false;
-                else return false;
-            }
-        },
         methods: {
             onSubmit() {
                 if (this.modo === 'Crear Factura') this.store();
@@ -312,6 +304,38 @@
                     },
                     function () {}
                 );
+            },
+            configurarPermisos() {
+                if (this.modo === 'Crear Factura') {
+                    if (this.permisoCrear) { this.showEstado = false; this.showSubmit = true }
+                    else { this.showEstado = false; this.showSubmit = false }
+                } 
+                else if (this.modo === 'Editar Factura') {
+                    if (this.permisoEditarTotal) {
+                        this.setPermisos(true, true);
+                    }
+                    else if (this.permisoEditarAprobar) {
+                        if (this.factura.estado !== 'Pagado') {
+                            this.setPermisos(true, true);
+                        } else {
+                            this.setPermisos(false, false);
+                        }
+                    }
+                    else if (this.permisoEditarProceso) {
+                        if (this.factura.estado === 'En proceso') {
+                            this.setPermisos(true, true);
+                        } else {
+                            this.setPermisos(false, false);
+                        }
+                    } 
+                    else {
+                        this.setPermisos(false, false);
+                    }
+                }
+            },
+            setPermisos(estado, submit) {
+                this.showEstado = estado;
+                this.showSubmit = submit;
             }
         },
         created() {
@@ -331,6 +355,8 @@
             } else {
                 this.modo = "Consultar venta";
             }
+
+            this.configurarPermisos();
         }
     });
 </script>

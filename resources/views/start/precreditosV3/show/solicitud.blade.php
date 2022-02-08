@@ -149,7 +149,7 @@
             <div>{{ $data['solicitud']['observaciones'] }}</div>
         </div>
     </div>
-    @if($data['credito'] && $data['credito']->recordatorio)
+    @if($data['credito'])
         <div class="card-content__item">
             <div class="card-content__subitem" style="width: 100%;">
                 <div class="card-content__subitem-title">
