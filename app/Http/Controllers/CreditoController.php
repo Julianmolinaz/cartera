@@ -641,7 +641,7 @@ class CreditoController extends Controller
       try{
         $fecha = Carbon::now();
         $fecha = fecha_plana($fecha->toDateTimeString());
-
+        ob_clean();
         Excel::create('creditos'.$fecha,function($excel){
           $excel->sheet('Sheetname',function($sheet){
 

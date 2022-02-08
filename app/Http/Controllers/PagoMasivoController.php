@@ -139,7 +139,6 @@ class PagoMasivoController extends Controller
 
             if (! $this->processData() ) return view('admin.masivos.cargue.index')->with('err', $this->arr_error); 
 
-
             // if no exixst errors return view
                 
             return view('admin.masivos.index')
@@ -804,7 +803,8 @@ class PagoMasivoController extends Controller
        
         $arr[] = $header;
         $arr[] = $datos_prueba; 
-
+        ob_clean();
+        
         Excel::create('pagos_masivos_'.strtotime(Carbon::now()),function($excel) use ($arr){
             
             $excel->sheet('Sheetname',function($sheet) use ($arr){       

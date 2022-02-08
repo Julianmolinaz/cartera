@@ -68,7 +68,7 @@ class ReporteContableController extends Controller
         $rango = $this->getRango($request->daterange);
         $repor_ventas = new Reportes\Terceros($rango->ini, $rango->end);
         $data = $repor_ventas->make(true);
-
+        ob_clean();
         Excel::create('terceros'.$request->daterange,
             function($excel) use($data){
                 $excel->sheet('Sheetname',function($sheet) use($data){
@@ -108,7 +108,8 @@ class ReporteContableController extends Controller
         foreach($data_ as $item) {
             $data[] = collect($item)->toArray();
         }
-          
+
+        ob_clean();
         Excel::create('facturas_proveedor ('.$request->daterange.')',
         
             function($excel) use($data){
@@ -158,6 +159,7 @@ class ReporteContableController extends Controller
             return redirect()->back();
         }
 
+        ob_clean();
         Excel::create('facturas_de_venta_'.$request->daterange,
             function($excel) use($data){
                 $excel->sheet('Sheetname',function($sheet) use($data){
@@ -201,6 +203,7 @@ class ReporteContableController extends Controller
 
         $this->validate($request, ['consecutivo' => 'required']);
 
+        ob_clean();
         Excel::create('compras_'.$request->daterange,
             function($excel) use($data){
                 $excel->sheet('Sheetname',function($sheet) use($data){
@@ -278,6 +281,7 @@ class ReporteContableController extends Controller
                 ->withInput($request->input());
         }
         
+        ob_clean();
         Excel::create('recibos_de_caja_'.$request->daterange,
             function($excel) use($data){
                 $excel->sheet('Sheetname',function($sheet) use($data){

@@ -496,7 +496,7 @@ class EgresoController extends Controller
 
             array_push($array_egresos, $temp);
         }
-
+        ob_clean();
         Excel::create('report',function($excel) use($array_egresos){
             $excel->sheet('Sheetname',function($sheet)use($array_egresos){
                 $sheet->fromArray($array_egresos,null,'A1',false,false);

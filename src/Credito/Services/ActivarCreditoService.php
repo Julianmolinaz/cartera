@@ -157,8 +157,8 @@ class ActivarCreditoService
     protected function generarFechaDePago()
     {
         $fecha = $this->getFechaExpedicionPrimeraFactura();
-
-        $fecha = FechaDePago::calcular(
+        
+        $fecha_ = FechaDePago::calcular(
             $fecha,
             $this->solicitud->periodo, 
             $this->solicitud->p_fecha,
@@ -167,7 +167,7 @@ class ActivarCreditoService
 
         $fechaCobro = Repo\FechaCobrosRepository::saveFechaCobro([
             'credito_id' => $this->credito->id,
-            'fecha_pago' => $fecha
+            'fecha_pago' => $fecha_
         ]);
     }
 

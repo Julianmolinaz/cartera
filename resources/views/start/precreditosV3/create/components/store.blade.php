@@ -20,17 +20,18 @@
                 aprobado: "En estudio",
                 cartera_id: 6,
                 funcionario_id: {!! json_encode(Auth::user()->id) !!},
-                fecha: new Date(Date.now()).toISOString().slice(0, 10)
+                fecha: new Date(Date.now()).toISOString().slice(0, 10),
+                num_fact: "G"
             }),
             credito             : {!! json_encode($credito) !!} || null,
             ventas              : {!! json_encode($ventas) !!} || [], // listado de ventas agregadas a las solicitud venta: { producto: .., vehiculo: ... }
             vehiculos           : [], // listado de vehiculos a clonar
             cliente             : {!! json_encode($cliente) !!},
             permisos            : {
-                'aprobarSolicitud' :  {!! json_encode(Auth::user()->can('aprobar_solicitudes')) !!}
+                'aprobarSolicitud' : {!! json_encode(Auth::user()->can('aprobar_solicitudes')) !!}
             }
         },
-        getters: { 
+        getters: {
             getContinuarASolicitud(state) {
                 return state.continuarASolicitud;
             },

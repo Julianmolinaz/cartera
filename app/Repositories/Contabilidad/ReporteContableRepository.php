@@ -27,6 +27,7 @@ class ReporteContableRepository
         $arr[] = $header;
         $arr[] = $datos_prueba; 
 
+        ob_clean();
         Excel::create('reporte_contable'.strtotime(Carbon::now()),function($excel) use ($arr){
             
             $excel->sheet('Sheetname',function($sheet) use ($arr){       
