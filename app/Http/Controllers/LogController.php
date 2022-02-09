@@ -45,6 +45,7 @@ class LogController extends Controller
             'estado' => 'Activo',
         ];
         if (Auth::attempt($credentials)) {
+	    config()->set('jwt.ttl', 60*24*7);
             $token = JWTAuth::attempt($credentials);
             session(['accessToken' => $token]);
             return redirect()->route('start.inicio.index');

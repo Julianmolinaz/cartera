@@ -307,8 +307,8 @@
             },
             configurarPermisos() {
                 if (this.modo === 'Crear Factura') {
-                    if (this.permisoCrear) { this.showEstado = false; this.showSubmit = true }
-                    else { this.showEstado = false; this.showSubmit = false }
+                    if (this.permisoCrear) this.setPermisos(false, true);
+                    else this.setPermisos(false, false);
                 } 
                 else if (this.modo === 'Editar Factura') {
                     if (this.permisoEditarTotal) {
@@ -323,7 +323,7 @@
                     }
                     else if (this.permisoEditarProceso) {
                         if (this.factura.estado === 'En proceso') {
-                            this.setPermisos(true, true);
+                            this.setPermisos(false, true);
                         } else {
                             this.setPermisos(false, false);
                         }
