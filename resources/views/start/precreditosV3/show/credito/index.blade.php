@@ -36,8 +36,8 @@
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
-            <div class="card-content__subitem-title">Fecha aprobación</div>
-            <div>17-09-2021 09:16:09</div>
+            <div class="card-content__subitem-title">Fecha activacion</div>
+            <div>{{ ddmmyyyyhhmmss($data['credito']->created_at) }}</div>
         </div>
     </div>
     <div class="card-content__item">
