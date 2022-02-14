@@ -9,7 +9,7 @@
         </div>
         <!-- ESTADO FACTURA -->
         <div class="card-content__subitem">
-            <div class="card-content__subitem-title">Estado</div>
+            <div class="card-content__subitem-title">Estado factura</div>
             <div>
                 @if($invoice->estado === 'En proceso')
                     <span class="pg-tag pg-tag--danger">{{ $invoice->estado }}</span>

@@ -8,7 +8,7 @@ class CodeudoresRepository
 {
     public static function findByCliente($clienteId)
     {
-        $codeudor = DB::table('codeudores')
+	$codeudor = DB::table('codeudores')
             ->join('clientes', 'codeudores.id', '=', 'clientes.codeudor_id')
             ->leftJoin('municipios', 'codeudores.municipio_id', '=', 'municipios.id')
             ->leftJoin('municipios as municipios_', 'codeudores.municipioc_id', '=', 'municipios_.id')

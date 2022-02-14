@@ -67,12 +67,13 @@ class ActualizarSolicitudService
         } 
 
         /**
-         * VALIDAR CRÉDITO
+         * VALIDAR CREDITO
          */
-
-        $validarCredito = ValidarCreditoService::make(
-            $this->data['credito']
-        );
+	if (isset($this->data['credito'])) {
+	        $validarCredito = ValidarCreditoService::make(
+        	    $this->data['credito']
+        	);
+	}
 
         if ($validarSolicitud->fails()) {
             $this->errors = array_merge($this->errors, $validarCredito->errors);

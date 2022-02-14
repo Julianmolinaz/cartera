@@ -726,10 +726,12 @@ class CreditoController extends Controller
     function crear_refinanciacion(Request $request)
     {
         $ini = $request->input('p_fecha')+1;
-        $fin = $request->input('s_fecha')-1;
         if($request->input('s_fecha') == ""){
           $fin = 30;
         }
+	else { 
+           $fin = $request->input('s_fecha')-1;
+	}
         if ($request->input('periodo') == 'Quincenal') {
           $s_fecha_quincena = 'required|integer|between:'.$ini.',30';
         }

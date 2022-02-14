@@ -61,7 +61,7 @@ class GetDataPreavisoCentralesService
 
     protected function getDataCodeudor()
     {
-        $codeudor = Repo\CodeudoresRepository::findByCliente($this->cliente->id);
+	$codeudor = Repo\CodeudoresRepository::findByCliente($this->cliente->id);
 
         $data = (object)[
             'fecha' => $this->fecha,
