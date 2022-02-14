@@ -67,7 +67,7 @@ class ActualizarSolicitudService
         } 
 
         /**
-         * VALIDAR CRÉDITO
+         * VALIDAR CREDITO
          */
 	if (isset($this->data['credito'])) {
 	        $validarCredito = ValidarCreditoService::make(
