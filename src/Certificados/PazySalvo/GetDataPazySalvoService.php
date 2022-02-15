@@ -57,9 +57,9 @@ class GetDataPazySalvoService
 
         return (object)[
             'fecha' => $this->fecha,
-            'nombre' => $codeudor->nombre,
-            'tipo_documento' => $codeudor->tipo_doc,
-            'numero_documento' => $codeudor->num_doc,
+            'nombre' => $codeudor->nombrec,
+            'tipo_documento' => $codeudor->tipo_docc,
+            'numero_documento' => $codeudor->num_docc,
             'credito_id' => $this->credito->id
         ];
     }
