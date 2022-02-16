@@ -38,4 +38,16 @@ class ClientesRepository
 
         return $cliente;
     }
+
+    public static function findByCredito($creditoId)
+    {
+        $cliente = DB::table('clientes')
+            ->join('precreditos', 'clientes.id', '=', 'precreditos.cliente_id')
+            ->join('creditos', 'precreditos.id', '=', 'creditos.precredito_id')
+            ->select('clientes.*')
+            ->where('creditos.id', $creditoId)
+            ->first();
+
+        return $cliente;
+    }
 }

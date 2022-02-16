@@ -1,7 +1,6 @@
 class Invoice {
   constructor(payload) {
     this.id = payload.id || "";
-    this.nombre = payload.nombre || "";
     this.estado = payload.estado || "En proceso";
     this.fecha_exp = payload.fecha_exp || "";
     this.costo = payload.costo || "0";

@@ -7,6 +7,7 @@ use DB;
 
 use App\Repositories as Repo;
 use App\Http\Controllers as Ctrl;
+use Src\Utils\FechaDePago;  
 
 
 class ActivarCreditoService
@@ -21,7 +22,7 @@ class ActivarCreditoService
     {
         $this->solicitudId = $dataComision['solicitudId'];
         $this->dataComision = $dataComision;
-        $this->execute();    
+        $this->execute();
     }
 
     public static function make($dataComision)
@@ -32,33 +33,9 @@ class ActivarCreditoService
     protected function execute()
     {
         $this->getSolicitud();
-
-        // VALIDACIONES
-
-        if (! $this->validarPagoPorEstudio() ) {
-            $this->errors[] = "Se requiere el pago de estudio de crédito";
-        }
-
-        if (! $this->validarPagoPorCuotaInicial()) {
-            $this->errors[] = "Se requiere el pago de cuota inicial";
-        }
-
-        if ($this->existeCreditoVigente()) {
-            $this->errors[] = "Existen créditos vigentes para este cliente";
-        }
-
-        if ($this->solicitudNoAprobada()) {
-            $this->errors[] = "La solicitud aun no ha sido aprovada";
-        }
-
-        if ($this->solicitudesVigentes()) {
-            $this->errors[] = "Existen solicitudes vigentes";
-        }
-
-        if ($this->errors) {
-            throw new \Exception("**".json_encode($this->errors), 400);
-        }
-
+        
+        $this->validaciones();
+        
         DB::beginTransaction();
 
         try {
@@ -74,6 +51,37 @@ class ActivarCreditoService
         }
     }
 
+    public function validaciones()
+    {
+        if (! $this->validarPagoPorEstudio() ) {
+            $this->errors[] = "Se requiere el pago de estudio de crédito";
+        }
+
+        if (! $this->validarPagoPorCuotaInicial()) {
+            $this->errors[] = "Se requiere el pago de cuota inicial";
+        }
+
+        if ($this->existeCreditoVigente()) {
+            $this->errors[] = "Existen créditos vigentes para este cliente";
+        }
+
+        if ($this->solicitudNoAprobada()) {
+            $this->errors[] = "La solicitud aun no ha sido aprobada";
+        }
+
+        if ($this->solicitudesVigentes()) {
+            $this->errors[] = "Existen solicitudes vigentes";
+        }
+
+        if (!$this->facturacionExistente()) {
+            $this->errors[] = "No existen facturas registradas para esta solicitud";
+        }
+
+        if ($this->errors) {
+            throw new \Exception("**".json_encode($this->errors), 400);
+        }
+    }
+
     protected function getSolicitud()
     {
         $this->solicitud = Repo\SolicitudRepository::find($this->solicitudId);
@@ -81,7 +89,7 @@ class ActivarCreditoService
 
     protected function validarPagoPorEstudio()
     {
-        if (! $this->solicitud->estudio) return true;
+        if ($this->solicitud->estudio == 'Sin estudio') return true;
         
         $pagos = Repo\PagosSolicitudRepository::getPagosEstudioSolicitud($this->solicitudId);
             
@@ -141,30 +149,42 @@ class ActivarCreditoService
         Repo\ClientesRepository::incrementarNumeroDeCreditos($this->solicitud->cliente_id);
     }
 
+    /**
+     * Se utiliza la fecha de la primera factura como pivote
+     * para generar la fecha de pago inicial
+     */
+
     protected function generarFechaDePago()
     {
-        $fecha_pago = Ctrl\calcularFecha(
-            $this->solicitud->fecha,
+        $fecha = $this->getFechaExpedicionPrimeraFactura();
+        
+        $fecha_ = FechaDePago::calcular(
+            $fecha,
             $this->solicitud->periodo, 
-            1, 
-            $this->solicitud->p_fecha, 
-            $this->solicitud->s_fecha, 
-            true
+            $this->solicitud->p_fecha,
+            $this->solicitud->s_fecha
         );
-
-        $ini = new Carbon($fecha_pago['fecha_ini']);
-        $hoy = Carbon::now();
-
-        if ($ini->diffInDays($hoy) > 7) {
-            $fecha = $ini->format('Y-m-d');
-        } else {
-            $fecha = Ctrl\inv_fech($fecha_pago['fecha_fin']);
-        }
 
         $fechaCobro = Repo\FechaCobrosRepository::saveFechaCobro([
             'credito_id' => $this->credito->id,
-            'fecha_pago' => $fecha
+            'fecha_pago' => $fecha_
         ]);
     }
 
+    protected function getFechaExpedicionPrimeraFactura()
+    {
+        $factura = Repo\FacturasRepository::firstBySolicitud(
+            $this->solicitudId
+        );
+        return $factura->fecha_exp;
+    }
+
+
+    protected function facturacionExistente()
+    {
+        $facturas = Repo\FacturasRepository::facturasBySolicitud($this->solicitud->id);
+    
+        if ($facturas) return true;
+        return false;
+    }
 }

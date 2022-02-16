@@ -162,6 +162,12 @@
                 <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Caja
             </a>
             </li>
+            <li>
+                <a href="{{ route('start.precreditosV3.mis-solicitudes') }}">
+                    <i class="fa fa-tv" aria-hidden="true"></i>
+                    Mis solicitudes
+                </a>
+            </li>
             <li><a href="{{route('admin.users.account')}}" >Mi usuario</a></li>
             <li><a href="{{route('wiki')}}">Wiki-Gofin!</a></li>
             <li><a href="/logout">Salir</a></li>

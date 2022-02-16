@@ -61,21 +61,23 @@ class GetDataPreavisoCentralesService
 
     protected function getDataCodeudor()
     {
-        $codeudor = Repo\CodeudoresRepository::findByCliente($this->cliente->id);
+	$codeudor = Repo\CodeudoresRepository::findByCliente($this->cliente->id);
 
-        return (object)[
+        $data = (object)[
             'fecha' => $this->fecha,
             'credito_id' => $this->credito->id,
-            'nombre' => $codeudor->nombre,
-            'tipo_documento' => $codeudor->tipo_doc,
-            'numero_documento' => $codeudor->num_doc,
-            'telefono' => $codeudor->movil,
-            'municipio' => $codeudor->municipio,
-            'departamento' => $codeudor->departamento,
+            'nombre' => $codeudor->nombre ? $codeudor->nombre : $codeudor->nombrec,
+            'tipo_documento' => $codeudor->tipo_doc ? $codeudor->tipo_doc : $codeudor->tipo_docc,
+            'numero_documento' => $codeudor->num_doc ? $codeudor->num_doc : $codeudor->num_docc,
+            'telefono' => $codeudor->movil ? $codeudor->movil : $codeudor->movilc,
+            'municipio' => $codeudor->municipio ? $codeudor->municipio : $codeudor->municipio_,
+            'departamento' => $codeudor->departamento ? $codeudor->departamento : $codeudor->departamento_,
             'producto' => $this->getProductos(),
             'sanciones' => $this->credito->sanciones_debe,
             'saldo' => $this->credito->saldo,
         ];
+
+        return $data;
     }
 
     protected function getProductos()

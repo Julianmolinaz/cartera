@@ -21,6 +21,7 @@ html {
     --color-dark : #313030;
     --color-light: #ffffff;
     --color-sun: #ffc300;
+    --color-shadow: #f2f2f2;
 }
 
 
@@ -34,8 +35,19 @@ html {
 
 .pg-btn-dark {
     background-color: var(--color-dark);
-    color: var(--color-light);
+    color: var(--color-light) !important;
 }
 .pg-btn-dark:hover {
     color: var(--color-light);
+}
+
+.shadow-row {
+    background-color: var(--color-shadow);
+}
+.my-alert-msg {
+    display: none;
+}
+
+.my-alert-msg--active {
+    display: block;
 }

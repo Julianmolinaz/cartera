@@ -27,7 +27,9 @@ class ActualizarSolicitudService
 
         try {
             $this->actualizarSolicitud();
+
             $this->actualizarVentas();
+
             $this->actualizarCredito();
             
             DB::commit();
@@ -65,17 +67,18 @@ class ActualizarSolicitudService
         } 
 
         /**
-         * VALIDAR CRÉDITO
+         * VALIDAR CREDITO
          */
+	if (isset($this->data['credito'])) {
+	        $validarCredito = ValidarCreditoService::make(
+        	    $this->data['credito']
+        	);
+	}
 
-        $validarCredito = ValidarCreditoService::make(
-            $this->data['credito']
-        );
-        
         if ($validarSolicitud->fails()) {
             $this->errors = array_merge($this->errors, $validarCredito->errors);
         } 
-
+        
         if ($this->errors) {
             throw new \Exception("**".json_encode($this->errors));
         }
@@ -92,13 +95,23 @@ class ActualizarSolicitudService
                 'precredito_id' => $this->solicitud->id
             ];
 
-            if ($venta['producto']['con_vehiculo']) {
-                $vehiculo = $this->actualizarVehiculo($venta['vehiculo']);
+            if ($venta['producto']['con_vehiculo'] && $venta['vehiculo']) {
+                if (isset($venta['vehiculo']['id'])) {
+                    $vehiculo = $this->actualizarVehiculo($venta['vehiculo']);
+                } else {
+                    $vehiculo = $this->salvarVehiculo($venta['vehiculo']);
+                }
                 $dataVenta['vehiculo_id'] = $vehiculo->id;
             }
 
             $this->ventas[] = $this->actualizarVenta($dataVenta);
         }
+    }
+
+    protected function salvarVehiculo($vehiculo)
+    {
+        $vehiculo = RepoVehiculo::saveVehiculo($vehiculo);
+        return $vehiculo;
     }
 
     protected function actualizarVehiculo($vehiculo)
@@ -130,7 +143,7 @@ class ActualizarSolicitudService
 
     protected function actualizarCredito()
     {
-        if ($this->data['credito'] && $this->data['credito']['id']) {
+        if (isset($this->data['credito']['id'])) {
             RepoCredito::updateCredito($this->data['credito'], $this->data['credito']['id']);
         }
     }

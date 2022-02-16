@@ -3,13 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Invoice extends Model
+class Invoice extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     public $timestamps = false;
 
     protected $fillable= [
-        'nombre',
         'estado',
         'fecha_exp',
         'costo',
@@ -17,7 +19,7 @@ class Invoice extends Model
         'num_fact',
         'otros',
         'expedido_a',
-        'Observaciones',
+        'observaciones',
         'venta_id',
         'proveedor_id',
         'precredito_id',

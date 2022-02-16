@@ -9,7 +9,7 @@
             
         <br><hr>
         
-        <form @submit.prevent="onSubmit" class="form-main" autocomplete="off">
+        <form @submit.prevent="" class="form-main" autocomplete="off">
             <div class="row">
                 <!-- ESTADO  -->
                 <div v-bind:class="['form-group','col-md-3',errors.first(rules.estado.name) ? 'has-error' :'']">
@@ -37,6 +37,7 @@
                         v-validate="rules.valor_credito.rule"
                         :name="rules.valor_credito.name"
                     >
+                    <span class="help-block" v-if="credito.valor_credito > 0">$ @{{ credito.valor_credito | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.valor_credito.name) }}</span>
                 </div>
                 <!-- SALDO  -->
@@ -49,6 +50,7 @@
                         v-validate="rules.saldo.rule"
                         :name="rules.saldo.name"
                     >
+                    <span class="help-block" v-if="credito.saldo > 0">$ @{{ credito.saldo | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.saldo.name) }}</span>
                 </div>
                 <!-- CUOTAS FALTANTES  -->
@@ -75,6 +77,7 @@
                         v-validate="rules.rendimiento.rule"
                         :name="rules.rendimiento.name"
                     >
+                    <span class="help-block" v-if="credito.rendimiento > 0">$ @{{ credito.rendimiento | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.rendimiento.name) }}</span>
                 </div>
                 <!-- SALDO A FAVOR -->
@@ -87,6 +90,7 @@
                         v-validate="rules.saldo_favor.rule"
                         :name="rules.saldo_favor.name"
                     >
+                    <span class="help-block" v-if="credito.saldo_favor > 0">$ @{{ credito.saldo_favor | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.saldo_favor.name) }}</span>
                 </div>
                 <!-- CASTIGADA  -->
@@ -113,7 +117,7 @@
                     </label>
                     <input 
                         type="date" 
-                        class="form-control" 
+                        class="form-control my-input-min" 
                         onkeydown="return false" 
                         v-model="credito.fecha_pago"
                         v-validate="rules.fecha_pago.rule"
@@ -168,7 +172,9 @@
                         v-validate="rules.recordatorio.rule"
                         :name="rules.recordatorio.name"
                     ></textarea>
-                    <span class="help-block">@{{ errors.first(rules.recordatorio.name) }}</span>
+                    <span class="help-block">
+                        @{{ errors.first(rules.recordatorio.name) }}
+                    </span>
                 </div>
             </div>
             <div class="row">
@@ -178,10 +184,10 @@
                             <i class="fa fa-backward" aria-hidden="true"></i>
                             Volver
                         </a>
-                        <button class="btn btn-primary">
+                        <a href="javascript:void(0);" class="btn btn-primary" @click="onSubmit">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             Salvar
-                        </button>
+                        </a>
                     </center>
                 </div>
             </div> 
@@ -202,6 +208,14 @@
                 rules: rules_credito
             }
         },
+        computed: {
+            insumos() {
+                return this.$store.state.insumosCredito;
+            },
+            rutaSalida() {
+                return this.$store.getters.getRutaSalida;
+            }
+        },
         methods: {     
             async volver() {
                 if (! await this.validation()) return false; 
@@ -216,14 +230,8 @@
                 return true;
             },
             async onSubmit() {
-                console.log('onSubmit credito');
                 this.$store.dispatch('onSubmit');
             }, 
-        },
-        computed: {
-            insumos() {
-                return this.$store.state.insumosCredito;
-            }
         },
         created() {
             this.credito = this.$store.state.credito;
@@ -242,6 +250,9 @@
     }
     .my-label-min {
         font-size: 12px;
+    }
+    .my-input-min {
+        font-size: 1rem;
     }
 
     @media (max-width: 800px) {

@@ -2,7 +2,19 @@
 	var print = function(factura_id){
 		var route = "{{ url('start/invoice-print') }}/" + factura_id;
 		$.get(route, function(res){
-			console.log(res);
+			print_fact(res);
+		})
+	}
+	var printFactPrecredito = function(factura_id){
+		var route = "{{ url('start/precredito-invoice-print') }}/" + factura_id;
+		$.get(route, function(res){
+			print_fact(res);
+		})
+	}
+
+	var printFactPrecredito = function(factura_id){
+		var route = "{{ url('start/precredito-invoice-print') }}/" + factura_id;
+		$.get(route, function(res){
 			print_fact(res);
 		})
 	}
@@ -12,7 +24,9 @@
 		printed.document.write(str);
 		printed.document.close();
 		printed.print();
-		printed.close();
+        setTimeout(() => {
+            printed.close();
+        }, 1000);
 	}
 
 	//muestra detalle de factura

@@ -3,15 +3,21 @@
 namespace Src\Credito\Services;
 
 use App\Repositories as Repo;
+use DateTime;
 
 class ConsultarCreditoService
 {
     public $data;
     public $credito;
+    public $solicitudId;
+    public $anio = null;
+    public $mes = null;
     
     private function __construct($solicitudId)
     {
+        $this->solicitudId = $solicitudId;
         $this->credito = $this->getCredito($solicitudId);
+        $this->getPrimeraFactura();
 
         $this->data = [
             'cliente' => $this->getCliente($solicitudId),
@@ -25,14 +31,18 @@ class ConsultarCreditoService
             'debe_pagos' => $this->getDebePagosParciales(),
             'total_pagos' => $this->getTotalPagosCredito(),
             'total_descuentos' => $this->getTotalDescuentosCredito(),
+            'pagos_solicitud' => $this->getPagosSolicitud($solicitudId),
+            'pagos_credito' => $this->getPagosCredito(),
+            'llamadas' => $this->getLlamadasCredito(),
         ];
-
     }
+
 
     public static function make($solicitudId)
     {
         return new self($solicitudId);
     }
+
 
     protected function getSolicitud($solicitudId) 
     {
@@ -40,10 +50,10 @@ class ConsultarCreditoService
         return $solicitud;
     }
 
+
     protected function getCredito($solicitudId)
     {
         $credito = Repo\CreditoRepository::findBySolicitud($solicitudId);
-
         return $credito;
     }
 
@@ -51,13 +61,16 @@ class ConsultarCreditoService
      * Retorna la venta con producto y vehiculo
      */
     protected function getVentas($solicitudId) {
-        $ventas = Repo\VentasRepository::findBySolicitud($solicitudId);
+        $ventas = Repo\VentasRepository::findBySolicitudWithInvoices($solicitudId);
         return $ventas;
     }
+
 
     protected function getMeses()
     {
         $currentMonth = currentMonth();
+
+        if ($this->mes) $currentMonth = $this->mes;
 
         $meses = [
             [
@@ -114,9 +127,24 @@ class ConsultarCreditoService
         return $meses;
     }
 
+    protected function getPrimeraFactura()
+    {
+        $factura = Repo\FacturasRepository::firstBySolicitud(
+            $this->solicitudId
+        );
+
+        if ($factura) {
+            $fechaExp = $factura->fecha_exp;
+            $dateFechaExp = new DateTime($fechaExp);
+            $this->mes = $dateFechaExp->format("m");
+            $this->anio = $dateFechaExp->format("Y");
+        }
+    }
+
     protected function getAnos()
     {
         $currentYear = currentYear();
+        if ($this->anio) $currentYear = $this->anio;
 
         return [
             [
@@ -129,59 +157,78 @@ class ConsultarCreditoService
         ];
     }
 
+
     protected function getJuridicos()
     {
         if (!$this->credito) return [];
 
-        $juridico = Repo\ExtrasRepository::getJuridicoDebeByCredito($this->credito->id);
+        $juridico = Repo\ExtrasRepository::getJuridicoDebeByCredito(
+            $this->credito->id
+        );
 
         if (! $juridico) return ['total' => 0, 'debe' => 0];
 
-        $pagoJuridico = Repo\ExtrasRepository::getPagosJuridicoDebe($this->credito->id);
+        $pagoJuridico = Repo\ExtrasRepository::getPagosJuridicoDebe(
+            $this->credito->id
+        );
 
         if ($pagoJuridico) return ['total' => $juridico->valor, 'debe' => $pagoJuridico->debe];
 
         return ['total' => $juridico->valor, 'debe' => $juridico->valor];
     }
 
+
     protected function getPrejuridicos()
     {
         if (!$this->credito) return [];
 
-        $prejuridico = Repo\ExtrasRepository::getPrejuridicoDebeByCredito($this->credito->id);
+        $prejuridico = Repo\ExtrasRepository::getPrejuridicoDebeByCredito(
+            $this->credito->id
+        );
 
         if (! $prejuridico) return ['total' => 0, 'debe' => 0];
 
-        $pagoJuridico = Repo\ExtrasRepository::getPagosPrejuridicoDebe($this->credito->id);
+        $pagoJuridico = Repo\ExtrasRepository::getPagosPrejuridicoDebe(
+            $this->credito->id
+        );
 
         if ($pagoJuridico) return ['total' => $prejuridico->valor, 'debe' => $pagoJuridico->debe];
 
         return ['total' => $prejuridico->valor, 'debe' => $prejuridico->valor];
     }
 
+
     protected function getDebePagosParciales()
     {
         if (!$this->credito) return [];
 
-        $pago = Repo\PagosCreditoRepository::cuotaParcialDebe($this->credito->id);
+        $pago = Repo\PagosCreditoRepository::cuotaParcialDebe(
+            $this->credito->id
+        );
 
         return $pago ? $pago->debe : 0;
     }
+
 
     protected function getTotalPagosCredito()
     {
         if (!$this->credito) return [];
 
-        $totalPagos = Repo\PagosCreditoRepository::totalPagosByCredito($this->credito->id);
+        $totalPagos = Repo\PagosCreditoRepository::totalPagosByCredito(
+            $this->credito->id
+        );
 
         return $totalPagos ? $totalPagos : 0;
     }
+
 
     protected function getTotalDescuentosCredito()
     {
         if (!$this->credito) return [];
 
-        $totalDescuentos = Repo\PagosCreditoRepository::totalDescuentosByCredito($this->credito->id);
+        $totalDescuentos = Repo\PagosCreditoRepository::totalDescuentosByCredito(
+            $this->credito->id
+        );
 
         return $totalDescuentos ? $totalDescuentos : 0;
     }
@@ -189,7 +236,43 @@ class ConsultarCreditoService
     protected function getCliente($solicitudId)
     {
         $cliente = Repo\ClientesRepository::findBySolicitud($solicitudId);
-
         return $cliente;
+    }
+
+
+    protected function getPagosSolicitud($solicitudId)
+    {    
+        $pagos = Repo\PagosSolicitudRepository::getPagosBySolicitud(
+            $solicitudId
+        );
+        return $pagos;
+    }
+
+
+    protected function getPagosCredito()
+    {
+        $pagos = [];
+
+        if ($this->credito) {
+            $pagos = Repo\PagosCreditoRepository::pagosByCredito(
+                $this->credito->id
+            );
+        } 
+
+        return $pagos;
+    }
+
+    protected function getLlamadasCredito()
+    {
+        $llamadas = [];
+
+        if ($this->credito) {
+            $llamadas = Repo\LlamadasRepository::llamadasByCredito(
+                $this->credito->id
+            );
+        }
+
+        return $llamadas;
+
     }
 }

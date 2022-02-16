@@ -4,6 +4,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use Src\Facturacion\CrearFacturaService;
+
 class CrearFacturaServiceTest extends TestCase
 {
     /**
@@ -13,7 +15,11 @@ class CrearFacturaServiceTest extends TestCase
      */
     public function testExample()
     {
-        
+        $data  = $this->mockFactura();
+        $useCase = new CrearFacturaService($data);
+        $factura = $useCase->execute();
+
+        \DB::table('invoices')->where('id', $factura->id)->delete();
 
         $this->assertTrue(true);
     }
@@ -21,8 +27,6 @@ class CrearFacturaServiceTest extends TestCase
     public function mockFactura()
     {
         return array (
-            'id' => '',
-            'nombre' => 'SOAT',
             'estado' => 'En proceso',
             'fecha_exp' => '2022-01-20',
             'costo' => '42352342',

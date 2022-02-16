@@ -2,7 +2,7 @@
     <form @submit.prevent="" autocomplete="off">
         
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" style="border-bottom: 1px solid #dddddd; margin-bottom: 30px; padding-bottom: 10px;">
                 <!-- PRODUCTO -->
                 <div v-bind:class="['form-group','col-md-4',errors.first(rules.producto.name) ? 'has-error' :'']">
                     <label for="">Producto @{{ rules.producto.required }}<span></span></label>  
@@ -28,8 +28,10 @@
                         v-validate="rules.cantidad.rule"
                         :name="rules.cantidad.name"
                     >
-                        <option :value="cantidad" 
-                            v-for="cantidad in listCantidades">
+                        <option 
+                            :value="cantidad" 
+                            v-for="cantidad in listCantidades"
+                        >
                             @{{ cantidad }}
                         </option>
                     </select>
@@ -52,14 +54,11 @@
             <div class="row">
                 <div class="col-md-12" style="margin-top:20px;">
                     <center>
-                        <a class="btn btn-default" href="">
-                            <i class="fa fa-paper-plane" aria-hidden="true"></i>Salir
-                        </a>
                         <button class="btn btn-primary" @click="onSubmit">
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>Salvar
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i> Salvar
                         </button>
                         <button type="submit" class="btn btn-default" @click="continuar">
-                            <i class="fa fa-forward" aria-hidden="true"></i>Continuar
+                            <i class="fa fa-forward" aria-hidden="true"></i> Continuar
                         </button>
                     </center>
                 </div>  
@@ -78,6 +77,7 @@
         template: '#ventas-template',
         data() {
             return {
+                idx: 1,
                 cantidad: 1,
                 max_cantidad: 6,
                 productoSelected: '',
@@ -92,7 +92,7 @@
                 });
             },
             eliminarProducto(index) {
-               this.$store.dispatch("eliminarVenta");
+               this.$store.dispatch("eliminarVenta", index);
             },
             isNotValid() {
                 let result = false;
@@ -120,12 +120,29 @@
                         this.$store.commit('setVentas', this.ventas);
                         $('.nav-tabs a[href="#solicitud"]').tab('show');
                     } else {
-                        alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
+                        alertify.notify(
+                            'Por favor complete los campos',
+                            'error',
+                            5, 
+                            () => {}
+                        );
                     }
                 }, 1000);
             },
             onSubmit() {
-                return this.$store.dispatch('onSubmit');
+                this.$store.commit('setPermitirSalvar', true);
+
+                Bus.$emit('validarVehiculo');
+
+                setTimeout(() => {
+                    if (this.$store.getters.getPermitirSalvar) {
+                        this.$store.commit('setVentas', this.ventas);
+                        this.$store.dispatch('onSubmit');
+                    } else {
+                        alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
+                    }
+                }, 1000);
+
             } 
         },
         computed: {

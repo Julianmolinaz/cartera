@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Request\LogRequest;
 
 use App\Http\Requests;
+use JWTAuth;
 
 class LogController extends Controller
 {
@@ -38,12 +39,15 @@ class LogController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::attempt($data=[
+        $credentials = [
             'email' => $request->input('email'),
             'password' => $request->input('password'),
             'estado' => 'Activo',
-            ])) 
-        {
+        ];
+        if (Auth::attempt($credentials)) {
+	    config()->set('jwt.ttl', 60*24*7);
+            $token = JWTAuth::attempt($credentials);
+            session(['accessToken' => $token]);
             return redirect()->route('start.inicio.index');
         }
         flash()->error('Datos incorrectos');

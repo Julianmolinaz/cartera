@@ -17,25 +17,29 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($precredito->pagos as $pago)
-                    <tr>
-                    <td>{{ $pago->factura->num_fact }}</td>
-                    <td>{{ $pago->id }}</td>
-                    <td>{{ $pago->factura->fecha }}</td>
-                    <td>{{ $pago->concepto->nombre }}</td>
-                    <td>{{ $pago->user_create->name }}</td>
-                    <td>{{ $pago->created_at }}</td>
-                    <td>
-                        <a href="{{ route('start.precred_pagos.show', $pago->factura->id) }}"
-                        class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-eye-open"></span>
-                        </a>
-                        <a href="#" class='btn btn-default btn-xs' @click="print('{{$pago->factura->id}}')">
+                    @foreach($precredito->pagos as $pago)
+                        <tr>
+                        <td>{{ $pago->factura->num_fact }}</td>
+                        <td>{{ $pago->id }}</td>
+                        <td>{{ $pago->factura->fecha }}</td>
+                        <td>{{ $pago->concepto->nombre }}</td>
+                        <td>{{ $pago->user_create->name }}</td>
+                        <td>{{ $pago->created_at }}</td>
+                        <td>
+                            <a href="{{ route('start.precred_pagos.show', $pago->factura->id) }}"
+                            class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                            <a 
+                                href="javascript:void(0);"
+                                class='btn btn-default btn-xs'
+                                onclick="printFactPrecredito('{{$pago->factura->id}}')"
+                            >
                                 <span class = "glyphicon glyphicon-print" title="Imprimir"></span>
                             </a>
-                    </td>
-                    </tr>
-                @endforeach
+                        </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

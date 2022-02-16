@@ -158,7 +158,7 @@ class ReporteController extends Controller
         //VENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOS
         //VENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOSVENTACREDITOS
 
-        else if($request->input('tipo_reporte') == 'venta_creditos'){
+        else if($request->input('tipo_reporte') == 'venta_creditos') {
 
             $reporte = reporte_venta_creditos( $fecha_1, $fecha_2 );
 
@@ -502,7 +502,7 @@ class ReporteController extends Controller
      {
         $now            = Carbon::now();
         $fecha          = $now->toDateTimeString();
-
+        ob_clean();
         Excel::create('morosos'.$fecha,function($excel){
             $excel->sheet('Sheetname',function($sheet){
                 $morosos =  $this->get_morosos();
@@ -559,8 +559,9 @@ class ReporteController extends Controller
      * @return dos archivos xls almacenados en el storage
      */
 
-    public function ventas(){
-
+    public function ventas() 
+    {
+        ob_clean();
         Excel::create('reporte_detallado_ventas-'.Carbon::now(),function($excel){
 
             $excel->sheet('Sheetname',function($sheet){
@@ -576,19 +577,20 @@ class ReporteController extends Controller
             });
         })->store('xls', storage_path('0-detalleVentas'));
 
-        Excel::create('reporte_ventas_carteras-'.Carbon::now(),function($excel){
+        // comentado el 06022022
+        // Excel::create('reporte_ventas_carteras-'.Carbon::now(),function($excel){
 
-            $excel->sheet('Sheetname',function($sheet){
-                $reporte = reporte_venta_creditos($this->fecha_1, $this->fecha_2);
-                $carteras = $reporte['carteras'];
-                $array = array();
+        //     $excel->sheet('Sheetname',function($sheet){
+        //         $reporte = reporte_venta_creditos($this->fecha_1, $this->fecha_2);
+        //         $carteras = $reporte['carteras'];
+        //         $array = array();
 
-                for($i = 0; $i < count($carteras) ; $i++){
-                    $array[$i] = (array)$carteras[$i];
-                }
-                $sheet->fromArray($array);
-            });
-        })->store('xls', storage_path('1-ventasCarteras'));   
+        //         for($i = 0; $i < count($carteras) ; $i++){
+        //             $array[$i] = (array)$carteras[$i];
+        //         }
+        //         $sheet->fromArray($array);
+        //     });
+        // })->store('xls', storage_path('1-ventasCarteras'));   
     }
 
     public function descargarDetalladoVentas($reporte){

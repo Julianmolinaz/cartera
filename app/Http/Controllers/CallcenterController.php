@@ -117,7 +117,8 @@ class CallcenterController extends Controller
        
         return view('start.callcenter.list_todos')
             ->with('creditos',$creditos)
-            ->with('criterios',$criterios);
+            ->with('criterios',$criterios)
+            ->with('precredito', null);
     }
 
     public function list_morosos(){
@@ -170,8 +171,8 @@ class CallcenterController extends Controller
                 creditos.estado             as estado,
                 clientes.nombre             as cliente,
                 clientes.num_doc            as doc,
-                clientes.ocupacion          as ocupacion,
-                clientes.tipo_actividad     as actividad,
+		        clientes.ocupacion          as ocupacion,
+		        clientes.tipo_actividad     as actividad,
                 fecha_cobros.fecha_pago     as fecha_pago,
                 users.name                  as funcionario,
                 llamadas.agenda             as agenda'))
@@ -258,6 +259,10 @@ class CallcenterController extends Controller
     {
         
         $credito = Credito::find($id);
+
+        if ($credito->precredito->version === '3') {
+            return redirect()->route('start.precreditosV3.show', $credito->precredito_id);
+        }
 
         $sum_sanciones = DB::table('sanciones')->where([['credito_id','=',$id],['estado','Debe']])->sum('valor');
         if($sum_sanciones == 'null'){ $sum_sanciones = 0; }
@@ -443,7 +448,7 @@ class CallcenterController extends Controller
             $this->exp_todos = $todos;
             $now            = Carbon::now();
             $fecha          = $now->toDateTimeString();
-            
+            ob_clean();
             Excel::create('CreditosCallCenter'.$fecha,function($excel){
                 $excel->sheet('Sheetname',function($sheet){
 
@@ -618,7 +623,7 @@ class CallcenterController extends Controller
         {
             $now            = Carbon::now();
             $fecha          = $now->toDateTimeString();
-
+            ob_clean();
             Excel::create('SoatCallCenter'.$fecha,function($excel){
                 $excel->sheet('Sheetname',function($sheet){
                     

@@ -40,11 +40,13 @@
         })
       },//.print
       print_html(str){
-				var printed = window.open('','Print-Window');
-				printed.document.write(str);
-				printed.document.close();
-				printed.print();
-				printed.close();
+            var printed = window.open('','Print-Window');
+            printed.document.write(str);
+            printed.document.close();
+            printed.print();
+            setTimeout(() => {
+                printed.close();
+            }, 1000);
       }//.print_html
     }
   });

@@ -12,12 +12,12 @@ class ValidarVentasService
     {
         $this->ventas = $ventas;
 
+        $this->validarNumeroMinimoDeProductos();
+
         $counter = 1;
 
         foreach ($this->ventas as $venta) {
-            $this->validarProducto(
-                $venta['producto'], $counter
-            );
+            $this->validarProducto($venta['producto'], $counter);
 
             if ($venta['producto']['con_vehiculo']) {
                 $this->validarVehiculo($venta['vehiculo'], $counter);
@@ -37,6 +37,13 @@ class ValidarVentasService
         if ($this->errors) return true;
         
         return false;
+    }
+
+    protected function validarNumeroMinimoDeProductos()
+    {
+        if (!$this->ventas) {
+            throw new \Exception("Se requiere agregar por lo menos un producto", 400);
+        }
     }
 
     protected function validarProducto($producto, $counter)
@@ -64,7 +71,7 @@ class ValidarVentasService
             'cilindraje' => 'required',
         ], [
             'tipo_vehiculo_id.required' => "El tipo de vehículo es requerido para el producto $counter",
-            'placa.required' => "La placa es requerida para el vehiculo $counter",
+            'placa.required' => "La placa es requerida para el vehiculo del producto $counter",
             'vencimiento_soat.required' => "El vencimiento del SOAT es requerido para el producto $counter",
             'vencimiento_rtm.required' => "El vencimiento del RTM es requerido para el producto $counter",
             'modelo.required' => "El modelo es requerido para el producto $counter",

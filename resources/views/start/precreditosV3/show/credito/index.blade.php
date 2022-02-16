@@ -1,107 +1,12 @@
- <div class="card-header">
+@php $creditoId = $data['credito']->id;
+        $credito = $data['credito'];
+@endphp 
+ 
+ <div class="card-header {{($data['credito'] && $data['credito']->credito_padre) ? 'card-header--sky' : ''}}">
     <div class="card-title">Credito ={{ $credito->id }}</div>
     <div class="card-menu">
-        <a 
-            href="{{ route('start.precreditosV3.edit', $solicitud->id) }}"
-            class='btn btn-default btn-xs my-btn'
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Editar crédito"
-        >
-            <span class="glyphicon glyphicon-pencil"></span>
-        </a>
-        <a 	href="{{route('start.facturas.create',$credito->id)}}" 
-            class='btn btn-default btn-xs my-btn'
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Hacer Pago"
-        >
-            <span class="glyphicon glyphicon-usd"></span>
-        </a>
-        <a 
-            href="{{route('admin.sanciones.show',$creditoId)}}" 
-            class='btn btn-default btn-xs my-btn' 
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Sanciones diarias"
-        >
-            <span class="glyphicon glyphicon-record"></span>
-        </a>
-        <a  
-            href="{{route('admin.multas.show',$creditoId)}}" 
-            class='btn btn-default btn-xs my-btn' 
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Multas prejuridicas y juridicas"
-        >
-            <span class="glyphicon glyphicon-hourglass"></span>
-        </a>
-        <a
-            href="{{route('start.creditos.refinanciar',$data['solicitud']['id'])}}"
-            class="btn btn-default btn-xs my-btn"
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Refinanciar crédito"
-        >
-            <i class="fa fa-reply-all" aria-hidden="true"></i>
-        </a>
-        <a
-            href="javascript:void(0);"
-            onclick="showAcuerdo()"
-            class="btn btn-default btn-xs my-btn"
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Acuerdos de pago"
-        >
-            <span class="glyphicon glyphicon-calendar"></span>
-        </a>
-        <a 
-            href="{{route('call.index_unique',$creditoId)}}"
-		    class='btn btn-default btn-xs my-btn'
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Call Center"
-        >
-            <span class = "glyphicon glyphicon-phone-alt"></span>
-        </a>				
-        <a 
-            href="javascript:void(0);"
-            onclick="showModalCertificados()"
-            class='btn btn-default btn-xs my-btn'  
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Certificados"
-        >
-            <span class = "glyphicon glyphicon-file">
-        </a>
-        <a 
-            href="{{route('admin.get_estado_cuenta',$data['credito']->id)}}"
-            class='btn btn-default btn-xs my-btn'
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Estado de cuenta"
-        >
-            <span><i class="fab fa-laravel"></i></span>
-        </a>
-        <a 
-            href="{{ route('admin.anotaciones.index', $credito->id) }}"
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Procesos jurídicos"
-            class="btn btn-default btn-xs my-btn"
-        >
-            <i class="fas fa-gavel"></i>
-        </a>
-        <a 
-            href="{{route('start.creditos.destroy',$data['credito']->id)}}"
-            class="btn btn-default btn-xs my-btn"
-            onclick="return confirm('¿Esta seguro de eliminar el crédito?')" 
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Eliminar Crédito"
-        >
-            <span class="glyphicon glyphicon-trash"></span>
-        </a>        
+        <!-- ACCIONES -->
+       @include('start.precreditosV3.show.credito.acciones')
     </div>
 </div>
 <div class="card-content">
@@ -118,7 +23,7 @@
                             $data['credito']->estado === 'Juridico'
                         ) ? 'pg-tag--danger' : 'pg-tag--default')
                     }}">
-                    {{ $data['credito']->estado }}
+                    {{ $credito->estado }}
                 </span>
             </div>
         </div>
@@ -131,8 +36,8 @@
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
-            <div class="card-content__subitem-title">Fecha aprobación</div>
-            <div>17-09-2021 09:16:09</div>
+            <div class="card-content__subitem-title">Fecha activacion</div>
+            <div>{{ ddmmyyyyhhmmss($data['credito']->created_at) }}</div>
         </div>
     </div>
     <div class="card-content__item">
@@ -140,7 +45,18 @@
             <div class="card-content__subitem-title">
                 <i class="far fa-calendar-alt"></i> Fecha de pago
             </div>
-            <div style="font-weight:900">{{ ddmmyyyy($data['credito']->fecha_pago) }}</div>
+            <div>
+                <span  style="font-weight:900">{{ ddmmyyyy($data['credito']->fecha_pago) }}</span>
+                @permission('editar_fecha_pago')
+                <a
+                    href="javascript:void(0);"
+                    onclick="editFechaPago(
+                        '{{ $credito->fecha_pago }}', 
+                        {{ $credito->id }}
+                    )"
+                >edit</a>
+                @endpermission
+            </div>
         </div>
     </div>
     <div class="card-content__item">
@@ -167,22 +83,28 @@
             <div>{{ $data['credito']->cuotas_faltantes .' de ' .$data['solicitud']['cuotas']}}</div>
         </div>
     </div>
-    @if($data['credito']->credito_padre)
+    @if($credito->credito_padre)
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Credito padre</div>
                 <div>
-                    <a href="#" class="btn btn-default">{{ $data['credito']->credito_padre }}</a>
+                    <a
+                        href="{{ route('start.v3.creditos.show', $credito->credito_padre) }}"
+                        class="btn btn-default"
+                    >{{ $credito->credito_padre }}</a>
                 </div>
             </div>
         </div>
     @endif
-    @if($data['credito']->credito_hijo)
+    @if($credito->credito_hijo)
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Credito hijo</div>
                 <div>
-                    <a href="#" class="btn btn-default">{{ $data['credito']->credito_hijo }}</a>
+                    <a 
+                        href="{{ route('start.v3.creditos.show', $credito->credito_hijo) }}"
+                        class="btn btn-default">{{ $credito->credito_hijo }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -197,13 +119,13 @@
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Jurídico</div>
-                <div>Debe {{ $data['juridico']['debe'] }} de {{ $data['juridico']['total'] }}</div>
+                <div>Debe {{ decimal($data['juridico']['debe']) }} de {{ decimal($data['juridico']['total']) }}</div>
             </div>
         </div>
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Prejurídico</div>
-                <div>Debe {{ $data['prejuridico']['debe'] }} de {{ $data['prejuridico']['total'] }}</div>
+                <div>Debe {{ decimal($data['prejuridico']['debe']) }} de {{ decimal($data['prejuridico']['total']) }}</div>
             </div>
         </div>
         <div class="card-content__item">
@@ -212,15 +134,15 @@
                 <div class="sanciones-content">
                     <div class="sanciones-item">
                         <span class="sanciones-concept">Debe</span>
-                        <span>{{ $data['credito']->sanciones_debe }}</span>
+                        <span>{{ decimal($data['credito']->sanciones_debe) }}</span>
                     </div>
                     <div class="sanciones-item">
                         <span class="sanciones-concept">Ok</span>
-                        <span>{{ $data['credito']->sanciones_ok }}</span>
+                        <span>{{ decimal($data['credito']->sanciones_ok) }}</span>
                     </div>
                     <div class="sanciones-item">
                         <span class="sanciones-concept">Exoneradas</span>
-                        <span>{{ $data['credito']->sanciones_exoneradas }}</span>
+                        <span>{{ decimal($data['credito']->sanciones_exoneradas) }}</span>
                     </div>
                 </div>
             </div>
@@ -228,20 +150,20 @@
         <div class="card-content__item">
             <div class="card-content__subitem-line">
                 <div class="card-content__subitem-title">Debe de pagos parciales</div>
-                <div>$ {{ $data['debe_pagos'] }}</div>
+                <div>$ {{ decimal($data['debe_pagos']) }}</div>
             </div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Descuentos</div>
-            <div>$ {{ $data['total_descuentos'] }}</div>
+            <div>$ {{ decimal($data['total_descuentos']) }}</div>
         </div>
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem-line">
             <div class="card-content__subitem-title">Total pagos</div>
-            <div>$ {{ $data['total_pagos'] }}</div>
+            <div>$ {{ decimal($data['total_pagos']) }}</div>
         </div>
     </div>
     <div class="card-content__item">
@@ -276,6 +198,8 @@
 
 @include('start.precreditos.acuerdos.index')
 @include('start.precreditos.certificados.modal-certificados')
+
+@include('start.precreditosV3.show.actions.edit_fecha_pago')
 
 <script>
     function showAcuerdo() {

@@ -14,8 +14,9 @@ class Time
         // return $this;
     }
 
-    public static function create()
+    public static function create($dateYmd)
     {
+        self::$value = new Carbon($dateYmd);
         return self::$value;
     }
 
@@ -25,10 +26,16 @@ class Time
         return self::$value;
     }
 
-
     public static function format($format)
     {
         self::$value = self::$value->format($format);
         return self;
     }
+
+    public static function addYear()
+    {
+        self::$value = self::$value->addYear();
+        return self::$value;
+    }
+
 }

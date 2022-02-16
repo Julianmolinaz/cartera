@@ -2,14 +2,17 @@
 
 namespace App\Repositories;
 use App\Precredito as Solicitud;
+use Auth;
 use DB;
 
 class SolicitudRepository
 {
+
     public static function saveSolicitud($data)
     {
         $solicitud = new Solicitud();
         $solicitud->fill($data);
+        $solicitud->user_create_id = Auth::user()->id;
         $solicitud->save();
 
         return $solicitud;
@@ -31,7 +34,7 @@ class SolicitudRepository
 
     public static function findByNumFact($numFact)
     {
-        return DB::table('precreditos')->where('numFact', $numFact)->get();
+        return DB::table('precreditos')->where('num_fact', $numFact)->get();
     }
 
     public static function findByNumFactDiffId($numFact, $solicitudId)
@@ -51,6 +54,7 @@ class SolicitudRepository
             ->leftJoin("creditos", "precreditos.id", "=", "creditos.precredito_id")
             ->where("clientes.id", "=", $clienteId)
             ->where("aprobado", "Si")
+            ->whereNull("creditos.id")
             ->select("precreditos.*", "creditos.estado as credito_estado")
             ->get();
         
@@ -77,7 +81,7 @@ class SolicitudRepository
         $solicitud->fill($dataSolicitud);
 
         if ($solicitud->isDirty()) {
-            $solicitud->user_update_id = 1;
+            $solicitud->user_update_id = Auth::user()->id;
             $solicitud->save();
         }
 
@@ -98,4 +102,28 @@ class SolicitudRepository
 
         return $solicitud;
     }
+
+    public static function updateAprobacion($opcion, $solicitudId)
+    {
+        $solicitud = Solicitud::find($solicitudId);
+        $solicitud->aprobado = $opcion;
+        
+        if ($solicitud->isDirty()) {
+            $solicitud->user_update_id = Auth::user()->id;
+            $solicitud->save();
+        }
+
+        return $solicitud;
+    }
+
+    public static function pendientes($userId)
+    {
+        $solicitudes = DB::table('precreditos')
+            ->where('user_create_id', $userId)
+            ->where('aprobado', 'En estudio')
+            ->get();
+
+        return $solicitudes;
+    }
+
 }

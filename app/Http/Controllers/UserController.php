@@ -18,11 +18,6 @@ class UserController extends Controller
     }
 
     
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $users = User::where('id','<>','1')
@@ -30,15 +25,10 @@ class UserController extends Controller
             ->get();
 
         return view('admin.users.index')
-            ->with('users',$users);
-            
+            ->with('users',$users);       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $roles = \App\Role::orderBy('name')->get();
@@ -55,12 +45,7 @@ class UserController extends Controller
                 ->with('roles',$roles);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {        
 

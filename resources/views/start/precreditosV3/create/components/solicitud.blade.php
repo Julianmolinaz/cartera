@@ -3,16 +3,25 @@
         <form @submit.prevent="" autocomplete="off">
             <div class="row">
                 <!-- APROBADO  -->
-                <div v-bind:class="['form-group','col-md-2',errors.first(rules.aprobado.name) ? 'has-error' :'']">
+                <div 
+                    v-if="$store.state.permisos.aprobarSolicitud"
+                    v-bind:class="['form-group','col-md-2',errors.first(rules.aprobado.name) ? 'has-error' :'']"
+                >
                     <label for="">Aprobado @{{ rules.aprobado.required }}</label>
-                    <select :name="rules.aprobado.name" 
+                    <select 
+                        :name="rules.aprobado.name" 
                         class="form-control" 
                         v-model="solicitud.aprobado"
-                        v-validate="rules.aprobado.rule">
+                        v-validate="rules.aprobado.rule"
+                        :disabled="
+                            $store.state.modo === 'Crear Solicitud' ||
+                            ($store.state.modo === 'Editar Solicitud' && !$store.state.credito)
+                        "
+                    >
                         <option selected disabled>--</option>  
                         <option v-for="estado in data.estados_aprobacion">
-                            @{{estado}}
-                        </option>  
+                            @{{ estado }}
+                        </option>
                     </select>
                     <span class="help-block">@{{ errors.first(rules.aprobado.name) }}</span>
                 </div>
@@ -32,7 +41,7 @@
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.fecha_solicitud.name) ? 'has-error' :'']">
                     <label for="">Fecha Solicitud  @{{ rules.fecha_solicitud.required }}</label>
                     <input type="date" 
-                        class="form-control my-input" 
+                        class="form-control my-input my-input-min" 
                         v-model="solicitud.fecha"
                         onkeydown="return false"
                         v-validate="rules.fecha_solicitud.rule"
@@ -341,10 +350,22 @@
         created() {
             this.solicitud = this.$store.state.solicitud;
 
-            if (this.$store.state.modo === 'Editar Solicitud') {
+            if (this.$store.state.modo !== 'Crear Solicitud') {
                 this.setup();
                 this.setRango2();
             }
         }
     });
 </script>
+
+<style scoped>
+    .my-input-min {
+        font-size: 1rem;
+    }
+
+    @media (max-width: 800px) {
+        .my-input-min {
+            font-size: 1.4rem !important;
+        }
+    }
+</style>

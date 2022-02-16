@@ -8,7 +8,7 @@
                     <!-- DATOS DEL VEHICULO  -->                    
                     <div class="form-group col-md-12" style="margin-left:15px;">
                         <h4 style="display:inline-block; margin-right:10px;">
-                            Vehículo @{{ index }}:
+                            Vehículo:
                         </h4>
                     </div>
                 </div>
@@ -38,38 +38,40 @@
                             </div> 
                             <!-- PLACA  -->
                             <div 
-                                v-bind:class="['form-group','col-md-2',errors.first(rules.placa.name + '' + index) ? 'has-error' :'']"
+                                v-bind:class="['form-group','col-md-2',errors.first(rules.placa.name + ' ' + index) ? 'has-error' :'']"
                             >
                                 <label for="">Placa @{{ rules.placa.required }}</label>  
-                                <input class="form-control" 
+                                <input 
+                                    class="form-control" 
                                     v-model="vehiculo.placa"
                                     v-validate="rules.placa.rule"
-                                    :name="rules.placa.name + '' + index"
-                                    >
-                                <span class="help-block">@{{ errors.first(rules.placa.name + '' + index) }}</span>
+                                    :name="rules.placa.name + ' ' + index"
+                                    @keyup="placaToUpperCasse"
+                                >
+                                <span class="help-block">@{{ errors.first(rules.placa.name + ' ' + index) }}</span>
                             </div> 
                             <!-- MODELO  -->
-                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.modelo.name + '' + index) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.modelo.name + ' ' + index) ? 'has-error' :'']">
                                 <label for="">Modelo @{{ rules.modelo.required }}</label>
                                 <input class="form-control"
                                     v-model="vehiculo.modelo"
                                     v-validate="rules.modelo.rule"
-                                    :name="rules.modelo.name + '' + index"
+                                    :name="rules.modelo.name + ' ' + index"
                                     >   
-                                <span class="help-block">@{{ errors.first(rules.modelo.name + '' + index) }}</span>           
+                                <span class="help-block">@{{ errors.first(rules.modelo.name + ' ' + index) }}</span>           
                             </div>
                             <!-- CILINDRAJE  -->
-                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.cilindraje.name + '' + index) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.cilindraje.name + ' ' + index) ? 'has-error' :'']">
                                 <label for="">Cilindraje @{{ rules.cilindraje.required }}</label>
                                 <input class="form-control"
                                     v-model="vehiculo.cilindraje"
                                     v-validate="rules.cilindraje.rule"
-                                    :name="rules.cilindraje.name + '' + index"
+                                    :name="rules.cilindraje.name + ' ' + index"
                                     >   
-                                <span class="help-block">@{{ errors.first(rules.cilindraje.name + '' + index) }}</span>           
+                                <span class="help-block">@{{ errors.first(rules.cilindraje.name + ' ' + index) }}</span>           
                             </div>
                             <!-- VENCIMIENTO SOAT  -->
-                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.vencimiento_soat.name + '' + index) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.vencimiento_soat.name + ' ' + index) ? 'has-error' :'']">
                                 <label for="">Vence SOAT @{{ rules.vencimiento_soat.required }}</label>
                                 <input 
                                     type="date" 
@@ -77,12 +79,12 @@
                                     class="form-control date-vencimiento" 
                                     v-model="vehiculo.vencimiento_soat"
                                     v-validate="rules.vencimiento_soat.rule"
-                                    :name="rules.vencimiento_soat.name + '' + index"
+                                    :name="rules.vencimiento_soat.name + ' ' + index"
                                     >  
-                                <span class="help-block">@{{ errors.first(rules.vencimiento_soat.name + '' + index) }}</span>            
+                                <span class="help-block">@{{ errors.first(rules.vencimiento_soat.name + ' ' + index) }}</span>            
                             </div>
                             <!-- VENCIMIENTO RTM  -->
-                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.vencimiento_rtm.name + '' + index) ? 'has-error' :'']">
+                            <div v-bind:class="['form-group','col-md-2',errors.first(rules.vencimiento_rtm.name + ' ' + index) ? 'has-error' :'']">
                                 <label for="">Vence RTM @{{ rules.vencimiento_rtm.required }}</label>
                                 <input 
                                     type="date" 
@@ -90,9 +92,11 @@
                                     class="form-control date-vencimiento" 
                                     v-model="vehiculo.vencimiento_rtm"
                                     v-validate="rules.vencimiento_rtm.rule"
-                                    :name="rules.vencimiento_rtm.name + '' + index"
+                                    :name="rules.vencimiento_rtm.name + ' ' + index"
                                     >  
-                                <span class="help-block">@{{ errors.first(rules.vencimiento_rtm.name + '' + index) }}</span>            
+                                <span class="help-block">
+                                    @{{ errors.first(rules.vencimiento_rtm.name + ' ' + index) }}
+                                </span>
                             </div> 
                         </div>
                         <hr>                         
@@ -121,7 +125,11 @@
 
                 if (!validation) {
                     await this.$store.dispatch('noContinuarASolicitud');
+                    await this.$store.dispatch('noPermitirSalvar');
                 }
+            },
+            placaToUpperCasse() {
+                this.vehiculo.placa = capitalize(this.vehiculo.placa);
             }
         },
         computed: {  

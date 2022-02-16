@@ -42,14 +42,14 @@ function castErrors($validator_errors)
 function ddmmyyyy($date) 
 {
     $timestamp = strtotime($date);
-    $newDate = date("m-d-Y", $timestamp);
+    $newDate = date("d-m-Y", $timestamp);
     return $newDate;
 }
 
 function ddmmyyyyhhmmss($date)
 {
     $timestamp = strtotime($date);
-    $newDate = date("m-d-Y H:m:s", $timestamp);
+    $newDate = date("d-m-Y H:i:s", $timestamp);
     return $newDate;
 }
 
@@ -84,4 +84,3 @@ function saveLog($user_id ,$action ,$description ,$visible ,$ref_type ,$ref_id)
     $log->ref_id = $ref_id;
     $log->save();
 }
-

@@ -1,3 +1,5 @@
+@include('utils.general')
+
 <script src="/js/vue/vuex.js"></script>
 <script src="{{ asset('js/SolicitudV3/Solicitud.js') }}"></script>
 <script src="{{ asset('js/SolicitudV3/Credito.js') }}"></script>
@@ -12,26 +14,51 @@
             insumos             : {!! json_encode($insumos) !!}, // Insumos Venta
             insumosCredito      : {!! json_encode($insumos_credito) !!}, 
             continuarASolicitud : true,
+            permitirSalvar      : true,
             solicitud           : {!! json_encode($solicitud) !!} || new Solicitud({
                 cliente_id: {!! $cliente->id !!},
                 aprobado: "En estudio",
+                cartera_id: 6,
+                funcionario_id: {!! json_encode(Auth::user()->id) !!},
+                fecha: new Date(Date.now()).toISOString().slice(0, 10),
+                num_fact: "G"
             }),
             credito             : {!! json_encode($credito) !!} || null,
             ventas              : {!! json_encode($ventas) !!} || [], // listado de ventas agregadas a las solicitud venta: { producto: .., vehiculo: ... }
             vehiculos           : [], // listado de vehiculos a clonar
-            cliente             : {!! json_encode($cliente) !!}
+            cliente             : {!! json_encode($cliente) !!},
+            permisos            : {
+                'aprobarSolicitud' : {!! json_encode(Auth::user()->can('aprobar_solicitudes')) !!}
+            }
         },
-        getters: { 
+        getters: {
             getContinuarASolicitud(state) {
                 return state.continuarASolicitud;
             },
+            getPermitirSalvar(state) {
+                return state.permitirSalvar;
+            },
             getVehiculosAClonar(state) {
                 return state.vehiculos;
+            },
+            getRutaSalida(state) {
+                let rutaSalid = '';
+
+                if (state.modo !== 'Crear Solicitud' && state.modo !== 'Refinanciar Credito') {
+                    rutaSalida = '/start/precreditosV3/show/' + state.solicitud.id;
+                } else {
+                    rutaSalida = '/start/clientes/' + state.cliente.id;
+                }
+
+                return rutaSalida;
             }
         },
         mutations: {
             setContinuarASolicitud(state, response) {
                 state.continuarASolicitud = response;
+            },
+            setPermitirSalvar(state, response) {
+                state.permitirSalvar = response;
             },
             setVentas(state, ventas) {
                 state.ventas = ventas;
@@ -73,28 +100,40 @@
             eliminarVenta({state}, index) {
                 alertify.confirm('Eliminar Producto', '¿Está seguro de eliminar el producto?',
                     () => {
-                        state.ventas.splice(index, 1);
-                        alertify.notify("Se ha eliminado el producto", "error", 1.5);
+                        if (state.modo === 'Crear Solicitud') {
+                            state.ventas.splice(index, 1);
+                            alertify.notify("Se ha eliminado el producto", "error", 1.5);
+                        } else {
+                            if (state.ventas[index]['id']) {
+                                axios.get("/api/ventas/destroy/" + state.ventas[index]['id'], {
+                                        headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
+                                    })
+                                    .then(res => {
+                                        state.ventas.splice(index, 1);
+                                        alertify.alert("Alerta", res.data.message)
+                                    })
+                            } else {
+                                state.ventas.splice(index, 1);
+                            }
+
+                        }
                     }, 
                     () => alertify.error('No se elimino ningun producto.', 1.5)
                 );
             },
             listarVehiculosAClonar({state, commit}) {
                 state.vehiculos = [];
-                let i = 0;
-                state.ventas.forEach((venta) => {
-                    if (venta.producto.con_vehiculo && venta.vehiculo.placa) {
-                        if (state.vehiculos.length === 0 || 
-                        state.vehiculos.find((element) => element.placa !== venta.vehiculo.placa)) {
+                state.ventas.map(venta => {
+                    if (venta.vehiculo && venta.vehiculo.placa) {
+                        if (!state.vehiculos.find(vehiculo => vehiculo.placa === venta.vehiculo.placa)) {
                             commit("setVehiculoAClonar", venta.vehiculo);
                         }
                     }
-
-                    i ++;
                 });
             },
             clonarVehiculo({state, commit}, payload) {
-                state.ventas[payload.index].vehiculo = JSON.parce(JSON.stringify(payload.vehiculo));
+                delete payload.vehiculo.id;
+                state.ventas[payload.index].vehiculo = JSON.parse(JSON.stringify(payload.vehiculo));
             },
             async onSubmit({state}) {
                 let url = '';
@@ -107,11 +146,13 @@
                 if (state.modo == 'Crear Solicitud') url = '/api/precreditosV3';
                 else if (state.modo == 'Editar Solicitud') url = '/api/precreditosV3/update';
                 else if (state.modo == 'Editar Credito') url = '/api/creditosV3/update';
+                else if (state.modo == 'Refinanciar Credito') 
+                    url = '/api/refinanciacion/' + state.insumosCredito.credito_refinanciado_id;
 
                 try {
-                    const res = await axios.post(url, dat);
-
-                    console.log({res});
+                    const res = await axios.post(url, dat, {
+                        headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
+                    });
 
                     if (res.data.success) {
                         alertify.notify(res.data.message, "success", 2, () => {
@@ -130,13 +171,10 @@
             },
             noContinuarASolicitud(context) {
                 context.commit('setContinuarASolicitud', false);
-            }
+            },
+            noPermitirSalvar(context) {
+                context.commit('setPermitirSalvar', false);
+            },
         }
     });
-
-    const showErrorValidation = (strMessage) => {
-        let strErrors = "";
-        JSON.parse(strMessage).forEach(error => strErrors += error + "<br>" );
-        return strErrors;
-    }
 </script>

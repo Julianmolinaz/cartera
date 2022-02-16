@@ -7,15 +7,16 @@ use Illuminate\Http\Request;
 use App\Cliente;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Src\Credito\Services\InsumosVentasService;
-use Src\Credito\Services\InsumosSolicitudService;
-use Src\Credito\Services\InsumosCreditoService;
-use Src\Credito\UseCases\ValidarProcesosPendientesdUseCase;
 
 use App\Repositories as Repo;
 use Src\Credito\Services\SalvarSolicitudService;
 use Src\Credito\Services\ActualizarSolicitudService;
 use Src\Credito\Services\ConsultarCreditoService;
+use Src\Credito\Services\DataParaCrearSolicitudService;
+use Src\Credito\Services\ReglasPreviasCreacionSolicitudService;
+use Src\Credito\Services\AprobarSolicitudService;
+use Src\Credito\Services;
+use Auth;
 
 class PrecreditoController extends Controller
 {
@@ -24,75 +25,68 @@ class PrecreditoController extends Controller
         // 
     }
 
-
-    public function create($cliente_id)
+    public function create($clienteId)
     {
-        $validation = new ValidarProcesosPendientesdUseCase($cliente_id);
+        try {
+            ReglasPreviasCreacionSolicitudService::make($clienteId);
+    
+            $useCase = new DataParaCrearSolicitudService($clienteId);
+            $data = $useCase->execute();
+            $insumosCredito = $data->insumosCredito;
 
-        if ( $validation->execute() ) {
-            flash()->error('@ No se puede crear la solicitud, existen trámites vigentes!');
-            return redirect()->route('start.clientes.show',$cliente_id);
+            unset($data->insumosCredito);
+
+            return view('start.precreditosV3.create.index')
+                ->with('data', $data->insumosSolicitud)
+                ->with('insumos', $data->insumosVenta)
+                ->with('cliente', $data->cliente)
+                ->with('solicitud', null)
+                ->with('ventas', null)
+                ->with('credito', null)
+                ->with('modo', 'Crear Solicitud')
+                ->with('insumos_credito', $insumosCredito);
+
+        } catch (\Exception $e) {
+            if (substr($e->getMessage(), 0, 2) === "**") {
+                $str = json_decode(substr($e->getMessage(), 2));
+                $response = '';
+
+                foreach ($str as $error) {
+                    $response .= $error ."<br>";
+                }
+            } else {
+                $response = $e->getMessage();
+            }
+            flash()->error($response);
+            return redirect()->route('start.clientes.show', $clienteId);
         }
-
-
-        $insumos = new InsumosVentasService(
-            new Repo\TercerosQueryBuilderRepository(),
-            new Repo\TipoVehiculosQueryBuilderRepository()
-        );
-        $insumos = $insumos->execute();
-
-        $data = new InsumosSolicitudService();
-        $data = $data->execute();
-        
-        $insumosCreditoUseCase = new InsumosCreditoService();
-        $insumos_credito = $insumosCreditoUseCase->execute();
-
-        $cliente = Repo\ClientesRepository::find($cliente_id); 
-
-        return view('start.precreditosV3.create.index')
-            ->with('data', $data)
-            ->with('insumos', $insumos)
-            ->with('cliente', $cliente)
-            ->with('solicitud', null)
-            ->with('ventas', null)
-            ->with('credito', null)
-            ->with('modo', 'Crear Solicitud')
-            ->with('insumos_credito', $insumos_credito);
     }
 
     public function show($solicitudId)
     {
         $useCase = ConsultarCreditoService::make($solicitudId);
+        $data = $useCase->data;
+        $opcionesAprobacion = getEnumValues2('precreditos', 'aprobado');
 
         return view("start.precreditosV3.show.index")
-            ->with('data', $useCase->data);
+            ->with('data', $data)
+            ->with('opcionesAprobacion', $opcionesAprobacion);
     }
 
     public function edit($solicitudId)
     {
-        $insumos = new InsumosVentasService(
-            new Repo\TercerosQueryBuilderRepository(),
-            new Repo\TipoVehiculosQueryBuilderRepository()
-        );
-        $insumos = $insumos->execute();
-
-        $data = new InsumosSolicitudService();
-        $data = $data->execute();
-        
-
-        $insumosCreditoUseCase = new InsumosCreditoService();
-        $insumos_credito = $insumosCreditoUseCase->execute();
-
         $solicitud = Repo\SolicitudRepository::find($solicitudId);
-        $cliente = Repo\ClientesRepository::find($solicitud->cliente_id);
         $ventas = Repo\VentasRepository::findBySolicitud($solicitudId);
         $credito = Repo\CreditoRepository::findBySolicitud($solicitudId);
+    
+        $useCase = new DataParaCrearSolicitudService($solicitud->cliente_id);
+        $data = $useCase->execute();
 
         return view('start.precreditosV3.create.index')
-            ->with('insumos_credito', $insumos_credito)
-            ->with('data', $data)
-            ->with('insumos', $insumos)
-            ->with('cliente', $cliente)
+            ->with('insumos_credito', $data->insumosCredito)
+            ->with('data', $data->insumosSolicitud)
+            ->with('insumos', $data->insumosVenta)
+            ->with('cliente', $data->cliente)
             ->with('solicitud', $solicitud)
             ->with('ventas', $ventas)
             ->with('credito', $credito)
@@ -131,5 +125,46 @@ class PrecreditoController extends Controller
             }
             return $response;
         }
+    }
+
+    public function aprobar(Request $request)
+    {
+        try {
+            $useCase = new AprobarSolicitudService($request->aprobado, $request->solicitudId);
+            $solicitud = $useCase->execute();
+    
+            flash()->success('La aprobación fue modificada');
+            return redirect()->route('start.precreditosV3.show', $request->solicitudId);
+        } catch (\Exception $e) {
+            flash()->error($e->getMessage());
+            return redirect()->route('start.precreditosV3.show', $request->solicitudId);
+        }
+    }
+
+    public function updateObservaciones(Request $request)
+    {
+        try {
+            $useCase = new Services\ActualizarObservacionesService(
+                $request->observaciones,
+                $request->solicitudId
+            );
+
+            $useCase->execute();
+
+            flash()->success('Las observaciones fueron modificadas');
+            return redirect()->route('start.precreditosV3.show', $request->solicitudId);
+        } catch (\Exception $e) {
+            flash()->error($e->getMessage());
+            return redirect()->route('start.precreditosV3.show', $request->solicitudId);
+        }
+    }
+
+    public function misSolicitudes()
+    {
+        $useCase = new Services\SolicitudesPendientesService(Auth::user()->id);
+        $pendientes = $useCase->execute();
+
+        return view('start.pendientes.index')
+            ->with('pendientes', $pendientes);
     }
 }

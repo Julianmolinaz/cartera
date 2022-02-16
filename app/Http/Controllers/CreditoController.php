@@ -318,9 +318,7 @@ class CreditoController extends Controller
                 ->with('fecha_de_pago',$fecha_de_pago)
                 ->with('calificaciones',$calificaciones);
          
-        } 
-        else if ($credito->precredito->version == 2) 
-        { 
+        } else if ($credito->precredito->version == 2) { 
             $data = $this->obtener_data_para_crear($credito->precredito->cliente_id);
             $data['status'] = 'edit cred';
 
@@ -363,6 +361,8 @@ class CreditoController extends Controller
                 ->with('data_credito', $data_credito)
                 ->with('credito', $credito_)
                 ->with('data', $data);
+        } else if ($credito->precredito->version == 3) {
+            return redirect()->route('start.precreditosV3.edit', $credito->precredito_id);
         }
     }//.edit
 
@@ -641,7 +641,7 @@ class CreditoController extends Controller
       try{
         $fecha = Carbon::now();
         $fecha = fecha_plana($fecha->toDateTimeString());
-
+        ob_clean();
         Excel::create('creditos'.$fecha,function($excel){
           $excel->sheet('Sheetname',function($sheet){
 
@@ -726,10 +726,12 @@ class CreditoController extends Controller
     function crear_refinanciacion(Request $request)
     {
         $ini = $request->input('p_fecha')+1;
-        $fin = $request->input('s_fecha')-1;
         if($request->input('s_fecha') == ""){
           $fin = 30;
         }
+	else { 
+           $fin = $request->input('s_fecha')-1;
+	}
         if ($request->input('periodo') == 'Quincenal') {
           $s_fecha_quincena = 'required|integer|between:'.$ini.',30';
         }

@@ -1,3 +1,4 @@
+@include('filters')
 <script>
 	Vue.component('detalle-component',{
 		template: `
@@ -56,25 +57,26 @@
 			    </div>
 			    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 			      <div class="panel-body">
-				  	<div class="table-responsive">	
-						<table class="table table-striped">
-							<thead>
+			        
+			       	<table class="table table-striped">
+			       		<thead>
 
-								<tr>
-									<th>Crédito</th>
-									<th>Agenda</th>
-									<th>Observaciones</th>
-								</tr>
-									</thead>
-									<tbody>
-								<tr v-for="call in dat.calls">
-									<td>@{{ call.credito_id }}</td>
-									<td>@{{ call.Agenda }}</td>
-									<td>@{{ call.observaciones }}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+									<tr>
+										<th>Crédito</th>
+										<th>Agenda</th>
+										<th>Observaciones</th>
+									</tr>
+										</thead>
+										<tbody>
+									<tr v-for="call in dat.calls">
+										<td>@{{ call.credito_id }}</td>
+										<td>@{{ call.agenda | ddmmyyyy}}</td>
+										<td>@{{ call.observaciones }}</td>
+									</tr>
+								</tbody>
+							</table>
+
+
 			      </div>
 			    </div>
 			  </div>

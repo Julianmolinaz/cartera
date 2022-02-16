@@ -8,7 +8,6 @@ use Carbon\Carbon;
 
 class FechaCobro extends Model implements Auditable
 {
-
     use \OwenIt\Auditing\Auditable;
 
     protected $table = 'fecha_cobros';

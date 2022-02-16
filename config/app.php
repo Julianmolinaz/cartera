@@ -164,7 +164,8 @@ return [
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
-        Orangehill\Iseed\IseedServiceProvider::class
+        Orangehill\Iseed\IseedServiceProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
         
     ],
 
@@ -220,7 +221,8 @@ return [
         'Filter' => App\MyService\Access::class,
         'c'   => Zizaco\Entrust\EntrustFacade::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
-
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
+        'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory'
 
     ],
 

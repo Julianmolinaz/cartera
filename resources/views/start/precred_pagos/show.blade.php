@@ -153,7 +153,9 @@ const element = new Vue({
       printed.document.write(str);
       printed.document.close();
       printed.print();
-      printed.close();
+      setTimeout(() => {
+            printed.close();
+        }, 1000);
     }//.print_html
   }
 });

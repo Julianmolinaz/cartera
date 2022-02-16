@@ -252,6 +252,8 @@ class CreditoRepository {
 
     /**
      * Permite crear un nuevo crédito
+     * $dataSolicitud = recibe un registro solicitud
+     * $dataComision = ['mes' => ..., 'anio' => ...]
      */
     
     public static function saveCredito($dataSolicitud, $dataComision)
@@ -268,8 +270,31 @@ class CreditoRepository {
         $credito->castigada        = 'No';
         $credito->end_datacredito  = 0;
         $credito->end_procredito   = 0;
-        $credito->user_create_id   = 1;
-        $credito->user_update_id   = 1;
+        $credito->user_create_id   = Auth::user()->id;
+        $credito->user_update_id   = Auth::user()->id;
+        $credito->save();
+
+        return $credito;
+    }
+
+    public static function saveCreditoRefinanciado($dataSolicitud, $dataComision, $creditoRefinanciadoId)
+    {
+        $credito = new Credito();
+        $credito->precredito_id     = $dataSolicitud->id;
+        $credito->cuotas_faltantes = $dataSolicitud->cuotas;
+        $credito->mes              = $dataComision['mes'];
+        $credito->anio             = $dataComision['anio'];
+        $credito->estado           = 'Al dia';
+        $credito->valor_credito    = $dataSolicitud->cuotas * $dataSolicitud->vlr_cuota;
+        $credito->saldo            = $credito->valor_credito;
+        $credito->rendimiento      = $credito->valor_credito - $dataSolicitud->vlr_fin;
+        $credito->end_datacredito  = 0;
+        $credito->end_procredito   = 0;
+        $credito->user_create_id   = Auth::user()->id;
+        $credito->user_update_id   = Auth::user()->id;
+        $credito->castigada        = 'No';
+        $credito->refinanciacion   = 'Si';
+        $credito->credito_refinanciado_id = $creditoRefinanciadoId;
         $credito->save();
 
         return $credito;
@@ -281,16 +306,76 @@ class CreditoRepository {
         return $credito;
     }
 
+    /**
+     * Buscar creditos de un determinado clienteId
+     * exceptuando un creditoId
+     */
+    
+    public static function findByClienteExcept($clienteId, $creditoId)
+    {
+        $creditos = DB::table('creditos')
+            ->join('precreditos', 'creditos.precredito_id', '=', 'precreditos.id')
+            ->join('clientes', 'precreditos.cliente_id', '=', 'clientes.id')
+            ->where('clientes.id', $clienteId)
+            ->where('creditos.id', '!==', $creditoId)
+            ->whereNotIn('creditos.estado', ['Cancelado', 'Cancelado por refinanciacion'])
+            ->select('creditos.*')
+            ->get();
+     
+        return $creditos;
+    }
+
     public static function updateCredito($dataCredito, $creditoId)
     {
         $credito = Credito::find($creditoId);
         $credito->fill($dataCredito);
 
         if ($credito->isDirty()) {
-            $credito->user_update_id = 1;
+            $credito->user_update_id = Auth::user()->id;
             $credito->save();
         }
 
         return $credito;
+    }
+
+    public static function delete($creditoId)
+    {
+        $credito = Credito::find($creditoId);
+        $credito->delete();
+    }
+
+    public static function creditosPorRangoSinRefinanciados($ini, $fin)
+    {
+        $creditos = DB::table('creditos')
+          ->join('precreditos','creditos.precredito_id','=','precreditos.id')
+          ->join('clientes','precreditos.cliente_id','=','clientes.id')
+          ->join('carteras','precreditos.cartera_id','=','carteras.id')
+          ->join('productos','precreditos.producto_id','=','productos.id')
+          ->leftJoin('fecha_cobros','creditos.id','=','fecha_cobros.credito_id')
+          ->where([['creditos.estado','<>','Refinanciacion']]) // Cancelado por refinanciacion
+          ->whereBetween('creditos.created_at',[$ini,$fin])
+          ->select(
+              'creditos.id as id',
+              'creditos.castigada as castigada',
+              'creditos.saldo as saldo',
+              'creditos.refinanciacion as refinanciado',
+              'creditos.credito_refinanciado_id as credito_refinanciado_id',
+              'clientes.nombre as cliente',
+              'clientes.num_doc as documento',
+              'precreditos.vlr_fin as vlr_fin',
+              'precreditos.cuotas as cuotas',
+              'precreditos.vlr_cuota as vlr_cuota',
+              'precreditos.num_fact as factura',
+              'precreditos.cuota_inicial as cuota_inicial',
+              'carteras.nombre as cartera',
+              'creditos.created_at as created_at',
+              'creditos.rendimiento as rendimiento',
+              'precreditos.periodo as periodo',
+              'productos.nombre as producto',
+              'fecha_cobros.fecha_pago as fecha_pago',
+              'creditos.valor_credito as vlr_credito')
+          ->get();
+
+        return $creditos;
     }
 }
