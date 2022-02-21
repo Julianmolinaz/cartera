@@ -1,72 +1,61 @@
 <script type="text/x-template" id="ventas-template">
-    <form @submit.prevent="" autocomplete="off">
-        
-        <div class="row">
-            <div class="col-md-12" style="border-bottom: 1px solid #dddddd; margin-bottom: 30px; padding-bottom: 10px;">
-                <!-- PRODUCTO -->
-                <div v-bind:class="['form-group','col-md-4',errors.first(rules.producto.name) ? 'has-error' :'']">
-                    <label for="">Producto @{{ rules.producto.required }}<span></span></label>  
-                    <select class="form-control" 
-                        v-model="productoSelected"
-                        v-validate="rules.producto.rule"
-                        :name="rules.producto.name"
+    <div class="row row-venta">
+        <!-- AGREGADOR DE PRODUCTOS -->
+        <div class="col-md-12 venta-container">
+            <!-- PRODUCTO -->
+            <div class="form-group col-md-4">
+                <label for="">Producto @{{ rules.producto.required }}</label>  
+                <select class="form-control" 
+                    v-model="productoSelected"
+                    v-validate="rules.producto.rule"
+                    :name="rules.producto.name"
+                >
+                    <option selected disabled>Escoja producto</option>
+                    <option 
+                        :value="producto" 
+                        v-for="producto in insumos.catalogo">
+                        @{{ producto.nombre }}
+                    </option>
+                </select>
+            </div> 
+            <!-- CANTIDAD -->
+            <div class="form-group col-md-2">
+                <label for="">Cantidad @{{ rules.cantidad.required }}</label>
+                <select class="form-control"
+                    v-model="cantidad"
+                    v-validate="rules.cantidad.rule"
+                    :name="rules.cantidad.name"
+                >
+                    <option 
+                        :value="cantidad" 
+                        v-for="cantidad in listCantidades"
                     >
-                        <option selected disabled>Escoja producto</option>
-                        <option 
-                            :value="producto" 
-                            v-for="producto in insumos.catalogo">
-                            @{{ producto.nombre }}
-                        </option>
-                    </select>
-                    <span class="help-block">@{{ errors.first(rules.producto.name) }}</span>
-                </div> 
-                <!-- CANTIDAD -->
-                <div v-bind:class="['form-group','col-md-2',errors.first(rules.producto.name) ? 'has-error' :'']">
-                    <label for="">Cantidad @{{ rules.cantidad.required }}</label>
-                    <select class="form-control"
-                        v-model="cantidad"
-                        v-validate="rules.cantidad.rule"
-                        :name="rules.cantidad.name"
-                    >
-                        <option 
-                            :value="cantidad" 
-                            v-for="cantidad in listCantidades"
-                        >
-                            @{{ cantidad }}
-                        </option>
-                    </select>
-                    <span class="help-block">@{{ errors.first(rules.cantidad.name) }}</span>
-                </div>
-                <!-- AGREGAR PRODUCTO -->
-                <div class="form-group col-md-4">
-                    <button class="btn btn-primary" @click="addProducto" style="margin-top:25px;" type="submit">
-                        Agregar Producto
-                    </button>
-                </div> 
+                        @{{ cantidad }}
+                    </option>
+                </select>
             </div>
-            <!-- Tab panes -->
-            <div class="tab-content" style="padding:5px">
-                <div v-for="(item, index) in listarVentas">
+            <!-- AGREGAR PRODUCTO -->
+            <div class="form-group col-md-2">
+                <button class="btn btn-primary" @click="addProducto" style="margin-top:25px;">
+                    Agregar Producto
+                </button>
+            </div> 
+
+            <div class="col-md-4 venta-total-container">
+                <span class="venta-total">$ @{{ sumTotal | formatPrice}}</span>
+                <span class="venta-total-text">Total</span>
+            </div>
+        </div>
+
+        <!-- PRODUCTOS AGREGADOS -->
+        <div class="col-md-12 productos" v-if="listarVentas.length > 0">
+            <div class="" style="padding:5px">
+                <template v-for="(item, index) in listarVentas">
                     <venta-component :data="item" :index="index"></venta-component>
-                </div>
-            </div><!-- tab-content  -->
-
-            <div class="row">
-                <div class="col-md-12" style="margin-top:20px;">
-                    <center>
-                        <button class="btn btn-primary" @click="onSubmit">
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i> Salvar
-                        </button>
-                        <button type="submit" class="btn btn-default" @click="continuar">
-                            <i class="fa fa-forward" aria-hidden="true"></i> Continuar
-                        </button>
-                    </center>
-                </div>  
+                </template>
             </div>
-            
-        </div>                               
-
-    </form>
+        </div>
+    </div>
 </script>
 
 @include('start.precreditosV3.create.components.ventas.venta')
@@ -94,58 +83,47 @@
             eliminarProducto(index) {
                this.$store.dispatch("eliminarVenta", index);
             },
-            isNotValid() {
-                let result = false;
-                let msg = '';
-                
-                if (!this.ventas.length) {
-                    console.log(!this.ventas.length);
-                    msg += "Se requiere agregar un producto<br>";
-                    result = true;
+            async continuar() {
+                try {    
+                    this.$store.commit('setPermitirSalvar', true);
+                    await this.validarVehiculos();
+                    await this.$store.dispatch("validarValorVentas");
+                    this.goContinuar();
+                } catch (error) {
+                    alertify.alert("Error", error);
                 }
-                if (msg) {
-                    alertify.alert('Error', msg);
+            },
+            goContinuar() {
+                if (this.$store.getters.getContinuarASolicitud) {
+                    this.$store.commit('setVentas', this.ventas);
+                    $('.nav-tabs a[href="#solicitud"]').tab('show');
+                } else {
+                    alertify.notify('Por favor complete los campos', 'error', 5, () => {});
                 }
-                return result;
             },
-            continuar() {
-                if (this.isNotValid()) return false;
-
-                this.$store.state.continuarASolicitud = true;
-                
-                Bus.$emit('validarVehiculo');
-
-                setTimeout(() => {
-                    if (this.$store.getters.getContinuarASolicitud) {
-                        this.$store.commit('setVentas', this.ventas);
-                        $('.nav-tabs a[href="#solicitud"]').tab('show');
-                    } else {
-                        alertify.notify(
-                            'Por favor complete los campos',
-                            'error',
-                            5, 
-                            () => {}
-                        );
-                    }
-                }, 1000);
+            async onSubmit() {
+                try {    
+                    this.$store.commit('setPermitirSalvar', true);
+                    await this.$store.dispatch("validarVehiculos");
+                    await this.$store.dispatch("validarValorVentas");
+                    await this.goSubmit();
+                } catch (error) {
+                    alertify.alert("Error", error);
+                }
             },
-            onSubmit() {
-                this.$store.commit('setPermitirSalvar', true);
-
-                Bus.$emit('validarVehiculo');
-
-                setTimeout(() => {
-                    if (this.$store.getters.getPermitirSalvar) {
-                        this.$store.commit('setVentas', this.ventas);
-                        this.$store.dispatch('onSubmit');
-                    } else {
-                        alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
-                    }
-                }, 1000);
-
-            } 
+            async goSubmit() {
+                if (this.$store.getters.getPermitirSalvar) {
+                    this.$store.commit('setVentas', this.ventas);
+                    this.$store.dispatch('onSubmit');
+                } else {
+                    alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
+                }
+            }
         },
         computed: {
+            sumTotal() {
+                return this.$store.getters.getTotalVentas;
+            },
             listarVentas() {
                 return this.$store.state.ventas;
             },
@@ -170,4 +148,30 @@
         }
     });
 </script>
+<style>
+.row-venta {
+    margin: 0;
+}
+.productos {
+    border-bottom: 1px solid #dddddd;
+    margin-bottom: 2rem;
+}
+.venta-container {
+    border-bottom: 1px solid #dddddd;
+    /* margin-bottom: 30px; */
+    padding-bottom: 10px;
+}
+.venta-total-container {
+    display: flex; 
+    align-items: center;
+    flex-direction: column;
+    /* gap: 1rem; */
+}
+.venta-total-text {
+    font-size: 1.6rem;
+}
+.venta-total {
+    font-size: 2.5rem;
+}
+</style>
 

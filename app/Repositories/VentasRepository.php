@@ -84,6 +84,7 @@ class VentasRepository
                 "ventas.id as id",
                 "ventas.precredito_id",
                 "ventas.cantidad",
+                "ventas.valor",
                 "productos.nombre as producto_nombre",
                 "productos.id as producto_id",
                 "productos.con_vehiculo",
@@ -104,6 +105,7 @@ class VentasRepository
             $temp = [
                 'id' => $element->id,
                 'precredito_id' => $element->precredito_id,
+                'valor' => $element->valor,
                 'producto' => [
                     'nombre' => $element->producto_nombre,
                     'cantidad' => $element->cantidad,
@@ -143,6 +145,7 @@ class VentasRepository
                 'ventas.id as id',
                 'ventas.precredito_id as precredito_id',
                 'ventas.cantidad as producto_cantidad',
+                'ventas.valor as venta_valor',
                 'productos.id as producto_id',
                 'productos.nombre as producto_nombre',
                 'productos.con_vehiculo as con_vehiculo',
@@ -174,6 +177,7 @@ class VentasRepository
                 'id' => $venta->id,
                 'precredito_id' => $venta->precredito_id,
                 'cantidad' => $venta->producto_cantidad,
+                'valor' => $venta->venta_valor,
                 'producto' => [
                     'id' => $venta->producto_id,
                     'nombre' => $venta->producto_nombre,

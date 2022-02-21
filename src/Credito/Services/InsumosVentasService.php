@@ -38,7 +38,7 @@ class InsumosVentasService
     private function getProductos()
     {
         $productos = DB::table('productos')
-            ->select('nombre', 'id', 'con_vehiculo')
+            // ->select('nombre', 'id', 'con_vehiculo')
             ->where('estado', 1)
             ->orderBy('nombre')
             ->get();

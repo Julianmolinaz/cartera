@@ -64,6 +64,7 @@ class CreditoController extends Controller
 
             return resHp(true, $solicitud, 'Crédito actualizada exitosamente.');
         } catch (\Exception $e) {
+            \Log::error($e);
             if (substr($e->getMessage(), 0, 2) === "**") {
                 $response = resHp(false, 1, substr($e->getMessage(), 2));
             } else {
@@ -120,6 +121,7 @@ class CreditoController extends Controller
             flash()->success('El crédito fue eliminado exitosamente');
             return redirect()->route('start.precreditosV3.show', $credito->precredito_id);
         } catch (\Exception $e) {
+            \Log::error($e);
             flash()->error('No es posible eliminar el crédito');
             return redirect()->route('start.precreditosV3.show', $credito->precredito_id);
         }

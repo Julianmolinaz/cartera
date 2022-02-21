@@ -22,9 +22,9 @@
             const form = document.querySelector("#formFechaPago");
             form.submit();
         })
-        .set(
-            {title: "Editar fecha de pagos"},
-            {labels: {ok: "Guardar Cambios", cancel: "Cerrar"}}
-        );
+        .set({
+            title: "Editar fecha de pagos",
+            labels: {ok: "Guardar Cambios", cancel: "Cerrar"}
+        });
     }
 </script>

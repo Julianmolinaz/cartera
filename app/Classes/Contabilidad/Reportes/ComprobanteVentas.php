@@ -8,6 +8,13 @@ use Exception;
 use App as _;
 use DB;
 
+/*
+|--------------------------------------------------------------------------
+| REPORTE DE COMPROBANTES DE VENTA
+|--------------------------------------------------------------------------
+|
+*/
+    
 class ComprobanteVentas
 {
     protected $ini;                             
@@ -81,9 +88,7 @@ class ComprobanteVentas
 
 
     public function facturaEnRango()
-    {
-
-        
+    {        
         $fecha_exp = new Carbon($this->factura->fecha_exp);
 
         if ($fecha_exp->gte($this->ini) && $fecha_exp->lte($this->end)){
@@ -101,7 +106,8 @@ class ComprobanteVentas
     |--------------------------------------------------------------------------
     |
     | Genera la estrucutura para RTM facturada a GORA
-    | El valor de la venta total se divide por el 1.19 y se resta a a la venta 
+    | El valor de la venta total se divide por el 1.19 y se resta a la venta
+    | Se descrimina iva
     |
     */
     
@@ -131,6 +137,7 @@ class ComprobanteVentas
     |--------------------------------------------------------------------------
     |
     | Genera la estrucutura para RTM facturada a cliente 
+    | No se descrimina iva
     |
     */
 
@@ -154,6 +161,7 @@ class ComprobanteVentas
     |--------------------------------------------------------------------------
     |
     | Genera la estrucutura para SOAT
+    | No se descrimina iva
     |
     */
 
@@ -218,7 +226,7 @@ class ComprobanteVentas
             return $this->calcularVentaVariosProductos();
 
 
-        } else if ($this->factura->producto_id = 1 || $this->factura->producto_id = 2) {
+        } else if ($this->factura->producto_id == 1 || $this->factura->producto_id == 2) {
 
             return $this->calcularVenta($this->factura->inicial);
         }
@@ -243,9 +251,7 @@ class ComprobanteVentas
                 } else {
                     return $this->calcularVenta(0);
                 }
-
             } else {
-
                 return $this->calcularVenta(0);
             }
             
@@ -280,9 +286,9 @@ class ComprobanteVentas
         return $venta;       
     }
 
+
     public function getFactor($cuotas, $periodo)
     {
-
         $meses = 0;
 
         if ($this->precredito->periodo == 'Quincenal') {
@@ -326,13 +332,23 @@ class ComprobanteVentas
         }
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | GENERACIÓN DE LAS SOLICITUDES DE CREDITO
+    |--------------------------------------------------------------------------
+    | Se trabaja con la cartera inversiones gora y nesgor
+    | No es necesario que el crédito este activo, solo que este aprobada
+    | la solicitud
+    | SE GENERA CON LA FECHA DE EXPEDICION DE LA FACTURA
+    | 
+    */
+
     public function getPrecreditos()
     {
         $precreditosId = DB::table('ref_productos')
             ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
             ->whereBetween('ref_productos.fecha_exp',[$this->ini, $this->end])
             ->whereIn('precreditos.cartera_id', [6, 32])
-            ->where('precreditos.id', 35082)
             ->where('precreditos.aprobado', 'Si')
             ->select('ref_productos.precredito_id as id')
             ->groupBy('precreditos.id')
@@ -373,7 +389,7 @@ class ComprobanteVentas
             'cod_rete_iva'=> '',
             'cod_form_pago'=> '2',
             'vlr_form_pago'=> '',
-            'fecha_venc' => '31/12/2021',
+            'fecha_venc' => '31/12/2022',
             'obs' => '',
             'solicitud' => $this->precredito->id,
             'novedad' => ''

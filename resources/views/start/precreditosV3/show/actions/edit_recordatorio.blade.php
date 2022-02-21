@@ -20,9 +20,9 @@
             const form = document.querySelector("#formRecordatorio");
             form.submit();
         })
-        .set(
-            {title: "Editar recordatorio"},
-            {labels: {ok: "Guardar Cambios", cancel: "Cerrar"}}
-        );
+        .set({
+            title: "Editar recordatorio",
+            labels: {ok: "Guardar Cambios", cancel: "Cerrar"}
+        });
     }
 </script>

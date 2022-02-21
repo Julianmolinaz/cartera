@@ -1,4 +1,14 @@
 <style>
+    .info-cliente {
+        padding: 1rem;
+        border: solid 0.5px #d7d5d5;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        background-color: #e1e1e1;
+    }
     .obligacion-container {
         display: grid;
         margin-bottom: 40px;
@@ -14,13 +24,18 @@
             grid-template-columns: 350px 1fr 350px;
         }
     }
-    @media (max-width:600px) {
-        
+    @media (max-width:1100px) {
         .obligacion-container {
-            grid-template-columns: 350px 400px 250px;
+            grid-template-columns: 300px 1fr 250px;
         }
     }
     @media (max-width:900px) {
+        .pagos-solicitud-container,
+        .pagos-credito-container,
+        .llamadas-container,
+        .info-cliente-container {
+            padding: 0;
+        }
         
         .obligacion-container {
             grid-template-areas: "solicitud"
@@ -31,6 +46,13 @@
         }
         .card-credito__no-actives {
             padding-top: 30px;
+        }
+    }
+
+    @media (max-width:600px) {
+        
+        .obligacion-container {
+            grid-template-columns: 1fr;
         }
     }
     .card-productos, .card-solicitud, .card-credito

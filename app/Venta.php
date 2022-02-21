@@ -14,6 +14,7 @@ class Venta extends Model implements Auditable
         'cantidad',
         'producto_id',
         'precredito_id',
+        'valor',
         'vehiculo_id',
         'created_by',
         'updated_by'

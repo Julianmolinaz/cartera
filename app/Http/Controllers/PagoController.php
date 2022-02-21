@@ -47,16 +47,13 @@ class PagoController extends Controller
      */
     public function create()
     {
-        
         $tipos_pago = getEnumValues('facturas', 'tipo');
         $tipos      = $tipos_pago + ['Unificacion' => 'Unificacion'];
         $carteras   = Cartera::where('estado','Activo')->get();
         $now        = Carbon::today();
         $now        = formatoFecha(ano($now),mes($now),dia($now));
 
-
-        $otros_pagos=
-        DB::table('otros_pagos')
+        $otros_pagos= DB::table('otros_pagos')
             ->join('facturas','otros_pagos.factura_id','=','facturas.id')
             ->join('users','facturas.user_create_id','=','users.id')
             ->select('otros_pagos.id as id')
@@ -72,72 +69,70 @@ class PagoController extends Controller
             ->with('otros_pagos',$otros_pagos);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        
         DB::beginTransaction();
 
-        try{
-          
-          $cadena           = $request->info;
-          $num_factura      = $request->num_factura;  
-          $fecha_factura    = $request->fecha_factura;
-          $tipo_pago        = $request->tipo_pago;
-          $cartera          = $request->cartera;
-          $len_cadena       = strlen($cadena);
-          $vector           = array();
-          $contenedor       = "";
-          $now              = Carbon::today();
-          $bandera          = 0;
+        try {
+            $cadena           = $request->info;
+            $num_factura      = $request->num_factura;  
+            $fecha_factura    = $request->fecha_factura;
+            $tipo_pago        = $request->tipo_pago;
+            $cartera          = $request->cartera;
+            $len_cadena       = strlen($cadena);
+            $vector           = array();
+            $contenedor       = "";
+            $now              = Carbon::today();
+            $bandera          = 0;
  
-          for( $i = 0; $i < $len_cadena ; $i++ ){
-            if( $cadena[$i] == ','){ array_push($vector,$contenedor);  $contenedor = "";  }
-            else{  $contenedor = $contenedor.$cadena[$i];  }        
-          }
-          array_push($vector,$contenedor);
-
-         $factura = new Factura();
-          $factura->num_fact        = $num_factura;
-          $factura->fecha           = $fecha_factura;
-          $factura->credito_id      = null;
-          $factura->total           = 0 ;
-          $factura->tipo            = $tipo_pago;
-          $factura->user_create_id  = Auth::user()->id;
-          $factura->user_update_id  = Auth::user()->id;
-          $factura->save();
-
-
-        for ($k=0; $k < count($vector); $k=$k+4) {  
-            if($vector[$k] == " "){
-                $factura->total= $vector[$k+3];
-                $factura->save();
-            }else{
-                $pago = new OtrosPagos();
-                $pago->factura_id       = $factura->id;
-                $pago->cartera_id       = $cartera;
-                $pago->fecha_factura    = $factura->fecha;
-                $pago->cantidad         = $vector[$k];
-                $pago->concepto         = $vector[$k+1];
-                $pago->valor_unitario   = $vector[$k+2];
-                $pago->subtotal         = $vector[$k+3];
-                $pago->save();
+            for ( $i = 0; $i < $len_cadena ; $i++ ) {
+                if ( $cadena[$i] == ',') { 
+                    array_push($vector, $contenedor);  
+                    $contenedor = "";  
+                }
+                else $contenedor = $contenedor.$cadena[$i];
             }
+            array_push($vector,$contenedor);
+
+            $factura = new Factura();
+            $factura->num_fact        = $num_factura;
+            $factura->fecha           = $fecha_factura;
+            $factura->credito_id      = null;
+            $factura->total           = 0 ;
+            $factura->tipo            = $tipo_pago;
+            $factura->user_create_id  = Auth::user()->id;
+            $factura->user_update_id  = Auth::user()->id;
+            $factura->save();
+
+
+            for ($k=0; $k < count($vector); $k=$k+4) {  
+                if ($vector[$k] == " ") {
+                    $factura->total= $vector[$k+3];
+                    $factura->save();
+                } else {
+                    $pago = new OtrosPagos();
+                    $pago->factura_id       = $factura->id;
+                    $pago->cartera_id       = $cartera;
+                    $pago->fecha_factura    = $factura->fecha;
+                    $pago->cantidad         = $vector[$k];
+                    $pago->concepto         = $vector[$k+1];
+                    $pago->valor_unitario   = $vector[$k+2];
+                    $pago->subtotal         = $vector[$k+3];
+                    $pago->save();
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                "mensaje" => "Se generaron los pagos Éxitosamente !!!",
+                'factura' => $factura ]
+            );
+
+        } catch(\Exception $e){
+            DB::rollback();
         }
-
-        DB::commit();
-
-        return response()->json(["mensaje" => "Se generaron los pagos Éxitosamente !!!", 'factura' => $factura ]);
-
-    } catch(\Exception $e){
-        DB::rollback();
-    }
-
     }
 
     public function show($id){}

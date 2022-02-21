@@ -169,11 +169,7 @@ class AnularPagoCredito
 
                 DB::rollback();
                 flash()->error('Exíste una multa en "Debe" diferente de la que se quiere anular, se recomienda saldar la multa en "Debe" temporalmente para poder hacer la transacción de anulación deseada.');
-                return redirect()->route('start.facturas.index');
-
-                            
-                //dd('existe una multa activa diferente');
-                            
+                return redirect()->route('start.facturas.index');        
             }
         } 
         //si no existen multas vigentes

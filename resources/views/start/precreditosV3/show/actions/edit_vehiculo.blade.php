@@ -99,9 +99,9 @@
             const form = document.querySelector(`#formVehiculo${index}`);
             form.submit();
         })
-        .set(
-            {title: "Editar vehículo"},
-            {labels: {ok: "Guardar Cambios", cancel: "Cerrar"}}
-        );
+        .set({
+            title: "Editar vehículo",
+            labels: {ok: "Guardar Cambios", cancel: "Cerrar"}
+        });
     }
 </script>

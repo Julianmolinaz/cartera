@@ -11,7 +11,6 @@ class Solicitud {
     this.meses = payload.meses || "";
     this.cuotas = payload.cuotas || "";
     this.vlr_cuota = payload.vlr_cuota || "";
-    this.vlr_asistencia = payload.vlr_asistencia || "";
     this.p_fecha = payload.p_fecha || "";
     this.s_fecha = payload.s_fecha || "";
     this.estudio = payload.estudio || "";

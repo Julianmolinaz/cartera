@@ -8,6 +8,13 @@ use Exception;
 use App as _;
 use DB;
 
+/*
+|--------------------------------------------------------------------------
+| RECIBOS DE CAJA
+|--------------------------------------------------------------------------
+|
+*/
+
 class ComprobantesDePago
 {
     protected $ini;
@@ -79,8 +86,7 @@ class ComprobantesDePago
             $this->prerecibo = $prerecibo;  
             $this->temporal = [];
             
-            foreach ($prerecibo->pagos as $pago) {     
-
+            foreach ($prerecibo->pagos as $pago) {
                 
                 if ($pago->concepto_id == 2) {                    
                     
@@ -198,7 +204,7 @@ class ComprobantesDePago
             $item->prefijo = 'CC';
             $item->consec = '1';
             $item->no_cuota = '1';
-            $item->fecha_venc = '31/12/2021';
+            $item->fecha_venc = '31/12/2022';
         }
 
         $item->cod_cuenta = $cuenta;

@@ -25,6 +25,7 @@ class FacturasRepository
                 "ventas.id as id",
                 "ventas.precredito_id",
                 "ventas.cantidad",
+                "ventas.valor",
                 "productos.nombre as producto_nombre",
                 "productos.id as producto_id",
                 "productos.con_vehiculo",
@@ -72,6 +73,7 @@ class FacturasRepository
             $temp = [
                 'id' => $element->id,
                 'precredito_id' => $element->precredito_id,
+                'valor' => $element->valor,
                 'producto' => [
                     'nombre' => $element->producto_nombre,
                     'cantidad' => $element->cantidad,

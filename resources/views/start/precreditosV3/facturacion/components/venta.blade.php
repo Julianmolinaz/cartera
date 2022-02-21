@@ -9,14 +9,25 @@
                             @{{ venta.factura && venta.factura.num_fact ? 
                                 '-  # ' + venta.factura.num_fact + ' - ' + venta.factura.estado 
                                 : '- Sin facturar'}}
-                            </span>
+                        </span>
                     </p>
                     <div>
                         <ul class="invoices-cambios">
+                            <li>
+                                <div class="invoices-cambios__item">
+                                    <div>Valor producto</div>
+                                    <div>$ @{{ venta.valor | formatPrice }}</div>
+                                    <div></div>
+                                </div>
+                            </li>
                             <li v-if="venta.producto.con_vehiculo && venta.vehiculo">
                                 <div class="invoices-cambios__item">
                                     <div>Vehículo</div>
-                                    <div>@{{ venta.vehiculo.placa }}</div>
+                                    <div>@{{ venta.vehiculo.tipo_vehiculo +
+                                        ' (RPM: '+ venta.vehiculo.cilindraje +') '
+                                        + venta.vehiculo.placa
+                                        + '- Modelo: ' + venta.vehiculo.modelo}}
+                                    </div>
                                     <div></div>
                                 </div>
                             </li>
@@ -385,5 +396,15 @@
         display: grid;
         grid-template-columns: 1fr 2fr 1fr;
         gap: 1rem;
+    }
+    @media (max-width: 786px) {
+        .invoices-cambios__item {
+            grid-template-columns: 1fr 1fr;
+        }   
+    }
+    @media (max-width: 500px) {
+        .invoices-cambios__item {
+            grid-template-columns: 1fr;
+        }   
     }
 </style>

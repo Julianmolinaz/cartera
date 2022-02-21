@@ -1,6 +1,6 @@
 <script>
     function editPeriodoDias(periodo, pFecha, sFecha, solicitudId) {
-        let route = "/start/v3/creditos/update-fecha-pago";
+        let route = "";
         let content = `
             <form method="POST" action="${route}" id="formFechaPago">
                 <div class="row form-group">
@@ -37,9 +37,9 @@
             const form = document.querySelector("#formFechaPago");
             form.submit();
         })
-        .set(
-            {title: "Editar periodo y dias de pago"},
-            {labels: {ok: "Guardar Cambios", cancel: "Cerrar"}}
-        );
+        .set({
+            title: "Editar periodo y dias de pago",
+            labels: {ok: "Guardar Cambios", cancel: "Cerrar"}
+        });
     }
 </script>

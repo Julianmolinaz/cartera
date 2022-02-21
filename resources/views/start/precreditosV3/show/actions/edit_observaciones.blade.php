@@ -19,9 +19,9 @@
             const form = document.querySelector("#formObservaciones");
             form.submit();
         })
-        .set(
-            {title: "Editar Observaciones"},
-            {labels: {ok: "Guardar Cambios", cancel: "Cerrar"}}
-        );
+        .set({
+            title: "Editar Observaciones",
+            labels: {ok: "Guardar Cambios", cancel: "Cerrar"}
+        });
     }
 </script>

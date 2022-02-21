@@ -22,29 +22,32 @@
     @foreach($data['ventas'] as $key => $venta)
         <div class="card-content__item" style="background-color: #E5E5E5">
             <div class="card-content__subitem">
-                <div class="card-content__subitem-title">Producto {{ $key + 1 }}</div>
+                <div class="card-content__subitem-title">
+                    Producto {{ $key + 1 }}
+                </div>
             </div>
             <div class="card-content__subitem">
                 <div class="card-content__subitem-title"></div>
                 <div style="font-weight: 700">{{ $venta['producto']['nombre'] }}</div>
             </div>
-            @if($venta['producto']['con_vehiculo'])
             <div class="card-content__subitem">
                 <div class="card-content__subitem-title"></div>
-                @permission('editar_vehiculo')
-                <div>
+                <div style="font-weight: 700">
+                    {{ $venta['valor'] ? "$ " . decimal($venta['valor']) : "" }}
+                    @permission('editar_valor_producto')
                     <a
                         href="javascript:void(0);"
-                        onclick="editVehiculo(
-                            {{ json_encode($venta['vehiculo']) }},
+                        onclick="editValorProducto(
+                            {{ json_encode($venta['valor']) }},
+                            {{ $venta['id'] }},
                             {{ $solicitud->id }},
-                            {{ $key +  1 }}
+                            {{ $key + 1 }}
                         )"
-                    >editar vehículo</a>
+                    >edit</a>
+                    @endpermission
                 </div>
-                @endpermission
             </div>
-            @endif
+
         </div>
         
         @if($venta['producto']['con_vehiculo'] && $venta['vehiculo'])
@@ -59,3 +62,4 @@
 </div>
 
 @include('start.precreditosV3.show.actions.edit_vehiculo')
+@include('start.precreditosV3.show.actions.edit_valor_producto')

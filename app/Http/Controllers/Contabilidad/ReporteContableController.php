@@ -273,8 +273,7 @@ class ReporteContableController extends Controller
         
         $data = [];
         $data = $repor_caja->make(true);
-        // dd($data);
-        
+
         if (!count($data)) {
             flash()->error('No existen registros para esta busqueda =(');
             return redirect()->back()
@@ -325,31 +324,31 @@ class ReporteContableController extends Controller
                 'id' => 'terceros',
                 'name' => 'Terceros',
                 'route' => 'contabilidad.reportes.terceros.index',
-                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',
+                'descripcion' => 'Genera la información necesaria para la creación de clientes',
             ],
             [
                 'id' => 'comprobantes_de_pago',
                 'name' => 'Recibos de caja',
                 'route' => 'contabilidad.reportes.recibos_caja.index',
-                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',   
+                'descripcion' => 'Muestra los abonos de las obligaciones relacionas.',   
             ],
             [
                 'id' => 'comprobante_ventas',
                 'name' => 'Facturas de venta',
                 'route' => 'contabilidad.reportes.facturas_venta.index',
-                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',
+                'descripcion' => 'Permite crear la obligación al cliente y el ingreso para la empresa.',
             ],
             [
                 'id' => 'compras_soat_rtm',
                 'name' => 'Compras',
                 'route' => 'contabilidad.reportes.compras.index',
-                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',
+                'descripcion' => 'Genera el costo de la venta (Se utilizan las facturas registradas, una por cada producto de la obligación).',
             ],
             [
                 'id' => 'facturas_proveedor',
                 'name' => 'Facturas proveedor',
                 'route' => 'contabilidad.reportes.facturas_proveedor.index',
-                'descripcion' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis eros in urna vulputate gravida tristique id nisi. Maecenas mollis lorem id efficitur consectetur. In faucibus nulla sed nisl cursus.',
+                'descripcion' => 'Genera toda la información de la compra del producto, como valor del producto, a quien se factura, fecha de expedición proveedor, etc.',
             ],
 
         ];

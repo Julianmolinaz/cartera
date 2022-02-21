@@ -92,6 +92,7 @@ class ActualizarSolicitudService
                 'id' => $venta['id'],
                 'producto_id' =>  $venta['producto']['producto_id'],
                 'cantidad' => $venta['producto']['cantidad'],
+                'valor' => $venta['valor'],
                 'precredito_id' => $this->solicitud->id
             ];
 

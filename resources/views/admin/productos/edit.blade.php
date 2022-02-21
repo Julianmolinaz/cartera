@@ -77,6 +77,21 @@
                     </div>
                 </div>
             </div>
+            <!-- VALORES POR DEFAULT -->
+            <div class="col-md-12" style="padding:0;">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="valores">Valores por defecto</label>
+                        <input 
+                            type="text"
+                            name="valores"
+                            class="form-control"
+                            value="{{ json_decode($producto->valores) }}"
+                        >
+                        <span class="help-block">Separe los valores con punto y coma (;) sin espacios entre valores</span>
+                    </div>
+                </div>
+            </div>            
             <!-- DESCRIPCION -->  
             <div class="form-group">
                 <div class="col-md-12 col-sm-12 col-xs-12">
