@@ -49,7 +49,7 @@
                     <span class="help-block">@{{ errors.first(rules.fecha_solicitud.name) }}</span>
                 </div>
                 <!-- CARTERA  -->
-                <div v-bind:class="['form-group','col-md-4',errors.first(rules.cartera.name) ? 'has-error' :'']">
+                <div v-bind:class="['form-group','col-md-3',errors.first(rules.cartera.name) ? 'has-error' :'']">
                     <label for="">Cartera @{{ rules.cartera.required }}</label>
                     <select class="form-control my-input" 
                         v-model="solicitud.cartera_id"
@@ -64,7 +64,7 @@
                     <span class="help-block">@{{ errors.first(rules.cartera.name) }}</span>
                 </div>
                 <!-- VENDEDOR  -->
-                <div v-bind:class="['form-group','col-md-4',errors.first(rules.funcionario_id.name) ? 'has-error' :'']">
+                <div v-bind:class="['form-group','col-md-3',errors.first(rules.funcionario_id.name) ? 'has-error' :'']">
                     <label for="">Vendedor @{{ rules.funcionario_id.required }}</label>
                     <select class="form-control" 
                         v-model="solicitud.funcionario_id"
