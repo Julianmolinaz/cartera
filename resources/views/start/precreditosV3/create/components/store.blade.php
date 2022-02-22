@@ -87,7 +87,7 @@
             setSolicitud(state, solicitud) {
                 state.solicitud = solicitud;
             },
-            setCreditos(state, credito) {
+            setCredito(state, credito) {
                 state.credito = credito;
             },
             setVehiculoAClonar(state, vehiculo) {
@@ -211,9 +211,10 @@
             validarValorVentas({state, dispatch}) {
                 return new Promise((resolve, reject) => {
                     let msg = "";
-                    if (state.ventas.length === 0) resolve();
+                    // if (state.ventas.length === 0) resolve();
                     for (let i = 0; i < state.ventas.length; i++) {
-                        if (state.ventas[i].valor === "") {
+                        console.log(state.ventas[i].valor);
+                        if (state.ventas[i].valor === "" || state.ventas[i].valor === 0) {
                             msg += `Se requiere el valor del producto ${i + 1} <br>`;
                         }
                         if (i === state.ventas.length - 1) resolve(msg);

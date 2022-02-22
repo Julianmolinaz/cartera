@@ -1,5 +1,5 @@
 <script type="text/x-template" id="credito-template">
-    <div>
+    <div class="credito-create-container">
         <ul class="info-solicitud-content">
             <li class="info-solicitud-item">Solicitud: @{{ $store.state.solicitud.id }} |</li>
             <li class="info-solicitud-item">Costo del Crédito: $@{{ $store.state.solicitud.vlr_fin | formatPrice }} |</li>
@@ -177,20 +177,6 @@
                     </span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12" style="margin-top:20px;">
-                    <center>
-                        <a class="btn btn-default" @click="volver">
-                            <i class="fa fa-backward" aria-hidden="true"></i>
-                            Volver
-                        </a>
-                        <a href="javascript:void(0);" class="btn btn-primary" @click="onSubmit">
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                            Salvar
-                        </a>
-                    </center>
-                </div>
-            </div> 
         </form>
     </div>
 </script>
@@ -216,30 +202,30 @@
                 return this.$store.getters.getRutaSalida;
             }
         },
-        methods: {     
-            async volver() {
-                if (! await this.validation()) return false; 
-                $('.nav-tabs a[href="#solicitud"]').tab('show');
-            },                
-            async validation() {
-                if ( ! await this.$validator.validate() ) {
-                    alertify.set('notifier','position', 'top-right');
-                    alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
-                    return false;
+        methods: {
+            async validar() {
+                if (! await this.$validator.validate()) {
+                    let msgError = "Por favor complete los campos del crédito<br>";
+                    this.$store.state.errores += msgError;
+                } else {
+                    await this.assignData();
                 }
-                return true;
             },
-            async onSubmit() {
-                this.$store.dispatch('onSubmit');
-            }, 
+            async assignData() {
+                await this.$store.commit('setCredito', this.credito);
+            }
         },
         created() {
             this.credito = this.$store.state.credito;
+            Bus.$on("VALIDAR_CREDITO", async () => await this.validar());
         }
     });
 </script>
 
 <style scoped>
+    .credito-create-container {
+        padding: 2rem 3rem;
+    }
     .info-solicitud-content {
         list-style-type: none;
         padding: 0px;

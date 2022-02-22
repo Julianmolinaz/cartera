@@ -118,18 +118,18 @@
         },
         props: ['vehiculo', 'index'],
         methods: {
-            async validacion() {
-                if (!await this.$validator.validate()) {
-                    let error = `Por favor complete los campos del vehiculo para el producto ${this.index}`;
-                    alertify.notify(error, 'error', 5);
-                }
-            },
-            async onSubmit() {
+            async validar() {
                 if (!await this.$validator.validate()) {
                     let error = `Por favor complete los campos del vehiculo para el producto ${this.index}`;
                     this.$store.state.errores += error + "<br>";
                 }
             },
+            // async onSubmit() {
+            //     if (!await this.$validator.validate()) {
+            //         let error = `Por favor complete los campos del vehiculo para el producto ${this.index}`;
+            //         this.$store.state.errores += error + "<br>";
+            //     }
+            // },
             placaToUpperCasse() {
                 this.vehiculo.placa = capitalize(this.vehiculo.placa);
             }
@@ -142,11 +142,11 @@
         created() {
 
             Bus.$on('VALIDAR_VEHICULO', () => {
-                this.validacion();
+                this.validar();
             });
-            Bus.$on('VEHICULO_ON_SUBMIT', () => {
-                this.onSubmit();
-            });
+            // Bus.$on('VEHICULO_ON_SUBMIT', () => {
+            //     this.onSubmit();
+            // });
             Bus.$on('consultarVehiculo', () => {
                 this.$store.commit("setToListaVehiculos", this.vehiculo);
             });

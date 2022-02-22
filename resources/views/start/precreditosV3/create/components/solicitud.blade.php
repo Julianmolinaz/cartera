@@ -253,31 +253,17 @@
                     }
                 }
             },
-            async onSubmit() {
+            async assignData() {
+                await this.$store.commit('setSolicitud', this.solicitud);
+            }, 
+            async validar() {
                 if (! await this.$validator.validate()) {
-                    let msgError = "Por favor complete los campos de la solicitud";
+                    let msgError = "Por favor complete los campos de la solicitud<br>";
                     this.$store.state.errores += msgError;
                 } else {
                     await this.assignData();
                 }
-            }, 
-            async assignData() {
-                await this.$store.commit('setSolicitud', this.solicitud);
-            }, 
-            async continuar () {
-                if (! await this.$validator.validate()) {
-                    //
-                } else {
-                    await this.assignData();
-                }
             },                
-            async validation() {
-                if ( ! await this.$validator.validate() ) {
-                    alertify.notify('Por favor complete los campos', 'error', 5);
-                    return false;
-                }
-                return true;
-            },
             async setup(){
 
                 if (this.solicitud.meses && this.solicitud.periodo) {
@@ -295,15 +281,12 @@
 
                 await this.validar_negocio();
             },
-            setRango2(){
-
+            setRango2() {
                 this.solicitud.s_fecha = '';
-            
+    
                 if (this.solicitud.periodo === 'Quincenal') {
-
                     var n = parseInt(this.solicitud.p_fecha);
                     this.solicitud.s_fecha = n + 15;
-                    
                 } else {
                     this.rango2 = []
                 }
@@ -331,13 +314,7 @@
                 this.setRango2();
             }
 
-            Bus.$on("VALIDAR_SOLICITUD_CONTINUAR", async () => {
-                await this.continuar();
-            });
-            
-            Bus.$on("SOLICITUD_ON_SUBMIT", async () => {
-                await this.onSubmit();
-            })
+            Bus.$on("VALIDAR_SOLICITUD", async () => await this.validar());
         }
     });
 </script>

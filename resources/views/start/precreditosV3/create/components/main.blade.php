@@ -35,8 +35,8 @@
                     </span>
                 </li>
                 <li 
-                    :class="['tab-item', showTabCredito ? '' : 'tab-item--inactive']" 
-                    click="go('credito')"
+                    :class="['tab-item', showTabCredito ? '' : 'tab-item--inactive', view === 'credito' ? 'tab-item--active' : '']" 
+                    @click="go('credito')"
                 >
                     <span>
                         <i class="fa fa-rss-square tab-item__icon" aria-hidden="true"></i>Crédito
@@ -52,7 +52,7 @@
                 <div id="solicitud" v-show="view === 'solicitud'">
                     <solicitud-component />
                 </div>
-                <div v-if="view === 'credito'">
+                <div v-show="view === 'credito'">
                     <credito-component />
                 </div>
             </div>
@@ -82,7 +82,7 @@
             }
         },
         methods: {
-            go(view, event) {
+            go(view) {
                 this.$store.commit("setPermitirContinuar", true);
 
                 switch (this.view) {
@@ -91,14 +91,17 @@
                         break;
                     case "solicitud":
                         this.validarSolicitud();
-                        break;    
+                        break;
+                    case "credito":
+                        this.validarCredito();
+                        break;
                     default:
                         break;
                 }
 
                 setTimeout(() => {
                     if (this.$store.state.permitirContinuar) {
-                        Bus.$emit('assign_'+this.view);
+                        Bus.$emit('assign_' + this.view);
                         this.view = view;
                     }
                 }, 300);
@@ -132,7 +135,10 @@
                 Bus.$emit("VALIDAR_VEHICULO");
             },
             validarSolicitud() {
-                Bus.$emit("VALIDAR_SOLICITUD_CONTINUAR");
+                Bus.$emit("VALIDAR_SOLICITUD");
+            },
+            validarCredito() {
+                Bus.$emit("VALIDAR_CREDITO");
             },
             noExistenProductos() {
                 return this.$store.getters.getCantidadProductos < 1;
@@ -141,21 +147,34 @@
                 return await this.$store.dispatch("validarValorVentas");
             },
             async onSubmit() {
+                // Reset errores
                 this.$store.state.errores = "";
 
+                // Validar existencia de productos
                 if (this.noExistenProductos()) {
                     this.$store.state.permitirSalvar = false;
                     this.$store.state.errores += "Debe agregar por lo menos un producto<br>";
                 }
+
+                // Validar precio de productos completos
                 let errorEnPrecios = await this.errorEnPrecios();
-                if (errorEnPrecios) {
-                    this.$store.state.errores += errorEnPrecios;
-                }
-                Bus.$emit("VEHICULO_ON_SUBMIT");
+                if (errorEnPrecios) this.$store.state.errores += errorEnPrecios;
+
+                // -----
+                this.validarVehiculos();
 
                 setTimeout(() => {
-                    Bus.$emit("SOLICITUD_ON_SUBMIT");
+                    // ------
+                    this.validarSolicitud();
 
+                    if (this.$store.state.modo === 'Editar Credito') {
+                        setTimeout(() => {
+                            // ------
+                            this.validarCredito();
+                        }, 200);
+                    }
+
+                    // Retornar errores si existen
                     setTimeout(() => {
                         if (this.$store.state.errores !== "") {
                             alertify.alert("Error", this.$store.state.errores);
@@ -163,7 +182,7 @@
                             this.$store.dispatch("onSubmit");
                         }
                     }, 300);
-                }, 300);
+                }, 200);
             }
         },
         created() {
