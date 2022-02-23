@@ -15,7 +15,10 @@
                 Salir
             </a>
         </div>
-        
+        <div class="cliente-show-container">
+            <p>Cliente: @{{ $store.state.cliente.nombre }} | </p>
+            <p>@{{ $store.state.cliente.tipo_doc +': '+ $store.state.cliente.num_doc }}</p>
+        </div>
         <div>
             <ul class="tabs">
                 <li 
@@ -198,6 +201,11 @@
     });
 </script>
 <style scoped>
+    .cliente-show-container {
+        padding: .5rem 3rem;
+        display: flex;
+        flex-wrap: wrap;
+    }
     .panel-title {
         display: flex;
         align-items: center;

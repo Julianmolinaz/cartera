@@ -10,7 +10,6 @@ use App\Repositories as Repo;
 
 class DataParaCrearSolicitudService
 {
-
     protected $cliente_id;
     protected $credito_refinanciado_id;
 

@@ -111,7 +111,7 @@
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 1rem;
-        margin: 3rem 1rem;
+        margin: 1rem 1rem;
     }
     .producto-info {
         display: flex;
