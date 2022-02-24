@@ -52,18 +52,6 @@ Route::get('start/creditos/create/{id}/{mes}/{anio}',[
 	'as'   => 'start.creditos.create'
 ]);
 
-Route::get('start/creditos/{id}/refinanciar',[
-	'middleware' => ['permission:refinanciar_creditos'],
-	'uses' => 'CreditoController@refinanciar',
-	'as'   => 'start.creditos.refinanciar'
-]);
-
-Route::post('start/creditos/crear_refinanciacion',[
-	'middleware' => ['permission:refinanciar_creditos'],
-	'uses' => 'CreditoController@crear_refinanciacion',
-	'as'   => 'start/creditos/crear_refinanciacion'
-]);
-
 Route::get('start/creditos/cancelados',[
 	'middleware' => ['permission:consultar_cancelados'],
 	'uses' => 'CreditoController@cancelados',

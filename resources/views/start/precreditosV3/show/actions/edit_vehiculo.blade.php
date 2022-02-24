@@ -13,7 +13,6 @@
     }
 
     function showFormEditVehiculo(vehiculo, solicitudId, index, tipoVehiculos) {
-        console.log(vehiculo, solicitudId);
         let route = "/start/vehiculos";
         let options = '';
 
