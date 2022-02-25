@@ -31,7 +31,7 @@
         margin-top: 30px;
         color: #000;
         text-align: center;
-        font-size: 3rem;
+        font-size: 36px;
       }
       .mensage {
         text-align: center;

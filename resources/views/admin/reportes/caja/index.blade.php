@@ -33,7 +33,7 @@
 
         </ul>
     </div>
-    <div class="col-md-3" style="padding-right: 48px;">
+    <div class="col-md-9" style="padding-right: 48px;">
         <template >
 
             <div class="row">
@@ -41,11 +41,11 @@
                     <div class="form-group col-md-2">
                         <label for="">...</label>
                         <div class="checkbox">
-                        <label>
-                            <input type="checkbox" :checked="solo_pagos" @click="onlyPagos"> 
-                            Solo pagos
-                        </label>
-                    </div>
+                            <label>
+                                <input type="checkbox" :checked="solo_pagos" @click="onlyPagos"> 
+                                Solo pagos
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="">Sucursal</label>
@@ -68,6 +68,7 @@
                 </div>
             
             </div>
+            <div class="table-responsive">
                 <table class="table table-condensed" id="cajas" 
                     style="font-size:10px;">
                     <thead>
@@ -112,11 +113,7 @@
                         </tr>
                     </tbody>
                 </table>
-<<<<<<< HEAD
-            
-=======
-           
->>>>>>> 13ea7e08cb78e63dddcf16ee8ad17d02c72640b4
+            </div>
         </template>
     </div>
 </div>

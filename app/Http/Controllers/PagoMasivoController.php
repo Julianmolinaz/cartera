@@ -802,13 +802,8 @@ class PagoMasivoController extends Controller
         ];
         $arr[] = $header;
         $arr[] = $datos_prueba; 
-<<<<<<< HEAD
-	ob_clean();
-
-=======
         ob_clean();
         
->>>>>>> 6d278a134719191244715a686f2adb5fabda5af5
         Excel::create('pagos_masivos_'.strtotime(Carbon::now()),function($excel) use ($arr){
             
             $excel->sheet('Sheetname',function($sheet) use ($arr){       
