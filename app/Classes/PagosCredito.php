@@ -2,6 +2,7 @@
 
 namespace App\Classes;
 
+use App\Repositories as Repo;
 use App\Repositories\PagoRepository;
 use App\Http\Controllers as Ctrl;
 use Carbon\Carbon;
@@ -460,6 +461,7 @@ class PagosCredito
         }
 
         $this->descontarSaldo($nuevo_pago->abono);
+        $this->descontarARendimiento($nuevo_pago->abono);
         $this->actualizarFecha($nuevo_pago->pago_hasta);
 
         $nuevo_pago->save();
@@ -487,6 +489,7 @@ class PagosCredito
 
         $this->descontarSaldo($nuevo_pago->abono);
         $this->descontarCuotas($pay['cant']);
+        $this->descontarARendimiento($nuevo_pago->abono);
         $this->actualizarFecha($nuevo_pago->pago_hasta);
     }
 
@@ -623,11 +626,29 @@ class PagosCredito
     protected function actualizarFecha($fecha)
     {
         if (!$this->descuento) {
-            $fecha_cobro = _\FechaCobro::where('credito_id', $this->credito->id)->first();
+            $fecha_cobro = _\FechaCobro::where(
+                'credito_id', $this->credito->id
+            )->first();
             
             DB::table('fecha_cobros')
                 ->where('credito_id', $this->credito->id)
                 ->update(['fecha_pago' => $fecha]);
         } 
+    }
+
+    protected function descontarARendimiento($monto)
+    {
+        if ($this->descuento) {
+            $credito = Repo\CreditoRepository::find($this->credito->id);
+            $nuevoRendimiento = $credito->rendimiento - $monto;
+
+            if ($nuevoRendimiento < 0 ) {
+                throw new \Exception("Al calcular el rendimiento, se genera un valor negativo", 400);    
+            }
+
+            Repo\CreditoRepository::updateCredito([
+                'rendimiento' => $nuevoRendimiento
+            ], $this->credito->id);
+        }
     }
 }

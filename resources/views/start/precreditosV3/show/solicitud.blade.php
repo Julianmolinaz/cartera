@@ -1,17 +1,6 @@
 <div class="card-header {{($data['credito'] && $data['credito']->credito_padre) ? 'card-header--sky' : ''}}">
     <div class="card-title">Solicitud ={{ $solicitud->id }}</div>
     <div class="card-menu">
-        @permission('consultar_clientes')
-        <a 
-            href="{{ route('start.clientes.show', $solicitud->cliente_id) }}"
-            class='btn btn-default btn-xs my-btn'
-            data-toggle="tooltip" 
-            data-placement="top" 
-            title="Ver cliente"
-        >
-            <span class="glyphicon glyphicon-user"></span>
-        </a>
-        @endpermission
         
         @include('start.precreditosV3.show.actions.btn_editar_solicitud')
 

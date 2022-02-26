@@ -1,5 +1,5 @@
 @if(
-    ($solicitud->aprobado !== 'Si' && $user->can('editar_solicitud')) ||
+    ($solicitud->aprobado === 'En estudio' && $user->can('editar_solicitudes')) ||
     $user->can('editar_creditos')
 )
     <a 

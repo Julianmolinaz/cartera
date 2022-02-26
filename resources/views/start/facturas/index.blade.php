@@ -7,7 +7,7 @@
     <div class="panel-heading">
       <p>
         <h2>
-        Facturas Créditos <i class="fas fa-handshake"></i>
+        Recibos de caja Créditos <i class="fas fa-handshake"></i>
         <button type="button" class="btn btn-default pull-right" id="btn_exc" onclick="Exportar();">&nbsp;&nbsp;Exportar&nbsp;&nbsp;</button>
       </h2>
       </p>  

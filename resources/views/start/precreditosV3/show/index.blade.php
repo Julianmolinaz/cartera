@@ -9,11 +9,11 @@
 
 @section('contenido')
     @include('start.precreditosV3.show.styles')
+    @include('flash::message')
 
-    <div class="col-md-12">
-        @include('flash::message')
+    <div class="col-md-12 info-cliente-container">
+        @include("start.precreditosV3.show.cliente")
     </div>
-    
     <div class="col-md-12 obligacion-container">
         <div class="card-productos">
             @include('start.precreditosV3.show.ventas.index')
@@ -41,19 +41,19 @@
     </div>
 
     @if($data['pagos_solicitud'])
-    <div class="col-md-12">
+    <div class="col-md-12 pagos-solicitud-container">
         @include('start.precreditosV3.show.pagos_solicitud')
     </div>
     @endif
 
     @if($data['pagos_credito'])
-    <div class="col-md-12">
+    <div class="col-md-12 pagos-credito-container">
         @include('start.precreditosV3.show.pagos_credito')
     </div>
     @endif
 
     @if($data['llamadas'])
-    <div class="col-md-12">
+    <div class="col-md-12 llamadas-container">
         @include('start.precreditosV3.show.llamadas')
     </div>
     @endif

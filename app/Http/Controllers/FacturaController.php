@@ -44,8 +44,8 @@ class FacturaController extends Controller
       $variables  = Variable::find(1);
 
       return view('start.facturas.index')
-      ->with('facturas',$facturas)
-      ->with('variables',$variables);
+        ->with('facturas',$facturas)
+        ->with('variables',$variables);
     }
 
     //retorna la vista de todos pagos en el sistema
@@ -76,7 +76,10 @@ class FacturaController extends Controller
     public function abonos(Request $request)
     {
         try {
-            $abono = new \App\Classes\Abono( $request->credito_id, intval($request->monto) );
+            $abono = new \App\Classes\Abono(
+                $request->credito_id,
+                intval($request->monto) 
+            );
             
             return res(false, $abono->make(), '');
 
@@ -100,24 +103,22 @@ class FacturaController extends Controller
         $bancos     = getEnumValues('facturas', 'banco');
 
         $sum_sanciones = DB::table('sanciones')
-                            ->where([['credito_id','=',$id],['estado','Debe']])
-                            ->sum('valor');
+            ->where([['credito_id','=',$id],['estado','Debe']])
+            ->sum('valor');
 
-        if ($sum_sanciones == 'null') { 
-            $sum_sanciones = 0; 
-        }
+        if ($sum_sanciones == 'null') $sum_sanciones = 0; 
 
         $ultimo_pago = DB::table('pagos')
-                          ->where([['credito_id','=',$credito->id],['concepto','=','Cuota']])
-                          ->orWhere([['credito_id','=',$credito->id],['concepto','=','Cuota Parcial']])
-                          ->orderBy('pago_hasta','desc')
-                          ->first();
+            ->where([['credito_id','=',$credito->id],['concepto','=','Cuota']])
+            ->orWhere([['credito_id','=',$credito->id],['concepto','=','Cuota Parcial']])
+            ->orderBy('pago_hasta','desc')
+            ->first();
 
 
         $cuota_parcial = DB::table('pagos') 
-                          ->where([['credito_id','=',$id],['concepto','=','Cuota Parcial']])
-                          ->orderBy('pago_hasta','desc')
-                          ->get();
+            ->where([['credito_id','=',$id],['concepto','=','Cuota Parcial']])
+            ->orderBy('pago_hasta','desc')
+            ->get();
 
         /******************** JURIDICO **************************/      
         /* se valida la existencia de sanciones Juridicas en la tabla extras, si existen se valida que haya abonos en 
@@ -125,9 +126,9 @@ class FacturaController extends Controller
 
 
         $juridico = Extra::where('credito_id',$id)
-                        ->where('concepto','Juridico')
-                        ->where('estado','Debe')
-                        ->get();   
+            ->where('concepto','Juridico')
+            ->where('estado','Debe')
+            ->get();   
 
         if (count($juridico) > 0) { 
 

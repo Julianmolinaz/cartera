@@ -273,6 +273,5 @@ class ConsultarCreditoService
         }
 
         return $llamadas;
-
     }
 }

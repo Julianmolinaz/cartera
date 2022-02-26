@@ -7,6 +7,7 @@ use App\Repositories\SolicitudRepository as RepoSolicitud;
 use App\Repositories\VentasRepository as RepoVenta;
 use App\Repositories\VehiculosRepository as RepoVehiculo;
 
+use Auth;
 use DB;
 
 class SalvarSolicitudService
@@ -24,11 +25,19 @@ class SalvarSolicitudService
     {
         $errors = [];
 
-        $validarVentas = ValidarVentasService::make($this->data['ventas']);
-        if ($validarVentas->fails()) $errors = array_merge($errors, $validarVentas->errors);
+        // Validar ventas
 
-        $validarSolicitud = ValidarSolicitudService::make($this->data['solicitud'], "Crear Solicitud");
-        if ($validarSolicitud->fails()) $errors = array_merge($errors, $validarSolicitud->errors);
+        $validarVentas = ValidarVentasService::make($this->data['ventas']);
+        if ($validarVentas->fails()) 
+            $errors = array_merge($errors, $validarVentas->errors);
+
+        // Validar solicitud
+
+        $validarSolicitud = ValidarSolicitudService::make(
+            $this->data['solicitud'], "Crear Solicitud"
+        );
+        if ($validarSolicitud->fails()) 
+            $errors = array_merge($errors, $validarSolicitud->errors);
 
         if ($errors) throw new \Exception('**'.json_encode($errors));
 
@@ -55,8 +64,9 @@ class SalvarSolicitudService
             $dataVenta = [
                 'producto_id' =>  $venta['producto']['producto_id'],
                 'cantidad' => $venta['producto']['cantidad'],
+                'valor' => $venta['valor'],
                 'precredito_id' => $this->solicitud->id,
-                'created_by' => 1 // pendiente
+                'created_by' => Auth::user()->id,
             ];
 
             if ($venta['producto']['con_vehiculo']) {
@@ -71,8 +81,9 @@ class SalvarSolicitudService
     protected function salvarSolicitud()
     {
         $dataSolicitud = $this->data['solicitud'];
-        $dataSolicitud['user_create_id'] = 1; // pendiente
+        $dataSolicitud['user_create_id'] = Auth::user()->id; 
         $dataSolicitud['version'] = 3;
+        $dataSolicitud['punto_id'] = Auth::user()->punto_id;
 
         $this->solicitud = RepoSolicitud::saveSolicitud($dataSolicitud);
     }

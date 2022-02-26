@@ -1,7 +1,19 @@
 <div class="card-content__item">
     <div class="card-content__subitem">
         <div class="card-content__subitem-title">Placa</div>
-        <div>{{ $venta['vehiculo']['placa'] }}</div>
+        <div>
+            {{ $venta['vehiculo']['placa'] }}
+            @permission('editar_vehiculo')
+                <a
+                    href="javascript:void(0);"
+                    onclick="editVehiculo(
+                        {{ json_encode($venta['vehiculo']) }},
+                        {{ $solicitud->id }},
+                        {{ $key +  1 }}
+                    )"
+                >edit</a>
+            @endpermission
+        </div>
     </div>
     <div class="card-content__subitem">
         <div class="card-content__subitem-title">Tipo vehículo</div>

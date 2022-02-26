@@ -1,5 +1,5 @@
 <script type="text/x-template" id="solicitud-template">
-    <div>
+    <div class="solicitud-container">
         <form @submit.prevent="" autocomplete="off">
             <div class="row">
                 <!-- APROBADO  -->
@@ -79,19 +79,20 @@
                 </div>
             </div>
             <div class="row">
-                
-            </div>
-            <div class="row">
                 <!-- COSTO DEL CREDITO  -->
-                <div v-bind:class="['form-group','col-md-2',errors.first(rules.centro_costo.name) ? 'has-error' :'']">
-                    <label for="">Costo del Crédito @{{ rules.centro_costo.required }}</label>
+                <div v-bind:class="['form-group','col-md-4',errors.first(rules.centro_costo.name) ? 'has-error' :'']">
+                    <label for="costo credito" class="precio-sugerido">
+                        <span>Costo del Crédito @{{ rules.centro_costo.required }}</span>
+                        <span style="font-weight:400;color:gray;">sugerido: $ @{{ getTotalVentas | formatPrice}}</span>
+                    </label>
                     <input type="tex" 
                         class="form-control" 
                         placeholder="Monto Solicitado"
                         v-model="solicitud.vlr_fin"
                         @blur="validar_negocio"
                         v-validate="rules.centro_costo.rule"
-                        :name="rules.centro_costo.name">
+                        :name="rules.centro_costo.name"
+                    >
                     <span class="help-block" v-if="solicitud.vlr_fin > 0">$ @{{ solicitud.vlr_fin | formatPrice }}</span>                       
                     <span class="help-block">@{{ errors.first(rules.centro_costo.name) }}</span>
                 </div>
@@ -106,18 +107,6 @@
                         :name="rules.cuota_inicial.name">
                     <span class="help-block" v-if="solicitud.cuota_inicial > 0">$ @{{ solicitud.cuota_inicial | formatPrice }}</span>
                     <span class="help-block">@{{ errors.first(rules.cuota_inicial.name) }}</span>
-                </div>
-                <!-- VALOR ASISTENCIA  -->
-                <div v-bind:class="['form-group','col-md-2',errors.first(rules.vlr_asistencia.name) ? 'has-error' :'']">
-                    <label for="">Asistencia @{{ rules.cuota_inicial.required }}</label>
-                    <input type="text" 
-                        class="form-control" 
-                        placeholder="Monto inicial"
-                        v-model="solicitud.vlr_asistencia"
-                        v-validate="rules.cuota_inicial.rule"
-                        :name="rules.cuota_inicial.name">
-                    <span class="help-block" v-if="solicitud.cuota_inicial > 0">$ @{{ solicitud.vlr_asistencia | formatPrice }}</span>
-                    <span class="help-block">@{{ errors.first(rules.vlr_asistencia.name) }}</span>
                 </div>
                 <!-- MESES  -->
                 <div v-bind:class="['form-group','col-md-2',errors.first(rules.meses.name) ? 'has-error' :'']">
@@ -213,7 +202,7 @@
                         :name="rules.estudio.name">
                         <option selected disabled>--</option>
                         <option :value="tipo" v-for="tipo in data.arr_estudios">
-                            @{{tipo}}
+                            @{{ tipo }}
                         </option>
                     </select>
                     <span class="help-block">@{{ errors.first(rules.estudio.name) }}</span>
@@ -229,27 +218,7 @@
                     </textarea>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12" style="margin-top:20px;">
-                    <center>
-                        <a class="btn btn-default" @click="volver">
-                            <i class="fa fa-backward" aria-hidden="true"></i>
-                            Volver
-                        </a>
-                        <button class="btn btn-primary" @click="onSubmit">
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                            Salvar
-                        </button>
-                        <a class="btn btn-default" @click="continuar">
-                            <i class="fa fa-forward" aria-hidden="true"></i>
-                            Continuar
-                        </a>
-                    </center>
-                </div>
-            </div> 
-
         </form>
-
     </div>
 </script>
 
@@ -264,7 +233,8 @@
                 rango1: [],
                 rango2: [],
                 solicitud: null,
-                rules: rules_solicitud
+                rules: rules_solicitud,
+                valorSugerido: 0
             }
         },
         methods: {
@@ -280,31 +250,17 @@
                     }
                 }
             },
-            async onSubmit() {
-                console.log('onSubmit solicitud');
-                return this.$store.dispatch('onSubmit');
-            }, 
             async assignData() {
                 await this.$store.commit('setSolicitud', this.solicitud);
             }, 
-            async continuar () {
-                if (! await this.validation()) return false;
-                await this.assignData();
-                $('.nav-tabs a[href="#credito"]').tab('show') 
-            },
-            async volver() {
-                if (! await this.validation()) return false; 
-                await this.assignData();
-                $('.nav-tabs a[href="#producto"]').tab('show');
-            },                
-            async validation() {
-                if ( ! await this.$validator.validate() ) {
-                    alertify.set('notifier','position', 'top-right');
-                    alertify.notify('Por favor complete los campos', 'error', 5, function(){  });
-                    return false;
+            async validar() {
+                if (! await this.$validator.validate()) {
+                    let msgError = "Por favor complete los campos de la solicitud<br>";
+                    this.$store.state.errores += msgError;
+                } else {
+                    await this.assignData();
                 }
-                return true;
-            },
+            },                
             async setup(){
 
                 if (this.solicitud.meses && this.solicitud.periodo) {
@@ -322,15 +278,12 @@
 
                 await this.validar_negocio();
             },
-            setRango2(){
-
+            setRango2() {
                 this.solicitud.s_fecha = '';
-            
+    
                 if (this.solicitud.periodo === 'Quincenal') {
-
                     var n = parseInt(this.solicitud.p_fecha);
                     this.solicitud.s_fecha = n + 15;
-                    
                 } else {
                     this.rango2 = []
                 }
@@ -345,6 +298,9 @@
         computed: {
             data() {
                 return this.$store.state.data;
+            },
+            getTotalVentas() {
+                return this.$store.getters.getTotalVentas - this.solicitud.cuota_inicial;
             }
         },
         created() {
@@ -354,6 +310,8 @@
                 this.setup();
                 this.setRango2();
             }
+
+            Bus.$on("VALIDAR_SOLICITUD", async () => await this.validar());
         }
     });
 </script>
@@ -361,6 +319,14 @@
 <style scoped>
     .my-input-min {
         font-size: 1rem;
+    }
+    .solicitud-container {
+        padding: 2rem 3rem;
+    }
+    .precio-sugerido {
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between;
     }
 
     @media (max-width: 800px) {

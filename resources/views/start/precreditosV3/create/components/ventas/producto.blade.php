@@ -1,48 +1,57 @@
 <script type="text/x-template" id="producto-template">
-    <form @submit.prevent="">
-        <div class="row producto-container">
-            
-            <!-- NOMBRE DEL PRODUCTO -->
+    <div class="producto-container">
+        <!-- NOMBRE DEL PRODUCTO -->
+        <div class="producto-info">
             <h1 class="producto-titulo">@{{ index + 1 + '-' + producto.nombre }}</h1>
-
-            <div class="producto-acciones">
-                <!-- CLONAR PRODUCTO  -->
-                <div class="producto-acciones__clonar">
-                    <a  
-                        href="javascript:void(0);" 
-                        class="btn btn-default" 
-                        @click="listarVehiculosAClonar"
-                        id="btn-listarVehiculosAClonar"
-                        v-if="producto.con_vehiculo"
-                    >Clonar vehículo</a>
-                    
-                    <!-- LISTADO DE PLACAS A CLONAR -->
-
-                    <ul v-bind:class="[activeClone ? 'listVehiculosAClonar--acitve' : 'listVehiculosAClonar']">
-                        <li v-for="vehiculo in vehiculosAClonar">
-                            <a 
-                                href="javascript:void(0);" 
-                                @click="clonar(vehiculo)"
-                            >@{{ vehiculo.placa }}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- ELIMINAR PRODUCTO  -->
-                <div class="eliminar-container">
-                    <a  href="javascript:void(0);" 
-                        class="btn btn-danger btn-xs producto-acciones__eliminar" 
-                        title="ELiminar producto"
-                        @click="eliminar"
-                    ><span class="glyphicon glyphicon-trash"></span>
-                    </a>
-                </div>
-
+            <div>
+                <input
+                    type="number"
+                    class="form-control"
+                    style="width:12rem"
+                    placeholder="valor producto"
+                    v-model="valorVenta"
+                    @keyup="changeValorVenta"
+                >
+                <span class="help-block" v-if="valorVenta > 0">$ @{{ valorVenta | formatPrice }}</span>
             </div>
         </div>
-        <hr v-if="!producto.con_vehiculo">
-    </form> 
+
+        <div class="producto-acciones">
+            <!-- CLONAR PRODUCTO  -->
+            <div class="producto-acciones__clonar">
+                <a  
+                    href="javascript:void(0);" 
+                    class="btn btn-default" 
+                    @click="listarVehiculosAClonar"
+                    id="btn-listarVehiculosAClonar"
+                    v-if="producto.con_vehiculo"
+                >Clonar vehículo</a>
+                
+                <!-- LISTADO DE PLACAS A CLONAR -->
+
+                <ul v-bind:class="[activeClone ? 'listVehiculosAClonar--acitve' : 'listVehiculosAClonar']">
+                    <li v-for="vehiculo in vehiculosAClonar">
+                        <a 
+                            href="javascript:void(0);" 
+                            @click="clonar(vehiculo)"
+                        >@{{ vehiculo.placa }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- ELIMINAR PRODUCTO  -->
+            <div class="eliminar-container">
+                <a  href="javascript:void(0);" 
+                    class="btn btn-danger btn-xs producto-acciones__eliminar" 
+                    title="ELiminar producto"
+                    @click="eliminar"
+                ><span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </div>
+
+        </div>
+    </div>
 </script>
 
 <script>
@@ -53,11 +62,17 @@
             return {
                 name: 'venta component',
                 activeClone: false,
+                valorVenta: "",
             }
         },
         methods: {
-            alerta() {
-                alert();
+            changeValorVenta() {
+                this.$store.commit("setValorVenta", {
+                    index: JSON.parse(JSON.stringify(this.index)),
+                    valor: this.valorVenta
+                });
+
+                // this.$store.commit("setTotalVentas");
             },
             listarVehiculosAClonar() {
                 this.$store.dispatch("listarVehiculosAClonar");
@@ -75,7 +90,7 @@
             },
             eliminar() {
                 Bus.$emit('eliminarProducto', this.index);
-            }
+            },
         },
         computed: {  
             vehiculosAClonar() {
@@ -83,16 +98,30 @@
             }
         },
         created() {
+            if (this.$store.state.modo !== "Crear Solicitud") {
+                this.valorVenta = JSON.stringify(this.$store.state.ventas[this.index].valor);
+            }
         }
     });
 </script>
 <style scoped>
     .producto-container {
-        padding: 5px 15px 5px 26px;
-        margin: 0;
+        display: flex;
+        /* align-items: center; */
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1rem 1rem;
+    }
+    .producto-info {
+        display: flex;
+        align-items: start;
+        gap: 2rem;
+        flex-wrap: wrap;
     }
     .producto-titulo {
         display: inline; 
+        margin: 0;
         font-size: 3rem;
     }
     .producto-acciones {

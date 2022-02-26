@@ -83,7 +83,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-recibo">
   <div class="modal-dialog" role="document" style="width:100%">
     <div class="modal-content">
-      <div class="modal-body" id="modal-content"></div>
+      <div class="modal-body" id="modal-content" style="height: 100vh;"></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>

@@ -26,6 +26,8 @@ class PagosCreditoRepository
             ->where('descuento', true)
             ->where('credito_id', $creditoId)
             ->sum('total');
+
+        return $descuentos;
     }
 
     public static function totalPagosByCredito($creditoId)

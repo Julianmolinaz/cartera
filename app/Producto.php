@@ -17,7 +17,8 @@ class Producto extends Model implements Auditable
         'num_vehiculos',
         'descripcion', 
         'con_invoice', 
-        'con_vehiculo'
+        'con_vehiculo',
+        'valores' // valores por defecto
     ];
 
     public function setNombreAttribute($value){

@@ -13,7 +13,7 @@
             data                : {!! json_encode($data) !!}, // Insumos solicitud
             insumos             : {!! json_encode($insumos) !!}, // Insumos Venta
             insumosCredito      : {!! json_encode($insumos_credito) !!}, 
-            continuarASolicitud : true,
+            permitirContinuar   : true,
             permitirSalvar      : true,
             solicitud           : {!! json_encode($solicitud) !!} || new Solicitud({
                 cliente_id: {!! $cliente->id !!},
@@ -21,7 +21,8 @@
                 cartera_id: 6,
                 funcionario_id: {!! json_encode(Auth::user()->id) !!},
                 fecha: new Date(Date.now()).toISOString().slice(0, 10),
-                num_fact: "G"
+                num_fact: "G",
+                inicial: 0
             }),
             credito             : {!! json_encode($credito) !!} || null,
             ventas              : {!! json_encode($ventas) !!} || [], // listado de ventas agregadas a las solicitud venta: { producto: .., vehiculo: ... }
@@ -29,7 +30,9 @@
             cliente             : {!! json_encode($cliente) !!},
             permisos            : {
                 'aprobarSolicitud' : {!! json_encode(Auth::user()->can('aprobar_solicitudes')) !!}
-            }
+            },
+            totalVentas         : 0,
+            errores             : "",
         },
         getters: {
             getContinuarASolicitud(state) {
@@ -51,13 +54,31 @@
                 }
 
                 return rutaSalida;
+            },
+            getCantidadProductos(state) {
+                return state.ventas.length;
+            },
+            getCantidadVehiculos(state) {
+                let count = 0;
+                state.ventas.forEach(venta => {
+                    if (venta.vehiculo !== "") count ++;
+                });
+            },
+            getTotalVentas(state) {
+                state.totalVentas = 0;
+                state.ventas.forEach(item => {
+                    let valor = item.valor;
+                    if (valor) state.totalVentas += valor;
+                });
+                return state.totalVentas;
             }
         },
         mutations: {
-            setContinuarASolicitud(state, response) {
-                state.continuarASolicitud = response;
+            setPermitirContinuar(state, bool) {
+                state.permitirContinuar = bool;
             },
             setPermitirSalvar(state, response) {
+                console.log("set permitir salvar");
                 state.permitirSalvar = response;
             },
             setVentas(state, ventas) {
@@ -66,11 +87,14 @@
             setSolicitud(state, solicitud) {
                 state.solicitud = solicitud;
             },
-            setCreditos(state, credito) {
+            setCredito(state, credito) {
                 state.credito = credito;
             },
             setVehiculoAClonar(state, vehiculo) {
                 state.vehiculos.push(vehiculo);
+            },
+            setValorVenta(state, payload) {
+                state.ventas[payload.index].valor = payload.valor  * 1; 
             }
         },
         actions: {
@@ -90,7 +114,14 @@
                         cantidad: payload.cantidad,
                     });
 
-                    if (payload.producto.con_vehiculo) venta.vehiculo = new Vehiculo();
+                    if (payload.producto.con_vehiculo) {
+                        let now = moment().add(1, "y").format("YYYY-MM-DD");
+                        console.log(now);
+                        venta.vehiculo = new Vehiculo({
+                            vencimiento_soat: now,
+                            vencimiento_rtm: now
+                        });
+                    }    
 
                     state.ventas.push(venta);
                 }
@@ -135,7 +166,7 @@
                 delete payload.vehiculo.id;
                 state.ventas[payload.index].vehiculo = JSON.parse(JSON.stringify(payload.vehiculo));
             },
-            async onSubmit({state}) {
+            async onSubmit({state, dispatch, commit}) {
                 let url = '';
                 const dat = {
                     ventas : state.ventas,
@@ -143,16 +174,24 @@
                     credito : state.credito
                 }
 
-                if (state.modo == 'Crear Solicitud') url = '/api/precreditosV3';
-                else if (state.modo == 'Editar Solicitud') url = '/api/precreditosV3/update';
-                else if (state.modo == 'Editar Credito') url = '/api/creditosV3/update';
-                else if (state.modo == 'Refinanciar Credito') 
-                    url = '/api/refinanciacion/' + state.insumosCredito.credito_refinanciado_id;
+                switch (state.modo) {
+                    case "Crear Solicitud":
+                        url = '/api/precreditosV3';    
+                        break;
+                    case "Editar Solicitud":
+                        url = '/api/precreditosV3/update';    
+                        break;
+                    case "Editar Credito":
+                        url = '/api/creditosV3/update';    
+                        break;
+                    case "Refinanciar Credito":
+                        url = '/api/refinanciacion/' + state.insumosCredito.credito_refinanciado_id;   
+                        break;
+                }
 
                 try {
-                    const res = await axios.post(url, dat, {
-                        headers: { Authorization: "Bearer " + "{{ session('accessToken') }}" }
-                    });
+                    let headers = { Authorization: "Bearer " + "{{ session('accessToken') }}" } 
+                    const res = await axios.post(url, dat, { headers });
 
                     if (res.data.success) {
                         alertify.notify(res.data.message, "success", 2, () => {
@@ -169,11 +208,18 @@
                     alertify.alert("Ha ocurrido un error", error.message);
                 }
             },
-            noContinuarASolicitud(context) {
-                context.commit('setContinuarASolicitud', false);
-            },
-            noPermitirSalvar(context) {
-                context.commit('setPermitirSalvar', false);
+            validarValorVentas({state, dispatch}) {
+                return new Promise((resolve, reject) => {
+                    let msg = "";
+                    // if (state.ventas.length === 0) resolve();
+                    for (let i = 0; i < state.ventas.length; i++) {
+                        console.log(state.ventas[i].valor);
+                        if (state.ventas[i].valor === "" || state.ventas[i].valor === 0) {
+                            msg += `Se requiere el valor del producto ${i + 1} <br>`;
+                        }
+                        if (i === state.ventas.length - 1) resolve(msg);
+                    }
+                });
             },
         }
     });

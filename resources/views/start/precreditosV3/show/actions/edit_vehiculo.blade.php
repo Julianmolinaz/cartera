@@ -13,7 +13,6 @@
     }
 
     function showFormEditVehiculo(vehiculo, solicitudId, index, tipoVehiculos) {
-        console.log(vehiculo, solicitudId);
         let route = "/start/vehiculos";
         let options = '';
 
@@ -99,9 +98,9 @@
             const form = document.querySelector(`#formVehiculo${index}`);
             form.submit();
         })
-        .set(
-            {title: "Editar vehículo"},
-            {labels: {ok: "Guardar Cambios", cancel: "Cerrar"}}
-        );
+        .set({
+            title: "Editar vehículo",
+            labels: {ok: "Guardar Cambios", cancel: "Cerrar"}
+        });
     }
 </script>

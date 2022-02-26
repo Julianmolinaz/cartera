@@ -6,7 +6,7 @@
 		@foreach($reports as $report)
 			<div class="col-md-6">
 				<div class="panel panel-default">
-					<div class="panel-body">
+					<div class="panel-body" style="height:120px">
 						<a href="{{ route($report['route']) }}">{{ $report['name'] }}</a>
 						<p>{{$report['descripcion']}}</p>
 					</div>

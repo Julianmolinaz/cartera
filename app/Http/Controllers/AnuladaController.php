@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Repositories as Repo;
 use App\Http\Requests;
 use App\Factura;
 use App\Anulada;
@@ -25,17 +26,15 @@ class AnuladaController extends Controller
     |--------------------------------------------------------------------------
     | index
     |--------------------------------------------------------------------------
-    | 
     | Retorna un listado de todas las facturas anuladas
-    | 
-    |
     */
 
     public function index()
     {
         $anuladas = Anulada::paginate(100);
+
         return view('start.facturas.index_anuladas')
-            ->with('anuladas',$anuladas);
+            ->with('anuladas', $anuladas);
     }
 
 
@@ -55,7 +54,6 @@ class AnuladaController extends Controller
 
     public function store(Request $request)
     {
-
         $rules = ['motivo_anulacion' => 'required'];
         $messages = ['motivo_anulacion.required' => 'El Motivo de la anulación de la factura número '.$request->input('num_factura').' es requerido'];
 
@@ -107,6 +105,9 @@ class AnuladaController extends Controller
                     if ($pago->concepto == 'Cuota Parcial') {
 
                         $credito->saldo = $credito->saldo + $pago->abono;
+                        if ($factura->descuento) {
+                            $this->agregarARendimiento($pago->abono, $credito->id);
+                        }
 
                         if($pago->estado ==  'Ok') $credito->cuotas_faltantes = $credito->cuotas_faltantes + 1;
 
@@ -124,6 +125,9 @@ class AnuladaController extends Controller
 
                     else if ($pago->concepto == 'Cuota') {
                         $credito->saldo = $credito->saldo + $pago->abono; 
+                        if ($factura->descuento) {
+                            $this->agregarARendimiento($pago->abono, $credito->id);
+                        }
 
                         if ($pago->estado ==  'Ok') {   
                             $cuotas_que_faltan = $credito->cuotas_faltantes;
@@ -285,6 +289,18 @@ class AnuladaController extends Controller
 
     }
 
+    protected function agregarARendimiento($monto, $creditoId)
+    { 
+        $credito = Repo\CreditoRepository::find($creditoId);
+        $nuevoRendimiento = $credito->rendimiento + $monto;
 
+        if ($nuevoRendimiento < 0 ) {
+            throw new \Exception("Al calcular el rendimiento, se genera un valor negativo", 400);    
+        }
+
+        Repo\CreditoRepository::updateCredito([
+            'rendimiento' => $nuevoRendimiento
+        ], $creditoId);
+    }
 
 }

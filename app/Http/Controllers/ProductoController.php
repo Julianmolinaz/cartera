@@ -28,7 +28,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::All();
+        $productos = Producto::orderBy('updated_at')->get();
         return view('admin.productos.index')
             ->with('productos',$productos);
     }
@@ -62,7 +62,10 @@ class ProductoController extends Controller
         ]);
 
         $producto = new Producto();
-        $producto->fill($request->all());
+        $data = $request->all();
+        $data['valores'] = json_encode($request->valores);
+        $producto->fill($data);
+
         $producto->save();
 
         flash()->success('El Producto '.$producto->nombre.' se creó con Éxito!!');
@@ -107,7 +110,9 @@ class ProductoController extends Controller
         ]);
 
         $producto = Producto::find($id);
-        $producto->fill($request->all());
+        $data = $request->all();
+        $data['valores'] = json_encode($request->valores);
+        $producto->fill($data);
         $producto->save();
 
         flash()->success('El Producto '.$producto->nombre.' se editó con Éxito!!');

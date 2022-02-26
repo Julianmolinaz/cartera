@@ -7,6 +7,7 @@ use Exception;
 use App as _;
 use DB;
 
+
 class FacturasProveedor
 {
     protected $ini;                             
@@ -16,6 +17,16 @@ class FacturasProveedor
     protected $reporte = [];
     protected $reporFactura;
     protected $precredito;
+
+    /*
+    |--------------------------------------------------------------------------
+    | OBTENER FACTURAS PROVEEDOR POR RANGO DE FECHA
+    |--------------------------------------------------------------------------
+    | Para las carteras Nesgor e Inversiones GORA
+    | Se genera utilizando la fecha de expedición de la factura
+    | 
+    */
+
 
     public static function getFacturas($ini, $end)
     {

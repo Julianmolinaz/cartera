@@ -19,11 +19,15 @@ class FacturacionController extends Controller
         $solicitud = Repo\SolicitudRepository::find($solicitudId);
         $ventas = Repo\FacturasRepository::listarVentasConFacturas($solicitudId);
         $insumosService = InsumosFacturacionService::make();
+        $cliente = Repo\ClientesRepository::find($solicitud->cliente_id);
+        $credito = Repo\CreditoRepository::findBySolicitud($solicitud->id);
 
         return view('start.precreditosV3.facturacion.index')
             ->with("insumos", $insumosService->insumos)
             ->with("solicitud", $solicitud)
-            ->with("ventas", $ventas);
+            ->with("ventas", $ventas)
+            ->with("cliente", $cliente)
+            ->with("credito", $credito);
     }
 
     public function store(Request $request)
