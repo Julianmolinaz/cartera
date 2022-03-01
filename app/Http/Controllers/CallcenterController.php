@@ -444,7 +444,8 @@ class CallcenterController extends Controller
 
     public function ExportarTodo($todos = null)
     {
-        try{
+    	ini_set('memory_limit','-1');
+	 try{
             $this->exp_todos = $todos;
             $now            = Carbon::now();
             $fecha          = $now->toDateTimeString();
