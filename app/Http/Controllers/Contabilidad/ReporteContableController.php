@@ -40,9 +40,7 @@ class ReporteContableController extends Controller
         }
     }
 
-    /**
-     * Terceros
-     */
+
     public function getTerceros()
     {
         return view('contabilidad.reportes.terceros.index');
@@ -154,15 +152,18 @@ class ReporteContableController extends Controller
 
     public function expFacturasVenta(Request $request)
     {
-        $rango = $this->getRango($request->daterange);
-        $repor_ventas = new Reportes\ComprobanteVentas(
-            $rango->ini, $rango->end, $request->consecutivo
-        );
-        $data = $repor_ventas->make(true);
-
         $this->validate($request, ['consecutivo' => 'required']);
+        
+        $rango = $this->getRango($request->daterange);
+        $useCase = new Report\ComprobanteVentasService(
+            $rango->ini,
+            $rango->end,
+            $request->consecutivo
+        );
+        $useCase->execute(true);
+        $data = $useCase->reporte;
 
-            if (!count($data)) {
+        if (!count($data)) {
             flash()->error('No existen registros para esta busqueda =(');
             return redirect()->back();
         }

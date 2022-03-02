@@ -68,10 +68,9 @@ class ComprobanteVentasService
         $temp = $this->struct();
         $temp->cod_prod = '02';
         $temp->cod_cargo = '28';
-        $temp->vlr_forma_pago = number_format(floor($venta), 0);
+        $temp->vlr_form_pago = number_format(floor($venta), 0);
         $temp->vlr_und = number_format(floor($valorUnitario), 0);
         $temp->iden_tercero = $this->invoice->cliente_num_documento;
-        $temp->solicitud = $this->invoice->precredito_id;
 
         $this->reporte[] = (array)$temp;
     }
@@ -122,8 +121,7 @@ class ComprobanteVentasService
 
     protected function getPrecreditos()
     {
-        $invoices = Repo\FacturasRepository::findByAprobadaByRango(
-            "Si",
+        $invoices = Repo\FacturasRepository::findByRango(
             $this->ini,
             $this->end,
             [6, 32]
@@ -163,7 +161,7 @@ class ComprobanteVentasService
         return (object)[
             '222' => '1',
             'consecu' => $this->consecutivo,
-            'iden_tercero' => '',
+            'iden_tercero' => $this->invoice->cliente_num_documento,
             'sucursal' => '',
             'cod_cc' => '',
             'fecha_elab' => str_replace('-', '/', $this->invoice->fecha_exp),
@@ -191,7 +189,7 @@ class ComprobanteVentasService
             'vlr_form_pago'=> '',
             'fecha_venc' => self::VENCE,
             'obs' => '',
-            'solicitud' => '',
+            'solicitud' => $this->invoice->precredito_id,
             'novedad' => ''
         ];
     }

@@ -194,8 +194,7 @@ class FacturasRepository
     | carteras (de tipo array, ej: [6, 12])
     */    
 
-    public static function findByAprobadaByRango(
-        $aprobado,
+    public static function findByRango(
         $start, 
         $end,
         $carteras
@@ -216,7 +215,6 @@ class FacturasRepository
             )
             ->whereBetween('invoices.fecha_exp',[$start, $end])
             ->whereIn("precreditos.cartera_id", $carteras)
-            ->where("precreditos.aprobado", $aprobado)
             ->orderBy("precreditos.id")
             ->get();
 

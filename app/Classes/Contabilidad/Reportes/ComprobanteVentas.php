@@ -75,11 +75,8 @@ class ComprobanteVentas
     public function rtm()
     {
         if ($this->factura->expedido_a === 'Gora') {
-
             $this->porGora();
-
         } else if ($this->factura->expedido_a === 'Cliente') {
-
             $this->porCliente();
         }
     }
