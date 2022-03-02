@@ -14,12 +14,12 @@ class ValidarProcesosPendientesTest extends TestCase
      */
     public function testValidarProcesosPendientes()
     {
-        $data = [
-            'clienteId' => 33333331
-        ];
+        // $data = [
+        //     'clienteId' => 33333331
+        // ];
         
-        $validation = new ValidarProcesosPendientesdUseCase($data['clienteId']);
-        $validation->execute();
+        // $validation = new ValidarProcesosPendientesdUseCase($data['clienteId']);
+        // $validation->execute();
         
         $this->assertTrue(true);
 

@@ -7,6 +7,11 @@ use DB;
 
 class SolicitudRepository
 {
+    /*
+    |-------------------------------------------------
+    | Salvar solicitud
+    |-------------------------------------------------
+    */
 
     public static function saveSolicitud($data)
     {
@@ -17,6 +22,13 @@ class SolicitudRepository
 
         return $solicitud;
     }
+
+    /*
+    |-------------------------------------------------
+    | find
+    |-------------------------------------------------
+    | Buscar solicitud por id
+    */
 
     public static function find($solicitudId)
     {
@@ -32,10 +44,25 @@ class SolicitudRepository
         return $solicitud;
     }
 
+    /*
+    |-------------------------------------------------
+    | findByNumFact
+    |-------------------------------------------------
+    | Buscar solicitud por número de factura
+    */
+
     public static function findByNumFact($numFact)
     {
         return DB::table('precreditos')->where('num_fact', $numFact)->get();
     }
+
+    /*
+    |-------------------------------------------------
+    | findByNumFactDiffId
+    |-------------------------------------------------
+    | Buscar solicitud por número de factura diferente
+    | excluyendo determinado solicitud por id
+    */
 
     public static function findByNumFactDiffId($numFact, $solicitudId)
     {
@@ -46,6 +73,13 @@ class SolicitudRepository
 
         return $solicitudes;
     }
+
+    /*
+    |-------------------------------------------------
+    | findSolicitudesActivasByCliente
+    |-------------------------------------------------
+    | Buscar solicitud activas por cliente
+    */
 
     public static function findSolicitudesActivasByCliente($clienteId)
     {
@@ -75,6 +109,13 @@ class SolicitudRepository
         return $arr;
     }
 
+    /*
+    |-------------------------------------------------
+    | updateSolicitud
+    |-------------------------------------------------
+    | Actualizar solicitud
+    */
+    
     public static function updateSolicitud($dataSolicitud, $solicitudId)
     {
         $solicitud = Solicitud::find($solicitudId);
@@ -87,6 +128,14 @@ class SolicitudRepository
 
         return $solicitud;
     }
+
+    /*
+    |-------------------------------------------------
+    | findTotal
+    |-------------------------------------------------
+    | Buscar solicitud y mostrar toda su información 
+    | relacionada
+    */
 
     public static function findTotal($solicitudId)
     {
@@ -103,6 +152,14 @@ class SolicitudRepository
         return $solicitud;
     }
 
+    /*
+    |-------------------------------------------------
+    | updateAprobacion
+    |-------------------------------------------------
+    | Cambiar el estado de aprobación de una solicitud
+    */
+
+
     public static function updateAprobacion($opcion, $solicitudId)
     {
         $solicitud = Solicitud::find($solicitudId);
@@ -115,6 +172,14 @@ class SolicitudRepository
 
         return $solicitud;
     }
+
+    /*
+    |-------------------------------------------------
+    | pendientes
+    |-------------------------------------------------
+    | Buscar solicitudes pendientes de aprobación para
+    | determinado cliente
+    */
 
     public static function pendientes($userId)
     {

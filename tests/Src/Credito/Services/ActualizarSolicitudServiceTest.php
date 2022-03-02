@@ -17,7 +17,7 @@ class ActualizarSolicitudServiceTest extends TestCase
     {
         $data = $this->mockSolicitud();
         $case = new ActualizarSolicitudService($data);
-        $solicitud = $case->make();
+        // $solicitud = $case->make();
         $this->assertTrue(true);
     }
 

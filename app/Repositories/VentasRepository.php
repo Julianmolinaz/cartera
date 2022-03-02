@@ -234,4 +234,22 @@ class VentasRepository
         $venta = Venta::find($ventaId);
         $venta->delete();
     }
+
+    /*
+    |-------------------------------------------------
+    | firstSolicitud
+    |-------------------------------------------------
+    | Obtener la primera venta por solicitud
+    */
+
+    public static function firstVentaSoat($solicitudId)
+    {
+        $firstVenta = DB::table("ventas")
+            ->where("precredito_id", $solicitudId)
+            ->where("producto_id", 2)
+            ->orderBy("ventas.id")
+            ->first();
+
+        return $firstVenta;
+    }
 }

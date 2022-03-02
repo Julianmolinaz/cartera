@@ -9,18 +9,17 @@ use App as _;
 use DB;
 
 /*
-|--------------------------------------------------------------------------
+|-------------------------------------------------
 | REPORTE DE COMPROBANTES DE VENTA
-|--------------------------------------------------------------------------
-|
+|-------------------------------------------------
 */
     
 class ComprobanteVentas
 {
-    protected $ini;                             
-    protected $end;                                                                           
-    protected $factura;  
-    protected $iva;                       
+    protected $ini;
+    protected $end;                                                      
+    protected $factura;
+    protected $iva;                   
     protected $facturas;
     protected $primerSoat;
     protected $consecutivo;
@@ -39,8 +38,9 @@ class ComprobanteVentas
 
     public function make($header)
     {        
-        if ($header) 
+        if ($header) {
             $this->reporte[] = $this->header();
+        }
 
         $ids_precreditos = $this->getPrecreditos();
 
@@ -69,9 +69,7 @@ class ComprobanteVentas
             }
 
         }
-        // dd($this->reporte);
         return $this->reporte;
-
     }
 
     public function rtm()
@@ -96,7 +94,6 @@ class ComprobanteVentas
         } else {
             return false;
         }
-
     }
 
 
@@ -205,7 +202,7 @@ class ComprobanteVentas
 
     public static function numNoRound($value) 
     {
-        return number_format(floor($value),0);
+        return number_format(floor($value), 0);
     }
 
     /*

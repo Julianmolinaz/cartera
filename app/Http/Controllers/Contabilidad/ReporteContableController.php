@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Classes\Contabilidad\Reportes;
 use \App\Http\Controllers as ctrl;
+use Src\Contabilidad\Reportes as Report;
 use Carbon\Carbon;
 use Excel;
 use File;
@@ -129,10 +130,15 @@ class ReporteContableController extends Controller
     }
 
     public function listFacturasVenta(Request $request)
-    {       
+    {   
         $rango = $this->getRango($request->daterange);
-        $repor_ventas = new Reportes\ComprobanteVentas($rango->ini, $rango->end,$request->consecutivo);
-        $data = collect($repor_ventas->make(false))->toArray();
+        $useCase = new Report\ComprobanteVentasService(
+            $rango->ini,
+            $rango->end,
+            $request->consecutivo
+        );
+        $useCase->execute(false);
+        $data = $useCase->reporte;
         
         $this->validate($request, ['consecutivo' => 'required']);
 
@@ -149,7 +155,9 @@ class ReporteContableController extends Controller
     public function expFacturasVenta(Request $request)
     {
         $rango = $this->getRango($request->daterange);
-        $repor_ventas = new Reportes\ComprobanteVentas($rango->ini, $rango->end, $request->consecutivo);
+        $repor_ventas = new Reportes\ComprobanteVentas(
+            $rango->ini, $rango->end, $request->consecutivo
+        );
         $data = $repor_ventas->make(true);
 
         $this->validate($request, ['consecutivo' => 'required']);

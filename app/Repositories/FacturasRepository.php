@@ -8,6 +8,15 @@ use DB;
 
 class FacturasRepository
 {
+    /*
+    |---------------------------------------------------
+    | listarVentasConFacturas
+    |---------------------------------------------------
+    | Listar toda la información relacionada a una venta
+    | venta, vehiculo, invoice, producto, quien modifico
+    |
+    */ 
+
     public static function listarVentasConFacturas($solicitudId)
     {
         $arr = [];
@@ -128,6 +137,13 @@ class FacturasRepository
 
         return $arr;
     }
+    
+    /*
+    |-------------------------------------------------
+    | find
+    |-------------------------------------------------
+    | Buscar invoice por id
+    */  
 
     public static function find($facturaId)
     {
@@ -138,11 +154,26 @@ class FacturasRepository
         return $factura;
     }
 
+    /*
+    |-------------------------------------------------
+    | findByNumFactura
+    |-------------------------------------------------
+    | Buscar por numero de factura (invoice)
+    */  
+
     public static function findByNumFactura($numFactura)
     {
         $factura = DB::table('invoices')->where('num_fact', $numFactura)->first();
         return $factura;
     }
+
+    /*
+    |-------------------------------------------------
+    | findByNumFacturaWithId
+    |-------------------------------------------------
+    | Buscar por numero de factura excluyendo determinada
+    | factura (invoice)
+    */      
 
     public static function findByNumFacturaWithId($numFactura, $facturaId)
     {
@@ -153,6 +184,51 @@ class FacturasRepository
 
         return $factura;
     }
+    
+    /*
+    |-------------------------------------------------
+    | findByAprobadaByRango
+    |-------------------------------------------------
+    | Buscar por estado de aprobación, rango : 
+    | fecha inicial (start) y fecha final (end) 
+    | carteras (de tipo array, ej: [6, 12])
+    */    
+
+    public static function findByAprobadaByRango(
+        $aprobado,
+        $start, 
+        $end,
+        $carteras
+    ) {
+        $precreditos = DB::table("invoices")
+            ->join("precreditos", "invoices.precredito_id", "=", "precreditos.id")
+            ->join("clientes", "precreditos.cliente_id", "=", "clientes.id")
+            ->join("ventas", "invoices.venta_id", "=", "ventas.id")
+            ->join("productos", "ventas.producto_id", "=", "productos.id")
+            ->select(
+                "invoices.*",
+                "precreditos.id as precredito_id",
+                "precreditos.cuota_inicial as solicitud_cuota_inicial",
+                "precreditos.periodo as solicitud_periodo",
+                "precreditos.cuotas as solicitud_cuotas",
+                "productos.id as producto_id",
+                "clientes.num_doc as cliente_num_documento"
+            )
+            ->whereBetween('invoices.fecha_exp',[$start, $end])
+            ->whereIn("precreditos.cartera_id", $carteras)
+            ->where("precreditos.aprobado", $aprobado)
+            ->orderBy("precreditos.id")
+            ->get();
+
+        return $precreditos;
+    }
+
+    /*
+    |-------------------------------------------------
+    | saveFactura
+    |-------------------------------------------------
+    | Guardar factura (Invoice)
+    */    
 
     public static function saveFactura($dataFactura)
     {
@@ -166,6 +242,13 @@ class FacturasRepository
 
         return $factura;
     }
+
+    /*
+    |-------------------------------------------------
+    | actualizarFactura
+    |-------------------------------------------------
+    | Actualizar factura (Invoice)
+    */ 
 
     public static function actualizarFactura($dataFactura)
     {
@@ -195,6 +278,13 @@ class FacturasRepository
         
         return $factura;
     }
+    
+    /*
+    |-------------------------------------------------
+    | facturasBySolicitud
+    |-------------------------------------------------
+    | Buscar invoices por solicitud
+    */ 
 
     public static function facturasBySolicitud($solicitudId)
     {
@@ -207,15 +297,25 @@ class FacturasRepository
         return $facturas;
     }
 
+    /*
+    |-------------------------------------------------
+    | destroy
+    |-------------------------------------------------
+    | Eliminar invoice
+    */     
+
     public static function destroy($facturaId)
     {
         $factura = Invoice::find($facturaId);
         $factura->delete();
     }
 
-    /**
-     * Obtener primera factura ordenada por fecha de expedición
-     */
+    /*
+    |-------------------------------------------------
+    | firstBySolicitud
+    |-------------------------------------------------
+    | Obtener primera factura ordenada por fecha de expedición
+    */  
 
     public static function firstBySolicitud($solicitudId)
     {
@@ -225,5 +325,5 @@ class FacturasRepository
             ->first();
 
         return $primeraFactura;
-    }
+    } 
 }
