@@ -1,98 +1,70 @@
 <?php
 
-namespace App\Classes\Contabilidad\Reportes;
-use \App\Http\Controllers as Ctrl;
+namespace Src\Contabilidad\Reportes;
 
-use Exception;
-use App as _;
-use DB;
+use App\Repositories as Repo;
 
-class ComprasRtmSoat
+class ComprasService
 {
     protected $ini;
     protected $end;
-    protected $reporte = [];
-    protected $factura = [];
+    public    $reporte = [];
+    protected $invoice = [];
     protected $facturas = [];
     protected $consecutivo;
     protected $reporFactura;
     protected $reportConsecutivo = [];
-
 
     public function __construct($ini, $end ,$consecutivo)
     {
         $this->ini = $ini;
         $this->end = $end;
         $this->consecutivo = intval($consecutivo);
-        
     }
 
-    public function make($header)
+    public function execute($usarHeader)
     {
-        if ($header) $this->reporte[] = $this->header();
+        if ($usarHeader) $this->reporte[] = $this->header();
 
         $this->getFacturas();
+        $this->recorrerFacturas();
+    }
 
+    protected function recorrerFacturas()
+    {
         foreach ($this->facturas as $factura) {
-            
             $this->factura = $factura;
-            
-            
-            if ($this->factura->expedido_a) {
+            $this->reporFactura = [];
 
-                $this->reporFactura = [];
-                
-                if ($this->factura->nombre === 'R.T.M') {
-                    $this->rtm();
-                    
-    
-                } else if ($this->factura->nombre === 'SOAT') {
-                    $this->soat();                
-                }
-                
-                $this->reporte = array_merge($this->reporte, $this->reporFactura);
-                
-                $this->consecutivo ++;
+            if ($this->factura->id === 1) {
+                $this->revisarFacturaPorRtm();
+            } else if ($this->factura->id === 2) {
+                $this->revisarFacturaPorSoat();
             }
 
+            $this->reporte = array_merge($this->reporte, $this->reporFactura);
+            $this->consecutivo ++;
         }
-
-        return $this->reporte;
     }
 
-    public function getFacturas()
-    {
-        $this->facturas = DB::table('ref_productos')
-            ->join('productos','ref_productos.producto_id','=','productos.id')
-            ->join('terceros','ref_productos.proveedor_id','=','terceros.id')
-            ->join('precreditos','ref_productos.precredito_id','=','precreditos.id')
-	    ->join('creditos','precreditos.id','=','creditos.precredito_id')
-	    ->whereBetween('ref_productos.fecha_exp',[$this->ini, $this->end])
-            ->whereIn('precreditos.cartera_id', [6, 32])
-            ->where('precreditos.aprobado','Si')
-	    ->where(function ($query) {
-		$query->whereNotNull('ref_productos.num_fact')
-		->where('ref_productos.num_fact', '<>', '01');
-	    })
-            ->select('ref_productos.*','terceros.num_doc','precreditos.id')
-            ->get();
-    }
-
-    public function rtm()
+    protected function revisarFacturaPorRtm()
     {
         if ($this->factura->expedido_a === 'Gora') {
-
-            $this->porGora();
-
+            $this->facturaRtmExpedidaAGora();
         } else if ($this->factura->expedido_a === 'Cliente') {
-
-            $this->porCliente();
+            $this->facturaRtmExpedidaAlCliente();
         }
     }
 
-    // STRUCT RTM POR GORA // STRUCT RTM POR GORA // STRUCT RTM POR GORA
+    protected function revisarFacturaPorSoat()
+    {
+        $this->costoSoat();
+        $this->ivaSoat();
+        $this->otrosSoat();
+        $this->totalSoat();      
+    }
 
-    public function porGora()
+    protected function facturaRtmExpedidaAGora()
     {
         $this->costoRtmGora();
         $this->ivaRtmGora();
@@ -100,12 +72,25 @@ class ComprasRtmSoat
         $this->totalRtmGora();
     }
 
-    public function costoRtmGora()
+    protected function facturaRtmExpedidaAlCliente()
+    {
+        $this->costoRtmCliente();
+        $this->ivaRtmCliente();
+        $this->otrosRtmCliente();
+        $this->totalRtmCliente();
+    }
+
+    /*
+    |-------------------------------------------------
+    | Registros por SOAT
+    |-------------------------------------------------
+    */ 
+
+    public function costoSoat()
     {
         $struct = $this->struct();
-
-        $struct->cod_cuenta = '62050102';
-        $struct->cod_prod = '02';
+        $struct->cod_cuenta = '28150502';
+        $struct->cod_prod = '01';
         $struct->accion = '+';
         $struct->cant_prod = '1,00';
         $struct->debito = $this->factura->costo ? $this->factura->costo : '0';
@@ -113,16 +98,66 @@ class ComprasRtmSoat
         $this->reporFactura[] = (array)$struct;
     }
 
-    public function ivaRtmGora()
+    public function ivaSoat()
     {
         $struct = $this->struct();
-
-        $struct->cod_cuenta = '24081001';
-        $struct->cod_prod = '02';
+        $struct->cod_cuenta = '28150502';
+        $struct->cod_prod = '01';
         $struct->accion = '+';
         $struct->cant_prod = '1,00';
-        $struct->cod_impuesto = '1';
-        $struct->debito = $this->factura->iva ? $this->factura->iva : '0';
+        $struct->debito = '0';
+
+        $this->reporFactura[] = (array)$struct;
+    }
+
+    public function otrosSoat()
+    {
+        $struct = $this->struct();
+        $struct->cod_cuenta = '28150502';
+        $struct->cod_prod = '01';
+        $struct->accion = '+';
+        $struct->cant_prod = '1,00';
+        $struct->debito = $this->factura->otros ? $this->factura->otros : '0';
+
+        $this->reporFactura[] = (array)$struct;
+    }
+
+    public function totalSoat()
+    {
+        $struct = $this->struct();
+        $struct->cod_cuenta = '22050501';
+        $struct->credito = $this->factura->costo + $this->factura->iva + $this->factura->otros;
+
+        $this->reporFactura[] = (array)$struct;
+    }
+
+    /*
+    |-------------------------------------------------
+    | Registros por RTM expedida a GORA
+    |-------------------------------------------------
+    */    
+
+    protected function costoRtmGora()
+    {
+        $struct             = $this->struct();
+        $struct->cod_cuenta = '62050102';
+        $struct->cod_prod   = '02';
+        $struct->accion     = '+';
+        $struct->cant_prod  = '1,00';
+        $struct->debito     = $this->factura->costo ? $this->factura->costo : '0';
+
+        $this->reporFactura[] = (array)$struct;
+    }
+
+    protected function ivaRtmGora() 
+    {
+        $struct                 = $this->struct();
+        $struct->cod_cuenta     = '24081001';
+        $struct->cod_prod       = '02';
+        $struct->accion         = '+';
+        $struct->cant_prod      = '1,00';
+        $struct->cod_impuesto   = '1';
+        $struct->debito         = $this->factura->iva ? $this->factura->iva : '0';
 
         $this->reporFactura[] = (array)$struct;
     }
@@ -150,20 +185,15 @@ class ComprasRtmSoat
         $this->reporFactura[] = (array)$struct;
     }
 
-    // STRUCT RTM POR CLIENTE // STRUCT RTM POR CLIENTE // STRUCT RTM POR CLIENTE
-
-    public function porCliente()
-    {
-        $this->costoRtmCliente();
-        $this->ivaRtmCliente();
-        $this->otrosRtmCliente();
-        $this->totalRtmCliente();
-    }
+    /*
+    |-------------------------------------------------
+    | Registros por RTM expedida a Cliente
+    |-------------------------------------------------
+    */    
 
     public function costoRtmCliente()
     {
         $struct = $this->struct();
-
         $struct->cod_cuenta = '28150501';
         $struct->cod_prod = '03';
         $struct->accion = '+';
@@ -176,7 +206,6 @@ class ComprasRtmSoat
     public function ivaRtmCliente()
     {
         $struct = $this->struct();
-
         $struct->cod_cuenta = '28150501';
         $struct->cod_prod = '03';
         $struct->accion = '+';
@@ -189,7 +218,6 @@ class ComprasRtmSoat
     public function otrosRtmCliente()
     {
         $struct = $this->struct();
-
         $struct->cod_cuenta = '28150501';
         $struct->cod_prod = '03';
         $struct->accion = '+';
@@ -202,71 +230,19 @@ class ComprasRtmSoat
     public function totalRtmCliente()
     {
         $struct = $this->struct();
-
         $struct->cod_cuenta = '22050501';
         $struct->credito = $this->factura->costo + $this->factura->iva + $this->factura->otros;
 
         $this->reporFactura[] = (array)$struct;
     }
 
-    // STRUCT SOAT // STRUCT SOAT // STRUCT SOAT
-
-    public function soat()
+    protected function getFacturas()
     {
-        $this->costoSoat();
-        $this->ivaSoat();
-        $this->otrosSoat();
-        $this->totalSoat(); 
-    }
-    
-    public function costoSoat()
-    {
-        $struct = $this->struct();
-
-        $struct->cod_cuenta = '28150502';
-        $struct->cod_prod = '01';
-        $struct->accion = '+';
-        $struct->cant_prod = '1,00';
-        $struct->debito = $this->factura->costo ? $this->factura->costo : '0';
-
-        $this->reporFactura[] = (array)$struct;
-
-    }
-
-    public function ivaSoat()
-    {
-        $struct = $this->struct();
-
-        $struct->cod_cuenta = '28150502';
-        $struct->cod_prod = '01';
-        $struct->accion = '+';
-        $struct->cant_prod = '1,00';
-        $struct->debito = '0';
-
-        $this->reporFactura[] = (array)$struct;
-    }
-
-    public function otrosSoat()
-    {
-        $struct = $this->struct();
-
-        $struct->cod_cuenta = '28150502';
-        $struct->cod_prod = '01';
-        $struct->accion = '+';
-        $struct->cant_prod = '1,00';
-        $struct->debito = $this->factura->otros ? $this->factura->otros : '0';
-
-        $this->reporFactura[] = (array)$struct;
-    }
-
-    public function totalSoat()
-    {
-        $struct = $this->struct();
-
-        $struct->cod_cuenta = '22050501';
-        $struct->credito = $this->factura->costo + $this->factura->iva + $this->factura->otros;
-
-        $this->reporFactura[] = (array)$struct;
+        $this->facturas = Repo\FacturasRepository::findByRango(
+            $this->ini,
+            $this->end,
+            [6, 32]
+        );
     }
 
     public function struct()
@@ -278,7 +254,7 @@ class ComprasRtmSoat
             'sigla_moneda' => '',
             'tasa_cambio' => '',
             'cod_cuenta' => '', 
-            'iden_tercero' => $this->factura->num_doc,
+            'iden_tercero' => $this->factura->cliente_num_documento,
             'sucursal' => '',
             'cod_prod' => '', 
             'cod_bodega' => '',
@@ -301,9 +277,9 @@ class ComprasRtmSoat
             'mes_cierre' => '',
             'solicitud' => $this->factura->id,
         ];
-    }
-
-    public function header() 
+    }    
+    
+    protected function header() 
     {
         return [
             'Tipo de comprobante',
