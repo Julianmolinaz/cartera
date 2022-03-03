@@ -13,7 +13,6 @@ class ComprasService
     protected $facturas = [];
     protected $consecutivo;
     protected $reporFactura;
-    protected $reportConsecutivo = [];
 
     public function __construct($ini, $end ,$consecutivo)
     {
@@ -33,12 +32,13 @@ class ComprasService
     protected function recorrerFacturas()
     {
         foreach ($this->facturas as $factura) {
+            
             $this->factura = $factura;
             $this->reporFactura = [];
 
-            if ($this->factura->id === 1) {
+            if ($this->factura->producto_id === 1) {
                 $this->revisarFacturaPorRtm();
-            } else if ($this->factura->id === 2) {
+            } else if ($this->factura->producto_id === 2) {
                 $this->revisarFacturaPorSoat();
             }
 
@@ -275,7 +275,7 @@ class ComprasService
             'base_grab_lib_comp' => '',
             'base_exen_lib_comp' => '',
             'mes_cierre' => '',
-            'solicitud' => $this->factura->id,
+            'solicitud' => $this->factura->precredito_id,
         ];
     }    
     

@@ -188,11 +188,15 @@ class ReporteContableController extends Controller
 
     public function listCompras(Request $request)
     {  
-        $rango = $this->getRango($request->daterange);
-        $repor_compras = new Reportes\ComprasRtmSoat($rango->ini, $rango->end, $request->consecutivo);
-        $data = collect($repor_compras->make(false))->toArray();
-
         $this->validate($request, ['consecutivo' => 'required']);
+
+        $rango = $this->getRango($request->daterange);
+
+        $useCase = new Report\ComprasService(
+            $rango->ini, $rango->end, $request->consecutivo
+        );
+        $useCase->execute(false);
+        $data = $useCase->reporte;
 
         if (!count($data)) {
             flash()->error('No existen registros para esta busqueda =(');
@@ -206,11 +210,15 @@ class ReporteContableController extends Controller
 
     public function expCompras(Request $request)
     {     
-        $rango = $this->getRango($request->daterange);     
-        $repor_compras = new Reportes\ComprasRtmSoat($rango->ini, $rango->end, $request->consecutivo);
-        $data = $repor_compras->make(true);
-
         $this->validate($request, ['consecutivo' => 'required']);
+
+        $rango = $this->getRango($request->daterange);     
+        $useCase = new Report\ComprasService(
+            $rango->ini, $rango->end, $request->consecutivo
+        );
+        $useCase->execute(true);
+        $data = $useCase->reporte;
+
 
         ob_clean();
         Excel::create('compras_'.$request->daterange,

@@ -215,6 +215,7 @@ class FacturasRepository
             )
             ->whereBetween('invoices.fecha_exp',[$start, $end])
             ->whereIn("precreditos.cartera_id", $carteras)
+            ->whereIn("productos.id", [1, 2])
             ->orderBy("precreditos.id")
             ->get();
 
