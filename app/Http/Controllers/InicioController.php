@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Repositories as Repo;
 use App\Codeudor;
 use App\Cliente;
 use App\Credito;
@@ -211,7 +212,10 @@ class InicioController extends Controller
                 ->where('vehiculos.placa','like','%'.$string.'%')
                 ->get();
 
+            $clients_v3 = Repo\VehiculosRepository::listVehiculosByClient($string);
+
             $clientes = array_merge($clientes, $clients_v2);
+            $clientes = array_merge($clientes, $clients_v3);
 
             if(count($clientes) > 0){
                 foreach($clientes as $cliente){  
@@ -220,7 +224,6 @@ class InicioController extends Controller
                     $respuesta .=   "<p><strong>Placa cliente: </strong>".
                                     "<a href=".route('start.clientes.show',$cliente->id).">".
                                     $cliente->placa." - ".
-                                    $producto.
                                     $cliente->nombre." - ".
                                     $cliente->tipo_doc.": ".
                                     $cliente->num_doc." </a>
