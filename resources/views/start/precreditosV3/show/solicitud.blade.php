@@ -99,10 +99,10 @@
             <div class="card-content__subitem-title">Cuota inicial</div>
             <div>$ {{ decimal($data['solicitud']['cuota_inicial']) }}</div>
         </div>
-        <div class="card-content__subitem">
+        <!-- <div class="card-content__subitem">
             <div class="card-content__subitem-title">Asistencia</div>
             <div>$ {{ decimal($data['solicitud']['vlr_asistencia']) }}</div>
-        </div>
+        </div> -->
     </div>
     <div class="card-content__item">
         <div class="card-content__subitem">

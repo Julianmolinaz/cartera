@@ -182,9 +182,18 @@ class ActivarCreditoService
 
     protected function facturacionExistente()
     {
-        $facturas = Repo\FacturasRepository::facturasBySolicitud($this->solicitud->id);
-    
-        if ($facturas) return true;
-        return false;
+        $response = false;
+
+        $ventasFacturables = Repo\VentasRepository::ventasConInvoice($this->solicitud->id);
+
+        if (count($ventasFacturables)) {
+            $facturas = Repo\FacturasRepository::facturasBySolicitud($this->solicitud->id);
+       
+            if ($facturas) $response = true;
+        } else {
+            $response = true;
+        } 
+
+        return $response;
     }
 }

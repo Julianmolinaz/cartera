@@ -234,4 +234,14 @@ class VentasRepository
         $venta = Venta::find($ventaId);
         $venta->delete();
     }
+
+    public static function ventasConInvoice($solicitudId)
+    {
+        $ventas = DB::table('ventas')
+            ->join('productos','ventas.producto_id','=','produuctos.id')
+            ->select('ventas.*')
+            ->where('productos.con_invoice',1)
+            ->get();
+        return $ventas;
+    }
 }
