@@ -8,6 +8,7 @@ use DB;
 use App\Repositories as Repo;
 use App\Http\Controllers as Ctrl;
 use Src\Utils\FechaDePago;  
+use Src\Libs\Time;
 
 
 class ActivarCreditoService
@@ -17,6 +18,7 @@ class ActivarCreditoService
     public $solicitud;
     public $errors = [];
     public $credito;
+    public $facturable = true;
 
     private function __construct($dataComision)
     {
@@ -156,7 +158,12 @@ class ActivarCreditoService
 
     protected function generarFechaDePago()
     {
-        $fecha = $this->getFechaExpedicionPrimeraFactura();
+        $fecha = '';
+        if ($this->facturable) {
+            $fecha = $this->getFechaExpedicionPrimeraFactura();
+        } else {
+            $fecha = Time::now();
+        }
         
         $fecha_ = FechaDePago::calcular(
             $fecha,
@@ -185,12 +192,15 @@ class ActivarCreditoService
         $response = false;
 
         $ventasFacturables = Repo\VentasRepository::ventasConInvoice($this->solicitud->id);
-
+        
         if (count($ventasFacturables)) {
+            $this->facturable = true;
+
             $facturas = Repo\FacturasRepository::facturasBySolicitud($this->solicitud->id);
        
             if ($facturas) $response = true;
         } else {
+            $this->facturable = false;
             $response = true;
         } 
 

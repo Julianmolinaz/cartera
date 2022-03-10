@@ -238,9 +238,10 @@ class VentasRepository
     public static function ventasConInvoice($solicitudId)
     {
         $ventas = DB::table('ventas')
-            ->join('productos','ventas.producto_id','=','produuctos.id')
+            ->join('productos','ventas.producto_id','=','productos.id')
             ->select('ventas.*')
             ->where('productos.con_invoice',1)
+            ->where('ventas.precredito_id',$solicitudId)
             ->get();
         return $ventas;
     }

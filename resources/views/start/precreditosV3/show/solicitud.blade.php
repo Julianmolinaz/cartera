@@ -33,7 +33,6 @@
             <div class="card-content__subitem-title" style="font-size: 18px;">
                 {{ $data['solicitud']['cartera']['nombre'] }}
             </div>
-            <div></div>
         </div>
         <div class="card-content__subitem">
             <div class="card-content__subitem-title">Consecutivo</div>
@@ -57,7 +56,12 @@
         </div>
         <div class="card-content__subitem">
             <div class="card-content__subitem-title">Vendedor</div>
-            <div>{{ $data['solicitud']['funcionario']['name'] }}</div>
+            <div style="width: 100px; 
+                white-space: nowrap; 
+                text-overflow: ellipsis; 
+                overflow:hidden;">
+                {{ $data['solicitud']['funcionario']['name'] }}
+            </div>
         </div>
     </div>
     <div class="card-content__item" style="background-color: #fcee2163;">
@@ -99,25 +103,17 @@
             <div class="card-content__subitem-title">Cuota inicial</div>
             <div>$ {{ decimal($data['solicitud']['cuota_inicial']) }}</div>
         </div>
-        <!-- <div class="card-content__subitem">
-            <div class="card-content__subitem-title">Asistencia</div>
-            <div>$ {{ decimal($data['solicitud']['vlr_asistencia']) }}</div>
-        </div> -->
     </div>
     <div class="card-content__item">
-        <div class="card-content__subitem">
+        <div class="card-content__subitem" style="width: 100%;">
             <div class="card-content__subitem-title">Registró</div>
             <p>{{ $data['solicitud']['user_create']['name'] }} <br>{{ ddmmyyyyhhmmss($data['solicitud']['created_at']) }}</p>
         </div>
-        <div class="card-content__subitem">
+        <div class="card-content__subitem" style="width: 100%;">
             <div class="card-content__subitem-title">Actualizó</div>
             @if($data['solicitud']['user_update'] && $data['solicitud']['user_update']['name'])
                 <p>{{ $data['solicitud']['user_update']['name'] }} <br>{{ ddmmyyyyhhmmss($data['solicitud']['updated_at']) }}</p>
             @endif
-        </div>
-        <div class="card-content__subitem">
-            <div class="card-content__subitem-title"></div>
-            <div></div>
         </div>
     </div>
     <div class="card-content__item">
