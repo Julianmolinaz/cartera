@@ -254,7 +254,7 @@ class ComprasService
             'sigla_moneda' => '',
             'tasa_cambio' => '',
             'cod_cuenta' => '', 
-            'iden_tercero' => $this->factura->cliente_num_documento,
+            'iden_tercero' => $this->factura->proveedor_num_doc,
             'sucursal' => '',
             'cod_prod' => '', 
             'cod_bodega' => '',

@@ -12,8 +12,6 @@ class BancosTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
         \DB::table('bancos')->delete();
         
         \DB::table('bancos')->insert(array (

@@ -204,6 +204,7 @@ class FacturasRepository
             ->join("clientes", "precreditos.cliente_id", "=", "clientes.id")
             ->join("ventas", "invoices.venta_id", "=", "ventas.id")
             ->join("productos", "ventas.producto_id", "=", "productos.id")
+	    ->join("terceros", "invoices.proveedor_id", "=", "terceros.id")
             ->select(
                 "invoices.*",
                 "precreditos.id as precredito_id",
@@ -211,7 +212,8 @@ class FacturasRepository
                 "precreditos.periodo as solicitud_periodo",
                 "precreditos.cuotas as solicitud_cuotas",
                 "productos.id as producto_id",
-                "clientes.num_doc as cliente_num_documento"
+		"clientes.num_doc as cliente_num_documento",
+		"terceros.num_doc as proveedor_num_doc"
             )
             ->whereBetween('invoices.fecha_exp',[$start, $end])
             ->whereIn("precreditos.cartera_id", $carteras)
