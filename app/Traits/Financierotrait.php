@@ -49,7 +49,7 @@ trait Financierotrait
   |
   */
 
-  function financiero($ini,$fin)
+  function financiero($ini, $fin)
   {
     $negocio      = \App\Negocio::find(18);
 	  $ids_carteras = collect($negocio->carteras)->pluck('id');
@@ -103,8 +103,6 @@ trait Financierotrait
 
   function financiero_por_sucursales($ini, $fin, $sucursal_id)
   {
-
-    dd(12);
     $array = [];
     $creditos = DB::table('creditos')
       ->join('precreditos','creditos.precredito_id','=','precreditos.id')
@@ -195,6 +193,7 @@ trait Financierotrait
 
         foreach($creditos as $credito)
         {
+	  ini_set('memory_limit', '-1');
           $iniciales      += $credito->precredito->cuota_inicial;
         	$vlr_fin_total	+= $credito->precredito->vlr_fin;
         	$vlr_a_recaudar += $credito->valor_credito;
