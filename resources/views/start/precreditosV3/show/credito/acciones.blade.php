@@ -33,7 +33,7 @@
 @endpermission
 @permission('refinanciar_creditos')
 <a
-    href="{{route('start.refinanciacionV3.create',$creditoId)}}"
+    href="{{ route('start.refinanciacion.create', $creditoId) }}"
     class="btn btn-default btn-xs my-btn"
     data-toggle="tooltip" 
     data-placement="top" 

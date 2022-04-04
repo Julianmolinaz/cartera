@@ -235,21 +235,14 @@ class VentasRepository
         $venta->delete();
     }
 
-    /*
-    |-------------------------------------------------
-    | firstSolicitud
-    |-------------------------------------------------
-    | Obtener la primera venta por solicitud
-    */
-
-    public static function firstVentaSoat($solicitudId)
+    public static function ventasConInvoice($solicitudId)
     {
-        $firstVenta = DB::table("ventas")
-            ->where("precredito_id", $solicitudId)
-            ->where("producto_id", 2)
-            ->orderBy("ventas.id")
-            ->first();
-
-        return $firstVenta;
+        $ventas = DB::table('ventas')
+            ->join('productos','ventas.producto_id','=','productos.id')
+            ->select('ventas.*')
+            ->where('productos.con_invoice',1)
+            ->where('ventas.precredito_id',$solicitudId)
+            ->get();
+        return $ventas;
     }
 }

@@ -79,9 +79,6 @@
                 </div>
             </div>
             <div class="row">
-                
-            </div>
-            <div class="row">
                 <!-- COSTO DEL CREDITO  -->
                 <div v-bind:class="['form-group','col-md-4',errors.first(rules.centro_costo.name) ? 'has-error' :'']">
                     <label for="costo credito" class="precio-sugerido">

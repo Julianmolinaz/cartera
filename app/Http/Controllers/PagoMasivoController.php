@@ -802,7 +802,6 @@ class PagoMasivoController extends Controller
         ];
         $arr[] = $header;
         $arr[] = $datos_prueba; 
-	ob_clean();
 
         ob_clean();
         

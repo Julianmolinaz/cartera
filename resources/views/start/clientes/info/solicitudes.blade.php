@@ -12,23 +12,20 @@
       </div>
       <div class="panel-body">
 
-          <br>
-
+        <br>
+        <div class="table-responsive">
           <table id="datatable" data-order='[[ 2, "desc" ]]' class="table table-striped table-bordered" style="font-size:12px">
             <thead>
               <tr>
-                <th>    Cartera         </th>
-                <th>    # Crédito       </th>
-                <th>    # Solicitud     </th>
-                <th>  Consecutivo Formulario </th>
-                <th>    Producto        </th>
-                <th>    Placa           </th>
-                <!-- <th>    Centro de Costo </th>
-                <th>    Vlr Cuota       </th>
-                <th>    Cuotas          </th> -->
-                <th>    Aprobado?       </th>
-                <th>    Estado          </th> 
-                <th>    Acción          </th>
+                <th>    Cartera                 </th>
+                <th>    # Crédito               </th>
+                <th>    # Solicitud             </th>
+                <th>    Consecutivo Formulario  </th>
+                <th>    Producto                </th>
+                <th>    Placa                   </th>
+                <th>    Aprobado?               </th>
+                <th>    Estado                  </th> 
+                <th>    Acción                  </th>
               </tr>
             </thead>
             <tbody>
@@ -143,5 +140,6 @@
             </a>
           </center>
           <br>
+        </div>
       </div>
     </div>

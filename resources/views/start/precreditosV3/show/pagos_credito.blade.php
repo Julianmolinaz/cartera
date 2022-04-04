@@ -34,7 +34,7 @@
                     @endphp
                     <tr class="{{ $shadow ? 'shadow-row' : '' }}">
                         <td>{{ $pago->recibo_num }}</td>
-                        <td>{{ ddmmyyyyhhmmss($pago->created_at) }}</td>
+                        <td>{{ ddmmyyyyhhmmss($pago->recibo_fecha) }}</td>
                         <td>{{ $pago->concepto }}</td>
                         <td align="right">$ {{ decimal($pago->abono) }}</td>
                         <td align="right">$ {{ decimal($pago->debe) }}</td>
